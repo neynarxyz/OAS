@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: v1 Farcaster.
+  title: v1 Farcaster
   version: "1.0"
 servers:
   - url: https://api.neynar.com/v1
@@ -63,6 +63,10 @@ components:
       type: string
       default: "0x5A927Ac639636E534b678e81768CA19e2C6280B7"
       description: Ethereum address
+    CastHash:
+      type: string
+      default: "0xfe90f9de682273e05b201629ad2338bdcd89b6be"
+      description: Cast Hash
     Timestamp:
       type: string
       format: date-time
@@ -333,7 +337,7 @@ components:
         timestamp:
           $ref: "#/components/schemas/Timestamp"
         castHash:
-          $ref: "#/components/schemas/Address"
+          $ref: "#/components/schemas/CastHash"
     Cast:
       type: object
       required:
@@ -802,6 +806,7 @@ paths:
           description: Username of the user
           schema:
             type: string
+            example: 'shreyas-chorge'
         - name: viewerFid
           in: query
           description: >-
@@ -935,9 +940,8 @@ paths:
           in: query
           required: true
           description: Cast hash
-          example: "0xfe90f9de682273e05b201629ad2338bdcd89b6be"
           schema:
-            $ref: "#/components/schemas/Address"
+            $ref: "#/components/schemas/CastHash"
         - name: viewerFid
           in: query
           description: >-
@@ -967,9 +971,8 @@ paths:
           in: query
           required: true
           description: The hash of the thread to retrieve casts from.
-          example: "0xfe90f9de682273e05b201629ad2338bdcd89b6be"
           schema:
-            $ref: "#/components/schemas/Address"
+            $ref: "#/components/schemas/CastHash"
         - name: viewerFid
           in: query
           description: >-
@@ -1227,9 +1230,8 @@ paths:
           in: query
           required: true
           description: Cast hash
-          example: "0xfe90f9de682273e05b201629ad2338bdcd89b6be"
           schema:
-            $ref: "#/components/schemas/Address"
+            $ref: "#/components/schemas/CastHash"
         - name: viewerFid
           in: query
           description: >-
@@ -1274,9 +1276,8 @@ paths:
           in: query
           required: true
           description: Cast hash
-          example: "0xfe90f9de682273e05b201629ad2338bdcd89b6be"
           schema:
-            $ref: "#/components/schemas/Address"
+            $ref: "#/components/schemas/CastHash"
         - name: viewerFid
           in: query
           description: >-
@@ -1321,9 +1322,8 @@ paths:
           in: query
           required: true
           description: Cast hash
-          example: "0xfe90f9de682273e05b201629ad2338bdcd89b6be"
           schema:
-            $ref: "#/components/schemas/Address"
+            $ref: "#/components/schemas/CastHash"
         - name: viewerFid
           in: query
           description: >-

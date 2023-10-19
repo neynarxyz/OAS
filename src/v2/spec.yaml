@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: v2 Farcaster.
+  title: v2 Farcaster
   version: "1.0"
 servers:
   - url: https://api.neynar.com/v2
