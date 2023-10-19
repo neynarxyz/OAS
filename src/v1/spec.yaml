@@ -806,7 +806,7 @@ paths:
           description: Username of the user
           schema:
             type: string
-            example: 'shreyas-chorge'
+            default: "shreyas-chorge"
         - name: viewerFid
           in: query
           description: >-
