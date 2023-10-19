@@ -4,6 +4,10 @@ The OpenAPI specification for the Neynar APIs
 
 ### Installation
 
+Prerequisite
+
+JAVA must be installed
+
 replace [\<generator\>](https://openapi-generator.tech/docs/generators) with desired generator.
 
 ```
