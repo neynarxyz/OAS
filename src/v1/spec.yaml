@@ -700,6 +700,16 @@ components:
               items:
                 $ref: "#/components/schemas/FollowResponseUser"
 
+  parameters:
+    ApiKey:
+      name: api_key
+      in: header
+      required: true
+      schema:
+        type: string
+        default: NEYNAR_API_DOCS
+      description: API key required for authentication. Use value --> NEYNAR_API_DOCS <-- for testing.
+
   responses:
     UserSuccess:
       description: Successful operation.
@@ -771,6 +781,7 @@ paths:
       description: Returns metadata about a specific user
       operationId: user
       parameters:
+        - $ref: '#/components/parameters/ApiKey'
         - name: fid
           in: query
           required: true
