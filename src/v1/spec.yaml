@@ -733,12 +733,12 @@ components:
             $ref: "#/components/schemas/ErrorRes"
 
 tags:
-  - name: User
+  - name: Users
     description: Operations related to user
     externalDocs:
       description: More info about user
       url: https://docs.neynar.com/reference/get-user-information-by-fid
-  - name: Cast
+  - name: Casts
     description: Operations related to cast
     externalDocs:
       description: More info about cast
@@ -768,7 +768,7 @@ paths:
   /farcaster/user:
     get:
       tags:
-        - User
+        - Users
       summary: Get User Information by FID
       description: Returns metadata about a specific user
       operationId: user
@@ -798,7 +798,7 @@ paths:
   /farcaster/user-by-username:
     get:
       tags:
-        - User
+        - Users
       summary: Get User Information by username
       description: Returns metadata about a specific user
       operationId: user-by-username
@@ -829,7 +829,7 @@ paths:
   /farcaster/user-cast-likes:
     get:
       tags:
-        - User
+        - Users
       summary: Get User Cast Likes
       description: Fetch all the liked cast of a User
       operationId: user-cast-likes
@@ -873,7 +873,7 @@ paths:
   /farcaster/recent-users:
     get:
       tags:
-        - User
+        - Users
       summary: Get Recent Users
       description: Get a list of casts from the protocol in reverse chronological order based on timestamp
       operationId: recent-users
@@ -913,7 +913,7 @@ paths:
   /farcaster/custody-address:
     get:
       tags:
-        - User
+        - Users
       summary: Get the custody address for a given FID
       description: Returns the custody address for a given FID
       operationId: custody-address
@@ -938,7 +938,7 @@ paths:
   /farcaster/cast:
     get:
       tags:
-        - Cast
+        - Casts
       summary: Retrieve cast for a given hash
       description: Gets information about an individual cast
       operationId: cast
@@ -970,7 +970,7 @@ paths:
   /farcaster/all-casts-in-thread:
     get:
       tags:
-        - Cast
+        - Casts
       summary: Retrieve all casts in a given thread hash
       description: Gets the most recent casts for a user in reverse-chronological order
       operationId: all-casts-in-thread
@@ -1000,7 +1000,7 @@ paths:
   /farcaster/casts:
     get:
       tags:
-        - Cast
+        - Casts
       summary: Retrieve casts for a given user
       description: Gets the most recent casts for a user
       operationId: casts
@@ -1055,7 +1055,7 @@ paths:
   /farcaster/recent-casts:
     get:
       tags:
-        - Cast
+        - Casts
       summary: Get Recent Casts
       description: Get a list of casts from the protocol in reverse chronological order based on timestamp
       operationId: recent-casts
