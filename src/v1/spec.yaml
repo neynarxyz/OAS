@@ -4,8 +4,7 @@ info:
   version: "1.0"
 servers:
   - url: https://api.neynar.com/v1
-security:
-  - ApiKeyAuth: []
+
 components:
   securitySchemes:
     ApiKeyAuth:
