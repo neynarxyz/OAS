@@ -1442,37 +1442,3 @@ paths:
                 $ref: "#/components/schemas/FollowResponse"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/following-test:
-    get:
-      tags:
-        - Follows
-      summary: Gets all following users of a FID
-      description: Gets a list of users who is following a given user in reverse chronological order.
-      operationId: following-v1-slug
-      parameters:
-        - $ref: '#/components/parameters/ApiKey'
-        - name: fid
-          in: query
-          required: true
-          description: FID of the user
-          example: 6131
-          schema:
-            $ref: "#/components/schemas/Fid"
-        - name: viewerFid
-          in: query
-          description: >-
-            fid of the user viewing this information, needed for contextual
-            information.
-          required: false
-          example: 194
-          schema:
-            $ref: "#/components/schemas/Fid"
-      responses:
-        "200":
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/FollowResponse"
-        "400":
-          $ref: "#/components/responses/400Response"
