@@ -4,16 +4,8 @@ info:
   version: "1.0"
 servers:
   - url: https://api.neynar.com/v2
-security:
-  - ApiKeyAuth: []
-components:
-  securitySchemes:
-    ApiKeyAuth:
-      type: apiKey
-      in: header
-      name: api_key
-      description: API key required for authentication. use value --> NEYNAR_API_DOCS<-- for testing
 
+components:
   schemas:
     Address:
       type: string
@@ -512,6 +504,16 @@ components:
           items:
             $ref: "#/components/schemas/FollowResponse"
 
+  parameters:
+    ApiKey:
+      name: api_key
+      in: header
+      required: true
+      schema:
+        type: string
+        default: NEYNAR_API_DOCS
+      description: API key required for authentication.
+
   responses:
     404Response:
       description: "Resource not found"
@@ -579,6 +581,7 @@ paths:
       description: Gets information status of a signer by passing in a signer_uuid (Use post API to generate a signer)
       operationId: signer
       parameters:
+        - $ref: '#/components/parameters/ApiKey'
         - name: signer_uuid
           required: true
           in: query
@@ -608,6 +611,8 @@ paths:
         Creates a signer and returns the signer status. \
         **Note**: While tesing please reuse the signer, it costs money to approve a signer.
       operationId: create-signer
+      parameters:
+        - $ref: '#/components/parameters/ApiKey'
       responses:
         "200":
           description: Successful operation.
@@ -624,6 +629,8 @@ paths:
       summary: Register Signed Key
       description: Registers an app fid, deadline and a signature. Returns the signer status with an approval url.
       operationId: register-signed-key
+      parameters:
+        - $ref: '#/components/parameters/ApiKey'
       requestBody:
         required: true
         content:
@@ -658,6 +665,7 @@ paths:
       description: Search for Usernames
       operationId: user-search
       parameters:
+        - $ref: '#/components/parameters/ApiKey'
         - name: viewer_fid
           in: query
           required: true
@@ -688,6 +696,8 @@ paths:
         Update user profile \
         (In order to update user's profile `signer_uuid` must be approved)
       operationId: update-user
+      parameters:
+        - $ref: '#/components/parameters/ApiKey'
       requestBody:
         required: true
         content:
@@ -723,6 +733,7 @@ paths:
       description: Gets information about an individual cast by passing in a web URL or cast hash
       operationId: cast
       parameters:
+        - $ref: '#/components/parameters/ApiKey'
         - name: type
           required: true
           in: query
@@ -753,6 +764,8 @@ paths:
         Posts a cast or cast reply. Works with mentions and embeds.  
         (In order to post a cast `signer_uuid` must be approved)
       operationId: post-cast
+      parameters:
+        - $ref: '#/components/parameters/ApiKey'
       requestBody:
         required: true
         content:
@@ -785,6 +798,8 @@ paths:
         Delete an existing cast. \
         (In order to delete a cast `signer_uuid` must be approved)
       operationId: delete-cast
+      parameters:
+        - $ref: '#/components/parameters/ApiKey'
       requestBody:
         required: true
         content:
@@ -816,6 +831,8 @@ paths:
       summary: Gets information about an array of casts
       description: Retrieve multiple casts using their respective hashes.
       operationId: casts
+      parameters:
+        - $ref: '#/components/parameters/ApiKey'
       requestBody:
         required: true
         content:
@@ -842,6 +859,7 @@ paths:
       tags:
         - Feed
       parameters:
+        - $ref: '#/components/parameters/ApiKey'
         - name: feed_type
           in: query
           schema:
@@ -908,6 +926,8 @@ paths:
         Post a reaction (like or recast) to a given cast \
         (In order to post a reaction `signer_uuid` must be approved)
       operationId: post-reaction
+      parameters:
+        - $ref: '#/components/parameters/ApiKey'
       requestBody:
         required: true
         content:
@@ -941,6 +961,8 @@ paths:
         Delete a reaction (like or recast) to a given cast \
         (In order to delete a reaction `signer_uuid` must be approved)
       operationId: delete-reaction
+      parameters:
+        - $ref: '#/components/parameters/ApiKey'
       requestBody:
         required: true
         content:
@@ -975,6 +997,8 @@ paths:
         Follow a user \
         (In order to follow a user `signer_uuid` must be approved)
       operationId: follow-user
+      parameters:
+        - $ref: '#/components/parameters/ApiKey'
       requestBody:
         required: true
         content:
@@ -1009,6 +1033,8 @@ paths:
         Unfollow a user \
         (In order to unfollow a user `signer_uuid` must be approved)
       operationId: unfollow-user
+      parameters:
+        - $ref: '#/components/parameters/ApiKey'
       requestBody:
         required: true
         content:
