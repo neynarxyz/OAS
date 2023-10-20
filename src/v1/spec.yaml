@@ -6,13 +6,6 @@ servers:
   - url: https://api.neynar.com/v1
 
 components:
-  securitySchemes:
-    ApiKeyAuth:
-      type: apiKey
-      in: header
-      name: api_key
-      description: API key required for authentication. use value --> NEYNAR_API_DOCS<-- for testing
-
   schemas:
     ViewerContext:
       type: object
@@ -707,7 +700,7 @@ components:
       schema:
         type: string
         default: NEYNAR_API_DOCS
-      description: API key required for authentication. Use value --> NEYNAR_API_DOCS <-- for testing.
+      description: API key required for authentication.
 
   responses:
     UserSuccess:
@@ -810,6 +803,7 @@ paths:
       description: Returns metadata about a specific user
       operationId: user-by-username
       parameters:
+        - $ref: '#/components/parameters/ApiKey'
         - name: username
           in: query
           required: true
@@ -840,6 +834,7 @@ paths:
       description: Fetch all the liked cast of a User
       operationId: user-cast-likes
       parameters:
+        - $ref: '#/components/parameters/ApiKey'
         - name: fid
           in: query
           required: true
@@ -883,6 +878,7 @@ paths:
       description: Get a list of casts from the protocol in reverse chronological order based on timestamp
       operationId: recent-users
       parameters:
+        - $ref: '#/components/parameters/ApiKey'
         - name: viewerFid
           in: query
           description: >-
@@ -922,6 +918,7 @@ paths:
       description: Returns the custody address for a given FID
       operationId: custody-address
       parameters:
+        - $ref: '#/components/parameters/ApiKey'
         - name: fid
           in: query
           required: true
@@ -946,6 +943,7 @@ paths:
       description: Gets information about an individual cast
       operationId: cast
       parameters:
+        - $ref: '#/components/parameters/ApiKey'
         - name: hash
           in: query
           required: true
@@ -977,6 +975,7 @@ paths:
       description: Gets the most recent casts for a user in reverse-chronological order
       operationId: all-casts-in-thread
       parameters:
+        - $ref: '#/components/parameters/ApiKey'
         - name: threadHash
           in: query
           required: true
@@ -1006,6 +1005,7 @@ paths:
       description: Gets the most recent casts for a user
       operationId: casts
       parameters:
+        - $ref: '#/components/parameters/ApiKey'
         - name: fid
           in: query
           required: true
@@ -1060,6 +1060,7 @@ paths:
       description: Get a list of casts from the protocol in reverse chronological order based on timestamp
       operationId: recent-casts
       parameters:
+        - $ref: '#/components/parameters/ApiKey'
         - name: viewerFid
           in: query
           description: >-
@@ -1100,6 +1101,7 @@ paths:
       description: Get all known verifications of a user
       operationId: verifications
       parameters:
+        - $ref: '#/components/parameters/ApiKey'
         - name: fid
           in: query
           required: true
@@ -1124,6 +1126,7 @@ paths:
         Checks if a given Ethereum address has a Farcaster user associated with it. Note: if an address is associated with multiple users, the API will return the user who most recently published a verification with the address (based on when Warpcast received the proof, not a self-reported timestamp).
       operationId: user-by-verification
       parameters:
+        - $ref: '#/components/parameters/ApiKey'
         - name: address
           in: query
           required: true
@@ -1142,6 +1145,7 @@ paths:
       description: Gets a list of mentions and replies to the user’s casts in reverse chronological order
       operationId: mentions-and-replies
       parameters:
+        - $ref: '#/components/parameters/ApiKey'
         - name: fid
           in: query
           required: true
@@ -1188,6 +1192,7 @@ paths:
       description: Get a list of reactions and recasts to the users’s casts in reverse chronological order
       operationId: reactions-and-recasts
       parameters:
+        - $ref: '#/components/parameters/ApiKey'
         - name: fid
           in: query
           required: true
@@ -1236,6 +1241,7 @@ paths:
       description: Get all like reactions for a specific cast in reverse chronological order.
       operationId: cast-likes
       parameters:
+        - $ref: '#/components/parameters/ApiKey'
         - name: castHash
           in: query
           required: true
@@ -1282,6 +1288,7 @@ paths:
       description: Get all reactions (likes and recasts) for a specific cast.
       operationId: cast-reactions
       parameters:
+        - $ref: '#/components/parameters/ApiKey'
         - name: castHash
           in: query
           required: true
@@ -1328,6 +1335,7 @@ paths:
       description: Get all recasters for a specific cast.
       operationId: cast-recasters
       parameters:
+        - $ref: '#/components/parameters/ApiKey'
         - name: castHash
           in: query
           required: true
@@ -1374,6 +1382,7 @@ paths:
       description: Gets a list of users who follow a given user in reverse chronological order.
       operationId: followers
       parameters:
+        - $ref: '#/components/parameters/ApiKey'
         - name: fid
           in: query
           required: true
@@ -1407,6 +1416,7 @@ paths:
       description: Gets a list of users who is following a given user in reverse chronological order.
       operationId: following
       parameters:
+        - $ref: '#/components/parameters/ApiKey'
         - name: fid
           in: query
           required: true
