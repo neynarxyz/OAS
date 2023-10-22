@@ -324,6 +324,34 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Fid"
+    AddVerificationReqBody:
+      type: object
+      required:
+        - signer_uuid
+        - address
+        - block_hash
+        - eth_signature
+      properties:
+        signer_uuid:
+          $ref: "#/components/schemas/SignerUUID"
+        address:
+          $ref: "#/components/schemas/Address"
+        block_hash:
+          type: string
+        eth_signature:
+          type: string
+    RemoveVerificationReqBody:
+      type: object
+      required:
+        - signer_uuid
+        - address
+        - block_hash
+        - eth_signature
+      properties:
+        signer_uuid:
+          $ref: "#/components/schemas/SignerUUID"
+        address:
+          $ref: "#/components/schemas/Address"
     UpdateUserReqBody:
       type: object
       required:
@@ -988,6 +1016,59 @@ paths:
           $ref: "#/components/responses/403Response"
         "500":
           $ref: "#/components/responses/500Response"
+  /farcaster/user/verification:
+    post:
+      tags:
+        - Verification
+      summary: Adds verification for an eth address for the user
+      description: |
+        Adds verification for an eth address for the user \
+        (In order to add verification `signer_uuid` must be approved)
+      parameters:
+        - $ref: '#/components/parameters/ApiKey'
+      requestBody:
+          required: true
+          content: 
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AddVerificationReqBody"
+              example:
+                signer_uuid: 19d0c5fd-9b33-4a48-a0e2-bc7b0555baec
+                address: "0x1ea99cbed57e4020314ba3fadd7c692d2de34d5f"
+                block_hash: "0x191905a9201170abb55f4c90a4cc968b44c1b71cdf3db2764b775c93e7e22b29"
+                eth_signature: "0x2fc09da1f4dcb723fefb91f77932c249c418c0af00c66ed92ee1f35002c80d6a1145280c9f361d207d28447f8f7463366840d3a9309036cf6954afd1fd331beb1b"
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OperationResponse"
+    delete:
+      tags:
+        - Verification
+      summary: Removes verification for an eth address for the user
+      description: |
+        Removes verification for an eth address for the user \
+        (In order to add verification `signer_uuid` must be approved)
+      parameters:
+        - $ref: '#/components/parameters/ApiKey'
+      requestBody:
+          required: true
+          content: 
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RemoveVerificationReqBody"
+              example:
+                signer_uuid: 19d0c5fd-9b33-4a48-a0e2-bc7b0555baec
+                address: "0x1ea99cbed57e4020314ba3fadd7c692d2de34d5f"
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OperationResponse"
   /farcaster/user/follow:
     post:
       tags:
