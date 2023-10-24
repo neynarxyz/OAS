@@ -142,9 +142,9 @@ paths:
     get:
       tags:
         - NFT
-      summary: Fetches all mints relevant for an user's ethereum address given a contract address (and optionally tokenId for ERC1155s) 
-      description: Gets information status of a signer by passing in a signer_uuid (Use post API to generate a signer)
-      operationId: signer
+      summary:  Relevant Mints for a User
+      description: Fetches all mints relevant for an user's ethereum address given a contract address (and optionally tokenId for ERC1155s)
+      operationId: getRelevantMints
       parameters:
         - $ref: '#/components/parameters/ApiKey'
         - name: address
