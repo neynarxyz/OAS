@@ -1019,7 +1019,7 @@ paths:
   /farcaster/user/verification:
     post:
       tags:
-        - Verification
+        - User
       summary: Adds verification for an eth address for the user
       description: |
         Adds verification for an eth address for the user \
@@ -1046,7 +1046,7 @@ paths:
                 $ref: "#/components/schemas/OperationResponse"
     delete:
       tags:
-        - Verification
+        - User
       summary: Removes verification for an eth address for the user
       description: |
         Removes verification for an eth address for the user \
@@ -1072,7 +1072,7 @@ paths:
   /farcaster/user/follow:
     post:
       tags:
-        - Follow
+        - User
       summary: Follow a user
       description: |
         Follow a user \
@@ -1108,7 +1108,7 @@ paths:
           $ref: "#/components/responses/500Response"
     delete:
       tags:
-        - Follow
+        - User
       summary: Unfollow a user
       description: |
         Unfollow a user \
