@@ -13,7 +13,6 @@ components:
     Fid:
       type: integer
       format: int32
-      default: 3
       description: User identifier (unsigned integer)
     SignerUUID:
       type: string
