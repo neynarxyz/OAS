@@ -143,7 +143,7 @@ paths:
       tags:
         - NFT
       summary:  Relevant Mints for a User
-      description: Fetches all mints relevant for an user's ethereum address given a contract address (and optionally tokenId for ERC1155s)
+      description: Fetches all mint actions relevant for a contract address (and optionally tokenId for ERC1155s) given a user's ethereum address
       operationId: fetch-relevant-mints
       parameters:
         - $ref: '#/components/parameters/ApiKey'
