@@ -1,0 +1,185 @@
+openapi: 3.0.0
+info:
+  title: Recommendation API V2
+  version: "2.0"
+servers:
+  - url: https://api.neynar.com/v2
+
+components:
+  schemas:
+    Address:
+      type: string
+      description: Ethereum address
+    Fid:
+      type: integer
+      format: int32
+      default: 3
+      description: User identifier (unsigned integer)
+    ActiveStatus:
+      type: string
+      enum:
+        - active
+        - inactive
+      description: |
+        The status of a user.
+          - active: The user is currently active.
+          - inactive: The user is not currently active.
+    User:
+      type: object
+      required:
+        - fid
+        - username
+        - display_name
+        - pfp_url
+        - profile
+        - follower_count
+        - following_count
+        - verifications
+        - activeStatus
+      properties:
+        fid:
+          $ref: "#/components/schemas/Fid"
+        username:
+          type: string
+        display_name:
+          type: string
+        custody_address:
+          $ref: "#/components/schemas/Address"
+        pfp_url:
+          type: string
+          description: The URL of the user's profile picture
+        profile:
+          type: object
+          required:
+            - bio
+          properties:
+            bio:
+              type: object
+              required:
+                - text
+              properties:
+                text:
+                  type: string
+        follower_count:
+          type: integer
+          format: int32
+          description: The number of followers the user has.
+        following_count:
+          type: integer
+          format: int32
+          description: The number of users the user is following.
+        verifications:
+          type: array
+          items:
+            $ref: "#/components/schemas/Address"
+        activeStatus:
+          $ref: "#/components/schemas/ActiveStatus"
+    ErrorRes:
+      type: object
+      required:
+        - message
+      description: Returns ErrorRes metadata
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        property:
+          type: string
+        status:
+          type: integer
+          format: int32
+    RelevantMint:
+      type: object
+      description: A mint object relevant to the user
+      required:
+        - contract_address
+        - token_id
+        - block_number
+        - tx_hash
+        - minter
+      properties:
+        contract_address:
+          $ref: "#/components/schemas/Address"
+        token_id:
+          type: string
+        block_number:
+          type: integer
+          format: int32
+        tx_hash:
+          type: string
+        minter:
+          $ref: "#/components/schemas/User"
+        
+
+  parameters:
+    ApiKey:
+      name: api_key
+      in: header
+      required: true
+      schema:
+        type: string
+        default: NEYNAR_API_DOCS
+      description: API key required for authentication.
+
+  responses:
+    500Response:
+      description: "Server Error"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorRes"
+
+tags:
+  - name: NFT
+    description: NFT Recommendations API
+    externalDocs:
+      description: NFT Recommendations API
+      url: https://docs.neynar.com/reference/
+
+paths:
+  /nft/relevant_mints:
+    get:
+      tags:
+        - NFT
+      summary: Fetches all mints relevant for an user's ethereum address given a contract address (and optionally tokenId for ERC1155s) 
+      description: Gets information status of a signer by passing in a signer_uuid (Use post API to generate a signer)
+      operationId: signer
+      parameters:
+        - $ref: '#/components/parameters/ApiKey'
+        - name: address
+          required: true
+          in: query
+          example: "0x5a927ac639636e534b678e81768ca19e2c6280b7"
+          schema:
+            $ref: "#/components/schemas/Address"
+        - name: contract_address
+          required: true
+          in: query
+          example: "0xe8e0e543a3dd32d366cb756fa4d112f30172bcb1"
+          schema:
+            $ref: "#/components/schemas/Address"
+        - name: token_id
+          required: false
+          in: query
+          example: "1"
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - mints
+                properties:
+                  mints:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/RelevantMint"
+
+
+        "500":
+          $ref: "#/components/responses/500Response"
