@@ -572,32 +572,27 @@ tags:
     description: Operations related to user
     externalDocs:
       description: More info about user
-      url: https://docs.neynar.com/reference/search-usernames
+      url: https://docs.neynar.com/reference/user-operations
   - name: Signer
     description: Operations related to signer
     externalDocs:
       description: More info about signer
-      url: https://docs.neynar.com/reference/write-to-farcaster-via-neynar
+      url: https://docs.neynar.com/reference/signer-operations
   - name: Cast
     description: Operations related to cast
     externalDocs:
       description: More info about cast
-      url: https://docs.neynar.com/reference/get-cast
+      url: https://docs.neynar.com/reference/cast-operations
   - name: Feed
     description: Operations related to feed
     externalDocs:
       description: More info about feed
-      url: https://docs.neynar.com/reference/how-to-use-the-feed-api
+      url: https://docs.neynar.com/reference/feed-operations
   - name: Reaction
     description: Operations related to reaction
     externalDocs:
       description: More info about reaction
-      url: https://docs.neynar.com/reference/post-a-reaction
-  - name: Follow
-    description: Operations related to follow
-    externalDocs:
-      description: More info about follow
-      url: https://docs.neynar.com/reference/follow-a-user
+      url: https://docs.neynar.com/reference/reaction-operations
 
 paths:
   /farcaster/signer:
@@ -606,6 +601,8 @@ paths:
         - Signer
       summary: Fetches the status of a signer
       description: Gets information status of a signer by passing in a signer_uuid (Use post API to generate a signer)
+      externalDocs:
+        url: https://docs.neynar.com/reference/signer
       operationId: signer
       parameters:
         - $ref: '#/components/parameters/ApiKey'
@@ -637,6 +634,8 @@ paths:
       description: |
         Creates a signer and returns the signer status. \
         **Note**: While tesing please reuse the signer, it costs money to approve a signer.
+      externalDocs:
+        url: https://docs.neynar.com/reference/create-signer
       operationId: create-signer
       parameters:
         - $ref: '#/components/parameters/ApiKey'
@@ -655,6 +654,8 @@ paths:
         - Signer
       summary: Register Signed Key
       description: Registers an app fid, deadline and a signature. Returns the signer status with an approval url.
+      externalDocs:
+        url: https://docs.neynar.com/reference/register-signed-key
       operationId: register-signed-key
       parameters:
         - $ref: '#/components/parameters/ApiKey'
@@ -690,6 +691,8 @@ paths:
         - User
       summary: Search for Usernames
       description: Search for Usernames
+      externalDocs:
+        url: https://docs.neynar.com/reference/user-search
       operationId: user-search
       parameters:
         - $ref: '#/components/parameters/ApiKey'
@@ -722,6 +725,8 @@ paths:
       description: |
         Update user profile \
         (In order to update user's profile `signer_uuid` must be approved)
+      externalDocs:
+        url: https://docs.neynar.com/reference/update-user
       operationId: update-user
       parameters:
         - $ref: '#/components/parameters/ApiKey'
@@ -758,6 +763,8 @@ paths:
         - Cast
       summary: Retrieve cast for a given hash
       description: Gets information about an individual cast by passing in a web URL or cast hash
+      externalDocs:
+        url: https://docs.neynar.com/reference/cast
       operationId: cast
       parameters:
         - $ref: '#/components/parameters/ApiKey'
@@ -790,6 +797,8 @@ paths:
       description: |
         Posts a cast or cast reply. Works with mentions and embeds.  
         (In order to post a cast `signer_uuid` must be approved)
+      externalDocs:
+        url: https://docs.neynar.com/reference/post-cast
       operationId: post-cast
       parameters:
         - $ref: '#/components/parameters/ApiKey'
@@ -824,6 +833,8 @@ paths:
       description: |
         Delete an existing cast. \
         (In order to delete a cast `signer_uuid` must be approved)
+      externalDocs:
+        url: https://docs.neynar.com/reference/delete-cast
       operationId: delete-cast
       parameters:
         - $ref: '#/components/parameters/ApiKey'
@@ -857,6 +868,8 @@ paths:
         - Cast
       summary: Gets information about an array of casts
       description: Retrieve multiple casts using their respective hashes.
+      externalDocs:
+        url: https://docs.neynar.com/reference/casts
       operationId: casts
       parameters:
         - $ref: '#/components/parameters/ApiKey'
@@ -882,6 +895,8 @@ paths:
   /farcaster/feed:
     get:
       summary: Retrieve casts based on filters
+      externalDocs:
+        url: https://docs.neynar.com/reference/feed
       operationId: feed
       tags:
         - Feed
@@ -952,6 +967,8 @@ paths:
       description: |
         Post a reaction (like or recast) to a given cast \
         (In order to post a reaction `signer_uuid` must be approved)
+      externalDocs:
+        url: https://docs.neynar.com/reference/post-reaction
       operationId: post-reaction
       parameters:
         - $ref: '#/components/parameters/ApiKey'
@@ -987,6 +1004,8 @@ paths:
       description: |
         Delete a reaction (like or recast) to a given cast \
         (In order to delete a reaction `signer_uuid` must be approved)
+      externalDocs:
+        url: https://docs.neynar.com/reference/delete-reaction
       operationId: delete-reaction
       parameters:
         - $ref: '#/components/parameters/ApiKey'
@@ -1023,6 +1042,8 @@ paths:
       description: |
         Adds verification for an eth address for the user \
         (In order to add verification `signer_uuid` must be approved)
+      externalDocs:
+        url: https://docs.neynar.com/reference/add-verification
       parameters:
         - $ref: '#/components/parameters/ApiKey'
       requestBody:
@@ -1050,6 +1071,8 @@ paths:
       description: |
         Removes verification for an eth address for the user \
         (In order to add verification `signer_uuid` must be approved)
+      externalDocs:
+        url: https://docs.neynar.com/reference/remove-verification
       parameters:
         - $ref: '#/components/parameters/ApiKey'
       requestBody:
@@ -1076,6 +1099,8 @@ paths:
       description: |
         Follow a user \
         (In order to follow a user `signer_uuid` must be approved)
+      externalDocs:
+        url: https://docs.neynar.com/reference/follow-user
       operationId: follow-user
       parameters:
         - $ref: '#/components/parameters/ApiKey'
@@ -1112,6 +1137,8 @@ paths:
       description: |
         Unfollow a user \
         (In order to unfollow a user `signer_uuid` must be approved)
+      externalDocs:
+        url: https://docs.neynar.com/reference/unfollow-user
       operationId: unfollow-user
       parameters:
         - $ref: '#/components/parameters/ApiKey'
