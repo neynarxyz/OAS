@@ -269,7 +269,6 @@ components:
       type: object
       required:
         - signer_uuid
-        - text
       properties:
         signer_uuid:
           $ref: "#/components/schemas/SignerUUID"
