@@ -737,32 +737,32 @@ tags:
     description: Operations related to user
     externalDocs:
       description: More info about user
-      url: https://docs.neynar.com/reference/get-user-information-by-fid
+      url: https://docs.neynar.com/reference/user-operations-v1
   - name: Cast
     description: Operations related to cast
     externalDocs:
       description: More info about cast
-      url: https://docs.neynar.com/reference/get-cast-information
+      url: https://docs.neynar.com/reference/cast-operations-v1
   - name: Verification
     description: Operations related to Verifications
     externalDocs:
       description: More info about Verifications
-      url: https://docs.neynar.com/reference/get-user-verifications
+      url: https://docs.neynar.com/reference/verification-operations-v1
   - name: Notifications
     description: Operations related to notifications
     externalDocs:
       description: More info about notifications
-      url: https://docs.neynar.com/reference/notifications
+      url: https://docs.neynar.com/reference/notification-operations-v1
   - name: Reactions
     description: Operations related to reactions
     externalDocs:
       description: More info about reaction
-      url: https://docs.neynar.com/reference/get-all-like-reactions-for-a-cast
+      url: https://docs.neynar.com/reference/reaction-operations-v1
   - name: Follows
     description: Operations related to follows
     externalDocs:
       description: More info about follows
-      url: https://docs.neynar.com/reference/get-list-of-followers
+      url: https://docs.neynar.com/reference/follow-operations-v1
 
 paths:
   /farcaster/user:
@@ -771,9 +771,11 @@ paths:
         - User
       summary: Get User Information by FID
       description: Returns metadata about a specific user
+      externalDocs:
+        url: https://docs.neynar.com/reference/user-v1
       operationId: user
       parameters:
-        - $ref: '#/components/parameters/ApiKey'
+        - $ref: "#/components/parameters/ApiKey"
         - name: fid
           in: query
           required: true
@@ -801,9 +803,11 @@ paths:
         - User
       summary: Get User Information by username
       description: Returns metadata about a specific user
+      externalDocs:
+        url: https://docs.neynar.com/reference/user-by-username-v1
       operationId: user-by-username
       parameters:
-        - $ref: '#/components/parameters/ApiKey'
+        - $ref: "#/components/parameters/ApiKey"
         - name: username
           in: query
           required: true
@@ -832,9 +836,11 @@ paths:
         - User
       summary: Get User Cast Likes
       description: Fetch all the liked cast of a User
+      externalDocs:
+        url: https://docs.neynar.com/reference/user-cast-likes-v1
       operationId: user-cast-likes
       parameters:
-        - $ref: '#/components/parameters/ApiKey'
+        - $ref: "#/components/parameters/ApiKey"
         - name: fid
           in: query
           required: true
@@ -876,9 +882,11 @@ paths:
         - User
       summary: Get Recent Users
       description: Get a list of casts from the protocol in reverse chronological order based on timestamp
+      externalDocs:
+        url: https://docs.neynar.com/reference/recent-users-v1
       operationId: recent-users
       parameters:
-        - $ref: '#/components/parameters/ApiKey'
+        - $ref: "#/components/parameters/ApiKey"
         - name: viewerFid
           in: query
           description: >-
@@ -916,9 +924,11 @@ paths:
         - User
       summary: Get the custody address for a given FID
       description: Returns the custody address for a given FID
+      externalDocs:
+        url: https://docs.neynar.com/reference/custody-address-v1
       operationId: custody-address
       parameters:
-        - $ref: '#/components/parameters/ApiKey'
+        - $ref: "#/components/parameters/ApiKey"
         - name: fid
           in: query
           required: true
@@ -941,9 +951,11 @@ paths:
         - Cast
       summary: Retrieve cast for a given hash
       description: Gets information about an individual cast
+      externalDocs:
+        url: https://docs.neynar.com/reference/cast-v1
       operationId: cast
       parameters:
-        - $ref: '#/components/parameters/ApiKey'
+        - $ref: "#/components/parameters/ApiKey"
         - name: hash
           in: query
           required: true
@@ -973,9 +985,11 @@ paths:
         - Cast
       summary: Retrieve all casts in a given thread hash
       description: Gets the most recent casts for a user in reverse-chronological order
+      externalDocs:
+        url: https://docs.neynar.com/reference/all-casts-in-thread-v1
       operationId: all-casts-in-thread
       parameters:
-        - $ref: '#/components/parameters/ApiKey'
+        - $ref: "#/components/parameters/ApiKey"
         - name: threadHash
           in: query
           required: true
@@ -1003,9 +1017,11 @@ paths:
         - Cast
       summary: Retrieve casts for a given user
       description: Gets the most recent casts for a user
+      externalDocs:
+        url: https://docs.neynar.com/reference/casts-v1
       operationId: casts
       parameters:
-        - $ref: '#/components/parameters/ApiKey'
+        - $ref: "#/components/parameters/ApiKey"
         - name: fid
           in: query
           required: true
@@ -1058,9 +1074,11 @@ paths:
         - Cast
       summary: Get Recent Casts
       description: Get a list of casts from the protocol in reverse chronological order based on timestamp
+      externalDocs:
+        url: https://docs.neynar.com/reference/recent-casts-v1
       operationId: recent-casts
       parameters:
-        - $ref: '#/components/parameters/ApiKey'
+        - $ref: "#/components/parameters/ApiKey"
         - name: viewerFid
           in: query
           description: >-
@@ -1099,9 +1117,11 @@ paths:
         - Verification
       summary: Retrieve verifications for a given FID
       description: Get all known verifications of a user
+      externalDocs:
+        url: https://docs.neynar.com/reference/verifications-v1
       operationId: verifications
       parameters:
-        - $ref: '#/components/parameters/ApiKey'
+        - $ref: "#/components/parameters/ApiKey"
         - name: fid
           in: query
           required: true
@@ -1124,9 +1144,11 @@ paths:
       summary: Retrieve user for a given ethereum address
       description: >-
         Checks if a given Ethereum address has a Farcaster user associated with it. Note: if an address is associated with multiple users, the API will return the user who most recently published a verification with the address (based on when Warpcast received the proof, not a self-reported timestamp).
+      externalDocs:
+        url: https://docs.neynar.com/reference/user-by-verification-v1
       operationId: user-by-verification
       parameters:
-        - $ref: '#/components/parameters/ApiKey'
+        - $ref: "#/components/parameters/ApiKey"
         - name: address
           in: query
           required: true
@@ -1143,9 +1165,11 @@ paths:
         - Notifications
       summary: Get mentions and replies
       description: Gets a list of mentions and replies to the user’s casts in reverse chronological order
+      externalDocs:
+        url: https://docs.neynar.com/reference/mentions-and-replies-v1
       operationId: mentions-and-replies
       parameters:
-        - $ref: '#/components/parameters/ApiKey'
+        - $ref: "#/components/parameters/ApiKey"
         - name: fid
           in: query
           required: true
@@ -1190,9 +1214,11 @@ paths:
         - Notifications
       summary: Get reactions and recasts
       description: Get a list of reactions and recasts to the users’s casts in reverse chronological order
+      externalDocs:
+        url: https://docs.neynar.com/reference/reactions-and-recasts-v1
       operationId: reactions-and-recasts
       parameters:
-        - $ref: '#/components/parameters/ApiKey'
+        - $ref: "#/components/parameters/ApiKey"
         - name: fid
           in: query
           required: true
@@ -1239,9 +1265,11 @@ paths:
         - Reactions
       summary: Get all like reactions for a specific cast
       description: Get all like reactions for a specific cast in reverse chronological order.
+      externalDocs:
+        url: https://docs.neynar.com/reference/cast-likes-v1
       operationId: cast-likes
       parameters:
-        - $ref: '#/components/parameters/ApiKey'
+        - $ref: "#/components/parameters/ApiKey"
         - name: castHash
           in: query
           required: true
@@ -1286,9 +1314,11 @@ paths:
         - Reactions
       summary: Get all reactions for a specific cast
       description: Get all reactions (likes and recasts) for a specific cast.
+      externalDocs:
+        url: https://docs.neynar.com/reference/cast-reactions-v1
       operationId: cast-reactions
       parameters:
-        - $ref: '#/components/parameters/ApiKey'
+        - $ref: "#/components/parameters/ApiKey"
         - name: castHash
           in: query
           required: true
@@ -1333,9 +1363,11 @@ paths:
         - Reactions
       summary: Get all recasters for a specific cast
       description: Get all recasters for a specific cast.
+      externalDocs:
+        url: https://docs.neynar.com/reference/cast-recasters-v1
       operationId: cast-recasters
       parameters:
-        - $ref: '#/components/parameters/ApiKey'
+        - $ref: "#/components/parameters/ApiKey"
         - name: castHash
           in: query
           required: true
@@ -1380,9 +1412,11 @@ paths:
         - Follows
       summary: Gets all followers for a given FID
       description: Gets a list of users who follow a given user in reverse chronological order.
+      externalDocs:
+        url: https://docs.neynar.com/reference/followers-v1
       operationId: followers
       parameters:
-        - $ref: '#/components/parameters/ApiKey'
+        - $ref: "#/components/parameters/ApiKey"
         - name: fid
           in: query
           required: true
@@ -1414,9 +1448,11 @@ paths:
         - Follows
       summary: Gets all following users of a FID
       description: Gets a list of users who is following a given user in reverse chronological order.
+      externalDocs:
+        url: https://docs.neynar.com/reference/following-v1
       operationId: following
       parameters:
-        - $ref: '#/components/parameters/ApiKey'
+        - $ref: "#/components/parameters/ApiKey"
         - name: fid
           in: query
           required: true
