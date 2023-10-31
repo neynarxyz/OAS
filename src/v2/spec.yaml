@@ -126,6 +126,7 @@ components:
     User:
       type: object
       required:
+        - object
         - fid
         - username
         - display_name
@@ -136,6 +137,10 @@ components:
         - verifications
         - activeStatus
       properties:
+        object:
+          type: string
+          enum:
+            - user
         fid:
           $ref: "#/components/schemas/Fid"
         username:
@@ -173,6 +178,18 @@ components:
             $ref: "#/components/schemas/Address"
         activeStatus:
           $ref: "#/components/schemas/ActiveStatus"
+        viewer_context:
+          type: object
+          required:
+            - following
+            - followed_by
+          properties:
+            following:
+              type: integer
+              format: int32
+            followed_by:
+              type: integer
+              format: int32
     EmbeddedCast:
       oneOf:
         - $ref: "#/components/schemas/EmbedUrl"
@@ -604,7 +621,7 @@ paths:
         url: https://docs.neynar.com/reference/signer
       operationId: signer
       parameters:
-        - $ref: '#/components/parameters/ApiKey'
+        - $ref: "#/components/parameters/ApiKey"
         - name: signer_uuid
           required: true
           in: query
@@ -637,7 +654,7 @@ paths:
         url: https://docs.neynar.com/reference/create-signer
       operationId: create-signer
       parameters:
-        - $ref: '#/components/parameters/ApiKey'
+        - $ref: "#/components/parameters/ApiKey"
       responses:
         "200":
           description: Successful operation.
@@ -657,7 +674,7 @@ paths:
         url: https://docs.neynar.com/reference/register-signed-key
       operationId: register-signed-key
       parameters:
-        - $ref: '#/components/parameters/ApiKey'
+        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
@@ -694,7 +711,7 @@ paths:
         url: https://docs.neynar.com/reference/user-search
       operationId: user-search
       parameters:
-        - $ref: '#/components/parameters/ApiKey'
+        - $ref: "#/components/parameters/ApiKey"
         - name: viewer_fid
           in: query
           required: true
@@ -726,7 +743,7 @@ paths:
         url: https://docs.neynar.com/reference/user-bulk
       operationId: user-bulk
       parameters:
-        - $ref: '#/components/parameters/ApiKey'
+        - $ref: "#/components/parameters/ApiKey"
         - name: fids
           in: query
           required: true
@@ -746,12 +763,17 @@ paths:
             application/json:
               schema:
                 type: object
+                required:
+                  - users
                 properties:
-                  type: array
-                  items: 
-                    $ref: "#/components/schemas/User"
+                  users:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/User"
         "400":
           $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
   /farcaster/user:
     patch:
       tags:
@@ -764,7 +786,7 @@ paths:
         url: https://docs.neynar.com/reference/update-user
       operationId: update-user
       parameters:
-        - $ref: '#/components/parameters/ApiKey'
+        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
@@ -802,7 +824,7 @@ paths:
         url: https://docs.neynar.com/reference/cast
       operationId: cast
       parameters:
-        - $ref: '#/components/parameters/ApiKey'
+        - $ref: "#/components/parameters/ApiKey"
         - name: type
           required: true
           in: query
@@ -836,7 +858,7 @@ paths:
         url: https://docs.neynar.com/reference/post-cast
       operationId: post-cast
       parameters:
-        - $ref: '#/components/parameters/ApiKey'
+        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
@@ -872,7 +894,7 @@ paths:
         url: https://docs.neynar.com/reference/delete-cast
       operationId: delete-cast
       parameters:
-        - $ref: '#/components/parameters/ApiKey'
+        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
@@ -907,7 +929,7 @@ paths:
         url: https://docs.neynar.com/reference/casts
       operationId: casts
       parameters:
-        - $ref: '#/components/parameters/ApiKey'
+        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
@@ -936,7 +958,7 @@ paths:
       tags:
         - Feed
       parameters:
-        - $ref: '#/components/parameters/ApiKey'
+        - $ref: "#/components/parameters/ApiKey"
         - name: feed_type
           in: query
           schema:
@@ -1006,7 +1028,7 @@ paths:
         url: https://docs.neynar.com/reference/post-reaction
       operationId: post-reaction
       parameters:
-        - $ref: '#/components/parameters/ApiKey'
+        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
@@ -1043,7 +1065,7 @@ paths:
         url: https://docs.neynar.com/reference/delete-reaction
       operationId: delete-reaction
       parameters:
-        - $ref: '#/components/parameters/ApiKey'
+        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
@@ -1080,18 +1102,18 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/add-verification
       parameters:
-        - $ref: '#/components/parameters/ApiKey'
+        - $ref: "#/components/parameters/ApiKey"
       requestBody:
-          required: true
-          content: 
-            application/json:
-              schema:
-                $ref: "#/components/schemas/AddVerificationReqBody"
-              example:
-                signer_uuid: 19d0c5fd-9b33-4a48-a0e2-bc7b0555baec
-                address: "0x1ea99cbed57e4020314ba3fadd7c692d2de34d5f"
-                block_hash: "0x191905a9201170abb55f4c90a4cc968b44c1b71cdf3db2764b775c93e7e22b29"
-                eth_signature: "0x2fc09da1f4dcb723fefb91f77932c249c418c0af00c66ed92ee1f35002c80d6a1145280c9f361d207d28447f8f7463366840d3a9309036cf6954afd1fd331beb1b"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AddVerificationReqBody"
+            example:
+              signer_uuid: 19d0c5fd-9b33-4a48-a0e2-bc7b0555baec
+              address: "0x1ea99cbed57e4020314ba3fadd7c692d2de34d5f"
+              block_hash: "0x191905a9201170abb55f4c90a4cc968b44c1b71cdf3db2764b775c93e7e22b29"
+              eth_signature: "0x2fc09da1f4dcb723fefb91f77932c249c418c0af00c66ed92ee1f35002c80d6a1145280c9f361d207d28447f8f7463366840d3a9309036cf6954afd1fd331beb1b"
       responses:
         "200":
           description: Successful operation.
@@ -1109,16 +1131,16 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/remove-verification
       parameters:
-        - $ref: '#/components/parameters/ApiKey'
+        - $ref: "#/components/parameters/ApiKey"
       requestBody:
-          required: true
-          content: 
-            application/json:
-              schema:
-                $ref: "#/components/schemas/RemoveVerificationReqBody"
-              example:
-                signer_uuid: 19d0c5fd-9b33-4a48-a0e2-bc7b0555baec
-                address: "0x1ea99cbed57e4020314ba3fadd7c692d2de34d5f"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RemoveVerificationReqBody"
+            example:
+              signer_uuid: 19d0c5fd-9b33-4a48-a0e2-bc7b0555baec
+              address: "0x1ea99cbed57e4020314ba3fadd7c692d2de34d5f"
       responses:
         "200":
           description: Successful operation.
@@ -1138,7 +1160,7 @@ paths:
         url: https://docs.neynar.com/reference/follow-user
       operationId: follow-user
       parameters:
-        - $ref: '#/components/parameters/ApiKey'
+        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
@@ -1176,7 +1198,7 @@ paths:
         url: https://docs.neynar.com/reference/unfollow-user
       operationId: unfollow-user
       parameters:
-        - $ref: '#/components/parameters/ApiKey'
+        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
