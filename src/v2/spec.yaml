@@ -716,6 +716,42 @@ paths:
                 $ref: "#/components/schemas/UserSearchResponse"
         "400":
           $ref: "#/components/responses/400Response"
+  /farcaster/user/bulk:
+    get:
+      tags:
+        - User
+      summary: Fetches information about multiple users based on FIDs
+      description: Fetches information about multiple users based on FIDs
+      externalDocs:
+        url: https://docs.neynar.com/reference/user-bulk
+      operationId: user-bulk
+      parameters:
+        - $ref: '#/components/parameters/ApiKey'
+        - name: fids
+          in: query
+          required: true
+          example: 194, 191, 6131
+          schema:
+            type: string
+        - name: viewer_fid
+          in: query
+          required: false
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  type: array
+                  items: 
+                    $ref: "#/components/schemas/User"
+        "400":
+          $ref: "#/components/responses/400Response"
   /farcaster/user:
     patch:
       tags:
