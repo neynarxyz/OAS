@@ -546,7 +546,111 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/FollowResponse"
-
+    NotificationsResponse:
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/Notification'
+        next:
+          type: object
+          properties:
+            cursor:
+              type: string
+    Notification:
+      type: object
+        properties:
+          object:
+            type: string
+          most_recent_timestamp:
+            type: string
+            format: date-time
+          type:
+            type: string
+          follows:
+            type: array
+            items:
+              $ref: '#/components/schemas/Follow'
+          likes:
+            type: array
+            items:
+              $ref: '#/components/schemas/Like'
+          reply:
+            $ref: '#/components/schemas/Reply'
+          mention:
+            $ref: '#/components/schemas/Mention'
+          recast:
+            $ref: '#/components/schemas/Recast'
+          # Add additional notification types as properties here
+    Follow:
+      type: object
+      properties:
+        object:
+          type: string
+        user:
+          $ref: '#/components/schemas/User'
+    Like:
+      type: object
+      properties:
+        object:
+          type: string
+        cast:
+          $ref: '#/components/schemas/Cast'
+        user:
+          $ref: '#/components/schemas/User'
+    Reply:
+      type: object
+      properties:
+        object:
+          type: string
+        cast:
+          $ref: '#/components/schemas/Cast'
+        user:
+          $ref: '#/components/schemas/User'
+    Mention:
+      type: object
+      properties:
+        object:
+          type: string
+        cast:
+          $ref: '#/components/schemas/Cast'
+        user:
+          $ref: '#/components/schemas/User'
+    Recast:
+      type: object
+      properties:
+        object:
+          type: string
+        cast:
+          $ref: '#/components/schemas/Cast'
+        user:
+          $ref: '#/components/schemas/User'
+        # Add additional properties for 'like' notifications if needed      
+    Reactions:
+      type: object
+      properties:
+        likes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Like' # You might want to update this based on actual structure
+        recasts:
+          type: array
+          items:
+            $ref: '#/components/schemas/RecastItem'
+    RecastItem:
+      type: object
+      properties:
+        fid:
+          type: integer
+        fname:
+          type: string
+    Replies:
+      type: object
+      properties:
+        count:
+          type: integer
+  
   parameters:
     ApiKey:
       name: api_key
@@ -1225,3 +1329,35 @@ paths:
           $ref: "#/components/responses/403Response"
         "500":
           $ref: "#/components/responses/500Response"
+  /farcaster/notifications:
+    get:
+      tag: Notifications
+      summary: Retrieve notifications for a given user
+      description: Returns a list of notifications for a specific FID.
+      externalDocs:
+        url: https://docs.neynar.com/reference/notifications
+      operationId: notifications
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - in: query
+          name: fid
+          required: true
+          schema:
+            type: integer
+        - in: query
+          name: limit
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/NotificationsResponse'
+        "400":
+          $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
