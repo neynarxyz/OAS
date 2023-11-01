@@ -623,7 +623,15 @@ components:
                 - cast_dehydrated
         user:
           $ref: "#/components/schemas/User"
-
+    RelevantFollowersResponse:
+      type: object
+      required: 
+        - followers
+      properties:
+        followers:
+          type: array
+          items:
+            $ref: "#/components/schemas/User"
   parameters:
     ApiKey:
       name: api_key
