@@ -560,29 +560,29 @@ components:
               type: string
     Notification:
       type: object
-        properties:
-          object:
-            type: string
-          most_recent_timestamp:
-            type: string
-            format: date-time
-          type:
-            type: string
-          follows:
-            type: array
-            items:
-              $ref: '#/components/schemas/Follow'
-          likes:
-            type: array
-            items:
-              $ref: '#/components/schemas/Like'
-          reply:
-            $ref: '#/components/schemas/Reply'
-          mention:
-            $ref: '#/components/schemas/Mention'
-          recast:
-            $ref: '#/components/schemas/Recast'
-          # Add additional notification types as properties here
+      properties:
+        object:
+          type: string
+        most_recent_timestamp:
+          type: string
+          format: date-time
+        type:
+          type: string
+        follows:
+          type: array
+          items:
+            $ref: '#/components/schemas/Follow'
+        likes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Like'
+        reply:
+          $ref: '#/components/schemas/Reply'
+        mention:
+          $ref: '#/components/schemas/Mention'
+        recast:
+          $ref: '#/components/schemas/Recast'
+        # Add additional notification types as properties here
     Follow:
       type: object
       properties:
@@ -713,6 +713,11 @@ tags:
     externalDocs:
       description: More info about reaction
       url: https://docs.neynar.com/reference/reaction-operations
+  - name: Notifications
+    description: Operations related to notifications
+    externalDocs:
+      description: More info about notifications
+      url: https://docs.neynar.com/reference/notifications-operations
 
 paths:
   /farcaster/signer:
@@ -1331,7 +1336,8 @@ paths:
           $ref: "#/components/responses/500Response"
   /farcaster/notifications:
     get:
-      tag: Notifications
+      tags: 
+        - Notifications
       summary: Retrieve notifications for a given user
       description: Returns a list of notifications for a specific FID.
       externalDocs:
