@@ -226,14 +226,6 @@ components:
                   nullable: true
         author:
           $ref: "#/components/schemas/User"
-          # oneOf:
-          #   - $ref: '#/components/schemas/User'
-          #   - type: object
-          #     required:
-          #       - fid
-          #     properties:
-          #       fid:
-          #         type: string
         text:
           type: string
         timestamp:
@@ -414,6 +406,7 @@ components:
             - reactions
             - replies
             - thread_hash
+            - mentioned_profiles
           properties:
             reactions:
               $ref: "#/components/schemas/CastWithInteractionsReactions"
@@ -422,6 +415,10 @@ components:
             thread_hash:
               type: string
               nullable: true
+            mentioned_profiles:
+              type: array
+              items:
+                $ref: "#/components/schemas/User"
     Signer:
       type: object
       required:
@@ -548,18 +545,22 @@ components:
             $ref: "#/components/schemas/FollowResponse"
     NotificationsResponse:
       type: object
+      required:
+        - notifications
+        - next
       properties:
         notifications:
           type: array
           items:
-            $ref: '#/components/schemas/Notification'
+            $ref: "#/components/schemas/Notification"
         next:
-          type: object
-          properties:
-            cursor:
-              type: string
+          $ref: "#/components/schemas/NextCursor"
     Notification:
       type: object
+      required:
+        - object
+        - most_recent_timestamp
+        - type
       properties:
         object:
           type: string
@@ -568,89 +569,61 @@ components:
           format: date-time
         type:
           type: string
+          enum:
+            - follows
+            - recasts
+            - likes
+            - mention
+            - reply
         follows:
           type: array
           items:
-            $ref: '#/components/schemas/Follow'
-        likes:
+            $ref: "#/components/schemas/NotificationFollow"
+        cast:
+          $ref: "#/components/schemas/CastWithInteractions"
+        reactions:
           type: array
           items:
-            $ref: '#/components/schemas/Like'
-        reply:
-          $ref: '#/components/schemas/Reply'
-        mention:
-          $ref: '#/components/schemas/Mention'
-        recast:
-          $ref: '#/components/schemas/Recast'
-        # Add additional notification types as properties here
-    Follow:
+            $ref: "#/components/schemas/NotificationReactions"
+    NotificationFollow:
       type: object
+      required:
+        - object
+        - user
       properties:
         object:
           type: string
+          enum:
+            - follow
         user:
-          $ref: '#/components/schemas/User'
-    Like:
+          $ref: "#/components/schemas/User"
+    NotificationReactions:
       type: object
+      required:
+        - object
+        - cast
+        - user
       properties:
         object:
           type: string
+          enum:
+            - likes
+            - recasts
         cast:
-          $ref: '#/components/schemas/Cast'
+          type: object
+          required:
+            - hash
+            - object
+          properties:
+            hash:
+              type: string
+            object:
+              type: string
+              enum:
+                - cast_dehydrated
         user:
-          $ref: '#/components/schemas/User'
-    Reply:
-      type: object
-      properties:
-        object:
-          type: string
-        cast:
-          $ref: '#/components/schemas/Cast'
-        user:
-          $ref: '#/components/schemas/User'
-    Mention:
-      type: object
-      properties:
-        object:
-          type: string
-        cast:
-          $ref: '#/components/schemas/Cast'
-        user:
-          $ref: '#/components/schemas/User'
-    Recast:
-      type: object
-      properties:
-        object:
-          type: string
-        cast:
-          $ref: '#/components/schemas/Cast'
-        user:
-          $ref: '#/components/schemas/User'
-        # Add additional properties for 'like' notifications if needed      
-    Reactions:
-      type: object
-      properties:
-        likes:
-          type: array
-          items:
-            $ref: '#/components/schemas/Like' # You might want to update this based on actual structure
-        recasts:
-          type: array
-          items:
-            $ref: '#/components/schemas/RecastItem'
-    RecastItem:
-      type: object
-      properties:
-        fid:
-          type: integer
-        fname:
-          type: string
-    Replies:
-      type: object
-      properties:
-        count:
-          type: integer
-  
+          $ref: "#/components/schemas/User"
+
   parameters:
     ApiKey:
       name: api_key
@@ -1336,7 +1309,7 @@ paths:
           $ref: "#/components/responses/500Response"
   /farcaster/notifications:
     get:
-      tags: 
+      tags:
         - Notifications
       summary: Retrieve notifications for a given user
       description: Returns a list of notifications for a specific FID.
@@ -1350,20 +1323,28 @@ paths:
           required: true
           schema:
             type: integer
-        - in: query
-          name: limit
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Number of results to retrieve (default 25, max 50)
           required: false
           schema:
             type: integer
+            default: 25
+            minimum: 1
+            maximum: 50
       responses:
-        '200':
+        "200":
           description: Successful response
           content:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/NotificationsResponse'
+                $ref: "#/components/schemas/NotificationsResponse"
         "400":
           $ref: "#/components/responses/400Response"
-        "404":
-          $ref: "#/components/responses/404Response"
