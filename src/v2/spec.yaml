@@ -1318,11 +1318,11 @@ paths:
       operationId: notifications
       parameters:
         - $ref: "#/components/parameters/ApiKey"
-        - in: query
-          name: fid
+        - name: fid
+          in: query
           required: true
           schema:
-            type: integer
+            $ref: "#/components/schemas/Fid"
         - name: cursor
           in: query
           description: Pagination cursor.
