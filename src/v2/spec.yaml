@@ -226,14 +226,6 @@ components:
                   nullable: true
         author:
           $ref: "#/components/schemas/User"
-          # oneOf:
-          #   - $ref: '#/components/schemas/User'
-          #   - type: object
-          #     required:
-          #       - fid
-          #     properties:
-          #       fid:
-          #         type: string
         text:
           type: string
         timestamp:
@@ -414,6 +406,7 @@ components:
             - reactions
             - replies
             - thread_hash
+            - mentioned_profiles
           properties:
             reactions:
               $ref: "#/components/schemas/CastWithInteractionsReactions"
@@ -422,6 +415,10 @@ components:
             thread_hash:
               type: string
               nullable: true
+            mentioned_profiles:
+              type: array
+              items:
+                $ref: "#/components/schemas/User"
     Signer:
       type: object
       required:
@@ -546,6 +543,86 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/FollowResponse"
+    NotificationsResponse:
+      type: object
+      required:
+        - notifications
+        - next
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: "#/components/schemas/Notification"
+        next:
+          $ref: "#/components/schemas/NextCursor"
+    Notification:
+      type: object
+      required:
+        - object
+        - most_recent_timestamp
+        - type
+      properties:
+        object:
+          type: string
+        most_recent_timestamp:
+          type: string
+          format: date-time
+        type:
+          type: string
+          enum:
+            - follows
+            - recasts
+            - likes
+            - mention
+            - reply
+        follows:
+          type: array
+          items:
+            $ref: "#/components/schemas/NotificationFollow"
+        cast:
+          $ref: "#/components/schemas/CastWithInteractions"
+        reactions:
+          type: array
+          items:
+            $ref: "#/components/schemas/NotificationReactions"
+    NotificationFollow:
+      type: object
+      required:
+        - object
+        - user
+      properties:
+        object:
+          type: string
+          enum:
+            - follow
+        user:
+          $ref: "#/components/schemas/User"
+    NotificationReactions:
+      type: object
+      required:
+        - object
+        - cast
+        - user
+      properties:
+        object:
+          type: string
+          enum:
+            - likes
+            - recasts
+        cast:
+          type: object
+          required:
+            - hash
+            - object
+          properties:
+            hash:
+              type: string
+            object:
+              type: string
+              enum:
+                - cast_dehydrated
+        user:
+          $ref: "#/components/schemas/User"
 
   parameters:
     ApiKey:
@@ -609,6 +686,11 @@ tags:
     externalDocs:
       description: More info about reaction
       url: https://docs.neynar.com/reference/reaction-operations
+  - name: Notifications
+    description: Operations related to notifications
+    externalDocs:
+      description: More info about notifications
+      url: https://docs.neynar.com/reference/notifications-operations
 
 paths:
   /farcaster/signer:
@@ -1225,3 +1307,44 @@ paths:
           $ref: "#/components/responses/403Response"
         "500":
           $ref: "#/components/responses/500Response"
+  /farcaster/notifications:
+    get:
+      tags:
+        - Notifications
+      summary: Retrieve notifications for a given user
+      description: Returns a list of notifications for a specific FID.
+      externalDocs:
+        url: https://docs.neynar.com/reference/notifications
+      operationId: notifications
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - in: query
+          name: fid
+          required: true
+          schema:
+            type: integer
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Number of results to retrieve (default 25, max 50)
+          required: false
+          schema:
+            type: integer
+            default: 25
+            minimum: 1
+            maximum: 50
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#/components/schemas/NotificationsResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
