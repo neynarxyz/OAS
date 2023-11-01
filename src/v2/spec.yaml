@@ -650,7 +650,17 @@ components:
       properties:
         count:
           type: integer
-  
+    RelevantFollowersResponse:
+      type: object
+      properties:
+        result:
+          type: object
+          properties:
+            followers:
+              type: array
+              items:
+                $ref: '#/components/schemas/Follow'
+
   parameters:
     ApiKey:
       name: api_key
@@ -718,6 +728,11 @@ tags:
     externalDocs:
       description: More info about notifications
       url: https://docs.neynar.com/reference/notifications-operations
+  - name: Follows
+    description: Operations related to follows
+    externalDocs:
+      description: More info about follows
+      url: https://docs.neynar.com/reference/follows-operations
 
 paths:
   /farcaster/signer:
@@ -1363,6 +1378,40 @@ paths:
               schema:
                 type: object
                 $ref: '#/components/schemas/NotificationsResponse'
+        "400":
+          $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
+  /farcaster/followers/relevant:
+    get:
+      tags: 
+        - Follows
+      summary: Retrieve relevant followers for a given user
+      description: Returns a list of relevant followers for a specific FID.
+      externalDocs:
+        url: https://docs.neynar.com/reference/relevant-followers
+      operationId: relevant-followers
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: fid
+          in: query
+          required: true
+          description: User who's profile you are looking at
+          schema:
+            type: integer
+        - name: viewer_fid
+          in: query
+          required: true
+          description: Viewer who's looking at the profile
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RelevantFollowersResponse'
         "400":
           $ref: "#/components/responses/400Response"
         "404":
