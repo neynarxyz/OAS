@@ -625,13 +625,36 @@ components:
           $ref: "#/components/schemas/User"
     RelevantFollowersResponse:
       type: object
-      required: 
-        - followers
       properties:
-        followers:
+        top_relevant_followers_hydrated:
           type: array
           items:
-            $ref: "#/components/schemas/User"
+            $ref: '#/components/schemas/HydratedFollower'
+        all_relevant_followers_dehydrated:
+          type: array
+          items:
+            $ref: '#/components/schemas/DehydratedFollower'
+    HydratedFollower:
+      type: object
+      properties:
+        object:
+          type: string
+        user:
+          $ref: '#/components/schemas/User'
+    DehydratedFollower:
+      type: object
+      properties:
+        object:
+          type: string
+        user:
+          $ref: '#/components/schemas/UserDehydrated'
+    UserDehydrated:
+      type: object
+      properties:
+        object:
+          type: string
+        fid:
+          type: integer
   parameters:
     ApiKey:
       name: api_key
@@ -1374,7 +1397,7 @@ paths:
       operationId: relevant-followers
       parameters:
         - $ref: "#/components/parameters/ApiKey"
-        - name: fid
+        - name: target_fid
           in: query
           required: true
           description: User who's profile you are looking at
