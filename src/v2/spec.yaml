@@ -623,7 +623,38 @@ components:
                 - cast_dehydrated
         user:
           $ref: "#/components/schemas/User"
-
+    RelevantFollowersResponse:
+      type: object
+      properties:
+        top_relevant_followers_hydrated:
+          type: array
+          items:
+            $ref: '#/components/schemas/HydratedFollower'
+        all_relevant_followers_dehydrated:
+          type: array
+          items:
+            $ref: '#/components/schemas/DehydratedFollower'
+    HydratedFollower:
+      type: object
+      properties:
+        object:
+          type: string
+        user:
+          $ref: '#/components/schemas/User'
+    DehydratedFollower:
+      type: object
+      properties:
+        object:
+          type: string
+        user:
+          $ref: '#/components/schemas/UserDehydrated'
+    UserDehydrated:
+      type: object
+      properties:
+        object:
+          type: string
+        fid:
+          $ref: '#/components/schemas/Fid'
   parameters:
     ApiKey:
       name: api_key
@@ -691,6 +722,11 @@ tags:
     externalDocs:
       description: More info about notifications
       url: https://docs.neynar.com/reference/notifications-operations
+  - name: Follows
+    description: Operations related to follows
+    externalDocs:
+      description: More info about follows
+      url: https://docs.neynar.com/reference/follows-operations
 
 paths:
   /farcaster/signer:
@@ -1348,3 +1384,39 @@ paths:
                 $ref: "#/components/schemas/NotificationsResponse"
         "400":
           $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
+  /farcaster/followers/relevant:
+    get:
+      tags: 
+        - Follows
+      summary: Retrieve relevant followers for a given user
+      description: Returns a list of relevant followers for a specific FID.
+      externalDocs:
+        url: https://docs.neynar.com/reference/relevant-followers
+      operationId: relevant-followers
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: target_fid
+          in: query
+          required: true
+          description: User who's profile you are looking at
+          schema:
+            type: integer
+        - name: viewer_fid
+          in: query
+          required: true
+          description: Viewer who's looking at the profile
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RelevantFollowersResponse'
+        "400":
+          $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
