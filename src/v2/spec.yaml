@@ -654,7 +654,7 @@ components:
         object:
           type: string
         fid:
-          type: integer
+          $ref: '#/components/schemas/Fid'
   parameters:
     ApiKey:
       name: api_key
