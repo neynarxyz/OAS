@@ -625,6 +625,9 @@ components:
           $ref: "#/components/schemas/User"
     RelevantFollowersResponse:
       type: object
+      required:
+        - top_relevant_followers_hydrated
+        - all_relevant_followers_dehydrated
       properties:
         top_relevant_followers_hydrated:
           type: array
@@ -639,6 +642,8 @@ components:
       properties:
         object:
           type: string
+          enum:
+            - follow
         user:
           $ref: '#/components/schemas/User'
     DehydratedFollower:
@@ -646,6 +651,8 @@ components:
       properties:
         object:
           type: string
+          enum:
+            - follow
         user:
           $ref: '#/components/schemas/UserDehydrated'
     UserDehydrated:
@@ -653,8 +660,11 @@ components:
       properties:
         object:
           type: string
+          enum:
+            - user_dehydrated
         fid:
           $ref: '#/components/schemas/Fid'
+
   parameters:
     ApiKey:
       name: api_key
@@ -1384,8 +1394,6 @@ paths:
                 $ref: "#/components/schemas/NotificationsResponse"
         "400":
           $ref: "#/components/responses/400Response"
-        "404":
-          $ref: "#/components/responses/404Response"
   /farcaster/followers/relevant:
     get:
       tags: 
@@ -1402,13 +1410,13 @@ paths:
           required: true
           description: User who's profile you are looking at
           schema:
-            type: integer
+            $ref: "#/components/schemas/Fid"
         - name: viewer_fid
           in: query
           required: true
           description: Viewer who's looking at the profile
           schema:
-            type: integer
+            $ref: "#/components/schemas/Fid"
       responses:
         200:
           description: Successful response
@@ -1418,5 +1426,3 @@ paths:
                 $ref: '#/components/schemas/RelevantFollowersResponse'
         "400":
           $ref: "#/components/responses/400Response"
-        "404":
-          $ref: "#/components/responses/404Response"
