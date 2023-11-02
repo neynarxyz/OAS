@@ -946,8 +946,8 @@ paths:
     get:
       tags:
         - Cast
-      summary: Retrieve cast for a given hash
-      description: Gets information about an individual cast by passing in a web URL or cast hash
+      summary: Retrieve cast for a given hash or Warpcast URL
+      description: Gets information about an individual cast by passing in a Warpcast web URL or cast hash
       externalDocs:
         url: https://docs.neynar.com/reference/cast
       operationId: cast
