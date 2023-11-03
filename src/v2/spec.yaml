@@ -1129,12 +1129,18 @@ paths:
             type: string
         - name: limit
           in: query
-          description: Number of results to retrieve (default 25, max 150)
+          description: Number of results to retrieve (default 25, max 100)
           schema:
             type: integer
             default: 25
             minimum: 1
-            maximum: 150
+            maximum: 100
+        - name: with_recasts
+          in: query
+          description: Include recasts in the response, true by default
+          schema:
+            type: boolean
+            default: true
       responses:
         "200":
           description: Successful operation.
