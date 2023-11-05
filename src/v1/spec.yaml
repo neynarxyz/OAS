@@ -987,7 +987,7 @@ paths:
       tags:
         - Cast
       summary: Retrieve all casts in a given thread hash
-      description: Gets the most recent casts for a user in reverse-chronological order
+      description: Gets all casts, including root cast and all replies for a given thread hash. No limit the depth of replies.
       externalDocs:
         url: https://docs.neynar.com/reference/all-casts-in-thread-v1
       operationId: all-casts-in-thread
