@@ -1093,8 +1093,8 @@ paths:
           schema:
             type: string
             enum:
-              - filter
               - following
+              - filter
             default: following
           example: filter
           description: Defaults to following (requires fid or address). If set to filter (requires filter_type)
