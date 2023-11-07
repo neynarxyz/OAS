@@ -1105,6 +1105,7 @@ paths:
             enum:
               - fids
               - parent_url
+              - global_trending
           example: fids
           description: Used when feed_type=filter. Can be set to fids (requires fids) or parent_url (requires parent_url)
         - name: fid
