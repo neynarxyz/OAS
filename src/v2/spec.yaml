@@ -1089,11 +1089,13 @@ paths:
         - $ref: "#/components/parameters/ApiKey"
         - name: feed_type
           in: query
+          required: true
           schema:
             type: string
             enum:
               - filter
               - following
+            default: following
           example: filter
           description: Defaults to following (requires fid or address). If set to filter (requires filter_type)
         - name: filter_type
@@ -1107,7 +1109,6 @@ paths:
           description: Used when feed_type=filter. Can be set to fids (requires fids) or parent_url (requires parent_url)
         - name: fid
           in: query
-          required: true
           schema:
             $ref: "#/components/schemas/Fid"
           description: (Optional) fid of user whose feed you want to create. By default, the API expects this field, except if you pass a filter_type
@@ -1115,7 +1116,7 @@ paths:
           in: query
           schema:
             type: string
-          example: 3,4,194
+          example: 3,2,194
           description: Used when filter_type=fids . Create a feed based on a list of fids. Max array size is 250. Requires feed_type and filter_type.
         - name: parent_url
           in: query
