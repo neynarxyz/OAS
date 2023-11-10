@@ -1073,7 +1073,6 @@ paths:
         content:
           application/json:
             schema:
-            deprecated: true
               $ref: "#/components/schemas/GetCastsReqBody"
             example:
               casts:
