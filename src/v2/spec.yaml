@@ -1065,6 +1065,22 @@ paths:
           example: "0xa896906a5e397b4fec247c3ee0e9e4d4990b8004,0x27ff810f7f718afd8c40be236411f017982e0994"
           schema:
             type: string
+      requestBody:
+        required: true
+        description: >-
+           **Note :** While testing, please send hashes through params
+           Avoid using requestBody as it is not supported by some tools like readme docs, swagger editor etc.
+           Since GET operations cannot have a requestBody. 
+           Though API supports both.
+        content:
+          application/json:
+            schema:
+            deprecated: true
+              $ref: "#/components/schemas/GetCastsReqBody"
+            example:
+              casts:
+                - hash: "0xa896906a5e397b4fec247c3ee0e9e4d4990b8004"
+                - hash: "0x27ff810f7f718afd8c40be236411f017982e0994"
       responses:
         "200":
           description: Successful operation.
