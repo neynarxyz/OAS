@@ -632,11 +632,11 @@ components:
         top_relevant_followers_hydrated:
           type: array
           items:
-            $ref: '#/components/schemas/HydratedFollower'
+            $ref: "#/components/schemas/HydratedFollower"
         all_relevant_followers_dehydrated:
           type: array
           items:
-            $ref: '#/components/schemas/DehydratedFollower'
+            $ref: "#/components/schemas/DehydratedFollower"
     HydratedFollower:
       type: object
       properties:
@@ -645,7 +645,7 @@ components:
           enum:
             - follow
         user:
-          $ref: '#/components/schemas/User'
+          $ref: "#/components/schemas/User"
     DehydratedFollower:
       type: object
       properties:
@@ -654,7 +654,7 @@ components:
           enum:
             - follow
         user:
-          $ref: '#/components/schemas/UserDehydrated'
+          $ref: "#/components/schemas/UserDehydrated"
     UserDehydrated:
       type: object
       properties:
@@ -663,7 +663,7 @@ components:
           enum:
             - user_dehydrated
         fid:
-          $ref: '#/components/schemas/Fid'
+          $ref: "#/components/schemas/Fid"
 
   parameters:
     ApiKey:
@@ -1060,6 +1060,7 @@ paths:
         - $ref: "#/components/parameters/ApiKey"
         - name: casts
           in: query
+          required: true
           description: "Hashes of the cast to be retrived (Comma separated)"
           example: "0xa896906a5e397b4fec247c3ee0e9e4d4990b8004,0x27ff810f7f718afd8c40be236411f017982e0994"
           schema:
@@ -1400,7 +1401,7 @@ paths:
           $ref: "#/components/responses/400Response"
   /farcaster/followers/relevant:
     get:
-      tags: 
+      tags:
         - Follows
       summary: Retrieve relevant followers for a given user
       description: Returns a list of relevant followers for a specific FID.
@@ -1427,6 +1428,6 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RelevantFollowersResponse'
+                $ref: "#/components/schemas/RelevantFollowersResponse"
         "400":
           $ref: "#/components/responses/400Response"
