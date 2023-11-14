@@ -664,6 +664,13 @@ components:
             - user_dehydrated
         fid:
           $ref: "#/components/schemas/Fid"
+    UserResponse:
+      type: object
+      required:
+        - user
+      properties:
+        user:
+          $ref: "#/components/schemas/User"
 
   parameters:
     ApiKey:
@@ -1358,6 +1365,35 @@ paths:
           $ref: "#/components/responses/403Response"
         "500":
           $ref: "#/components/responses/500Response"
+  /farcaster/user/custody-address:
+    get:
+      tags:
+        - User
+      summary: 'Lookup a user by custody-address'
+      description:
+        'Lookup a user by custody-address'
+      operationId: lookup-user-by-custody-address
+      externalDocs:
+        url: https://docs.neynar.com/reference/lookup-user-by-custody-address
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: custody_address
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Custody Address of the associated with mnemonic
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
   /farcaster/notifications:
     get:
       tags:
@@ -1395,7 +1431,6 @@ paths:
           content:
             application/json:
               schema:
-                type: object
                 $ref: "#/components/schemas/NotificationsResponse"
         "400":
           $ref: "#/components/responses/400Response"
