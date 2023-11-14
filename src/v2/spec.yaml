@@ -1369,9 +1369,8 @@ paths:
     get:
       tags:
         - User
-      summary: 'Lookup a user by custody-address'
-      description:
-        'Lookup a user by custody-address'
+      summary: "Lookup a user by custody-address"
+      description: "Lookup a user by custody-address"
       operationId: lookup-user-by-custody-address
       externalDocs:
         url: https://docs.neynar.com/reference/lookup-user-by-custody-address
@@ -1382,7 +1381,8 @@ paths:
           required: true
           schema:
             type: string
-          description: Custody Address of the associated with mnemonic
+          example: "0xd1b702203b1b3b641a699997746bd4a12d157909"
+          description: Custody Address associated with mnemonic
       responses:
         "200":
           description: Successful operation.
