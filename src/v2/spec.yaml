@@ -31,6 +31,12 @@ components:
       enum:
         - like
         - recast
+    GetReactionTypes:
+      type: string
+      enum:
+        - likes
+        - recasts
+        - all
     NextCursor:
       type: object
       description: Returns next cursor
@@ -671,7 +677,18 @@ components:
       properties:
         user:
           $ref: "#/components/schemas/User"
-
+    UserReactionsResponse:
+      type: object
+      required:
+        - reactions
+        - next
+      properties:
+        reactions:
+          type: array
+          items:
+            $ref: "#/components/schemas/NotificationReactions"
+        next:
+          $ref: "#/components/schemas/NextCursor"
   parameters:
     ApiKey:
       name: api_key
@@ -866,6 +883,50 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/UserSearchResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+  /farcaster/user/reactions:
+    get:
+      tags:
+        - User
+      summary: Fetches reactions for a given user
+      description: Fetches reactions for a given user
+      operationId: user-reactions
+      externalDocs:
+        url: https://docs.neynar.com/reference/user-reactions
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: fid
+          in: query
+          required: true
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Number of results to retrieve (default 25, max 100)
+          schema:
+            type: integer
+            default: 25
+            minimum: 1
+            maximum: 100
+        - reaction_type:
+          in: query
+          description: Type of reaction to fetch (like or recast or all)
+          schema:
+            $ref: "#/components/schemas/GetReactionTypes"
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserReactionsResponse"
         "400":
           $ref: "#/components/responses/400Response"
   /farcaster/user/bulk:
