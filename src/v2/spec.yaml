@@ -1489,7 +1489,7 @@ paths:
         - Reaction
       summary: Fetches reactions for a given user
       description: Fetches reactions for a given user
-      operationId: user-reactions
+      operationId: reactions-user
       externalDocs:
         url: https://docs.neynar.com/reference/reactions
       parameters:
