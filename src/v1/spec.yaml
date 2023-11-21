@@ -79,6 +79,7 @@ components:
       required:
         - fid
         - username
+        - custodyAddress
         - displayName
         - pfp
         - profile
@@ -92,6 +93,9 @@ components:
         username:
           type: string
           description: The username of the user.
+        custodyAddress:
+          type: string
+          description: Custody Address of the user.
         displayName:
           type: string
           description: The display of the reactor.
@@ -116,7 +120,7 @@ components:
               properties:
                 text:
                   type: string
-                mentions:
+                mentionedProfiles:
                   type: array
                   items:
                     type: string
@@ -694,6 +698,18 @@ components:
                 $ref: "#/components/schemas/FollowResponseUser"
             next:
               $ref: "#/components/schemas/NextCursor"
+    UserSuccessResponse:
+      type: object
+      required:
+        - result
+      properties:
+        result:
+          type: object
+          required:
+            - user
+          properties:
+            user:
+              $ref: "#/components/schemas/User"
 
   parameters:
     ApiKey:
@@ -706,22 +722,6 @@ components:
       description: API key required for authentication.
 
   responses:
-    UserSuccess:
-      description: Successful operation.
-      content:
-        application/json:
-          schema:
-            type: object
-            required:
-              - result
-            properties:
-              result:
-                type: object
-                required:
-                  - user
-                properties:
-                  user:
-                    $ref: "#/components/schemas/User"
     404Response:
       description: "Resource not found"
       content:
@@ -794,7 +794,11 @@ paths:
             $ref: "#/components/schemas/Fid"
       responses:
         "200":
-          $ref: "#/components/responses/UserSuccess"
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserSuccessResponse"
         "404":
           $ref: "#/components/responses/404Response"
         "400":
@@ -827,7 +831,11 @@ paths:
             $ref: "#/components/schemas/Fid"
       responses:
         "200":
-          $ref: "#/components/responses/UserSuccess"
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserSuccessResponse"
         "400":
           $ref: "#/components/responses/400Response"
         "404":
@@ -1159,7 +1167,11 @@ paths:
             $ref: "#/components/schemas/Address"
       responses:
         "200":
-          $ref: "#/components/responses/UserSuccess"
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserSuccessResponse"
         "400":
           $ref: "#/components/responses/400Response"
   /farcaster/mentions-and-replies:
