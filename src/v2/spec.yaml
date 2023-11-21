@@ -732,8 +732,8 @@ components:
         used:
           $ref: '#/components/schemas/UsageDetails'
         total_available:
-          $ref: '#/components/schemas/UsageDetails'
-    UsageDetails:
+          $ref: '#/components/schemas/StorageUsageDetails'
+    StorageUsageDetails:
       type: object
       properties:
         casts:
