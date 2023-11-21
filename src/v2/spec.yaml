@@ -584,14 +584,14 @@ components:
         follows:
           type: array
           items:
-            $ref: "#/components/schemas/NotificationFollow"
+            $ref: "#/components/schemas/Follow"
         cast:
           $ref: "#/components/schemas/CastWithInteractions"
         reactions:
           type: array
           items:
-            $ref: "#/components/schemas/NotificationReactions"
-    NotificationFollow:
+            $ref: "#/components/schemas/Reactions"
+    Follow:
       type: object
       required:
         - object
@@ -603,7 +603,7 @@ components:
             - follow
         user:
           $ref: "#/components/schemas/User"
-    NotificationReactions:
+    Reactions:
       type: object
       required:
         - object
@@ -686,7 +686,7 @@ components:
         reactions:
           type: array
           items:
-            $ref: "#/components/schemas/NotificationReactions"
+            $ref: "#/components/schemas/Reactions"
         next:
           $ref: "#/components/schemas/NextCursor"
   parameters:
