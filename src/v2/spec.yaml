@@ -31,7 +31,7 @@ components:
       enum:
         - like
         - recast
-    ReactionsTypes:
+    ReactionsType:
       type: string
       enum:
         - likes
@@ -1513,11 +1513,13 @@ paths:
             default: 25
             minimum: 1
             maximum: 100
-        - reaction_type:
+        - type:
           in: query
-          description: Type of reaction to fetch (like or recast or all)
+          required: true
+          description: Type of reaction to fetch (likes or recasts or all)
+          example: likes
           schema:
-            $ref: "#/components/schemas/ReactionsTypes"
+            $ref: "#/components/schemas/ReactionsType"
       responses:
         "200":
           description: Successful operation.
