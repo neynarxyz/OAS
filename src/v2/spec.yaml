@@ -1513,7 +1513,7 @@ paths:
             default: 25
             minimum: 1
             maximum: 100
-        - type:
+        - name: type
           in: query
           required: true
           description: Type of reaction to fetch (likes or recasts or all)
