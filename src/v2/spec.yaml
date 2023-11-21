@@ -31,7 +31,7 @@ components:
       enum:
         - like
         - recast
-    GetReactionTypes:
+    ReactionsTypes:
       type: string
       enum:
         - likes
@@ -677,7 +677,7 @@ components:
       properties:
         user:
           $ref: "#/components/schemas/User"
-    UserReactionsResponse:
+    ReactionsResponse:
       type: object
       required:
         - reactions
@@ -1483,7 +1483,7 @@ paths:
                 $ref: "#/components/schemas/RelevantFollowersResponse"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/reactions:
+  /farcaster/reactions/user:
     get:
       tags:
         - Reaction
@@ -1517,13 +1517,13 @@ paths:
           in: query
           description: Type of reaction to fetch (like or recast or all)
           schema:
-            $ref: "#/components/schemas/GetReactionTypes"
+            $ref: "#/components/schemas/ReactionsTypes"
       responses:
         "200":
           description: Successful operation.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UserReactionsResponse"
+                $ref: "#/components/schemas/ReactionsResponse"
         "400":
           $ref: "#/components/responses/400Response"
