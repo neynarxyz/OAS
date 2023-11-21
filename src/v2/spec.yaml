@@ -31,6 +31,12 @@ components:
       enum:
         - like
         - recast
+    ReactionsTypes:
+      type: string
+      enum:
+        - likes
+        - recasts
+        - all
     NextCursor:
       type: object
       description: Returns next cursor
@@ -578,14 +584,14 @@ components:
         follows:
           type: array
           items:
-            $ref: "#/components/schemas/NotificationFollow"
+            $ref: "#/components/schemas/Follow"
         cast:
           $ref: "#/components/schemas/CastWithInteractions"
         reactions:
           type: array
           items:
-            $ref: "#/components/schemas/NotificationReactions"
-    NotificationFollow:
+            $ref: "#/components/schemas/Reactions"
+    Follow:
       type: object
       required:
         - object
@@ -597,7 +603,7 @@ components:
             - follow
         user:
           $ref: "#/components/schemas/User"
-    NotificationReactions:
+    Reactions:
       type: object
       required:
         - object
@@ -671,7 +677,18 @@ components:
       properties:
         user:
           $ref: "#/components/schemas/User"
-
+    ReactionsResponse:
+      type: object
+      required:
+        - reactions
+        - next
+      properties:
+        reactions:
+          type: array
+          items:
+            $ref: "#/components/schemas/Reactions"
+        next:
+          $ref: "#/components/schemas/NextCursor"
   parameters:
     ApiKey:
       name: api_key
@@ -1464,5 +1481,49 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/RelevantFollowersResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+  /farcaster/reactions/user:
+    get:
+      tags:
+        - Reaction
+      summary: Fetches reactions for a given user
+      description: Fetches reactions for a given user
+      operationId: user-reactions
+      externalDocs:
+        url: https://docs.neynar.com/reference/reactions
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: fid
+          in: query
+          required: true
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Number of results to retrieve (default 25, max 100)
+          schema:
+            type: integer
+            default: 25
+            minimum: 1
+            maximum: 100
+        - reaction_type:
+          in: query
+          description: Type of reaction to fetch (like or recast or all)
+          schema:
+            $ref: "#/components/schemas/ReactionsTypes"
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReactionsResponse"
         "400":
           $ref: "#/components/responses/400Response"
