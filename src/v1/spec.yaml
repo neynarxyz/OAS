@@ -898,11 +898,6 @@ paths:
           required: false
           schema:
             $ref: "#/components/schemas/Fid"
-        - name: cursor
-          in: query
-          schema:
-            type: string
-          description: Pagination cursor.
         - name: limit
           in: query
           schema:
@@ -912,6 +907,11 @@ paths:
             minimum: 1
             maximum: 1000
           description: Number of results to retrieve (default 100, max 1000)
+        - name: cursor
+          in: query
+          schema:
+            type: string
+          description: Pagination cursor.
       responses:
         "200":
           description: Successful operation
@@ -1031,14 +1031,6 @@ paths:
           description: fid of a user
           schema:
             $ref: "#/components/schemas/Fid"
-        - name: viewerFid
-          in: query
-          description: >-
-            fid of the user viewing this information, needed for contextual
-            information.
-          required: false
-          schema:
-            $ref: "#/components/schemas/Fid"
         - name: parent_url
           in: query
           description: >-
@@ -1047,12 +1039,14 @@ paths:
           example: https://ethereum.org
           schema:
             type: string
-        - name: cursor
+        - name: viewerFid
           in: query
-          description: Pagination cursor.
+          description: >-
+            fid of the user viewing this information, needed for contextual
+            information.
           required: false
           schema:
-            type: string
+            $ref: "#/components/schemas/Fid"
         - name: limit
           in: query
           description: Number of results to retrieve (default 25, max 150)
@@ -1062,6 +1056,12 @@ paths:
             default: 25
             minimum: 1
             maximum: 150
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          required: false
+          schema:
+            type: string
       responses:
         "200":
           description: Successful operation.
@@ -1090,12 +1090,6 @@ paths:
           required: false
           schema:
             $ref: "#/components/schemas/Fid"
-        - name: cursor
-          in: query
-          description: Pagination cursor.
-          required: false
-          schema:
-            type: string
         - name: limit
           in: query
           description: Number of results to retrieve (default 25, max 100)
@@ -1105,6 +1099,12 @@ paths:
             default: 25
             minimum: 1
             maximum: 100
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          required: false
+          schema:
+            type: string
       responses:
         "200":
           description: Successful operation.
@@ -1187,12 +1187,6 @@ paths:
           required: false
           schema:
             $ref: "#/components/schemas/Fid"
-        - name: cursor
-          in: query
-          description: Pagination cursor.
-          required: false
-          schema:
-            type: string
         - name: limit
           in: query
           description: Number of results to retrieve (default 25, max 150)
@@ -1202,6 +1196,12 @@ paths:
             default: 25
             minimum: 1
             maximum: 150
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          required: false
+          schema:
+            type: string
       responses:
         "200":
           description: Successful operation.
@@ -1238,12 +1238,6 @@ paths:
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
-        - name: cursor
-          in: query
-          description: Pagination cursor.
-          required: false
-          schema:
-            type: string
         - name: limit
           in: query
           description: Number of results to retrieve (default 25, max 150)
@@ -1253,6 +1247,12 @@ paths:
             default: 25
             minimum: 1
             maximum: 150
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          required: false
+          schema:
+            type: string
       responses:
         "200":
           description: Successful operation.
@@ -1287,12 +1287,6 @@ paths:
           required: false
           schema:
             $ref: "#/components/schemas/Fid"
-        - name: cursor
-          in: query
-          description: Pagination cursor.
-          required: false
-          schema:
-            type: string
         - name: limit
           in: query
           description: Number of results to retrieve (default 25, max 150)
@@ -1302,6 +1296,12 @@ paths:
             default: 25
             minimum: 1
             maximum: 150
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          required: false
+          schema:
+            type: string
       responses:
         "200":
           description: Successful operation.
@@ -1336,12 +1336,6 @@ paths:
           required: false
           schema:
             $ref: "#/components/schemas/Fid"
-        - name: cursor
-          in: query
-          description: Pagination cursor.
-          required: false
-          schema:
-            type: string
         - name: limit
           in: query
           description: Number of results to retrieve (default 25, max 150)
@@ -1351,6 +1345,12 @@ paths:
             default: 25
             minimum: 1
             maximum: 150
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          required: false
+          schema:
+            type: string
       responses:
         "200":
           description: Successful operation.
@@ -1385,12 +1385,6 @@ paths:
           required: false
           schema:
             $ref: "#/components/schemas/Fid"
-        - name: cursor
-          in: query
-          description: Pagination cursor.
-          required: false
-          schema:
-            type: string
         - name: limit
           in: query
           description: Number of results to retrieve (default 25, max 150)
@@ -1400,6 +1394,12 @@ paths:
             default: 25
             minimum: 1
             maximum: 150
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          required: false
+          schema:
+            type: string
       responses:
         "200":
           description: Successful operation.
@@ -1436,12 +1436,6 @@ paths:
           example: 194
           schema:
             $ref: "#/components/schemas/Fid"
-        - name: cursor
-          in: query
-          description: Pagination cursor.
-          required: false
-          schema:
-            type: string
         - name: limit
           in: query
           description: Number of results to retrieve (default 25, max 150)
@@ -1451,6 +1445,12 @@ paths:
             default: 25
             minimum: 1
             maximum: 150
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          required: false
+          schema:
+            type: string
       responses:
         "200":
           description: Successful operation
@@ -1487,12 +1487,6 @@ paths:
           example: 194
           schema:
             $ref: "#/components/schemas/Fid"
-        - name: cursor
-          in: query
-          description: Pagination cursor.
-          required: false
-          schema:
-            type: string
         - name: limit
           in: query
           description: Number of results to retrieve (default 25, max 150)
@@ -1502,6 +1496,12 @@ paths:
             default: 25
             minimum: 1
             maximum: 150
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          required: false
+          schema:
+            type: string
       responses:
         "200":
           description: Successful operation
