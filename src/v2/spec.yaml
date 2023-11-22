@@ -726,25 +726,34 @@ components:
           example: "storage_usage"
         user:
           $ref: '#/components/schemas/UserDehydrated'
+        casts:
+          $ref: '#/components/schemas/StorageObject'
+        reactions:
+          $ref: '#/components/schemas/StorageObject'
+        links:
+          $ref: '#/components/schemas/StorageObject'
+        verified_addresses:
+          $ref: '#/components/schemas/StorageObject'
+        username_proofs:
+          $ref: '#/components/schemas/StorageObject'
+        signers:
+          $ref: '#/components/schemas/StorageObject'
         total_active_units:
           type: integer
           example: 2
-        used:
-          $ref: '#/components/schemas/UsageDetails'
-        total_available:
-          $ref: '#/components/schemas/StorageUsageDetails'
-    StorageUsageDetails:
+    StorageObject:
       type: object
       properties:
-        casts:
+        object:
+          type: string
+          example: "storage"
+        used:
           type: integer
           example: 3659
-        reactions:
+        capacity:
           type: integer
-          example: 5196
-        links:
-          type: integer
-          example: 471
+          example: 10000
+
   parameters:
     ApiKey:
       name: api_key
