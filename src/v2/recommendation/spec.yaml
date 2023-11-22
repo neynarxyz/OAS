@@ -8,87 +8,11 @@ servers:
 components:
   schemas:
     Address:
-      type: string
-      description: Ethereum address
-    Fid:
-      type: integer
-      format: int32
-      default: 3
-      description: User identifier (unsigned integer)
-    ActiveStatus:
-      type: string
-      enum:
-        - active
-        - inactive
-      description: |
-        The status of a user.
-          - active: The user is currently active.
-          - inactive: The user is not currently active.
+      $ref: "../spec.yaml#/components/schemas/Address"
     User:
-      type: object
-      required:
-        - fid
-        - username
-        - display_name
-        - pfp_url
-        - profile
-        - follower_count
-        - following_count
-        - verifications
-        - activeStatus
-      properties:
-        fid:
-          $ref: "#/components/schemas/Fid"
-        username:
-          type: string
-        display_name:
-          type: string
-        custody_address:
-          $ref: "#/components/schemas/Address"
-        pfp_url:
-          type: string
-          description: The URL of the user's profile picture
-        profile:
-          type: object
-          required:
-            - bio
-          properties:
-            bio:
-              type: object
-              required:
-                - text
-              properties:
-                text:
-                  type: string
-        follower_count:
-          type: integer
-          format: int32
-          description: The number of followers the user has.
-        following_count:
-          type: integer
-          format: int32
-          description: The number of users the user is following.
-        verifications:
-          type: array
-          items:
-            $ref: "#/components/schemas/Address"
-        activeStatus:
-          $ref: "#/components/schemas/ActiveStatus"
+      $ref: "../spec.yaml#/components/schemas/User"
     ErrorRes:
-      type: object
-      required:
-        - message
-      description: Returns ErrorRes metadata
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-        property:
-          type: string
-        status:
-          type: integer
-          format: int32
+      $ref: "../spec.yaml#/components/schemas/ErrorRes"
     RelevantMint:
       type: object
       description: A mint object relevant to the user
@@ -110,7 +34,16 @@ components:
           type: string
         minter:
           $ref: "#/components/schemas/User"
-        
+    RelevantMints:
+      type: object
+      description: A list of mint objects relevant to the user
+      required:
+        - mints
+      properties:
+        mints:
+          type: array
+          items:
+            $ref: "#/components/schemas/RelevantMint"
 
   parameters:
     ApiKey:
@@ -123,12 +56,18 @@ components:
       description: API key required for authentication.
 
   responses:
-    500Response:
+    ServerErrorResponse:
       description: "Server Error"
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/ErrorRes"
+    RelevantMintsResponse:
+      description: "Relevant Mints Response"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/RelevantMints"
 
 tags:
   - name: NFT
@@ -167,19 +106,6 @@ paths:
             type: string
       responses:
         "200":
-          description: Successful operation.
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - mints
-                properties:
-                  mints:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/RelevantMint"
-
-
+          $ref: "#/components/responses/RelevantMintsResponse"
         "500":
-          $ref: "#/components/responses/500Response"
+          $ref: "#/components/responses/ServerErrorResponse"
