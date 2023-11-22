@@ -1625,7 +1625,7 @@ paths:
                 $ref: "#/components/schemas/StorageAllocationsResponse"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/storage/allocations/usage:
+  /farcaster/storage/usage:
     get:
       tags:
         - Storage
