@@ -689,7 +689,15 @@ components:
             $ref: "#/components/schemas/Reactions"
         next:
           $ref: "#/components/schemas/NextCursor"
-
+    BulkUsersResponse:
+      type: object
+      required:
+        - users
+      properties:
+        users:
+          type: array
+          items:
+            $ref: "#/components/schemas/User"
   parameters:
     ApiKey:
       name: api_key
@@ -915,14 +923,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                required:
-                  - users
-                properties:
-                  users:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/User"
+                $ref: "#/components/schemas/BulkUsersResponse"
         "400":
           $ref: "#/components/responses/400Response"
         "404":
