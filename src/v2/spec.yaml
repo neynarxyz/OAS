@@ -753,6 +753,15 @@ components:
         capacity:
           type: integer
           example: 10000
+    BulkUsersResponse:
+      type: object
+      required:
+        - users
+      properties:
+        users:
+          type: array
+          items:
+            $ref: "#/components/schemas/User"
 
   parameters:
     ApiKey:
@@ -984,14 +993,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                required:
-                  - users
-                properties:
-                  users:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/User"
+                $ref: "#/components/schemas/BulkUsersResponse"
         "400":
           $ref: "#/components/responses/400Response"
         "404":

@@ -116,14 +116,9 @@ components:
               type: object
               required:
                 - text
-                - mentions
               properties:
                 text:
                   type: string
-                mentionedProfiles:
-                  type: array
-                  items:
-                    type: string
         followerCount:
           type: integer
           format: int32
