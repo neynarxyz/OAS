@@ -698,7 +698,7 @@ components:
         allocations:
           type: array
           items:
-            $ref: '#/components/schemas/StorageAllocation'
+            $ref: "#/components/schemas/StorageAllocation"
     StorageAllocation:
       type: object
       properties:
@@ -706,7 +706,7 @@ components:
           type: string
           example: "storage_allocation"
         user:
-          $ref: '#/components/schemas/UserDehydrated'
+          $ref: "#/components/schemas/UserDehydrated"
         units:
           type: integer
           example: 10
@@ -725,19 +725,19 @@ components:
           type: string
           example: "storage_usage"
         user:
-          $ref: '#/components/schemas/UserDehydrated'
+          $ref: "#/components/schemas/UserDehydrated"
         casts:
-          $ref: '#/components/schemas/StorageObject'
+          $ref: "#/components/schemas/StorageObject"
         reactions:
-          $ref: '#/components/schemas/StorageObject'
+          $ref: "#/components/schemas/StorageObject"
         links:
-          $ref: '#/components/schemas/StorageObject'
+          $ref: "#/components/schemas/StorageObject"
         verified_addresses:
-          $ref: '#/components/schemas/StorageObject'
+          $ref: "#/components/schemas/StorageObject"
         username_proofs:
-          $ref: '#/components/schemas/StorageObject'
+          $ref: "#/components/schemas/StorageObject"
         signers:
-          $ref: '#/components/schemas/StorageObject'
+          $ref: "#/components/schemas/StorageObject"
         total_active_units:
           type: integer
           example: 2
@@ -943,18 +943,18 @@ paths:
       operationId: user-search
       parameters:
         - $ref: "#/components/parameters/ApiKey"
-        - name: viewer_fid
-          in: query
-          required: true
-          example: 3
-          schema:
-            $ref: "#/components/schemas/Fid"
         - name: q
           in: query
           required: true
           example: r
           schema:
             type: string
+        - name: viewer_fid
+          in: query
+          required: true
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
       responses:
         "200":
           description: Successful operation.
@@ -1049,12 +1049,6 @@ paths:
       operationId: cast
       parameters:
         - $ref: "#/components/parameters/ApiKey"
-        - name: type
-          required: true
-          in: query
-          example: url
-          schema:
-            $ref: "#/components/schemas/CastParamType"
         - name: identifier
           required: true
           in: query
@@ -1062,6 +1056,12 @@ paths:
           description: Cast identifier (Its either a url or a hash)
           schema:
             type: string
+        - name: type
+          required: true
+          in: query
+          example: url
+          schema:
+            $ref: "#/components/schemas/CastParamType"
       responses:
         "200":
           description: Successful operation.
@@ -1645,11 +1645,11 @@ paths:
           schema:
             $ref: "#/components/schemas/Fid"
       responses:
-        '200':
+        "200":
           description: Details of storage usage
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/StorageUsageResponse'
+                $ref: "#/components/schemas/StorageUsageResponse"
         "400":
           $ref: "#/components/responses/400Response"
