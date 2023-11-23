@@ -689,6 +689,70 @@ components:
             $ref: "#/components/schemas/Reactions"
         next:
           $ref: "#/components/schemas/NextCursor"
+    StorageAllocationsResponse:
+      type: object
+      properties:
+        total_active_units:
+          type: integer
+          example: 13
+        allocations:
+          type: array
+          items:
+            $ref: '#/components/schemas/StorageAllocation'
+    StorageAllocation:
+      type: object
+      properties:
+        object:
+          type: string
+          example: "storage_allocation"
+        user:
+          $ref: '#/components/schemas/UserDehydrated'
+        units:
+          type: integer
+          example: 10
+        expiry:
+          type: string
+          format: date-time
+          example: "2024-10-08T22:03:49.000Z"
+        timestamp:
+          type: string
+          format: date-time
+          example: "2023-10-09T22:03:49.000Z"
+    StorageUsageResponse:
+      type: object
+      properties:
+        object:
+          type: string
+          example: "storage_usage"
+        user:
+          $ref: '#/components/schemas/UserDehydrated'
+        casts:
+          $ref: '#/components/schemas/StorageObject'
+        reactions:
+          $ref: '#/components/schemas/StorageObject'
+        links:
+          $ref: '#/components/schemas/StorageObject'
+        verified_addresses:
+          $ref: '#/components/schemas/StorageObject'
+        username_proofs:
+          $ref: '#/components/schemas/StorageObject'
+        signers:
+          $ref: '#/components/schemas/StorageObject'
+        total_active_units:
+          type: integer
+          example: 2
+    StorageObject:
+      type: object
+      properties:
+        object:
+          type: string
+          example: "storage"
+        used:
+          type: integer
+          example: 3659
+        capacity:
+          type: integer
+          example: 10000
     BulkUsersResponse:
       type: object
       required:
@@ -698,6 +762,7 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/User"
+
   parameters:
     ApiKey:
       name: api_key
@@ -770,6 +835,11 @@ tags:
     externalDocs:
       description: More info about follows
       url: https://docs.neynar.com/reference/follows-operations
+  - name: Storage
+    description: Operations related to storage
+    externalDocs:
+      description: More info about storage
+      url: https://docs.neynar.com/reference/storage-operations
 
 paths:
   /farcaster/signer:
@@ -1529,5 +1599,57 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ReactionsResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+  /farcaster/storage/allocations:
+    get:
+      tags:
+        - Storage
+      summary: Fetches storage allocations for a given user
+      description: Fetches storage allocations for a given user
+      operationId: storage-allocations
+      externalDocs:
+        url: https://docs.neynar.com/reference/storage-allocations
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: fid
+          in: query
+          required: true
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
+      responses:
+        "200":
+          description: A list of storage allocations
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StorageAllocationsResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+  /farcaster/storage/usage:
+    get:
+      tags:
+        - Storage
+      summary: Fetches storage usage for a given user
+      description: Fetches storage usage for a given user
+      operationId: storage-usage
+      externalDocs:
+        url: https://docs.neynar.com/reference/storage-usage
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: fid
+          in: query
+          required: true
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
+      responses:
+        '200':
+          description: Details of storage usage
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StorageUsageResponse'
         "400":
           $ref: "#/components/responses/400Response"
