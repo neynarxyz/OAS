@@ -12,20 +12,25 @@ jobs:
       - name: Check out repo 📚
         uses: actions/checkout@v3
 
-      - name: Create symlink for v2 spec
-        run: ln -s $GITHUB_WORKSPACE/src/v2 $GITHUB_WORKSPACE/src/v2/recommendation/v2
+      # Install rdme globally
+      - name: Install rdme
+        run: npm install -g rdme@8.6.4
 
+      # Setting the working directory for all steps to './src'
       - name: Run `openapi` command for v1 spec 🚀
-        uses: readmeio/rdme@v8
-        with:
-          rdme: openapi src/v1/spec.yaml --key=${{ secrets.README_API_KEY }} --id=65313d8d196216005b2ed13e
+        env:
+          README_API_KEY: ${{ secrets.README_API_KEY }}
+        working-directory: ./src
+        run: rdme openapi v1/spec.yaml --key=$README_API_KEY --id=65313d8d196216005b2ed13e
 
       - name: Run `openapi` command for v2 spec 🚀
-        uses: readmeio/rdme@v8
-        with:
-          rdme: openapi src/v2/spec.yaml --key=${{ secrets.README_API_KEY }} --id=653140896cad5a001321c86f
+        env:
+          README_API_KEY: ${{ secrets.README_API_KEY }}
+        working-directory: ./src
+        run: rdme openapi v2/spec.yaml --key=$README_API_KEY --id=653140896cad5a001321c86f
 
       - name: Run `openapi` command for v2 recommendation spec 🚀
-        uses: readmeio/rdme@v8
-        with:
-          rdme: openapi src/v2/recommendation/spec.yaml --key=${{ secrets.README_API_KEY }} --id=6537721ac0ccd40031482643
+        env:
+          README_API_KEY: ${{ secrets.README_API_KEY }}
+        working-directory: ./src
+        run: rdme openapi v2/recommendation/spec.yaml --key=$README_API_KEY --id=6537721ac0ccd40031482643
