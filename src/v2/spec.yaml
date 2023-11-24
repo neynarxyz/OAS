@@ -762,6 +762,17 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/User"
+    FeedType:
+      type: string
+      enum:
+        - following
+        - filter
+    FilterType:
+      type: string
+      enum:
+        - fids
+        - parent_url
+        - global_trending
 
   parameters:
     ApiKey:
@@ -1184,21 +1195,14 @@ paths:
           in: query
           required: true
           schema:
-            type: string
-            enum:
-              - following
-              - filter
+            $ref: "#/components/schemas/FeedType"
             default: following
           example: filter
           description: Defaults to following (requires fid or address). If set to filter (requires filter_type)
         - name: filter_type
           in: query
           schema:
-            type: string
-            enum:
-              - fids
-              - parent_url
-              - global_trending
+            $ref: "#/components/schemas/FilterType"
           example: fids
           description: Used when feed_type=filter. Can be set to fids (requires fids) or parent_url (requires parent_url)
         - name: fid
@@ -1356,7 +1360,7 @@ paths:
       summary: Removes verification for an eth address for the user
       description: |
         Removes verification for an eth address for the user \
-        (In order to add verification `signer_uuid` must be approved)
+        (In order to delete verification `signer_uuid` must be approved)
       externalDocs:
         url: https://docs.neynar.com/reference/remove-verification
       parameters:
