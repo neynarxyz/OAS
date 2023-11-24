@@ -110,7 +110,16 @@ components:
           type: string
         minter:
           $ref: "#/components/schemas/User"
-        
+    RelevantMints:
+      type: object
+      description: A list of mint objects relevant to the user
+      required:
+        - mints
+      properties:
+        mints:
+          type: array
+          items:
+            $ref: "#/components/schemas/RelevantMint"
 
   parameters:
     ApiKey:
@@ -123,12 +132,18 @@ components:
       description: API key required for authentication.
 
   responses:
-    500Response:
+    ServerErrorResponse:
       description: "Server Error"
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/ErrorRes"
+    RelevantMintsResponse:
+      description: "Relevant Mints Response"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/RelevantMints"
 
 tags:
   - name: NFT
@@ -142,11 +157,11 @@ paths:
     get:
       tags:
         - NFT
-      summary:  Relevant Mints for a User
+      summary: Relevant Mints for a User
       description: Fetches all mint actions relevant for a contract address (and optionally tokenId for ERC1155s) given a user's ethereum address
       operationId: fetch-relevant-mints
       parameters:
-        - $ref: '#/components/parameters/ApiKey'
+        - $ref: "#/components/parameters/ApiKey"
         - name: address
           required: true
           in: query
@@ -167,19 +182,6 @@ paths:
             type: string
       responses:
         "200":
-          description: Successful operation.
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - mints
-                properties:
-                  mints:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/RelevantMint"
-
-
+          $ref: "#/components/responses/RelevantMintsResponse"
         "500":
-          $ref: "#/components/responses/500Response"
+          $ref: "#/components/responses/ServerErrorResponse"
