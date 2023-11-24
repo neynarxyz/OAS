@@ -27,6 +27,7 @@ components:
     User:
       type: object
       required:
+        - object
         - fid
         - username
         - display_name
@@ -37,6 +38,10 @@ components:
         - verifications
         - activeStatus
       properties:
+        object:
+          type: string
+          enum:
+            - user
         fid:
           $ref: "#/components/schemas/Fid"
         username:
