@@ -347,6 +347,7 @@ components:
         - text
         - timestamp
         - embeds
+        - mentionedProfiles
       properties:
         hash:
           type: string
@@ -368,6 +369,10 @@ components:
                 fid:
                   type: string
                   nullable: true
+        mentionedProfiles:
+          type: array
+          items:
+            $ref: "#/components/schemas/User"
         author:
           oneOf:
             - $ref: "#/components/schemas/User"
