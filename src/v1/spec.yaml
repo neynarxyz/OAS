@@ -392,6 +392,7 @@ components:
       required:
         - count
         - fids
+        - fnames
       properties:
         count:
           type: integer
@@ -400,6 +401,10 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Fid"
+        fnames:
+          type: array
+          items:
+            type: string
     CastWithInteractionsReplies:
       type: object
       required:
