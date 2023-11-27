@@ -116,9 +116,15 @@ components:
               type: object
               required:
                 - text
+                - mentionedProfiles
               properties:
                 text:
                   type: string
+                mentionedProfiles:
+                  type: array
+                  items:
+                    type: string
+                  default: []
         followerCount:
           type: integer
           format: int32
