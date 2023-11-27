@@ -141,7 +141,7 @@ components:
         - follower_count
         - following_count
         - verifications
-        - activeStatus
+        - active_status
       properties:
         object:
           type: string
@@ -167,9 +167,15 @@ components:
               type: object
               required:
                 - text
+                - mentioned_profiles
               properties:
                 text:
                   type: string
+                mentioned_profiles:
+                  type: array
+                  items:
+                    type: string
+                  default: []
         follower_count:
           type: integer
           format: int32
@@ -182,7 +188,7 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Address"
-        activeStatus:
+        active_status:
           $ref: "#/components/schemas/ActiveStatus"
         viewer_context:
           type: object
@@ -191,11 +197,9 @@ components:
             - followed_by
           properties:
             following:
-              type: integer
-              format: int32
+              type: boolean
             followed_by:
-              type: integer
-              format: int32
+              type: boolean
     EmbeddedCast:
       oneOf:
         - $ref: "#/components/schemas/EmbedUrl"
