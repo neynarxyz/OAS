@@ -1535,13 +1535,18 @@ paths:
     get:
       tags:
         - Notifications
-      summary: Retrieve notifications for a given channel
-      description: Returns a list of notifications for a specific channel.
+      summary: Retrieve notifications for a user for a given channel
+      description: Returns a list of notifications for a user in a specific channel
       externalDocs:
         url: https://docs.neynar.com/reference/notifications
       operationId: notifications-channel
       parameters:
         - $ref: "#/components/parameters/ApiKey"
+        - name: fid
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/Fid"
         - name: parent_urls
           in: query
           required: true
