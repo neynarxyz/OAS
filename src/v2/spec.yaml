@@ -1531,48 +1531,48 @@ paths:
                 $ref: "#/components/schemas/NotificationsResponse"
         "400":
           $ref: "#/components/responses/400Response"
-    /farcaster/notifications/channel:
-      get:
-        tags:
-          - Notifications
-        summary: Retrieve notifications for a given channel
-        description: Returns a list of notifications for a specific channel.
-        externalDocs:
-          url: https://docs.neynar.com/reference/notifications
-        operationId: notifications-channel
-        parameters:
-          - $ref: "#/components/parameters/ApiKey"
-          - name: parent_urls
-            in: query
-            required: true
-            schema:
-              type: string
-            example: "chain://eip155:1/erc721:0xd4498134211baad5846ce70ce04e7c4da78931cc"
-            description: Comma separated channel parent_urls (find mappings here - https://github.com/neynarxyz/farcaster-channels/blob/main/warpcast.json)
-          - name: limit
-            in: query
-            description: Number of results to retrieve (default 25, max 50)
-            required: false
-            schema:
-              type: integer
-              default: 25
-              minimum: 1
-              maximum: 50
-          - name: cursor
-            in: query
-            description: Pagination cursor.
-            required: false
-            schema:
-              type: string
-        responses:
-          "200":
-            description: Successful response
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/NotificationsResponse"
-          "400":
-            $ref: "#/components/responses/400Response"
+  /farcaster/notifications/channel:
+    get:
+      tags:
+        - Notifications
+      summary: Retrieve notifications for a given channel
+      description: Returns a list of notifications for a specific channel.
+      externalDocs:
+        url: https://docs.neynar.com/reference/notifications
+      operationId: notifications-channel
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: parent_urls
+          in: query
+          required: true
+          schema:
+            type: string
+          example: "chain://eip155:1/erc721:0xd4498134211baad5846ce70ce04e7c4da78931cc"
+          description: Comma separated channel parent_urls (find mappings here - https://github.com/neynarxyz/farcaster-channels/blob/main/warpcast.json)
+        - name: limit
+          in: query
+          description: Number of results to retrieve (default 25, max 50)
+          required: false
+          schema:
+            type: integer
+            default: 25
+            minimum: 1
+            maximum: 50
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotificationsResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
   /farcaster/followers/relevant:
     get:
       tags:
