@@ -776,6 +776,7 @@ components:
       enum:
         - fids
         - parent_url
+        - embed_url
         - global_trending
 
   parameters:
@@ -1237,6 +1238,11 @@ paths:
           schema:
             type: string
           description: Used when filter_type=parent_url can be used to fetch content under any parent url e.g. FIP-2 channels on Warpcast. Requires feed_type and filter_type
+        - name: embed_url
+          in: query
+          schema:
+            type: string
+          description: Used when filter_type=embed_url can be used to fetch all casts with an embed url that contains embed_url. Requires feed_type and filter_type
         - name: with_recasts
           in: query
           description: Include recasts in the response, true by default
