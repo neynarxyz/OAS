@@ -101,8 +101,7 @@ components:
         - hash
       properties:
         fid:
-          type: integer
-          format: int64
+          $ref: "#/components/schemas/Fid"
         hash:
           type: string
     EmbedCastId:
