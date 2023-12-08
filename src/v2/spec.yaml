@@ -450,7 +450,7 @@ components:
         signer_approval_url:
           type: string
         fid:
-          type: string
+          $ref: "#/components/schemas/Fid"
     CastResponse:
       type: object
       required:
