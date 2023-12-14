@@ -397,7 +397,6 @@ components:
       required:
         - count
         - fids
-        - fnames
       properties:
         count:
           type: integer
