@@ -392,11 +392,12 @@ components:
             $ref: "#/components/schemas/EmbedUrl"
         type:
           $ref: "#/components/schemas/CastType"
-    CastWithInteractionsReactionsOrRecasts:
+    CastWithInteractionsReactions:
       type: object
       required:
         - count
         - fids
+        - fnames
       properties:
         count:
           type: integer
@@ -409,6 +410,19 @@ components:
           type: array
           items:
             type: string
+    CastWithInteractionsRecasts:
+      type: object
+      required:
+        - count
+        - fids
+      properties:
+        count:
+          type: integer
+          format: int32
+        fids:
+          type: array
+          items:
+            $ref: "#/components/schemas/Fid"
     CastWithInteractionsReplies:
       type: object
       required:
@@ -428,9 +442,9 @@ components:
             - replies
           properties:
             reactions:
-              $ref: "#/components/schemas/CastWithInteractionsReactionsOrRecasts"
+              $ref: "#/components/schemas/CastWithInteractionsReactions"
             recasts:
-              $ref: "#/components/schemas/CastWithInteractionsReactionsOrRecasts"
+              $ref: "#/components/schemas/CastWithInteractionsRecasts"
             recasters:
               type: array
               items:
