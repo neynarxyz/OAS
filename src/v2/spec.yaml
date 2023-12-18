@@ -298,6 +298,9 @@ components:
             $ref: "#/components/schemas/EmbeddedCast"
         parent:
           $ref: "#/components/schemas/CastParent"
+        channel_id:
+          type: string
+          description: Channel ID of the channel where the cast is to be posted. e.g. neynar, farcaster, warpcast
     ReactionReqBody:
       type: object
       required:
@@ -457,6 +460,33 @@ components:
       properties:
         cast:
           $ref: "#/components/schemas/CastWithInteractions"
+    Channel:
+      type: object
+      required:
+        - id
+        - url
+      properties:
+        id:
+          type: string
+        url:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        image_url:
+          type: string
+        lead_fid:
+          $ref: "#/components/schemas/Fid"
+    ChannelListResponse:
+      type: object
+      required:
+        - channels
+      properties:
+        channels:
+          type: array
+          items:
+            $ref: "#/components/schemas/Channel"
     UserSearchResponse:
       type: object
       required:
@@ -845,6 +875,11 @@ tags:
     externalDocs:
       description: More info about notifications
       url: https://docs.neynar.com/reference/notifications-operations
+  - name: Channel
+    description: Operations related to channels
+    externalDocs:
+      description: More info about channels
+      url: https://docs.neynar.com/reference/channel-operations
   - name: Follows
     description: Operations related to follows
     externalDocs:
@@ -1595,6 +1630,24 @@ paths:
                 $ref: "#/components/schemas/NotificationsResponse"
         "400":
           $ref: "#/components/responses/400Response"
+  /farcaster/channel/list:
+    get:
+      tags:
+        - Channel
+      summary: Retrieve all channels with their details
+      description: Returns a list of all channels with their details
+      externalDocs:
+        url: https://docs.neynar.com/reference/list-all-channels
+      operationId: list-all-channels
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChannelListResponse"
   /farcaster/followers/relevant:
     get:
       tags:
