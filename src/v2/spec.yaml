@@ -301,6 +301,7 @@ components:
         channel_id:
           type: string
           description: Channel ID of the channel where the cast is to be posted. e.g. neynar, farcaster, warpcast
+          example: "neynar"
     ReactionReqBody:
       type: object
       required:
