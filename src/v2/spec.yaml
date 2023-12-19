@@ -466,6 +466,7 @@ components:
       required:
         - id
         - url
+        - object
       properties:
         id:
           type: string
@@ -475,6 +476,12 @@ components:
           type: string
         description:
           type: string
+        object:
+          type: string
+          enum:
+            - channel
+        created_at:
+          type: number
         image_url:
           type: string
         lead:
