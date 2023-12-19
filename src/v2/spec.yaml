@@ -481,6 +481,7 @@ components:
           enum:
             - channel
         created_at:
+          description: Epoch timestamp in seconds.
           type: number
         image_url:
           type: string
