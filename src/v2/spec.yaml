@@ -1664,6 +1664,31 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ChannelListResponse"
+  /farcaster/channel/search: 
+    get:
+      tags:
+        - Channel
+      summary: Search for channels based on id or name
+      description: Returns a list of channels based on id or name
+      externalDocs:
+        url: https://docs.neynar.com/reference/search-channels
+      operationId: search-channels
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: q
+          in: query
+          required: true
+          schema:
+            type: string
+          example: "neynar"
+          description: Channel ID or name for the channel being queried
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChannelListResponse"
   /farcaster/channel:
     get:
       tags:
