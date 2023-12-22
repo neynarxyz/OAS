@@ -821,6 +821,7 @@ components:
       enum:
         - fids
         - parent_url
+        - channel_id
         - embed_url
         - global_trending
 
@@ -1271,7 +1272,7 @@ paths:
           schema:
             $ref: "#/components/schemas/FilterType"
           example: fids
-          description: Used when feed_type=filter. Can be set to fids (requires fids) or parent_url (requires parent_url)
+          description: Used when feed_type=filter. Can be set to fids (requires fids) or parent_url (requires parent_url) or channel_id (requires channel_id)
         - name: fid
           in: query
           schema:
@@ -1288,6 +1289,11 @@ paths:
           schema:
             type: string
           description: Used when filter_type=parent_url can be used to fetch content under any parent url e.g. FIP-2 channels on Warpcast. Requires feed_type and filter_type
+        - name: channel_id
+          in: query
+          schema:
+            type: string
+          description: Used when filter_type=channel_id can be used to fetch all casts under a channel. Requires feed_type and filter_type
         - name: embed_url
           in: query
           schema:
@@ -1615,13 +1621,13 @@ paths:
           required: true
           schema:
             $ref: "#/components/schemas/Fid"
-        - name: parent_urls
+        - name: channel_ids
           in: query
           required: true
           schema:
             type: string
-          example: "chain://eip155:1/erc721:0xd4498134211baad5846ce70ce04e7c4da78931cc"
-          description: Comma separated channel parent_urls (find mappings here - https://github.com/neynarxyz/farcaster-channels/blob/main/warpcast.json)
+          example: "neynar,farcaster"
+          description: Comma separated channel_ids (find list of all channels here - https://docs.neynar.com/reference/list-all-channels)
         - name: limit
           in: query
           description: Number of results to retrieve (default 25, max 50)
