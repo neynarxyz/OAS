@@ -1345,6 +1345,7 @@ paths:
         - $ref: "#/components/parameters/ApiKey"
         - name: channel_ids
           in: query
+          required: true
           schema:
             type: string
           description: comma separated list of channel ids e.g. neynar,farcaster
@@ -1725,7 +1726,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ChannelListResponse"
-  /farcaster/channel/search: 
+  /farcaster/channel/search:
     get:
       tags:
         - Channel
