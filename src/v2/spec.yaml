@@ -1305,6 +1305,61 @@ paths:
           schema:
             type: boolean
             default: true
+        - name: with_replies
+          in: query
+          description: Include replies in the response, false by default
+          schema:
+            type: boolean
+            default: false
+        - name: limit
+          in: query
+          description: Number of results to retrieve (default 25, max 100)
+          schema:
+            type: integer
+            default: 25
+            minimum: 1
+            maximum: 100
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FeedResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+  /farcaster/feed/channels:
+    get:
+      summary: Retrieve feed based on channel ids
+      externalDocs:
+        url: https://docs.neynar.com/reference/feed-channels
+      operationId: feed-channels
+      tags:
+        - Feed
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: channel_ids
+          in: query
+          schema:
+            type: string
+          description: comma separated list of channel ids e.g. neynar,farcaster
+        - name: with_recasts
+          in: query
+          description: Include recasts in the response, true by default
+          schema:
+            type: boolean
+            default: true
+        - name: with_replies
+          in: query
+          description: Include replies in the response, false by default
+          schema:
+            type: boolean
+            default: false
         - name: limit
           in: query
           description: Number of results to retrieve (default 25, max 100)
