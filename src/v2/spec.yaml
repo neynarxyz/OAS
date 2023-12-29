@@ -1346,6 +1346,7 @@ paths:
         - name: channel_ids
           in: query
           required: true
+          example: neynar,farcaster
           schema:
             type: string
           description: comma separated list of channel ids e.g. neynar,farcaster
