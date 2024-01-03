@@ -1779,6 +1779,33 @@ paths:
                 $ref: "#/components/schemas/ChannelResponse"
         "404":
           $ref: "#/components/responses/404Response"
+  /farcaster/channel/users:
+    get:
+      tags:
+        - Channel
+      summary: Retrieve users who posted in a channel
+      description: Returns a list of users who posted in a channel
+      externalDocs:
+        url: https://docs.neynar.com/reference/channel-users
+      operationId: channel-users
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: string
+          example: "neynar"
+          description: Channel ID for the channel being queried
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BulkUsersResponse"
+        "404":
+          $ref: "#/components/responses/404Response"
   /farcaster/followers/relevant:
     get:
       tags:
