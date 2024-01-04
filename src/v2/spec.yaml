@@ -1797,6 +1797,50 @@ paths:
             type: string
           example: "neynar"
           description: Channel ID for the channel being queried
+        - name: has_root_cast_authors
+          in: query
+          required: false
+          schema:
+            type: boolean
+          example: false
+          description: Include users who posted the root cast in the channel
+        - name: has_cast_likers
+          in: query
+          required: false
+          schema:
+            type: boolean
+          example: false
+          description: Include users who liked a cast in the channel
+        - name: has_cast_recasters
+          in: query
+          required: false
+          schema:
+            type: boolean
+          example: false
+          description: Include users who recasted a cast in the channel
+        - name: has_reply_authors
+          in: query
+          required: false
+          schema:
+            type: boolean
+          example: false
+          description: Include users who replied to a cast in the channel
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Number of results to retrieve (default 25, max 100)
+          required: false
+          schema:
+            type: integer
+            default: 25
+            minimum: 1
+            maximum: 100
+          example: 25
       responses:
         "200":
           description: Successful response
