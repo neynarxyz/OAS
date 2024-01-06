@@ -1783,8 +1783,8 @@ paths:
     get:
       tags:
         - Channel
-      summary: Retrieve users who posted in a channel
-      description: Returns a list of users who posted in a channel
+      summary: Retrieve users who are active in a channel
+      description: Returns a list of users who are active in a given channel, ordered by ascending FIDs
       externalDocs:
         url: https://docs.neynar.com/reference/channel-users
       operationId: channel-users
