@@ -1333,12 +1333,12 @@ paths:
                 $ref: "#/components/schemas/FeedResponse"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/feed/user:
+  /farcaster/feed/following:
     get:
-      summary: Retrieve feed based on user fid
+      summary: Retrieve feed based on who all the user is following on Farcaster
       externalDocs:
-        url: https://docs.neynar.com/reference/feed-user
-      operationId: feed-user
+        url: https://docs.neynar.com/reference/feed-following 
+      operationId: feed-following
       tags:
         - Feed
       parameters:
