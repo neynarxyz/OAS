@@ -1850,7 +1850,7 @@ paths:
           description: Channel ID for the channel being queried
         - name: has_root_cast_authors
           in: query
-          required: false
+          required: true
           schema:
             type: boolean
           example: false
