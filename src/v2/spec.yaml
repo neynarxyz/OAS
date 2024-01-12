@@ -1901,6 +1901,49 @@ paths:
                 $ref: "#/components/schemas/BulkUsersResponse"
         "404":
           $ref: "#/components/responses/404Response"
+  /farcaster/channel/active:
+    get:
+      tags:
+        - Channel
+      summary: Retrieve channels with the most activity
+      description: Returns a list of channels with the most cast and reply activity
+      externalDocs:
+        url: https://docs.neynar.com/reference/active-channels
+      operationId: active-channels
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: time_window
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - 1d
+              - 7d
+              - 30d
+        - name: limit
+          in: query
+          description: Number of results to retrieve (default 25, max 100)
+          required: false
+          schema:
+            type: integer
+            default: 25
+            minimum: 1
+            maximum: 100
+          example: 25
+        - name: cursor
+          in: query
+          description: Pagination cursor
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChannelListResponse"
   /farcaster/followers/relevant:
     get:
       tags:
