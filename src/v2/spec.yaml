@@ -1901,6 +1901,33 @@ paths:
                 $ref: "#/components/schemas/BulkUsersResponse"
         "404":
           $ref: "#/components/responses/404Response"
+  /farcaster/channel/trending:
+    get:
+      tags:
+        - Channel
+      summary: Retrieve trending channels based on activity
+      description: Returns a list of trending channels based on activity
+      externalDocs:
+        url: https://docs.neynar.com/reference/trending-channels
+      operationId: trending-channels
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: time_window
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - 1d
+              - 7d
+              - 30d
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChannelListResponse"
   /farcaster/followers/relevant:
     get:
       tags:
