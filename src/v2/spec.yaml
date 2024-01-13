@@ -1901,15 +1901,15 @@ paths:
                 $ref: "#/components/schemas/BulkUsersResponse"
         "404":
           $ref: "#/components/responses/404Response"
-  /farcaster/channel/active:
+  /farcaster/channel/trending:
     get:
       tags:
         - Channel
-      summary: Retrieve channels with the most activity
-      description: Returns a list of channels with the most cast and reply activity
+      summary: Retrieve trending channels based on activity
+      description: Returns a list of trending channels based on activity
       externalDocs:
-        url: https://docs.neynar.com/reference/active-channels
-      operationId: active-channels
+        url: https://docs.neynar.com/reference/trending-channels
+      operationId: trending-channels
       parameters:
         - $ref: "#/components/parameters/ApiKey"
         - name: time_window
@@ -1921,22 +1921,6 @@ paths:
               - 1d
               - 7d
               - 30d
-        - name: limit
-          in: query
-          description: Number of results to retrieve (default 25, max 100)
-          required: false
-          schema:
-            type: integer
-            default: 25
-            minimum: 1
-            maximum: 100
-          example: 25
-        - name: cursor
-          in: query
-          description: Pagination cursor
-          required: false
-          schema:
-            type: string
       responses:
         "200":
           description: Successful response
