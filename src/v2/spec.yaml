@@ -1689,6 +1689,8 @@ paths:
           required: true
           schema:
             $ref: "#/components/schemas/Fid"
+          example: 194
+          description: FID of the user you you want to fetch notifications for
         - name: limit
           in: query
           description: Number of results to retrieve (default 25, max 50)
@@ -1729,6 +1731,8 @@ paths:
           required: true
           schema:
             $ref: "#/components/schemas/Fid"
+          example: 194
+          description: FID of the user you you want to fetch notifications for
         - name: channel_ids
           in: query
           required: true
@@ -1776,6 +1780,8 @@ paths:
           required: true
           schema:
             $ref: "#/components/schemas/Fid"
+          example: 194
+          description: FID of the user you you want to fetch notifications for
         - name: parent_urls
           in: query
           required: true
