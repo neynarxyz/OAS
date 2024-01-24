@@ -1043,6 +1043,7 @@ paths:
       parameters:
         - $ref: "#/components/parameters/ApiKey"
         - name: fids
+          description: Comma separated list of FIDs, up to 100 at a time
           in: query
           required: true
           example: 194, 191, 6131
