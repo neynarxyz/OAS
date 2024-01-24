@@ -1076,8 +1076,11 @@ paths:
         - User
       summary: Fetches all users based on multiple Ethereum addresses
       description: Fetches all users based on multiple Ethereum addresses.
+
+      
         Each farcaster user has a custody Ethereum address and optionally verified Ethereum addresses. This endpoint returns all users that have any of the given addresses as their custody or verified Ethereum addresses. 
         
+
         A custody address can be associated with only 1 farcaster user at a time but a verified address can be associated with multiple users.
       externalDocs:
         url: https://docs.neynar.com/reference/user-bulk-by-address
