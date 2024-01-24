@@ -811,6 +811,12 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/User"
+    BulkUsersByAddressResponse:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          $ref: "#/components/schemas/User"
     FeedType:
       type: string
       enum:
@@ -1062,6 +1068,33 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/BulkUsersResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+  /farcaster/user/bulk-by-address:
+    get:
+      tags:
+        - User
+      summary: Fetches all users based on multiple Ethereum addresses
+      description: Fetches all users based on multiple Ethereum addresses. Each farcaster user has a custody Ethereum address and optionally verified Ethereum addresses. This endpoint returns all users that have any of the given addresses as their custody or verified Ethereum addresses. An address could be verfied by multiple users.
+      externalDocs:
+        url: https://docs.neynar.com/reference/user-bulk-by-address
+      operationId: user-bulk-by-address
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: addresses
+          description: Comma separated list of Ethereum addresses, up to 350 at a time
+          in: query
+          required: true
+          example: 0xa6a8736f18f383f1cc2d938576933e5ea7df01a1,0x7cac817861e5c3384753403fb6c0c556c204b1ce
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BulkUsersByAddressResponse"
         "400":
           $ref: "#/components/responses/400Response"
         "404":
