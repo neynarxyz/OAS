@@ -830,6 +830,13 @@ components:
         - channel_id
         - embed_url
         - global_trending
+    FnameAvailabilityResponse:
+      type: object
+      required:
+        - available
+      properties:
+        available:
+          type: boolean
 
   parameters:
     ApiKey:
@@ -1923,6 +1930,48 @@ paths:
                 $ref: "#/components/schemas/ChannelResponse"
         "404":
           $ref: "#/components/responses/404Response"
+  /farcaster/channel/followers:
+    get:
+      tags:
+        - Channel
+      summary: Retrieve followers for a given channel
+      description: Returns a list of followers for a specific channel.
+      externalDocs:
+        url: https://docs.neynar.com/reference/channel-followers
+      operationId: channel-followers
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: string
+          example: "founders"
+          description: Channel ID for the channel being queried
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Number of followers to retrieve (default 25, max 100)
+          required: false
+          schema:
+            type: integer
+            default: 25
+            minimum: 15
+            maximum: 100
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BulkUsersResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
   /farcaster/channel/users:
     get:
       tags:
@@ -2097,6 +2146,32 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ReactionsResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+  /farcaster/fname/availability:
+    get:
+      tags:
+        - Fname
+      summary: Check if a given fname is available
+      description: Check if a given fname is available
+      operationId: fname-availability
+      externalDocs:
+        url: https://docs.neynar.com/reference/fname-availability
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: fname
+          in: query
+          required: true
+          example: "farcaster"
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FnameAvailabilityResponse"
         "400":
           $ref: "#/components/responses/400Response"
   /farcaster/storage/allocations:
