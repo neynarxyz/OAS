@@ -1935,7 +1935,7 @@ paths:
       tags:
         - Channel
       summary: Retrieve followers for a given channel
-      description: Returns a list of followers for a specific channel.
+      description: Returns a list of followers for a specific channel. Max limit is 1000. Use cursor for pagination.
       externalDocs:
         url: https://docs.neynar.com/reference/channel-followers
       operationId: channel-followers
@@ -1956,13 +1956,13 @@ paths:
             type: string
         - name: limit
           in: query
-          description: Number of followers to retrieve (default 25, max 100)
+          description: Number of followers to retrieve (default 25, max 1000)
           required: false
           schema:
             type: integer
             default: 25
             minimum: 15
-            maximum: 100
+            maximum: 1000
       responses:
         "200":
           description: Successful response
