@@ -1482,10 +1482,10 @@ paths:
                 $ref: "#/components/schemas/FeedResponse"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/feed/{fid}/popular:
+  /farcaster/feed/user/{fid}/popular:
     get:
-      summary: Retrieve popular casts for a user 
-      description: Retrieve popular casts for a given user FID
+      summary: Retrieve 10 most popular casts for a user 
+      description: Retrieve 10 most popular casts for a given user FID; popularity based on replies, likes and recasts; sorted by most popular first
       parameters:
       - $ref: "#/components/parameters/ApiKey"
       - name: fid
