@@ -1504,6 +1504,28 @@ paths:
                 $ref: "#/components/schemas/FeedResponse"
         "400":
           $ref: "#/components/responses/400Response"
+  /farcaster/feed/user/{fid}/replies_and_recasts:
+    get:
+      summary: Retrieve recent replies and recasts for a user
+      description: Retrieve recent replies and recasts for a given user FID; sorted by most recent first
+      parameters:
+      - $ref: "#/components/parameters/ApiKey"
+      - name: fid
+        in: path
+        required: true
+        example: 3
+        schema:
+          $ref: "#/components/schemas/Fid"
+        description: fid of user whose replies and recasts you want to fetch
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FeedResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
   /farcaster/reaction:
     post:
       tags:
