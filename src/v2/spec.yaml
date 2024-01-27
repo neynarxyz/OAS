@@ -1482,6 +1482,28 @@ paths:
                 $ref: "#/components/schemas/FeedResponse"
         "400":
           $ref: "#/components/responses/400Response"
+  /farcaster/feed/{fid}/popular:
+    get:
+      summary: Retrieve popular casts for a user 
+      description: Retrieve popular casts for a given user FID
+      parameters:
+      - $ref: "#/components/parameters/ApiKey"
+      - name: fid
+        in: path
+        required: true
+        example: 3
+        schema:
+          $ref: "#/components/schemas/Fid"
+        description: fid of user whose feed you want to create
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FeedResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
   /farcaster/reaction:
     post:
       tags:
