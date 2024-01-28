@@ -517,16 +517,6 @@ components:
               type: array
               items:
                 $ref: "#/components/schemas/SearchedUser"
-    BulkCastsResponse:
-      type: object
-      required:
-        - casts
-      properties:
-        casts:
-          type: array
-          items:
-            $ref: "#/components/schemas/CastWithInteractions"
-
     CastsResponse:
       type: object
       required:
