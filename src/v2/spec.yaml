@@ -517,16 +517,6 @@ components:
               type: array
               items:
                 $ref: "#/components/schemas/SearchedUser"
-    BulkCastsResponse:
-      type: object
-      required:
-        - casts
-      properties:
-        casts:
-          type: array
-          items:
-            $ref: "#/components/schemas/CastWithInteractions"
-
     CastsResponse:
       type: object
       required:
@@ -1483,50 +1473,6 @@ paths:
           description: Pagination cursor.
           schema:
             type: string
-      responses:
-        "200":
-          description: Successful operation.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/FeedResponse"
-        "400":
-          $ref: "#/components/responses/400Response"
-  /farcaster/feed/user/{fid}/popular:
-    get:
-      summary: Retrieve 10 most popular casts for a user 
-      description: Retrieve 10 most popular casts for a given user FID; popularity based on replies, likes and recasts; sorted by most popular first
-      parameters:
-      - $ref: "#/components/parameters/ApiKey"
-      - name: fid
-        in: path
-        required: true
-        example: 3
-        schema:
-          $ref: "#/components/schemas/Fid"
-        description: fid of user whose feed you want to create
-      responses:
-        "200":
-          description: Successful operation.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/BulkCastsResponse"
-        "400":
-          $ref: "#/components/responses/400Response"
-  /farcaster/feed/user/{fid}/replies_and_recasts:
-    get:
-      summary: Retrieve recent replies and recasts for a user
-      description: Retrieve recent replies and recasts for a given user FID; sorted by most recent first
-      parameters:
-      - $ref: "#/components/parameters/ApiKey"
-      - name: fid
-        in: path
-        required: true
-        example: 3
-        schema:
-          $ref: "#/components/schemas/Fid"
-        description: fid of user whose replies and recasts you want to fetch
       responses:
         "200":
           description: Successful operation.
