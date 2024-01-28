@@ -517,6 +517,16 @@ components:
               type: array
               items:
                 $ref: "#/components/schemas/SearchedUser"
+    BulkCastsResponse:
+      type: object
+      required:
+        - casts
+      properties:
+        casts:
+          type: array
+          items:
+            $ref: "#/components/schemas/CastWithInteractions"
+
     CastsResponse:
       type: object
       required:
@@ -1501,7 +1511,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/FeedResponse"
+                $ref: "#/components/schemas/BulkCastsResponse"
         "400":
           $ref: "#/components/responses/400Response"
   /farcaster/feed/user/{fid}/replies_and_recasts:
