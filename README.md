@@ -17,7 +17,7 @@ openapi-generator generate -i src/v1/spec.yaml -g <generator> -o src/v1/swagger-
 
 ```
 // v2
-openapi-generator generate -i src/v2/spec.yaml -g <generator> -o src/v2/swagger-tmp --config openapi-generator-config.json
+openapi-generator generate -i src/v2/spec.yaml -g typescript-axios -o src/v2/swagger-tmp --config openapi-generator-config.json
 ```
 
 ### API Documentation

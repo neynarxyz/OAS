@@ -46,6 +46,10 @@ components:
         cursor:
           type: string
           nullable: true
+    CastHash:
+      type: string
+      default: "0xfe90f9de682273e05b201629ad2338bdcd89b6be"
+      description: Cast Hash
     CastNotificationType:
       type: string
       enum:
@@ -111,6 +115,57 @@ components:
       properties:
         cast_id:
           $ref: "#/components/schemas/CastId"
+    Frame:
+      type: object
+      required:
+        - version
+        - image
+        - buttons
+        - post_url
+        - frames_url
+      properties:
+        version:
+          type: string
+          description: Version of the frame
+        image:
+          type: string
+          description: URL of the image
+        buttons:
+          type: array
+          items:
+            $ref: "#/components/schemas/FrameActionButton"
+        post_url:
+          type: string
+          description: Post URL to take an action on this frame
+        frames_url:
+          type: string
+          description: URL of the frames
+    FrameAction:
+      type: object
+      required:
+        - button
+        - frames_url
+        - post_url
+      properties:
+        button:
+          $ref: "#/components/schemas/FrameActionButton"
+        frames_url:
+          type: string
+          description: URL of the frames
+        post_url:
+          type: string
+          description: URL of the post to get the next frame
+    FrameActionButton:
+      type: object
+      required:
+        - index
+      properties:
+        title:
+          type: string
+          description: Title of the button
+        index:
+          type: integer
+          description: Index of the button
     ReactionLike:
       type: object
       required:
@@ -344,6 +399,26 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Fid"
+    FrameActionReqBody:
+      type: object
+      required:
+        - signer_uuid
+        - cast_hash
+        - action
+      properties:
+        signer_uuid:
+          $ref: "#/components/schemas/SignerUUID"
+        cast_hash:
+          $ref: "#/components/schemas/CastHash"
+        action:
+          $ref: "#/components/schemas/FrameAction"
+    FrameActionResponse:
+      type: object
+      required:
+        - next_frame
+      properties:
+        next_frame:
+          $ref: "#/components/schemas/Frame"
     AddVerificationReqBody:
       type: object
       required:
@@ -1797,6 +1872,39 @@ paths:
           $ref: "#/components/responses/400Response"
         "404":
           $ref: "#/components/responses/404Response"
+  /farcaster/frame/action:
+    post:
+      tags:
+        - Frame
+      summary: Posts a frame action
+      description: |
+        Post a frame action \
+        (In order to post a frame action `signer_uuid` must be approved)
+      externalDocs:
+        url: https://docs.neynar.com/reference/post-frame-action
+      operationId: post-frame-action
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FrameActionReqBody"
+            example:
+              signer_uuid: 19d0c5fd-9b33-4a48-a0e2-bc7b0555baec
+              cast_hash: "0x1ea99cbed57e4020314ba3fadd7c692d2de34d5f"
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FrameActionResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "500":
+          $ref: "#/components/responses/500Response"
   /farcaster/notifications:
     get:
       tags:
@@ -2228,7 +2336,7 @@ paths:
   /farcaster/fname/availability:
     get:
       tags:
-        - Fname
+        - fname
       summary: Check if a given fname is available
       description: Check if a given fname is available
       operationId: fname-availability
