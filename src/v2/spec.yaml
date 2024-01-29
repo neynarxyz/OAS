@@ -1566,7 +1566,7 @@ paths:
           $ref: "#/components/responses/400Response"
   /farcaster/feed/frames:
     get:
-      summary: Retrieve feed of casts with Frames
+      summary: Retrieve feed of casts with Frames, reverse chronological order
       externalDocs:
         url: https://docs.neynar.com/reference/feed-frames
       operationId: feed-frames
