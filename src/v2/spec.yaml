@@ -120,8 +120,6 @@ components:
       required:
         - version
         - image
-        - buttons
-        - post_url
         - frames_url
       properties:
         version:
