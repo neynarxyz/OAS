@@ -1956,10 +1956,10 @@ paths:
     post:
       tags:
         - Frame
-      summary: Validates a frame action by an interacting user against Farcaster Hub
+      summary: Validates a frame action against Farcaster Hub
       description: |
-        Validates a frame against Farcaster Hub \
-        (In order to validate a frame message bytes from Frame Action must be provided in hex)
+        Validates a frame against by an interacting user against a Farcaster Hub \
+        (In order to validate a frame, message bytes from Frame Action must be provided in hex)
       externalDocs:
         url: https://docs.neynar.com/reference/validate-frame
       operationId: validate-frame
