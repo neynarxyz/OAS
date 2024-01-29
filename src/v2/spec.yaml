@@ -1564,6 +1564,38 @@ paths:
                 $ref: "#/components/schemas/FeedResponse"
         "400":
           $ref: "#/components/responses/400Response"
+  /farcaster/feed/frames:
+    get:
+      summary: Retrieve feed of casts with Frames, reverse chronological order
+      externalDocs:
+        url: https://docs.neynar.com/reference/feed-frames
+      operationId: feed-frames
+      tags:
+        - Feed
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: limit
+          in: query
+          description: Number of results to retrieve (default 25, max 100)
+          schema:
+            type: integer
+            default: 25
+            minimum: 1
+            maximum: 100
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FeedResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
   /farcaster/feed/user/{fid}/popular:
     get:
       summary: Retrieve 10 most popular casts for a user 
