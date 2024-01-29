@@ -923,6 +923,19 @@ components:
       properties:
         available:
           type: boolean
+    ValidatedFrameAction:
+      type: object
+      required:
+        - button
+        - cast
+        - interactor
+      properties:
+        interactor:
+          $ref: '#/components/schemas/User'
+        button:
+          $ref: '#/components/schemas/FrameActionButton'
+        cast:
+          $ref: '#/components/schemas/CastWithInteractions'
 
   parameters:
     ApiKey:
@@ -1911,7 +1924,7 @@ paths:
     post:
       tags:
         - Frame
-      summary: Validates a frame against Farcaster Hub
+      summary: Validates a frame action by an interacting user against Farcaster Hub
       description: |
         Validates a frame against Farcaster Hub \
         (In order to validate a frame message bytes from Frame Action must be provided in hex)
@@ -1940,22 +1953,18 @@ paths:
               schema:
                 type: object
                 properties:
-                  validation:
-                    type: object
-                    properties:
-                      object:
-                        type: string
-                        example: "frame_validation"
-                      valid:
-                        type: boolean
-                        example: true
-                      interactor_profile:
-                        $ref: '#/components/schemas/User'
-                      button_tap_index:
-                        type: integer
-                        example: 2
-                      cast:
-                        $ref: '#/components/schemas/CastWithInteractions'
+                  valid:
+                    type: boolean
+                    
+                    example: true                  
+                  action:
+                    $ref: '#/components/schemas/ValidatedFrameAction'
+                  interactor:
+                    $ref: '#/components/schemas/User'
+                  button:
+                    $ref: '#/components/schemas/FrameActionButton'
+                  cast:
+                    $ref: '#/components/schemas/CastWithInteractions'
         "400":
           $ref: "#/components/responses/400Response"
         "500":
