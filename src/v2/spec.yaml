@@ -1971,6 +1971,8 @@ paths:
           application/json:
             schema:
               type: object
+              required: 
+                - message_bytes_in_hex
               properties:
                 message_bytes_in_hex:
                   type: string
