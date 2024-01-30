@@ -930,6 +930,24 @@ components:
         - cast
         - interactor
       properties:
+        object:
+          type: string
+          enum:
+            - validated_frame_action
+        interactor:
+          $ref: '#/components/schemas/User'
+        button:
+          $ref: '#/components/schemas/FrameActionButton'
+        cast:
+          $ref: '#/components/schemas/CastWithInteractions'
+    ValidateFrameActionResponse:
+      type: object
+      properties:
+        valid:
+          type: boolean
+          example: true                  
+        action:
+          $ref: '#/components/schemas/ValidatedFrameAction'
         interactor:
           $ref: '#/components/schemas/User'
         button:
@@ -1985,20 +2003,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  valid:
-                    type: boolean
-                    
-                    example: true                  
-                  action:
-                    $ref: '#/components/schemas/ValidatedFrameAction'
-                  interactor:
-                    $ref: '#/components/schemas/User'
-                  button:
-                    $ref: '#/components/schemas/FrameActionButton'
-                  cast:
-                    $ref: '#/components/schemas/CastWithInteractions'
+                $ref: "#/components/schemas/ValidateFrameActionResponse"
         "400":
           $ref: "#/components/responses/400Response"
         "500":
