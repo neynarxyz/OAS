@@ -159,6 +159,11 @@ components:
         post_url:
           type: string
           description: URL of the post to get the next frame
+    FrameButtonActionType:
+      type: string
+      enum:
+        - post
+        - post_redirect
     FrameActionButton:
       type: object
       required:
@@ -171,10 +176,7 @@ components:
           type: integer
           description: Index of the button
         action_type:
-          type: string
-          enum:
-            - post
-            - post_redirect
+          $ref: "#/components/schemas/FrameButtonActionType"
     ReactionLike:
       type: object
       required:
