@@ -145,6 +145,12 @@ components:
         - frames_url
         - post_url
       properties:
+        version:
+          type: string
+        title:
+          type: string
+        image:
+          type: string
         button:
           $ref: "#/components/schemas/FrameActionButton"
         frames_url:
@@ -164,6 +170,9 @@ components:
         index:
           type: integer
           description: Index of the button
+        action_type:
+          type: string
+          # TODO: if action_type is an enum add enum
     ReactionLike:
       type: object
       required:
@@ -498,6 +507,10 @@ components:
             - thread_hash
             - mentioned_profiles
           properties:
+            frames:
+              type: array
+              items:
+                $ref: "#/components/schemas/FrameAction"
             reactions:
               $ref: "#/components/schemas/CastWithInteractionsReactions"
             replies:
