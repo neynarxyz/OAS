@@ -153,6 +153,10 @@ components:
           type: string
         button:
           $ref: "#/components/schemas/FrameActionButton"
+        text_input:
+          type: string
+          description: Text input for the frame
+          example: "Draw a ringed planet"
         frames_url:
           type: string
           description: URL of the frames
