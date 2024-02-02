@@ -517,7 +517,7 @@ components:
             frames:
               type: array
               items:
-                $ref: "#/components/schemas/FrameAction"
+                $ref: "#/components/schemas/Frame"
             reactions:
               $ref: "#/components/schemas/CastWithInteractionsReactions"
             replies:
