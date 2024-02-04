@@ -153,10 +153,8 @@ components:
           type: string
         button:
           $ref: "#/components/schemas/FrameActionButton"
-        text_input:
-          type: string
-          description: Text input for the frame
-          example: "Draw a ringed planet"
+        input:
+          $ref: "#/components/schemas/FrameInput"
         frames_url:
           type: string
           description: URL of the frames
@@ -168,6 +166,13 @@ components:
       enum:
         - post
         - post_redirect
+    FrameInput:
+      type: object
+      properties:
+        text:
+          type: string
+          description: Input text for the frame
+          example: "Draw a purple ringed planet"
     FrameActionButton:
       type: object
       required:
@@ -1995,9 +2000,6 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/FrameActionReqBody"
-            example:
-              signer_uuid: 19d0c5fd-9b33-4a48-a0e2-bc7b0555baec
-              cast_hash: "0x1ea99cbed57e4020314ba3fadd7c692d2de34d5f"
       responses:
         "200":
           description: Successful operation.
