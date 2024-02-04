@@ -972,6 +972,8 @@ components:
           $ref: "#/components/schemas/User"
         button:
           $ref: "#/components/schemas/FrameActionButton"
+        input:
+          $ref: "#/components/schemas/FrameInput"
         cast:
           $ref: "#/components/schemas/CastWithInteractions"
     ValidateFrameActionResponse:
@@ -984,15 +986,6 @@ components:
           example: true
         action:
           $ref: "#/components/schemas/ValidatedFrameAction"
-        interactor:
-          $ref: "#/components/schemas/User"
-        button:
-          $ref: "#/components/schemas/FrameActionButton"
-        input:
-          $ref: "#/components/schemas/FrameInput"
-        cast:
-          $ref: "#/components/schemas/CastWithInteractions"
-
   parameters:
     ApiKey:
       name: api_key
