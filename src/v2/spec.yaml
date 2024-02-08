@@ -153,10 +153,8 @@ components:
           type: string
         button:
           $ref: "#/components/schemas/FrameActionButton"
-        text_input:
-          type: string
-          description: Text input for the frame
-          example: "Draw a ringed planet"
+        input:
+          $ref: "#/components/schemas/FrameInput"
         frames_url:
           type: string
           description: URL of the frames
@@ -168,6 +166,13 @@ components:
       enum:
         - post
         - post_redirect
+    FrameInput:
+      type: object
+      properties:
+        text:
+          type: string
+          description: Input text for the frame
+          example: "Draw a purple ringed planet"
     FrameActionButton:
       type: object
       required:
@@ -427,9 +432,6 @@ components:
           $ref: "#/components/schemas/CastHash"
         action:
           $ref: "#/components/schemas/FrameAction"
-    FrameValidationReqBody:
-      type: string
-      description: Frame validation string
     FrameActionResponse:
       type: object
       required:
@@ -972,10 +974,14 @@ components:
           $ref: "#/components/schemas/User"
         button:
           $ref: "#/components/schemas/FrameActionButton"
+        input:
+          $ref: "#/components/schemas/FrameInput"
         cast:
           $ref: "#/components/schemas/CastWithInteractions"
     ValidateFrameActionResponse:
       type: object
+      required:
+        - valid
       properties:
         valid:
           type: boolean
@@ -2076,9 +2082,6 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/FrameActionReqBody"
-            example:
-              signer_uuid: 19d0c5fd-9b33-4a48-a0e2-bc7b0555baec
-              cast_hash: "0x1ea99cbed57e4020314ba3fadd7c692d2de34d5f"
       responses:
         "200":
           description: Successful operation.
@@ -2116,9 +2119,11 @@ paths:
                   type: string
                   description: Hexadecimal string of message bytes.
                 cast_reaction_context:
+                  default: true
                   type: boolean
                   description: Adds viewer_context inside the cast object to indicate whether the interactor reacted to the cast housing the frame.
                 follow_context:
+                  default: false
                   type: boolean
                   description: Adds viewer_context inside the user (interactor) object to indicate whether the interactor follows or is followed by the cast author.
               example:
