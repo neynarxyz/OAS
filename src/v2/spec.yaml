@@ -747,7 +747,7 @@ components:
         reactions:
           type: array
           items:
-            $ref: "#/components/schemas/Reactions"
+            $ref: "#/components/schemas/ReactionWithUserInfo"
     Follow:
       type: object
       required:
@@ -760,7 +760,19 @@ components:
             - follow
         user:
           $ref: "#/components/schemas/User"
-    Reactions:
+    CastDehydrated:
+      type: object
+      required:
+        - hash
+        - object
+      properties:
+        hash:
+          type: string
+        object:
+          type: string
+          enum:
+            - cast_dehydrated
+    ReactionWithUserInfo:
       type: object
       required:
         - object
@@ -773,19 +785,35 @@ components:
             - likes
             - recasts
         cast:
-          type: object
-          required:
-            - hash
-            - object
-          properties:
-            hash:
-              type: string
-            object:
-              type: string
-              enum:
-                - cast_dehydrated
+          $ref: "#/components/schemas/CastDehydrated"
         user:
           $ref: "#/components/schemas/User"
+    ReactionWithCastInfo:
+      type: object
+      required:
+        - reaction_type
+        - cast
+        - reaction_timestamp
+        - object
+        - user
+      properties:
+        reaction_type:
+          type: string
+          enum:
+            - like
+            - recast
+        cast:
+          $ref: "#/components/schemas/CastWithInteractions"
+        reaction_timestamp:
+          type: string
+          format: date-time
+        object:
+          type: string
+          enum:
+            - likes
+            - recasts
+        user:
+          $ref: "#/components/schemas/UserDehydrated"
     RelevantFollowersResponse:
       type: object
       required:
@@ -820,6 +848,9 @@ components:
           $ref: "#/components/schemas/UserDehydrated"
     UserDehydrated:
       type: object
+      required:
+        - object
+        - fid
       properties:
         object:
           type: string
@@ -843,7 +874,7 @@ components:
         reactions:
           type: array
           items:
-            $ref: "#/components/schemas/Reactions"
+            $ref: "#/components/schemas/ReactionWithCastInfo"
         next:
           $ref: "#/components/schemas/NextCursor"
     StorageAllocationsResponse:
