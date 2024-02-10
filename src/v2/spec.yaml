@@ -994,6 +994,7 @@ components:
         - button
         - cast
         - interactor
+        - timestamp
       properties:
         object:
           type: string
@@ -1007,6 +1008,8 @@ components:
           $ref: "#/components/schemas/FrameInput"
         cast:
           $ref: "#/components/schemas/CastWithInteractions"
+        timestamp: 
+          $ref: "#/components/schemas/Timestamp"
     ValidateFrameActionResponse:
       type: object
       required:
