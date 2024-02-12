@@ -1259,39 +1259,6 @@ paths:
                 $ref: "#/components/schemas/BulkUsersResponse"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/user/active:
-    get:
-      tags:
-        - User
-      summary: Fetches active users based on Warpcast active algorithm
-      description: Fetches active users, information is updated every 12 hours
-      externalDocs:
-        url: https://docs.neynar.com/reference/active-users
-      operationId: active-users
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
-        - name: limit
-          in: query
-          required: false
-          example: 10
-          schema:
-            type: integer
-            format: int32
-            default: 25
-        - name: cursor
-          in: query
-          description: Pagination cursor.
-          schema:
-            type: string
-      responses:
-        "200":
-          description: Successful operation.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/BulkUsersResponse"
-        "400":
-          $ref: "#/components/responses/400Response"
   /farcaster/user/bulk-by-address:
     get:
       tags:
