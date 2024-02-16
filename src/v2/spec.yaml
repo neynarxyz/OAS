@@ -988,7 +988,33 @@ components:
       properties:
         available:
           type: boolean
-    Page:
+    NeynarFrame:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          description: Unique identifier for the frame.
+        name:
+          type: string
+          description: Name of the frame.
+        link:
+          type: string
+          format: uri
+          description: Generated link for the frame's first page.
+        pages:
+          type: array
+          items:
+            $ref: '#/components/schemas/NeynarFramePage'
+        valid:
+          type: boolean
+          description: Indicates if the frame is valid.
+      required:
+        - uuid
+        - name
+        - pages
+        - link
+    NeynarFramePage:
       type: object
       properties:
         uuid:
@@ -1002,13 +1028,13 @@ components:
           type: string
           description: The title of the page.
         image:
-          $ref: '#/components/schemas/Image'
+          $ref: '#/components/schemas/NeynarFrameImage'
         buttons:
           type: array
           items:
-            $ref: '#/components/schemas/Button'
+            $ref: '#/components/schemas/NeynarFrameButton'
         input:
-          $ref: '#/components/schemas/Input'
+          $ref: '#/components/schemas/NeynarFrameInput'
       required:
           - uuid
           - version
@@ -1016,7 +1042,7 @@ components:
           - image
           - buttons
           - input
-    Image:
+    NeynarFrameImage:
       type: object
       properties:
         url:
@@ -1029,7 +1055,7 @@ components:
       required:
         - url
         - aspect_ratio
-    Button:
+    NeynarFrameButton:
       type: object
       properties:
         title:
@@ -1043,14 +1069,14 @@ components:
           description: The index of the button.
         next_page:
           oneOf:
-            - $ref: '#/components/schemas/NextPage'
-            - $ref: '#/components/schemas/Redirect'
+            - $ref: '#/components/schemas/NeynarFrameNextPage'
+            - $ref: '#/components/schemas/NeynarFrameRedirect'
       required:
         - title
         - action_type
         - index
         - next_page
-    Input:
+    NeynarFrameInput:
       type: object
       properties:
         text:
@@ -1065,14 +1091,14 @@ components:
           required:
             - enabled
             - placeholder
-    NextPage:
+    NeynarFrameNextPage:
       type: object
       properties:
         uuid:
           type: string
           format: uuid
           description: The UUID of the next page.
-    Redirect:
+    NeynarFrameRedirect:
       type: object
       properties:
         redirect_url:
@@ -1898,6 +1924,93 @@ paths:
                 $ref: "#/components/schemas/FeedResponse"
         "400":
           $ref: "#/components/responses/400Response"
+  /farcaster/frame:
+    get:
+      tags:
+        - Frame
+      summary: Retrieve a frame by UUID
+      parameters:
+        - name: uuid
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: UUID of the frame to retrieve
+      responses:
+        '200':
+          description: A frame object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NeynarFrame'
+        '404':
+          $ref: '#/components/responses/404Response'
+    post:
+      tags:
+        - Frame
+      summary: Create a new frame
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NeynarFrame'
+      responses:
+        '200':
+          description: Frame created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NeynarFrame'
+    put:
+      tags:
+        - Frame
+      summary: Update an existing frame
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NeynarFrame'
+      responses:
+        '200':
+          description: Frame updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NeynarFrame'
+        '404':
+          $ref: '#/components/responses/404Response'
+    delete:
+      tags:
+        - Frame
+      summary: Delete a frame
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                uuid:
+                  type: string
+                  format: uuid
+      responses:
+        '200':
+          description: Frame deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  uuid:
+                    type: string
+                    format: uuid
+        '404':
+          $ref: '#/components/responses/404Response'
   /farcaster/reaction:
     post:
       tags:
