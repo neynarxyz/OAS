@@ -1052,6 +1052,9 @@ components:
         aspect_ratio:
           type: string
           description: The aspect ratio of the image.
+          enum:
+            - "1.91:1"
+            - "1:1"
       required:
         - url
         - aspect_ratio
@@ -1064,17 +1067,18 @@ components:
         action_type:
           type: string
           description: The type of action that the button performs.
-        index:
-          type: integer
-          description: The index of the button.
+          enum:
+            - "post"
+            - "post_redirect"
+            - "mint"
+            - "link"
         next_page:
           oneOf:
             - $ref: '#/components/schemas/NeynarFrameNextPage'
-            - $ref: '#/components/schemas/NeynarFrameRedirect'
+            - $ref: '#/components/schemas/NeynarNextFramePageRedirect'
       required:
         - title
         - action_type
-        - index
         - next_page
     NeynarFrameInput:
       type: object
@@ -1098,7 +1102,7 @@ components:
           type: string
           format: uuid
           description: The UUID of the next page.
-    NeynarFrameRedirect:
+    NeynarNextFramePageRedirect:
       type: object
       properties:
         redirect_url:
@@ -1963,6 +1967,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/NeynarFrame'
+        '400':
+          $ref: '#/components/responses/400Response'
     put:
       tags:
         - Frame
@@ -1982,6 +1988,8 @@ paths:
                 $ref: '#/components/schemas/NeynarFrame'
         '404':
           $ref: '#/components/responses/404Response'
+        '400':
+          $ref: '#/components/responses/400Response'
     delete:
       tags:
         - Frame
