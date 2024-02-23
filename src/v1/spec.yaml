@@ -868,7 +868,7 @@ paths:
     get:
       tags:
         - User
-      summary: [Deprecated] Get User Cast Likes
+      summary: Deprecated -- Get User Cast Likes
       description: Now deprecated. Use [/v2/reactions/user](https://docs.neynar.com/reference/reactions-user). Fetch all the liked cast of a User
       externalDocs:
         url: https://docs.neynar.com/reference/user-cast-likes-v1
