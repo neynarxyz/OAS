@@ -1121,6 +1121,34 @@ components:
           description: The URL for minting, specific to the mint action.
       required:
         - mint_url
+    NeynarFrameCreationRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the frame.
+        pages:
+          type: array
+          items:
+            $ref: '#/components/schemas/NeynarFramePage'
+      required:
+        - name
+        - pages
+    NeynarFrameUpdateRequest:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          description: The UUID of the frame to update.
+        pages:
+          type: array
+          items:
+            $ref: '#/components/schemas/NeynarFramePage'
+      required:
+        - name
+        - pages
+    
     ValidatedFrameAction:
       type: object
       required:
@@ -1235,7 +1263,11 @@ tags:
     externalDocs:
       description: More info about storage
       url: https://docs.neynar.com/reference/storage-operations
-
+  - name: Frame
+    description: Operations related to frames
+    externalDocs:
+      description: More info about frames
+      url: https://docs.neynar.com/reference/frame-operations
 paths:
   /farcaster/signer:
     get:
@@ -1944,6 +1976,7 @@ paths:
       tags:
         - Frame
       summary: Retrieve a frame by UUID
+      description: Retrieve a frame by UUID, if it was made by the developer (identified by API key)
       parameters:
         - name: uuid
           in: query
@@ -1965,12 +1998,13 @@ paths:
       tags:
         - Frame
       summary: Create a new frame
+      description: Create a new frame with a list of pages.
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NeynarFrame'
+              $ref: '#/components/schemas/NeynarFrameCreationRequest'
       responses:
         '200':
           description: Frame created successfully
@@ -1984,12 +2018,13 @@ paths:
       tags:
         - Frame
       summary: Update an existing frame
+      description: Update an existing frame with a list of pages, if it was made by the developer (identified by API key)
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NeynarFrame'
+              $ref: '#/components/schemas/NeynarFrameUpdateRequest'
       responses:
         '200':
           description: Frame updated successfully
@@ -2005,6 +2040,7 @@ paths:
       tags:
         - Frame
       summary: Delete a frame
+      description: Delete an existing frame, if it was made by the developer (identified by API key)
       requestBody:
         required: true
         content:
@@ -2034,7 +2070,8 @@ paths:
     get:
       tags:
         - Frame
-      summary: Retrieve a list of frames by developer (identified by API key)
+      summary: Retrieve a list of frames
+      description: Retrieve a list of frames made by the developer (identified by API key)
       responses:
         '200':
           description: A list of frames
