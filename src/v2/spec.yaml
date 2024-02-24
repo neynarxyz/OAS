@@ -1095,7 +1095,6 @@ components:
               description: The placeholder text for the input.
           required:
             - enabled
-            - placeholder
     NeynarNextFramePage:
       type: object
       properties:
