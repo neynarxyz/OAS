@@ -1150,12 +1150,7 @@ paths:
       tags:
         - Verification
       summary: DEPRECATED - Retrieve verifications for a given FID
-      description: Now deprecated, use [v2/user/bulk](https://docs.neynar.com/reference/user-bulk), verifications are in the user object. 
-      
-
-      Get all known verifications of a user.
-
-
+      description: Now deprecated, use [v2/user/bulk](https://docs.neynar.com/reference/user-bulk), verifications are in the user object. Get all known verifications of a user.
       externalDocs:
         url: https://docs.neynar.com/reference/verifications-v1
       operationId: verifications
