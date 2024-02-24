@@ -988,6 +988,139 @@ components:
       properties:
         available:
           type: boolean
+    NeynarFrame:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          description: Unique identifier for the frame.
+        name:
+          type: string
+          description: Name of the frame.
+        link:
+          type: string
+          format: uri
+          description: Generated link for the frame's first page.
+        pages:
+          type: array
+          items:
+            $ref: '#/components/schemas/NeynarFramePage'
+        valid:
+          type: boolean
+          description: Indicates if the frame is valid.
+      required:
+        - uuid
+        - name
+        - pages
+        - link
+    NeynarFramePage:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          description: Unique identifier for the page.
+        version:
+          type: string
+          description: The version of the page schema.
+        title:
+          type: string
+          description: The title of the page.
+        image:
+          $ref: '#/components/schemas/NeynarPageImage'
+        buttons:
+          type: array
+          items:
+            $ref: '#/components/schemas/NeynarPageButton'
+        input:
+          $ref: '#/components/schemas/NeynarPageInput'
+      required:
+          - uuid
+          - version
+          - title
+          - image
+          - buttons
+          - input
+    NeynarPageImage:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          description: The URL of the page's image.
+        aspect_ratio:
+          type: string
+          description: The aspect ratio of the image.
+          enum:
+            - "1.91:1"
+            - "1:1"
+      required:
+        - url
+        - aspect_ratio
+    NeynarPageButton:
+      type: object
+      properties:
+        title:
+          type: string
+          description: The title of the button.
+        action_type:
+          type: string
+          description: The type of action that the button performs.
+          enum:
+            - "post"
+            - "post_redirect"
+            - "mint"
+            - "link"
+        next_page:
+          oneOf:
+            - $ref: '#/components/schemas/NeynarNextFramePage'
+            - $ref: '#/components/schemas/NeynarNextFramePageRedirect'
+            - $ref: '#/components/schemas/NeynarNextFramePageMintUrl'
+      required:
+        - title
+        - action_type
+        - next_page
+    NeynarPageInput:
+      type: object
+      properties:
+        text:
+          type: object
+          properties:
+            enabled:
+              type: boolean
+              description: Indicates if text input is enabled.
+            placeholder:
+              type: string
+              description: The placeholder text for the input.
+          required:
+            - enabled
+    NeynarNextFramePage:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          description: The UUID of the next page.
+      required:
+        - uuid
+    NeynarNextFramePageRedirect:
+      type: object
+      properties:
+        redirect_url:
+          type: string
+          format: uri
+          description: The URL to redirect to.
+      required:
+        - redirect_url
+    NeynarNextFramePageMintUrl:
+      type: object
+      properties:
+        mint_url:
+          type: string
+          description: The URL for minting, specific to the mint action.
+      required:
+        - mint_url
     ValidatedFrameAction:
       type: object
       required:
@@ -1804,6 +1937,113 @@ paths:
                 $ref: "#/components/schemas/FeedResponse"
         "400":
           $ref: "#/components/responses/400Response"
+  /farcaster/frame:
+    get:
+      tags:
+        - Frame
+      summary: Retrieve a frame by UUID
+      parameters:
+        - name: uuid
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: UUID of the frame to retrieve
+      responses:
+        '200':
+          description: A frame object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NeynarFrame'
+        '404':
+          $ref: '#/components/responses/404Response'
+    post:
+      tags:
+        - Frame
+      summary: Create a new frame
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NeynarFrame'
+      responses:
+        '200':
+          description: Frame created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NeynarFrame'
+        '400':
+          $ref: '#/components/responses/400Response'
+    put:
+      tags:
+        - Frame
+      summary: Update an existing frame
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NeynarFrame'
+      responses:
+        '200':
+          description: Frame updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NeynarFrame'
+        '404':
+          $ref: '#/components/responses/404Response'
+        '400':
+          $ref: '#/components/responses/400Response'
+    delete:
+      tags:
+        - Frame
+      summary: Delete a frame
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                uuid:
+                  type: string
+                  format: uuid
+      responses:
+        '200':
+          description: Frame deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  uuid:
+                    type: string
+                    format: uuid
+        '404':
+          $ref: '#/components/responses/404Response'
+  /farcaster/frame/list:
+    get:
+      tags:
+        - Frame
+      summary: Retrieve a list of frames by developer (identified by API key)
+      responses:
+        '200':
+          description: A list of frames
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NeynarFrame'
+        '404':
+          $ref: '#/components/responses/404Response'
   /farcaster/reaction:
     post:
       tags:
