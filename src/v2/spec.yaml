@@ -1028,13 +1028,13 @@ components:
           type: string
           description: The title of the page.
         image:
-          $ref: '#/components/schemas/NeynarFrameImage'
+          $ref: '#/components/schemas/NeynarPageImage'
         buttons:
           type: array
           items:
-            $ref: '#/components/schemas/NeynarFrameButton'
+            $ref: '#/components/schemas/NeynarPageButton'
         input:
-          $ref: '#/components/schemas/NeynarFrameInput'
+          $ref: '#/components/schemas/NeynarPageInput'
       required:
           - uuid
           - version
@@ -1042,7 +1042,7 @@ components:
           - image
           - buttons
           - input
-    NeynarFrameImage:
+    NeynarPageImage:
       type: object
       properties:
         url:
@@ -1058,7 +1058,7 @@ components:
       required:
         - url
         - aspect_ratio
-    NeynarFrameButton:
+    NeynarPageButton:
       type: object
       properties:
         title:
@@ -1074,13 +1074,14 @@ components:
             - "link"
         next_page:
           oneOf:
-            - $ref: '#/components/schemas/NeynarFrameNextPage'
+            - $ref: '#/components/schemas/NeynarNextFramePage'
             - $ref: '#/components/schemas/NeynarNextFramePageRedirect'
+            - $ref: '#/components/schemas/NeynarNextFramePageMintUrl'
       required:
         - title
         - action_type
         - next_page
-    NeynarFrameInput:
+    NeynarPageInput:
       type: object
       properties:
         text:
@@ -1095,13 +1096,15 @@ components:
           required:
             - enabled
             - placeholder
-    NeynarFrameNextPage:
+    NeynarNextFramePage:
       type: object
       properties:
         uuid:
           type: string
           format: uuid
           description: The UUID of the next page.
+      required:
+        - uuid
     NeynarNextFramePageRedirect:
       type: object
       properties:
@@ -1109,9 +1112,16 @@ components:
           type: string
           format: uri
           description: The URL to redirect to.
+      required:
+        - redirect_url
+    NeynarNextFramePageMintUrl:
+      type: object
+      properties:
         mint_url:
           type: string
           description: The URL for minting, specific to the mint action.
+      required:
+        - mint_url
     ValidatedFrameAction:
       type: object
       required:
@@ -2017,6 +2027,22 @@ paths:
                   uuid:
                     type: string
                     format: uuid
+        '404':
+          $ref: '#/components/responses/404Response'
+  /farcaster/frame/list:
+    get:
+      tags:
+        - Frame
+      summary: Retrieve a list of frames by developer (identified by API key)
+      responses:
+        '200':
+          description: A list of frames
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NeynarFrame'
         '404':
           $ref: '#/components/responses/404Response'
   /farcaster/reaction:
