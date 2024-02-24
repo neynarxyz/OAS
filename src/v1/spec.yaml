@@ -795,7 +795,7 @@ paths:
     get:
       tags:
         - User
-      summary: Deprecated - Get User Information by FID
+      summary: DEPRECATED - Get User Information by FID
       description: Now deprecated, use [v2/user/bulk](https://docs.neynar.com/reference/user-bulk). Returns metadata about a specific user
       externalDocs:
         url: https://docs.neynar.com/reference/user-v1
@@ -868,7 +868,7 @@ paths:
     get:
       tags:
         - User
-      summary: Deprecated -- Get User Cast Likes
+      summary: DEPRECATED -- Get User Cast Likes
       description: Now deprecated. use [/v2/reactions/user](https://docs.neynar.com/reference/reactions-user). Fetch all the liked cast of a User
       externalDocs:
         url: https://docs.neynar.com/reference/user-cast-likes-v1
@@ -956,8 +956,8 @@ paths:
     get:
       tags:
         - User
-      summary: Get the custody address for a given FID
-      description: Returns the custody address for a given FID
+      summary: DEPRECATED - Get the custody address for a given FID
+      description: Now deprecated, use [v2/user/bulk](https://docs.neynar.com/reference/user-bulk), custody address is in the user object. Returns the custody address for a given FID
       externalDocs:
         url: https://docs.neynar.com/reference/custody-address-v1
       operationId: custody-address
@@ -983,7 +983,7 @@ paths:
     get:
       tags:
         - Cast
-      summary: Deprecated - Retrieve cast for a given hash
+      summary: DEPRECATED - Retrieve cast for a given hash
       description: Now deprecated, use [v2/cast](https://docs.neynar.com/reference/cast). Gets information about an individual cast
       externalDocs:
         url: https://docs.neynar.com/reference/cast-v1
@@ -1149,8 +1149,13 @@ paths:
     get:
       tags:
         - Verification
-      summary: Retrieve verifications for a given FID
-      description: Get all known verifications of a user
+      summary: DEPRECATED - Retrieve verifications for a given FID
+      description: Now deprecated, use [v2/user/bulk](https://docs.neynar.com/reference/user-bulk), verifications are in the user object. 
+      
+
+      Get all known verifications of a user.
+
+
       externalDocs:
         url: https://docs.neynar.com/reference/verifications-v1
       operationId: verifications
@@ -1175,7 +1180,7 @@ paths:
     get:
       tags:
         - Verification
-      summary: Deprecated - Retrieve user for a given ethereum address
+      summary: DEPRECATED - Retrieve user for a given ethereum address
       description: >-
         Now deprecated. Use [v2/user/bulk-by-address](https://docs.neynar.com/reference/user-bulk-by-address). Checks if a given Ethereum address has a Farcaster user associated with it. Note: if an address is associated with multiple users, the API will return the user who most recently published a verification with the address (based on when Warpcast received the proof, not a self-reported timestamp).
       externalDocs:
