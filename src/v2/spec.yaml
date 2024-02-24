@@ -1429,14 +1429,16 @@ paths:
     get:
       tags:
         - User
-      summary: Fetches all users based on multiple Ethereum addresses
-      description: Fetches all users based on multiple Ethereum addresses.
+      summary: Fetches users based on Eth or Sol addresses
+      description: Fetches all users based on multiple Ethereum or Solana addresses.
 
 
-        Each farcaster user has a custody Ethereum address and optionally verified Ethereum addresses. This endpoint returns all users that have any of the given addresses as their custody or verified Ethereum addresses.
+        Each farcaster user has a custody Ethereum address and optionally verified Ethereum or Solana addresses. This endpoint returns all users that have any of the given addresses as their custody or verified Ethereum or Solana addresses.
 
 
         A custody address can be associated with only 1 farcaster user at a time but a verified address can be associated with multiple users.
+
+        You can pass in Ethereum and Solana addresses, comma separated, in the same request. The response will contain users associated with the given addresses.
       externalDocs:
         url: https://docs.neynar.com/reference/user-bulk-by-address
       operationId: user-bulk-by-address
