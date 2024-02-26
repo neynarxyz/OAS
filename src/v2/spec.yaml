@@ -306,7 +306,7 @@ components:
                 - fid
               properties:
                 fid:
-                  type: string
+                  type: integer
                   nullable: true
         author:
           $ref: "#/components/schemas/User"
