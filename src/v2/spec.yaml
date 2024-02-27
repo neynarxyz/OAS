@@ -2654,8 +2654,8 @@ paths:
   /farcaster/channel/user:
     get:
       tags:
-        - User
-      summary: Get channels that a user is active in. 
+        - Channel
+      summary: Get channels that a user is active in
       description: Fetches all channels that a user has casted in, in reverse chronological order. Once follows are on the protocol, we will allow choosing for different types of user activity (e.g. casted, followed, etc.). 
       operationId: active-channels
       parameters:
