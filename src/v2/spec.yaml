@@ -1017,6 +1017,23 @@ components:
           type: string
         deadline:
           type: number
+        fname:
+          type: string
+    RegisterUserResponse:
+      type: object
+      required:
+        - success
+        - message
+        - signer
+      properties:
+        success:
+          type: boolean
+          enum:
+            - true
+        message:
+          type: string
+        signer:
+          $ref: "#/components/schemas/Signer"
 
   parameters:
     ApiKey:
@@ -1029,6 +1046,12 @@ components:
       description: API key required for authentication.
 
   responses:
+    401Response:
+      description: "Unauthorized"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorRes"
     404Response:
       description: "Resource not found"
       content:
@@ -1043,6 +1066,12 @@ components:
             $ref: "#/components/schemas/ErrorRes"
     403Response:
       description: "Forbidden"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorRes"
+    409Response:
+      description: "Conflict"
       content:
         application/json:
           schema:
@@ -1112,12 +1141,7 @@ paths:
         url: https://docs.neynar.com/reference/get-fresh-fid
       operationId: get-fresh-fid
       parameters:
-        - name: developer_uuid
-          required: true
-          in: query
-          example: 19d0c5fd-9b33-4a48-a0e2-bc7b0555baec
-          schema:
-            type: string
+        - $ref: "#/components/parameters/ApiKey"
       responses:
         "200":
           description: Successful operation.
@@ -1379,13 +1403,22 @@ paths:
               fid: 321518
               requested_user_custody_address: "0x2c57e688154C082955cF205F4A335E852D3e25f1"
               deadline: 1707371935
+              fname: "desired_fname"
       responses:
         "200":
           description: Successful operation.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/OperationResponse"
+                $ref: "#/components/schemas/RegisterUserResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "401":
+          $ref: "#/components/responses/401Response"
+        "404":
+          $ref: "#/components/responses/404Response"
+        "409":
+          $ref: "#/components/responses/409Response"
         "500":
           $ref: "#/components/responses/500Response"
   /farcaster/cast:
