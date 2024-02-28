@@ -155,6 +155,8 @@ components:
           $ref: "#/components/schemas/FrameActionButton"
         input:
           $ref: "#/components/schemas/FrameInput"
+        state:
+          $ref: "#/components/schemas/FrameState"
         frames_url:
           type: string
           description: URL of the frames
@@ -173,6 +175,13 @@ components:
           type: string
           description: Input text for the frame
           example: "Draw a purple ringed planet"
+    FrameState:
+      type: object
+      properties:
+        serialized:
+          type: string
+          description: State for the frame in a serialized format
+          example: "%7B%22counter%22%3A1%7D"
     FrameActionButton:
       type: object
       required:
@@ -2328,7 +2337,9 @@ paths:
       summary: Posts a frame action
       description: |
         Post a frame action \
-        (In order to post a frame action `signer_uuid` must be approved)
+        (In order to post a frame action, you need to have an approved `signer_uuid`)
+
+        The POST request to the post_url has a timeout of 5 seconds.
       externalDocs:
         url: https://docs.neynar.com/reference/post-frame-action
       operationId: post-frame-action
