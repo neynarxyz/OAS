@@ -1157,7 +1157,6 @@ components:
       required:
         - name
         - pages
-    
     ValidatedFrameAction:
       type: object
       required:
@@ -1176,6 +1175,8 @@ components:
           $ref: "#/components/schemas/FrameActionButton"
         input:
           $ref: "#/components/schemas/FrameInput"
+        state:
+          $ref: "#/components/schemas/FrameState"
         cast:
           $ref: "#/components/schemas/CastWithInteractions"
         timestamp: 
