@@ -826,7 +826,7 @@ paths:
           $ref: "#/components/responses/404Response"
         "400":
           $ref: "#/components/responses/400Response"
-      deprecated: false
+      deprecated: true
   /farcaster/user-by-username:
     get:
       tags:
@@ -910,6 +910,7 @@ paths:
                 $ref: "#/components/schemas/UserCastLikeResponse"
         "400":
           $ref: "#/components/responses/400Response"
+      deprecated: true
   /farcaster/recent-users:
     get:
       tags:
@@ -1013,6 +1014,7 @@ paths:
                 $ref: "#/components/schemas/CastResponse"
         "400":
           $ref: "#/components/responses/400Response"
+      deprecated: true
   /farcaster/all-casts-in-thread:
     get:
       tags:
@@ -1171,6 +1173,7 @@ paths:
                 $ref: "#/components/schemas/VerificationResponse"
         "400":
           $ref: "#/components/responses/400Response"
+      deprecated: true
   /farcaster/user-by-verification:
     get:
       tags:
@@ -1197,6 +1200,7 @@ paths:
                 $ref: "#/components/schemas/UserResponse"
         "400":
           $ref: "#/components/responses/400Response"
+      deprecated: true
   /farcaster/mentions-and-replies:
     get:
       tags:
