@@ -693,6 +693,8 @@ components:
       properties:
         success:
           type: boolean
+        message:
+          type: string
     FollowResponse:
       type: object
       required:
@@ -1191,6 +1193,53 @@ components:
           example: true
         action:
           $ref: "#/components/schemas/ValidatedFrameAction"
+        interactor:
+          $ref: "#/components/schemas/User"
+        button:
+          $ref: "#/components/schemas/FrameActionButton"
+        cast:
+          $ref: "#/components/schemas/CastWithInteractions"
+    UserFIDResponse:
+      type: object
+      required:
+        - fid
+      properties:
+        fid:
+         type: integer
+    RegisterUserReqBody:
+      type: object
+      required:
+        - signature
+        - fid
+        - requested_user_custody_address
+        - deadline
+      properties:
+        signature:
+          type: string
+        fid: 
+          type: number
+        requested_user_custody_address:
+          type: string
+        deadline:
+          type: number
+        fname:
+          type: string
+    RegisterUserResponse:
+      type: object
+      required:
+        - success
+        - message
+        - signer
+      properties:
+        success:
+          type: boolean
+          enum:
+            - true
+        message:
+          type: string
+        signer:
+          $ref: "#/components/schemas/Signer"
+
   parameters:
     ApiKey:
       name: api_key
@@ -1202,6 +1251,12 @@ components:
       description: API key required for authentication.
 
   responses:
+    401Response:
+      description: "Unauthorized"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorRes"
     404Response:
       description: "Resource not found"
       content:
@@ -1216,6 +1271,12 @@ components:
             $ref: "#/components/schemas/ErrorRes"
     403Response:
       description: "Forbidden"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorRes"
+    409Response:
+      description: "Conflict"
       content:
         application/json:
           schema:
@@ -1279,6 +1340,26 @@ tags:
       description: More info about frames
       url: https://docs.neynar.com/reference/frame-operations
 paths:
+  /farcaster/user/fid:
+    get:
+      tags:
+        - User
+      summary: Fetches fid to assign it new user
+      description: Fetches fid to assign it new user
+      externalDocs:
+        url: https://docs.neynar.com/reference/get-fresh-fid
+      operationId: get-fresh-fid
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserFIDResponse"
+        "500":
+          $ref: "#/components/responses/500Response"
   /farcaster/signer:
     get:
       tags:
@@ -1542,6 +1623,46 @@ paths:
           $ref: "#/components/responses/404Response"
         "403":
           $ref: "#/components/responses/403Response"
+        "500":
+          $ref: "#/components/responses/500Response"
+    post:
+      tags:
+        - User
+      summary: Register account on farcaster
+      description: |
+        Register account on farcaster.
+      externalDocs:
+        url: https://docs.neynar.com/reference/register-user
+      operationId: register-user
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterUserReqBody"
+            example:
+              signature: "0xe0cd4da80fb30d59e3ce5a10768c35043bc31487362977cf0a3acf15338a730f4aa329568055c943d777dd81fcb60292f15fc0bcf644da1943b6aa0b3ea9bdcf1b"
+              fid: 321518
+              requested_user_custody_address: "0x2c57e688154C082955cF205F4A335E852D3e25f1"
+              deadline: 1707371935
+              fname: "desired_fname"
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RegisterUserResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "401":
+          $ref: "#/components/responses/401Response"
+        "404":
+          $ref: "#/components/responses/404Response"
+        "409":
+          $ref: "#/components/responses/409Response"
         "500":
           $ref: "#/components/responses/500Response"
   /farcaster/cast:
