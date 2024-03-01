@@ -2126,6 +2126,7 @@ paths:
         - Frame
       summary: Retrieve a frame by UUID
       description: Retrieve a frame by UUID, if it was made by the developer (identified by API key)
+      operationId: get-neynar-frame
       parameters:
         - $ref: "#/components/parameters/ApiKey"
         - name: uuid
@@ -2149,6 +2150,7 @@ paths:
         - Frame
       summary: Create a new frame
       description: Create a new frame with a list of pages.
+      operationId: publish-neynar-frame
       parameters:
         - $ref: "#/components/parameters/ApiKey"
       requestBody:
@@ -2171,6 +2173,7 @@ paths:
         - Frame
       summary: Update an existing frame
       description: Update an existing frame with a list of pages, if it was made by the developer (identified by API key)
+      operationId: update-neynar-frame
       parameters:
         - $ref: "#/components/parameters/ApiKey"
       requestBody:
@@ -2195,6 +2198,7 @@ paths:
         - Frame
       summary: Delete a frame
       description: Delete an existing frame, if it was made by the developer (identified by API key)
+      operationId: delete-neynar-frame
       parameters:
         - $ref: "#/components/parameters/ApiKey"
       requestBody:
@@ -2222,6 +2226,7 @@ paths:
         - Frame
       summary: Retrieve a list of frames
       description: Retrieve a list of frames made by the developer (identified by API key)
+      operationId: get-neynar-frames
       parameters:
         - $ref: "#/components/parameters/ApiKey"
       responses:
