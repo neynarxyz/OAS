@@ -979,7 +979,7 @@ paths:
                 $ref: "#/components/schemas/CustodyAddressResponse"
         "400":
           $ref: "#/components/responses/400Response"
-      deprecated: false
+      deprecated: true
   /farcaster/cast:
     get:
       tags:
