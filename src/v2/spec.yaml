@@ -1016,7 +1016,7 @@ components:
         pages:
           type: array
           items:
-            $ref: '#/components/schemas/NeynarFramePage'
+            $ref: "#/components/schemas/NeynarFramePage"
         valid:
           type: boolean
           description: Indicates if the frame is valid.
@@ -1039,20 +1039,20 @@ components:
           type: string
           description: The title of the page.
         image:
-          $ref: '#/components/schemas/NeynarPageImage'
+          $ref: "#/components/schemas/NeynarPageImage"
         buttons:
           type: array
           items:
-            $ref: '#/components/schemas/NeynarPageButton'
+            $ref: "#/components/schemas/NeynarPageButton"
         input:
-          $ref: '#/components/schemas/NeynarPageInput'
+          $ref: "#/components/schemas/NeynarPageInput"
       required:
-          - uuid
-          - version
-          - title
-          - image
-          - buttons
-          - input
+        - uuid
+        - version
+        - title
+        - image
+        - buttons
+        - input
     NeynarPageImage:
       type: object
       properties:
@@ -1085,9 +1085,9 @@ components:
             - "link"
         next_page:
           oneOf:
-            - $ref: '#/components/schemas/NeynarNextFramePage'
-            - $ref: '#/components/schemas/NeynarNextFramePageRedirect'
-            - $ref: '#/components/schemas/NeynarNextFramePageMintUrl'
+            - $ref: "#/components/schemas/NeynarNextFramePage"
+            - $ref: "#/components/schemas/NeynarNextFramePageRedirect"
+            - $ref: "#/components/schemas/NeynarNextFramePageMintUrl"
       required:
         - title
         - action_type
@@ -1141,7 +1141,7 @@ components:
         pages:
           type: array
           items:
-            $ref: '#/components/schemas/NeynarFramePage'
+            $ref: "#/components/schemas/NeynarFramePage"
       required:
         - name
         - pages
@@ -1155,7 +1155,7 @@ components:
         pages:
           type: array
           items:
-            $ref: '#/components/schemas/NeynarFramePage'
+            $ref: "#/components/schemas/NeynarFramePage"
       required:
         - name
         - pages
@@ -1181,7 +1181,7 @@ components:
           $ref: "#/components/schemas/FrameState"
         cast:
           $ref: "#/components/schemas/CastWithInteractions"
-        timestamp: 
+        timestamp:
           $ref: "#/components/schemas/Timestamp"
     ValidateFrameActionResponse:
       type: object
@@ -1205,7 +1205,7 @@ components:
         - fid
       properties:
         fid:
-         type: integer
+          type: integer
     RegisterUserReqBody:
       type: object
       required:
@@ -1216,7 +1216,7 @@ components:
       properties:
         signature:
           type: string
-        fid: 
+        fid:
           type: number
         requested_user_custody_address:
           type: string
@@ -1239,6 +1239,15 @@ components:
           type: string
         signer:
           $ref: "#/components/schemas/Signer"
+    UsersActiveChannelsResponse:
+      type: object
+      properties:
+        user:
+          $ref: "#/components/schemas/User"
+        channels:
+          type: array
+          items:
+            $ref: "#/components/schemas/Channel"
 
   parameters:
     ApiKey:
@@ -1553,7 +1562,8 @@ paths:
       tags:
         - User
       summary: Fetches users based on Eth or Sol addresses
-      description: Fetches all users based on multiple Ethereum or Solana addresses.
+      description:
+        Fetches all users based on multiple Ethereum or Solana addresses.
 
 
         Each farcaster user has a custody Ethereum address and optionally verified Ethereum or Solana addresses. This endpoint returns all users that have any of the given addresses as their custody or verified Ethereum or Solana addresses.
@@ -2117,14 +2127,14 @@ paths:
             format: uuid
           description: UUID of the frame to retrieve
       responses:
-        '200':
+        "200":
           description: A frame object
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NeynarFrame'
-        '404':
-          $ref: '#/components/responses/404Response'
+                $ref: "#/components/schemas/NeynarFrame"
+        "404":
+          $ref: "#/components/responses/404Response"
     post:
       tags:
         - Frame
@@ -2135,16 +2145,16 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NeynarFrameCreationRequest'
+              $ref: "#/components/schemas/NeynarFrameCreationRequest"
       responses:
-        '200':
+        "200":
           description: Frame created successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NeynarFrame'
-        '400':
-          $ref: '#/components/responses/400Response'
+                $ref: "#/components/schemas/NeynarFrame"
+        "400":
+          $ref: "#/components/responses/400Response"
     put:
       tags:
         - Frame
@@ -2155,18 +2165,18 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NeynarFrameUpdateRequest'
+              $ref: "#/components/schemas/NeynarFrameUpdateRequest"
       responses:
-        '200':
+        "200":
           description: Frame updated successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NeynarFrame'
-        '404':
-          $ref: '#/components/responses/404Response'
-        '400':
-          $ref: '#/components/responses/400Response'
+                $ref: "#/components/schemas/NeynarFrame"
+        "404":
+          $ref: "#/components/responses/404Response"
+        "400":
+          $ref: "#/components/responses/400Response"
     delete:
       tags:
         - Frame
@@ -2183,7 +2193,7 @@ paths:
                   type: string
                   format: uuid
       responses:
-        '200':
+        "200":
           description: Frame deleted successfully
           content:
             application/json:
@@ -2195,8 +2205,8 @@ paths:
                   uuid:
                     type: string
                     format: uuid
-        '404':
-          $ref: '#/components/responses/404Response'
+        "404":
+          $ref: "#/components/responses/404Response"
   /farcaster/frame/list:
     get:
       tags:
@@ -2204,16 +2214,16 @@ paths:
       summary: Retrieve a list of frames
       description: Retrieve a list of frames made by the developer (identified by API key)
       responses:
-        '200':
+        "200":
           description: A list of frames
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/NeynarFrame'
-        '404':
-          $ref: '#/components/responses/404Response'
+                  $ref: "#/components/schemas/NeynarFrame"
+        "404":
+          $ref: "#/components/responses/404Response"
   /farcaster/reaction:
     post:
       tags:
@@ -2789,7 +2799,7 @@ paths:
       tags:
         - Channel
       summary: Get channels that a user is active in
-      description: Fetches all channels that a user has casted in, in reverse chronological order. Once follows are on the protocol, we will allow choosing for different types of user activity (e.g. casted, followed, etc.). 
+      description: Fetches all channels that a user has casted in, in reverse chronological order. Once follows are on the protocol, we will allow choosing for different types of user activity (e.g. casted, followed, etc.).
       operationId: active-channels
       parameters:
         - $ref: "#/components/parameters/ApiKey"
@@ -2797,26 +2807,19 @@ paths:
           in: query
           required: true
           schema:
-            $ref: '#/components/schemas/Fid'
+            $ref: "#/components/schemas/Fid"
           description: The user's fid (identifier)
           example: 194
       responses:
-        '200':
+        "200":
           description: successful operation
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  user:
-                    $ref: '#/components/schemas/User' 
-                  channels:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Channel'
-        '400':
+                $ref: "#/components/schemas/UsersActiveChannelsResponse"
+        "400":
           $ref: "#/components/responses/400Response"
-        '404':
+        "404":
           $ref: "#/components/responses/400Response"
   /farcaster/channel/users:
     get:
