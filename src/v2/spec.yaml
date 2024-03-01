@@ -1248,6 +1248,12 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Channel"
+    DeleteFrameResponse:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
 
   parameters:
     ApiKey:
@@ -2119,6 +2125,7 @@ paths:
       summary: Retrieve a frame by UUID
       description: Retrieve a frame by UUID, if it was made by the developer (identified by API key)
       parameters:
+        - $ref: "#/components/parameters/ApiKey"
         - name: uuid
           in: query
           required: true
@@ -2140,6 +2147,8 @@ paths:
         - Frame
       summary: Create a new frame
       description: Create a new frame with a list of pages.
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
@@ -2160,6 +2169,8 @@ paths:
         - Frame
       summary: Update an existing frame
       description: Update an existing frame with a list of pages, if it was made by the developer (identified by API key)
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
@@ -2182,16 +2193,14 @@ paths:
         - Frame
       summary: Delete a frame
       description: Delete an existing frame, if it was made by the developer (identified by API key)
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                uuid:
-                  type: string
-                  format: uuid
+              $ref: "#/components/schemas/DeleteFrameResponse"
       responses:
         "200":
           description: Frame deleted successfully
@@ -2213,6 +2222,8 @@ paths:
         - Frame
       summary: Retrieve a list of frames
       description: Retrieve a list of frames made by the developer (identified by API key)
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
       responses:
         "200":
           description: A list of frames
