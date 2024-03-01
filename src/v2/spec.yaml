@@ -1251,6 +1251,8 @@ components:
     DeleteFrameResponse:
       type: object
       properties:
+        success:
+          type: boolean
         uuid:
           type: string
           format: uuid
@@ -2200,20 +2202,18 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/DeleteFrameResponse"
+              type: object
+              properties:
+                uuid:
+                  type: string
+                  format: uuid
       responses:
         "200":
           description: Frame deleted successfully
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  success:
-                    type: boolean
-                  uuid:
-                    type: string
-                    format: uuid
+                $ref: "#/components/schemas/DeleteFrameResponse"
         "404":
           $ref: "#/components/responses/404Response"
   /farcaster/frame/list:
