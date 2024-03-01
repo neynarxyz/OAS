@@ -2126,7 +2126,7 @@ paths:
         - Frame
       summary: Retrieve a frame by UUID
       description: Retrieve a frame by UUID, if it was made by the developer (identified by API key)
-      operationId: get-neynar-frame
+      operationId: lookup-neynar-frame
       parameters:
         - $ref: "#/components/parameters/ApiKey"
         - name: uuid
@@ -2226,7 +2226,7 @@ paths:
         - Frame
       summary: Retrieve a list of frames
       description: Retrieve a list of frames made by the developer (identified by API key)
-      operationId: get-neynar-frames
+      operationId: fetch-neynar-frames
       parameters:
         - $ref: "#/components/parameters/ApiKey"
       responses:
