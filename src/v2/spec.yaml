@@ -9,7 +9,12 @@ components:
   schemas:
     Address:
       type: string
+      pattern: '^0x[a-fA-F0-9]{40}$'
       description: Ethereum address
+    SolAddress:
+      type: string
+      pattern: '^[1-9A-HJ-NP-Za-km-z]{32,44}$'
+      description: Solana address
     Fid:
       type: integer
       format: int32
@@ -271,6 +276,20 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Address"
+        verified_addresses:
+          type: object
+          required:
+            - eth_addresses
+            - sol_addresses
+          properties:
+            eth_addresses:
+              type: array
+              items:
+                $ref: "#/components/schemas/Address"
+            sol_addresses:
+              type: array
+              items:
+                $ref: "#/components/schemas/SolAddress"
         active_status:
           $ref: "#/components/schemas/ActiveStatus"
         viewer_context:
