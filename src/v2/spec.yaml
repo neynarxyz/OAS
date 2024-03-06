@@ -222,6 +222,7 @@ components:
       required:
         - object
         - fid
+        - custody_address
         - username
         - display_name
         - pfp_url
@@ -229,6 +230,7 @@ components:
         - follower_count
         - following_count
         - verifications
+        - verified_addresses
         - active_status
       properties:
         object:
