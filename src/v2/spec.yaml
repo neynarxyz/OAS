@@ -1376,8 +1376,10 @@ components:
           $ref: '#/components/schemas/WebhookSubscriptionFilters'
         created_at:
           type: string
+          format: date-time
         updated_at:
           type: string
+          format: date-time
     WebhookSubscriptionFilters:
       type: object
       properties:
@@ -1468,6 +1470,22 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Webhook"
+    WebhookSubscriptionResponse:
+      type: object
+      required:
+       - subscription
+      properties:
+        subscription:
+          $ref: '#/components/schemas/WebhookSubscription'
+    WebhookUpdateSubscriptionReqBody:
+      type: object
+      required:
+        - webhook_id
+      properties:
+        webhook_id:
+          type: string
+        subscription:
+          $ref: '#/components/schemas/WebhookSubscriptionFilters'
 
   parameters:
     ApiKey:
@@ -3357,7 +3375,7 @@ paths:
               $ref: "#/components/schemas/WebhookPostReqBody"
       responses:
         "200":
-          description: Create a webhook
+          description: Created webhook
           content:
             application/json:
               schema:
@@ -3384,7 +3402,7 @@ paths:
               $ref: "#/components/schemas/WebhookPatchReqBody"
       responses:
         "200":
-          description: Create a webhook
+          description: Updated webhook
           content:
             application/json:
               schema:
@@ -3409,7 +3427,7 @@ paths:
               $ref: "#/components/schemas/WebhookPutReqBody"
       responses:
         "200":
-          description: Create a webhook
+          description: Updated webhook
           content:
             application/json:
               schema:
@@ -3434,7 +3452,7 @@ paths:
               $ref: "#/components/schemas/WebhookDeleteReqBody"
       responses:
         "200":
-          description: Create a webhook
+          description: Deleted webhook status message
           content:
             application/json:
               schema:
@@ -3454,10 +3472,89 @@ paths:
         - $ref: "#/components/parameters/ApiKey"
       responses:
         "200":
-          description: Details of a webhook
+          description: List of webhooks
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/WebhookListResponse"
         "400":
           $ref: "#/components/responses/400Response"
+  /farcaster/webhook/subscription:
+    get:
+      tags:
+        - Webhook
+      summary: Lookup webhook subscription
+      description: Lookup webhook subscription
+      operationId: lookup-webhook-subscription
+      externalDocs:
+        url: https://docs.neynar.com/reference/lookup-webhook-subscription
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: webhook_id
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Details of a webhook subscription
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WebhookSubscriptionResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+    patch:
+      tags:
+        - Webhook
+      summary: Update webhook subscription
+      description: Update webhook subscription
+      operationId: update-webhook-subscription
+      externalDocs:
+        url: https://docs.neynar.com/reference/update-webhook-subscription
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WebhookUpdateSubscriptionReqBody"
+      responses:
+        "200":
+          description: Details of a webhook subscription
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WebhookSubscriptionResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
+    delete:
+      tags:
+        - Webhook
+      summary: Delete webhook subscription
+      description: Delete webhook subscription
+      operationId: delete-webhook-subscription
+      externalDocs:
+        url: https://docs.neynar.com/reference/delete-webhook-subscription
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WebhookUpdateSubscriptionReqBody"
+      responses:
+        "200":
+          description: Details of a webhook subscription
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WebhookSubscriptionResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
