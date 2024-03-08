@@ -215,6 +215,12 @@ components:
           description: Index of the button
         action_type:
           $ref: "#/components/schemas/FrameButtonActionType"
+        target:
+          type: string
+          description: Target of the button
+        post_url:
+          type: string
+          description: Used specifically for the tx action type to post a successful transaction hash
     ReactionLike:
       type: object
       required:
