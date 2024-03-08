@@ -162,6 +162,8 @@ components:
           $ref: "#/components/schemas/FrameInput"
         state:
           $ref: "#/components/schemas/FrameState"
+        transaction:
+          $ref: "#/components/schemas/FrameTransaction"
         frames_url:
           type: string
           description: URL of the frames
@@ -173,6 +175,7 @@ components:
       enum:
         - post
         - post_redirect
+        - tx
     FrameInput:
       type: object
       properties:
@@ -182,15 +185,27 @@ components:
           example: "Draw a purple ringed planet"
     FrameState:
       type: object
+      required:
+        - serialized
       properties:
         serialized:
           type: string
           description: State for the frame in a serialized format
           example: "%7B%22counter%22%3A1%7D"
+    FrameTransaction:
+      type: object
+      required:
+        - hash
+      properties:
+        hash:
+          type: string
+          description: Transaction hash
+          example: "0xa80de157a3ab4648db1ecfab7e6355b342215bc549f6e37be9e6da527cc024f7"
     FrameActionButton:
       type: object
       required:
         - index
+        - action_type
       properties:
         title:
           type: string
@@ -1209,22 +1224,19 @@ components:
           properties:
             client: 
               $ref: "#/components/schemas/User"
+        transaction:
+          $ref: "#/components/schemas/FrameTransaction"
     ValidateFrameActionResponse:
       type: object
       required:
         - valid
+        - action
       properties:
         valid:
           type: boolean
           example: true
         action:
           $ref: "#/components/schemas/ValidatedFrameAction"
-        interactor:
-          $ref: "#/components/schemas/User"
-        button:
-          $ref: "#/components/schemas/FrameActionButton"
-        cast:
-          $ref: "#/components/schemas/CastWithInteractions"
     UserFIDResponse:
       type: object
       required:
