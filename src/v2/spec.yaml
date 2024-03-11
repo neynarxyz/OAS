@@ -2297,12 +2297,6 @@ paths:
           schema:
             type: boolean
             default: true
-        - name: with_replies
-          in: query
-          description: Include replies in the response, false by default
-          schema:
-            type: boolean
-            default: false
         - name: limit
           in: query
           description: Number of results to retrieve (default 25, max 100)
@@ -2348,12 +2342,6 @@ paths:
           schema:
             type: boolean
             default: true
-        - name: with_replies
-          in: query
-          description: Include replies in the response, false by default
-          schema:
-            type: boolean
-            default: false
         - name: limit
           in: query
           description: Number of results to retrieve (default 25, max 100)
