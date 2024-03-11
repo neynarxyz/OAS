@@ -2520,7 +2520,7 @@ paths:
   /farcaster/frame:
     get:
       tags:
-        - Frame
+        - Neynar Frames
       summary: Retrieve a frame by UUID
       description: Retrieve a frame by UUID, if it was made by the developer (identified by API key)
       operationId: lookup-neynar-frame
@@ -2544,7 +2544,7 @@ paths:
           $ref: "#/components/responses/404Response"
     post:
       tags:
-        - Frame
+        - Neynar Frames
       summary: Create a new frame
       description: Create a new frame with a list of pages.
       operationId: publish-neynar-frame
@@ -2567,7 +2567,7 @@ paths:
           $ref: "#/components/responses/400Response"
     put:
       tags:
-        - Frame
+        - Neynar Frames
       summary: Update an existing frame
       description: Update an existing frame with a list of pages, if it was made by the developer (identified by API key)
       operationId: update-neynar-frame
@@ -2592,7 +2592,7 @@ paths:
           $ref: "#/components/responses/400Response"
     delete:
       tags:
-        - Frame
+        - Neynar Frames
       summary: Delete a frame
       description: Delete an existing frame, if it was made by the developer (identified by API key)
       operationId: delete-neynar-frame
@@ -2620,7 +2620,7 @@ paths:
   /farcaster/frame/list:
     get:
       tags:
-        - Frame
+        - Neynar Frames
       summary: Retrieve a list of frames
       description: Retrieve a list of frames made by the developer (identified by API key)
       operationId: fetch-neynar-frames
@@ -2878,7 +2878,7 @@ paths:
   /farcaster/frame/action:
     post:
       tags:
-        - Frame
+        - Frames
       summary: Posts a frame action
       description: |
         Post a frame action \
@@ -2910,7 +2910,7 @@ paths:
   /farcaster/frame/validate:
     post:
       tags:
-        - Frame
+        - Frames
       summary: Validates a frame action against Farcaster Hub
       description: |
         Validates a frame against by an interacting user against a Farcaster Hub \
