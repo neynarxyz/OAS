@@ -3557,11 +3557,11 @@ paths:
     patch:
       tags:
         - Webhook
-      summary: Toggle webhook active status
-      description: Toggle webhook active status
-      operationId: toggle-webhook-active-status
+      summary: Update webhook active status
+      description: Update webhook active status
+      operationId: update-webhook-active-status
       externalDocs:
-        url: https://docs.neynar.com/reference/toggle-webhook-active-status
+        url: https://docs.neynar.com/reference/update-webhook-active-status
       parameters:
         - $ref: "#/components/parameters/ApiKey"
       requestBody:
