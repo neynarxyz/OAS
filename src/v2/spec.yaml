@@ -170,6 +170,8 @@ components:
           $ref: "#/components/schemas/FrameState"
         transaction:
           $ref: "#/components/schemas/FrameTransaction"
+        address:
+          $ref: "#/components/schemas/FrameAddress"
         frames_url:
           type: string
           description: URL of the frames
@@ -198,6 +200,9 @@ components:
           type: string
           description: State for the frame in a serialized format
           example: "%7B%22counter%22%3A1%7D"
+    FrameAddress:
+      type: string
+      description: The connected wallet address of the interacting user.
     FrameTransaction:
       type: object
       required:
