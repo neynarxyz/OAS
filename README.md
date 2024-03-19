@@ -10,13 +10,15 @@ replace \<generator\> with a [desired generator](https://openapi-generator.tech/
 
 ```
 brew install openapi-generator
+```
 
 // v1
+```
 openapi-generator generate -i src/v1/spec.yaml -g typescript-axios -o src/v1/swagger-tmp --config openapi-generator-config.json
 ```
 
-```
 // v2
+```
 openapi-generator generate -i src/v2/spec.yaml -g typescript-axios -o src/v2/swagger-tmp --config openapi-generator-config.json
 ```
 
