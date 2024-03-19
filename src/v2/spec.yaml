@@ -1474,6 +1474,10 @@ components:
               type: array
               items:
                 type: string
+            text:
+              type: array
+              items:
+                type: string
         user.created:
           type: object
         user.updated:
