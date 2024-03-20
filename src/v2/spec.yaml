@@ -1246,12 +1246,15 @@ components:
           type: string
           format: uuid
           description: The UUID of the frame to update.
+        name:
+          type: string
+          description: The name of the frame.
         pages:
           type: array
           items:
             $ref: "#/components/schemas/NeynarFramePage"
       required:
-        - name
+        - uuid
         - pages
     ValidatedFrameAction:
       type: object
