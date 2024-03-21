@@ -9,11 +9,11 @@ components:
   schemas:
     Address:
       type: string
-      pattern: '^0x[a-fA-F0-9]{40}$'
+      pattern: "^0x[a-fA-F0-9]{40}$"
       description: Ethereum address
     SolAddress:
       type: string
-      pattern: '^[1-9A-HJ-NP-Za-km-z]{32,44}$'
+      pattern: "^[1-9A-HJ-NP-Za-km-z]{32,44}$"
       description: Solana address
     Fid:
       type: integer
@@ -89,7 +89,7 @@ components:
           format: int32
     Ed25519PublicKey:
       type: string
-      pattern: '^0x[a-fA-F0-9]{64}$'
+      pattern: "^0x[a-fA-F0-9]{64}$"
       description: Ed25519 public key
       example: "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"
     Timestamp:
@@ -1259,19 +1259,30 @@ components:
     ValidatedFrameAction:
       type: object
       required:
-        - button
         - cast
         - interactor
         - timestamp
+        - tapped_button
+        - url
+        - object
+        - state
       properties:
         object:
           type: string
           enum:
             - validated_frame_action
+        url:
+          type: string
+          format: uri
         interactor:
           $ref: "#/components/schemas/User"
-        button:
-          $ref: "#/components/schemas/FrameActionButton"
+        tapped_button:
+          type: object
+          required:
+            - index
+          properties:
+            index:
+              type: integer
         input:
           $ref: "#/components/schemas/FrameInput"
         state:
@@ -1283,10 +1294,12 @@ components:
         signer:
           type: object
           properties:
-            client: 
+            client:
               $ref: "#/components/schemas/User"
         transaction:
           $ref: "#/components/schemas/FrameTransaction"
+        address:
+          $ref: "#/components/schemas/FrameAddress"
     ValidateFrameActionResponse:
       type: object
       required:
@@ -1388,7 +1401,7 @@ components:
         secrets:
           type: array
           items:
-            $ref: '#/components/schemas/WebhookSecret'
+            $ref: "#/components/schemas/WebhookSecret"
         description:
           type: string
         http_timeout:
@@ -1409,7 +1422,7 @@ components:
           type: string
           format: date-time
         subscription:
-          $ref: '#/components/schemas/WebhookSubscription'
+          $ref: "#/components/schemas/WebhookSubscription"
     WebhookSecret:
       type: object
       required:
@@ -1448,7 +1461,7 @@ components:
         subscription_id:
           type: string
         filters:
-          $ref: '#/components/schemas/WebhookSubscriptionFilters'
+          $ref: "#/components/schemas/WebhookSubscriptionFilters"
         created_at:
           type: string
           format: date-time
@@ -1501,7 +1514,7 @@ components:
         url:
           type: string
         subscription:
-          $ref: '#/components/schemas/WebhookSubscriptionFilters'
+          $ref: "#/components/schemas/WebhookSubscriptionFilters"
     WebhookPutReqBody:
       type: object
       allOf:
