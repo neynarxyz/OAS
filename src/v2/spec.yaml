@@ -1199,6 +1199,7 @@ components:
           properties:
             enabled:
               type: boolean
+              default: false
               description: Indicates if text input is enabled.
             placeholder:
               type: string
