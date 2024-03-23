@@ -1128,9 +1128,12 @@ components:
           description: Unique identifier for the page.
         version:
           type: string
+          default: "vNext"
+          example: "vNext"
           description: The version of the page schema.
         title:
           type: string
+          example: "Welcome to Neynar"
           description: The title of the page.
         image:
           $ref: "#/components/schemas/NeynarPageImage"
@@ -1151,6 +1154,7 @@ components:
         url:
           type: string
           format: uri
+          example: "https://i.imgur.com/qo2AzBf.jpeg"
           description: The URL of the page's image.
         aspect_ratio:
           type: string
@@ -1185,6 +1189,7 @@ components:
             - $ref: "#/components/schemas/NeynarNextFramePageMintUrl"
       required:
         - title
+        - index
         - action_type
     NeynarPageInput:
       type: object
