@@ -1167,6 +1167,9 @@ components:
         title:
           type: string
           description: The title of the button.
+        index:
+          type: integer
+          description: The index of the button, first button should have index 1 and so on.
         action_type:
           type: string
           description: The type of action that the button performs.
