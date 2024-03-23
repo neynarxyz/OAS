@@ -1142,11 +1142,8 @@ components:
           $ref: "#/components/schemas/NeynarPageInput"
       required:
         - uuid
-        - version
         - title
         - image
-        - buttons
-        - input
     NeynarPageImage:
       type: object
       properties:
@@ -1185,7 +1182,6 @@ components:
       required:
         - title
         - action_type
-        - next_page
     NeynarPageInput:
       type: object
       properties:
