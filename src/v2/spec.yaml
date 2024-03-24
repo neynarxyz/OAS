@@ -2487,6 +2487,12 @@ paths:
           schema:
             type: boolean
             default: true
+        - name: filter_spam
+          in: query
+          required: false
+          description: Filter out spam casts, false by default
+          schema:
+            type: boolean
         - name: limit
           in: query
           description: Number of results to retrieve (default 25, max 100)
