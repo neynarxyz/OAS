@@ -1941,6 +1941,40 @@ paths:
                 $ref: "#/components/schemas/BulkUsersResponse"
         "400":
           $ref: "#/components/responses/400Response"
+  /farcaster/user/power: 
+    get:
+      tags:
+        - User
+      summary: Fetches power users
+      description: Fetches power users based on Warpcast power badges
+      externalDocs:
+        url: https://docs.neynar.com/reference/user-power
+      operationId: power-users
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: limit
+          in: query
+          required: false
+          description: Number of power users to fetch, max 100
+          example: 10
+          schema:
+            type: integer
+            format: int32
+            default: 25
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsersResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
   /farcaster/user/active:
     get:
       tags:
