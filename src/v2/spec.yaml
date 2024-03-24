@@ -1912,7 +1912,7 @@ paths:
     get:
       tags:
         - User
-      summary: Fetches information about multiple users based on FIDs
+      summary: Fetch users based on FIDs
       description: Fetches information about multiple users based on FIDs
       externalDocs:
         url: https://docs.neynar.com/reference/user-bulk
@@ -1945,7 +1945,7 @@ paths:
     get:
       tags:
         - User
-      summary: Fetches power users
+      summary: Fetch power users
       description: Fetches power users based on Warpcast power badges
       externalDocs:
         url: https://docs.neynar.com/reference/user-power
@@ -1979,8 +1979,8 @@ paths:
     get:
       tags:
         - User
-      summary: Fetches active users based on Warpcast active algorithm
-      description: Fetches active users, information is updated every 12 hours
+      summary: Fetch active users 
+      description: Fetches active users based on Warpcast active algorithm, information is updated every 12 hours
       externalDocs:
         url: https://docs.neynar.com/reference/active-users
       operationId: active-users
