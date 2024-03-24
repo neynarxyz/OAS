@@ -3494,7 +3494,7 @@ paths:
           required: true
           example: 3
           schema:
-            $ref: "#/components/schemas/Fid"
+            $ref: "#/components/schemas/CastHash"
         - name: types
           in: query
           required: false
