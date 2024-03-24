@@ -2001,6 +2001,17 @@ paths:
           example: 0xa6a8736f18f383f1cc2d938576933e5ea7df01a1,0x7cac817861e5c3384753403fb6c0c556c204b1ce
           schema:
             type: string
+        - name: address_types
+          description: Customize which address types the request should search for. Default is all. Select multiple types by using a comma-separated list of valid types in the enum
+          in: query
+          required: false
+          example: custody_address,verified_address
+          schema:
+            type: string
+            enum:
+              - custody_address
+              - verified_address
+              - all
       responses:
         "200":
           description: Successful operation.
