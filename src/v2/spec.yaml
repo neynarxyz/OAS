@@ -3478,6 +3478,52 @@ paths:
                 $ref: "#/components/schemas/ReactionsResponse"
         "400":
           $ref: "#/components/responses/400Response"
+  /farcaster/reactions/cast:
+    get:
+      tags:
+        - Reaction
+      summary: Fetches reactions for a given cast
+      description: Fetches reactions for a given cast
+      operationId: reactions-cast
+      externalDocs:
+        url: https://docs.neynar.com/reference/reactions
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: hash
+          in: query
+          required: true
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
+        - name: types
+          in: query
+          required: false
+          description: comma seperated list of reactions to fetch (likes or recasts or all)
+          example: likes
+          schema:
+            $ref: "#/components/schemas/ReactionsType"
+        - name: limit
+          in: query
+          description: Number of results to retrieve (default 25, max 100)
+          schema:
+            type: integer
+            default: 25
+            minimum: 1
+            maximum: 100
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReactionsResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
   /farcaster/fname/availability:
     get:
       tags:
