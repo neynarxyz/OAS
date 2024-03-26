@@ -72,13 +72,6 @@ components:
         The query param accepted by the API. Sent along with identifier param.
         url - Cast identifier is a url
         hash - Cast identifier is a hash
-    FilterSpam:
-      type: boolean
-      enum:
-        - true
-        - false
-      description: |
-        Filter spam from the feed.
     Levels:
       type: integer
       description: |
@@ -2174,12 +2167,6 @@ paths:
           description: "levels up and down to fetch conversations"
           schema:
             $ref: "#/components/schemas/Levels"
-        - name: filter_spam
-          in: query
-          required: false
-          description: "filter spam messages"
-          schema:
-            $ref: "#/components/schemas/FilterSpam"
       responses:
         "200":
           description: Successful operation.
