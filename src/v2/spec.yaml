@@ -76,6 +76,9 @@ components:
       type: integer
       description: |
         Number of levels to fetch in the conversation.
+      default: 2
+      minimum: 0
+      maximum: 5
     ErrorRes:
       type: object
       required:
