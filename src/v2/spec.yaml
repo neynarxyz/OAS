@@ -1497,9 +1497,11 @@ components:
               items:
                 type: string
             text:
-              type: array
-              items:
-                type: string
+              type: string
+              description: |
+                Regex pattern to match the text of the cast.
+                **Note:** Use backslashes to escape special characters.
+                For example: \bhello-there\b should be written as \\bhello-there\\b
         user.created:
           type: object
         user.updated:
