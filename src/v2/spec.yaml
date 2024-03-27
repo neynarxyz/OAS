@@ -1499,7 +1499,13 @@ components:
             text:
               type: string
               description: |
-                Regex pattern to match the text of the cast.
+                Regex pattern to match the text key of the cast.
+                **Note:** Use backslashes to escape special characters.
+                For example: \bhello-there\b should be written as \\bhello-there\\b
+            embeds:
+              type: string
+              description: |
+                Regex pattern to match the embeded_url (key embeds) of the cast.
                 **Note:** Use backslashes to escape special characters.
                 For example: \bhello-there\b should be written as \\bhello-there\\b
         user.created:
