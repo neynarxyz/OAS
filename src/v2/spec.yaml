@@ -9,11 +9,11 @@ components:
   schemas:
     Address:
       type: string
-      pattern: '^0x[a-fA-F0-9]{40}$'
+      pattern: "^0x[a-fA-F0-9]{40}$"
       description: Ethereum address
     SolAddress:
       type: string
-      pattern: '^[1-9A-HJ-NP-Za-km-z]{32,44}$'
+      pattern: "^[1-9A-HJ-NP-Za-km-z]{32,44}$"
       description: Solana address
     Fid:
       type: integer
@@ -89,7 +89,7 @@ components:
           format: int32
     Ed25519PublicKey:
       type: string
-      pattern: '^0x[a-fA-F0-9]{64}$'
+      pattern: "^0x[a-fA-F0-9]{64}$"
       description: Ed25519 public key
       example: "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"
     Timestamp:
@@ -1128,9 +1128,12 @@ components:
           description: Unique identifier for the page.
         version:
           type: string
+          default: "vNext"
+          example: "vNext"
           description: The version of the page schema.
         title:
           type: string
+          example: "Welcome to Neynar"
           description: The title of the page.
         image:
           $ref: "#/components/schemas/NeynarPageImage"
@@ -1142,17 +1145,16 @@ components:
           $ref: "#/components/schemas/NeynarPageInput"
       required:
         - uuid
-        - version
         - title
+        - version
         - image
-        - buttons
-        - input
     NeynarPageImage:
       type: object
       properties:
         url:
           type: string
           format: uri
+          example: "https://i.imgur.com/qo2AzBf.jpeg"
           description: The URL of the page's image.
         aspect_ratio:
           type: string
@@ -1169,6 +1171,9 @@ components:
         title:
           type: string
           description: The title of the button.
+        index:
+          type: integer
+          description: The index of the button, first button should have index 1 and so on.
         action_type:
           type: string
           description: The type of action that the button performs.
@@ -1184,8 +1189,8 @@ components:
             - $ref: "#/components/schemas/NeynarNextFramePageMintUrl"
       required:
         - title
+        - index
         - action_type
-        - next_page
     NeynarPageInput:
       type: object
       properties:
@@ -1194,6 +1199,7 @@ components:
           properties:
             enabled:
               type: boolean
+              default: false
               description: Indicates if text input is enabled.
             placeholder:
               type: string
@@ -1259,19 +1265,30 @@ components:
     ValidatedFrameAction:
       type: object
       required:
-        - button
         - cast
         - interactor
         - timestamp
+        - tapped_button
+        - url
+        - object
+        - state
       properties:
         object:
           type: string
           enum:
             - validated_frame_action
+        url:
+          type: string
+          format: uri
         interactor:
           $ref: "#/components/schemas/User"
-        button:
-          $ref: "#/components/schemas/FrameActionButton"
+        tapped_button:
+          type: object
+          required:
+            - index
+          properties:
+            index:
+              type: integer
         input:
           $ref: "#/components/schemas/FrameInput"
         state:
@@ -1283,10 +1300,12 @@ components:
         signer:
           type: object
           properties:
-            client: 
+            client:
               $ref: "#/components/schemas/User"
         transaction:
           $ref: "#/components/schemas/FrameTransaction"
+        address:
+          $ref: "#/components/schemas/FrameAddress"
     ValidateFrameActionResponse:
       type: object
       required:
@@ -1388,7 +1407,7 @@ components:
         secrets:
           type: array
           items:
-            $ref: '#/components/schemas/WebhookSecret'
+            $ref: "#/components/schemas/WebhookSecret"
         description:
           type: string
         http_timeout:
@@ -1409,7 +1428,7 @@ components:
           type: string
           format: date-time
         subscription:
-          $ref: '#/components/schemas/WebhookSubscription'
+          $ref: "#/components/schemas/WebhookSubscription"
     WebhookSecret:
       type: object
       required:
@@ -1448,7 +1467,7 @@ components:
         subscription_id:
           type: string
         filters:
-          $ref: '#/components/schemas/WebhookSubscriptionFilters'
+          $ref: "#/components/schemas/WebhookSubscriptionFilters"
         created_at:
           type: string
           format: date-time
@@ -1501,7 +1520,7 @@ components:
         url:
           type: string
         subscription:
-          $ref: '#/components/schemas/WebhookSubscriptionFilters'
+          $ref: "#/components/schemas/WebhookSubscriptionFilters"
     WebhookPutReqBody:
       type: object
       allOf:
@@ -1893,7 +1912,7 @@ paths:
     get:
       tags:
         - User
-      summary: Fetches information about multiple users based on FIDs
+      summary: Fetch users based on FIDs
       description: Fetches information about multiple users based on FIDs
       externalDocs:
         url: https://docs.neynar.com/reference/user-bulk
@@ -1922,12 +1941,46 @@ paths:
                 $ref: "#/components/schemas/BulkUsersResponse"
         "400":
           $ref: "#/components/responses/400Response"
+  /farcaster/user/power: 
+    get:
+      tags:
+        - User
+      summary: Fetch power users
+      description: Fetches power users based on Warpcast power badges
+      externalDocs:
+        url: https://docs.neynar.com/reference/user-power
+      operationId: power-users
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: limit
+          in: query
+          required: false
+          description: Number of power users to fetch, max 100
+          example: 10
+          schema:
+            type: integer
+            format: int32
+            default: 25
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsersResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
   /farcaster/user/active:
     get:
       tags:
         - User
-      summary: Fetches active users based on Warpcast active algorithm
-      description: Fetches active users, information is updated every 12 hours
+      summary: Fetch active users 
+      description: Fetches active users based on Warpcast active algorithm, information is updated every 12 hours
       externalDocs:
         url: https://docs.neynar.com/reference/active-users
       operationId: active-users
@@ -3393,6 +3446,22 @@ paths:
               - 1d
               - 7d
               - 30d
+        - name: limit
+          in: query
+          description: Number of results to retrieve (default 25, max 100)
+          required: false
+          schema:
+            type: integer
+            default: 10
+            minimum: 1
+            maximum: 25
+          example: 10
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          required: false
+          schema:
+            type: string
       responses:
         "200":
           description: Successful response
