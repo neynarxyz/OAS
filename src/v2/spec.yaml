@@ -1497,9 +1497,7 @@ components:
               items:
                 type: string
             text:
-              type: array
-              items:
-                type: string
+              type: string
         user.created:
           type: object
         user.updated:
