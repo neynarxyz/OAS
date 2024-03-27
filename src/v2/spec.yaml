@@ -72,6 +72,13 @@ components:
         The query param accepted by the API. Sent along with identifier param.
         url - Cast identifier is a url
         hash - Cast identifier is a hash
+    Levels:
+      type: integer
+      description: |
+        Number of levels to fetch in the conversation.
+      default: 2
+      minimum: 0
+      maximum: 5
     ErrorRes:
       type: object
       required:
@@ -616,6 +623,19 @@ components:
               type: array
               items:
                 $ref: "#/components/schemas/User"
+    CastWithInteractionsAndConversations:
+      type: object
+      properties:
+        CastWithInteractions:
+          $ref: '#/definitions/CastWithInteractions'
+        chronological_parent_casts:
+          type: array
+          items:
+            $ref: '#/definitions/CastWithInteractionsAndConversations'
+        direct_replies:
+          type: array
+          items:
+            $ref: '#/definitions/CastWithInteractionsAndConversations'
     Signer:
       type: object
       required:
@@ -657,6 +677,13 @@ components:
         fid:
           $ref: "#/components/schemas/Fid"
     CastResponse:
+      type: object
+      required:
+        - cast
+      properties:
+        cast:
+          $ref: "#/components/schemas/CastWithInteractions"
+    ConversationResponse:
       type: object
       required:
         - cast
@@ -2174,6 +2201,45 @@ paths:
           $ref: "#/components/responses/400Response"
         "500":
           $ref: "#/components/responses/500Response"
+  /farcaster/conversation:
+    get:
+      tags:
+        - Cast
+      summary: Retrieve conversations above and below a given hash or Warpcast URL
+      description: Gets information about an conversations surrounding a cast by passing in a Warpcast web URL or cast hash
+      externalDocs:
+        url: https://docs.neynar.com/reference/cast
+      operationId: conversation
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: identifier
+          required: true
+          in: query
+          example: "https://warpcast.com/rish/0x9288c1"
+          description: Cast identifier (Its either a url or a hash)
+          schema:
+            type: string
+        - name: type
+          required: true
+          in: query
+          example: url
+          schema:
+            $ref: "#/components/schemas/CastParamType"
+        - name: levels
+          in: query
+          required: false
+          description: "levels up and down to fetch conversations"
+          schema:
+            $ref: "#/components/schemas/Levels"
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CastWithInteractionsAndConversations"
+        "400":
+          $ref: "#/components/responses/400Response"
   /farcaster/cast:
     get:
       tags:
