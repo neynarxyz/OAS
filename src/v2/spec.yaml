@@ -2228,7 +2228,7 @@ paths:
         - name: levels
           in: query
           required: false
-          description: "levels up and down to fetch conversations"
+          description: "levels up and down to fetch conversations (default 2)"
           schema:
             $ref: "#/components/schemas/Levels"
       responses:
