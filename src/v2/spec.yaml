@@ -893,6 +893,29 @@ components:
           $ref: "#/components/schemas/CastDehydrated"
         user:
           $ref: "#/components/schemas/User"
+    ReactionWithUserInfoAndType:
+      type: object
+      required:
+        - reaction_type
+        - reaction_timestamp
+        - object
+        - user
+      properties:
+        reaction_type:
+          type: string
+          enum:
+            - like
+            - recast
+        reaction_timestamp:
+          type: string
+          format: date-time
+        object:
+          type: string
+          enum:
+            - likes
+            - recasts
+        user:
+          $ref: "#/components/schemas/User"
     ReactionWithCastInfo:
       type: object
       required:
@@ -980,6 +1003,18 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/ReactionWithCastInfo"
+        next:
+          $ref: "#/components/schemas/NextCursor"
+    ReactionsCastResponse:
+      type: object
+      required:
+        - reactions
+        - next
+      properties:
+        reactions:
+          type: array
+          items:
+            $ref: "#/components/schemas/ReactionWithUserInfoAndType"
         next:
           $ref: "#/components/schemas/NextCursor"
     StorageAllocationsResponse:
@@ -3590,7 +3625,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ReactionsResponse"
+                $ref: "#/components/schemas/ReactionsCastResponse"
         "400":
           $ref: "#/components/responses/400Response"
   /farcaster/fname/availability:
