@@ -1317,6 +1317,48 @@ components:
           example: true
         action:
           $ref: "#/components/schemas/ValidatedFrameAction"
+    FramesResponse:
+      type: object
+      required:
+        - frames
+      properties:
+        frames:
+          type: array
+          items:
+            type: string
+    TotalInteractorsResponse:
+      type: object
+      required:
+        - total_interactors
+      properties:
+        total_interactors:
+          type: integer
+          example: 100
+    InteractorsResponse:
+      type: object
+      required:
+        - interactors
+      properties:
+        interactors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Interactor'
+    Interactor:
+      type: object
+      required:
+        - fid
+        - username
+        - interaction_count
+      properties:
+        fid:
+          type: integer
+          example: 12345
+        username:
+          type: string
+          example: 'user_example'
+        interaction_count:
+          type: integer
+          example: 5
     UserFIDResponse:
       type: object
       required:
@@ -3084,6 +3126,86 @@ paths:
           $ref: "#/components/responses/400Response"
         "500":
           $ref: "#/components/responses/500Response"
+          
+  /farcaster/frame/validate/list:
+    get:
+      tags:
+        - Frames
+      summary: Gets a list of frame Urls
+      description: Gets a list of frame Urls
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-frames
+      operationId: fetch-frames
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FramesResponse"
+        "401":
+          $ref: "#/components/responses/401Response"
+        "500":
+          $ref: "#/components/responses/500Response"
+
+  /farcaster/frame/validate/analytics/interactors:
+    get:
+      tags:
+        - Frames
+      summary: Get Analytics for a single frame
+      description: Gets Interactors and Total Interactors for a given frame
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-analytics-for-interactors
+      operationId: fetch-analytics-for-interactors
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - in: query
+          name: frame_url
+          required: true
+          schema:
+            type: string
+          description: The URL of the frame to fetch analytics for.
+        - in: query
+          name: analytics_type
+          required: true
+          schema:
+            type: string
+            enum:
+              - total-interactors
+              - interactors
+          description: The type of analytics data to fetch.
+        - in: query
+          name: start
+          required: true
+          schema:
+            type: string
+            format: date-time
+          description: The start time for the analytics range.
+        - in: query
+          name: stop
+          required: true
+          schema:
+            type: string
+            format: date-time
+          description: The stop time for the analytics range.
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/TotalInteractorsResponse'
+                  - $ref: '#/components/schemas/InteractorsResponse'
+        "400":
+          $ref: "#/components/responses/400Response"
+        "401":
+          $ref: "#/components/responses/401Response"
+        "500":
+          $ref: "#/components/responses/500Response"
+          
   /farcaster/notifications:
     get:
       tags:
