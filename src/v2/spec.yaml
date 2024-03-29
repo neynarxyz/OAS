@@ -2052,11 +2052,11 @@ paths:
         - name: address_types
           in: query
           description: >
-            Customize which address types the request should search for. This is a comma-separated string that can include the following values: 'custody_address', 'verified_address', and 'all'. The default is 'all'. To select multiple types, use a comma-separated list of these values.
+            Customize which address types the request should search for. This is a comma-separated string that can include the following values: 'custody_address' and 'verified_address'. By default api returns both. To select multiple types, use a comma-separated list of these values.
           required: false
           schema:
             type: string
-            pattern: '^(custody_address,?|verified_address,?|all,?)+$'
+            pattern: '^(custody_address,?|verified_address,?)+$'
           example: "custody_address,verified_address"
       responses:
         "200":
