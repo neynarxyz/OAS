@@ -719,6 +719,8 @@ components:
               type: array
               items:
                 $ref: "#/components/schemas/SearchedUser"
+            has_more:
+              type: boolean
     BulkCastsResponse:
       type: object
       required:
@@ -1907,6 +1909,24 @@ paths:
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
+        - name: limit
+          in: query
+          required: false
+          example: 10
+          schema:
+            type: integer
+            format: int32
+            default: 5
+            maximum: 10
+        - name: page
+          in: query
+          required: false
+          example: 1
+          schema:
+            type: integer
+            format: int32
+            default: 1
+            minimum: 1
       responses:
         "200":
           description: Successful operation.
