@@ -1504,7 +1504,7 @@ components:
                 1) Regex must be parsed by Go's RE2 engine (Test your expression here: https://www.lddgo.net/en/string/golangregex)
                 2) Use backslashes to escape special characters.
                 For example: (?i)\\$degen should be written as (?i)\\\\$degen
-              example: (?i)\\$degen
+              example: (?i)\$degen
             embeds:
               type: string
               description: |
@@ -1513,7 +1513,7 @@ components:
                 1) Regex must be parsed by Go's RE2 engine (Test your expression here: https://www.lddgo.net/en/string/golangregex)
                 2) Use backslashes to escape special characters.
                 For example: \\b(farcaster|neynar)\\b should be written as \\\\b(farcaster|neynar)\\\\b
-              example: \\b(farcaster|neynar)\\b
+              example: \b(farcaster|neynar)\b
         user.created:
           type: object
         user.updated:
