@@ -2050,16 +2050,14 @@ paths:
           schema:
             type: string
         - name: address_types
-          description: Customize which address types the request should search for. Default is all. Select multiple types by using a comma-separated list of valid types in the enum
           in: query
+          description: >
+            Customize which address types the request should search for. This is a comma-separated string that can include the following values: 'custody_address', 'verified_address', and 'all'. The default is 'all'. To select multiple types, use a comma-separated list of these values.
           required: false
-          example: custody_address,verified_address
           schema:
             type: string
-            enum:
-              - custody_address
-              - verified_address
-              - all
+            pattern: '^(custody_address,?|verified_address,?|all,?)+$'
+          example: "custody_address,verified_address"
       responses:
         "200":
           description: Successful operation.
