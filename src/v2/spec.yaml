@@ -1503,7 +1503,8 @@ components:
                 **Note:** 
                 1) Regex must be parsed by Go's RE2 engine (Test your expression here: https://www.lddgo.net/en/string/golangregex)
                 2) Use backslashes to escape special characters.
-                For example: (?i)\$degen should be written as (?i)\\$degen
+                For example: (?i)\\$degen should be written as (?i)\\\\$degen
+              example: (?i)\\$degen
             embeds:
               type: string
               description: |
@@ -1511,7 +1512,8 @@ components:
                 **Note:** 
                 1) Regex must be parsed by Go's RE2 engine (Test your expression here: https://www.lddgo.net/en/string/golangregex)
                 2) Use backslashes to escape special characters.
-                For example: \b(farcaster|neynar)\b should be written as \\b(farcaster|neynar)\\b
+                For example: \\b(farcaster|neynar)\\b should be written as \\\\b(farcaster|neynar)\\\\b
+              example: \\b(farcaster|neynar)\\b
         user.created:
           type: object
         user.updated:
@@ -1953,7 +1955,7 @@ paths:
                 $ref: "#/components/schemas/BulkUsersResponse"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/user/power: 
+  /farcaster/user/power:
     get:
       tags:
         - User
@@ -1991,7 +1993,7 @@ paths:
     get:
       tags:
         - User
-      summary: Fetch active users 
+      summary: Fetch active users
       description: Fetches active users based on Warpcast active algorithm, information is updated every 12 hours
       externalDocs:
         url: https://docs.neynar.com/reference/active-users
