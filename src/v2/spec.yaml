@@ -517,13 +517,6 @@ components:
           $ref: "#/components/schemas/CastHash"
         action:
           $ref: "#/components/schemas/FrameAction"
-    FrameActionResponse:
-      type: object
-      required:
-        - next_frame
-      properties:
-        next_frame:
-          $ref: "#/components/schemas/Frame"
     AddVerificationReqBody:
       type: object
       required:
@@ -3031,7 +3024,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/FrameActionResponse"
+                $ref: "#/components/schemas/Frame"
         "400":
           $ref: "#/components/responses/400Response"
         "500":
