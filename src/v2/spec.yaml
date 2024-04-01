@@ -719,8 +719,9 @@ components:
               type: array
               items:
                 $ref: "#/components/schemas/SearchedUser"
-            has_more:
-              type: boolean
+            cursor:
+              type: string
+              
     BulkCastsResponse:
       type: object
       required:
@@ -1918,15 +1919,11 @@ paths:
             format: int32
             default: 5
             maximum: 10
-        - name: page
+        - name: cursor
           in: query
-          required: false
-          example: 1
+          description: Pagination cursor.
           schema:
-            type: integer
-            format: int32
-            default: 1
-            minimum: 1
+            type: string
       responses:
         "200":
           description: Successful operation.
