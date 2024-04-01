@@ -712,6 +712,8 @@ components:
               type: array
               items:
                 $ref: "#/components/schemas/SearchedUser"
+            next:
+              $ref: "#/components/schemas/NextCursor"
     BulkCastsResponse:
       type: object
       required:
@@ -1902,10 +1904,24 @@ paths:
             type: string
         - name: viewer_fid
           in: query
-          required: true
+          required: false
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
+        - name: limit
+          in: query
+          required: false
+          example: 10
+          schema:
+            type: integer
+            format: int32
+            default: 5
+            maximum: 10
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          schema:
+            type: string
       responses:
         "200":
           description: Successful operation.
