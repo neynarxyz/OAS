@@ -626,8 +626,9 @@ components:
     CastWithInteractionsAndConversations:
       type: object
       allOf:
-        - $ref: '#/definitions/CastWithInteractions'
-      direct_replies:
+        - $ref: '#/components/schemas/CastWithInteractions'
+      properties:
+        direct_replies:
           type: array
           items:
             $ref: '#/components/schemas/CastWithInteractionsAndConversations'
