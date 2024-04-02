@@ -625,17 +625,21 @@ components:
                 $ref: "#/components/schemas/User"
     CastWithInteractionsAndConversations:
       type: object
+      allOf:
+        - $ref: '#/definitions/CastWithInteractions'
+      direct_replies:
+          type: array
+          items:
+            $ref: '#/components/schemas/CastWithInteractionsAndConversations'
+    ConversationContainer:
+      type: object
       properties:
-        CastWithInteractions:
-          $ref: '#/definitions/CastWithInteractions'
+        cast:
+          $ref: '#/components/schemas/CastWithInteractionsAndConversations'
         chronological_parent_casts:
           type: array
           items:
-            $ref: '#/definitions/CastWithInteractionsAndConversations'
-        direct_replies:
-          type: array
-          items:
-            $ref: '#/definitions/CastWithInteractionsAndConversations'
+            $ref: '#/components/schemas/CastWithInteractionsAndConversations'
     Signer:
       type: object
       required:
@@ -2237,7 +2241,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CastWithInteractionsAndConversations"
+                $ref: "#/components/schemas/ConversationContainer"
         "400":
           $ref: "#/components/responses/400Response"
   /farcaster/cast:
