@@ -72,6 +72,13 @@ components:
         The query param accepted by the API. Sent along with identifier param.
         url - Cast identifier is a url
         hash - Cast identifier is a hash
+    ReplyDepth:
+      type: integer
+      description: |
+        Depth of replies to fetch in the conversation.
+      default: 2
+      minimum: 0
+      maximum: 5
     ErrorRes:
       type: object
       required:
@@ -517,13 +524,6 @@ components:
           $ref: "#/components/schemas/CastHash"
         action:
           $ref: "#/components/schemas/FrameAction"
-    FrameActionResponse:
-      type: object
-      required:
-        - next_frame
-      properties:
-        next_frame:
-          $ref: "#/components/schemas/Frame"
     AddVerificationReqBody:
       type: object
       required:
@@ -616,6 +616,25 @@ components:
               type: array
               items:
                 $ref: "#/components/schemas/User"
+    CastWithInteractionsAndConversations:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/CastWithInteractions'
+      properties:
+        direct_replies:
+          type: array
+          items:
+            $ref: '#/components/schemas/CastWithInteractions'
+          description: "note: This is recursive. It contains the direct replies to the cast and their direct replies up to n reply_depth."    
+    ConversationContainer:
+      type: object
+      properties:
+        cast:
+          $ref: '#/components/schemas/CastWithInteractionsAndConversations'
+        chronological_parent_casts:
+          type: array
+          items:
+            $ref: '#/components/schemas/CastWithInteractions'
     Signer:
       type: object
       required:
@@ -657,6 +676,13 @@ components:
         fid:
           $ref: "#/components/schemas/Fid"
     CastResponse:
+      type: object
+      required:
+        - cast
+      properties:
+        cast:
+          $ref: "#/components/schemas/CastWithInteractions"
+    ConversationResponse:
       type: object
       required:
         - cast
@@ -719,6 +745,8 @@ components:
               type: array
               items:
                 $ref: "#/components/schemas/SearchedUser"
+            next:
+              $ref: "#/components/schemas/NextCursor"
     BulkCastsResponse:
       type: object
       required:
@@ -1500,14 +1528,20 @@ components:
               type: string
               description: |
                 Regex pattern to match the text key of the cast.
-                **Note:** Use backslashes to escape special characters.
-                For example: \bhello-there\b should be written as \\bhello-there\\b
+                **Note:** 
+                1) Regex must be parsed by Go's RE2 engine (Test your expression here: https://www.lddgo.net/en/string/golangregex)
+                2) Use backslashes to escape special characters.
+                For example: (?i)\\$degen should be written as (?i)\\\\$degen
+              example: (?i)\$degen
             embeds:
               type: string
               description: |
                 Regex pattern to match the embeded_url (key embeds) of the cast.
-                **Note:** Use backslashes to escape special characters.
-                For example: \bhello-there\b should be written as \\bhello-there\\b
+                **Note:** 
+                1) Regex must be parsed by Go's RE2 engine (Test your expression here: https://www.lddgo.net/en/string/golangregex)
+                2) Use backslashes to escape special characters.
+                For example: \\b(farcaster|neynar)\\b should be written as \\\\b(farcaster|neynar)\\\\b
+              example: \b(farcaster|neynar)\b
         user.created:
           type: object
         user.updated:
@@ -1903,10 +1937,24 @@ paths:
             type: string
         - name: viewer_fid
           in: query
-          required: true
+          required: false
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
+        - name: limit
+          in: query
+          required: false
+          example: 10
+          schema:
+            type: integer
+            format: int32
+            default: 5
+            maximum: 10
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          schema:
+            type: string
       responses:
         "200":
           description: Successful operation.
@@ -1949,7 +1997,7 @@ paths:
                 $ref: "#/components/schemas/BulkUsersResponse"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/user/power: 
+  /farcaster/user/power:
     get:
       tags:
         - User
@@ -1987,7 +2035,7 @@ paths:
     get:
       tags:
         - User
-      summary: Fetch active users 
+      summary: Fetch active users
       description: Fetches active users based on Warpcast active algorithm, information is updated every 12 hours
       externalDocs:
         url: https://docs.neynar.com/reference/active-users
@@ -2044,16 +2092,14 @@ paths:
           schema:
             type: string
         - name: address_types
-          description: Customize which address types the request should search for. Default is all. Select multiple types by using a comma-separated list of valid types in the enum
           in: query
+          description: >
+            Customize which address types the request should search for. This is a comma-separated string that can include the following values: 'custody_address' and 'verified_address'. By default api returns both. To select multiple types, use a comma-separated list of these values.
           required: false
-          example: custody_address,verified_address
           schema:
             type: string
-            enum:
-              - custody_address
-              - verified_address
-              - all
+            pattern: '^(custody_address,?|verified_address,?)+$'
+          example: "custody_address,verified_address"
       responses:
         "200":
           description: Successful operation.
@@ -2323,6 +2369,45 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CastsResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+  /farcaster/cast/conversation:
+    get:
+      tags:
+        - Cast
+      summary: Retrieve the conversation for a given cast
+      description: Gets all casts related to a conversation surrounding a cast by passing in a cast hash or Warpcast URL. Includes all the ancestors of a cast up to the root parent in a chronological order. Includes all direct_replies to the cast up to the reply_depth specified in the query parameter.
+      externalDocs:
+        url: https://docs.neynar.com/reference/cast-conversation
+      operationId: cast-conversation
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: identifier
+          required: true
+          in: query
+          example: "https://warpcast.com/rish/0x9288c1"
+          description: Cast identifier (Its either a url or a hash)
+          schema:
+            type: string
+        - name: type
+          required: true
+          in: query
+          example: url
+          schema:
+            $ref: "#/components/schemas/CastParamType"
+        - name: reply_depth
+          in: query
+          required: false
+          description: "The depth of replies in the conversation that will be returned (default 2)"
+          schema:
+            $ref: "#/components/schemas/ReplyDepth"
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConversationContainer"
         "400":
           $ref: "#/components/responses/400Response"
   /farcaster/feed:
@@ -3027,7 +3112,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/FrameActionResponse"
+                $ref: "#/components/schemas/Frame"
         "400":
           $ref: "#/components/responses/400Response"
         "500":
