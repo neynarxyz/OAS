@@ -2223,11 +2223,11 @@ paths:
     get:
       tags:
         - Cast
-      summary: Retrieve conversations above and below a given hash or Warpcast URL
-      description: Gets information about an conversations surrounding a cast by passing in a Warpcast web URL or cast hash
+      summary: Retrieve the conversation for a given cast
+      description: Gets all casts related to a conversation surrounding a cast by passing in a cast hash or Warpcast URL. Includes all the ancestors of a cast up to the root parent in a chronological order. Includes all direct_replies to the cast up to the reply_depth specified in the query parameter.
       externalDocs:
-        url: https://docs.neynar.com/reference/cast
-      operationId: conversation
+        url: https://docs.neynar.com/reference/cast-conversation
+      operationId: cast-conversation
       parameters:
         - $ref: "#/components/parameters/ApiKey"
         - name: identifier
