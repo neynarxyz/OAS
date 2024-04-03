@@ -624,7 +624,8 @@ components:
         direct_replies:
           type: array
           items:
-            $ref: '#/components/schemas/CastWithInteractionsAndConversations'
+            $ref: '#/components/schemas/CastWithInteractions'
+          description: "note: This is recursive. It contains the direct replies to the cast and their direct replies up to n reply_depth."    
     ConversationContainer:
       type: object
       properties:
