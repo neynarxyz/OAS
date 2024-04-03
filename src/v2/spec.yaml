@@ -40,9 +40,9 @@ components:
     ReactionsType:
       type: string
       enum:
+        - all
         - likes
         - recasts
-        - all
     NextCursor:
       type: object
       description: Returns next cursor
