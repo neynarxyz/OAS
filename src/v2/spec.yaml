@@ -2206,7 +2206,7 @@ paths:
           $ref: "#/components/responses/400Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/conversation:
+  /farcaster/cast/conversation:
     get:
       tags:
         - Cast
