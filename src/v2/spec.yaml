@@ -72,7 +72,7 @@ components:
         The query param accepted by the API. Sent along with identifier param.
         url - Cast identifier is a url
         hash - Cast identifier is a hash
-    Reply_Depth:
+    ReplyDepth:
       type: integer
       description: |
         Depth of replies to fetch in the conversation.
@@ -2235,7 +2235,7 @@ paths:
           required: false
           description: "The depth of replies in the conversation that will be returned (default 2)"
           schema:
-            $ref: "#/components/schemas/Reply_Depth"
+            $ref: "#/components/schemas/ReplyDepth"
       responses:
         "200":
           description: Successful operation.
