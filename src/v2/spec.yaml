@@ -3601,9 +3601,9 @@ paths:
             $ref: "#/components/schemas/CastHash"
         - name: types
           in: query
-          required: false
+          required: true
           description: comma seperated list of reactions to fetch (likes or recasts or all)
-          example: likes
+          example: all
           schema:
             $ref: "#/components/schemas/ReactionsType"
         - name: limit
