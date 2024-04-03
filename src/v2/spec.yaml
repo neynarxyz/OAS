@@ -2219,45 +2219,6 @@ paths:
           $ref: "#/components/responses/400Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/cast/conversation:
-    get:
-      tags:
-        - Cast
-      summary: Retrieve the conversation for a given cast
-      description: Gets all casts related to a conversation surrounding a cast by passing in a cast hash or Warpcast URL. Includes all the ancestors of a cast up to the root parent in a chronological order. Includes all direct_replies to the cast up to the reply_depth specified in the query parameter.
-      externalDocs:
-        url: https://docs.neynar.com/reference/cast-conversation
-      operationId: cast-conversation
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
-        - name: identifier
-          required: true
-          in: query
-          example: "https://warpcast.com/rish/0x9288c1"
-          description: Cast identifier (Its either a url or a hash)
-          schema:
-            type: string
-        - name: type
-          required: true
-          in: query
-          example: url
-          schema:
-            $ref: "#/components/schemas/CastParamType"
-        - name: reply_depth
-          in: query
-          required: false
-          description: "The depth of replies in the conversation that will be returned (default 2)"
-          schema:
-            $ref: "#/components/schemas/ReplyDepth"
-      responses:
-        "200":
-          description: Successful operation.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ConversationContainer"
-        "400":
-          $ref: "#/components/responses/400Response"
   /farcaster/cast:
     get:
       tags:
@@ -2407,6 +2368,45 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CastsResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+  /farcaster/cast/conversation:
+    get:
+      tags:
+        - Cast
+      summary: Retrieve the conversation for a given cast
+      description: Gets all casts related to a conversation surrounding a cast by passing in a cast hash or Warpcast URL. Includes all the ancestors of a cast up to the root parent in a chronological order. Includes all direct_replies to the cast up to the reply_depth specified in the query parameter.
+      externalDocs:
+        url: https://docs.neynar.com/reference/cast-conversation
+      operationId: cast-conversation
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: identifier
+          required: true
+          in: query
+          example: "https://warpcast.com/rish/0x9288c1"
+          description: Cast identifier (Its either a url or a hash)
+          schema:
+            type: string
+        - name: type
+          required: true
+          in: query
+          example: url
+          schema:
+            $ref: "#/components/schemas/CastParamType"
+        - name: reply_depth
+          in: query
+          required: false
+          description: "The depth of replies in the conversation that will be returned (default 2)"
+          schema:
+            $ref: "#/components/schemas/ReplyDepth"
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConversationContainer"
         "400":
           $ref: "#/components/responses/400Response"
   /farcaster/feed:
