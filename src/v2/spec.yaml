@@ -2219,45 +2219,6 @@ paths:
           $ref: "#/components/responses/400Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/cast/conversation:
-    get:
-      tags:
-        - Cast
-      summary: Retrieve conversations above and below a given hash or Warpcast URL
-      description: Gets information about an conversations surrounding a cast by passing in a Warpcast web URL or cast hash
-      externalDocs:
-        url: https://docs.neynar.com/reference/cast
-      operationId: conversation
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
-        - name: identifier
-          required: true
-          in: query
-          example: "https://warpcast.com/rish/0x9288c1"
-          description: Cast identifier (Its either a url or a hash)
-          schema:
-            type: string
-        - name: type
-          required: true
-          in: query
-          example: url
-          schema:
-            $ref: "#/components/schemas/CastParamType"
-        - name: reply_depth
-          in: query
-          required: false
-          description: "The depth of replies in the conversation that will be returned (default 2)"
-          schema:
-            $ref: "#/components/schemas/ReplyDepth"
-      responses:
-        "200":
-          description: Successful operation.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ConversationContainer"
-        "400":
-          $ref: "#/components/responses/400Response"
   /farcaster/cast:
     get:
       tags:
