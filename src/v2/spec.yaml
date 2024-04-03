@@ -3557,7 +3557,7 @@ paths:
           in: query
           required: true
           description: Type of reaction to fetch (likes or recasts or all)
-          example: likes
+          example: all
           schema:
             $ref: "#/components/schemas/ReactionsType"
         - name: limit
