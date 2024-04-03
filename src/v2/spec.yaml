@@ -633,7 +633,7 @@ components:
         chronological_parent_casts:
           type: array
           items:
-            $ref: '#/components/schemas/CastWithInteractionsAndConversations'
+            $ref: '#/components/schemas/CastWithInteractions'
     Signer:
       type: object
       required:
