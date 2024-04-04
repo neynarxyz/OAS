@@ -3683,7 +3683,7 @@ paths:
       description: Fetches reactions for a given cast
       operationId: reactions-cast
       externalDocs:
-        url: https://docs.neynar.com/reference/reactions
+        url: https://docs.neynar.com/reference/reactions-cast
       parameters:
         - $ref: "#/components/parameters/ApiKey"
         - name: hash
