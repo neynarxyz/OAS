@@ -724,7 +724,7 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Channel"
-        cursor:
+        next:
           $ref: "#/components/schemas/NextCursor"
     ChannelResponse:
       type: object
