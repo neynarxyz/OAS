@@ -921,7 +921,7 @@ components:
           $ref: "#/components/schemas/CastDehydrated"
         user:
           $ref: "#/components/schemas/User"
-    ReactionWithUserInfoAndType:
+    ReactionForCast:
       type: object
       required:
         - reaction_type
@@ -1042,7 +1042,7 @@ components:
         reactions:
           type: array
           items:
-            $ref: "#/components/schemas/ReactionWithUserInfoAndType"
+            $ref: "#/components/schemas/ReactionForCast"
         next:
           $ref: "#/components/schemas/NextCursor"
     StorageAllocationsResponse:
