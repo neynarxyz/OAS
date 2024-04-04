@@ -40,9 +40,9 @@ components:
     ReactionsType:
       type: string
       enum:
+        - all
         - likes
         - recasts
-        - all
     NextCursor:
       type: object
       description: Returns next cursor
@@ -921,6 +921,29 @@ components:
           $ref: "#/components/schemas/CastDehydrated"
         user:
           $ref: "#/components/schemas/User"
+    ReactionForCast:
+      type: object
+      required:
+        - reaction_type
+        - reaction_timestamp
+        - object
+        - user
+      properties:
+        reaction_type:
+          type: string
+          enum:
+            - like
+            - recast
+        reaction_timestamp:
+          type: string
+          format: date-time
+        object:
+          type: string
+          enum:
+            - likes
+            - recasts
+        user:
+          $ref: "#/components/schemas/User"
     ReactionWithCastInfo:
       type: object
       required:
@@ -1008,6 +1031,18 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/ReactionWithCastInfo"
+        next:
+          $ref: "#/components/schemas/NextCursor"
+    ReactionsCastResponse:
+      type: object
+      required:
+        - reactions
+        - next
+      properties:
+        reactions:
+          type: array
+          items:
+            $ref: "#/components/schemas/ReactionForCast"
         next:
           $ref: "#/components/schemas/NextCursor"
     StorageAllocationsResponse:
@@ -3615,7 +3650,7 @@ paths:
           in: query
           required: true
           description: Type of reaction to fetch (likes or recasts or all)
-          example: likes
+          example: all
           schema:
             $ref: "#/components/schemas/ReactionsType"
         - name: limit
@@ -3638,6 +3673,52 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ReactionsResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+  /farcaster/reactions/cast:
+    get:
+      tags:
+        - Reaction
+      summary: Fetches reactions for a given cast
+      description: Fetches reactions for a given cast
+      operationId: reactions-cast
+      externalDocs:
+        url: https://docs.neynar.com/reference/reactions-cast
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: hash
+          in: query
+          required: true
+          example: 3
+          schema:
+            $ref: "#/components/schemas/CastHash"
+        - name: types
+          in: query
+          required: true
+          description: comma seperated list of reactions to fetch (likes or recasts or all)
+          example: all
+          schema:
+            $ref: "#/components/schemas/ReactionsType"
+        - name: limit
+          in: query
+          description: Number of results to retrieve (default 25, max 100)
+          schema:
+            type: integer
+            default: 25
+            minimum: 1
+            maximum: 100
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReactionsCastResponse"
         "400":
           $ref: "#/components/responses/400Response"
   /farcaster/fname/availability:
