@@ -629,6 +629,8 @@ components:
           description: "note: This is recursive. It contains the direct replies to the cast and their direct replies up to n reply_depth."    
     ConversationContainer:
       type: object
+      required:
+        - cast
       properties:
         cast:
           $ref: '#/components/schemas/CastWithInteractionsAndConversations'
@@ -2437,6 +2439,13 @@ paths:
           description: "The depth of replies in the conversation that will be returned (default 2)"
           schema:
             $ref: "#/components/schemas/ReplyDepth"
+        - name: include_chronological_parent_casts
+          in: query
+          required: false
+          description: "Include all parent casts in chronological order"
+          schema:
+            type: boolean
+            default: false
       responses:
         "200":
           description: Successful operation.
