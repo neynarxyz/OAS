@@ -1019,8 +1019,8 @@ paths:
     get:
       tags:
         - Cast
-      summary: Retrieve all casts in a given thread hash
-      description: Gets all casts, including root cast and all replies for a given thread hash. No limit the depth of replies.
+      summary: DEPRECATED - Retrieve all casts in a given thread hash
+      description: Now deprecated, use [v2/cast/conversation](https://docs.neynar.com/reference/cast-conversation). Gets all casts, including root cast and all replies for a given thread hash. No limit the depth of replies.
       externalDocs:
         url: https://docs.neynar.com/reference/all-casts-in-thread-v1
       operationId: all-casts-in-thread
@@ -1234,7 +1234,7 @@ paths:
             type: integer
             default: 25
             minimum: 1
-            maximum: 150
+            maximum: 50
         - name: cursor
           in: query
           description: Pagination cursor.

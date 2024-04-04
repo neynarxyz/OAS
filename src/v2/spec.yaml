@@ -17,6 +17,7 @@ components:
       description: Solana address
     Fid:
       type: integer
+      default: 3
       format: int32
       description: User identifier (unsigned integer)
     SignerUUID:
@@ -40,9 +41,9 @@ components:
     ReactionsType:
       type: string
       enum:
+        - all
         - likes
         - recasts
-        - all
     NextCursor:
       type: object
       description: Returns next cursor
@@ -72,6 +73,13 @@ components:
         The query param accepted by the API. Sent along with identifier param.
         url - Cast identifier is a url
         hash - Cast identifier is a hash
+    ReplyDepth:
+      type: integer
+      description: |
+        Depth of replies to fetch in the conversation.
+      default: 2
+      minimum: 0
+      maximum: 5
     ErrorRes:
       type: object
       required:
@@ -517,13 +525,6 @@ components:
           $ref: "#/components/schemas/CastHash"
         action:
           $ref: "#/components/schemas/FrameAction"
-    FrameActionResponse:
-      type: object
-      required:
-        - next_frame
-      properties:
-        next_frame:
-          $ref: "#/components/schemas/Frame"
     AddVerificationReqBody:
       type: object
       required:
@@ -616,6 +617,27 @@ components:
               type: array
               items:
                 $ref: "#/components/schemas/User"
+    CastWithInteractionsAndConversations:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/CastWithInteractions'
+      properties:
+        direct_replies:
+          type: array
+          items:
+            $ref: '#/components/schemas/CastWithInteractions'
+          description: "note: This is recursive. It contains the direct replies to the cast and their direct replies up to n reply_depth."    
+    ConversationContainer:
+      type: object
+      required:
+        - cast
+      properties:
+        cast:
+          $ref: '#/components/schemas/CastWithInteractionsAndConversations'
+        chronological_parent_casts:
+          type: array
+          items:
+            $ref: '#/components/schemas/CastWithInteractions'
     Signer:
       type: object
       required:
@@ -657,6 +679,13 @@ components:
         fid:
           $ref: "#/components/schemas/Fid"
     CastResponse:
+      type: object
+      required:
+        - cast
+      properties:
+        cast:
+          $ref: "#/components/schemas/CastWithInteractions"
+    ConversationResponse:
       type: object
       required:
         - cast
@@ -719,6 +748,8 @@ components:
               type: array
               items:
                 $ref: "#/components/schemas/SearchedUser"
+            next:
+              $ref: "#/components/schemas/NextCursor"
     BulkCastsResponse:
       type: object
       required:
@@ -893,6 +924,29 @@ components:
           $ref: "#/components/schemas/CastDehydrated"
         user:
           $ref: "#/components/schemas/User"
+    ReactionForCast:
+      type: object
+      required:
+        - reaction_type
+        - reaction_timestamp
+        - object
+        - user
+      properties:
+        reaction_type:
+          type: string
+          enum:
+            - like
+            - recast
+        reaction_timestamp:
+          type: string
+          format: date-time
+        object:
+          type: string
+          enum:
+            - likes
+            - recasts
+        user:
+          $ref: "#/components/schemas/User"
     ReactionWithCastInfo:
       type: object
       required:
@@ -980,6 +1034,18 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/ReactionWithCastInfo"
+        next:
+          $ref: "#/components/schemas/NextCursor"
+    ReactionsCastResponse:
+      type: object
+      required:
+        - reactions
+        - next
+      properties:
+        reactions:
+          type: array
+          items:
+            $ref: "#/components/schemas/ReactionForCast"
         next:
           $ref: "#/components/schemas/NextCursor"
     StorageAllocationsResponse:
@@ -1497,9 +1563,23 @@ components:
               items:
                 type: string
             text:
-              type: array
-              items:
-                type: string
+              type: string
+              description: |
+                Regex pattern to match the text key of the cast.
+                **Note:** 
+                1) Regex must be parsed by Go's RE2 engine (Test your expression here: https://www.lddgo.net/en/string/golangregex)
+                2) Use backslashes to escape special characters.
+                For example: (?i)\\$degen should be written as (?i)\\\\$degen
+              example: (?i)\$degen
+            embeds:
+              type: string
+              description: |
+                Regex pattern to match the embeded_url (key embeds) of the cast.
+                **Note:** 
+                1) Regex must be parsed by Go's RE2 engine (Test your expression here: https://www.lddgo.net/en/string/golangregex)
+                2) Use backslashes to escape special characters.
+                For example: \\b(farcaster|neynar)\\b should be written as \\\\b(farcaster|neynar)\\\\b
+              example: \b(farcaster|neynar)\b
         user.created:
           type: object
         user.updated:
@@ -1895,10 +1975,24 @@ paths:
             type: string
         - name: viewer_fid
           in: query
-          required: true
+          required: false
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
+        - name: limit
+          in: query
+          required: false
+          example: 10
+          schema:
+            type: integer
+            format: int32
+            default: 5
+            maximum: 10
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          schema:
+            type: string
       responses:
         "200":
           description: Successful operation.
@@ -1912,7 +2006,7 @@ paths:
     get:
       tags:
         - User
-      summary: Fetches information about multiple users based on FIDs
+      summary: Fetch users based on FIDs
       description: Fetches information about multiple users based on FIDs
       externalDocs:
         url: https://docs.neynar.com/reference/user-bulk
@@ -1941,12 +2035,46 @@ paths:
                 $ref: "#/components/schemas/BulkUsersResponse"
         "400":
           $ref: "#/components/responses/400Response"
+  /farcaster/user/power:
+    get:
+      tags:
+        - User
+      summary: Fetch power users
+      description: Fetches power users based on Warpcast power badges
+      externalDocs:
+        url: https://docs.neynar.com/reference/user-power
+      operationId: power-users
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: limit
+          in: query
+          required: false
+          description: Number of power users to fetch, max 100
+          example: 10
+          schema:
+            type: integer
+            format: int32
+            default: 25
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsersResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
   /farcaster/user/active:
     get:
       tags:
         - User
-      summary: Fetches active users based on Warpcast active algorithm
-      description: Fetches active users, information is updated every 12 hours
+      summary: Fetch active users
+      description: Fetches active users based on Warpcast active algorithm, information is updated every 12 hours
       externalDocs:
         url: https://docs.neynar.com/reference/active-users
       operationId: active-users
@@ -2002,16 +2130,14 @@ paths:
           schema:
             type: string
         - name: address_types
-          description: Customize which address types the request should search for. Default is all. Select multiple types by using a comma-separated list of valid types in the enum
           in: query
+          description: >
+            Customize which address types the request should search for. This is a comma-separated string that can include the following values: 'custody_address' and 'verified_address'. By default api returns both. To select multiple types, use a comma-separated list of these values.
           required: false
-          example: custody_address,verified_address
           schema:
             type: string
-            enum:
-              - custody_address
-              - verified_address
-              - all
+            pattern: '^(custody_address,?|verified_address,?)+$'
+          example: "custody_address,verified_address"
       responses:
         "200":
           description: Successful operation.
@@ -2281,6 +2407,52 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CastsResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+  /farcaster/cast/conversation:
+    get:
+      tags:
+        - Cast
+      summary: Retrieve the conversation for a given cast
+      description: Gets all casts related to a conversation surrounding a cast by passing in a cast hash or Warpcast URL. Includes all the ancestors of a cast up to the root parent in a chronological order. Includes all direct_replies to the cast up to the reply_depth specified in the query parameter.
+      externalDocs:
+        url: https://docs.neynar.com/reference/cast-conversation
+      operationId: cast-conversation
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: identifier
+          required: true
+          in: query
+          example: "https://warpcast.com/rish/0x9288c1"
+          description: Cast identifier (Its either a url or a hash)
+          schema:
+            type: string
+        - name: type
+          required: true
+          in: query
+          example: url
+          schema:
+            $ref: "#/components/schemas/CastParamType"
+        - name: reply_depth
+          in: query
+          required: false
+          description: "The depth of replies in the conversation that will be returned (default 2)"
+          schema:
+            $ref: "#/components/schemas/ReplyDepth"
+        - name: include_chronological_parent_casts
+          in: query
+          required: false
+          description: "Include all parent casts in chronological order"
+          schema:
+            type: boolean
+            default: false
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConversationContainer"
         "400":
           $ref: "#/components/responses/400Response"
   /farcaster/feed:
@@ -3043,7 +3215,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/FrameActionResponse"
+                $ref: "#/components/schemas/Frame"
         "400":
           $ref: "#/components/responses/400Response"
         "500":
@@ -3470,6 +3642,22 @@ paths:
               - 1d
               - 7d
               - 30d
+        - name: limit
+          in: query
+          description: Number of results to retrieve (default 25, max 100)
+          required: false
+          schema:
+            type: integer
+            default: 10
+            minimum: 1
+            maximum: 25
+          example: 10
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          required: false
+          schema:
+            type: string
       responses:
         "200":
           description: Successful response
@@ -3530,7 +3718,7 @@ paths:
           in: query
           required: true
           description: Type of reaction to fetch (likes or recasts or all)
-          example: likes
+          example: all
           schema:
             $ref: "#/components/schemas/ReactionsType"
         - name: limit
@@ -3553,6 +3741,51 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ReactionsResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+  /farcaster/reactions/cast:
+    get:
+      tags:
+        - Reaction
+      summary: Fetches reactions for a given cast
+      description: Fetches reactions for a given cast
+      operationId: reactions-cast
+      externalDocs:
+        url: https://docs.neynar.com/reference/reactions-cast
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: hash
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/CastHash"
+        - name: types
+          in: query
+          required: true
+          description: comma seperated list of reactions to fetch (likes or recasts or all)
+          example: all
+          schema:
+            $ref: "#/components/schemas/ReactionsType"
+        - name: limit
+          in: query
+          description: Number of results to retrieve (default 25, max 100)
+          schema:
+            type: integer
+            default: 25
+            minimum: 1
+            maximum: 100
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReactionsCastResponse"
         "400":
           $ref: "#/components/responses/400Response"
   /farcaster/fname/availability:
