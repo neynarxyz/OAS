@@ -17,6 +17,7 @@ components:
       description: Solana address
     Fid:
       type: integer
+      default: 3
       format: int32
       description: User identifier (unsigned integer)
     SignerUUID:
@@ -628,6 +629,8 @@ components:
           description: "note: This is recursive. It contains the direct replies to the cast and their direct replies up to n reply_depth."    
     ConversationContainer:
       type: object
+      required:
+        - cast
       properties:
         cast:
           $ref: '#/components/schemas/CastWithInteractionsAndConversations'
@@ -724,6 +727,8 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Channel"
+        next:
+          $ref: "#/components/schemas/NextCursor"
     ChannelResponse:
       type: object
       required:
@@ -2436,6 +2441,13 @@ paths:
           description: "The depth of replies in the conversation that will be returned (default 2)"
           schema:
             $ref: "#/components/schemas/ReplyDepth"
+        - name: include_chronological_parent_casts
+          in: query
+          required: false
+          description: "Include all parent casts in chronological order"
+          schema:
+            type: boolean
+            default: false
       responses:
         "200":
           description: Successful operation.
@@ -3355,6 +3367,21 @@ paths:
       operationId: list-all-channels
       parameters:
         - $ref: "#/components/parameters/ApiKey"
+        - name: limit
+          in: query
+          description: Number of results to retrieve (default 25, max 50)
+          required: false
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          required: false
+          schema:
+            type: string
       responses:
         "200":
           description: Successful response
@@ -3689,7 +3716,6 @@ paths:
         - name: hash
           in: query
           required: true
-          example: 3
           schema:
             $ref: "#/components/schemas/CastHash"
         - name: types
