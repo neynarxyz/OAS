@@ -716,8 +716,15 @@ components:
           type: number
         image_url:
           type: string
+        follower_count:
+          type: number
         lead:
           $ref: "#/components/schemas/User"
+        hosts:
+          type: array
+          items:
+            $ref: "#/components/schemas/User"
+        
     ChannelListResponse:
       type: object
       required:
