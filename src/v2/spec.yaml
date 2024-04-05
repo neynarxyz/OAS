@@ -3673,7 +3673,7 @@ paths:
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
-        - name: type
+        - name: types
           in: query
           required: true
           description: Type of reaction to fetch (likes or recasts or all)
