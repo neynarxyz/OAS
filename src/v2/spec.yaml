@@ -3720,11 +3720,13 @@ paths:
             $ref: "#/components/schemas/CastHash"
         - name: types
           in: query
-          required: true
-          description: comma seperated list of reactions to fetch (likes or recasts or all)
-          example: all
+          description: >
+            Customize which reaction types the request should search for. This is a comma-separated string that can include the following values: 'likes' and 'recasts'. By default api returns both. To select multiple types, use a comma-separated list of these values.
+          required: false
           schema:
-            $ref: "#/components/schemas/ReactionsType"
+            type: string
+            pattern: '^(likes,?|recasts,?)+$'
+          example: "likes,recasts"
         - name: limit
           in: query
           description: Number of results to retrieve (default 25, max 100)
