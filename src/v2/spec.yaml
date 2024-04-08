@@ -1767,18 +1767,6 @@ components:
         - interactors
         - interactions-per-cast
         - input-text
-    ValidateFrameAggregateWindow:
-      type: string
-      enum:
-        - "10s"
-        - "1m"
-        - "2m"
-        - "20m"
-        - "30m"
-        - "2h"
-        - "12h"
-        - "1d"
-        - "7d"
 
   parameters:
     ApiKey:
@@ -3394,7 +3382,17 @@ paths:
           required: false
           description: Required for `analytics_type=interactions-per-cast`
           schema:
-            $ref: "#/components/schemas/ValidateFrameAggregateWindow"
+            type: string
+            enum:
+              - "10s"
+              - "1m"
+              - "2m"
+              - "20m"
+              - "30m"
+              - "2h"
+              - "12h"
+              - "1d"
+              - "7d"
       responses:
         "200":
           description: Successful response
