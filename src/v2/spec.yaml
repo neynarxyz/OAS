@@ -3316,8 +3316,8 @@ paths:
       summary: Retrieve a list of all the frames validated by a user
       description: Retrieve a list of all the frames validated by a user
       externalDocs:
-        url: https://docs.neynar.com/reference/frame-validate-list
-      operationId: frame-validate-list
+        url: https://docs.neynar.com/reference/validate-frame-list
+      operationId: validate-frame-list
       parameters:
         - $ref: "#/components/parameters/ApiKey"
       responses:
@@ -3340,8 +3340,8 @@ paths:
       summary: Retrieve analytics for the frame
       description: Retrieve analytics for total-interactors, interactors, nteractions-per-cast and input-text.
       externalDocs:
-        url: https://docs.neynar.com/reference/frame-validate-list
-      operationId: frame-validate-analytics
+        url: https://docs.neynar.com/reference/validate-frame-analytics
+      operationId: validate-frame-analytics
       parameters:
         - $ref: "#/components/parameters/ApiKey"
         - name: frame_url
