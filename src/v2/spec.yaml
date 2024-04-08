@@ -3309,7 +3309,6 @@ paths:
           $ref: "#/components/responses/400Response"
         "500":
           $ref: "#/components/responses/500Response"
-
   /farcaster/frame/validate/list:
     get:
       tags:
@@ -3334,7 +3333,6 @@ paths:
           $ref: "#/components/responses/403Response"
         "500":
           $ref: "#/components/responses/500Response"
-
   /farcaster/frame/validate/analytics:
     get:
       tags:
