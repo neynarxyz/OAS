@@ -1360,6 +1360,7 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/cast-reactions-v1
       operationId: cast-reactions
+      deprecated: true
       parameters:
         - $ref: "#/components/parameters/ApiKey"
         - name: castHash
