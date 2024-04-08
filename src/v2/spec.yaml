@@ -1760,6 +1760,25 @@ components:
         - $ref: "#/components/schemas/FrameValidateAnalyticsTotalInteractors"
         - $ref: "#/components/schemas/FrameValidateAnalyticsInteractionsPerCast"
         - $ref: "#/components/schemas/FrameValidateAnalyticsInputText"
+    ValidateFrameAnalyticsType:
+      type: string
+      enum:
+        - total-interactors
+        - interactors
+        - interactions-per-cast
+        - input-text
+    ValidateFrameAggregateWindow:
+      type: string
+      enum:
+        - "10s"
+        - "1m"
+        - "2m"
+        - "20m"
+        - "30m"
+        - "2h"
+        - "12h"
+        - "1d"
+        - "7d"
 
   parameters:
     ApiKey:
@@ -3355,12 +3374,7 @@ paths:
           in: query
           required: true
           schema:
-            type: string
-            enum:
-              - total-interactors
-              - interactors
-              - interactions-per-cast
-              - input-text
+            $ref: "#/components/schemas/ValidateFrameAnalyticsType"
         - name: start
           in: query
           required: true
@@ -3380,17 +3394,7 @@ paths:
           required: false
           description: Required for `analytics_type=interactions-per-cast`
           schema:
-            type: string
-            enum:
-              - "10s"
-              - "1m"
-              - "2m"
-              - "20m"
-              - "30m"
-              - "2h"
-              - "12h"
-              - "1d"
-              - "7d"
+            $ref: "#/components/schemas/ValidateFrameAggregateWindow"
       responses:
         "200":
           description: Successful response
