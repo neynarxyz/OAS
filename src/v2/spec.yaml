@@ -3795,7 +3795,7 @@ paths:
               - 30d
         - name: limit
           in: query
-          description: Number of results to retrieve (default 25, max 100)
+          description: Number of results to retrieve (default 10, max 25)
           required: false
           schema:
             type: integer
