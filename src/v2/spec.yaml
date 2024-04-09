@@ -2165,8 +2165,8 @@ paths:
       summary: Retrieve all channels that a given fid follows.
       description: Returns a list of all channels with their details that a fid follows.
       externalDocs:
-        url: https://docs.neynar.com/reference/fid-follows
-      operationId: fid-follows
+        url: https://docs.neynar.com/reference/user-channels
+      operationId: user-channels
       parameters:
         - $ref: "#/components/parameters/ApiKey"
         - name: fid
