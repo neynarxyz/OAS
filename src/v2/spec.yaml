@@ -2177,7 +2177,7 @@ paths:
             $ref: "#/components/schemas/Fid"
         - name: limit
           in: query
-          description: Number of results to retrieve (default 25, max 100)
+          description: Number of results to retrieve (default 20, max 100)
           required: false
           schema:
             type: integer
