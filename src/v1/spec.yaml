@@ -1047,6 +1047,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/AllCastsInThreadResponse"
+      deprecated: true
   /farcaster/casts:
     get:
       tags:
@@ -1305,11 +1306,12 @@ paths:
     get:
       tags:
         - Reactions
-      summary: Get all like reactions for a specific cast
-      description: Get all like reactions for a specific cast in reverse chronological order.
+      summary: DEPRECATED - Get all like reactions for a specific cast
+      description: Now deprecated, use [/v2/farcaster/reactions/cast](https://docs.neynar.com/reference/reactions-cast) - Get all like reactions for a specific cast in reverse chronological order.
       externalDocs:
         url: https://docs.neynar.com/reference/cast-likes-v1
       operationId: cast-likes
+      deprecated: true
       parameters:
         - $ref: "#/components/parameters/ApiKey"
         - name: castHash
@@ -1354,11 +1356,12 @@ paths:
     get:
       tags:
         - Reactions
-      summary: Get all reactions for a specific cast
-      description: Get all reactions (likes and recasts) for a specific cast.
+      summary: DEPRECATED - Get all reactions for a specific cast
+      description: Now deprecated, use [/v2/farcaster/reactions/cast](https://docs.neynar.com/reference/reactions-cast) - Get all reactions (likes and recasts) for a specific cast.
       externalDocs:
         url: https://docs.neynar.com/reference/cast-reactions-v1
       operationId: cast-reactions
+      deprecated: true
       parameters:
         - $ref: "#/components/parameters/ApiKey"
         - name: castHash
@@ -1403,11 +1406,12 @@ paths:
     get:
       tags:
         - Reactions
-      summary: Get all recasters for a specific cast
-      description: Get all recasters for a specific cast.
+      summary: DEPRECATED - Get all recasters for a specific cast
+      description: Now deprecated, use [/v2/farcaster/reactions/cast](https://docs.neynar.com/reference/reactions-cast) - Get all recasters for a specific cast.
       externalDocs:
         url: https://docs.neynar.com/reference/cast-recasters-v1
       operationId: cast-recasters
+      deprecated: true
       parameters:
         - $ref: "#/components/parameters/ApiKey"
         - name: castHash

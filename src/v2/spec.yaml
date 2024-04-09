@@ -620,24 +620,24 @@ components:
     CastWithInteractionsAndConversations:
       type: object
       allOf:
-        - $ref: '#/components/schemas/CastWithInteractions'
+        - $ref: "#/components/schemas/CastWithInteractions"
       properties:
         direct_replies:
           type: array
           items:
-            $ref: '#/components/schemas/CastWithInteractions'
-          description: "note: This is recursive. It contains the direct replies to the cast and their direct replies up to n reply_depth."    
-    ConversationContainer:
+            $ref: "#/components/schemas/CastWithInteractions"
+          description: "note: This is recursive. It contains the direct replies to the cast and their direct replies up to n reply_depth."
+    Conversation:
       type: object
       required:
         - cast
       properties:
         cast:
-          $ref: '#/components/schemas/CastWithInteractionsAndConversations'
+          $ref: "#/components/schemas/CastWithInteractionsAndConversations"
         chronological_parent_casts:
           type: array
           items:
-            $ref: '#/components/schemas/CastWithInteractions'
+            $ref: "#/components/schemas/CastWithInteractions"
     Signer:
       type: object
       required:
@@ -714,10 +714,17 @@ components:
         created_at:
           description: Epoch timestamp in seconds.
           type: number
+        follower_count:
+          description: Number of followers the channel has.
+          type: number
         image_url:
           type: string
         lead:
           $ref: "#/components/schemas/User"
+        hosts:
+          type: array
+          items:
+            $ref: "#/components/schemas/User"
     ChannelListResponse:
       type: object
       required:
@@ -727,6 +734,8 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Channel"
+        next:
+          $ref: "#/components/schemas/NextCursor"
     ChannelResponse:
       type: object
       required:
@@ -1665,6 +1674,106 @@ components:
     #       type: string
     #     subscription:
     #       $ref: '#/components/schemas/WebhookSubscriptionFilters'
+    FrameValidateListResponse:
+      type: object
+      required:
+        - frames
+      properties:
+        frames:
+          type: array
+          items:
+            type: string
+            format: uri
+    FrameValidateAnalyticsInteractors:
+      type: object
+      required:
+        - interactors
+      properties:
+        interactors:
+          type: array
+          items:
+            type: object
+            required:
+              - fid
+              - username
+              - interaction_count
+            properties:
+              fid:
+                $ref: "#/components/schemas/Fid"
+              username:
+                type: string
+              interaction_count:
+                type: number
+    FrameValidateAnalyticsTotalInteractors:
+      type: object
+      required:
+        - total_interactors
+      properties:
+        total_interactors:
+          type: number
+    FrameValidateAnalyticsInteractionsPerCast:
+      type: object
+      required:
+        - interactions_per_cast
+      properties:
+        interactions_per_cast:
+          type: array
+          items:
+            type: object
+            required:
+              - start
+              - stop
+              - time
+              - interaction_count
+              - cast_url
+            properties:
+              start:
+                type: string
+                format: date-time
+              stop:
+                type: string
+                format: date-time
+              time:
+                type: string
+                format: date-time
+              interaction_count:
+                type: number
+              cast_url:
+                type: string
+                format: uri
+    FrameValidateAnalyticsInputText:
+      type: object
+      required:
+        - input_texts
+      properties:
+        input_texts:
+          type: array
+          items:
+            type: object
+            required:
+              - fid
+              - username
+              - input_text
+            properties:
+              fid:
+                $ref: "#/components/schemas/Fid"
+              username:
+                type: string
+              input_text:
+                type: string
+    FrameValidateAnalyticsResponse:
+      oneOf:
+        - $ref: "#/components/schemas/FrameValidateAnalyticsInteractors"
+        - $ref: "#/components/schemas/FrameValidateAnalyticsTotalInteractors"
+        - $ref: "#/components/schemas/FrameValidateAnalyticsInteractionsPerCast"
+        - $ref: "#/components/schemas/FrameValidateAnalyticsInputText"
+    ValidateFrameAnalyticsType:
+      type: string
+      enum:
+        - total-interactors
+        - interactors
+        - interactions-per-cast
+        - input-text
 
   parameters:
     ApiKey:
@@ -2136,7 +2245,7 @@ paths:
           required: false
           schema:
             type: string
-            pattern: '^(custody_address,?|verified_address,?)+$'
+            pattern: "^(custody_address,?|verified_address,?)+$"
           example: "custody_address,verified_address"
       responses:
         "200":
@@ -2149,6 +2258,45 @@ paths:
           $ref: "#/components/responses/400Response"
         "404":
           $ref: "#/components/responses/404Response"
+  /farcaster/user/channels:
+    get:
+      tags:
+        - User
+      summary: Retrieve all channels that a given fid follows.
+      description: Returns a list of all channels with their details that a fid follows.
+      externalDocs:
+        url: https://docs.neynar.com/reference/user-channels
+      operationId: user-channels
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: fid
+          in: query
+          required: true
+          description: The fid of the user.
+          schema:
+            $ref: "#/components/schemas/Fid"
+        - name: limit
+          in: query
+          description: Number of results to retrieve (default 25, max 100)
+          required: false
+          schema:
+            type: integer
+            default: 25
+            minimum: 1
+            maximum: 100
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChannelListResponse"
   /farcaster/user:
     patch:
       tags:
@@ -2452,7 +2600,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ConversationContainer"
+                $ref: "#/components/schemas/Conversation"
         "400":
           $ref: "#/components/responses/400Response"
   /farcaster/feed:
@@ -3272,6 +3420,98 @@ paths:
           $ref: "#/components/responses/400Response"
         "500":
           $ref: "#/components/responses/500Response"
+  /farcaster/frame/validate/list:
+    get:
+      tags:
+        - Frames
+      summary: Retrieve a list of all the frames validated by a user
+      description: Retrieve a list of all the frames validated by a user
+      externalDocs:
+        url: https://docs.neynar.com/reference/validate-frame-list
+      operationId: validate-frame-list
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FrameValidateListResponse"
+        "401":
+          $ref: "#/components/responses/401Response"
+        "403":
+          $ref: "#/components/responses/403Response"
+        "500":
+          $ref: "#/components/responses/500Response"
+  /farcaster/frame/validate/analytics:
+    get:
+      tags:
+        - Frames
+      summary: Retrieve analytics for the frame
+      description: Retrieve analytics for total-interactors, interactors, nteractions-per-cast and input-text.
+      externalDocs:
+        url: https://docs.neynar.com/reference/validate-frame-analytics
+      operationId: validate-frame-analytics
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: frame_url
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uri
+          example: https://shorturl.at/bDRY9
+        - name: analytics_type
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/ValidateFrameAnalyticsType"
+        - name: start
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+            default: "2024-04-06T06:44:56.811Z"
+        - name: stop
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+            default: "2024-04-08T06:44:56.811Z"
+        - name: aggregate_window
+          in: query
+          required: false
+          description: Required for `analytics_type=interactions-per-cast`
+          schema:
+            type: string
+            enum:
+              - "10s"
+              - "1m"
+              - "2m"
+              - "20m"
+              - "30m"
+              - "2h"
+              - "12h"
+              - "1d"
+              - "7d"
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FrameValidateAnalyticsResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "401":
+          $ref: "#/components/responses/401Response"
+        "403":
+          $ref: "#/components/responses/403Response"
+        "500":
+          $ref: "#/components/responses/500Response"
   /farcaster/notifications:
     get:
       tags:
@@ -3423,6 +3663,21 @@ paths:
       operationId: list-all-channels
       parameters:
         - $ref: "#/components/parameters/ApiKey"
+        - name: limit
+          in: query
+          description: Number of results to retrieve (default 25, max 50)
+          required: false
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          required: false
+          schema:
+            type: string
       responses:
         "200":
           description: Successful response
@@ -3761,11 +4016,13 @@ paths:
             $ref: "#/components/schemas/CastHash"
         - name: types
           in: query
-          required: true
-          description: comma seperated list of reactions to fetch (likes or recasts or all)
-          example: all
+          description: >
+            Customize which reaction types the request should search for. This is a comma-separated string that can include the following values: 'likes' and 'recasts'. By default api returns both. To select multiple types, use a comma-separated list of these values.
+          required: false
           schema:
-            $ref: "#/components/schemas/ReactionsType"
+            type: string
+            pattern: '^(likes,?|recasts,?)+$'
+          example: "likes,recasts"
         - name: limit
           in: query
           description: Number of results to retrieve (default 25, max 100)
