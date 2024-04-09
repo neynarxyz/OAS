@@ -354,6 +354,7 @@ components:
         - hash
         - parent_hash
         - parent_url
+        - root_parent_url
         - parent_author
         - author
         - text
@@ -366,6 +367,9 @@ components:
           type: string
           nullable: true
         parent_url:
+          type: string
+          nullable: true
+        root_parent_url:
           type: string
           nullable: true
         parent_author:
