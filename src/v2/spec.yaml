@@ -2265,7 +2265,7 @@ paths:
   /farcaster/user/channels:
     get:
       tags:
-        - User
+        - Channel
       summary: Retrieve all channels that a given fid follows
       description: Returns a list of all channels with their details that a fid follows.
       externalDocs:
