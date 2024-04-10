@@ -1923,7 +1923,7 @@ paths:
   /farcaster/signer/developer_managed:
     get:
       tags:
-        - Signer (Developer Managed)
+        - Signer
       summary: Fetches the status of a signer by public key
       description: Fetches the status of a developer managed signer by public key
       externalDocs:
@@ -1948,7 +1948,7 @@ paths:
   /farcaster/signer/developer_managed/signed_key:
     post:
       tags:
-        - Signer (Developer Managed)
+        - Signer
       summary: Registers Signed Key
       description: Registers an signed key and returns the developer managed signer status with an approval url.
       externalDocs:
@@ -2266,7 +2266,7 @@ paths:
     get:
       tags:
         - User
-      summary: Retrieve all channels that a given fid follows.
+      summary: Retrieve all channels that a given fid follows
       description: Returns a list of all channels with their details that a fid follows.
       externalDocs:
         url: https://docs.neynar.com/reference/user-channels
@@ -2384,7 +2384,7 @@ paths:
   /farcaster/message:
     post:
       tags:
-        - Signer (Developer Managed)
+        - Signer
       summary: Publish a message to farcaster
       description: Publish a message to farcaster.\
         The message must be signed by a signer managed by the developer. Use the @farcaster/core library to construct and sign the message. Use the Message.toJSON method on the signed message and pass the JSON in the body of this POST request.
