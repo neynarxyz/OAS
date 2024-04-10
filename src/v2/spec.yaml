@@ -1873,7 +1873,7 @@ tags:
     externalDocs:
       description: More info about storage
       url: https://docs.neynar.com/reference/storage-operations
-  - name: Frames
+  - name: Frame
     description: Operations related to frames
     externalDocs:
       description: More info about frames
@@ -1923,7 +1923,7 @@ paths:
   /farcaster/signer/developer_managed:
     get:
       tags:
-        - Signer (Developer Managed)
+        - Signer
       summary: Fetches the status of a signer by public key
       description: Fetches the status of a developer managed signer by public key
       externalDocs:
@@ -1948,7 +1948,7 @@ paths:
   /farcaster/signer/developer_managed/signed_key:
     post:
       tags:
-        - Signer (Developer Managed)
+        - Signer
       summary: Registers Signed Key
       description: Registers an signed key and returns the developer managed signer status with an approval url.
       externalDocs:
@@ -2265,8 +2265,8 @@ paths:
   /farcaster/user/channels:
     get:
       tags:
-        - User
-      summary: Retrieve all channels that a given fid follows.
+        - Channel
+      summary: Retrieve all channels that a given fid follows
       description: Returns a list of all channels with their details that a fid follows.
       externalDocs:
         url: https://docs.neynar.com/reference/user-channels
@@ -2384,9 +2384,9 @@ paths:
   /farcaster/message:
     post:
       tags:
-        - Signer (Developer Managed)
+        - Signer
       summary: Publish a message to farcaster
-      description: Publish a message to farcaster.\
+      description: Publish a message to farcaster.
         The message must be signed by a signer managed by the developer. Use the @farcaster/core library to construct and sign the message. Use the Message.toJSON method on the signed message and pass the JSON in the body of this POST request.
       externalDocs:
         url: https://docs.neynar.com/reference/publish-message
@@ -2927,7 +2927,7 @@ paths:
   /farcaster/frame:
     get:
       tags:
-        - Neynar Frames
+        - Frame
       summary: Retrieve a frame by UUID
       description: Retrieve a frame by UUID, if it was made by the developer (identified by API key)
       operationId: lookup-neynar-frame
@@ -2951,7 +2951,7 @@ paths:
           $ref: "#/components/responses/404Response"
     post:
       tags:
-        - Neynar Frames
+        - Frame
       summary: Create a new frame
       description: Create a new frame with a list of pages.
       operationId: publish-neynar-frame
@@ -2974,7 +2974,7 @@ paths:
           $ref: "#/components/responses/400Response"
     put:
       tags:
-        - Neynar Frames
+        - Frame
       summary: Update an existing frame
       description: Update an existing frame with a list of pages, if it was made by the developer (identified by API key)
       operationId: update-neynar-frame
@@ -2999,7 +2999,7 @@ paths:
           $ref: "#/components/responses/400Response"
     delete:
       tags:
-        - Neynar Frames
+        - Frame
       summary: Delete a frame
       description: Delete an existing frame, if it was made by the developer (identified by API key)
       operationId: delete-neynar-frame
@@ -3027,7 +3027,7 @@ paths:
   /farcaster/frame/list:
     get:
       tags:
-        - Neynar Frames
+        - Frame
       summary: Retrieve a list of frames
       description: Retrieve a list of frames made by the developer (identified by API key)
       operationId: fetch-neynar-frames
@@ -3285,7 +3285,7 @@ paths:
   /farcaster/frame/action:
     post:
       tags:
-        - Frames
+        - Frame
       summary: Posts a frame action
       description: |
         Post a frame action \
@@ -3317,7 +3317,7 @@ paths:
   /farcaster/frame/validate:
     post:
       tags:
-        - Frames
+        - Frame
       summary: Validates a frame action against Farcaster Hub
       description: |
         Validates a frame against by an interacting user against a Farcaster Hub \
@@ -3369,7 +3369,7 @@ paths:
   /farcaster/frame/validate/list:
     get:
       tags:
-        - Frames
+        - Frame
       summary: Retrieve a list of all the frames validated by a user
       description: Retrieve a list of all the frames validated by a user
       externalDocs:
@@ -3393,7 +3393,7 @@ paths:
   /farcaster/frame/validate/analytics:
     get:
       tags:
-        - Frames
+        - Frame
       summary: Retrieve analytics for the frame
       description: Retrieve analytics for total-interactors, interactors, nteractions-per-cast and input-text.
       externalDocs:
