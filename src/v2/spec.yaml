@@ -3983,7 +3983,7 @@ paths:
           required: true
           schema:
             type: string
-            pattern: ^(likes,?|recasts,?|all,?)+$
+            pattern: '^(likes,?|recasts,?|all,?)+$'
           example: "likes,recasts"
         - name: limit
           in: query
