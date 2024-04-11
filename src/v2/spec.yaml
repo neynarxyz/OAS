@@ -730,11 +730,14 @@ components:
           items:
             $ref: "#/components/schemas/User"
         viewer_context:
-          type: object
-          properties:
-            following:
-              type: boolean
-              description: Optional field to indicate if the viewer is following the channel.
+          $ref: "#/components/schemas/ChannelViewerContext"
+    ChannelViewerContext:
+      type: object
+      required:
+        - following
+      properties:
+        following:
+          type: boolean
     ChannelListResponse:
       type: object
       required:
