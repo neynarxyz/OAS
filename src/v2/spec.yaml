@@ -738,6 +738,7 @@ components:
       properties:
         following:
           type: boolean
+          description: Indicates if the viewer is following the channel.
     ChannelListResponse:
       type: object
       required:
