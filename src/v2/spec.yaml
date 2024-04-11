@@ -729,6 +729,16 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/User"
+        viewer_context:
+          $ref: "#/components/schemas/ChannelViewerContext"
+    ChannelViewerContext:
+      type: object
+      required:
+        - following
+      properties:
+        following:
+          type: boolean
+          description: Indicates if the viewer is following the channel.
     ChannelListResponse:
       type: object
       required:
@@ -3717,6 +3727,13 @@ paths:
             type: string
           example: "neynar"
           description: Channel ID for the channel being queried
+        - name: viewer_fid
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/Fid"
+          example: 194
+          description: FID of the user viewing the channel.
       responses:
         "200":
           description: Successful response
