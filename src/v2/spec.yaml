@@ -3964,10 +3964,10 @@ paths:
           in: query
           description: >
             Customize which reaction types the request should search for. This is a comma-separated string that can include the following values: 'likes' and 'recasts'. By default api returns both. To select multiple types, use a comma-separated list of these values.
-          required: false
+          required: true
           schema:
             type: string
-            pattern: '^(likes,?|recasts,?)+$'
+            pattern: ^(likes,?|recasts,?|all,?)+$
           example: "likes,recasts"
         - name: limit
           in: query
