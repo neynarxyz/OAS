@@ -3414,7 +3414,7 @@ paths:
                   default: false
                   type: boolean
                   description: Adds context about the app used by the user inside `frame.action`.
-                channel_followed_context:
+                channel_follow_context:
                   default: true
                   type: boolean
                   description: Adds viewer_context inside the cast object to indicate whether the interactor reacted to the cast housing the frame.
