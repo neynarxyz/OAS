@@ -336,6 +336,7 @@ components:
           $ref: "#/components/schemas/ActiveStatus"
         viewer_context:
           type: object
+          description: Adds context on the viewer's follow relationship with the user.
           required:
             - following
             - followed_by
