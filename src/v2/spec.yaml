@@ -3423,7 +3423,7 @@ paths:
                 cast_reaction_context: true
                 follow_context: false
                 signer_context: false
-                channel_followed_context: true
+                channel_follow_context: true
       responses:
         "200":
           description: Successful operation.
