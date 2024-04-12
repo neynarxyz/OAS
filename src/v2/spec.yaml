@@ -596,16 +596,6 @@ components:
         count:
           type: integer
           format: int32
-    CastWithChannels:
-      type: object
-      allOf:
-        - $ref: "#/components/schemas/CastWithInteractions"
-        - required:
-            - channel
-          properties:
-            channel:
-              type: object
-              $ref: "#/components/schemas/Channel"
     CastWithInteractions:
       type: object
       allOf:
@@ -631,6 +621,9 @@ components:
               type: array
               items:
                 $ref: "#/components/schemas/User"
+            channel:
+              type: object
+              $ref: "#/components/schemas/Channel"
     CastWithInteractionsAndConversations:
       type: object
       allOf:
@@ -1393,7 +1386,7 @@ components:
         state:
           $ref: "#/components/schemas/FrameState"
         cast:
-          $ref: "#/components/schemas/CastWithChannels"
+          $ref: "#/components/schemas/CastWithInteractions"
         timestamp:
           $ref: "#/components/schemas/Timestamp"
         signer:
