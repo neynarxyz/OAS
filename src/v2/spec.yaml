@@ -1405,10 +1405,6 @@ components:
           $ref: "#/components/schemas/FrameTransaction"
         address:
           $ref: "#/components/schemas/FrameAddress"
-        channels:
-          type: array
-          items:
-            $ref: "#/components/schemas/Channel"
     ValidateFrameActionResponse:
       type: object
       required:
