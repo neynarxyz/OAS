@@ -576,7 +576,6 @@ components:
         - recasts
         - likes_count
         - recasts_count
-        - temporary_note
       properties:
         likes:
           type: array
@@ -592,8 +591,6 @@ components:
         recasts_count:
           type: integer
           format: int32
-        temporary_note:
-          type: string
     CastWithInteractionsReplies:
       type: object
       required:
@@ -2405,6 +2402,12 @@ paths:
           description: Pagination cursor.
           schema:
             type: string
+        - name: viewer_fid
+          in: query
+          required: false
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
       responses:
         "200":
           description: Successful operation.
@@ -2431,6 +2434,12 @@ paths:
           schema:
             $ref: "#/components/schemas/Fid"
           description: fid of user whose feed you want to create
+        - name: viewer_fid
+          in: query
+          required: false
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
         - name: with_recasts
           in: query
           description: Include recasts in the response, true by default
@@ -2482,6 +2491,12 @@ paths:
           schema:
             type: boolean
             default: true
+        - name: viewer_fid
+          in: query
+          required: false
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
         - name: with_replies
           in: query
           description: Include replies in the response, false by default
@@ -2528,6 +2543,12 @@ paths:
             default: 25
             minimum: 1
             maximum: 100
+        - name: viewer_fid
+          in: query
+          required: false
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
         - name: cursor
           in: query
           description: Pagination cursor.
@@ -2565,6 +2586,12 @@ paths:
           description: Pagination cursor
           schema:
             type: string
+        - name: viewer_fid
+          in: query
+          required: false
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
         - name: time_window
           in: query
           description: Time window for trending casts
@@ -2603,6 +2630,12 @@ paths:
           schema:
             $ref: "#/components/schemas/Fid"
           description: fid of user whose feed you want to create
+        - name: viewer_fid
+          in: query
+          required: false
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
       responses:
         "200":
           description: Successful operation.
@@ -2644,6 +2677,12 @@ paths:
           description: Pagination cursor.
           schema:
             type: string
+        - name: viewer_fid
+          in: query
+          required: false
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
       responses:
         "200":
           description: Successful operation.
