@@ -264,8 +264,6 @@ components:
         - fid
         - custody_address
         - username
-        - display_name
-        - pfp_url
         - profile
         - follower_count
         - following_count
