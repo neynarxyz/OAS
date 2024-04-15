@@ -1835,6 +1835,10 @@ components:
         authorization_url:
           type: string
           format: uri
+    AuthorizationUrlResponseType:
+      type: string
+      enum:
+        - code
 
   parameters:
     ApiKey:
@@ -3360,9 +3364,7 @@ paths:
           in: query
           required: true
           schema:
-            type: string
-            enum:
-              - code
+            $ref: "#/components/schemas/AuthorizationUrlResponseType"
       responses:
         "200":
           description: Successful operation.
