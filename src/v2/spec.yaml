@@ -623,8 +623,9 @@ components:
               items:
                 $ref: "#/components/schemas/User"
             channel:
-              type: object
-              $ref: "#/components/schemas/Channel"
+              allOf:
+              - type: object
+              - $ref: "#/components/schemas/Channel"
     CastWithInteractionsAndConversations:
       type: object
       allOf:
@@ -727,6 +728,9 @@ components:
           type: number
         image_url:
           type: string
+        parent_url:
+          type: string
+          format: uri
         lead:
           $ref: "#/components/schemas/User"
         hosts:
