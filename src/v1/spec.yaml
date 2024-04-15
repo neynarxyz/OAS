@@ -1207,7 +1207,7 @@ paths:
       tags:
         - Notifications
       summary: Get mentions and replies
-      description: Gets a list of mentions and replies to the user’s casts in reverse chronological order
+      description: Gets a list of 15 mentions and replies to the user’s casts in reverse chronological order
       externalDocs:
         url: https://docs.neynar.com/reference/mentions-and-replies-v1
       operationId: mentions-and-replies
@@ -1227,15 +1227,6 @@ paths:
           required: false
           schema:
             $ref: "#/components/schemas/Fid"
-        - name: limit
-          in: query
-          description: Number of results to retrieve (default 25, max 150)
-          required: false
-          schema:
-            type: integer
-            default: 25
-            minimum: 1
-            maximum: 50
         - name: cursor
           in: query
           description: Pagination cursor.

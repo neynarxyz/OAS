@@ -264,8 +264,6 @@ components:
         - fid
         - custody_address
         - username
-        - display_name
-        - pfp_url
         - profile
         - follower_count
         - following_count
@@ -622,6 +620,10 @@ components:
               type: array
               items:
                 $ref: "#/components/schemas/User"
+            channel:
+              allOf:
+              - type: object
+              - $ref: "#/components/schemas/Channel"
     CastWithInteractionsAndConversations:
       type: object
       allOf:
@@ -724,6 +726,9 @@ components:
           type: number
         image_url:
           type: string
+        parent_url:
+          type: string
+          format: uri
         lead:
           $ref: "#/components/schemas/User"
         hosts:
@@ -774,6 +779,39 @@ components:
                 $ref: "#/components/schemas/SearchedUser"
             next:
               $ref: "#/components/schemas/NextCursor"
+    ChannelActivity:
+      type: object
+      required:
+        - object
+        - cast_count_1d
+        - cast_count_7d
+        - cast_count_30d
+        - channel
+      properties:
+        object:
+          type: string
+          enum:
+            - channel_activity
+        cast_count_1d:
+          type: string
+        cast_count_7d:
+          type: string
+        cast_count_30d:
+          type: string
+        channel:
+          $ref: "#/components/schemas/Channel"
+    TrendingChannelResponse:
+      type: object
+      required:
+        - channels
+        - next
+      properties:
+        channels:
+          type: array
+          items:
+            $ref: "#/components/schemas/ChannelActivity"
+        next:
+          $ref: "#/components/schemas/NextCursor"
     BulkCastsResponse:
       type: object
       required:
@@ -3405,10 +3443,16 @@ paths:
                   default: false
                   type: boolean
                   description: Adds context about the app used by the user inside `frame.action`.
+                channel_follow_context:
+                  default: false
+                  type: boolean
+                  description: Adds viewer_context inside the cast object to indicate whether the interactor reacted to the cast housing the frame.
               example:
                 message_bytes_in_hex: "0a49080d1085940118f6a6a32e20018201390a1a86db69b3ffdf6ab8acb6872b69ccbe7eb6a67af7ab71e95aa69f10021a1908ef011214237025b322fd03a9ddc7ec6c078fb9c56d1a72111214e3d88aeb2d0af356024e0c693f31c11b42c76b721801224043cb2f3fcbfb5dafce110e934b9369267cf3d1aef06f51ce653dc01700fc7b778522eb7873fd60dda4611376200076caf26d40a736d3919ce14e78a684e4d30b280132203a66717c82d728beb3511b05975c6603275c7f6a0600370bf637b9ecd2bd231e"
                 cast_reaction_context: true
                 follow_context: false
+                signer_context: false
+                channel_follow_context: true
       responses:
         "200":
           description: Successful operation.
@@ -3536,9 +3580,9 @@ paths:
           required: false
           schema:
             type: integer
-            default: 25
+            default: 15
             minimum: 1
-            maximum: 50
+            maximum: 25
         - name: cursor
           in: query
           description: Pagination cursor.
@@ -3585,9 +3629,9 @@ paths:
           required: false
           schema:
             type: integer
-            default: 25
+            default: 15
             minimum: 1
-            maximum: 50
+            maximum: 25
         - name: cursor
           in: query
           description: Pagination cursor.
@@ -3634,9 +3678,9 @@ paths:
           required: false
           schema:
             type: integer
-            default: 25
+            default: 15
             minimum: 1
-            maximum: 50
+            maximum: 25
         - name: cursor
           in: query
           description: Pagination cursor.
@@ -3942,7 +3986,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ChannelListResponse"
+                $ref: "#/components/schemas/TrendingChannelResponse"
+        "500":
+          $ref: "#/components/responses/500Response"
+        "400":
+          $ref: "#/components/responses/400Response"
   /farcaster/followers/relevant:
     get:
       tags:
