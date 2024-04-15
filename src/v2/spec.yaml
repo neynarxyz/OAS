@@ -781,6 +781,39 @@ components:
                 $ref: "#/components/schemas/SearchedUser"
             next:
               $ref: "#/components/schemas/NextCursor"
+    ChannelActivity:
+      type: object
+      required:
+        - object
+        - cast_count_1d
+        - cast_count_7d
+        - cast_count_30d
+        - channel
+      properties:
+        object:
+          type: string
+          enum:
+            - channel_activity
+        cast_count_1d:
+          type: string
+        cast_count_7d:
+          type: string
+        cast_count_30d:
+          type: string
+        channel:
+          $ref: "#/components/schemas/Channel"
+    TrendingChannelResponse:
+      type: object
+      required:
+        - channels
+        - next
+      properties:
+        channels:
+          type: array
+          items:
+            $ref: "#/components/schemas/ChannelActivity"
+        next:
+          $ref: "#/components/schemas/NextCursor"
     BulkCastsResponse:
       type: object
       required:
@@ -3955,7 +3988,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ChannelListResponse"
+                $ref: "#/components/schemas/TrendingChannelResponse"
+        "500":
+          $ref: "#/components/responses/500Response"
+        "400":
+          $ref: "#/components/responses/400Response"
   /farcaster/followers/relevant:
     get:
       tags:
