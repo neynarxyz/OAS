@@ -621,9 +621,7 @@ components:
               items:
                 $ref: "#/components/schemas/User"
             channel:
-              allOf:
-              - type: object
-              - $ref: "#/components/schemas/Channel"
+              $ref: "#/components/schemas/Channel"
     CastWithInteractionsAndConversations:
       type: object
       allOf:
