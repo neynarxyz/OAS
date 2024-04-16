@@ -649,14 +649,19 @@ components:
     Conversation:
       type: object
       required:
-        - cast
+        - conversation
       properties:
-        cast:
-          $ref: "#/components/schemas/CastWithInteractionsAndConversations"
-        chronological_parent_casts:
-          type: array
-          items:
-            $ref: "#/components/schemas/CastWithInteractions"
+        conversation:
+          type: object
+          required:
+            - cast
+          properties:
+            cast:
+              $ref: "#/components/schemas/CastWithInteractionsAndConversations"
+            chronological_parent_casts:
+              type: array
+              items:
+                $ref: "#/components/schemas/CastWithInteractions"
     Signer:
       type: object
       required:
@@ -698,13 +703,6 @@ components:
         fid:
           $ref: "#/components/schemas/Fid"
     CastResponse:
-      type: object
-      required:
-        - cast
-      properties:
-        cast:
-          $ref: "#/components/schemas/CastWithInteractions"
-    ConversationResponse:
       type: object
       required:
         - cast
