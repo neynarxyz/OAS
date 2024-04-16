@@ -632,7 +632,7 @@ components:
           items:
             $ref: "#/components/schemas/CastWithInteractions"
           description: "note: This is recursive. It contains the direct replies to the cast and their direct replies up to n reply_depth."
-    Conversation:
+    ConversationResponse:
       type: object
       required:
         - conversation
@@ -689,13 +689,6 @@ components:
         fid:
           $ref: "#/components/schemas/Fid"
     CastResponse:
-      type: object
-      required:
-        - cast
-      properties:
-        cast:
-          $ref: "#/components/schemas/CastWithInteractions"
-    ConversationResponse:
       type: object
       required:
         - cast
@@ -2668,7 +2661,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Conversation"
+                $ref: "#/components/schemas/ConversationResponse"
         "400":
           $ref: "#/components/responses/400Response"
   /farcaster/feed:
