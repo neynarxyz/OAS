@@ -157,6 +157,24 @@ components:
         frames_url:
           type: string
           description: URL of the frames
+        title:
+          type: string
+        image_aspect_ratio:
+          type: string
+        input:
+          type: object
+          required: 
+            - text
+          properties:
+            text:
+              type: string
+        state:
+          type: object
+          required:
+            - serialized
+          properties:
+            serialized:
+              type: string
     FrameAction:
       type: object
       required:
