@@ -2663,7 +2663,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Conversation"
+                type: object
+                properties:
+                  conversation:
+                    $ref: "#/components/schemas/Conversation"
         "400":
           $ref: "#/components/responses/400Response"
   /farcaster/feed:
