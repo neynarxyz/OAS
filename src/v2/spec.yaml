@@ -163,15 +163,11 @@ components:
           type: string
         input:
           type: object
-          required: 
-            - text
           properties:
             text:
               type: string
         state:
           type: object
-          required:
-            - serialized
           properties:
             serialized:
               type: string
