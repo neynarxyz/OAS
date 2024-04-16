@@ -635,14 +635,19 @@ components:
     Conversation:
       type: object
       required:
-        - cast
+        - conversation
       properties:
-        cast:
-          $ref: "#/components/schemas/CastWithInteractionsAndConversations"
-        chronological_parent_casts:
-          type: array
-          items:
-            $ref: "#/components/schemas/CastWithInteractions"
+        conversation:
+          type: object
+          required:
+            - cast
+          properties:
+            cast:
+              $ref: "#/components/schemas/CastWithInteractionsAndConversations"
+            chronological_parent_casts:
+              type: array
+              items:
+                $ref: "#/components/schemas/CastWithInteractions"
     Signer:
       type: object
       required:
@@ -2663,10 +2668,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  conversation:
-                    $ref: "#/components/schemas/Conversation"
+                $ref: "#/components/schemas/Conversation"
         "400":
           $ref: "#/components/responses/400Response"
   /farcaster/feed:
