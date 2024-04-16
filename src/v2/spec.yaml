@@ -163,16 +163,16 @@ components:
           type: string
         input:
           type: object
-          description: Input text for the frame
           properties:
             text:
               type: string
+              description: Input text for the frame
         state:
           type: object
-          description: State for the frame in a serialized format
           properties:
             serialized:
               type: string
+              description: State for the frame in a serialized format
     FrameAction:
       type: object
       required:
