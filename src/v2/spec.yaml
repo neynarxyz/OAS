@@ -286,6 +286,7 @@ components:
         - verifications
         - verified_addresses
         - active_status
+        - power_badge
       properties:
         object:
           type: string
@@ -348,6 +349,8 @@ components:
                 $ref: "#/components/schemas/SolAddress"
         active_status:
           $ref: "#/components/schemas/ActiveStatus"
+        power_badge:
+          type: boolean
         viewer_context:
           type: object
           description: Adds context on the viewer's follow relationship with the user.
@@ -4106,7 +4109,7 @@ paths:
           required: true
           schema:
             type: string
-            pattern: '^(likes,?|recasts,?|all,?)+$'
+            pattern: "^(likes,?|recasts,?|all,?)+$"
           example: "likes,recasts"
         - name: limit
           in: query
