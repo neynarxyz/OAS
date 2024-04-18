@@ -1666,6 +1666,50 @@ components:
               type: array
               items:
                 type: integer
+        follow.created:
+          type: object
+          properties:
+            fids:
+              type: array
+              items:
+                type: integer
+            target_fids:
+              type: array
+              items:
+                type: integer
+        follow.deleted:
+          type: object
+          properties:
+            fids:
+              type: array
+              items:
+                type: integer
+            target_fids:
+              type: array
+              items:
+                type: integer
+        reaction.created:
+          type: object
+          properties:
+            fids:
+              type: array
+              items:
+                type: integer
+            target_fids:
+              type: array
+              items:
+                type: integer
+        reaction.deleted:
+          type: object
+          properties:
+            fids:
+              type: array
+              items:
+                type: integer
+            target_fids:
+              type: array
+              items:
+                type: integer
     WebhookPostReqBody:
       type: object
       required:
@@ -1954,21 +1998,11 @@ tags:
     externalDocs:
       description: More info about frames
       url: https://docs.neynar.com/reference/frame-operations
-  - name: Neynar Frames
-    description: Operations related to Neynar frames
-    externalDocs:
-      description: More info about Neynar frames
-      url: https://docs.neynar.com/reference/neynar-frames-operations
   - name: fname
     description: Operations related to fname
     externalDocs:
       description: More info about fname
       url: https://docs.neynar.com/reference/fname-operations
-  - name: Signer (Developer Managed)
-    description: Operations related to developer managed signer
-    externalDocs:
-      description: More info about developer managed signer
-      url: https://docs.neynar.com/reference/developer-managed-signer-operations
   - name: Webhook
     description: Operations related to a webhook
     externalDocs:
