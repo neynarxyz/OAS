@@ -3361,7 +3361,7 @@ paths:
   /farcaster/login/authorize:
     get:
       tags:
-        - User
+        - Signer
       summary: Fetch authorization url
       description: Fetch authorization url (Fetched authorized url useful for SIWN login operation)
       externalDocs:
