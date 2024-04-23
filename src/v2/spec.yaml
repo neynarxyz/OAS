@@ -618,7 +618,7 @@ components:
       oneOf:
         - $ref: '#/components/schemas/Channel'
         - $ref: '#/components/schemas/DehydratedChannel'
-        - type: 'null'  # Explicitly allow null values
+        - type: 'null'
       discriminator:
         propertyName: type
         mapping:
