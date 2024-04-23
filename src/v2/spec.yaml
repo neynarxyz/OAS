@@ -359,8 +359,10 @@ components:
             - followed_by
           properties:
             following:
+              description: Indicates if the viewer is following the user.
               type: boolean
             followed_by:
+              description: Indicates if the viewer is followed by the user.
               type: boolean
     EmbeddedCast:
       oneOf:
