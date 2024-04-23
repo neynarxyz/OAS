@@ -4428,7 +4428,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UsersActiveChannelsResponse"
+                $ref: "#/components/schemas/MuteListResponse"
         "400":
           $ref: "#/components/responses/400Response"
         "404":
