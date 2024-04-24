@@ -490,6 +490,13 @@ components:
           type: string
           description: Channel ID of the channel where the cast is to be posted. e.g. neynar, farcaster, warpcast
           example: "neynar"
+    MuteReqBody:
+      type: object
+      properties:
+        fid:
+          $ref: "#/components/schemas/Fid"
+        muted_fid:
+          $ref: "#/components/schemas/Fid"
     ReactionReqBody:
       type: object
       required:
@@ -4499,20 +4506,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              required:
-                - fid
-                - muted_fid
-              properties:
-                fid:
-                  $ref: "#/components/schemas/Fid"
-                  example: 194
-                muted_fid:
-                  $ref: "#/components/schemas/Fid"
-                  example: 200
-              example:
-                fid: 194
-                muted_fid: 200
+              $ref: '#/components/schemas/MuteReqBody'
       responses:
         "200":
           description: successful operation
@@ -4537,20 +4531,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              required:
-                - fid
-                - muted_fid
-              properties:
-                fid:
-                  $ref: "#/components/schemas/Fid"
-                  example: 194
-                muted_fid:
-                  $ref: "#/components/schemas/Fid"
-                  example: 200
-              example:
-                fid: 194
-                muted_fid: 200
+              $ref: '#/components/schemas/MuteReqBody'
       responses:
         "200":
           description: successful operation
