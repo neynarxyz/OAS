@@ -4492,22 +4492,25 @@ paths:
       summary: Adds a mute for a fid.
       description: Adds a mute for a given fid. This is a whitelisted API, reach out if you want access.
       operationId: add-mute
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
-        - name: fid
-          in: query
-          required: true
-          schema:
-            $ref: "#/components/schemas/Fid"
-          description: The user's fid that you want to add a mute for.
-          example: 194
-        - name: muted_fid
-          in: query
-          required: true
-          schema:
-            $ref: "#/components/schemas/Fid"
-          description: The fid who is going to be muted.
-          example: 200
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - fid
+                - muted_fid
+              properties:
+                fid:
+                  $ref: "#/components/schemas/Fid"
+                  example: 194
+                muted_fid:
+                  $ref: "#/components/schemas/Fid"
+                  example: 200
+              example:
+                fid: 194
+                muted_fid: 200
       responses:
         "200":
           description: successful operation
@@ -4525,22 +4528,25 @@ paths:
       summary: Deletes a mute for a fid.
       description: Deletes a mute for a given fid. This is a whitelisted API, reach out if you want access.
       operationId: delete-mute
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
-        - name: fid
-          in: query
-          required: true
-          schema:
-            $ref: "#/components/schemas/Fid"
-          description: The user's fid that you want to delete the mute for.
-          example: 194
-        - name: muted_fid
-          in: query
-          required: true
-          schema:
-            $ref: "#/components/schemas/Fid"
-          description: The fid who is going to be unmuted.
-          example: 200
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - fid
+                - muted_fid
+              properties:
+                fid:
+                  $ref: "#/components/schemas/Fid"
+                  example: 194
+                muted_fid:
+                  $ref: "#/components/schemas/Fid"
+                  example: 200
+              example:
+                fid: 194
+                muted_fid: 200
       responses:
         "200":
           description: successful operation
