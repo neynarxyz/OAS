@@ -1668,6 +1668,28 @@ components:
         updated_at:
           type: string
           format: date-time
+    WebhookSubscriptionFiltersFollow:
+      type: object
+      properties:
+        fids:
+          type: array
+          items:
+            type: integer
+        target_fids:
+          type: array
+          items:
+            type: integer
+    WebhookSubscriptionFiltersReaction:
+      type: object
+      properties:
+        fids:
+          type: array
+          items:
+            type: integer
+        target_fids:
+          type: array
+          items:
+            type: integer
     WebhookSubscriptionFilters:
       type: object
       properties:
@@ -1718,49 +1740,13 @@ components:
               items:
                 type: integer
         follow.created:
-          type: object
-          properties:
-            fids:
-              type: array
-              items:
-                type: integer
-            target_fids:
-              type: array
-              items:
-                type: integer
+          $ref: "#/components/schemas/WebhookSubscriptionFiltersFollow"
         follow.deleted:
-          type: object
-          properties:
-            fids:
-              type: array
-              items:
-                type: integer
-            target_fids:
-              type: array
-              items:
-                type: integer
+          $ref: "#/components/schemas/WebhookSubscriptionFiltersFollow"
         reaction.created:
-          type: object
-          properties:
-            fids:
-              type: array
-              items:
-                type: integer
-            target_fids:
-              type: array
-              items:
-                type: integer
+          $ref: "#/components/schemas/WebhookSubscriptionFiltersReaction"
         reaction.deleted:
-          type: object
-          properties:
-            fids:
-              type: array
-              items:
-                type: integer
-            target_fids:
-              type: array
-              items:
-                type: integer
+          $ref: "#/components/schemas/WebhookSubscriptionFiltersReaction"
     WebhookPostReqBody:
       type: object
       required:
