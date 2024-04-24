@@ -4525,7 +4525,9 @@ paths:
         "400":
           $ref: "#/components/responses/400Response"
         "404":
-          $ref: "#/components/responses/400Response"
+          $ref: "#/components/responses/404Response"
+        "500":
+          $ref: "#/components/responses/500Response"
   /farcaster/mute:
     post:
       tags:
@@ -4551,7 +4553,9 @@ paths:
         "400":
           $ref: "#/components/responses/400Response"
         "404":
-          $ref: "#/components/responses/400Response"
+          $ref: "#/components/responses/404Response"
+        "500":
+          $ref: "#/components/responses/500Response"
     delete:
       tags:
         - Mute
@@ -4576,7 +4580,9 @@ paths:
         "400":
           $ref: "#/components/responses/400Response"
         "404":
-          $ref: "#/components/responses/400Response"
+          $ref: "#/components/responses/404Response"
+        "500":
+          $ref: "#/components/responses/500Response"
       
   # /farcaster/webhook/subscription:
   #   get:
