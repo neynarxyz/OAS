@@ -4492,6 +4492,8 @@ paths:
       summary: Adds a mute for a fid.
       description: Adds a mute for a given fid. This is a whitelisted API, reach out if you want access.
       operationId: add-mute
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
@@ -4528,6 +4530,8 @@ paths:
       summary: Deletes a mute for a fid.
       description: Deletes a mute for a given fid. This is a whitelisted API, reach out if you want access.
       operationId: delete-mute
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
