@@ -1019,8 +1019,8 @@ paths:
     get:
       tags:
         - Cast
-      summary: Retrieve all casts in a given thread hash
-      description: Gets all casts, including root cast and all replies for a given thread hash. No limit the depth of replies.
+      summary: DEPRECATED - Retrieve all casts in a given thread hash
+      description: Now deprecated, use [v2/cast/conversation](https://docs.neynar.com/reference/cast-conversation). Gets all casts, including root cast and all replies for a given thread hash. No limit the depth of replies.
       externalDocs:
         url: https://docs.neynar.com/reference/all-casts-in-thread-v1
       operationId: all-casts-in-thread
@@ -1047,6 +1047,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/AllCastsInThreadResponse"
+      deprecated: true
   /farcaster/casts:
     get:
       tags:
@@ -1206,7 +1207,7 @@ paths:
       tags:
         - Notifications
       summary: Get mentions and replies
-      description: Gets a list of mentions and replies to the user’s casts in reverse chronological order
+      description: Gets a list of 15 mentions and replies to the user’s casts in reverse chronological order
       externalDocs:
         url: https://docs.neynar.com/reference/mentions-and-replies-v1
       operationId: mentions-and-replies
@@ -1226,15 +1227,6 @@ paths:
           required: false
           schema:
             $ref: "#/components/schemas/Fid"
-        - name: limit
-          in: query
-          description: Number of results to retrieve (default 25, max 150)
-          required: false
-          schema:
-            type: integer
-            default: 25
-            minimum: 1
-            maximum: 150
         - name: cursor
           in: query
           description: Pagination cursor.
@@ -1305,11 +1297,12 @@ paths:
     get:
       tags:
         - Reactions
-      summary: Get all like reactions for a specific cast
-      description: Get all like reactions for a specific cast in reverse chronological order.
+      summary: DEPRECATED - Get all like reactions for a specific cast
+      description: Now deprecated, use [/v2/farcaster/reactions/cast](https://docs.neynar.com/reference/reactions-cast) - Get all like reactions for a specific cast in reverse chronological order.
       externalDocs:
         url: https://docs.neynar.com/reference/cast-likes-v1
       operationId: cast-likes
+      deprecated: true
       parameters:
         - $ref: "#/components/parameters/ApiKey"
         - name: castHash
@@ -1354,11 +1347,12 @@ paths:
     get:
       tags:
         - Reactions
-      summary: Get all reactions for a specific cast
-      description: Get all reactions (likes and recasts) for a specific cast.
+      summary: DEPRECATED - Get all reactions for a specific cast
+      description: Now deprecated, use [/v2/farcaster/reactions/cast](https://docs.neynar.com/reference/reactions-cast) - Get all reactions (likes and recasts) for a specific cast.
       externalDocs:
         url: https://docs.neynar.com/reference/cast-reactions-v1
       operationId: cast-reactions
+      deprecated: true
       parameters:
         - $ref: "#/components/parameters/ApiKey"
         - name: castHash
@@ -1403,11 +1397,12 @@ paths:
     get:
       tags:
         - Reactions
-      summary: Get all recasters for a specific cast
-      description: Get all recasters for a specific cast.
+      summary: DEPRECATED - Get all recasters for a specific cast
+      description: Now deprecated, use [/v2/farcaster/reactions/cast](https://docs.neynar.com/reference/reactions-cast) - Get all recasters for a specific cast.
       externalDocs:
         url: https://docs.neynar.com/reference/cast-recasters-v1
       operationId: cast-recasters
+      deprecated: true
       parameters:
         - $ref: "#/components/parameters/ApiKey"
         - name: castHash
