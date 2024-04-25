@@ -359,8 +359,10 @@ components:
             - followed_by
           properties:
             following:
+              description: Indicates if the viewer is following the user.
               type: boolean
             followed_by:
+              description: Indicates if the viewer is followed by the user.
               type: boolean
     EmbeddedCast:
       oneOf:
@@ -488,6 +490,13 @@ components:
           type: string
           description: Channel ID of the channel where the cast is to be posted. e.g. neynar, farcaster, warpcast
           example: "neynar"
+    MuteReqBody:
+      type: object
+      properties:
+        fid:
+          $ref: "#/components/schemas/Fid"
+        muted_fid:
+          $ref: "#/components/schemas/Fid"
     ReactionReqBody:
       type: object
       required:
@@ -597,6 +606,8 @@ components:
       required:
         - likes
         - recasts
+        - likes_count
+        - recasts_count
       properties:
         likes:
           type: array
@@ -606,6 +617,12 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/ReactionRecast"
+        likes_count:
+          type: integer
+          format: int32
+        recasts_count:
+          type: integer
+          format: int32
     CastWithInteractionsReplies:
       type: object
       required:
@@ -1631,6 +1648,40 @@ components:
           type: string
         signer:
           $ref: "#/components/schemas/Signer"
+    MuteList:
+      type: object
+      required:
+        - object
+        - muted
+        - timestamp
+      properties:
+        object:
+          type: string
+          enum:
+            - mute
+        muted:
+          $ref: "#/components/schemas/User"
+        muted_at:
+          $ref: "#/components/schemas/Timestamp"
+    MuteListResponse:
+      type: object
+      properties:
+        mutes:
+          type: array
+          items:
+            $ref: "#/components/schemas/MuteList"
+        next:
+          $ref: "#/components/schemas/NextCursor"
+    MuteResponse:
+      type: object
+      required:
+        - success
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
     UsersActiveChannelsResponse:
       type: object
       properties:
@@ -1748,6 +1799,28 @@ components:
         updated_at:
           type: string
           format: date-time
+    WebhookSubscriptionFiltersFollow:
+      type: object
+      properties:
+        fids:
+          type: array
+          items:
+            type: integer
+        target_fids:
+          type: array
+          items:
+            type: integer
+    WebhookSubscriptionFiltersReaction:
+      type: object
+      properties:
+        fids:
+          type: array
+          items:
+            type: integer
+        target_fids:
+          type: array
+          items:
+            type: integer
     WebhookSubscriptionFilters:
       type: object
       properties:
@@ -1797,6 +1870,14 @@ components:
               type: array
               items:
                 type: integer
+        follow.created:
+          $ref: "#/components/schemas/WebhookSubscriptionFiltersFollow"
+        follow.deleted:
+          $ref: "#/components/schemas/WebhookSubscriptionFiltersFollow"
+        reaction.created:
+          $ref: "#/components/schemas/WebhookSubscriptionFiltersReaction"
+        reaction.deleted:
+          $ref: "#/components/schemas/WebhookSubscriptionFiltersReaction"
     WebhookPostReqBody:
       type: object
       required:
@@ -2085,21 +2166,11 @@ tags:
     externalDocs:
       description: More info about frames
       url: https://docs.neynar.com/reference/frame-operations
-  - name: Neynar Frames
-    description: Operations related to Neynar frames
-    externalDocs:
-      description: More info about Neynar frames
-      url: https://docs.neynar.com/reference/neynar-frames-operations
   - name: fname
     description: Operations related to fname
     externalDocs:
       description: More info about fname
       url: https://docs.neynar.com/reference/fname-operations
-  - name: Signer (Developer Managed)
-    description: Operations related to developer managed signer
-    externalDocs:
-      description: More info about developer managed signer
-      url: https://docs.neynar.com/reference/developer-managed-signer-operations
   - name: Webhook
     description: Operations related to a webhook
     externalDocs:
@@ -2883,6 +2954,12 @@ paths:
           description: Pagination cursor.
           schema:
             type: string
+        - name: viewer_fid
+          in: query
+          required: false
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
       responses:
         "200":
           description: Successful operation.
@@ -2909,6 +2986,12 @@ paths:
           schema:
             $ref: "#/components/schemas/Fid"
           description: fid of user whose feed you want to create
+        - name: viewer_fid
+          in: query
+          required: false
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
         - name: with_recasts
           in: query
           description: Include recasts in the response, true by default
@@ -2960,6 +3043,12 @@ paths:
           schema:
             type: boolean
             default: true
+        - name: viewer_fid
+          in: query
+          required: false
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
         - name: with_replies
           in: query
           description: Include replies in the response, false by default
@@ -3006,6 +3095,12 @@ paths:
             default: 25
             minimum: 1
             maximum: 100
+        - name: viewer_fid
+          in: query
+          required: false
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
         - name: cursor
           in: query
           description: Pagination cursor.
@@ -3043,6 +3138,12 @@ paths:
           description: Pagination cursor
           schema:
             type: string
+        - name: viewer_fid
+          in: query
+          required: false
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
         - name: time_window
           in: query
           description: Time window for trending casts
@@ -3081,6 +3182,12 @@ paths:
           schema:
             $ref: "#/components/schemas/Fid"
           description: fid of user whose feed you want to create
+        - name: viewer_fid
+          in: query
+          required: false
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
       responses:
         "200":
           description: Successful operation.
@@ -3122,6 +3229,12 @@ paths:
           description: Pagination cursor.
           schema:
             type: string
+        - name: viewer_fid
+          in: query
+          required: false
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
       responses:
         "200":
           description: Successful operation.
@@ -3492,7 +3605,7 @@ paths:
   /farcaster/login/authorize:
     get:
       tags:
-        - User
+        - Signer
       summary: Fetch authorization url
       description: Fetch authorization url (Fetched authorized url useful for SIWN login operation)
       externalDocs:
@@ -3983,7 +4096,7 @@ paths:
       tags:
         - Channel
       summary: Get channels that a user is active in
-      description: Fetches all channels that a user has casted in, in reverse chronological order. Once follows are on the protocol, we will allow choosing for different types of user activity (e.g. casted, followed, etc.).
+      description: Fetches all channels that a user has casted in, in reverse chronological order. 
       operationId: active-channels
       parameters:
         - $ref: "#/components/parameters/ApiKey"
@@ -4487,6 +4600,107 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/WebhookListResponse"
+  /farcaster/mute/list:
+    get:
+      tags:
+        - Mute
+      summary: Get fids that a user has muted.
+      description: Fetches all fids that a user has muted.
+      operationId: mute-list
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: fid
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/Fid"
+          description: The user's fid (identifier)
+          example: 194
+        - name: limit
+          in: query
+          description: Number of results to retrieve (default 20, max 100).
+          required: false
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+          example: 20
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MuteListResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
+        "500":
+          $ref: "#/components/responses/500Response"
+  /farcaster/mute:
+    post:
+      tags:
+        - Mute
+      summary: Adds a mute for a fid.
+      description: Adds a mute for a given fid. This is a whitelisted API, reach out if you want access.
+      operationId: add-mute
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MuteReqBody'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MuteResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
+        "500":
+          $ref: "#/components/responses/500Response"
+    delete:
+      tags:
+        - Mute
+      summary: Deletes a mute for a fid.
+      description: Deletes a mute for a given fid. This is a whitelisted API, reach out if you want access.
+      operationId: delete-mute
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MuteReqBody'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MuteResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
+        "500":
+          $ref: "#/components/responses/500Response"
+      
   # /farcaster/webhook/subscription:
   #   get:
   #     tags:
