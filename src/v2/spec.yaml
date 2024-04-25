@@ -3972,7 +3972,7 @@ paths:
       tags:
         - Channel
       summary: Get channels that a user is active in
-      description: Fetches all channels that a user has casted in, in reverse chronological order. Once follows are on the protocol, we will allow choosing for different types of user activity (e.g. casted, followed, etc.).
+      description: Fetches all channels that a user has casted in, in reverse chronological order. 
       operationId: active-channels
       parameters:
         - $ref: "#/components/parameters/ApiKey"
