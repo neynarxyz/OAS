@@ -663,10 +663,11 @@ components:
               $ref: "#/components/schemas/Channel"
     CastWithInteractionsAndConversations:
       type: object
-      - required:
-            - direct_replies
+      required:
+        - direct_replies
       allOf:
         - $ref: '#/components/schemas/CastWithInteractions'
+        - type: object
           properties:
             direct_replies:
               type: array
