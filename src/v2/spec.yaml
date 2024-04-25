@@ -1269,6 +1269,10 @@ components:
         type: array
         items:
           $ref: "#/components/schemas/User"
+    FollowSortType:
+      type: string
+      pattern: "^(desc_chron|algorithmic)$"
+      example: "desc_chron"
     FeedType:
       type: string
       enum:
@@ -1387,10 +1391,6 @@ components:
         - title
         - index
         - action_type
-    FollowSortType:
-      type: string
-      pattern: "^(desc_chron|algorithmic)$"
-      example: "desc_chron"
     NeynarPageInput:
       type: object
       properties:
@@ -3445,7 +3445,7 @@ paths:
           required: false
           description: "Optional parameter to sort the users based on different criteria."
           schema:
-            ref: "#/components/schemas/FollowSortType"
+            $ref: "#/components/schemas/FollowSortType"
         - name: limit
           in: query
           description: Number of results to retrieve (default 100, max 150)
