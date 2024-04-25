@@ -1387,6 +1387,10 @@ components:
         - title
         - index
         - action_type
+    FollowSortType:
+      type: string
+      pattern: "^(desc_chron|algorithmic)$"
+      example: "desc_chron"
     NeynarPageInput:
       type: object
       properties:
@@ -3415,8 +3419,8 @@ paths:
     get:
       tags:
         - User
-      summary: Retrieve a list of users followed by a user
-      description: Retrieve a list of users followed by a user.
+      summary: Retrieve a list of users followed by a user.
+      description: Retrieve a list of users followed by a user. Can optionally include a viewer_fid and sort_type.
       externalDocs:
         url: https://docs.neynar.com/reference/following-v2
       operationId: following-v2
@@ -3427,8 +3431,21 @@ paths:
           required: true
           schema:
             $ref: "#/components/schemas/Fid"
+          example: 2
+          description: FID of the user whose following you want to fetch.
+        - name: viewer_fid
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/Fid"
           example: 3
-          description: fid of user whose following you want to fetch
+          description: FID of the user viewing the user.
+        - name: sort_type
+          in: query
+          required: false
+          description: "Optional parameter to sort the users based on different criteria."
+          schema:
+            ref: "#/components/schemas/FollowSortType"
         - name: limit
           in: query
           description: Number of results to retrieve (default 100, max 150)
