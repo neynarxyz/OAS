@@ -663,6 +663,8 @@ components:
               $ref: "#/components/schemas/Channel"
     CastWithInteractionsAndConversations:
       type: object
+      - required:
+            - direct_replies
       allOf:
         - $ref: '#/components/schemas/CastWithInteractions'
           properties:
