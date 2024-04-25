@@ -492,6 +492,9 @@ components:
           example: "neynar"
     MuteReqBody:
       type: object
+      required:
+        - fid
+        - muted_fid
       properties:
         fid:
           $ref: "#/components/schemas/Fid"
@@ -1523,6 +1526,7 @@ components:
         - object
         - muted
         - timestamp
+        - muted_at
       properties:
         object:
           type: string
@@ -1534,6 +1538,9 @@ components:
           $ref: "#/components/schemas/Timestamp"
     MuteListResponse:
       type: object
+      required:
+        - mutes
+        - next
       properties:
         mutes:
           type: array
