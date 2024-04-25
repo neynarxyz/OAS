@@ -644,13 +644,14 @@ components:
     CastWithInteractionsAndConversations:
       type: object
       allOf:
-        - $ref: "#/components/schemas/CastWithInteractions"
-      properties:
-        direct_replies:
-          type: array
-          items:
-            $ref: "#/components/schemas/CastWithInteractionsAndConversations"
-          description: "note: This is recursive. It contains the direct replies to the cast and their direct replies up to n reply_depth."
+        - $ref: '#/components/schemas/CastWithInteractions'
+        - type: object
+          properties:
+            direct_replies:
+              type: array
+              items:
+                $ref: "#/components/schemas/CastWithInteractionsAndConversations"
+              description: "note: This is recursive. It contains the direct replies to the cast and their direct replies up to n reply_depth."
     Conversation:
       type: object
       required:
