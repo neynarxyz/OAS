@@ -3469,6 +3469,8 @@ paths:
                 $ref: "#/components/schemas/UsersResponse"
         "400":
           $ref: "#/components/responses/400Response"
+        "500":
+          $ref: "#/components/responses/500Response"
   /farcaster/login/authorize:
     get:
       tags:
