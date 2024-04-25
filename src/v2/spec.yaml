@@ -662,9 +662,9 @@ components:
             channel:
               $ref: "#/components/schemas/Channel"
     CastWithInteractionsAndConversations:
+      type: object
       allOf:
         - $ref: '#/components/schemas/CastWithInteractions'
-        - type: object
           properties:
             direct_replies:
               type: array
