@@ -3466,7 +3466,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/FollowingResponse"
+                $ref: "#/components/schemas/UsersResponse"
         "400":
           $ref: "#/components/responses/400Response"
   /farcaster/login/authorize:
