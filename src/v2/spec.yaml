@@ -663,14 +663,17 @@ components:
               $ref: "#/components/schemas/Channel"
     CastWithInteractionsAndConversations:
       type: object
+      required:
+        - direct_replies
       allOf:
-        - $ref: "#/components/schemas/CastWithInteractions"
-      properties:
-        direct_replies:
-          type: array
-          items:
-            $ref: "#/components/schemas/CastWithInteractions"
-          description: "note: This is recursive. It contains the direct replies to the cast and their direct replies up to n reply_depth."
+        - $ref: '#/components/schemas/CastWithInteractions'
+        - type: object
+          properties:
+            direct_replies:
+              type: array
+              items:
+                $ref: "#/components/schemas/CastWithInteractionsAndConversations"
+              description: "note: This is recursive. It contains the direct replies to the cast and their direct replies up to n reply_depth."
     Conversation:
       type: object
       required:
@@ -682,11 +685,141 @@ components:
             - cast
           properties:
             cast:
-              $ref: "#/components/schemas/CastWithInteractionsAndConversations"
+              $ref: '#/components/schemas/CastWithInteractionsAndConversations'
             chronological_parent_casts:
               type: array
               items:
-                $ref: "#/components/schemas/CastWithInteractions"
+                $ref: '#/components/schemas/CastWithInteractions'
+      example:
+        conversation:
+          cast:
+            object: "cast"
+            hash: "0x9288c1e862aa72bd69d0e383a28b9a76b63cbdb4"
+            thread_hash: "0x9288c1e862aa72bd69d0e383a28b9a76b63cbdb4"
+            parent_hash: null
+            parent_url: "chain://eip155:7777777/erc721:0x4f86113fc3e9783cf3ec9a552cbb566716a57628"
+            root_parent_url: "chain://eip155:7777777/erc721:0x4f86113fc3e9783cf3ec9a552cbb566716a57628"
+            parent_author:
+              fid: null
+            author:
+              fid: 194
+              username: "rish"
+              display_name: "rish"
+              pfp_url: "https://i.imgur.com/naZWL9n.gif"
+              profile:
+                bio:
+                  text: "building /neynar 🪐 | neynar.com | /rish "
+                  mentioned_profiles: []
+              follower_count: 95149
+              following_count: 642
+              verifications:
+                - "0x5a927ac639636e534b678e81768ca19e2c6280b7"
+                - "0xe9e261852ea62150eee685807df8fe3f211310a0"
+              verified_addresses:
+                eth_addresses:
+                  - "0x5a927ac639636e534b678e81768ca19e2c6280b7"
+                  - "0xe9e261852ea62150eee685807df8fe3f211310a0"
+                sol_addresses: []
+              active_status: "active"
+              power_badge: true
+            text: ".@fun built out hatecast.xyz based on a random conversation we had about app ideas for Farcaster."
+            timestamp: "2023-09-13T22:10:22.000Z"
+            embeds:
+              - url: "https://paragraph.xyz/@neynar/farcaster-ideas"
+            frames:
+              - version: "vNext"
+                title: "14 ideas for what to build on Farcaster"
+                image: "https://paragraph-nextjs-320oh1k0y.paragraph.xyz/api/highlight?text=14%20ideas%20for%20what%20to%20build%20on%20Farcaster&author=Neynar&url=%40neynar&avatarUrl=https%3A%2F%2Fstorage.googleapis.com%2Fpapyrus_images%2Fc4178c7c4e54679b2540db27e2607861&featuredImageUrl=&size=2048"
+                image_aspect_ratio: "1:1"
+                buttons:
+                  - index: 1
+                    title: "Read Online"
+                    action_type: "post_redirect"
+                  - index: 2
+                    title: "Read Inline"
+                    action_type: "post"
+                  - index: 3
+                    title: "Subscribe"
+                    action_type: "post"
+                input: {}
+                state: {}
+                post_url: "https://paragraph-nextjs-320oh1k0y.paragraph.xyz/api/farcaster/blog/AMDo84D7jm7E8VFcPaYx/post/g4lFJjGRgLoFmdays9SA"
+                frames_url: "https://paragraph.xyz/@neynar/farcaster-ideas"
+            reactions:
+              likes:
+                - fid: 3
+                  fname: "danromero.eth"
+              recasts:
+                - fid: 2
+                  fname: "varunsrin.eth"
+            replies:
+              count: 10
+          chronological_parent_casts: []
+      default:
+        conversation:
+          cast:
+            object: "cast"
+            hash: "0x9288c1e862aa72bd69d0e383a28b9a76b63cbdb4"
+            thread_hash: "0x9288c1e862aa72bd69d0e383a28b9a76b63cbdb4"
+            parent_hash: null
+            parent_url: "chain://eip155:7777777/erc721:0x4f86113fc3e9783cf3ec9a552cbb566716a57628"
+            root_parent_url: "chain://eip155:7777777/erc721:0x4f86113fc3e9783cf3ec9a552cbb566716a57628"
+            parent_author:
+              fid: null
+            author:
+              fid: 194
+              username: "rish"
+              display_name: "rish"
+              pfp_url: "https://i.imgur.com/naZWL9n.gif"
+              profile:
+                bio:
+                  text: "building /neynar 🪐 | neynar.com | /rish "
+                  mentioned_profiles: []
+              follower_count: 95149
+              following_count: 642
+              verifications:
+                - "0x5a927ac639636e534b678e81768ca19e2c6280b7"
+                - "0xe9e261852ea62150eee685807df8fe3f211310a0"
+              verified_addresses:
+                eth_addresses:
+                  - "0x5a927ac639636e534b678e81768ca19e2c6280b7"
+                  - "0xe9e261852ea62150eee685807df8fe3f211310a0"
+                sol_addresses: []
+              active_status: "active"
+              power_badge: true
+            text: ".@fun built out hatecast.xyz based on a random conversation we had about app ideas for Farcaster."
+            timestamp: "2023-09-13T22:10:22.000Z"
+            embeds:
+              - url: "https://paragraph.xyz/@neynar/farcaster-ideas"
+            frames:
+              - version: "vNext"
+                title: "14 ideas for what to build on Farcaster"
+                image: "https://paragraph-nextjs-320oh1k0y.paragraph.xyz/api/highlight?text=14%20ideas%20for%20what%20to%20build%20on%20Farcaster&author=Neynar&url=%40neynar&avatarUrl=https%3A%2F%2Fstorage.googleapis.com%2Fpapyrus_images%2Fc4178c7c4e54679b2540db27e2607861&featuredImageUrl=&size=2048"
+                image_aspect_ratio: "1:1"
+                buttons:
+                  - index: 1
+                    title: "Read Online"
+                    action_type: "post_redirect"
+                  - index: 2
+                    title: "Read Inline"
+                    action_type: "post"
+                  - index: 3
+                    title: "Subscribe"
+                    action_type: "post"
+                input: {}
+                state: {}
+                post_url: "https://paragraph-nextjs-320oh1k0y.paragraph.xyz/api/farcaster/blog/AMDo84D7jm7E8VFcPaYx/post/g4lFJjGRgLoFmdays9SA"
+                frames_url: "https://paragraph.xyz/@neynar/farcaster-ideas"
+            reactions:
+              likes:
+                - fid: 3
+                  fname: "danromero.eth"
+              recasts:
+                - fid: 2
+                  fname: "varunsrin.eth"
+            replies:
+              count: 10
+          chronological_parent_casts: []
     Signer:
       type: object
       required:
