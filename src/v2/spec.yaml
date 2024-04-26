@@ -3001,6 +3001,14 @@ paths:
         - Feed
       parameters:
         - $ref: "#/components/parameters/ApiKey"
+        - name: limit
+          in: query
+          description: Number of results to retrieve (max 10)
+          schema:
+            type: integer
+            default: 10
+            minimum: 1
+            maximum: 10
         - name: cursor
           in: query
           description: Pagination cursor
@@ -3023,6 +3031,11 @@ paths:
               - 12h
               - 24h
             default: 24h
+        - name: channel_id
+          in: query
+          description: Channel ID to filter trending casts.
+          schema:
+            type: string
       responses:
         "200":
           description: Successful operation.
