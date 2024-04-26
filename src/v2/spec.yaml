@@ -3001,14 +3001,6 @@ paths:
         - Feed
       parameters:
         - $ref: "#/components/parameters/ApiKey"
-        - name: limit
-          in: query
-          description: Number of results to retrieve (max 10)
-          schema:
-            type: integer
-            default: 10
-            minimum: 1
-            maximum: 10
         - name: cursor
           in: query
           description: Pagination cursor
