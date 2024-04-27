@@ -35,7 +35,9 @@ components:
           - inactive: The user is not currently active.
     FollowSortType:
       type: string
-      pattern: "^(desc_chron|algorithmic)$"
+      enum:
+        - desc_chron
+        - algorithmic
       example: "desc_chron"
     ReactionType:
       type: string
