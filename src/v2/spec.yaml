@@ -33,6 +33,10 @@ components:
         The status of a user.
           - active: The user is currently active.
           - inactive: The user is not currently active.
+    FollowSortType:
+      type: string
+      pattern: "^(desc_chron|algorithmic)$"
+      example: "desc_chron"
     ReactionType:
       type: string
       enum:
@@ -4239,6 +4243,61 @@ paths:
           $ref: "#/components/responses/500Response"
         "400":
           $ref: "#/components/responses/400Response"
+  /farcaster/followers:
+    get:
+      tags:
+        - Follows
+      summary: Retrieve followers for a given user
+      description: Returns a list of followers for a specific FID.
+      externalDocs:
+        url: https://docs.neynar.com/reference/followers-v2
+      operationId: followers-v2
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: fid
+          in: query
+          required: true
+          description: User who's profile you are looking at
+          schema:
+            $ref: "#/components/schemas/Fid"
+        - name: viewer_fid
+          in: query
+          required: false
+          description: Viewer who's looking at the profile.
+          schema:
+            $ref: "#/components/schemas/Fid"
+        - name: sort_type
+          in: query
+          required: false
+          description: Sort type for retrieve followers. Default is `desc_chron`
+          schema:
+            $ref: "#/components/schemas/FollowSortType"
+        - name: limit
+          in: query
+          required: false
+          description: Number of results to retrieve (default 25, max 100)
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+        - name: cursor
+          in: query
+          required: false
+          description: Pagination cursor.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsersResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "500":
+          $ref: "#/components/responses/500Response"
   /farcaster/followers/relevant:
     get:
       tags:
