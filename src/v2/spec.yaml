@@ -279,18 +279,6 @@ components:
           $ref: "#/components/schemas/Fid"
         fname:
           type: string
-    FollowingUser:
-      type: object
-      required:
-        - object
-        - user
-      properties:
-        object:
-          type: string
-          enum:
-            - follow
-        user:
-          $ref: "#/components/schemas/User"
     User:
       type: object
       required:
@@ -1172,18 +1160,6 @@ components:
           $ref: "#/components/schemas/CastDehydrated"
         user:
           $ref: "#/components/schemas/User"
-    FollowingResponse:
-      type: object
-      required:
-        - result
-        - next
-      properties:
-        users:
-          type: array
-          items:
-            $ref: "#/components/schemas/FollowingUser"
-        next:
-          $ref: "#/components/schemas/NextCursor"
     ReactionForCast:
       type: object
       required:
