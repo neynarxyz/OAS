@@ -33,6 +33,12 @@ components:
         The status of a user.
           - active: The user is currently active.
           - inactive: The user is not currently active.
+    FollowSortType:
+      type: string
+      enum:
+        - desc_chron
+        - algorithmic
+      example: "desc_chron"
     ReactionType:
       type: string
       enum:
@@ -502,6 +508,16 @@ components:
           type: string
           description: Channel ID of the channel where the cast is to be posted. e.g. neynar, farcaster, warpcast
           example: "neynar"
+    MuteReqBody:
+      type: object
+      required:
+        - fid
+        - muted_fid
+      properties:
+        fid:
+          $ref: "#/components/schemas/Fid"
+        muted_fid:
+          $ref: "#/components/schemas/Fid"
     ReactionReqBody:
       type: object
       required:
@@ -611,6 +627,8 @@ components:
       required:
         - likes
         - recasts
+        - likes_count
+        - recasts_count
       properties:
         likes:
           type: array
@@ -620,6 +638,12 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/ReactionRecast"
+        likes_count:
+          type: integer
+          format: int32
+        recasts_count:
+          type: integer
+          format: int32
     CastWithInteractionsReplies:
       type: object
       required:
@@ -667,14 +691,17 @@ components:
               $ref: "#/components/schemas/ChannelOrDehydratedChannel"
     CastWithInteractionsAndConversations:
       type: object
+      required:
+        - direct_replies
       allOf:
-        - $ref: "#/components/schemas/CastWithInteractions"
-      properties:
-        direct_replies:
-          type: array
-          items:
-            $ref: "#/components/schemas/CastWithInteractions"
-          description: "note: This is recursive. It contains the direct replies to the cast and their direct replies up to n reply_depth."
+        - $ref: '#/components/schemas/CastWithInteractions'
+        - type: object
+          properties:
+            direct_replies:
+              type: array
+              items:
+                $ref: "#/components/schemas/CastWithInteractionsAndConversations"
+              description: "note: This is recursive. It contains the direct replies to the cast and their direct replies up to n reply_depth."
     Conversation:
       type: object
       required:
@@ -686,11 +713,141 @@ components:
             - cast
           properties:
             cast:
-              $ref: "#/components/schemas/CastWithInteractionsAndConversations"
+              $ref: '#/components/schemas/CastWithInteractionsAndConversations'
             chronological_parent_casts:
               type: array
               items:
-                $ref: "#/components/schemas/CastWithInteractions"
+                $ref: '#/components/schemas/CastWithInteractions'
+      example:
+        conversation:
+          cast:
+            object: "cast"
+            hash: "0x9288c1e862aa72bd69d0e383a28b9a76b63cbdb4"
+            thread_hash: "0x9288c1e862aa72bd69d0e383a28b9a76b63cbdb4"
+            parent_hash: null
+            parent_url: "chain://eip155:7777777/erc721:0x4f86113fc3e9783cf3ec9a552cbb566716a57628"
+            root_parent_url: "chain://eip155:7777777/erc721:0x4f86113fc3e9783cf3ec9a552cbb566716a57628"
+            parent_author:
+              fid: null
+            author:
+              fid: 194
+              username: "rish"
+              display_name: "rish"
+              pfp_url: "https://i.imgur.com/naZWL9n.gif"
+              profile:
+                bio:
+                  text: "building /neynar 🪐 | neynar.com | /rish "
+                  mentioned_profiles: []
+              follower_count: 95149
+              following_count: 642
+              verifications:
+                - "0x5a927ac639636e534b678e81768ca19e2c6280b7"
+                - "0xe9e261852ea62150eee685807df8fe3f211310a0"
+              verified_addresses:
+                eth_addresses:
+                  - "0x5a927ac639636e534b678e81768ca19e2c6280b7"
+                  - "0xe9e261852ea62150eee685807df8fe3f211310a0"
+                sol_addresses: []
+              active_status: "active"
+              power_badge: true
+            text: ".@fun built out hatecast.xyz based on a random conversation we had about app ideas for Farcaster."
+            timestamp: "2023-09-13T22:10:22.000Z"
+            embeds:
+              - url: "https://paragraph.xyz/@neynar/farcaster-ideas"
+            frames:
+              - version: "vNext"
+                title: "14 ideas for what to build on Farcaster"
+                image: "https://paragraph-nextjs-320oh1k0y.paragraph.xyz/api/highlight?text=14%20ideas%20for%20what%20to%20build%20on%20Farcaster&author=Neynar&url=%40neynar&avatarUrl=https%3A%2F%2Fstorage.googleapis.com%2Fpapyrus_images%2Fc4178c7c4e54679b2540db27e2607861&featuredImageUrl=&size=2048"
+                image_aspect_ratio: "1:1"
+                buttons:
+                  - index: 1
+                    title: "Read Online"
+                    action_type: "post_redirect"
+                  - index: 2
+                    title: "Read Inline"
+                    action_type: "post"
+                  - index: 3
+                    title: "Subscribe"
+                    action_type: "post"
+                input: {}
+                state: {}
+                post_url: "https://paragraph-nextjs-320oh1k0y.paragraph.xyz/api/farcaster/blog/AMDo84D7jm7E8VFcPaYx/post/g4lFJjGRgLoFmdays9SA"
+                frames_url: "https://paragraph.xyz/@neynar/farcaster-ideas"
+            reactions:
+              likes:
+                - fid: 3
+                  fname: "danromero.eth"
+              recasts:
+                - fid: 2
+                  fname: "varunsrin.eth"
+            replies:
+              count: 10
+          chronological_parent_casts: []
+      default:
+        conversation:
+          cast:
+            object: "cast"
+            hash: "0x9288c1e862aa72bd69d0e383a28b9a76b63cbdb4"
+            thread_hash: "0x9288c1e862aa72bd69d0e383a28b9a76b63cbdb4"
+            parent_hash: null
+            parent_url: "chain://eip155:7777777/erc721:0x4f86113fc3e9783cf3ec9a552cbb566716a57628"
+            root_parent_url: "chain://eip155:7777777/erc721:0x4f86113fc3e9783cf3ec9a552cbb566716a57628"
+            parent_author:
+              fid: null
+            author:
+              fid: 194
+              username: "rish"
+              display_name: "rish"
+              pfp_url: "https://i.imgur.com/naZWL9n.gif"
+              profile:
+                bio:
+                  text: "building /neynar 🪐 | neynar.com | /rish "
+                  mentioned_profiles: []
+              follower_count: 95149
+              following_count: 642
+              verifications:
+                - "0x5a927ac639636e534b678e81768ca19e2c6280b7"
+                - "0xe9e261852ea62150eee685807df8fe3f211310a0"
+              verified_addresses:
+                eth_addresses:
+                  - "0x5a927ac639636e534b678e81768ca19e2c6280b7"
+                  - "0xe9e261852ea62150eee685807df8fe3f211310a0"
+                sol_addresses: []
+              active_status: "active"
+              power_badge: true
+            text: ".@fun built out hatecast.xyz based on a random conversation we had about app ideas for Farcaster."
+            timestamp: "2023-09-13T22:10:22.000Z"
+            embeds:
+              - url: "https://paragraph.xyz/@neynar/farcaster-ideas"
+            frames:
+              - version: "vNext"
+                title: "14 ideas for what to build on Farcaster"
+                image: "https://paragraph-nextjs-320oh1k0y.paragraph.xyz/api/highlight?text=14%20ideas%20for%20what%20to%20build%20on%20Farcaster&author=Neynar&url=%40neynar&avatarUrl=https%3A%2F%2Fstorage.googleapis.com%2Fpapyrus_images%2Fc4178c7c4e54679b2540db27e2607861&featuredImageUrl=&size=2048"
+                image_aspect_ratio: "1:1"
+                buttons:
+                  - index: 1
+                    title: "Read Online"
+                    action_type: "post_redirect"
+                  - index: 2
+                    title: "Read Inline"
+                    action_type: "post"
+                  - index: 3
+                    title: "Subscribe"
+                    action_type: "post"
+                input: {}
+                state: {}
+                post_url: "https://paragraph-nextjs-320oh1k0y.paragraph.xyz/api/farcaster/blog/AMDo84D7jm7E8VFcPaYx/post/g4lFJjGRgLoFmdays9SA"
+                frames_url: "https://paragraph.xyz/@neynar/farcaster-ideas"
+            reactions:
+              likes:
+                - fid: 3
+                  fname: "danromero.eth"
+              recasts:
+                - fid: 2
+                  fname: "varunsrin.eth"
+            replies:
+              count: 10
+          chronological_parent_casts: []
     Signer:
       type: object
       required:
@@ -1557,6 +1714,44 @@ components:
           type: string
         signer:
           $ref: "#/components/schemas/Signer"
+    MuteList:
+      type: object
+      required:
+        - object
+        - muted
+        - timestamp
+        - muted_at
+      properties:
+        object:
+          type: string
+          enum:
+            - mute
+        muted:
+          $ref: "#/components/schemas/User"
+        muted_at:
+          $ref: "#/components/schemas/Timestamp"
+    MuteListResponse:
+      type: object
+      required:
+        - mutes
+        - next
+      properties:
+        mutes:
+          type: array
+          items:
+            $ref: "#/components/schemas/MuteList"
+        next:
+          $ref: "#/components/schemas/NextCursor"
+    MuteResponse:
+      type: object
+      required:
+        - success
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
     UsersActiveChannelsResponse:
       type: object
       properties:
@@ -1674,6 +1869,28 @@ components:
         updated_at:
           type: string
           format: date-time
+    WebhookSubscriptionFiltersFollow:
+      type: object
+      properties:
+        fids:
+          type: array
+          items:
+            type: integer
+        target_fids:
+          type: array
+          items:
+            type: integer
+    WebhookSubscriptionFiltersReaction:
+      type: object
+      properties:
+        fids:
+          type: array
+          items:
+            type: integer
+        target_fids:
+          type: array
+          items:
+            type: integer
     WebhookSubscriptionFilters:
       type: object
       properties:
@@ -1723,6 +1940,14 @@ components:
               type: array
               items:
                 type: integer
+        follow.created:
+          $ref: "#/components/schemas/WebhookSubscriptionFiltersFollow"
+        follow.deleted:
+          $ref: "#/components/schemas/WebhookSubscriptionFiltersFollow"
+        reaction.created:
+          $ref: "#/components/schemas/WebhookSubscriptionFiltersReaction"
+        reaction.deleted:
+          $ref: "#/components/schemas/WebhookSubscriptionFiltersReaction"
     WebhookPostReqBody:
       type: object
       required:
@@ -2011,21 +2236,11 @@ tags:
     externalDocs:
       description: More info about frames
       url: https://docs.neynar.com/reference/frame-operations
-  - name: Neynar Frames
-    description: Operations related to Neynar frames
-    externalDocs:
-      description: More info about Neynar frames
-      url: https://docs.neynar.com/reference/neynar-frames-operations
   - name: fname
     description: Operations related to fname
     externalDocs:
       description: More info about fname
       url: https://docs.neynar.com/reference/fname-operations
-  - name: Signer (Developer Managed)
-    description: Operations related to developer managed signer
-    externalDocs:
-      description: More info about developer managed signer
-      url: https://docs.neynar.com/reference/developer-managed-signer-operations
   - name: Webhook
     description: Operations related to a webhook
     externalDocs:
@@ -2809,6 +3024,12 @@ paths:
           description: Pagination cursor.
           schema:
             type: string
+        - name: viewer_fid
+          in: query
+          required: false
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
       responses:
         "200":
           description: Successful operation.
@@ -2835,6 +3056,12 @@ paths:
           schema:
             $ref: "#/components/schemas/Fid"
           description: fid of user whose feed you want to create
+        - name: viewer_fid
+          in: query
+          required: false
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
         - name: with_recasts
           in: query
           description: Include recasts in the response, true by default
@@ -2886,6 +3113,12 @@ paths:
           schema:
             type: boolean
             default: true
+        - name: viewer_fid
+          in: query
+          required: false
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
         - name: with_replies
           in: query
           description: Include replies in the response, false by default
@@ -2932,6 +3165,12 @@ paths:
             default: 25
             minimum: 1
             maximum: 100
+        - name: viewer_fid
+          in: query
+          required: false
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
         - name: cursor
           in: query
           description: Pagination cursor.
@@ -2969,6 +3208,12 @@ paths:
           description: Pagination cursor
           schema:
             type: string
+        - name: viewer_fid
+          in: query
+          required: false
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
         - name: time_window
           in: query
           description: Time window for trending casts
@@ -2980,6 +3225,11 @@ paths:
               - 12h
               - 24h
             default: 24h
+        - name: channel_id
+          in: query
+          description: Channel ID to filter trending casts.
+          schema:
+            type: string
       responses:
         "200":
           description: Successful operation.
@@ -3007,6 +3257,12 @@ paths:
           schema:
             $ref: "#/components/schemas/Fid"
           description: fid of user whose feed you want to create
+        - name: viewer_fid
+          in: query
+          required: false
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
       responses:
         "200":
           description: Successful operation.
@@ -3048,6 +3304,12 @@ paths:
           description: Pagination cursor.
           schema:
             type: string
+        - name: viewer_fid
+          in: query
+          required: false
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
       responses:
         "200":
           description: Successful operation.
@@ -3576,7 +3838,7 @@ paths:
                 channel_follow_context:
                   default: false
                   type: boolean
-                  description: Adds viewer_context inside the cast object to indicate whether the interactor reacted to the cast housing the frame.
+                  description: Adds context about the channel that the cast belongs to inside of the cast object.
               example:
                 message_bytes_in_hex: "0a49080d1085940118f6a6a32e20018201390a1a86db69b3ffdf6ab8acb6872b69ccbe7eb6a67af7ab71e95aa69f10021a1908ef011214237025b322fd03a9ddc7ec6c078fb9c56d1a72111214e3d88aeb2d0af356024e0c693f31c11b42c76b721801224043cb2f3fcbfb5dafce110e934b9369267cf3d1aef06f51ce653dc01700fc7b778522eb7873fd60dda4611376200076caf26d40a736d3919ce14e78a684e4d30b280132203a66717c82d728beb3511b05975c6603275c7f6a0600370bf637b9ecd2bd231e"
                 cast_reaction_context: true
@@ -3704,15 +3966,6 @@ paths:
             $ref: "#/components/schemas/Fid"
           example: 194
           description: FID of the user you you want to fetch notifications for
-        - name: limit
-          in: query
-          description: Number of results to retrieve (default 25, max 50)
-          required: false
-          schema:
-            type: integer
-            default: 15
-            minimum: 1
-            maximum: 25
         - name: cursor
           in: query
           description: Pagination cursor.
@@ -3753,15 +4006,6 @@ paths:
             type: string
           example: "neynar,farcaster"
           description: Comma separated channel_ids (find list of all channels here - https://docs.neynar.com/reference/list-all-channels)
-        - name: limit
-          in: query
-          description: Number of results to retrieve (default 25, max 50)
-          required: false
-          schema:
-            type: integer
-            default: 15
-            minimum: 1
-            maximum: 25
         - name: cursor
           in: query
           description: Pagination cursor.
@@ -3802,15 +4046,6 @@ paths:
             type: string
           example: "chain://eip155:1/erc721:0xd4498134211baad5846ce70ce04e7c4da78931cc"
           description: Comma separated parent_urls
-        - name: limit
-          in: query
-          description: Number of results to retrieve (default 25, max 50)
-          required: false
-          schema:
-            type: integer
-            default: 15
-            minimum: 1
-            maximum: 25
         - name: cursor
           in: query
           description: Pagination cursor.
@@ -3965,7 +4200,7 @@ paths:
       tags:
         - Channel
       summary: Get channels that a user is active in
-      description: Fetches all channels that a user has casted in, in reverse chronological order. Once follows are on the protocol, we will allow choosing for different types of user activity (e.g. casted, followed, etc.).
+      description: Fetches all channels that a user has casted in, in reverse chronological order. 
       operationId: active-channels
       parameters:
         - $ref: "#/components/parameters/ApiKey"
@@ -4121,6 +4356,61 @@ paths:
           $ref: "#/components/responses/500Response"
         "400":
           $ref: "#/components/responses/400Response"
+  /farcaster/followers:
+    get:
+      tags:
+        - Follows
+      summary: Retrieve followers for a given user
+      description: Returns a list of followers for a specific FID.
+      externalDocs:
+        url: https://docs.neynar.com/reference/followers-v2
+      operationId: followers-v2
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: fid
+          in: query
+          required: true
+          description: User who's profile you are looking at
+          schema:
+            $ref: "#/components/schemas/Fid"
+        - name: viewer_fid
+          in: query
+          required: false
+          description: Viewer who's looking at the profile.
+          schema:
+            $ref: "#/components/schemas/Fid"
+        - name: sort_type
+          in: query
+          required: false
+          description: Sort type for retrieve followers. Default is `desc_chron`
+          schema:
+            $ref: "#/components/schemas/FollowSortType"
+        - name: limit
+          in: query
+          required: false
+          description: Number of results to retrieve (default 25, max 100)
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+        - name: cursor
+          in: query
+          required: false
+          description: Pagination cursor.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsersResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "500":
+          $ref: "#/components/responses/500Response"
   /farcaster/followers/relevant:
     get:
       tags:
@@ -4469,6 +4759,107 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/WebhookListResponse"
+  /farcaster/mute/list:
+    get:
+      tags:
+        - Mute
+      summary: Get fids that a user has muted.
+      description: Fetches all fids that a user has muted.
+      operationId: mute-list
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: fid
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/Fid"
+          description: The user's fid (identifier)
+          example: 194
+        - name: limit
+          in: query
+          description: Number of results to retrieve (default 20, max 100).
+          required: false
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+          example: 20
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MuteListResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
+        "500":
+          $ref: "#/components/responses/500Response"
+  /farcaster/mute:
+    post:
+      tags:
+        - Mute
+      summary: Adds a mute for a fid.
+      description: Adds a mute for a given fid. This is a whitelisted API, reach out if you want access.
+      operationId: add-mute
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MuteReqBody'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MuteResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
+        "500":
+          $ref: "#/components/responses/500Response"
+    delete:
+      tags:
+        - Mute
+      summary: Deletes a mute for a fid.
+      description: Deletes a mute for a given fid. This is a whitelisted API, reach out if you want access.
+      operationId: delete-mute
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MuteReqBody'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MuteResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
+        "500":
+          $ref: "#/components/responses/500Response"
+      
   # /farcaster/webhook/subscription:
   #   get:
   #     tags:
