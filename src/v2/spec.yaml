@@ -279,18 +279,6 @@ components:
           $ref: "#/components/schemas/Fid"
         fname:
           type: string
-    FollowingUser:
-      type: object
-      required:
-        - object
-        - user
-      properties:
-        object:
-          type: string
-          enum:
-            - follow
-        user:
-          $ref: "#/components/schemas/User"
     User:
       type: object
       required:
@@ -652,16 +640,6 @@ components:
         count:
           type: integer
           format: int32
-    ChannelOrDehydratedChannel:
-      oneOf:
-        - $ref: '#/components/schemas/Channel'
-        - $ref: '#/components/schemas/DehydratedChannel'
-        - type: 'null'  # Explicitly allow null values
-      discriminator:
-        propertyName: type
-        mapping:
-          channel: '#/components/schemas/Channel'
-          dehydratedChannel: '#/components/schemas/DehydratedChannel'
     CastWithInteractions:
       type: object
       allOf:
@@ -688,7 +666,7 @@ components:
               items:
                 $ref: "#/components/schemas/User"
             channel:
-              $ref: "#/components/schemas/ChannelOrDehydratedChannel"
+              $ref: "#/components/schemas/Channel"
     CastWithInteractionsAndConversations:
       type: object
       required:
@@ -895,23 +873,6 @@ components:
       properties:
         cast:
           $ref: "#/components/schemas/CastWithInteractions"
-    DehydratedChannel:
-      type: object
-      required:
-        - id
-        - name
-        - object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        object:
-          type: string
-          enum:
-            - channel_dehydrated
-        image_url:
-          type: string
     Channel:
       type: object
       required:
@@ -1199,18 +1160,6 @@ components:
           $ref: "#/components/schemas/CastDehydrated"
         user:
           $ref: "#/components/schemas/User"
-    FollowingResponse:
-      type: object
-      required:
-        - result
-        - next
-      properties:
-        users:
-          type: array
-          items:
-            $ref: "#/components/schemas/FollowingUser"
-        next:
-          $ref: "#/components/schemas/NextCursor"
     ReactionForCast:
       type: object
       required:
@@ -1426,10 +1375,6 @@ components:
         type: array
         items:
           $ref: "#/components/schemas/User"
-    FollowSortType:
-      type: string
-      pattern: "^(desc_chron|algorithmic)$"
-      example: "desc_chron"
     FeedType:
       type: string
       enum:
@@ -3677,62 +3622,6 @@ paths:
           $ref: "#/components/responses/400Response"
         "404":
           $ref: "#/components/responses/404Response"
-  /farcaster/following:
-    get:
-      tags:
-        - User
-      summary: Retrieve a list of users followed by a user.
-      description: Retrieve a list of users followed by a user. Can optionally include a viewer_fid and sort_type.
-      externalDocs:
-        url: https://docs.neynar.com/reference/following-v2
-      operationId: following-v2
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
-        - name: fid
-          in: query
-          required: true
-          schema:
-            $ref: "#/components/schemas/Fid"
-          example: 2
-          description: FID of the user whose following you want to fetch.
-        - name: viewer_fid
-          in: query
-          required: false
-          schema:
-            $ref: "#/components/schemas/Fid"
-          example: 3
-          description: FID of the user viewing the user.
-        - name: sort_type
-          in: query
-          required: false
-          description: "Optional parameter to sort the users based on different criteria."
-          schema:
-            $ref: "#/components/schemas/FollowSortType"
-        - name: limit
-          in: query
-          description: Number of results to retrieve (default 100, max 150)
-          schema:
-            type: integer
-            default: 100
-            minimum: 1
-            maximum: 150
-            example: 100
-        - name: cursor
-          in: query
-          description: Pagination cursor.
-          schema:
-            type: string
-      responses:
-        "200":
-          description: Successful operation.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/UsersResponse"
-        "400":
-          $ref: "#/components/responses/400Response"
-        "500":
-          $ref: "#/components/responses/500Response"
   /farcaster/login/authorize:
     get:
       tags:
