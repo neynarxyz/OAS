@@ -4336,7 +4336,7 @@ paths:
     get:
       tags:
         - Follows
-      summary: Retrieve a list of users followed by a user.
+      summary: Retrieve a list of users followed by a user
       description: Retrieve a list of users followed by a user. Can optionally include a viewer_fid and sort_type.
       externalDocs:
         url: https://docs.neynar.com/reference/following-v2
