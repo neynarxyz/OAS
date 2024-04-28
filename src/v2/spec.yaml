@@ -3622,6 +3622,62 @@ paths:
           $ref: "#/components/responses/400Response"
         "404":
           $ref: "#/components/responses/404Response"
+  /farcaster/following:
+    get:
+      tags:
+        - User
+      summary: Retrieve a list of users followed by a user.
+      description: Retrieve a list of users followed by a user. Can optionally include a viewer_fid and sort_type.
+      externalDocs:
+        url: https://docs.neynar.com/reference/following-v2
+      operationId: following-v2
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: fid
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/Fid"
+          example: 2
+          description: FID of the user whose following you want to fetch.
+        - name: viewer_fid
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/Fid"
+          example: 3
+          description: FID of the user viewing the user.
+        - name: sort_type
+          in: query
+          required: false
+          description: "Optional parameter to sort the users based on different criteria."
+          schema:
+            $ref: "#/components/schemas/FollowSortType"
+        - name: limit
+          in: query
+          description: Number of results to retrieve (default 100, max 150)
+          schema:
+            type: integer
+            default: 100
+            minimum: 1
+            maximum: 150
+            example: 100
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsersResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "500":
+          $ref: "#/components/responses/500Response"
   /farcaster/login/authorize:
     get:
       tags:
