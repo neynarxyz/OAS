@@ -1426,10 +1426,6 @@ components:
         type: array
         items:
           $ref: "#/components/schemas/User"
-    FollowSortType:
-      type: string
-      pattern: "^(desc_chron|algorithmic)$"
-      example: "desc_chron"
     FeedType:
       type: string
       enum:
