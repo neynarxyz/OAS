@@ -3625,7 +3625,7 @@ paths:
   /farcaster/following:
     get:
       tags:
-        - User
+        - Follows
       summary: Retrieve a list of users followed by a user.
       description: Retrieve a list of users followed by a user. Can optionally include a viewer_fid and sort_type.
       externalDocs:
