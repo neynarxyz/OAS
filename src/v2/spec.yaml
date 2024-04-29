@@ -2908,7 +2908,7 @@ paths:
       operationId: feed
       tags:
         - Feed
-      Description:
+      description:
         Retrieve casts based on filters. Ensure setting the correct parameters based on the feed_type and filter_type.
       parameters:
         - $ref: "#/components/parameters/ApiKey"
@@ -2994,7 +2994,7 @@ paths:
       operationId: feed-following
       tags:
         - Feed
-      Description:
+      description:
         Retrieve feed based on who a user is following
       parameters:
         - $ref: "#/components/parameters/ApiKey"
@@ -3047,7 +3047,7 @@ paths:
       operationId: feed-channels
       tags:
         - Feed
-      Description:
+      description:
         Retrieve feed based on channel ids
       parameters:
         - $ref: "#/components/parameters/ApiKey"
@@ -3106,7 +3106,7 @@ paths:
       operationId: feed-frames
       tags:
         - Feed
-      Description: Retrieve feed of casts with Frames, reverse chronological order
+      description: Retrieve feed of casts with Frames, reverse chronological order
       parameters:
         - $ref: "#/components/parameters/ApiKey"
         - name: limit
