@@ -2908,6 +2908,8 @@ paths:
       operationId: feed
       tags:
         - Feed
+      Description:
+        Retrieve casts based on filters. Ensure setting the correct parameters based on the feed_type and filter_type.
       parameters:
         - $ref: "#/components/parameters/ApiKey"
         - name: feed_type
@@ -2992,6 +2994,8 @@ paths:
       operationId: feed-following
       tags:
         - Feed
+      Description:
+        Retrieve feed based on who a user is following
       parameters:
         - $ref: "#/components/parameters/ApiKey"
         - name: fid
@@ -3043,6 +3047,8 @@ paths:
       operationId: feed-channels
       tags:
         - Feed
+      Description:
+        Retrieve feed based on channel ids
       parameters:
         - $ref: "#/components/parameters/ApiKey"
         - name: channel_ids
@@ -3100,6 +3106,7 @@ paths:
       operationId: feed-frames
       tags:
         - Feed
+      Description: Retrieve feed of casts with Frames, reverse chronological order
       parameters:
         - $ref: "#/components/parameters/ApiKey"
         - name: limit
@@ -3138,6 +3145,8 @@ paths:
       operationId: feed-trending
       tags:
         - Feed
+      description:
+        Retrieve trending casts or on the global feed or channels feeds. 7d time window available for channel feeds only. 
       parameters:
         - $ref: "#/components/parameters/ApiKey"
         - name: limit
@@ -3161,7 +3170,7 @@ paths:
             $ref: "#/components/schemas/Fid"
         - name: time_window
           in: query
-          description: Time window for trending casts
+          description: Time window for trending casts (7d window for channel feeds only)
           schema:
             type: string
             enum:
@@ -3169,12 +3178,14 @@ paths:
               - 6h
               - 12h
               - 24h
+              - 7d
             default: 24h
         - name: channel_id
           in: query
           description: Channel ID to filter trending casts.
           schema:
             type: string
+          example: neynar
       responses:
         "200":
           description: Successful operation.
