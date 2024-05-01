@@ -930,6 +930,15 @@ components:
             $ref: "#/components/schemas/Channel"
         next:
           $ref: "#/components/schemas/NextCursor"
+    ChannelSearchResponse:
+      type: object
+      required:
+        - channels
+      properties:
+        channels:
+          type: array
+          items:
+            $ref: "#/components/schemas/Channel"
     ChannelResponse:
       type: object
       required:
@@ -4018,7 +4027,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ChannelResponse"
+                $ref: "#/components/schemas/ChannelSearchResponse"
   /farcaster/channel:
     get:
       tags:
