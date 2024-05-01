@@ -4037,6 +4037,16 @@ paths:
             type: string
           example: "neynar"
           description: Channel ID for the channel being queried
+        - name: type
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - "id"
+              - "parent_url"
+          example: "parent_url"
+          description: Type of identifier being used to query the channel. Defaults to id.
         - name: viewer_fid
           in: query
           required: false
