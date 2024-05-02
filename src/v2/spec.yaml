@@ -4032,7 +4032,7 @@ paths:
     get:
       tags:
         - Channel
-      summary: Retrieve channel details by id
+      summary: Retrieve channel details by id or parent_url
       description: Returns details of a channel
       externalDocs:
         url: https://docs.neynar.com/reference/channel-details
