@@ -496,6 +496,10 @@ components:
           type: string
           description: Channel ID of the channel where the cast is to be posted. e.g. neynar, farcaster, warpcast
           example: "neynar"
+        idem:
+          type: string
+          description: Idempotency key
+          required: false
     MuteReqBody:
       type: object
       required:
@@ -519,6 +523,10 @@ components:
           $ref: "#/components/schemas/ReactionType"
         target:
           type: string
+        idem:
+          type: string
+          description: Idempotency key
+          required: false
     GetCastsReqBody:
       type: object
       properties:
