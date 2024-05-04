@@ -519,6 +519,11 @@ components:
           $ref: "#/components/schemas/ReactionType"
         target:
           type: string
+    ChannelType:
+      type: string
+      enum:
+        - "id"
+        - "parent_url"
     GetCastsReqBody:
       type: object
       properties:
@@ -4050,10 +4055,7 @@ paths:
           in: query
           required: false
           schema:
-            type: string
-            enum:
-              - "id"
-              - "parent_url"
+            $ref: "#/components/schemas/ChannelType"
           example: "parent_url"
           description: Type of identifier being used to query the channel. Defaults to id.
         - name: viewer_fid
