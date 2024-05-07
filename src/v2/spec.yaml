@@ -214,6 +214,7 @@ components:
         - post
         - post_redirect
         - tx
+        - link
     FrameInput:
       type: object
       properties:
