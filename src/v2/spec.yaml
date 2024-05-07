@@ -498,8 +498,6 @@ components:
           example: "neynar"
         parent_author_fid:
           $ref: "#/components/schemas/Fid"
-          description: FID of the author of the parent cast.
-          required: false
     MuteReqBody:
       type: object
       required:
