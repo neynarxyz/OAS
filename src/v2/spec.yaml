@@ -496,6 +496,10 @@ components:
           type: string
           description: Channel ID of the channel where the cast is to be posted. e.g. neynar, farcaster, warpcast
           example: "neynar"
+        parent_author_fid:
+          $ref: "#/components/schemas/Fid"
+          description: FID of the author of the parent cast.
+          required: false
     MuteReqBody:
       type: object
       required:
