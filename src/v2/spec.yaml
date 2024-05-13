@@ -682,7 +682,7 @@ components:
               $ref: "#/components/schemas/Channel"
             viewer_context:
               type: object
-              description: Adds context on the viewer's follow relationship with the user.
+              description: Adds context on interactions the viewer has made with the cast.
               required:
                 - liked
                 - recasted
