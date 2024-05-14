@@ -623,6 +623,19 @@ components:
           type: string
         display_name:
           type: string
+    CastViewerContext:
+      type: object
+      description: Adds context on interactions the viewer has made with the cast.
+      required:
+        - liked
+        - recasted
+      properties:
+        liked:
+          description: Indicates if the viewer liked the cast.
+          type: boolean
+        recasted:
+          description: Indicates if the viewer recasted the cast.
+          type: boolean
     CastWithInteractionsReactions:
       type: object
       required:
@@ -682,18 +695,7 @@ components:
             channel:
               $ref: '#/components/schemas/Channel'
             viewer_context:
-              type: object
-              description: Adds context on interactions the viewer has made with the cast.
-              required:
-                - liked
-                - recasted
-              properties:
-                liked:
-                  description: Indicates if the viewer liked the cast.
-                  type: boolean
-                recasted:
-                  description: Indicates if the viewer recasted the cast.
-                  type: boolean
+              $ref: '#/components/schemas/CastViewerContext'
     CastWithInteractionsAndConversations:
       type: object
       required:
