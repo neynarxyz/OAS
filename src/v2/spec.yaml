@@ -655,31 +655,32 @@ components:
           format: int32
     CastWithInteractions:
       type: object
+      required:
+        - reactions
+        - replies
+        - thread_hash
+        - mentioned_profiles
       allOf:
-        - $ref: "#/components/schemas/Cast"
-        - required:
-            - reactions
-            - replies
-            - thread_hash
-            - mentioned_profiles
+        - $ref: '#/components/schemas/Cast'
+        - type: object
           properties:
             frames:
               type: array
               items:
-                $ref: "#/components/schemas/Frame"
+                $ref: '#/components/schemas/Frame'
             reactions:
-              $ref: "#/components/schemas/CastWithInteractionsReactions"
+              $ref: '#/components/schemas/CastWithInteractionsReactions'
             replies:
-              $ref: "#/components/schemas/CastWithInteractionsReplies"
+              $ref: '#/components/schemas/CastWithInteractionsReplies'
             thread_hash:
               type: string
               nullable: true
             mentioned_profiles:
               type: array
               items:
-                $ref: "#/components/schemas/User"
+                $ref: '#/components/schemas/User'
             channel:
-              $ref: "#/components/schemas/Channel"
+              $ref: '#/components/schemas/Channel'
             viewer_context:
               type: object
               description: Adds context on interactions the viewer has made with the cast.
@@ -693,7 +694,6 @@ components:
                 recasted:
                   description: Indicates if the viewer recasted the cast.
                   type: boolean
-              
     CastWithInteractionsAndConversations:
       type: object
       required:
