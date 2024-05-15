@@ -676,6 +676,11 @@ components:
       allOf:
         - $ref: '#/components/schemas/Cast'
         - type: object
+        required:
+          - reactions
+          - replies
+          - thread_hash
+          - mentioned_profiles
           properties:
             frames:
               type: array
