@@ -358,18 +358,8 @@ components:
         power_badge:
           type: boolean
         viewer_context:
-          type: object
-          description: Adds context on the viewer's follow relationship with the user.
-          required:
-            - following
-            - followed_by
-          properties:
-            following:
-              description: Indicates if the viewer is following the user.
-              type: boolean
-            followed_by:
-              description: Indicates if the viewer is followed by the user.
-              type: boolean
+          $ref: "#/components/schemas/UserViewerContext"
+          
     EmbeddedCast:
       oneOf:
         - $ref: "#/components/schemas/EmbedUrl"
@@ -635,6 +625,19 @@ components:
           type: boolean
         recasted:
           description: Indicates if the viewer recasted the cast.
+          type: boolean
+    UserViewerContext:
+      type: object
+      description: Adds context on the viewer's follow relationship with the user.
+      required:
+        - following
+        - followed_by
+      properties:
+        following:
+          description: Indicates if the viewer is following the user.
+          type: boolean
+        followed_by:
+          description: Indicates if the viewer is followed by the user.
           type: boolean
     CastWithInteractionsReactions:
       type: object
