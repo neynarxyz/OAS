@@ -2767,6 +2767,13 @@ paths:
           example: url
           schema:
             $ref: "#/components/schemas/CastParamType"
+        - name: viewer_fid
+          in: query
+          required: false
+          description: adds viewer_context to cast object to show whether viewer has liked or recasted the cast.
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
       responses:
         "200":
           description: Successful operation.
@@ -2931,6 +2938,12 @@ paths:
           schema:
             type: boolean
             default: false
+        - name: viewer_fid
+          in: query
+          required: false
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
       responses:
         "200":
           description: Successful operation.
