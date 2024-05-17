@@ -2584,6 +2584,12 @@ paths:
             type: string
             pattern: "^(custody_address,?|verified_address,?)+$"
           example: "custody_address,verified_address"
+        - name: viewer_fid
+          in: query
+          required: false
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
       responses:
         "200":
           description: Successful operation.
