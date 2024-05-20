@@ -977,6 +977,15 @@ components:
       properties:
         channel:
           $ref: "#/components/schemas/Channel"
+    ChannelResponseBulk:
+      type: object
+      required:
+        - channels
+      properties:
+        channels:
+          type: array
+          items:
+            $ref: "#/components/schemas/Channel"
     UserSearchResponse:
       type: object
       required:
@@ -4078,6 +4087,47 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ChannelSearchResponse"
+  /farcaster/channel/bulk:
+    get:
+      tags:
+        - Channel
+      summary: Retrieve channels by id or parent_url
+      description: Returns details of multiple channels
+      externalDocs:
+        url: https://docs.neynar.com/reference/channel-details-bulk
+      operationId: channel-details-bulk
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: ids
+          in: query
+          required: true
+          schema:
+            type: string
+          example: "neynar,warpcast"
+          description: Channel IDs for the channels being queried
+        - name: type
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/ChannelType"
+          example: "id"
+          description: Type of identifier being used to query the channels. Defaults to id.
+        - name: viewer_fid
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/Fid"
+          example: 194
+          description: FID of the user viewing the channels.
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChannelResponseBulk"
+        "404":
+          $ref: "#/components/responses/404Response"
   /farcaster/channel:
     get:
       tags:
