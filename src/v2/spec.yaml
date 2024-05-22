@@ -4102,7 +4102,7 @@ paths:
           schema:
             type: string
           example: "neynar,warpcast"
-          description: Channel IDs for the channels being queried
+          description: Comma separated list of channel IDs or parent_urls, up to 100 at a time
         - name: type
           in: query
           required: false
