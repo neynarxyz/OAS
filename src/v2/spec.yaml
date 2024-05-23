@@ -4093,7 +4093,7 @@ paths:
     get:
       tags:
         - Channel
-      summary: Retrieve channels by id or parent_url
+      summary: (Bulk) Retrieve channels by id or parent_url
       description: Returns details of multiple channels
       externalDocs:
         url: https://docs.neynar.com/reference/channel-details-bulk
