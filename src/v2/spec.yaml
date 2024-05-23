@@ -1907,6 +1907,10 @@ components:
               type: array
               items:
                 type: string
+            parent_author_fids:
+              type: array
+              items:
+                type: integer
             text:
               type: string
               description: |
