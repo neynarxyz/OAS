@@ -1006,9 +1006,9 @@ components:
       type: object
       required:
         - object
-        - cast_count_1d
-        - cast_count_7d
-        - cast_count_30d
+        - trending_cast_count_1d
+        - trending_cast_count_7d
+        - trending_cast_count_30d
         - channel
       properties:
         object:
@@ -1021,6 +1021,12 @@ components:
           type: string
         cast_count_30d:
           type: string
+        trending_cast_count_1d:
+          type: integer
+        trending_cast_count_7d:
+          type: integer
+        trending_cast_count_30d:
+          type: integer
         channel:
           $ref: "#/components/schemas/Channel"
     TrendingChannelResponse:
