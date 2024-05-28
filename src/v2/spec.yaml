@@ -3156,6 +3156,12 @@ paths:
           description: Pagination cursor.
           schema:
             type: string
+        - name: should_moderate
+          in: query
+          description: If true, only casts that have been liked by the moderator (if one exists) will be returned.
+          schema:
+            type: boolean
+            default: true
       responses:
         "200":
           description: Successful operation.
