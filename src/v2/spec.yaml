@@ -3221,12 +3221,12 @@ paths:
         - $ref: "#/components/parameters/ApiKey"
         - name: limit
           in: query
-          description: Number of results to retrieve (set to 50)
+          description: Number of results to retrieve (max 10)
           schema:
             type: integer
-            default: 50
-            minimum: 50
-            maximum: 50
+            default: 10
+            minimum: 1
+            maximum: 10
         - name: cursor
           in: query
           description: Pagination cursor
@@ -3245,6 +3245,7 @@ paths:
             type: string
             enum:
               - 1h
+              - 6h
               - 12h
               - 24h
               - 7d
