@@ -3349,18 +3349,31 @@ paths:
     get:
       tags:
         - Frame
-      summary: Retrieve a frame by UUID
-      description: Retrieve a frame by UUID, if it was made by the developer (identified by API key)
+      summary: Retrieve a frame by UUID or URL
+      description: Retrieve a frame either by UUID or Neynar URL
       operationId: lookup-neynar-frame
       parameters:
         - $ref: "#/components/parameters/ApiKey"
-        - name: uuid
+        - name: type
           in: query
           required: true
           schema:
             type: string
+            enum:
+              - uuid
+              - url
+          description: Type of identifier (either 'uuid' or 'url')
+        - name: uuid
+          in: query
+          schema:
+            type: string
             format: uuid
           description: UUID of the frame to retrieve
+        - name: url
+          in: query
+          schema:
+            type: string
+          description: URL of the Neynar frame to retrieve
       responses:
         "200":
           description: A frame object
