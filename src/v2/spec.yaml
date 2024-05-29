@@ -178,81 +178,7 @@ components:
           properties:
             serialized:
               type: string
-              description: State for the frame in a serialized format
-    FabricSubscriber:
-      type: object
-      required:
-        - object
-        - token_id
-        - expires_at
-        - subscriber
-      properties:
-        object:
-          type: string
-          example: subscriber
-        token_id:
-          type: integer
-          example: 265
-        expires_at:
-          type: string
-          format: date-time
-          example: "2024-06-21T10:21:45.000Z"
-        subscriber:
-          $ref: '#/components/schemas/User'
-    FabricSubscribersResponse:
-      type: object
-      additionalProperties:
-        type: object
-        properties:
-          chain_id:
-            type: integer
-            example: 8453
-          metadata:
-            type: object
-            properties:
-              title:
-                type: string
-                example: Terminally Onchain
-              symbol:
-                type: string
-                example: TO
-              art_url:
-                type: string
-                example: "https://storage.withfabric.xyz/loom/2e6d7bc3-b808-4d0c-b762-46a3894d8425.png"
-          owner_address:
-            type: string
-            example: "0x28a69640810fcdcf6adb7119edd64eed4612fa49"
-          price:
-            type: object
-            properties:
-              period_duration_seconds:
-                type: integer
-                example: 2592000
-              tokens_per_period:
-                type: string
-                example: "4199999999040000"
-          protocol_version:
-            type: integer
-            example: 1
-          token:
-            type: object
-            properties:
-              symbol:
-                type: string
-                example: ETH
-              address:
-                type: string
-                example: null
-              decimals:
-                type: integer
-                example: 18
-              erc20:
-                type: boolean
-                example: false
-          subscribers:
-            type: array
-            items:
-              $ref: '#/components/schemas/FabricSubscriber'
+              description: State for the frame in a serialized format 
     FrameAction:
       type: object
       required:
@@ -3265,7 +3191,7 @@ paths:
           description: If true, only casts that have been liked by the moderator (if one exists) will be returned.
           schema:
             type: boolean
-            default: true
+            default: false
       responses:
         "200":
           description: Successful operation.
