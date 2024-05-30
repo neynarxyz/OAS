@@ -185,6 +185,7 @@ components:
         - object
         - token_id
         - expires_at
+        - address
         - subscriber
       properties:
         object:
@@ -197,6 +198,9 @@ components:
           type: string
           format: date-time
           example: "2024-06-21T10:21:45.000Z"
+        address:
+          type: string
+          example: "0x28a69640810fcdcf6adb7119edd64eed4612fa49"
         subscriber:
           oneOf:
             - $ref: '#/components/schemas/User'
