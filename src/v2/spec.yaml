@@ -3210,12 +3210,12 @@ paths:
             $ref: "#/components/schemas/Fid"
         - name: limit
           in: query
-          description: Number of results to retrieve (default 200, max 1000)
+          description: Number of results to retrieve (default 100, max 250)
           schema:
             type: integer
-            default: 200
+            default: 100
             minimum: 1
-            maximum: 1000
+            maximum: 250
         - name: cursor
           in: query
           description: Pagination cursor.
