@@ -198,9 +198,14 @@ components:
           format: date-time
           example: "2024-06-21T10:21:45.000Z"
         subscriber:
-          $ref: '#/components/schemas/User'
+          oneOf:
+            - $ref: '#/components/schemas/User'
+            - type: 'null'
     FabricSubscribersResponse:
       type: object
+      properties:
+        next:
+          $ref: '#/components/schemas/NextCursor'
       additionalProperties:
         type: object
         properties:
@@ -253,6 +258,7 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/FabricSubscriber'
+            
     FrameAction:
       type: object
       required:
@@ -3185,7 +3191,7 @@ paths:
                 $ref: "#/components/schemas/FeedResponse"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/fabric/subscribers:
+  /fabric/subscribers:
     get:
       tags:
         - Fabric
@@ -3202,6 +3208,19 @@ paths:
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
+        - name: limit
+          in: query
+          description: Number of results to retrieve (default 200, max 1000)
+          schema:
+            type: integer
+            default: 200
+            minimum: 1
+            maximum: 1000
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          schema:
+            type: string
       responses:
         "200":
           description: Successful operation.
