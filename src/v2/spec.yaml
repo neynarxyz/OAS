@@ -178,7 +178,7 @@ components:
           properties:
             serialized:
               type: string
-              description: State for the frame in a serialized format
+              description: State for the frame in a serialized format 
     FrameAction:
       type: object
       required:
@@ -3165,7 +3165,7 @@ paths:
           description: If true, only casts that have been liked by the moderator (if one exists) will be returned.
           schema:
             type: boolean
-            default: true
+            default: false
       responses:
         "200":
           description: Successful operation.
