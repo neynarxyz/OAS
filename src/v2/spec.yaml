@@ -33,6 +33,12 @@ components:
         The status of a user.
           - active: The user is currently active.
           - inactive: The user is not currently active.
+    SubscriptionProvider:
+      type: string
+      enum:
+        - fabric_stp
+      description: |
+        The provider of the subscription.
     FollowSortType:
       type: string
       enum:
@@ -179,89 +185,44 @@ components:
             serialized:
               type: string
               description: State for the frame in a serialized format
-    FabricSubscriber:
+    Subscriber:
       type: object
       required:
         - object
-        - token_id
-        - expires_at
-        - address
-        - subscriber
+        - user
+        - subscribed_to
       properties:
         object:
           type: string
           example: subscriber
-        token_id:
-          type: integer
-          example: 265
-        expires_at:
-          type: string
-          format: date-time
-          example: "2024-06-21T10:21:45.000Z"
-        address:
-          type: string
-          example: "0x28a69640810fcdcf6adb7119edd64eed4612fa49"
-        subscriber:
-          oneOf:
-            - $ref: '#/components/schemas/User'
-            - type: 'null'
-    FabricSubscribersResponse:
+        user:
+          $ref: '#/components/schemas/User'
+        subscribed_to:
+          $ref: '#/components/schemas/FabricSubscribedTo'
+    FabricSubscribedTo:
       type: object
       properties:
+        object:
+          type: string
+          example: subscription_dehydrated
+        provider_name:
+          type: string
+          example: fabric_stp
+        fabric_contract:
+          type: string
+          example: "0x325b3e2c19f4900f8f4eb5f6872dc2715e77cbac"
+        chain:
+          type: integer
+          example: 8453
+    SubscribersResponse:
+      type: object
+      properties:
+        subscribers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Subscriber'
         next:
           $ref: '#/components/schemas/NextCursor'
-      additionalProperties:
-        type: object
-        properties:
-          chain_id:
-            type: integer
-            example: 8453
-          metadata:
-            type: object
-            properties:
-              title:
-                type: string
-                example: Terminally Onchain
-              symbol:
-                type: string
-                example: TO
-              art_url:
-                type: string
-                example: "https://storage.withfabric.xyz/loom/2e6d7bc3-b808-4d0c-b762-46a3894d8425.png"
-          owner_address:
-            type: string
-            example: "0x28a69640810fcdcf6adb7119edd64eed4612fa49"
-          price:
-            type: object
-            properties:
-              period_duration_seconds:
-                type: integer
-                example: 2592000
-              tokens_per_period:
-                type: string
-                example: "4199999999040000"
-          protocol_version:
-            type: integer
-            example: 1
-          token:
-            type: object
-            properties:
-              symbol:
-                type: string
-                example: ETH
-              address:
-                type: string
-                example: null
-              decimals:
-                type: integer
-                example: 18
-              erc20:
-                type: boolean
-                example: false
-          subscribers:
-            type: array
-            items:
-              $ref: '#/components/schemas/FabricSubscriber'
             
     FrameAction:
       type: object
@@ -3195,15 +3156,15 @@ paths:
                 $ref: "#/components/schemas/FeedResponse"
         "400":
           $ref: "#/components/responses/400Response"
-  /fabric/subscribers:
+  /farcaster/user/subscribers:
     get:
       tags:
-        - Fabric
-      summary: Fetch fabric subscribers for a given fid.
-      description: Fetch fabric subscribers for a given fid's fabric contracts.
+        - User
+      summary: Fetch subscribers for a given fid.
+      description: Fetch subscribers for a given fid's contracts. Doesn't return addresses that don't have an fid.
       externalDocs:
-        url: https://docs.neynar.com/reference/fabric-subscribers
-      operationId: fabric-subscribers
+        url: https://docs.neynar.com/reference/subscribers
+      operationId: subscribers
       parameters:
         - $ref: "#/components/parameters/ApiKey"
         - name: fid
@@ -3212,26 +3173,22 @@ paths:
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
-        - name: limit
-          in: query
-          description: Number of results to retrieve (default 100, max 250)
-          schema:
-            type: integer
-            default: 100
-            minimum: 1
-            maximum: 250
         - name: cursor
           in: query
           description: Pagination cursor.
           schema:
             type: string
+        - name: subscription_provider
+          in: query
+          schema:
+            $ref: "#/components/schemas/SubscriptionProvider"
       responses:
         "200":
           description: Successful operation.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/FabricSubscribersResponse"
+                $ref: "#/components/schemas/SubscribersResponse"
         "400":
           $ref: "#/components/responses/400Response"
   /farcaster/feed/channels:
