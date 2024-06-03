@@ -33,6 +33,12 @@ components:
         The status of a user.
           - active: The user is currently active.
           - inactive: The user is not currently active.
+    SubscriptionProvider:
+      type: string
+      enum:
+        - fabric_stp
+      description: |
+        The provider of the subscription.
     FollowSortType:
       type: string
       enum:
@@ -178,7 +184,44 @@ components:
           properties:
             serialized:
               type: string
-              description: State for the frame in a serialized format 
+              description: State for the frame in a serialized format
+    Subscriber:
+      type: object
+      required:
+        - object
+        - user
+        - subscribed_to
+      properties:
+        object:
+          type: string
+          example: subscriber
+        user:
+          $ref: '#/components/schemas/User'
+        subscribed_to:
+          $ref: '#/components/schemas/FabricSubscribedTo'
+    FabricSubscribedTo:
+      type: object
+      properties:
+        object:
+          type: string
+          example: subscription_dehydrated
+        provider_name:
+          type: string
+          example: fabric_stp
+        fabric_contract:
+          type: string
+          example: "0x325b3e2c19f4900f8f4eb5f6872dc2715e77cbac"
+        chain:
+          type: integer
+          example: 8453
+    SubscribersResponse:
+      type: object
+      properties:
+        subscribers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Subscriber'
+   
     FrameAction:
       type: object
       required:
@@ -3109,6 +3152,36 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/FeedResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+  /farcaster/user/subscribers:
+    get:
+      tags:
+        - Subscribers
+      summary: Fetch subscribers for a given fid.
+      description: Fetch subscribers for a given fid's contracts. Doesn't return addresses that don't have an fid.
+      externalDocs:
+        url: https://docs.neynar.com/reference/subscribers
+      operationId: subscribers
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: fid
+          in: query
+          required: true
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
+        - name: subscription_provider
+          in: query
+          schema:
+            $ref: "#/components/schemas/SubscriptionProvider"
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SubscribersResponse"
         "400":
           $ref: "#/components/responses/400Response"
   /farcaster/feed/channels:
