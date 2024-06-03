@@ -221,9 +221,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Subscriber'
-        next:
-          $ref: '#/components/schemas/NextCursor'
-            
+   
     FrameAction:
       type: object
       required:
@@ -3159,7 +3157,7 @@ paths:
   /farcaster/user/subscribers:
     get:
       tags:
-        - User
+        - Subscribers
       summary: Fetch subscribers for a given fid.
       description: Fetch subscribers for a given fid's contracts. Doesn't return addresses that don't have an fid.
       externalDocs:
@@ -3173,11 +3171,6 @@ paths:
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
-        - name: cursor
-          in: query
-          description: Pagination cursor.
-          schema:
-            type: string
         - name: subscription_provider
           in: query
           schema:
