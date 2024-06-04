@@ -203,13 +203,11 @@ components:
       type: object
       required:
         - object
-        - user
-        - subscriptions
+        - subscriptions_created
       properties:
         object:
           type: string
-          example: subscription
-        subscriptions:
+        subscriptions_created:
           type: array
           items:
             $ref: '#/components/schemas/Subscription'
@@ -228,6 +226,9 @@ components:
         object:
           type: string
           example: "subscription"
+        provider_name:
+          type: string
+          example: "fabric_stp"
         contract_address:
           type: string
           example: "0xff63fc310d47ef80961056ac8df0b3f1a9e3ef58"
@@ -3282,7 +3283,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SubscribersResponse"
+                $ref: "#/components/schemas/SubscriptionsResponse"
         "400":
           $ref: "#/components/responses/400Response"
   /farcaster/user/subscribers:
