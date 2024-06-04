@@ -199,6 +199,99 @@ components:
           $ref: '#/components/schemas/User'
         subscribed_to:
           $ref: '#/components/schemas/FabricSubscribedTo'
+    Subscriptions:
+      type: object
+      required:
+        - object
+        - user
+        - subscriptions
+      properties:
+        object:
+          type: string
+          example: subscription
+        subscriptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Subscription'
+    Subscription:
+      type: object
+      required:
+        - object
+        - contract_address
+        - chain
+        - metadata
+        - owner_address
+        - price
+        - protocol_version
+        - token
+      properties:
+        object:
+          type: string
+          example: "subscription"
+        contract_address:
+          type: string
+          example: "0xff63fc310d47ef80961056ac8df0b3f1a9e3ef58"
+        chain:
+          type: integer
+          example: 8453
+        metadata:
+          type: object
+          properties:
+            title:
+              type: string
+              example: "/memes channel sub"
+            symbol:
+              type: string
+              example: "MMS"
+            art_url:
+              type: string
+              example: "https://storage.withfabric.xyz/loom/403fdc10-95f3-4b25-9d77-5aac7ccb9fd1.jpg"
+          required:
+            - title
+            - symbol
+            - art_url
+        owner_address:
+          type: string
+          example: "0xb6f6dce6000ca88cc936b450cedb16a5c15f157f"
+        price:
+          type: object
+          properties:
+            period_duration_seconds:
+              type: integer
+              example: 2592000
+            tokens_per_period:
+              type: string
+              example: "350574998400000"
+          required:
+            - period_duration_seconds
+            - tokens_per_period
+        protocol_version:
+          type: integer
+          example: 1
+        token:
+          type: object
+          properties:
+            symbol:
+              type: string
+              example: "ETH"
+            address:
+              type: string
+              nullable: true
+              example: null
+            decimals:
+              type: integer
+              example: 18
+            erc20:
+              type: boolean
+              example: false
+          required:
+            - symbol
+            - address
+            - decimals
+            - erc20
+
+
+
     FabricSubscribedTo:
       type: object
       properties:
@@ -221,6 +314,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Subscriber'
+    SubscriptionsResponse:
+      type: object
+      properties:
+        subscribers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Subscriptions'
    
     FrameAction:
       type: object
@@ -3154,6 +3254,37 @@ paths:
                 $ref: "#/components/schemas/FeedResponse"
         "400":
           $ref: "#/components/responses/400Response"
+  /farcaster/user/subscriptions_created:
+    get:
+      tags:
+        - Subscribers
+      summary: Fetch created subscriptins for a given fid.
+      description: Fetch created subscriptions for a given fid's.
+      externalDocs:
+        url: https://docs.neynar.com/reference/subscriptions-created
+      operationId: subscriptions-created
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: fid
+          in: query
+          required: true
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
+        - name: subscription_provider
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/SubscriptionProvider"
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SubscribersResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
   /farcaster/user/subscribers:
     get:
       tags:
@@ -3173,6 +3304,7 @@ paths:
             $ref: "#/components/schemas/Fid"
         - name: subscription_provider
           in: query
+          required: true
           schema:
             $ref: "#/components/schemas/SubscriptionProvider"
       responses:
