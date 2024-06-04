@@ -3269,7 +3269,7 @@ paths:
         - name: fid
           in: query
           required: true
-          example: 3
+          example: 528
           schema:
             $ref: "#/components/schemas/Fid"
         - name: subscription_provider
@@ -3300,7 +3300,7 @@ paths:
         - name: fid
           in: query
           required: true
-          example: 3
+          example: 3206
           schema:
             $ref: "#/components/schemas/Fid"
         - name: subscription_provider
