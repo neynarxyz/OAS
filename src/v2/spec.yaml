@@ -5134,7 +5134,7 @@ paths:
     delete:
       tags:
         - Mute
-      summary: Deletes a mute for a fid.
+      summary: Deletes a mute for a fid
       description: Deletes a mute for a given fid. This is a whitelisted API, reach out if you want access.
       operationId: delete-mute
       parameters:
