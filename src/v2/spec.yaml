@@ -197,7 +197,7 @@ components:
       properties:
         object:
           type: string
-        user:
+        creator:
           $ref: '#/components/schemas/User'
     Subscriber:
       type: object
