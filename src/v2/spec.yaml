@@ -209,7 +209,7 @@ components:
         object:
           type: string
           example: subscriber
-        user:
+        creator:
           $ref: '#/components/schemas/User'
         subscribed_to:
           $ref: '#/components/schemas/FabricSubscribedTo'
@@ -336,7 +336,7 @@ components:
     SubscriptionsResponse:
       type: object
       properties:
-        subscribers:
+        subscriptions_created:
           type: array
           items:
             $ref: '#/components/schemas/Subscriptions'
@@ -3289,6 +3289,7 @@ paths:
           required: true
           example: 528
           schema:
+            default: 528
             $ref: "#/components/schemas/Fid"
         - name: subscription_provider
           in: query
@@ -3320,6 +3321,7 @@ paths:
           required: true
           example: 3206
           schema:
+            default: 3206
             $ref: "#/components/schemas/Fid"
         - name: viewer_fid
           in: query
@@ -3357,6 +3359,7 @@ paths:
           required: true
           example: 3206
           schema:
+            default: 3206
             $ref: "#/components/schemas/Fid"
         - name: viewer_fid
           in: query
