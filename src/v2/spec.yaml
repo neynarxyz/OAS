@@ -185,16 +185,18 @@ components:
             serialized:
               type: string
               description: State for the frame in a serialized format
+
+
     SubscribedTo:
       type: object
       required:
         - object
         - user
+      allOf:
+        - $ref: '#/components/schemas/Subscription'
       properties:
         object:
           type: string
-        allOf:
-          - $ref: '#/components/schemas/Subscription'
         user:
           $ref: '#/components/schemas/User'
     Subscriber:
@@ -3317,7 +3319,6 @@ paths:
           in: query
           required: true
           example: 3206
-          default: 3206
           schema:
             $ref: "#/components/schemas/Fid"
         - name: viewer_fid
@@ -3355,7 +3356,6 @@ paths:
           in: query
           required: true
           example: 3206
-          default: 3206
           schema:
             $ref: "#/components/schemas/Fid"
         - name: viewer_fid
