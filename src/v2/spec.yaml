@@ -185,6 +185,20 @@ components:
             serialized:
               type: string
               description: State for the frame in a serialized format
+
+
+    SubscribedTo:
+      type: object
+      required:
+        - object
+        - user
+      allOf:
+        - $ref: '#/components/schemas/Subscription'
+      properties:
+        object:
+          type: string
+        creator:
+          $ref: '#/components/schemas/User'
     Subscriber:
       type: object
       required:
@@ -290,9 +304,6 @@ components:
             - address
             - decimals
             - erc20
-
-
-
     FabricSubscribedTo:
       type: object
       properties:
@@ -315,6 +326,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Subscriber'
+    SubscribedToResponse:
+      type: object
+      properties:
+        subscribed_to:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubscribedTo'
     SubscriptionsResponse:
       type: object
       properties:
@@ -3286,6 +3304,43 @@ paths:
                 $ref: "#/components/schemas/SubscriptionsResponse"
         "400":
           $ref: "#/components/responses/400Response"
+  /farcaster/user/subscribed_to:
+    get:
+      tags:
+        - Subscribers
+      summary: Fetch what a given fid is subscribed to
+      description: Fetch what fids and contracts a fid is subscribed to.
+      externalDocs:
+        url: https://docs.neynar.com/reference/subscribed-to
+      operationId: subscribed-to
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: fid
+          in: query
+          required: true
+          example: 3206
+          schema:
+            $ref: "#/components/schemas/Fid"
+        - name: viewer_fid
+          in: query
+          required: false
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
+        - name: subscription_provider
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/SubscriptionProvider"
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SubscribedToResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
   /farcaster/user/subscribers:
     get:
       tags:
@@ -3301,6 +3356,12 @@ paths:
           in: query
           required: true
           example: 3206
+          schema:
+            $ref: "#/components/schemas/Fid"
+        - name: viewer_fid
+          in: query
+          required: false
+          example: 3
           schema:
             $ref: "#/components/schemas/Fid"
         - name: subscription_provider
