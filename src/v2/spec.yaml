@@ -329,7 +329,7 @@ components:
     SubscribedToResponse:
       type: object
       properties:
-        subscribers:
+        subscribed_to:
           type: array
           items:
             $ref: '#/components/schemas/SubscribedTo'
