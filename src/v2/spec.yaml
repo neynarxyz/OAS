@@ -4823,6 +4823,12 @@ paths:
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
+        - name: viewer_fid
+          in: query
+          required: false
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
         - name: type
           in: query
           required: true
@@ -4877,6 +4883,11 @@ paths:
             type: string
             pattern: "^(likes,?|recasts,?|all,?)+$"
           example: "likes,recasts"
+        - name: viewer_fid
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/Fid"
         - name: limit
           in: query
           description: Number of results to retrieve (default 25, max 100)
