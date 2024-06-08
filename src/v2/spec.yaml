@@ -37,6 +37,7 @@ components:
       type: string
       enum:
         - fabric_stp
+        - paragraph
       description: |
         The provider of the subscription.
     FollowSortType:
@@ -212,7 +213,7 @@ components:
         creator:
           $ref: '#/components/schemas/User'
         subscribed_to:
-          $ref: '#/components/schemas/FabricSubscribedTo'
+          $ref: '#/components/schemas/SubscribedToObject'
     Subscriptions:
       type: object
       required:
@@ -304,7 +305,7 @@ components:
             - address
             - decimals
             - erc20
-    FabricSubscribedTo:
+    SubscribedToObject:
       type: object
       properties:
         object:
@@ -319,6 +320,9 @@ components:
         chain:
           type: integer
           example: 8453
+      required:
+        - object
+        - provider_name
     SubscribersResponse:
       type: object
       properties:
