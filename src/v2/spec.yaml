@@ -320,6 +320,10 @@ components:
         chain:
           type: integer
           example: 8453
+        expires_at:
+          type: string
+          format: date-time
+          example: "2023-09-13T22:10:22.000Z"
       required:
         - object
         - provider_name
