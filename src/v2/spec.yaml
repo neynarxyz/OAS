@@ -210,7 +210,7 @@ components:
         object:
           type: string
           example: subscriber
-        creator:
+        user:
           $ref: '#/components/schemas/User'
         subscribed_to:
           $ref: '#/components/schemas/SubscribedToObject'
