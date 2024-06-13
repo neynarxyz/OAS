@@ -206,6 +206,7 @@ components:
         - object
         - user
         - subscribed_to
+        - expires_at
       properties:
         object:
           type: string
@@ -214,6 +215,10 @@ components:
           $ref: '#/components/schemas/User'
         subscribed_to:
           $ref: '#/components/schemas/SubscribedToObject'
+        expires_at:
+          type: string
+          format: date-time
+          example: "2023-09-13T22:10:22.000Z"
     Subscriptions:
       type: object
       required:
