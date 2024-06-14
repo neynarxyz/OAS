@@ -33,11 +33,17 @@ components:
         The status of a user.
           - active: The user is currently active.
           - inactive: The user is not currently active.
-    SubscriptionProvider:
+    SubscriptionProviders:
       type: string
       enum:
         - fabric_stp
         - paragraph
+      description: |
+        The provider of the subscription.
+    SubscriptionProvider:
+      type: string
+      enum:
+        - fabric_stp
       description: |
         The provider of the subscription.
     FollowSortType:
@@ -3389,7 +3395,7 @@ paths:
           in: query
           required: true
           schema:
-            $ref: "#/components/schemas/SubscriptionProvider"
+            $ref: "#/components/schemas/SubscriptionProviders"
       responses:
         "200":
           description: Successful operation.
