@@ -2196,6 +2196,12 @@ components:
     #       type: string
     #     subscription:
     #       $ref: '#/components/schemas/WebhookSubscriptionFilters'
+    FrameType: 
+      type: string
+      enum:
+        - uuid
+        - url
+      description: Type of identifier (either 'uuid' or 'url')
     FrameValidateListResponse:
       type: object
       required:
@@ -3646,11 +3652,7 @@ paths:
           in: query
           required: true
           schema:
-            type: string
-            enum:
-              - uuid
-              - url
-          description: Type of identifier (either 'uuid' or 'url')
+            $ref: "#/components/schemas/FrameType"
         - name: uuid
           in: query
           schema:
