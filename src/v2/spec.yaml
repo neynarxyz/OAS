@@ -200,6 +200,10 @@ components:
           type: string
         creator:
           $ref: '#/components/schemas/User'
+        expires_at:
+          type: string
+          format: date-time
+          example: "2023-09-13T22:10:22.000Z"
     Subscriber:
       type: object
       required:
@@ -2192,12 +2196,6 @@ components:
     #       type: string
     #     subscription:
     #       $ref: '#/components/schemas/WebhookSubscriptionFilters'
-    FrameType: 
-      type: string
-      enum:
-        - uuid
-        - url
-      description: Type of identifier (either 'uuid' or 'url')
     FrameValidateListResponse:
       type: object
       required:
@@ -3648,7 +3646,11 @@ paths:
           in: query
           required: true
           schema:
-            $ref: "#/components/schemas/FrameType"
+            type: string
+            enum:
+              - uuid
+              - url
+          description: Type of identifier (either 'uuid' or 'url')
         - name: uuid
           in: query
           schema:
