@@ -907,8 +907,8 @@ components:
               type: array
               items:
                 $ref: "#/components/schemas/CastWithInteractions"
-            next:
-              $ref: "#/components/schemas/NextCursor"
+        next:
+          $ref: "#/components/schemas/NextCursor"
       example:
         conversation:
           cast:
