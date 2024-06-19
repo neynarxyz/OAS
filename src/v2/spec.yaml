@@ -853,7 +853,6 @@ components:
       oneOf:
         - $ref: '#/components/schemas/Channel'
         - $ref: '#/components/schemas/DehydratedChannel'
-        - type: 'null'
       discriminator:
         propertyName: type
         mapping:
@@ -868,6 +867,7 @@ components:
             - replies
             - thread_hash
             - mentioned_profiles
+            - channel
           properties:
             frames:
               type: array
@@ -886,6 +886,7 @@ components:
                 $ref: "#/components/schemas/User"
             channel:
               $ref: "#/components/schemas/ChannelOrDehydratedChannel"
+              nullable: true
             viewer_context:
               $ref: "#/components/schemas/CastViewerContext"
     CastWithInteractionsAndConversations:
