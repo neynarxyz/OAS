@@ -3381,6 +3381,7 @@ paths:
             $ref: "#/components/schemas/ForYouProvider"
         - name: limit
           in: query
+          required: false
           description: Number of results to retrieve (default 25, max 50)
           schema:
             type: integer
@@ -3389,6 +3390,7 @@ paths:
             maximum: 50
         - name: cursor
           in: query
+          required: false
           description: Pagination cursor.
           schema:
             type: string
