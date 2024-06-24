@@ -52,6 +52,12 @@ components:
         - desc_chron
         - algorithmic
       example: "desc_chron"
+    ForYouProvider:
+      type: string
+      enum:
+        - karma3
+      description: |
+        The provider of the For You feed.
     ReactionType:
       type: string
       enum:
@@ -3332,6 +3338,59 @@ paths:
             maximum: 100
         - name: cursor
           in: query
+          description: Pagination cursor.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FeedResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+  /farcaster/feed/for_you:
+    get:
+      summary: Retrieve a personalized For You feed for a user
+      externalDocs:
+        url: https://docs.neynar.com/reference/feed-for-you
+      operationId: feed-for-you
+      tags:
+        - Feed
+      description: Retrieve a personalized For You feed for a user
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: fid
+          in: query
+          required: true
+          example: 194
+          schema:
+            $ref: "#/components/schemas/Fid"
+          description: fid of user whose feed you want to create
+        - name: viewer_fid
+          in: query
+          required: false
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
+        - name: provider
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/ForYouProvider"
+        - name: limit
+          in: query
+          required: false
+          description: Number of results to retrieve (default 25, max 50)
+          schema:
+            type: integer
+            default: 25
+            minimum: 1
+            maximum: 50
+        - name: cursor
+          in: query
+          required: false
           description: Pagination cursor.
           schema:
             type: string
