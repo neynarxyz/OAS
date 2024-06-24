@@ -3364,14 +3364,14 @@ paths:
         - name: fid
           in: query
           required: true
-          example: 2025
+          example: 194
           schema:
             $ref: "#/components/schemas/Fid"
           description: fid of user whose feed you want to create
         - name: viewer_fid
           in: query
           required: false
-          example: 2025
+          example: 3
           schema:
             $ref: "#/components/schemas/Fid"
         - name: provider
