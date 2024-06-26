@@ -2721,12 +2721,18 @@ paths:
       tags:
         - User
       summary: Fetch power users
-      description: Fetches power users based on Warpcast power badges
+      description: Fetches power users based on Warpcast power badges. Information is updated once a day.
       externalDocs:
         url: https://docs.neynar.com/reference/user-power
       operationId: power-users
       parameters:
         - $ref: "#/components/parameters/ApiKey"
+        - name: viewer_fid
+          in: query
+          required: false
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
         - name: limit
           in: query
           required: false
@@ -2755,7 +2761,7 @@ paths:
       tags:
         - User
       summary: Fetch active users
-      description: Fetches active users based on Warpcast active algorithm, information is updated every 12 hours
+      description: Warpcast has deprecated the active badge. Use user/power endpoint instead.
       externalDocs:
         url: https://docs.neynar.com/reference/active-users
       operationId: active-users
