@@ -1146,6 +1146,8 @@ components:
           format: uri
         lead:
           $ref: "#/components/schemas/User"
+        moderator:
+          $ref: "#/components/schemas/User"
         hosts:
           type: array
           items:
