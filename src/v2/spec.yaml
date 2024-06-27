@@ -52,6 +52,12 @@ components:
         - desc_chron
         - algorithmic
       example: "desc_chron"
+    ForYouProvider:
+      type: string
+      enum:
+        - karma3
+      description: |
+        The provider of the For You feed.
     ReactionType:
       type: string
       enum:
@@ -2720,12 +2726,18 @@ paths:
       tags:
         - User
       summary: Fetch power users
-      description: Fetches power users based on Warpcast power badges
+      description: Fetches power users based on Warpcast power badges. Information is updated once a day.
       externalDocs:
         url: https://docs.neynar.com/reference/user-power
       operationId: power-users
       parameters:
         - $ref: "#/components/parameters/ApiKey"
+        - name: viewer_fid
+          in: query
+          required: false
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
         - name: limit
           in: query
           required: false
@@ -2754,7 +2766,7 @@ paths:
       tags:
         - User
       summary: Fetch active users
-      description: Fetches active users based on Warpcast active algorithm, information is updated every 12 hours
+      description: Warpcast has deprecated the active badge. Use user/power endpoint instead.
       externalDocs:
         url: https://docs.neynar.com/reference/active-users
       operationId: active-users
@@ -3334,6 +3346,59 @@ paths:
             maximum: 100
         - name: cursor
           in: query
+          description: Pagination cursor.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FeedResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+  /farcaster/feed/for_you:
+    get:
+      summary: Retrieve a personalized For You feed for a user
+      externalDocs:
+        url: https://docs.neynar.com/reference/feed-for-you
+      operationId: feed-for-you
+      tags:
+        - Feed
+      description: Retrieve a personalized For You feed for a user
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: fid
+          in: query
+          required: true
+          example: 194
+          schema:
+            $ref: "#/components/schemas/Fid"
+          description: fid of user whose feed you want to create
+        - name: viewer_fid
+          in: query
+          required: false
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
+        - name: provider
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/ForYouProvider"
+        - name: limit
+          in: query
+          required: false
+          description: Number of results to retrieve (default 25, max 50)
+          schema:
+            type: integer
+            default: 25
+            minimum: 1
+            maximum: 50
+        - name: cursor
+          in: query
+          required: false
           description: Pagination cursor.
           schema:
             type: string
@@ -4417,13 +4482,13 @@ paths:
         - $ref: "#/components/parameters/ApiKey"
         - name: limit
           in: query
-          description: Number of results to retrieve (default 25, max 50)
+          description: Number of results to retrieve (default 25, max 200)
           required: false
           schema:
             type: integer
             default: 20
             minimum: 1
-            maximum: 100
+            maximum: 200
         - name: cursor
           in: query
           description: Pagination cursor.
