@@ -1328,11 +1328,14 @@ components:
       required:
         - success
         - target_fid
+        - hash
       properties:
         success:
           type: boolean
         target_fid:
           $ref: "#/components/schemas/Fid"
+        hash:
+          type: string
     BulkFollowResponse:
       type: object
       required:
