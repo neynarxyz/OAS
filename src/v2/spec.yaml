@@ -199,7 +199,7 @@ components:
               type: string
               description: State for the frame in a serialized format
 
-    Tier:
+    SubscriptionTier:
       type: object
       properties:
         id:
@@ -234,7 +234,7 @@ components:
           format: date-time
           example: "2023-09-13T22:10:22.000Z"
         tier:
-          $ref: '#/components/schemas/Tier'
+          $ref: '#/components/schemas/SubscriptionTier'
     Subscriber:
       type: object
       required:
@@ -323,7 +323,7 @@ components:
         tiers: 
           type: array
           items:
-            $ref: '#/components/schemas/Tier'
+            $ref: '#/components/schemas/SubscriptionTier'
         protocol_version:
           type: integer
           example: 1
