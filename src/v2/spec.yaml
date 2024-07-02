@@ -205,12 +205,6 @@ components:
         id:
           type: integer
           example: 1
-        title:
-          type: string
-          example: "CastSense Pro"
-        art_url:
-          type: string
-          example: "https://storage.withfabric.xyz/loom/3d8f9a40-ed3b-458f-be94-571bcc319e08.png"
         price:
           type: object
           properties:
@@ -223,28 +217,6 @@ components:
             initial_mint_price:
               type: string
               example: "0"
-        max_commitment_seconds:
-          type: integer
-          example: 0
-        start_timestamp:
-          type: string
-          format: date-time
-          nullable: true
-          example: null
-        end_timestamp:
-          type: string
-          format: date-time
-          nullable: true
-          example: null
-        reward_basis_points:
-          type: integer
-          example: 420
-        paused:
-          type: boolean
-          example: false
-        transferrable:
-          type: boolean
-          example: true
     SubscribedTo:
       type: object
       required:
@@ -261,6 +233,8 @@ components:
           type: string
           format: date-time
           example: "2023-09-13T22:10:22.000Z"
+        tier:
+          $ref: '#/components/schemas/Tier'
     Subscriber:
       type: object
       required:
@@ -393,9 +367,6 @@ components:
           type: string
           format: date-time
           example: "2023-09-13T22:10:22.000Z"
-        tier:
-          type: object
-          $ref: '#/components/schemas/Tier'
         tier_id:
           type: string
           example: "0"
