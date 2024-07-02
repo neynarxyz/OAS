@@ -199,7 +199,24 @@ components:
               type: string
               description: State for the frame in a serialized format
 
-
+    Tier:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        price:
+          type: object
+          properties:
+            period_duration_seconds:
+              type: integer
+              example: 2592000
+            tokens_per_period:
+              type: string
+              example: "3000000000000000"
+            initial_mint_price:
+              type: string
+              example: "0"
     SubscribedTo:
       type: object
       required:
@@ -216,6 +233,8 @@ components:
           type: string
           format: date-time
           example: "2023-09-13T22:10:22.000Z"
+        tier:
+          $ref: '#/components/schemas/Tier'
     Subscriber:
       type: object
       required:
@@ -294,9 +313,17 @@ components:
             tokens_per_period:
               type: string
               example: "350574998400000"
+            initial_mint_price:
+              type: string
+              example: "0"
           required:
             - period_duration_seconds
             - tokens_per_period
+            - initial_mint_price
+        tiers: 
+          type: array
+          items:
+            $ref: '#/components/schemas/Tier'
         protocol_version:
           type: integer
           example: 1
@@ -340,6 +367,9 @@ components:
           type: string
           format: date-time
           example: "2023-09-13T22:10:22.000Z"
+        tier_id:
+          type: string
+          example: "0"
       required:
         - object
         - provider_name
