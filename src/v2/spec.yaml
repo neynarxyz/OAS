@@ -223,18 +223,18 @@ components:
         - object
         - user
       allOf:
-        - $ref: '#/components/schemas/Subscription'
+        - $ref: "#/components/schemas/Subscription"
       properties:
         object:
           type: string
         creator:
-          $ref: '#/components/schemas/User'
+          $ref: "#/components/schemas/User"
         expires_at:
           type: string
           format: date-time
           example: "2023-09-13T22:10:22.000Z"
         tier:
-          $ref: '#/components/schemas/SubscriptionTier'
+          $ref: "#/components/schemas/SubscriptionTier"
     Subscriber:
       type: object
       required:
@@ -246,9 +246,9 @@ components:
           type: string
           example: subscriber
         user:
-          $ref: '#/components/schemas/User'
+          $ref: "#/components/schemas/User"
         subscribed_to:
-          $ref: '#/components/schemas/SubscribedToObject'
+          $ref: "#/components/schemas/SubscribedToObject"
     Subscriptions:
       type: object
       required:
@@ -260,7 +260,7 @@ components:
         subscriptions_created:
           type: array
           items:
-            $ref: '#/components/schemas/Subscription'
+            $ref: "#/components/schemas/Subscription"
     Subscription:
       type: object
       required:
@@ -320,10 +320,10 @@ components:
             - period_duration_seconds
             - tokens_per_period
             - initial_mint_price
-        tiers: 
+        tiers:
           type: array
           items:
-            $ref: '#/components/schemas/SubscriptionTier'
+            $ref: "#/components/schemas/SubscriptionTier"
         protocol_version:
           type: integer
           example: 1
@@ -379,22 +379,22 @@ components:
         subscribers:
           type: array
           items:
-            $ref: '#/components/schemas/Subscriber'
+            $ref: "#/components/schemas/Subscriber"
     SubscribedToResponse:
       type: object
       properties:
         subscribed_to:
           type: array
           items:
-            $ref: '#/components/schemas/SubscribedTo'
+            $ref: "#/components/schemas/SubscribedTo"
     SubscriptionsResponse:
       type: object
       properties:
         subscriptions_created:
           type: array
           items:
-            $ref: '#/components/schemas/Subscriptions'
-   
+            $ref: "#/components/schemas/Subscriptions"
+
     FrameAction:
       type: object
       required:
@@ -887,13 +887,13 @@ components:
           format: int32
     ChannelOrDehydratedChannel:
       oneOf:
-        - $ref: '#/components/schemas/Channel'
-        - $ref: '#/components/schemas/DehydratedChannel'
+        - $ref: "#/components/schemas/Channel"
+        - $ref: "#/components/schemas/DehydratedChannel"
       discriminator:
         propertyName: type
         mapping:
-          channel: '#/components/schemas/Channel'
-          dehydratedChannel: '#/components/schemas/DehydratedChannel'
+          channel: "#/components/schemas/Channel"
+          dehydratedChannel: "#/components/schemas/DehydratedChannel"
     CastWithInteractions:
       allOf:
         - $ref: "#/components/schemas/Cast"
@@ -2174,6 +2174,15 @@ components:
                 2) Use backslashes to escape special characters.
                 For example: (?i)\\$degen should be written as (?i)\\\\$degen
               example: (?i)\$degen
+            exclude_text_fids:
+              description: |
+                Exclude casts that matches the text regex from these authors.
+                ** Use case: **
+                  If you want to reply "$degen" from a bot, and the text you are looking for is also "$degen" (i.e. text regex is set to (?i)\\$degen).
+                  You need to add the bot's fid to this list to avoid replying to the bot's cast. This will prevent infinite loops of replying to each other.
+              type: array
+              items:
+                type: integer
             embeds:
               type: string
               description: |
@@ -2276,7 +2285,7 @@ components:
     #       type: string
     #     subscription:
     #       $ref: '#/components/schemas/WebhookSubscriptionFilters'
-    FrameType: 
+    FrameType:
       type: string
       enum:
         - uuid
