@@ -17,7 +17,6 @@ components:
       description: Solana address
     Fid:
       type: integer
-      default: 3
       format: int32
       description: User identifier (unsigned integer)
     SignerUUID:
