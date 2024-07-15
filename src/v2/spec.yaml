@@ -2405,6 +2405,66 @@ components:
       type: string
       enum:
         - code
+    BuyStorageReqBody:
+      type: object
+      required:
+        - fid
+        - units
+      properties:
+        fid:
+          type: integer
+          minimum: 1
+          example: 1
+        units:
+          type: integer
+          description: |
+            Number of storage units to buy.
+            A storage unit lets you store 5000 casts, 2500 reactions and 2500 links.
+          minimum: 1
+          example: 1
+    BuyStorageResponse:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+    ZodError:
+      type: object
+      required:
+        - message
+        - code
+        - errors
+      properties:
+        message:
+          type: string
+          example: Invalid query parameters
+        code:
+          type: string
+          example: InvalidField
+        errors:
+          type: array
+          items:
+            type: object
+            required:
+              - code
+              - expected
+              - received
+              - path
+              - message
+            properties:
+              code:
+                type: string
+              expected:
+                type: string
+              received:
+                type: string
+              path:
+                type: array
+                items:
+                  type: string
+              message:
+                type: string
 
   parameters:
     ApiKey:
@@ -2435,6 +2495,12 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/ErrorRes"
+    400ZodResponse:
+      description: "Bad Request"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ZodError"
     403Response:
       description: "Forbidden"
       content:
@@ -5181,6 +5247,36 @@ paths:
                 $ref: "#/components/schemas/StorageUsageResponse"
         "400":
           $ref: "#/components/responses/400Response"
+  /farcaster/storage/buy:
+    post:
+      tags:
+        - Storage
+      summary: Buy storage for an fid
+      description: |
+        This api will help you rent units of storage for an year for a specific fid.
+        A storage unit lets you store 5000 casts, 2500 reactions and 2500 links.
+      operationId: storage-buy
+      externalDocs:
+        url: https://docs.neynar.com/reference/storage-buy
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BuyStorageReqBody"
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BuyStorageResponse"
+        "400":
+          $ref: "#/components/responses/400ZodResponse"
+        "500":
+          $ref: "#/components/responses/500Response"
   /farcaster/webhook:
     get:
       tags:
