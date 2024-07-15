@@ -5255,9 +5255,9 @@ paths:
       description: |
         This api will help you rent units of storage for an year for a specific fid.
         A storage unit lets you store 5000 casts, 2500 reactions and 2500 links.
-      operationId: storage-buy
+      operationId: buy-storage
       externalDocs:
-        url: https://docs.neynar.com/reference/storage-buy
+        url: https://docs.neynar.com/reference/buy-storage
       parameters:
         - $ref: "#/components/parameters/ApiKey"
       requestBody:
