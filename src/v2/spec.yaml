@@ -2443,13 +2443,6 @@ components:
           example: 1
         idem:
           $ref: "#/components/schemas/Idem"
-    BuyStorageResponse:
-      type: object
-      required:
-        - message
-      properties:
-        message:
-          type: string
     ZodError:
       type: object
       required:
