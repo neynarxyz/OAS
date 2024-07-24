@@ -3803,7 +3803,7 @@ paths:
                 $ref: "#/components/schemas/FeedResponse"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/feed/user/{fid}/popular:
+  /farcaster/feed/user/popular:
     get:
       summary: Retrieve 10 most popular casts for a user
       externalDocs:
@@ -3815,9 +3815,9 @@ paths:
       parameters:
         - $ref: "#/components/parameters/ApiKey"
         - name: fid
-          in: path
+          in: query
           required: true
-          example: 3
+          example: 194
           schema:
             $ref: "#/components/schemas/Fid"
           description: fid of user whose feed you want to create
@@ -3836,7 +3836,7 @@ paths:
                 $ref: "#/components/schemas/BulkCastsResponse"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/feed/user/{fid}/replies_and_recasts:
+  /farcaster/feed/user/replies_and_recasts:
     get:
       summary: Retrieve recent replies and recasts for a user
       description: Retrieve recent replies and recasts for a given user FID; sorted by most recent first
@@ -3848,9 +3848,9 @@ paths:
       parameters:
         - $ref: "#/components/parameters/ApiKey"
         - name: fid
-          in: path
+          in: query
           required: true
-          example: 3
+          example: 194
           schema:
             $ref: "#/components/schemas/Fid"
           description: fid of user whose replies and recasts you want to fetch
