@@ -235,6 +235,8 @@ components:
       required:
         - object
         - user
+        - expires_at
+        - subscribed_at
       allOf:
         - $ref: "#/components/schemas/Subscription"
       properties:
