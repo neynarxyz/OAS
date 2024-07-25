@@ -235,19 +235,26 @@ components:
       required:
         - object
         - user
+        - expires_at
+        - subscribed_at
+        - tier
+        - creator
       allOf:
         - $ref: "#/components/schemas/Subscription"
-      properties:
-        object:
-          type: string
-        creator:
-          $ref: "#/components/schemas/User"
-        expires_at:
-          type: string
-          format: date-time
-          example: "2023-09-13T22:10:22.000Z"
-        tier:
-          $ref: "#/components/schemas/SubscriptionTier"
+        - type: object
+          properties:
+            expires_at:
+              type: string
+              format: date-time
+              example: "2023-09-13T22:10:22.000Z"
+            subscribed_at:
+              type: string
+              format: date-time
+              example: "2023-09-13T22:10:22.000Z"
+            tier:
+              $ref: "#/components/schemas/SubscriptionTier"
+            creator:
+              $ref: "#/components/schemas/User"
     Subscriber:
       type: object
       required:
@@ -377,6 +384,10 @@ components:
           type: integer
           example: 8453
         expires_at:
+          type: string
+          format: date-time
+          example: "2023-09-13T22:10:22.000Z"
+        subscribed_at:
           type: string
           format: date-time
           example: "2023-09-13T22:10:22.000Z"
