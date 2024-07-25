@@ -3854,6 +3854,18 @@ paths:
           schema:
             $ref: "#/components/schemas/Fid"
           description: fid of user whose replies and recasts you want to fetch
+        - name: filter
+          in: query
+          required: false
+          example: replies
+          schema:
+            type: string
+            default: all
+            enum:
+              - replies
+              - recasts
+              - all
+          description: filter to fetch only replies or recasts
         - name: limit
           in: query
           description: Number of results to retrieve (default 25, max 100)
