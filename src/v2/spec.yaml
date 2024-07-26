@@ -165,8 +165,10 @@ components:
       properties:
         content_type:
           type: string
+          nullable: true
         content_length:
           type: integer
+          nullable: true
     CastId:
       type: object
       required:
