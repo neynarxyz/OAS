@@ -155,6 +155,18 @@ components:
       properties:
         url:
           type: string
+        metadata:
+          $ref: "#/components/schemas/EmbedUrlMetadata"
+    EmbedUrlMetadata:
+      type: object
+      required:
+        - content_type
+        - content_length
+      properties:
+        content_type:
+          type: string
+        content_length:
+          type: integer
     CastId:
       type: object
       required:
