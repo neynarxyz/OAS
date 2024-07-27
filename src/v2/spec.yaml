@@ -4385,9 +4385,9 @@ paths:
     post:
       tags:
         - Frame
-      summary: Posts a frame action signed by the developer
+      summary: Posts a frame signature packet
       description: |
-        Post a frame action
+        Post a frame action that has been signed with a developer managed signer
 
         The POST request to the post_url has a timeout of 5 seconds.
       externalDocs:
