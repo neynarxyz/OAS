@@ -419,6 +419,54 @@ components:
           items:
             $ref: "#/components/schemas/Subscriptions"
 
+    FrameSignaturePacket:
+      type: object
+      description: The Frame Signature Packet (https://docs.farcaster.xyz/developers/frames/spec#frame-signature-packet)
+      required:
+        - untrustedData
+        - trustedData
+      properties:
+        untrustedData:
+          type: object
+          description: Untrusted data from the user
+          properties:
+            fid:
+              $ref: "#/components/schemas/Fid"
+            url:
+              type: string
+              description: URL of the frame
+            messageHash:
+              type: string
+              description: Message hash
+            timestamp:
+              type: string
+              description: Timestamp
+            network: 
+              type: integer
+              description: Network
+            buttonIndex:
+              type: integer
+              description: Index of the button
+            inputText:
+              type: string
+              description: Input text
+            state:
+              type: string
+              description: State
+            transactionId:
+              type: string
+              description: Transaction ID
+            address:
+              $ref: "#/components/schemas/Address"
+            castId:
+              $ref: "#/components/schemas/CastId"
+        trustedData:
+          type: object
+          description: Trusted data from the user
+          properties:
+            messageBytes:
+              type: string
+              description: Message bytes
     FrameAction:
       type: object
       required:
@@ -796,6 +844,19 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Fid"
+    FrameDeveloperManagedActionReqBody:
+      type: object
+      required:
+        - cast_hash
+        - action
+        - signature_packet
+      properties:
+        cast_hash:
+          $ref: "#/components/schemas/CastHash"
+        action:
+          $ref: "#/components/schemas/FrameAction"
+        signature_packet:
+          $ref: "#/components/schemas/FrameSignaturePacket"
     FrameActionReqBody:
       type: object
       required:
@@ -4306,6 +4367,37 @@ paths:
           $ref: "#/components/responses/400Response"
         "401":
           $ref: "#/components/responses/401Response"
+  /farcaster/frame/developer_managed/action:
+    post:
+      tags:
+        - Frame
+      summary: Posts a frame action signed by the developer
+      description: |
+        Post a frame action
+
+        The POST request to the post_url has a timeout of 5 seconds.
+      externalDocs:
+        url: https://docs.neynar.com/reference/post-frame-developer-managed-action
+      operationId: post-frame-developer-managed-action
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FrameDeveloperManagedActionReqBody"
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Frame"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "500":
+          $ref: "#/components/responses/500Response"
   /farcaster/frame/action:
     post:
       tags:
