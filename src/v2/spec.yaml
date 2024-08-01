@@ -4204,9 +4204,9 @@ paths:
     post:
       tags:
         - User
-      summary: Adds verification for an eth address for the user
+      summary: Adds verification for an ethereum address or contract for the user
       description: |
-        Adds verification for an eth address for the user \
+        Adds verification for an eth address or contract for the user \
         (In order to add verification `signer_uuid` must be approved)
       externalDocs:
         url: https://docs.neynar.com/reference/add-verification
