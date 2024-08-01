@@ -2116,11 +2116,13 @@ components:
     VerificationType:
       type: integer
       format: int32
+      default: 0
       enum: [0, 1]
       description: Type of verification. 0 = EOA, 1 = contract
     VerificationChainId:
       type: integer
       format: int32
+      default: 0
       enum: [0, 1, 10]
       description: Chain ID for farcaster verifications. 0 for EOA verifications, 1 or 10 for contract verifications
     DeleteFrameResponse:
