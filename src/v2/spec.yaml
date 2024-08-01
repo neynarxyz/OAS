@@ -900,6 +900,10 @@ components:
           type: string
         eth_signature:
           type: string
+        verification_type:
+          $ref: "#/components/schemas/VerificationType"
+        chain_id:
+          $ref: "#/components/schemas/VerificationChainId"
     RemoveVerificationReqBody:
       type: object
       required:
@@ -2109,6 +2113,16 @@ components:
             $ref: "#/components/schemas/Channel"
         next:
           $ref: "#/components/schemas/NextCursor"
+    VerificationType:
+      type: integer
+      format: int32
+      enum: [0, 1]
+      description: Type of verification. 0 = EOA, 1 = contract
+    VerificationChainId:
+      type: integer
+      format: int32
+      enum: [0, 1, 10]
+      description: Chain ID for farcaster verifications. 0 for EOA verifications, 1 or 10 for contract verifications
     DeleteFrameResponse:
       type: object
       properties:
