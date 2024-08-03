@@ -861,7 +861,6 @@ components:
     FrameDeveloperManagedActionReqBody:
       type: object
       required:
-        - cast_hash
         - action
         - signature_packet
       properties:
