@@ -874,7 +874,6 @@ components:
       type: object
       required:
         - signer_uuid
-        - cast_hash
         - action
       properties:
         signer_uuid:
@@ -4432,12 +4431,12 @@ paths:
     post:
       tags:
         - Frame
-      summary: Posts a frame action
+      summary: Posts a frame action, cast action or a cast composer action
       description: |
-        Post a frame action \
-        (In order to post a frame action, you need to have an approved `signer_uuid`)
+        Post frame actions, cast actions or cast composer actions to the server  \
+        (In order to post any of these actions, you need to have an approved `signer_uuid`)
 
-        The POST request to the post_url has a timeout of 5 seconds.
+        The POST request to the post_url has a timeout of 5 seconds for frames.
       externalDocs:
         url: https://docs.neynar.com/reference/post-frame-action
       operationId: post-frame-action
