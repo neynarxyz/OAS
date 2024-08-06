@@ -394,6 +394,9 @@ components:
         contract_address:
           type: string
           example: "0x325b3e2c19f4900f8f4eb5f6872dc2715e77cbac"
+        protocol_version:
+          type: integer
+          example: 1
         chain:
           type: integer
           example: 8453
