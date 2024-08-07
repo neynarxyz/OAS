@@ -1895,9 +1895,6 @@ components:
         - title
         - index
         - action_type
-    isPriority:
-      type: boolean
-      default: true
     NeynarPageInput:
       type: object
       properties:
@@ -4639,11 +4636,6 @@ paths:
           required: false
           schema:
             type: string
-        - name: is_priority
-          in: query
-          schema:
-            $ref: "#/components/schemas/isPriority"
-          required: false
       responses:
         "200":
           description: Successful response
@@ -4684,11 +4676,6 @@ paths:
           required: false
           schema:
             type: string
-        - name: is_priority
-          in: query
-          schema:
-            $ref: "#/components/schemas/isPriority"
-          required: false
       responses:
         "200":
           description: Successful response
@@ -4729,11 +4716,6 @@ paths:
           required: false
           schema:
             type: string
-        - name: is_priority
-          in: query
-          schema:
-            $ref: "#/components/schemas/isPriority"
-          required: false
       responses:
         "200":
           description: Successful response
