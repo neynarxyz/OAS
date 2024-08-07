@@ -3765,7 +3765,7 @@ paths:
           example: neynar,farcaster
           schema:
             type: string
-          description: comma separated list of channel ids e.g. neynar,farcaster
+          description: Comma separated list of channel ids e.g. neynar,farcaster
         - name: with_recasts
           in: query
           description: Include recasts in the response, true by default
@@ -3803,6 +3803,64 @@ paths:
           schema:
             type: boolean
             default: false
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FeedResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+  /farcaster/feed/parent_urls:
+    get:
+      summary: Retrieve feed based on parent urls
+      externalDocs:
+        url: https://docs.neynar.com/reference/feed/parent_urls
+      operationId: feed-parent-urls
+      tags:
+        - Feed
+      description: Retrieve feed based on parent urls
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: parent_urls
+          in: query
+          required: true
+          example: "chain://eip155:1/erc721:0xd4498134211baad5846ce70ce04e7c4da78931cc"
+          schema:
+            type: string
+          description: Comma separated list of parent_urls
+        - name: with_recasts
+          in: query
+          description: Include recasts in the response, true by default
+          schema:
+            type: boolean
+            default: true
+        - name: viewer_fid
+          in: query
+          required: false
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
+        - name: with_replies
+          in: query
+          description: Include replies in the response, false by default
+          schema:
+            type: boolean
+            default: false
+        - name: limit
+          in: query
+          description: Number of results to retrieve (default 25, max 100)
+          schema:
+            type: integer
+            default: 25
+            minimum: 1
+            maximum: 100
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          schema:
+            type: string
       responses:
         "200":
           description: Successful operation.
