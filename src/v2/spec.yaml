@@ -4693,13 +4693,13 @@ paths:
             $ref: "#/components/schemas/Fid"
           example: 194
           description: FID of the user you you want to fetch notifications for
-        - name: types
+        - name: type
           in: query
           required: false,
           schema:
             type: string
-          example: likes,follows
-          description: Comma separated list of notification types to fetch. Options include likes, recasts, follows, mentions, replies
+          example: likes
+          description: Notification type to fetch. Options include likes, recasts, follows, mentions, replies
         - name: cursor
           in: query
           description: Pagination cursor.
