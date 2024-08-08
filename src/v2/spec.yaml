@@ -1495,6 +1495,14 @@ components:
             $ref: "#/components/schemas/Notification"
         next:
           $ref: "#/components/schemas/NextCursor"
+    NotificationType:
+      type: string
+      enum:
+        - follows
+        - recasts
+        - likes
+        - mention
+        - reply
     Notification:
       type: object
       required:
@@ -1508,13 +1516,7 @@ components:
           type: string
           format: date-time
         type:
-          type: string
-          enum:
-            - follows
-            - recasts
-            - likes
-            - mention
-            - reply
+          $ref: "#/components/schemas/NotificationType"
         follows:
           type: array
           items:
@@ -4691,6 +4693,13 @@ paths:
             $ref: "#/components/schemas/Fid"
           example: 194
           description: FID of the user you you want to fetch notifications for
+        - name: types
+          in: query
+          required: false,
+          schema:
+            type: string
+          example: likes,follows
+          description: Comma separated list of notification types to fetch. Options include likes, recasts, follows, mentions, replies
         - name: cursor
           in: query
           description: Pagination cursor.
