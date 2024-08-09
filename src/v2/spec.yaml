@@ -4721,9 +4721,8 @@ paths:
           in: query
           required: false
           schema:
-            type: string
-          example: likes
-          description: Notification type to fetch. Options include likes, recasts, follows, mentions, replies
+            $ref: "#/components/schemas/NotificationType"
+          description: Notification type to fetch.
         - name: cursor
           in: query
           description: Pagination cursor.
