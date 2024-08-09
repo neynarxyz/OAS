@@ -4719,7 +4719,7 @@ paths:
           description: FID of the user you you want to fetch notifications for
         - name: type
           in: query
-          required: false,
+          required: false
           schema:
             type: string
           example: likes
