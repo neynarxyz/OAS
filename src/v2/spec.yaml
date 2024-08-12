@@ -55,6 +55,7 @@ components:
       type: string
       enum:
         - openrank
+        - karma3
       description: |
         The provider of the For You feed.
     FeedTrendingProvider:
