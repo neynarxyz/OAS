@@ -1531,6 +1531,7 @@ components:
     NotificationType:
       type: string
       enum:
+        - follows
         - recasts
         - likes
         - mentions
