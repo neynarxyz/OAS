@@ -7,6 +7,35 @@ servers:
 
 components:
   schemas:
+    ConflictErrorRes:
+      type: object
+      required:
+        - message
+      description: Details for the conflict error response
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        property:
+          type: string
+        key:
+          type: string
+    ErrorRes:
+      type: object
+      required:
+        - message
+      description: Details for the error response
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        property:
+          type: string
+        status:
+          type: integer
+          format: int32
     SubscriptionCheckResponse:
       type: object
       additionalProperties:
@@ -102,12 +131,6 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/ErrorRes"
-    400ZodResponse:
-      description: "Bad Request"
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/ZodError"
     403Response:
       description: "Forbidden"
       content:
