@@ -5834,47 +5834,6 @@ paths:
           $ref: "#/components/responses/404Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /stp/subscription_check:
-    get:
-      tags:
-        - STP
-      summary: Check if a user is subscribed to a STP contract
-      description: Check if a user is subscribed to a given STP contract.
-      operationId: subscription-check
-      externalDocs:
-        url: https://docs.neynar.com/reference/subscription-check
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
-        - name: addresses
-          description: Comma separated list of Ethereum addresses, up to 350 at a time
-          in: query
-          required: true
-          example: 0xedd3783e8c7c52b80cfbd026a63c207edc9cbee7,0x5a927ac639636e534b678e81768ca19e2c6280b7
-          schema:
-            type: string
-        - name: contract_address
-          description: Ethereum address of the STP contract
-          in: query
-          required: true
-          example: 0x76ad4cb9ac51c09f4d9c2cadcea75c9fa9074e5b
-          schema:
-            type: string
-        - name: chain_id
-          description: Chain ID of the STP contract
-          in: query
-          required: true
-          example: 8453
-          schema:
-            type: integer
-      responses:
-        "200":
-          description: Successful response
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/SubscriptionCheckResponse"
-        "400":
-          $ref: "#/components/responses/400Response"
   
 
   # /farcaster/webhook/subscription:
