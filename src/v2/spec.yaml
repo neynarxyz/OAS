@@ -2617,12 +2617,12 @@ components:
                   type: string
               message:
                 type: string
-    WarpcastComposerType:
+    CastComposerType:
       type: string
       enum:
         - top
         - featured
-    WarpcastComposerActionListResponse:
+    CastComposerActionsListResponse:
       type: object
       properties:
         actions:
@@ -5851,7 +5851,7 @@ paths:
           $ref: "#/components/responses/404Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/composer-actions/list:
+  /farcaster/cast/composer_actions/list:
     get:
       tags:
         - Composer Actions
@@ -5866,7 +5866,7 @@ paths:
           in: query
           required: true
           schema:
-            $ref: "#/components/schemas/WarpcastComposerType"
+            $ref: "#/components/schemas/CastComposerType"
           example: "top"
           description: Type of list to fetch.
         - name: limit
@@ -5891,7 +5891,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/WarpcastComposerActionListResponse"
+                $ref: "#/components/schemas/CastComposerActionsListResponse"
         "400":
           $ref: "#/components/responses/400Response"
         "500":
