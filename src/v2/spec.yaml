@@ -169,15 +169,39 @@ components:
     EmbedUrlMetadata:
       type: object
       required:
-        - content_type
-        - content_length
+        - _status
       properties:
+        _status:
+          type: string
         content_type:
           type: string
           nullable: true
         content_length:
           type: integer
           nullable: true
+        image:
+          type: object
+          properties:
+            height_px:
+              type: integer
+            width_px:
+              type: integer
+        video:
+          type: object
+          properties:
+            duration_s:
+              type: number
+            stream:
+              type: array
+              items:
+                type: object
+                properties:
+                  codec_name:
+                    type: string
+                  height_px:
+                    type: integer
+                  width_px:
+                    type: integer
     CastId:
       type: object
       required:
