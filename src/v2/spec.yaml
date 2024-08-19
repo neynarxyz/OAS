@@ -4243,10 +4243,10 @@ paths:
                 $ref: "#/components/schemas/FeedResponse"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/feed/user/recent:
+  /farcaster/feed/user/casts:
     get:
       summary: Retrieve recent casts for a user
-      description: Retrieve recent casts for a given user FID; also allows filtering by parent_url and channel
+      description: Retrieve recent casts for a given user FID in reverse chronological order. Also allows filtering by parent_url and channel
       externalDocs:
         url: https://docs.neynar.com/reference/feed-user-recent
       operationId: feed-user-recent
