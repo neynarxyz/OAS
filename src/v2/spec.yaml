@@ -5925,10 +5925,10 @@ paths:
   /farcaster/cast/composer_actions/list:
     get:
       tags:
-        - Composer Actions
+        - Cast
       summary: Fetches all composer actions on Warpcast
       description: Fetches all composer actions on Warpcast. You can filter by top or featured.
-      operationId: composer-actions-list
+      operationId: composer-list
       externalDocs:
         url: https://docs.neynar.com/reference/composer-list
       parameters:
