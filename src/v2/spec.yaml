@@ -3990,6 +3990,61 @@ paths:
                 $ref: "#/components/schemas/CastsResponse"
         "400":
           $ref: "#/components/responses/400Response"
+  /farcaster/casts/search:
+    get:
+      tags:
+        - Cast
+      summary: Search for casts
+      description: Search for casts based on a query string
+      externalDocs:
+        url: https://docs.neynar.com/reference/casts-search
+      operationId: casts-search
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: q
+          in: query
+          required: true
+          description: "Query string to search for casts"
+          example: "star wars"
+          schema:
+            type: string
+        - name: fid
+          in: query
+          required: false
+          description: "Fid of the user whose casts you want to search"
+          example: 194
+          schema:
+            $ref: "#/components/schemas/Fid"
+        - name: parent
+          in: query
+          required: false
+          description: "Channel name or parent_url within which you want to search for casts"
+          example: "memes"
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          example: 10
+          schema:
+            type: integer
+            format: int32
+            default: 25
+            maximum: 100
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CastsResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
   /farcaster/cast/conversation:
     get:
       tags:
