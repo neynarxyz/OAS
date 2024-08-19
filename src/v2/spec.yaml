@@ -4015,13 +4015,16 @@ paths:
           example: 194
           schema:
             $ref: "#/components/schemas/Fid"
-        - name: parent
+        - name: parent_url
           in: query
-          required: false
-          description: "Channel name or parent_url within which you want to search for casts"
-          example: "memes"
           schema:
             type: string
+          description: "Parent URL of the casts you want to search"
+        - name: channel_id
+          in: query
+          schema:
+            type: string
+          description: "Channel ID of the casts you want to search"
         - name: limit
           in: query
           required: false
