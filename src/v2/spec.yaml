@@ -4243,6 +4243,68 @@ paths:
                 $ref: "#/components/schemas/FeedResponse"
         "400":
           $ref: "#/components/responses/400Response"
+  /farcaster/feed/user/casts:
+    get:
+      summary: Retrieve casts for a user
+      description: Retrieve casts for a given user FID in reverse chronological order. Also allows filtering by parent_url and channel
+      externalDocs:
+        url: https://docs.neynar.com/reference/feed-user-casts
+      operationId: feed-user-casts
+      tags:
+        - Feed
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: fid
+          in: query
+          required: true
+          example: 194
+          schema:
+            $ref: "#/components/schemas/Fid"
+          description: FID of user whose recent casts you want to fetch
+        - name: viewer_fid
+          in: query
+          required: false
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
+          description: FID of the user viewing the feed 
+        - name: limit
+          in: query
+          required: false
+          description: Number of results to retrieve (default 25, max 50)
+          schema:
+            type: integer
+            default: 25
+            minimum: 1
+            maximum: 50
+        - name: cursor
+          in: query
+          description: Pagination cursor
+          schema:
+            type: string
+        - name: parent_url
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Parent URL to filter the feed; mutually exclusive with channel_id
+        - name: channel_id
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Channel ID to filter the feed; mutually exclusive with parent_url
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FeedResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "500":
+          $ref: "#/components/responses/500Response"
   /farcaster/frame:
     get:
       tags:

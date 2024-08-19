@@ -1052,8 +1052,9 @@ paths:
     get:
       tags:
         - Cast
-      summary: Retrieve casts for a given user
-      description: Gets the most recent casts for a user
+      summary: DEPRECATED - Retrieve casts for a given user
+      description: Now deprecated, use [/v2/farcaster/feed/user/recent]( https://docs.neynar.com/reference/feed-user-recent) instead
+      deprecated: true
       externalDocs:
         url: https://docs.neynar.com/reference/casts-v1
       operationId: casts
