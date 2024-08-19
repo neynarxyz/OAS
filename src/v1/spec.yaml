@@ -1053,7 +1053,7 @@ paths:
       tags:
         - Cast
       summary: DEPRECATED - Retrieve casts for a given user
-      description: Now deprecated, use [/v2/farcaster/feed/user/recent]( https://docs.neynar.com/reference/feed-user-recent) instead
+      description: Now deprecated, use [/v2/farcaster/feed/user/casts](https://docs.neynar.com/reference/feed-user-casts) instead
       deprecated: true
       externalDocs:
         url: https://docs.neynar.com/reference/casts-v1
