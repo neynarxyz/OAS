@@ -3158,6 +3158,26 @@ paths:
                 $ref: "#/components/schemas/UsersResponse"
         "400":
           $ref: "#/components/responses/400Response"
+  /farcaster/user/power-lite:
+    get:
+      tags:
+        - User
+      summary: Fetch power user FIDs
+      description: Fetches power users and respond in a backwards compatible format to Warpcast's deprecated power badge endpoint.
+      externalDocs:
+        url: https://docs.neynar.com/reference/user-power-lite
+      operationId: power-users-lite
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsersResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "500":
+          $ref: "#/components/responses/500Response"
   /farcaster/user/active:
     get:
       tags:
