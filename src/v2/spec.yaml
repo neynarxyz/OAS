@@ -3158,7 +3158,7 @@ paths:
                 $ref: "#/components/schemas/UsersResponse"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/user/power-lite:
+  /farcaster/user/power_lite:
     get:
       tags:
         - User
