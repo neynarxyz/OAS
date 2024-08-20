@@ -4282,6 +4282,13 @@ paths:
           description: Pagination cursor
           schema:
             type: string
+        - name: include_replies
+          in: query
+          required: false
+          description: Include replies in the response, true by default
+          schema:
+            type: boolean
+            default: true
         - name: parent_url
           in: query
           required: false
