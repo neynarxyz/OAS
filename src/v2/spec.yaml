@@ -3166,7 +3166,7 @@ paths:
       description: Fetches power users and respond in a backwards compatible format to Warpcast's deprecated power badge endpoint.
       externalDocs:
         url: https://docs.neynar.com/reference/user-power-lite
-      operationId: power-users-lite
+      operationId: user-power-lite
       responses:
         "200":
           description: Successful operation.
