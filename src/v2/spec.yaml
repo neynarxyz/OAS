@@ -4285,7 +4285,7 @@ paths:
         - name: include_replies
           in: query
           required: false
-          description: Include replies in the response, true by default
+          description: Include reply casts by the author in the response, true by default
           schema:
             type: boolean
             default: true
