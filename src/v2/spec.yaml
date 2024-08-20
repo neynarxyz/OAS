@@ -3167,6 +3167,8 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/user-power-lite
       operationId: user-power-lite
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
       responses:
         "200":
           description: Successful operation.
