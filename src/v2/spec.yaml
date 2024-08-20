@@ -3173,7 +3173,15 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UsersResponse"
+                - type: object
+                required:
+                  - fids
+                properties:
+                  fids:
+                    type: array
+                    description: An array of all FIDs with the power badge
+                    items:
+                      $ref: "#/components/schemas/Fid"
         "400":
           $ref: "#/components/responses/400Response"
         "500":
