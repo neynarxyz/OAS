@@ -4008,7 +4008,7 @@ paths:
           example: "star wars"
           schema:
             type: string
-        - name: fid
+        - name: author_fid
           in: query
           required: false
           description: "Fid of the user whose casts you want to search"
