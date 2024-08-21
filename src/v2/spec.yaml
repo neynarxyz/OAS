@@ -166,6 +166,442 @@ components:
           type: string
         metadata:
           $ref: "#/components/schemas/EmbedUrlMetadata"
+    TwitterImageObject:
+      type: object
+      properties:
+        alt:
+          type: string
+        height:
+          type: integer
+        url:
+          type: string
+        width:
+          type: integer
+      required:
+        - url
+    TwitterPlayerObject:
+      type: object
+      properties:
+        height:
+          type: integer
+        stream:
+          type: string
+        url:
+          type: string
+        width:
+          type: integer
+      required:
+        - url
+    ImageObject:
+      type: object
+      properties:
+        height:
+          type: integer
+        type:
+          type: string
+        url:
+          type: string
+        width:
+          type: integer
+        alt:
+          type: string
+      required:
+        - url
+    VideoObject:
+      type: object
+      properties:
+        height:
+          type: integer
+        type:
+          type: string
+        url:
+          type: string
+        width:
+          type: integer
+      required:
+        - url
+    MusicSongObject:
+      type: object
+      properties:
+        disc:
+          type: string
+        track:
+          type: integer
+        url:
+          type: string
+      required:
+        - url
+    OgObject:
+      type: object
+      properties:
+        alAndroidAppName:
+          type: string
+        alAndroidClass:
+          type: string
+        alAndroidPackage:
+          type: string
+        alAndroidUrl:
+          type: string
+        alIosAppName:
+          type: string
+        alIosAppStoreId:
+          type: string
+        alIosUrl:
+          type: string
+        alIpadAppName:
+          type: string
+        alIpadAppStoreId:
+          type: string
+        alIpadUrl:
+          type: string
+        alIphoneAppName:
+          type: string
+        alIphoneAppStoreId:
+          type: string
+        alIphoneUrl:
+          type: string
+        alWebShouldFallback:
+          type: string
+        alWebUrl:
+          type: string
+        alWindowsAppId:
+          type: string
+        alWindowsAppName:
+          type: string
+        alWindowsPhoneAppId:
+          type: string
+        alWindowsPhoneAppName:
+          type: string
+        alWindowsPhoneUrl:
+          type: string
+        alWindowsUniversalAppId:
+          type: string
+        alWindowsUniversalAppName:
+          type: string
+        alWindowsUniversalUrl:
+          type: string
+        alWindowsUrl:
+          type: string
+        articleAuthor:
+          type: string
+        articleExpirationTime:
+          type: string
+        articleModifiedTime:
+          type: string
+        articlePublishedDate:
+          type: string
+        articlePublishedTime:
+          type: string
+        articleModifiedDate:
+          type: string
+        articlePublisher:
+          type: string
+        articleSection:
+          type: string
+        articleTag:
+          type: string
+        author:
+          type: string
+        bookAuthor:
+          type: string
+        bookCanonicalName:
+          type: string
+        bookIsbn:
+          type: string
+        bookReleaseDate:
+          type: string
+        booksBook:
+          type: string
+        booksRatingScale:
+          type: string
+        booksRatingValue:
+          type: string
+        bookTag:
+          type: string
+        businessContactDataCountryName:
+          type: string
+        businessContactDataLocality:
+          type: string
+        businessContactDataPostalCode:
+          type: string
+        businessContactDataRegion:
+          type: string
+        businessContactDataStreetAddress:
+          type: string
+        charset:
+          type: string
+        # customMetaTags:
+        #   type: object
+        #   additionalProperties:
+        #     oneOf:
+        #       - type: string
+        #       - type: array
+        #         items:
+        #           type: string
+        dcContributor:
+          type: string
+        dcCoverage:
+          type: string
+        dcCreator:
+          type: string
+        dcDate:
+          type: string
+        dcDateCreated:
+          type: string
+        dcDateIssued:
+          type: string
+        dcDescription:
+          type: string
+        dcFormatMedia:
+          type: string
+        dcFormatSize:
+          type: string
+        dcIdentifier:
+          type: string
+        dcLanguage:
+          type: string
+        dcPublisher:
+          type: string
+        dcRelation:
+          type: string
+        dcRights:
+          type: string
+        dcSource:
+          type: string
+        dcSubject:
+          type: string
+        dcTitle:
+          type: string
+        dcType:
+          type: string
+        # error:
+        #   type: string
+        # errorDetails:
+        #   type: object
+        favicon:
+          type: string
+        fbAppId:
+          type: string
+        jsonLD:
+          type: array
+          items:
+            type: object
+        modifiedTime:
+          type: string
+        musicAlbum:
+          type: string
+        musicAlbumDisc:
+          type: string
+        musicAlbumTrack:
+          type: string
+        musicAlbumUrl:
+          type: string
+        musicCreator:
+          type: string
+        musicDuration:
+          type: string
+        musicMusician:
+          type: string
+        musicPlaylist:
+          type: string
+        musicRadioStation:
+          type: string
+        musicReleaseDate:
+          type: string
+        musicSong:
+          type: array
+          items:
+            $ref: '#/components/schemas/MusicSongObject'
+        ogArticleAuthor:
+          type: string
+        ogArticleExpirationTime:
+          type: string
+        ogArticleModifiedTime:
+          type: string
+        ogArticlePublishedTime:
+          type: string
+        ogArticlePublisher:
+          type: string
+        ogArticleSection:
+          type: string
+        ogArticleTag:
+          type: string
+        ogAudio:
+          type: string
+        ogAudioSecureURL:
+          type: string
+        ogAudioType:
+          type: string
+        ogAudioURL:
+          type: string
+        ogAvailability:
+          type: string
+        ogDate:
+          type: string
+        ogDescription:
+          type: string
+        ogDeterminer:
+          type: string
+        ogEpisode:
+          type: string
+        ogImage:
+          type: array
+          items:
+            $ref: '#/components/schemas/ImageObject'
+        ogLocale:
+          type: string
+        ogLocaleAlternate:
+          type: string
+        ogLogo:
+          type: string
+        ogMovie:
+          type: string
+        ogPriceAmount:
+          type: string
+        ogPriceCurrency:
+          type: string
+        ogProductAvailability:
+          type: string
+        ogProductCondition:
+          type: string
+        ogProductPriceAmount:
+          type: string
+        ogProductPriceCurrency:
+          type: string
+        ogProductRetailerItemId:
+          type: string
+        ogSiteName:
+          type: string
+        ogTitle:
+          type: string
+        ogType:
+          type: string
+        ogUrl:
+          type: string
+        ogVideo:
+          type: array
+          items:
+            $ref: '#/components/schemas/VideoObject'
+        ogVideoActor:
+          type: string
+        ogVideoActorId:
+          type: string
+        ogVideoActorRole:
+          type: string
+        ogVideoDirector:
+          type: string
+        ogVideoDuration:
+          type: string
+        ogVideoOther:
+          type: string
+        ogVideoReleaseDate:
+          type: string
+        ogVideoSecureURL:
+          type: string
+        ogVideoSeries:
+          type: string
+        ogVideoTag:
+          type: string
+        ogVideoTvShow:
+          type: string
+        ogVideoWriter:
+          type: string
+        ogWebsite:
+          type: string
+        placeLocationLatitude:
+          type: string
+        placeLocationLongitude:
+          type: string
+        profileFirstName:
+          type: string
+        profileGender:
+          type: string
+        profileLastName:
+          type: string
+        profileUsername:
+          type: string
+        publishedTime:
+          type: string
+        releaseDate:
+          type: string
+        requestUrl:
+          type: string
+        restaurantContactInfoCountryName:
+          type: string
+        restaurantContactInfoEmail:
+          type: string
+        restaurantContactInfoLocality:
+          type: string
+        restaurantContactInfoPhoneNumber:
+          type: string
+        restaurantContactInfoPostalCode:
+          type: string
+        restaurantContactInfoRegion:
+          type: string
+        restaurantContactInfoStreetAddress:
+          type: string
+        restaurantContactInfoWebsite:
+          type: string
+        restaurantMenu:
+          type: string
+        restaurantRestaurant:
+          type: string
+        restaurantSection:
+          type: string
+        restaurantVariationPriceAmount:
+          type: string
+        restaurantVariationPriceCurrency:
+          type: string
+        # success:
+        #   type: boolean
+        twitterAccount:
+          type: string
+        twitterAppIdGooglePlay:
+          type: string
+        twitterAppIdiPad:
+          type: string
+        twitterAppIdiPhone:
+          type: string
+        twitterAppNameGooglePlay:
+          type: string
+        twitterAppNameiPad:
+          type: string
+        twitterAppNameiPhone:
+          type: string
+        twitterAppUrlGooglePlay:
+          type: string
+        twitterAppUrliPad:
+          type: string
+        twitterAppUrliPhone:
+          type: string
+        twitterCard:
+          type: string
+        twitterCreator:
+          type: string
+        twitterCreatorId:
+          type: string
+        twitterDescription:
+          type: string
+        twitterImage:
+          type: array
+          items:
+            $ref: '#/components/schemas/TwitterImageObject'
+        twitterPlayer:
+          type: array
+          items:
+            $ref: '#/components/schemas/TwitterPlayerObject'
+        twitterPlayerStreamContentType:
+          type: string
+        twitterSite:
+          type: string
+        twitterSiteId:
+          type: string
+        twitterTitle:
+          type: string
+        twitterUrl:
+          type: string
+        updatedTime:
+          type: string
     EmbedUrlMetadata:
       type: object
       required:
@@ -202,6 +638,9 @@ components:
                     type: integer
                   width_px:
                     type: integer
+        html:
+          # Converted from https://github.com/jshemas/openGraphScraper/blob/80b1800c377f5a647e365f07a2262e997a9b897c/lib/types.ts#L118-L347
+          $ref: "#/components/schemas/OgObject"
     CastId:
       type: object
       required:
@@ -1552,14 +1991,6 @@ components:
             $ref: "#/components/schemas/Notification"
         next:
           $ref: "#/components/schemas/NextCursor"
-    NotificationType:
-      type: string
-      enum:
-        - follows
-        - recasts
-        - likes
-        - mentions
-        - replies
     Notification:
       type: object
       required:
@@ -1573,7 +2004,13 @@ components:
           type: string
           format: date-time
         type:
-          $ref: "#/components/schemas/NotificationType"
+          type: string
+          enum:
+            - follows
+            - recasts
+            - likes
+            - mention
+            - reply
         follows:
           type: array
           items:
@@ -3592,6 +4029,66 @@ paths:
                 $ref: "#/components/schemas/CastsResponse"
         "400":
           $ref: "#/components/responses/400Response"
+  /farcaster/cast/search:
+    get:
+      tags:
+        - Cast
+      summary: Search for casts
+      description: Search for casts based on a query string
+      externalDocs:
+        url: https://docs.neynar.com/reference/cast-search
+      operationId: cast-search
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: q
+          in: query
+          required: true
+          description: "Query string to search for casts"
+          example: "star wars"
+          schema:
+            type: string
+        - name: author_fid
+          in: query
+          required: false
+          description: "Fid of the user whose casts you want to search"
+          example: 194
+          schema:
+            $ref: "#/components/schemas/Fid"
+        - name: parent_url
+          in: query
+          required: false
+          schema:
+            type: string
+          description: "Parent URL of the casts you want to search"
+        - name: channel_id
+          in: query
+          required: false
+          schema:
+            type: string
+          description: "Channel ID of the casts you want to search"
+        - name: limit
+          in: query
+          required: false
+          example: 25
+          schema:
+            type: integer
+            format: int32
+            default: 25
+            maximum: 100
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CastsResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
   /farcaster/cast/conversation:
     get:
       tags:
@@ -4988,7 +5485,13 @@ paths:
           in: query
           required: false
           schema:
-            $ref: "#/components/schemas/NotificationType"
+            type: string
+            enum:
+              - follows
+              - recasts
+              - likes
+              - mentions
+              - replies
           description: Notification type to fetch.
         - name: cursor
           in: query
