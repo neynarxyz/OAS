@@ -2753,6 +2753,23 @@ components:
         - expires_at
         - subscribed_at
         - tier
+    Fids:
+      type: array
+      items:
+        $ref: "#/components/schemas/Fid"
+      description: List of FIDs
+    UserPowerLiteResponse:
+      type: object
+      required:
+        - result
+      properties:
+        result:
+          type: object
+          required:
+            - fids
+          properties:
+            fids:
+              $ref: "#/components/schemas/Fids"
   parameters:
     ApiKey:
       name: api_key
@@ -3175,15 +3192,7 @@ paths:
           content:
             application/json:
               schema:
-                - type: object
-                required:
-                  - fids
-                properties:
-                  fids:
-                    type: array
-                    description: An array of all FIDs with the power badge
-                    items:
-                      $ref: "#/components/schemas/Fid"
+                $ref: "#/components/schemas/UserPowerLiteResponse"
         "400":
           $ref: "#/components/responses/400Response"
         "500":
