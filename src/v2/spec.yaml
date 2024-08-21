@@ -1991,14 +1991,6 @@ components:
             $ref: "#/components/schemas/Notification"
         next:
           $ref: "#/components/schemas/NextCursor"
-    NotificationType:
-      type: string
-      enum:
-        - follows
-        - recasts
-        - likes
-        - mentions
-        - replies
     Notification:
       type: object
       required:
@@ -2012,7 +2004,13 @@ components:
           type: string
           format: date-time
         type:
-          $ref: "#/components/schemas/NotificationType"
+          type: string
+          enum:
+            - follows
+            - recasts
+            - likes
+            - mention
+            - reply
         follows:
           type: array
           items:
@@ -5388,7 +5386,13 @@ paths:
           in: query
           required: false
           schema:
-            $ref: "#/components/schemas/NotificationType"
+            type: string
+            enum:
+              - follows
+              - recasts
+              - likes
+              - mentions
+              - replies
           description: Notification type to fetch.
         - name: cursor
           in: query
