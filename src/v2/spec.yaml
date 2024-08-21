@@ -3190,6 +3190,23 @@ components:
         - expires_at
         - subscribed_at
         - tier
+    Fids:
+      type: array
+      items:
+        $ref: "#/components/schemas/Fid"
+      description: List of FIDs
+    UserPowerLiteResponse:
+      type: object
+      required:
+        - result
+      properties:
+        result:
+          type: object
+          required:
+            - fids
+          properties:
+            fids:
+              $ref: "#/components/schemas/Fids"
   parameters:
     ApiKey:
       name: api_key
@@ -3595,6 +3612,28 @@ paths:
                 $ref: "#/components/schemas/UsersResponse"
         "400":
           $ref: "#/components/responses/400Response"
+  /farcaster/user/power_lite:
+    get:
+      tags:
+        - User
+      summary: Fetch power user FIDs
+      description: Fetches power users and respond in a backwards compatible format to Warpcast's deprecated power badge endpoint.
+      externalDocs:
+        url: https://docs.neynar.com/reference/user-power-lite
+      operationId: user-power-lite
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserPowerLiteResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "500":
+          $ref: "#/components/responses/500Response"
   /farcaster/user/active:
     get:
       tags:
