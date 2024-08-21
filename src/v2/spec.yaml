@@ -3576,7 +3576,7 @@ paths:
     get:
       tags:
         - User
-      summary: Fetch power users
+      summary: Fetch power user objects
       description: Fetches power users based on Warpcast power badges. Information is updated once a day.
       externalDocs:
         url: https://docs.neynar.com/reference/user-power
