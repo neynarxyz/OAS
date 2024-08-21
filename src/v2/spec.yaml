@@ -3990,15 +3990,15 @@ paths:
                 $ref: "#/components/schemas/CastsResponse"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/casts/search:
+  /farcaster/cast/search:
     get:
       tags:
         - Cast
       summary: Search for casts
       description: Search for casts based on a query string
       externalDocs:
-        url: https://docs.neynar.com/reference/casts-search
-      operationId: casts-search
+        url: https://docs.neynar.com/reference/cast-search
+      operationId: cast-search
       parameters:
         - $ref: "#/components/parameters/ApiKey"
         - name: q
@@ -4017,18 +4017,20 @@ paths:
             $ref: "#/components/schemas/Fid"
         - name: parent_url
           in: query
+          required: false
           schema:
             type: string
           description: "Parent URL of the casts you want to search"
         - name: channel_id
           in: query
+          required: false
           schema:
             type: string
           description: "Channel ID of the casts you want to search"
         - name: limit
           in: query
           required: false
-          example: 10
+          example: 25
           schema:
             type: integer
             format: int32
