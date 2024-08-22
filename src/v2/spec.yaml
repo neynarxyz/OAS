@@ -4996,11 +4996,12 @@ paths:
           description: The frame URL to crawl
       responses:
         "200":
-          description: 
+          description: The response object containing the frame object
           content:
             application/json:
               schema:
                 type: object
+                description: The frame object containing the meta tags
                 required:
                   - frame
                 properties:
