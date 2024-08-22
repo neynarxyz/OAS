@@ -4977,6 +4977,37 @@ paths:
                   $ref: "#/components/schemas/NeynarFrame"
         "404":
           $ref: "#/components/responses/404Response"
+  /farcaster/frame/crawl:
+    get:
+      tags:
+        - Frame
+      summary: Fetches the frame meta tags from the URL
+      description: Fetches the frame meta tags from the URL
+      operationId: frame-from-url
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: url
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uri
+          example: https://frames.neynar.com/f/862277df/ff7be6a4
+          description: The frame URL to crawl
+      responses:
+        "200":
+          description: 
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - frame
+                properties:
+                  frame:
+                    $ref: "#/components/schemas/Frame"
+        "400":
+          $ref: "#/components/responses/400Response"
   /farcaster/reaction:
     post:
       tags:
