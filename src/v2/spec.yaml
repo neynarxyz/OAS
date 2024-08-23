@@ -4034,7 +4034,7 @@ paths:
       tags:
         - Cast
       summary: Search for casts
-      description: Search for casts based on a query string
+      description: Search for casts based on a query string, with optional AND filters
       externalDocs:
         url: https://docs.neynar.com/reference/cast-search
       operationId: cast-search
@@ -4077,7 +4077,7 @@ paths:
             maximum: 100
         - name: cursor
           in: query
-          description: Pagination cursor.
+          description: Pagination cursor
           schema:
             type: string
       responses:
