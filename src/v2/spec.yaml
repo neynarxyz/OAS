@@ -2308,6 +2308,7 @@ components:
         - parent_url
         - channel_id
         - embed_url
+        - embed_type
         - global_trending
     FnameAvailabilityResponse:
       type: object
@@ -4226,6 +4227,11 @@ paths:
           schema:
             type: string
           description: Used when filter_type=embed_url can be used to fetch all casts with an embed url that contains embed_url. Requires feed_type and filter_type
+        - name: embed_type
+          in: query
+          schema:
+            type: string
+          description: Used when filter_type=embed_type can be used to fetch all casts with an content type that contains embed_type. Requires feed_type and filter_type
         - name: with_recasts
           in: query
           description: Include recasts in the response, true by default
