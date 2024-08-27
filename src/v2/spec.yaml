@@ -1751,6 +1751,8 @@ components:
             - channel_dehydrated
         image_url:
           type: string
+        description:
+          type: string
     Channel:
       type: object
       required:
