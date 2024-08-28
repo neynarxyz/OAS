@@ -166,6 +166,28 @@ components:
           type: string
         metadata:
           $ref: "#/components/schemas/EmbedUrlMetadata"
+    EmbedType:
+      type: string
+      description: The content type of the embedded file
+      enum:
+        - text
+        - image
+        - video
+        - audio
+        - text/html
+        - text/plain
+        - image/jpeg
+        - image/png
+        - image/gif
+        - image/webp
+        - image/svg+xml
+        - image/heif
+        - video/mp4
+        - video/quicktime
+        - audio/mpeg
+        - application/pdf
+        - application/json
+        - application/x-mpegurl
     TwitterImageObject:
       type: object
       properties:
@@ -2308,7 +2330,7 @@ components:
         - parent_url
         - channel_id
         - embed_url
-        - embed_type
+        - embed_types
         - global_trending
     FnameAvailabilityResponse:
       type: object
@@ -4227,11 +4249,13 @@ paths:
           schema:
             type: string
           description: Used when filter_type=embed_url can be used to fetch all casts with an embed url that contains embed_url. Requires feed_type and filter_type
-        - name: embed_type
+        - name: embed_types
           in: query
           schema:
-            type: string
-          description: Used when filter_type=embed_type can be used to fetch all casts with an content type that contains embed_type. Requires feed_type and filter_type
+            type: array
+            items:
+              type: "#/components/schemas/EmbedType"
+          description: Used when filter_type=embed_types can be used to fetch all casts with matching content types. Requires feed_type and filter_type
         - name: with_recasts
           in: query
           description: Include recasts in the response, true by default
