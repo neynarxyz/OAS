@@ -2303,6 +2303,7 @@ components:
         - filter
     FilterType:
       type: string
+      description: The type of filter to apply to the feed.
       enum:
         - fids
         - parent_url
@@ -4254,7 +4255,7 @@ paths:
           schema:
             type: array
             items:
-              type: "#/components/schemas/EmbedType"
+              $ref: "#/components/schemas/EmbedType"
           description: Used when filter_type=embed_types can be used to fetch all casts with matching content types. Requires feed_type and filter_type
         - name: with_recasts
           in: query
