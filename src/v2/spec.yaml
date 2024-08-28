@@ -166,28 +166,6 @@ components:
           type: string
         metadata:
           $ref: "#/components/schemas/EmbedUrlMetadata"
-    EmbedType:
-      type: string
-      description: The content type of the embedded file
-      enum:
-        - text
-        - image
-        - video
-        - audio
-        - text/html
-        - text/plain
-        - image/jpeg
-        - image/png
-        - image/gif
-        - image/webp
-        - image/svg+xml
-        - image/heif
-        - video/mp4
-        - video/quicktime
-        - audio/mpeg
-        - application/pdf
-        - application/json
-        - application/x-mpegurl
     TwitterImageObject:
       type: object
       properties:
@@ -2332,6 +2310,28 @@ components:
         - embed_url
         - embed_types
         - global_trending
+    EmbedType:
+      type: string
+      description: The content type of the embedded file
+      enum:
+        - text
+        - image
+        - video
+        - audio
+        - text/html
+        - text/plain
+        - image/jpeg
+        - image/png
+        - image/gif
+        - image/webp
+        - image/svg+xml
+        - image/heif
+        - video/mp4
+        - video/quicktime
+        - audio/mpeg
+        - application/pdf
+        - application/json
+        - application/x-mpegurl
     FnameAvailabilityResponse:
       type: object
       required:
