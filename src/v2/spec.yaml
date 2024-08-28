@@ -1814,11 +1814,14 @@ components:
       type: object
       required:
         - channels
+        - next
       properties:
         channels:
           type: array
           items:
             $ref: "#/components/schemas/Channel"
+        next:
+          $ref: "#/components/schemas/NextCursor"
     ChannelResponse:
       type: object
       required:
