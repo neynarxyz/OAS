@@ -1907,6 +1907,23 @@ components:
               type: array
               items:
                 $ref: "#/components/schemas/CastWithInteractions"
+    CastsSearchResponse:
+      type: object
+      required:
+        - result
+      properties:
+        result:
+          type: object
+          required:
+            - casts
+            - next
+          properties:
+            casts:
+              type: array
+              items:
+                $ref: "#/components/schemas/CastWithInteractions"
+            next:
+              $ref: "#/components/schemas/NextCursor"
     FeedResponse:
       type: object
       required:
@@ -4086,7 +4103,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CastsResponse"
+                $ref: "#/components/schemas/CastsSearchResponse"
         "400":
           $ref: "#/components/responses/400Response"
   /farcaster/cast/conversation:
