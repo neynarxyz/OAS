@@ -2303,12 +2303,36 @@ components:
         - filter
     FilterType:
       type: string
+      description: The type of filter to apply to the feed.
       enum:
         - fids
         - parent_url
         - channel_id
         - embed_url
+        - embed_types
         - global_trending
+    EmbedType:
+      type: string
+      description: The content type of the embedded file
+      enum:
+        - text
+        - image
+        - video
+        - audio
+        - text/html
+        - text/plain
+        - image/jpeg
+        - image/png
+        - image/gif
+        - image/webp
+        - image/svg+xml
+        - image/heif
+        - video/mp4
+        - video/quicktime
+        - audio/mpeg
+        - application/pdf
+        - application/json
+        - application/x-mpegurl
     FnameAvailabilityResponse:
       type: object
       required:
@@ -4226,6 +4250,13 @@ paths:
           schema:
             type: string
           description: Used when filter_type=embed_url can be used to fetch all casts with an embed url that contains embed_url. Requires feed_type and filter_type
+        - name: embed_types
+          in: query
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/EmbedType"
+          description: Used when filter_type=embed_types can be used to fetch all casts with matching content types. Requires feed_type and filter_type
         - name: with_recasts
           in: query
           description: Include recasts in the response, true by default
