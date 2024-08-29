@@ -4256,6 +4256,7 @@ paths:
             type: array
             items:
               $ref: "#/components/schemas/EmbedType"
+          explode: false
           description: Used when filter_type=embed_types can be used to fetch all casts with matching content types. Requires feed_type and filter_type
         - name: with_recasts
           in: query
