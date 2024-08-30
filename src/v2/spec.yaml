@@ -411,7 +411,7 @@ components:
         musicSong:
           type: array
           items:
-            $ref: '#/components/schemas/MusicSongObject'
+            $ref: "#/components/schemas/MusicSongObject"
         ogArticleAuthor:
           type: string
         ogArticleExpirationTime:
@@ -447,7 +447,7 @@ components:
         ogImage:
           type: array
           items:
-            $ref: '#/components/schemas/ImageObject'
+            $ref: "#/components/schemas/ImageObject"
         ogLocale:
           type: string
         ogLocaleAlternate:
@@ -481,7 +481,7 @@ components:
         ogVideo:
           type: array
           items:
-            $ref: '#/components/schemas/VideoObject'
+            $ref: "#/components/schemas/VideoObject"
         ogVideoActor:
           type: string
         ogVideoActorId:
@@ -585,11 +585,11 @@ components:
         twitterImage:
           type: array
           items:
-            $ref: '#/components/schemas/TwitterImageObject'
+            $ref: "#/components/schemas/TwitterImageObject"
         twitterPlayer:
           type: array
           items:
-            $ref: '#/components/schemas/TwitterPlayerObject'
+            $ref: "#/components/schemas/TwitterPlayerObject"
         twitterPlayerStreamContentType:
           type: string
         twitterSite:
@@ -1967,8 +1967,6 @@ components:
               type: string
     OperationResponse:
       type: object
-      required:
-        - success
       properties:
         success:
           type: boolean
@@ -3190,7 +3188,7 @@ components:
     SubscriptionCheckResponse:
       type: object
       additionalProperties:
-        $ref: '#/components/schemas/SubscriptionStatus'
+        $ref: "#/components/schemas/SubscriptionStatus"
       example:
         "0xedd3783e8c7c52b80cfbd026a63c207edc9cbee7":
           object: "subscribed_to_dehydrated"
@@ -3208,7 +3206,7 @@ components:
           status: false
           expires_at: null
           subscribed_at: null
-          tier: null 
+          tier: null
     SubscriptionStatus:
       type: object
       properties:
@@ -3226,7 +3224,7 @@ components:
           format: int64
           nullable: true
         tier:
-          $ref: '#/components/schemas/SubscriptionTier'
+          $ref: "#/components/schemas/SubscriptionTier"
           nullable: true
       required:
         - object
@@ -3251,6 +3249,26 @@ components:
           properties:
             fids:
               $ref: "#/components/schemas/Fids"
+    NotificationType:
+      type: string
+      enum:
+        - follows
+        - recasts
+        - likes
+        - mentions
+        - replies
+    MarkNotificationsAsSeenReqBody:
+      type: object
+      required:
+        - signer_uuid
+      properties:
+        signer_uuid:
+          type: string
+          description: |
+            The UUID of the signer. Signer should have atleast one write permission
+        type:
+          $ref: "#/components/schemas/NotificationType"
+
   parameters:
     ApiKey:
       name: api_key
@@ -4855,7 +4873,7 @@ paths:
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
-          description: FID of the user viewing the feed 
+          description: FID of the user viewing the feed
         - name: limit
           in: query
           required: false
@@ -5569,13 +5587,7 @@ paths:
           in: query
           required: false
           schema:
-            type: string
-            enum:
-              - follows
-              - recasts
-              - likes
-              - mentions
-              - replies
+            $ref: "#/components/schemas/NotificationType"
           description: Notification type to fetch.
         - name: cursor
           in: query
@@ -5672,6 +5684,37 @@ paths:
                 $ref: "#/components/schemas/NotificationsResponse"
         "400":
           $ref: "#/components/responses/400Response"
+  /farcaster/notifications/seen:
+    post:
+      tags:
+        - Notifications
+      summary: Mark notifications as seen
+      description: Mark notifications as seen
+      externalDocs:
+        url: https://docs.neynar.com/reference/mark-notifications-as-seen
+      operationId: mark-notifications-as-seen
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MarkNotificationsAsSeenReqBody"
+            example:
+              signer_uuid: 19d0c5fd-9b33-4a48-a0e2-bc7b0555baec
+              type: "likes"
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OperationResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "500":
+          $ref: "#/components/responses/500Response"
   /farcaster/channel/list:
     get:
       tags:
@@ -6677,8 +6720,6 @@ paths:
           $ref: "#/components/responses/400Response"
         "500":
           $ref: "#/components/responses/500Response"
-
-  
 
   # /farcaster/webhook/subscription:
   #   get:
