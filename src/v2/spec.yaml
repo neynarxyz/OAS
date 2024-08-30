@@ -2000,9 +2000,13 @@ components:
     NotificationsResponse:
       type: object
       required:
+        - unseen_notifications_count
         - notifications
         - next
       properties:
+        unseen_notifications_count:
+          type: integer
+          format: int32
         notifications:
           type: array
           items:
