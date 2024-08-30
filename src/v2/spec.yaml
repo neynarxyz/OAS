@@ -2019,6 +2019,7 @@ components:
         - object
         - most_recent_timestamp
         - type
+        - seen
       properties:
         object:
           type: string
@@ -2033,6 +2034,8 @@ components:
             - likes
             - mention
             - reply
+        seen:
+          type: boolean
         follows:
           type: array
           items:
