@@ -27,6 +27,11 @@ jobs:
         with:
           rdme: openapi src/v2/stp/spec.yaml --key=${{ secrets.README_API_KEY }} --id=66be4298d4441600123e79bd
 
+      - name: Run `openapi` command for hub http spec 🚀
+        uses: readmeio/rdme@v8
+        with:
+          rdme: openapi src/hub-rest-api/spec.yaml --key=${{ secrets.README_API_KEY }} --id=66d751d1202a13004b870449
+
 
       - name: Run `openapi` command 🚀
         uses: readmeio/rdme@v8
