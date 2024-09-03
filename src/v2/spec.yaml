@@ -4123,6 +4123,13 @@ paths:
           example: 194
           schema:
             $ref: "#/components/schemas/Fid"
+        - name: viewer_fid
+          in: query
+          required: false
+          description: "Fid of the viewer of the casts, used to show viewer_context"
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
         - name: parent_url
           in: query
           required: false
