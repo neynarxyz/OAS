@@ -585,6 +585,7 @@ paths:
             type: integer
           required: true
           description: The FID being requested
+          example: 616
       responses:
         200:
           description: A successful response.
@@ -634,6 +635,7 @@ paths:
           schema:
             type: integer
           description: The FID being requested
+          example: 616
         - name: address
           in: query
           required: false
@@ -679,6 +681,7 @@ paths:
             type: string
             pattern: ^0x[0-9a-fA-F]{40}$
           description: The ETH address being requested
+          example: 0x5e79f690ccd42007d5a0ad678cd47474339400e3
       responses:
         200:
           description: A successful response.
@@ -701,6 +704,7 @@ paths:
           schema:
             type: integer
           description: The FID being requested
+          example: 616
         - name: event_type
           in: query
           schema:
@@ -740,6 +744,7 @@ paths:
           schema:
             type: integer
           description: The FID being requested
+          example: 616
         - name: signer
           in: query
           schema:
@@ -833,6 +838,7 @@ paths:
             This is also returned from the API as nextPageEventId, which 
             can be used to page through all the Hub events. Set it to 0 
             to start from the first event"
+          example: 0
       responses:
         200:
           description: A successful response.
@@ -865,6 +871,7 @@ paths:
           schema:
             type: integer
           description: The Hub Id of the event
+          example: 474149687144448
       responses:
         200:
           description: A successful response.
