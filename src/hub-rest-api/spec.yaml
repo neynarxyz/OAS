@@ -150,13 +150,13 @@ paths:
           description: The FID of the parent cast
           schema:
             type: integer
-          example: 226
+          example: 194
         - name: hash
           in: query
           description: The parent cast's hash
           schema:
             type: string
-          example: '0x03aff391a6eb1772b20b4ead9a89f732be75fe27'
+          example: '0x776593353e47dc4e7f4df3199a9b04cc8efa30d9'
         - name: url
           in: query
           schema:
