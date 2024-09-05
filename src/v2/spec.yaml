@@ -2638,11 +2638,6 @@ components:
         - object
         - timestamp
         - blocked_at
-      anyOf:
-        - required:
-            - blocker
-        - required:
-            - blocked
       properties:
         object:
           type: string
