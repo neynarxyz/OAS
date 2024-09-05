@@ -16,7 +16,6 @@ paths:
       summary: Sync Methods
       operationId: GetInfo
       parameters:
-      - $ref: '#/components/parameters/apiKey'
       - name: dbstats
         in: query
         description: Whether to return DB stats
@@ -39,7 +38,6 @@ paths:
       summary: Get a cast by its FID and Hash.
       operationId: GetCastById
       parameters:
-        - $ref: '#/components/parameters/apiKey'
         - name: fid
           in: query
           description: The FID of the cast's creator
@@ -71,7 +69,6 @@ paths:
       summary: Fetch all casts authored by an FID.
       operationId: ListCastsByFid
       parameters:
-        - $ref: '#/components/parameters/apiKey'
         - name: fid
           in: query
           description: The FID of the casts' creator
@@ -110,7 +107,6 @@ paths:
       summary: Fetch all casts that mention an FID
       operationId: ListCastsByMention
       parameters:
-        - $ref: '#/components/parameters/apiKey'
         - name: fid
           in: query
           description: The FID that is mentioned in a cast
@@ -149,19 +145,18 @@ paths:
       summary: Fetch all casts by parent cast's FID and Hash OR by the parent's URL
       operationId: ListCastsByParent
       parameters:
-        - $ref: '#/components/parameters/apiKey'
         - name: fid
           in: query
           description: The FID of the parent cast
           schema:
             type: integer
-          example: 226
+          example: 194
         - name: hash
           in: query
           description: The parent cast's hash
           schema:
             type: string
-          example: '0x03aff391a6eb1772b20b4ead9a89f732be75fe27'
+          example: '0x776593353e47dc4e7f4df3199a9b04cc8efa30d9'
         - name: url
           in: query
           schema:
@@ -198,7 +193,6 @@ paths:
       summary: Get a reaction by its created FID and target Cast.
       operationId: GetReactionById
       parameters:
-        - $ref: '#/components/parameters/apiKey'
         - name: fid
           in: query
           description: The FID of the reaction's creator
@@ -239,7 +233,6 @@ paths:
       summary: Get all reactions to a cast
       operationId: ListReactionsByCast
       parameters:
-        - $ref: '#/components/parameters/apiKey'
         - name: target_fid
           in: query
           description: The FID of the cast's creator
@@ -289,7 +282,6 @@ paths:
       summary: Get all reactions by an FID
       operationId: ListReactionsByFid
       parameters:
-        - $ref: '#/components/parameters/apiKey'
         - name: fid
           in: query
           description: The FID of the reaction's creator
@@ -333,7 +325,6 @@ paths:
       operationId: ListReactionsByTarget
       summary: Get all reactions to a target URL
       parameters:
-        - $ref: '#/components/parameters/apiKey'
         - name: url
           in: query
           description: The URL of the parent cast
@@ -378,7 +369,6 @@ paths:
       summary: Get a link by its FID and target FID.
       operationId: GetLinkById
       parameters:
-        - $ref: '#/components/parameters/apiKey'
         - name: fid
           in: query
           description: The FID of the link's originator
@@ -413,7 +403,6 @@ paths:
       summary: Get all links from a source FID
       operationId: ListLinksByFid
       parameters:
-        - $ref: '#/components/parameters/apiKey'
         - name: fid
           in: query
           schema:
@@ -457,7 +446,6 @@ paths:
       summary: Get all links to a target FID
       operationId: ListLinksByTargetFid
       parameters:
-        - $ref: '#/components/parameters/apiKey'
         - name: target_fid
           in: query
           schema:
@@ -505,7 +493,6 @@ paths:
         of `UserDataAdd` messages is returned instead"
       operationId: GetUserDataByFid
       parameters:
-        - $ref: '#/components/parameters/apiKey'
         - name: fid
           in: query
           description: The FID that's being requested
@@ -551,7 +538,6 @@ paths:
       operationId: ListFids
       summary: Get a list of all the FIDs
       parameters:
-        - $ref: '#/components/parameters/apiKey'
         - $ref: '#/components/parameters/pageSize'
         - $ref: '#/components/parameters/paginationReverse'
         - $ref: '#/components/parameters/pageToken'
@@ -571,7 +557,6 @@ paths:
       operationId: GetStorageLimitsByFid
       summary: Get an FID's storage limits.
       parameters:
-        - $ref: '#/components/parameters/apiKey'
         - name: fid
           in: query
           required: true
@@ -594,13 +579,13 @@ paths:
       operationId: ListUsernameProofsByFid
       summary: Get a list of proofs provided by an FID
       parameters:
-        - $ref: '#/components/parameters/apiKey'
         - name: fid
           in: query
           schema:
             type: integer
           required: true
           description: The FID being requested
+          example: 616
       responses:
         200:
           description: A successful response.
@@ -617,7 +602,6 @@ paths:
       summary: Get an proof for a username by the Farcaster username
       operationId: GetUsernameProof
       parameters:
-        - $ref: '#/components/parameters/apiKey'
         - name: name
           in: query
           schema:
@@ -645,13 +629,13 @@ paths:
       operationId: ListVerificationsByFid
       summary: Get a list of verifications provided by an FID
       parameters:
-        - $ref: '#/components/parameters/apiKey'
         - name: fid
           in: query
           required: true
           schema:
             type: integer
           description: The FID being requested
+          example: 616
         - name: address
           in: query
           required: false
@@ -690,7 +674,6 @@ paths:
       summary: Get an on chain ID Registry Event for a given Address
       operationId: GetOnChainIdRegistrationByAddress
       parameters:
-        - $ref: '#/components/parameters/apiKey'
         - name: address
           in: query
           required: true
@@ -698,6 +681,7 @@ paths:
             type: string
             pattern: ^0x[0-9a-fA-F]{40}$
           description: The ETH address being requested
+          example: 0x5e79f690ccd42007d5a0ad678cd47474339400e3
       responses:
         200:
           description: A successful response.
@@ -714,13 +698,13 @@ paths:
       summary: Get a list of on-chain events provided by an FID
       operationId: ListOnChainEventsByFid
       parameters:
-        - $ref: '#/components/parameters/apiKey'
         - name: fid
           in: query
           required: true
           schema:
             type: integer
           description: The FID being requested
+          example: 616
         - name: event_type
           in: query
           schema:
@@ -754,13 +738,13 @@ paths:
         non-paginated list of `OnChainEventSigner` messages is returned instead"
       operationId: ListOnChainSignersByFid
       parameters:
-        - $ref: '#/components/parameters/apiKey'
         - name: fid
           in: query
           required: true
           schema:
             type: integer
           description: The FID being requested
+          example: 616
         - name: signer
           in: query
           schema:
@@ -792,8 +776,6 @@ paths:
         - SubmitMessage
       summary: Submit a signed protobuf-serialized message to the Hub
       operationId: SubmitMessage
-      security:
-        - usernamePassword: []
       requestBody:
         description: "* \nA Message is a delta operation on the Farcaster network.\
           \ The message protobuf is an envelope \nthat wraps a MessageData object\
@@ -820,10 +802,6 @@ paths:
         - ValidateMessage
       summary: Validate a signed protobuf-serialized message with the Hub
       operationId: ValidateMessage
-      security:
-        - usernamePassword: []
-      parameters:
-        - $ref: '#/components/parameters/apiKey'
       requestBody:
         description: "* \nA Message is a delta operation on the Farcaster network.\
           \ The message protobuf is an envelope \nthat wraps a MessageData object\
@@ -851,7 +829,6 @@ paths:
       operationId: ListEvents
       summary: Get a page of Hub events
       parameters:
-        - $ref: '#/components/parameters/apiKey'
         - name: from_event_id
           in: query
           required: false
@@ -861,6 +838,7 @@ paths:
             This is also returned from the API as nextPageEventId, which 
             can be used to page through all the Hub events. Set it to 0 
             to start from the first event"
+          example: 0
       responses:
         200:
           description: A successful response.
@@ -887,13 +865,13 @@ paths:
       operationId: GetEventById
       summary: Get an event by its ID
       parameters:
-        - $ref: '#/components/parameters/apiKey'
         - name: event_id
           in: query
           required: true
           schema:
             type: integer
           description: The Hub Id of the event
+          example: 474149687144448
       responses:
         200:
           description: A successful response.
@@ -905,18 +883,12 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
 components:
   securitySchemes:
-    usernamePassword:
-      type: http
-      scheme: basic
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: "API key to authorize requests. Example: 'NEYNAR_DOCS'"
   parameters:
-    apiKey:
-        name: api_key
-        in: header
-        required: true
-        schema:
-          type: string
-          default: NEYNAR_API_DOCS
-        description: API key required for authentication.
     pageSize:
       name: pageSize
       in: query
@@ -932,8 +904,7 @@ components:
     pageToken:
       name: pageToken
       in: query
-      description: The page token returned by the previous query, to fetch the next
-        page. If this parameter is empty, fetch the first page
+      description: The page token returned by the previous query, to fetch the next page. If this parameter is empty, fetch the first page
       schema:
         type: string
   schemas:
