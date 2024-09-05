@@ -2609,7 +2609,6 @@ components:
       required:
         - object
         - muted
-        - timestamp
         - muted_at
       properties:
         object:
@@ -2636,17 +2635,23 @@ components:
       type: object
       required:
         - object
-        - timestamp
         - blocked_at
+      anyOf:
+        - required:
+            - blocker
+          properties:
+            blocker:
+              $ref: "#/components/schemas/User"
+        - required:
+            - blocked
+          properties:
+            blocked:
+              $ref: "#/components/schemas/User"
       properties:
         object:
           type: string
           enum:
             - block
-        blocked:
-          $ref: "#/components/schemas/User"
-        blocker:
-          $ref: "#/components/schemas/User"
         blocked_at:
           $ref: "#/components/schemas/Timestamp"
     BlockListResponse:
