@@ -788,7 +788,7 @@ paths:
   /v1/submitMessage:
     post:
       tags:
-        - SubmitMessage
+        - Message
       summary: Submit a signed protobuf-serialized message to the Hub
       operationId: SubmitMessage
       requestBody:
@@ -814,7 +814,7 @@ paths:
   /v1/validateMessage:
     post:
       tags:
-        - ValidateMessage
+        - Message
       summary: Validate a signed protobuf-serialized message with the Hub
       operationId: ValidateMessage
       requestBody:
@@ -886,7 +886,6 @@ paths:
           schema:
             type: integer
           description: The Hub Id of the event
-          example: 474149687144448
       responses:
         200:
           description: A successful response.
@@ -911,12 +910,14 @@ components:
       description: Maximum number of messages to return in a single response
       schema:
         type: integer
+        example: 10
     paginationReverse:
       name: reverse
       in: query
       description: Reverse the sort order, returning latest messages first
       schema:
         type: boolean
+        example: false
     pageToken:
       name: pageToken
       in: query
