@@ -1,6 +1,6 @@
 openapi: 3.0.1
 info:
-  title: Raw Farcaster Hub API Test
+  title: Raw Farcaster Hub API
   version: "1.0"
   description: >
     Perform basic queries of Farcaster state via the REST API of a Farcaster hub.
