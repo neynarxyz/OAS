@@ -8,6 +8,9 @@ info:
 servers:
 - url: https://hub-api.neynar.com
 
+security:
+  - ApiKeyAuth: []
+
 paths:
   /v1/info:
     get:
@@ -887,7 +890,8 @@ components:
       type: apiKey
       in: header
       name: x-api-key
-      description: "API key to authorize requests. Example: 'NEYNAR_DOCS'"
+      description: "API key to authorize requests"
+      x-example: "NEYNAR_API_DOCS"
   parameters:
     pageSize:
       name: pageSize
