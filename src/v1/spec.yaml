@@ -5,7 +5,17 @@ info:
 servers:
   - url: https://api.neynar.com/v1
 
+security:
+  - ApiKeyAuth: []
+
 components:
+  securitySchemes:
+      ApiKeyAuth:
+        type: apiKey
+        in: header
+        name: x-api-key
+        description: "API key to authorize requests"
+        x-example: "NEYNAR_API_DOCS"
   schemas:
     ViewerContext:
       type: object
@@ -734,16 +744,6 @@ components:
             user:
               $ref: "#/components/schemas/User"
 
-  parameters:
-    ApiKey:
-      name: api_key
-      in: header
-      required: true
-      schema:
-        type: string
-        default: NEYNAR_API_DOCS
-      description: API key required for authentication.
-
   responses:
     404Response:
       description: "Resource not found"
@@ -801,7 +801,6 @@ paths:
         url: https://docs.neynar.com/reference/user-v1
       operationId: user
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: fid
           in: query
           required: true
@@ -837,7 +836,6 @@ paths:
         url: https://docs.neynar.com/reference/user-by-username-v1
       operationId: user-by-username
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: username
           in: query
           required: true
@@ -874,7 +872,6 @@ paths:
         url: https://docs.neynar.com/reference/user-cast-likes-v1
       operationId: user-cast-likes
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: fid
           in: query
           required: true
@@ -921,7 +918,6 @@ paths:
         url: https://docs.neynar.com/reference/recent-users-v1
       operationId: recent-users
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: viewerFid
           in: query
           description: >-
@@ -963,7 +959,6 @@ paths:
         url: https://docs.neynar.com/reference/custody-address-v1
       operationId: custody-address
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: fid
           in: query
           required: true
@@ -990,7 +985,6 @@ paths:
         url: https://docs.neynar.com/reference/cast-v1
       operationId: cast
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: hash
           in: query
           required: true
@@ -1025,7 +1019,6 @@ paths:
         url: https://docs.neynar.com/reference/all-casts-in-thread-v1
       operationId: all-casts-in-thread
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: threadHash
           in: query
           required: true
@@ -1059,7 +1052,6 @@ paths:
         url: https://docs.neynar.com/reference/casts-v1
       operationId: casts
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: fid
           in: query
           required: true
@@ -1116,7 +1108,6 @@ paths:
         url: https://docs.neynar.com/reference/recent-casts-v1
       operationId: recent-casts
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: viewerFid
           in: query
           description: >-
@@ -1159,7 +1150,6 @@ paths:
         url: https://docs.neynar.com/reference/verifications-v1
       operationId: verifications
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: fid
           in: query
           required: true
@@ -1187,7 +1177,6 @@ paths:
         url: https://docs.neynar.com/reference/user-by-verification-v1
       operationId: user-by-verification
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: address
           in: query
           required: true
@@ -1213,7 +1202,6 @@ paths:
         url: https://docs.neynar.com/reference/mentions-and-replies-v1
       operationId: mentions-and-replies
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: fid
           in: query
           required: true
@@ -1253,7 +1241,6 @@ paths:
         url: https://docs.neynar.com/reference/reactions-and-recasts-v1
       operationId: reactions-and-recasts
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: fid
           in: query
           required: true
@@ -1305,7 +1292,6 @@ paths:
       operationId: cast-likes
       deprecated: true
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: castHash
           in: query
           required: true
@@ -1355,7 +1341,6 @@ paths:
       operationId: cast-reactions
       deprecated: true
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: castHash
           in: query
           required: true
@@ -1405,7 +1390,6 @@ paths:
       operationId: cast-recasters
       deprecated: true
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: castHash
           in: query
           required: true
@@ -1454,7 +1438,6 @@ paths:
         url: https://docs.neynar.com/reference/followers-v1
       operationId: followers
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: fid
           in: query
           required: true
@@ -1505,7 +1488,6 @@ paths:
         url: https://docs.neynar.com/reference/following-v1
       operationId: following
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: fid
           in: query
           required: true

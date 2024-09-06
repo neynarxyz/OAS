@@ -5,7 +5,17 @@ info:
 servers:
   - url: https://api.neynar.com/v2
 
+security:
+  - ApiKeyAuth: []
+
 components:
+  securitySchemes:
+      ApiKeyAuth:
+        type: apiKey
+        in: header
+        name: x-api-key
+        description: "API key to authorize requests"
+        x-example: "NEYNAR_API_DOCS"
   schemas:
     ConflictErrorRes:
       type: object
@@ -102,16 +112,6 @@ components:
               type: string
               example: "0"
 
-  parameters:
-    ApiKey:
-      name: api_key
-      in: header
-      required: true
-      schema:
-        type: string
-        default: NEYNAR_API_DOCS
-      description: API key required for authentication.
-
   responses:
     401Response:
       description: "Unauthorized"
@@ -163,7 +163,6 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/subscription-check
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: addresses
           description: Comma separated list of Ethereum addresses, up to 350 at a time
           in: query

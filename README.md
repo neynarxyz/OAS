@@ -27,6 +27,11 @@ openapi-generator generate -i src/v2/spec.yaml -g typescript-axios -o src/v2/swa
 openapi-generator generate -i src/v2/stp/spec.yaml -g typescript-axios -o src/v2/swagger-tmp --config openapi-generator-config.json
 ```
 
+// hub-rest-api
+```
+openapi-generator generate -i src/hub-rest-api/spec.yaml -g typescript-axios -o src/hub-rest-api/swagger-tmp --config openapi-generator-config.json
+```
+
 ### API Documentation
 [docs.neynar.com](https://docs.neynar.com/)
 
