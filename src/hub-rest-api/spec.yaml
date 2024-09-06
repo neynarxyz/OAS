@@ -202,18 +202,21 @@ paths:
           schema:
             type: integer
           required: true
+          example: 616
         - name: target_fid
           in: query
           description: The FID of the cast's creator
           schema:
             type: integer
           required: true
+          example: 616
         - name: target_hash
           in: query
           description: The cast's hash
           schema:
             type: string
           required: true
+          example: '0xfec8fd3546e1f46cf5ad10a4ff9f5d53a3bbe9be'
         - name: reaction_type
           in: query
           description: The type of reaction, either as a numerical enum value or string representation
@@ -242,12 +245,14 @@ paths:
           schema:
             type: integer
           required: true
+          example: 616
         - name: target_hash
           in: query
           description: The hash of the cast
           schema:
             type: string
           required: true
+          example: '0xfec8fd3546e1f46cf5ad10a4ff9f5d53a3bbe9be'
         - name: reaction_type
           in: query
           description: The type of reaction, either as a numerical enum value or string representation
@@ -291,6 +296,7 @@ paths:
           schema:
             type: integer
           required: true
+          example: 3
         - name: reaction_type
           in: query
           description: The type of reaction, either as a numerical enum value or string representation
@@ -378,12 +384,14 @@ paths:
           required: true
           schema:
             type: integer
+          example: 3
         - name: target_fid
           in: query
           description: The FID of the target of the link
           required: true
           schema:
             type: integer
+          example: 616
         - name: link_type
           in: query
           description: The type of link, as a string value
@@ -411,6 +419,7 @@ paths:
           schema:
             type: integer
           required: true
+          example: 616
           description: The FID of the link's originator
         - name: link_type
           in: query
@@ -454,6 +463,7 @@ paths:
           schema:
             type: integer
           required: true
+          example: 3
           description: The FID of the target of the link
         - name: link_type
           in: query
@@ -502,6 +512,7 @@ paths:
           schema:
             type: integer
           required: true
+          example: 3
         - name: user_data_type
           in: query
           description: The type of user data, either as a numerical value or type string. If this is omitted, all user data for the FID is returned
@@ -565,6 +576,7 @@ paths:
           required: true
           schema:
             type: integer
+          example: 3
       responses:
         200:
           description: A successful response.
@@ -613,7 +625,7 @@ paths:
           description: The Farcaster username or ENS address
           examples:
             username:
-              value: "gavi"
+              value: "rish"
             "ENS address":
               value: "dwr.eth"
       responses:
@@ -684,7 +696,7 @@ paths:
             type: string
             pattern: ^0x[0-9a-fA-F]{40}$
           description: The ETH address being requested
-          example: 0x5e79f690ccd42007d5a0ad678cd47474339400e3
+          example: '0x6b0bda3f2ffed5efc83fa8c024acff1dd45793f1'
       responses:
         200:
           description: A successful response.
