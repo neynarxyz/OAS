@@ -902,7 +902,7 @@ components:
       in: header
       name: x-api-key
       description: "API key to authorize requests"
-      x-example: "NEYNAR_API_DOCS"
+      x-default: "NEYNAR_API_DOCS"
   parameters:
     pageSize:
       name: pageSize
