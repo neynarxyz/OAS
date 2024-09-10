@@ -5951,6 +5951,38 @@ paths:
                 $ref: "#/components/schemas/UsersResponse"
         "400":
           $ref: "#/components/responses/400Response"
+  /farcaster/channel/followers/relevant:
+    get:
+      tags:
+        - Channel
+      summary: Retrieve relevant channel followers for a given user
+      description: Returns a list of relevant channel followers for a specific FID.
+      externalDocs:
+        url: https://docs.neynar.com/reference/relevant-channel-followers
+      operationId: relevant-channel-followers
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: id
+          in: query
+          required: true
+          description: Channel id being queried
+          schema:
+            $ref: "#/components/schemas/Fid"
+        - name: viewer_fid
+          in: query
+          required: true
+          description: Viewer who's looking at the channel
+          schema:
+            $ref: "#/components/schemas/Fid"
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RelevantFollowersResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
   /farcaster/channel/user:
     get:
       tags:
