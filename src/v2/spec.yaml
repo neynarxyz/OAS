@@ -5966,12 +5966,14 @@ paths:
           in: query
           required: true
           description: Channel id being queried
+          example: "neynar"
           schema:
             $ref: "#/components/schemas/Fid"
         - name: viewer_fid
           in: query
           required: true
           description: Viewer who's looking at the channel
+          example: 3
           schema:
             $ref: "#/components/schemas/Fid"
       responses:
