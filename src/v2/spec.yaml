@@ -5968,7 +5968,7 @@ paths:
           description: Channel id being queried
           example: "neynar"
           schema:
-            $ref: "#/components/schemas/Fid"
+            type: string
         - name: viewer_fid
           in: query
           required: true
