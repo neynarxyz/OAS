@@ -5956,7 +5956,7 @@ paths:
       tags:
         - Channel
       summary: Retrieve relevant channel followers for a given user
-      description: Returns a list of relevant channel followers for a specific FID. This usually shows as "X, Y, Z follow this channel" on a channel. 
+      description: Returns a list of relevant channel followers for a specific FID. This usually shows on a channel as "X, Y, Z follow this channel". 
       externalDocs:
         url: https://docs.neynar.com/reference/relevant-channel-followers
       operationId: relevant-channel-followers
@@ -6206,7 +6206,7 @@ paths:
       tags:
         - Follows
       summary: Retrieve relevant followers for a given user
-      description: Returns a list of relevant followers for a specific FID. This usually shows as "X, Y and Z follow this user" on a profile.
+      description: Returns a list of relevant followers for a specific FID. This usually shows on a profile as "X, Y and Z follow this user".
       externalDocs:
         url: https://docs.neynar.com/reference/relevant-followers
       operationId: relevant-followers
