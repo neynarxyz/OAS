@@ -2042,6 +2042,10 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/ReactionWithUserInfo"
+        count:
+          type: integer
+          format: int32
+          description: The number of notifications of this(follows, likes, recast) type bundled in a single notification.
     Follow:
       type: object
       required:
