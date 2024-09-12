@@ -18,7 +18,11 @@ components:
     Fid:
       type: integer
       format: int32
-      description: User identifier (unsigned integer)
+      description: The unique identifier of a farcaster user (unsigned integer)
+    ChannelId:
+      type: string
+      description: The unique identifier of a farcaster channel
+      example: "neynar"
     SignerUUID:
       type: string
       description: UUID of the signer
@@ -1730,6 +1734,16 @@ components:
       properties:
         cast:
           $ref: "#/components/schemas/CastWithInteractions"
+    ChannelFollowReqBody:
+      type: object
+      required:
+        - signer_uuid
+        - channel_id
+      properties:
+        signer_uuid:
+          $ref: "#/components/schemas/SignerUUID"
+        channel_id:
+          $ref: '#/components/schemas/ChannelId'
     DehydratedChannel:
       type: object
       required:
@@ -5913,6 +5927,75 @@ paths:
                 $ref: "#/components/schemas/ChannelResponse"
         "404":
           $ref: "#/components/responses/404Response"
+  /farcaster/channel/follow:
+    post:
+      tags:
+        - Channel
+      summary: Follow a channel
+      description: Follow a channel
+      externalDocs:
+        url: https://docs.neynar.com/reference/follow-channel
+      operationId: follow-channel
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChannelFollowReqBody"
+            example:
+              signer_uuid: 19d0c5fd-9b33-4a48-a0e2-bc7b0555baec
+              channel_id: "neynar"
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OperationResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
+        "403":
+          $ref: "#/components/responses/403Response"
+        "500":
+          $ref: "#/components/responses/500Response"
+    delete:
+      tags:
+        - Channel
+      summary: Unfollow a channel
+      description: Unfollow a channel
+      externalDocs:
+        url: https://docs.neynar.com/reference/unfollow-channel
+      operationId: unfollow-channel
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChannelFollowReqBody"
+            example:
+              signer_uuid: 19d0c5fd-9b33-4a48-a0e2-bc7b0555baec
+              channel_id: "memes"
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OperationResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
+        "403":
+          $ref: "#/components/responses/403Response"
+        "500":
+          $ref: "#/components/responses/500Response"
   /farcaster/channel/followers:
     get:
       tags:
