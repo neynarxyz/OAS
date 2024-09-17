@@ -5693,6 +5693,13 @@ paths:
             type: string
           example: "neynar,farcaster"
           description: Comma separated channel_ids (find list of all channels here - https://docs.neynar.com/reference/list-all-channels)
+        - name: priority_mode
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: false
+          description: When true, only returns notifications from power badge users and users that the viewer follows.
         - name: cursor
           in: query
           description: Pagination cursor.
@@ -5733,6 +5740,13 @@ paths:
             type: string
           example: "chain://eip155:1/erc721:0xd4498134211baad5846ce70ce04e7c4da78931cc"
           description: Comma separated parent_urls
+        - name: priority_mode
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: false
+          description: When true, only returns notifications from power badge users and users that the viewer follows.
         - name: cursor
           in: query
           description: Pagination cursor.
