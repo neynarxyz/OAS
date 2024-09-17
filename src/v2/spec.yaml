@@ -5646,6 +5646,13 @@ paths:
           schema:
             $ref: "#/components/schemas/NotificationType"
           description: Notification type to fetch.
+        - name: priority_mode
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: false
+          description: When true, only returns notifications from power badge users and users that the viewer follows.
         - name: cursor
           in: query
           description: Pagination cursor.
