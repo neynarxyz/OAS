@@ -67,6 +67,7 @@ components:
       enum:
         - neynar
         - openrank
+        - mbd
       default: neynar
       description: |
         The provider of the trending casts feed.
