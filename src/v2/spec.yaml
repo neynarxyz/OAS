@@ -4934,7 +4934,7 @@ paths:
         - name: limit
           in: query
           required: false
-          description: Number of results to retrieve (default 25, max 50)
+          description: Number of results to retrieve 
           schema:
             type: integer
             default: 25
