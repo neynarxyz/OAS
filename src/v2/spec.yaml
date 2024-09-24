@@ -1268,6 +1268,26 @@ components:
     CastParent:
       type: string
       description: parent_url of the channel the cast is in, or hash of the cast
+    PostCastReqBodyEmbedsCastIdProperties:
+      type: object
+      required:
+        - hash
+        - fid
+      properties:
+        hash:
+          type: string
+        fid:
+          $ref: "#/components/schemas/Fid"
+    PostCastReqBodyEmbeds:
+      type: object
+      properties:
+        cast_id:
+          $ref: "#/components/schemas/PostCastReqBodyEmbedsCastIdProperties"
+        castId:
+          $ref: "#/components/schemas/PostCastReqBodyEmbedsCastIdProperties"
+      oneOf:
+        - required: ["cast_id"]
+        - required: ["castId"]
     PostCastReqBody:
       type: object
       required:
@@ -1280,7 +1300,7 @@ components:
         embeds:
           type: array
           items:
-            $ref: "#/components/schemas/EmbeddedCast"
+            $ref: "#/components/schemas/PostCastReqBodyEmbeds"
         parent:
           $ref: "#/components/schemas/CastParent"
         channel_id:
@@ -1743,7 +1763,7 @@ components:
         signer_uuid:
           $ref: "#/components/schemas/SignerUUID"
         channel_id:
-          $ref: '#/components/schemas/ChannelId'
+          $ref: "#/components/schemas/ChannelId"
     DehydratedChannel:
       type: object
       required:
@@ -4934,7 +4954,7 @@ paths:
         - name: limit
           in: query
           required: false
-          description: Number of results to retrieve 
+          description: Number of results to retrieve
           schema:
             type: integer
             default: 25
@@ -6064,7 +6084,7 @@ paths:
       tags:
         - Channel
       summary: Retrieve relevant channel followers for a given user
-      description: Returns a list of relevant channel followers for a specific FID. This usually shows on a channel as "X, Y, Z follow this channel". 
+      description: Returns a list of relevant channel followers for a specific FID. This usually shows on a channel as "X, Y, Z follow this channel".
       externalDocs:
         url: https://docs.neynar.com/reference/relevant-channel-followers
       operationId: relevant-channel-followers
