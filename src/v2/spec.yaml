@@ -60,6 +60,7 @@ components:
       enum:
         - openrank
         - karma3
+        - mbd
       description: |
         The provider of the For You feed.
     FeedTrendingProvider:
@@ -67,6 +68,7 @@ components:
       enum:
         - neynar
         - openrank
+        - mbd
       default: neynar
       description: |
         The provider of the trending casts feed.
@@ -4483,6 +4485,17 @@ paths:
           description: Pagination cursor.
           schema:
             type: string
+        - name: provider_metadata
+          in: query
+          schema:
+            type: string
+          description: |
+            provider_metadata is a URI-encoded stringified JSON object that can be used to pass additional metadata to the provider.
+              - mbd => URI-encoded filters object (Visit https://docs.mbd.xyz/reference/post_casts-feed-for-you and check the filters object in body params for this request)
+                
+                example(Javascript) : encodeURIComponent({"filters": {"channels": ["https://superrare.com"]}})
+
+            Only available for the mbd provider for now.
       responses:
         "200":
           description: Successful operation.
@@ -4491,7 +4504,13 @@ paths:
               schema:
                 $ref: "#/components/schemas/FeedResponse"
         "400":
-          $ref: "#/components/responses/400Response"
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/ZodError"
+                  - $ref: "#/components/schemas/ErrorRes"
   /farcaster/user/subscriptions_created:
     get:
       tags:
@@ -4815,6 +4834,17 @@ paths:
           schema:
             $ref: "#/components/schemas/FeedTrendingProvider"
           example: neynar
+        - name: provider_metadata
+          in: query
+          schema:
+            type: string
+          description: |
+            provider_metadata is a URI-encoded stringified JSON object that can be used to pass additional metadata to the provider.
+              - mbd => URI-encoded filters object (Visit https://docs.mbd.xyz/reference/post_casts-feed-trending)
+                
+                example(Javascript) : encodeURIComponent({"filters": {"channels": ["https://superrare.com"]}})
+
+            Only available for the mbd provider for now.
       responses:
         "200":
           description: Successful operation.
