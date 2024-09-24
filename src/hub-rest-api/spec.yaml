@@ -910,14 +910,12 @@ components:
       description: Maximum number of messages to return in a single response
       schema:
         type: integer
-        example: 10
     paginationReverse:
       name: reverse
       in: query
       description: Reverse the sort order, returning latest messages first
       schema:
         type: boolean
-        example: false
     pageToken:
       name: pageToken
       in: query
