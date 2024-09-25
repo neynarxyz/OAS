@@ -651,8 +651,8 @@ components:
       type: string
       description: The role of a channel member
       enum:
-        - moderator
         - member
+        - moderator
     CastId:
       type: object
       required:
