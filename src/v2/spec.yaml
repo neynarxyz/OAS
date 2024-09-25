@@ -647,6 +647,12 @@ components:
         html:
           # Converted from https://github.com/jshemas/openGraphScraper/blob/80b1800c377f5a647e365f07a2262e997a9b897c/lib/types.ts#L118-L347
           $ref: "#/components/schemas/OgObject"
+    ChannelMemberRole:
+      type: string
+      description: The role of a channel member
+      enum:
+        - moderator
+        - member
     CastId:
       type: object
       required:
@@ -5876,6 +5882,126 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ChannelListResponse"
+  /farcaster/channel/member/invite:
+    post:
+      tags:
+        - Channel
+      summary: Invite a user to a channel
+      description: Invite a user to a channel
+      operationId: invite-channel-member
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - signer_uuid
+                - channel_id
+                - fid
+                - role
+              properties:
+                signer_uuid:
+                  $ref: "#/components/schemas/SignerUUID"
+                channel_id:
+                  $ref: "#/components/schemas/ChannelId"
+                fid:
+                  $ref: "#/components/schemas/Fid"
+                role:
+                  $ref: "#/components/schemas/ChannelMemberRole"
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OperationResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "500":
+          $ref: "#/components/responses/500Response"
+    put:
+      tags:
+        - Channel
+      summary: Accept or reject a channel invite
+      description: Accept or reject a channel invite
+      operationId: respond-channel-invite
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - signer_uuid
+                - channel_id
+                - role
+                - accept
+              properties:
+                signer_uuid:
+                  $ref: "#/components/schemas/SignerUUID"
+                channel_id:
+                  $ref: "#/components/schemas/ChannelId"
+                role:
+                  $ref: "#/components/schemas/ChannelMemberRole"
+                accept:
+                  type: boolean
+                  description: Accept or reject the invite
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OperationResponse"            
+        "400":
+          $ref: "#/components/responses/400Response"
+        "500":
+          $ref: "#/components/responses/500Response"
+  /farcaster/channel/member:
+      delete:
+        tags:
+          - Channel
+        summary: Remove a user from a channel
+        description: Remove a user from a channel or a user's invite to a channel role
+        operationId: remove-channel-member
+        parameters:
+          - $ref: "#/components/parameters/ApiKey"
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - signer_uuid
+                  - channel_id
+                  - fid
+                  - role
+                properties:
+                  signer_uuid:
+                    $ref: "#/components/schemas/SignerUUID"
+                  channel_id:
+                    $ref: "#/components/schemas/ChannelId"
+                  fid:
+                    $ref: "#/components/schemas/Fid"                  
+                  role:
+                    $ref: "#/components/schemas/ChannelMemberRole"
+        responses:
+          "200":
+            description: Successful operation.
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/OperationResponse"
+          "400":
+            $ref: "#/components/responses/400Response"
+          "500":
+            $ref: "#/components/responses/500Response"
   /farcaster/channel/search:
     get:
       tags:
