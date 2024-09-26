@@ -4497,9 +4497,7 @@ paths:
             type: string
           description: |
             provider_metadata is a URI-encoded stringified JSON object that can be used to pass additional metadata to the provider.
-              - mbd => URI-encoded filters object (Visit https://docs.mbd.xyz/reference/post_casts-feed-for-you and check the filters object in body params for this request)
-                
-                example(Javascript) : encodeURIComponent({"filters": {"channels": ["https://superrare.com"]}})
+              - mbd => https://docs.neynar.com/docs/feed-for-you-w-external-providers
 
             Only available for the mbd provider for now.
       responses:
@@ -4846,9 +4844,7 @@ paths:
             type: string
           description: |
             provider_metadata is a URI-encoded stringified JSON object that can be used to pass additional metadata to the provider.
-              - mbd => URI-encoded filters object (Visit https://docs.mbd.xyz/reference/post_casts-feed-trending)
-                
-                example(Javascript) : encodeURIComponent({"filters": {"channels": ["https://superrare.com"]}})
+              - mbd => https://docs.neynar.com/docs/trending-feed-w-external-providers
 
             Only available for the mbd provider for now.
       responses:
@@ -5957,51 +5953,51 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/OperationResponse"            
+                $ref: "#/components/schemas/OperationResponse"
         "400":
           $ref: "#/components/responses/400Response"
         "500":
           $ref: "#/components/responses/500Response"
   /farcaster/channel/member:
-      delete:
-        tags:
-          - Channel
-        summary: Remove a user from a channel
-        description: Remove a user from a channel or a user's invite to a channel role
-        operationId: remove-channel-member
-        parameters:
-          - $ref: "#/components/parameters/ApiKey"
-        requestBody:
-          required: true
+    delete:
+      tags:
+        - Channel
+      summary: Remove a user from a channel
+      description: Remove a user from a channel or a user's invite to a channel role
+      operationId: remove-channel-member
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - signer_uuid
+                - channel_id
+                - fid
+                - role
+              properties:
+                signer_uuid:
+                  $ref: "#/components/schemas/SignerUUID"
+                channel_id:
+                  $ref: "#/components/schemas/ChannelId"
+                fid:
+                  $ref: "#/components/schemas/Fid"
+                role:
+                  $ref: "#/components/schemas/ChannelMemberRole"
+      responses:
+        "200":
+          description: Successful operation.
           content:
             application/json:
               schema:
-                type: object
-                required:
-                  - signer_uuid
-                  - channel_id
-                  - fid
-                  - role
-                properties:
-                  signer_uuid:
-                    $ref: "#/components/schemas/SignerUUID"
-                  channel_id:
-                    $ref: "#/components/schemas/ChannelId"
-                  fid:
-                    $ref: "#/components/schemas/Fid"                  
-                  role:
-                    $ref: "#/components/schemas/ChannelMemberRole"
-        responses:
-          "200":
-            description: Successful operation.
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/OperationResponse"
-          "400":
-            $ref: "#/components/responses/400Response"
-          "500":
-            $ref: "#/components/responses/500Response"
+                $ref: "#/components/schemas/OperationResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "500":
+          $ref: "#/components/responses/500Response"
   /farcaster/channel/search:
     get:
       tags:
