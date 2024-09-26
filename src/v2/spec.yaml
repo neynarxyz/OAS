@@ -4496,8 +4496,7 @@ paths:
           schema:
             type: string
           description: |
-            provider_metadata is a URI-encoded stringified JSON object that can be used to pass additional metadata to the provider. Only available for mbd provider right now. See here on how to use.
-              - mbd => https://docs.neynar.com/docs/feed-for-you-w-external-providers
+            provider_metadata is a URI-encoded stringified JSON object that can be used to pass additional metadata to the provider. Only available for mbd provider right now. See [here](https://docs.neynar.com/docs/feed-for-you-w-external-providers) on how to use.
       responses:
         "200":
           description: Successful operation.
@@ -4841,8 +4840,7 @@ paths:
           schema:
             type: string
           description: |
-            provider_metadata is a URI-encoded stringified JSON object that can be used to pass additional metadata to the provider. Only available for mbd provider right now. See here on how to use
-              - mbd => https://docs.neynar.com/docs/trending-feed-w-external-providers
+            provider_metadata is a URI-encoded stringified JSON object that can be used to pass additional metadata to the provider. Only available for mbd provider right now. See [here](https://docs.neynar.com/docs/feed-for-you-w-external-providers) on how to use.
       responses:
         "200":
           description: Successful operation.
