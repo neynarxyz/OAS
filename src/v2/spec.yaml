@@ -3653,6 +3653,7 @@ paths:
         - name: viewer_fid
           in: query
           required: false
+          description: Providing this will return search results that respects this user's mutes and blocks and includes `viewer_context`.
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
@@ -4197,7 +4198,7 @@ paths:
         - name: viewer_fid
           in: query
           required: false
-          description: "Fid of the viewer of the casts, used to show viewer_context"
+          description: Providing this will return search results that respects this user's mutes and blocks and includes `viewer_context`.
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
@@ -4276,6 +4277,7 @@ paths:
         - name: viewer_fid
           in: query
           required: false
+          description: Providing this will return a conversation that respects this user's mutes and blocks and includes `viewer_context`.
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
@@ -4383,6 +4385,7 @@ paths:
         - name: viewer_fid
           in: query
           required: false
+          description: Providing this will return a feed that respects this user's mutes and blocks and includes `viewer_context`.
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
@@ -4416,6 +4419,7 @@ paths:
         - name: viewer_fid
           in: query
           required: false
+          description: Providing this will return a feed that respects this user's mutes and blocks and includes `viewer_context`.
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
@@ -4468,6 +4472,7 @@ paths:
         - name: viewer_fid
           in: query
           required: false
+          description: Providing this will return a feed that respects this user's mutes and blocks and includes `viewer_context`.
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
@@ -4647,6 +4652,7 @@ paths:
         - name: viewer_fid
           in: query
           required: false
+          description: Providing this will return a feed that respects this user's mutes and blocks and includes `viewer_context`.
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
@@ -4711,6 +4717,7 @@ paths:
         - name: viewer_fid
           in: query
           required: false
+          description: Providing this will return a feed that respects this user's mutes and blocks and includes `viewer_context`.
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
@@ -4764,6 +4771,7 @@ paths:
         - name: viewer_fid
           in: query
           required: false
+          description: Providing this will return a feed that respects this user's mutes and blocks and includes `viewer_context`.
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
@@ -4808,6 +4816,7 @@ paths:
         - name: viewer_fid
           in: query
           required: false
+          description: Providing this will return a feed that respects this user's mutes and blocks and includes `viewer_context`.
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
@@ -4940,6 +4949,7 @@ paths:
         - name: viewer_fid
           in: query
           required: false
+          description: Providing this will return a feed that respects this user's mutes and blocks and includes `viewer_context`.
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
@@ -5685,7 +5695,7 @@ paths:
           schema:
             $ref: "#/components/schemas/Fid"
           example: 194
-          description: FID of the user you you want to fetch notifications for
+          description: FID of the user you you want to fetch notifications for. The response will respect this user's mutes and blocks.
         - name: type
           in: query
           required: false
@@ -5731,7 +5741,7 @@ paths:
           schema:
             $ref: "#/components/schemas/Fid"
           example: 194
-          description: FID of the user you you want to fetch notifications for
+          description: FID of the user you you want to fetch notifications for. The response will respect this user's mutes and blocks.
         - name: channel_ids
           in: query
           required: true
@@ -5778,7 +5788,7 @@ paths:
           schema:
             $ref: "#/components/schemas/Fid"
           example: 194
-          description: FID of the user you you want to fetch notifications for
+          description: FID of the user you you want to fetch notifications for. The response will respect this user's mutes and blocks.
         - name: parent_urls
           in: query
           required: true
@@ -6201,6 +6211,12 @@ paths:
             type: string
           example: "founders"
           description: Channel ID for the channel being queried
+        - name: viewer_fid
+          in: query
+          required: false
+          description: Providing this will return a list of followers that respects this user's mutes and blocks and includes `viewer_context`.
+          schema:
+            $ref: "#/components/schemas/Fid"
         - name: cursor
           in: query
           description: Pagination cursor.
@@ -6246,7 +6262,7 @@ paths:
         - name: viewer_fid
           in: query
           required: true
-          description: Viewer who's looking at the channel
+          description: The FID of the user to customize this response for. Providing this will also return a list of followers that respects this user's mutes and blocks and includes `viewer_context`.
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
@@ -6440,7 +6456,7 @@ paths:
         - name: viewer_fid
           in: query
           required: false
-          description: Viewer who's looking at the profile.
+          description: Providing this will return a list of followers that respects this user's mutes and blocks and includes `viewer_context`.
           schema:
             $ref: "#/components/schemas/Fid"
         - name: sort_type
@@ -6494,8 +6510,8 @@ paths:
             $ref: "#/components/schemas/Fid"
         - name: viewer_fid
           in: query
-          required: true
-          description: Viewer who's looking at the profile
+          required: false
+          description: The FID of the user to customize this response for. Providing this will also return a list of followers that respects this user's mutes and blocks and includes `viewer_context`.
           schema:
             $ref: "#/components/schemas/Fid"
       responses:
@@ -6531,7 +6547,7 @@ paths:
           schema:
             $ref: "#/components/schemas/Fid"
           example: 3
-          description: FID of the user viewing the user.
+          description: Providing this will return a list of users that respects this user's mutes and blocks and includes `viewer_context`.
         - name: sort_type
           in: query
           required: false
@@ -6583,6 +6599,7 @@ paths:
         - name: viewer_fid
           in: query
           required: false
+          description: Providing this will return a list of reactions that respects this user's mutes and blocks and includes `viewer_context`.
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
@@ -6643,6 +6660,7 @@ paths:
         - name: viewer_fid
           in: query
           required: false
+          description: Providing this will return a list of reactions that respects this user's mutes and blocks and includes `viewer_context`.
           schema:
             $ref: "#/components/schemas/Fid"
         - name: limit
