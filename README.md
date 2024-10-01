@@ -1,6 +1,6 @@
 # OAS
 
-The OpenAPI specification for the Neynar APIs
+The OpenAPI specification for the [Neynar](https://neynar.com) [APIs](https://docs.neynar.com)
 
 ### Installation
 Prerequisite
