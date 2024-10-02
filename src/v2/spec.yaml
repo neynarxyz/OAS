@@ -1848,6 +1848,28 @@ components:
             $ref: "#/components/schemas/Channel"
         next:
           $ref: "#/components/schemas/NextCursor"
+    ChannelMember:
+      type: object
+      required:
+        - channel_id
+        - role
+        - user
+      properties:
+        channel_id:
+          $ref: "#/components/schemas/ChannelId"
+        role:
+          $ref: "#/components/schemas/ChannelMemberRole"
+        user:
+          $ref: "#/components/schemas/User"
+    ChannelMemberListResponse:
+      type: object
+      required:
+        - members
+      properties:
+        members:
+          type: array
+          items:
+            $ref: "#/components/schemas/ChannelMember"
     ChannelSearchResponse:
       type: object
       required:
@@ -6009,6 +6031,33 @@ paths:
           $ref: "#/components/responses/400Response"
         "500":
           $ref: "#/components/responses/500Response"
+  /farcaster/channel/member/list:
+    get:
+      tags:
+        - Channel
+      summary: Retrieve a list of members in a channel
+      description: Retrieve a list of members in a channel
+      operationId: list-channel-members
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: channel_id
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/ChannelId"
+          example: "neynar"
+          description: Channel ID for the channel being queried
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChannelMemberListResponse"
+        "500": 
+          $ref: "#/components/responses/500Response"
+        "400":
+          $ref: "#/components/responses/400Response"
   /farcaster/channel/search:
     get:
       tags:
