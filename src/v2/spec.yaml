@@ -4214,6 +4214,13 @@ paths:
           schema:
             type: string
           description: "Channel ID of the casts you want to search"
+        - name: priority_mode
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: false
+          description: When true, only returns search results from power badge users and users that the viewer follows (if viewer_fid is provided).
         - name: limit
           in: query
           required: false
@@ -5708,7 +5715,7 @@ paths:
           schema:
             type: boolean
             default: false
-          description: When true, only returns notifications from power badge users and users that the viewer follows.
+          description: When true, only returns notifications from power badge users and users that the viewer follows (if viewer_fid is provided).
         - name: cursor
           in: query
           description: Pagination cursor.
@@ -5755,7 +5762,7 @@ paths:
           schema:
             type: boolean
             default: false
-          description: When true, only returns notifications from power badge users and users that the viewer follows.
+          description: When true, only returns notifications from power badge users and users that the viewer follows (if viewer_fid is provided).
         - name: cursor
           in: query
           description: Pagination cursor.
@@ -5802,7 +5809,7 @@ paths:
           schema:
             type: boolean
             default: false
-          description: When true, only returns notifications from power badge users and users that the viewer follows.
+          description: When true, only returns notifications from power badge users and users that the viewer follows (if viewer_fid is provided).
         - name: cursor
           in: query
           description: Pagination cursor.
