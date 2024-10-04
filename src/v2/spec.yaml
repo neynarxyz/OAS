@@ -1870,6 +1870,8 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/ChannelMember"
+        next:
+          $ref: "#/components/schemas/NextCursor"
     ChannelSearchResponse:
       type: object
       required:
@@ -6047,6 +6049,21 @@ paths:
             $ref: "#/components/schemas/ChannelId"
           example: "neynar"
           description: Channel ID for the channel being queried
+        - name: limit
+          in: query
+          description: Number of results to retrieve
+          required: false
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          required: false
+          schema:
+            type: string
       responses:
         "200":
           description: Successful response
