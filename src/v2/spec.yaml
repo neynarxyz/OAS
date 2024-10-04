@@ -4378,7 +4378,13 @@ paths:
           in: query
           schema:
             type: string
-          description: Used when filter_type=channel_id can be used to fetch all casts under a channel. Requires feed_type and filter_type
+          description: Used when filter_type=channel_id can be used to fetch casts under a channel. Requires feed_type and filter_type.
+        - name: members_only
+          in: query
+          description: Used when filter_type=channel_id. Only include casts from members of the channel. True by default.
+          schema:
+            type: boolean
+            default: true
         - name: embed_url
           in: query
           schema:
@@ -4691,6 +4697,12 @@ paths:
           schema:
             type: boolean
             default: false
+        - name: members_only
+          in: query
+          description: Only include casts from members of the channel. True by default.
+          schema:
+            type: boolean
+            default: true
         - name: limit
           in: query
           description: Number of results to retrieve (default 25, max 100)
@@ -4707,6 +4719,7 @@ paths:
         - name: should_moderate
           in: query
           description: If true, only casts that have been liked by the moderator (if one exists) will be returned.
+          deprecated: true
           schema:
             type: boolean
             default: false
