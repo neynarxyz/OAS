@@ -2701,6 +2701,16 @@ components:
             $ref: "#/components/schemas/MuteList"
         next:
           $ref: "#/components/schemas/NextCursor"
+    MuteResponse:
+      type: object
+      required:
+        - success
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
     BlockList:
       type: object
       required:
@@ -2730,7 +2740,36 @@ components:
             $ref: "#/components/schemas/BlockList"
         next:
           $ref: "#/components/schemas/NextCursor"
-    MuteResponse:
+    BanList:
+      type: object
+      required:
+        - object
+        - timestamp
+        - banned_at
+      properties:
+        object:
+          type: string
+          enum:
+            - ban
+        blocked:
+          $ref: "#/components/schemas/User"
+        blocker:
+          $ref: "#/components/schemas/User"
+        blocked_at:
+          $ref: "#/components/schemas/Timestamp"
+    BanListResponse:
+      type: object
+      required:
+        - bans
+        - next
+      properties:
+        blocks:
+          type: array
+          items:
+            $ref: "#/components/schemas/BanList"
+        next:
+          $ref: "#/components/schemas/NextCursor"
+    BanResponse:
       type: object
       required:
         - success
