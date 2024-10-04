@@ -1329,6 +1329,15 @@ components:
           $ref: "#/components/schemas/Fid"
         muted_fid:
           $ref: "#/components/schemas/Fid"
+    BanReqBody:
+      type: object
+      required:
+        - fids
+      properties:
+        fid:
+          type: array
+          items:
+            $ref: "#/components/schemas/Fid"
     ReactionReqBody:
       type: object
       required:
