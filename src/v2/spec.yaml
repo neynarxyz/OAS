@@ -1854,6 +1854,22 @@ components:
             $ref: "#/components/schemas/Channel"
         next:
           $ref: "#/components/schemas/NextCursor"
+    ChannelMemberInvite:
+      type: object
+      required:
+        - channel_id
+        - role
+        - inviter
+        - invited
+      properties:
+        channel_id:
+          $ref: "#/components/schemas/ChannelId"
+        role:
+          $ref: "#/components/schemas/ChannelMemberRole"
+        inviter:
+          $ref: "#/components/schemas/User"
+        invited:
+          $ref: "#/components/schemas/User"
     ChannelMember:
       type: object
       required:
@@ -1876,6 +1892,17 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/ChannelMember"
+        next:
+          $ref: "#/components/schemas/NextCursor"
+    ChannelMemberInviteListResponse:
+      type: object
+      required:
+        - invites
+      properties:
+        invites:
+          type: array
+          items:
+            $ref: "#/components/schemas/ChannelMemberInvite"
         next:
           $ref: "#/components/schemas/NextCursor"
     ChannelSearchResponse:
@@ -5925,6 +5952,94 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ChannelListResponse"
+  /farcaster/channel/member:
+    delete:
+      tags:
+        - Channel
+      summary: Remove a user from a channel
+      description: Remove a user from a channel or a user's invite to a channel role
+      operationId: remove-channel-member
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - signer_uuid
+                - channel_id
+                - fid
+                - role
+              properties:
+                signer_uuid:
+                  $ref: "#/components/schemas/SignerUUID"
+                channel_id:
+                  $ref: "#/components/schemas/ChannelId"
+                fid:
+                  $ref: "#/components/schemas/Fid"
+                role:
+                  $ref: "#/components/schemas/ChannelMemberRole"
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OperationResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "500":
+          $ref: "#/components/responses/500Response"
+  /farcaster/channel/member/list:
+    get:
+      tags:
+        - Channel
+      summary: Retrieve a list of members in a channel
+      description: Retrieve a list of members in a channel
+      operationId: list-channel-members
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: channel_id
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/ChannelId"
+          example: "neynar"
+          description: Channel ID for the channel being queried
+        - name: fid
+          in: query
+          schema:
+            $ref: "#/components/schemas/Fid"
+          example: 194
+          description: FID of the user being queried. Specify this to check if a user is a member of the channel without paginating through all members.
+        - name: limit
+          in: query
+          description: Number of results to retrieve
+          required: false
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChannelMemberListResponse"
+        "500": 
+          $ref: "#/components/responses/500Response"
+        "400":
+          $ref: "#/components/responses/400Response"
   /farcaster/channel/member/invite:
     post:
       tags:
@@ -6005,62 +6120,27 @@ paths:
           $ref: "#/components/responses/400Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/channel/member:
-    delete:
-      tags:
-        - Channel
-      summary: Remove a user from a channel
-      description: Remove a user from a channel or a user's invite to a channel role
-      operationId: remove-channel-member
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - signer_uuid
-                - channel_id
-                - fid
-                - role
-              properties:
-                signer_uuid:
-                  $ref: "#/components/schemas/SignerUUID"
-                channel_id:
-                  $ref: "#/components/schemas/ChannelId"
-                fid:
-                  $ref: "#/components/schemas/Fid"
-                role:
-                  $ref: "#/components/schemas/ChannelMemberRole"
-      responses:
-        "200":
-          description: Successful operation.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/OperationResponse"
-        "400":
-          $ref: "#/components/responses/400Response"
-        "500":
-          $ref: "#/components/responses/500Response"
-  /farcaster/channel/member/list:
+  /farcaster/channel/member/invite/list:
     get:
       tags:
         - Channel
-      summary: Retrieve a list of members in a channel
-      description: Retrieve a list of members in a channel
-      operationId: list-channel-members
+      summary: Retrieve a list of invites in a channel
+      description: Retrieve a list of invites in a channel
+      operationId: list-channel-invites
       parameters:
         - $ref: "#/components/parameters/ApiKey"
         - name: channel_id
           in: query
-          required: true
           schema:
             $ref: "#/components/schemas/ChannelId"
           example: "neynar"
           description: Channel ID for the channel being queried
+        - name: invited_fid
+          in: query
+          schema:
+            $ref: "#/components/schemas/Fid"
+          example: 194
+          description: FID of the user being invited
         - name: limit
           in: query
           description: Number of results to retrieve
@@ -6082,7 +6162,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ChannelMemberListResponse"
+                $ref: "#/components/schemas/ChannelMemberInviteListResponse"
         "500": 
           $ref: "#/components/responses/500Response"
         "400":
