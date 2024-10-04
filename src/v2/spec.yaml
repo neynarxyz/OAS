@@ -6675,7 +6675,7 @@ paths:
             $ref: "#/components/schemas/Fid"
         - name: viewer_fid
           in: query
-          required: false
+          required: true
           description: The FID of the user to customize this response for. Providing this will also return a list of followers that respects this user's mutes and blocks and includes `viewer_context`.
           schema:
             $ref: "#/components/schemas/Fid"
