@@ -1372,7 +1372,7 @@ components:
         signer_uuid:
           $ref: "#/components/schemas/SignerUUID"
         target_hash:
-          $ref: "#/components/schemas/Address"
+          $ref: "#/components/schemas/CastHash"
     FollowReqBody:
       type: object
       required:
@@ -2017,7 +2017,7 @@ components:
             - text
           properties:
             hash:
-              $ref: "#/components/schemas/Address"
+              $ref: "#/components/schemas/CastHash"
             author:
               type: object
               required:
