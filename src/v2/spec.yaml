@@ -5513,6 +5513,37 @@ paths:
           $ref: "#/components/responses/400Response"
         "404":
           $ref: "#/components/responses/404Response"
+  /farcaster/user/by_username:
+    get:
+      tags:
+        - User
+      summary: "Fetch a user by username"
+      description: "Fetches a single hydrated user object given a username"
+      operationId: user-by-username
+      externalDocs:
+        url: https://docs.neynar.com/reference/user-by-username
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: username
+          in: query
+          required: true
+          schema:
+            type: string
+          example: "neynar"
+          description: Username of the user to fetch
+        - name: viewer_fid
+          in: query
+          required: false
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
+      responses:
+        "400":
+          $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
+        "500":
+          $ref: "#/components/responses/500Response"
   /farcaster/login/authorize:
     get:
       tags:

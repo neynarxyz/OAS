@@ -830,11 +830,11 @@ paths:
     get:
       tags:
         - User
-      summary: Get User Information by username
-      description: Returns metadata about a specific user
+      summary: DEPRECATED - Get User Information by username
+      description: Now deprecated, use [v2/user/by_username](https://docs.neynar.com/reference/user-by-username) instead. Returns metadata about a specific user
       externalDocs:
         url: https://docs.neynar.com/reference/user-by-username-v1
-      operationId: user-by-username
+      operationId: user-by-username-v1
       parameters:
         - name: username
           in: query
@@ -861,7 +861,7 @@ paths:
           $ref: "#/components/responses/400Response"
         "404":
           $ref: "#/components/responses/404Response"
-      deprecated: false
+      deprecated: true
   /farcaster/user-cast-likes:
     get:
       tags:
