@@ -4045,6 +4045,52 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ChannelListResponse"
+  /farcaster/user/memberships/list:
+    get:
+      tags:
+        - Channel
+      summary: Retrieve all channels that a given fid is a member of
+      description: Returns a list of all channels with their details that an fid is a member of. Data may have a delay of up to 1 hour.
+      externalDocs:
+        url: https://docs.neynar.com/reference/user-channel-memberships
+      operationId: user-channel-memberships
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: fid
+          in: query
+          required: true
+          description: The fid of the user.
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
+        - name: limit
+          in: query
+          description: Number of results to retrieve (default 20, max 100)
+          required: false
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChannelMemberListResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
+        "500":
+          $ref: "#/components/responses/500Response"
   /farcaster/user:
     patch:
       tags:
