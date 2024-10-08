@@ -831,7 +831,7 @@ paths:
       tags:
         - User
       summary: DEPRECATED - Get User Information by username
-      description: Now deprecated, use [v2/user/by_username](https://docs.neynar.com/reference/user-by-username) instead. Returns metadata about a specific user
+      description: Now deprecated, use [v2/user/by_username](https://docs.neynar.com/reference/user-by-username-v2) instead. Returns metadata about a specific user
       externalDocs:
         url: https://docs.neynar.com/reference/user-by-username-v1
       operationId: user-by-username-v1
