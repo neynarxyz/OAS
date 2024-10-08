@@ -5567,9 +5567,9 @@ paths:
         - User
       summary: "Fetch a user by username"
       description: "Fetches a single hydrated user object given a username"
-      operationId: user-by-username
+      operationId: user-by-username-v2
       externalDocs:
-        url: https://docs.neynar.com/reference/user-by-username
+        url: https://docs.neynar.com/reference/user-by-username-v2
       parameters:
         - $ref: "#/components/parameters/ApiKey"
         - name: username
