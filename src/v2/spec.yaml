@@ -55,6 +55,12 @@ components:
         - desc_chron
         - algorithmic
       example: "desc_chron"
+    CastConversationSortType:
+      type: string
+      enum:
+        - desc_chron
+        - algorithmic
+      example: "desc_chron"
     ForYouProvider:
       type: string
       enum:
@@ -1381,7 +1387,7 @@ components:
         signer_uuid:
           $ref: "#/components/schemas/SignerUUID"
         target_hash:
-          $ref: "#/components/schemas/Address"
+          $ref: "#/components/schemas/CastHash"
     FollowReqBody:
       type: object
       required:
@@ -1857,6 +1863,22 @@ components:
             $ref: "#/components/schemas/Channel"
         next:
           $ref: "#/components/schemas/NextCursor"
+    ChannelMemberInvite:
+      type: object
+      required:
+        - channel_id
+        - role
+        - inviter
+        - invited
+      properties:
+        channel_id:
+          $ref: "#/components/schemas/ChannelId"
+        role:
+          $ref: "#/components/schemas/ChannelMemberRole"
+        inviter:
+          $ref: "#/components/schemas/User"
+        invited:
+          $ref: "#/components/schemas/User"
     ChannelMember:
       type: object
       required:
@@ -1879,6 +1901,19 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/ChannelMember"
+        next:
+          $ref: "#/components/schemas/NextCursor"
+    ChannelMemberInviteListResponse:
+      type: object
+      required:
+        - invites
+      properties:
+        invites:
+          type: array
+          items:
+            $ref: "#/components/schemas/ChannelMemberInvite"
+        next:
+          $ref: "#/components/schemas/NextCursor"
     ChannelSearchResponse:
       type: object
       required:
@@ -2024,7 +2059,7 @@ components:
             - text
           properties:
             hash:
-              $ref: "#/components/schemas/Address"
+              $ref: "#/components/schemas/CastHash"
             author:
               type: object
               required:
@@ -4358,6 +4393,12 @@ paths:
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
+        - name: sort_type
+          in: query
+          required: false
+          description: Sort type for the ordering of descendants. Default is `desc_chron`
+          schema:
+            $ref: "#/components/schemas/CastConversationSortType"
         - name: limit
           in: query
           description: Number of results to retrieve (default 20, max 50)
@@ -4426,7 +4467,13 @@ paths:
           in: query
           schema:
             type: string
-          description: Used when filter_type=channel_id can be used to fetch all casts under a channel. Requires feed_type and filter_type
+          description: Used when filter_type=channel_id can be used to fetch casts under a channel. Requires feed_type and filter_type.
+        - name: members_only
+          in: query
+          description: Used when filter_type=channel_id. Only include casts from members of the channel. True by default.
+          schema:
+            type: boolean
+            default: true
         - name: embed_url
           in: query
           schema:
@@ -4739,6 +4786,12 @@ paths:
           schema:
             type: boolean
             default: false
+        - name: members_only
+          in: query
+          description: Only include casts from members of the channel. True by default.
+          schema:
+            type: boolean
+            default: true
         - name: limit
           in: query
           description: Number of results to retrieve (default 25, max 100)
@@ -4755,6 +4808,7 @@ paths:
         - name: should_moderate
           in: query
           description: If true, only casts that have been liked by the moderator (if one exists) will be returned.
+          deprecated: true
           schema:
             type: boolean
             default: false
@@ -5507,6 +5561,37 @@ paths:
           $ref: "#/components/responses/400Response"
         "404":
           $ref: "#/components/responses/404Response"
+  /farcaster/user/by_username:
+    get:
+      tags:
+        - User
+      summary: "Fetch a user by username"
+      description: "Fetches a single hydrated user object given a username"
+      operationId: user-by-username
+      externalDocs:
+        url: https://docs.neynar.com/reference/user-by-username
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: username
+          in: query
+          required: true
+          schema:
+            type: string
+          example: "neynar"
+          description: Username of the user to fetch
+        - name: viewer_fid
+          in: query
+          required: false
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
+      responses:
+        "400":
+          $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
+        "500":
+          $ref: "#/components/responses/500Response"
   /farcaster/login/authorize:
     get:
       tags:
@@ -5959,6 +6044,94 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ChannelListResponse"
+  /farcaster/channel/member:
+    delete:
+      tags:
+        - Channel
+      summary: Remove a user from a channel
+      description: Remove a user from a channel or a user's invite to a channel role
+      operationId: remove-channel-member
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - signer_uuid
+                - channel_id
+                - fid
+                - role
+              properties:
+                signer_uuid:
+                  $ref: "#/components/schemas/SignerUUID"
+                channel_id:
+                  $ref: "#/components/schemas/ChannelId"
+                fid:
+                  $ref: "#/components/schemas/Fid"
+                role:
+                  $ref: "#/components/schemas/ChannelMemberRole"
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OperationResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "500":
+          $ref: "#/components/responses/500Response"
+  /farcaster/channel/member/list:
+    get:
+      tags:
+        - Channel
+      summary: Retrieve a list of members in a channel
+      description: Retrieve a list of members in a channel
+      operationId: list-channel-members
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: channel_id
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/ChannelId"
+          example: "neynar"
+          description: Channel ID for the channel being queried
+        - name: fid
+          in: query
+          schema:
+            $ref: "#/components/schemas/Fid"
+          example: 194
+          description: FID of the user being queried. Specify this to check if a user is a member of the channel without paginating through all members.
+        - name: limit
+          in: query
+          description: Number of results to retrieve
+          required: false
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChannelMemberListResponse"
+        "500": 
+          $ref: "#/components/responses/500Response"
+        "400":
+          $ref: "#/components/responses/400Response"
   /farcaster/channel/member/invite:
     post:
       tags:
@@ -6039,69 +6212,49 @@ paths:
           $ref: "#/components/responses/400Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/channel/member:
-    delete:
-      tags:
-        - Channel
-      summary: Remove a user from a channel
-      description: Remove a user from a channel or a user's invite to a channel role
-      operationId: remove-channel-member
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - signer_uuid
-                - channel_id
-                - fid
-                - role
-              properties:
-                signer_uuid:
-                  $ref: "#/components/schemas/SignerUUID"
-                channel_id:
-                  $ref: "#/components/schemas/ChannelId"
-                fid:
-                  $ref: "#/components/schemas/Fid"
-                role:
-                  $ref: "#/components/schemas/ChannelMemberRole"
-      responses:
-        "200":
-          description: Successful operation.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/OperationResponse"
-        "400":
-          $ref: "#/components/responses/400Response"
-        "500":
-          $ref: "#/components/responses/500Response"
-  /farcaster/channel/member/list:
+  /farcaster/channel/member/invite/list:
     get:
       tags:
         - Channel
-      summary: Retrieve a list of members in a channel
-      description: Retrieve a list of members in a channel
-      operationId: list-channel-members
+      summary: Retrieve a list of invites in a channel
+      description: Retrieve a list of invites in a channel
+      operationId: list-channel-invites
       parameters:
         - $ref: "#/components/parameters/ApiKey"
         - name: channel_id
           in: query
-          required: true
           schema:
             $ref: "#/components/schemas/ChannelId"
           example: "neynar"
           description: Channel ID for the channel being queried
+        - name: invited_fid
+          in: query
+          schema:
+            $ref: "#/components/schemas/Fid"
+          example: 194
+          description: FID of the user being invited
+        - name: limit
+          in: query
+          description: Number of results to retrieve
+          required: false
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          required: false
+          schema:
+            type: string
       responses:
         "200":
           description: Successful response
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ChannelMemberListResponse"
+                $ref: "#/components/schemas/ChannelMemberInviteListResponse"
         "500": 
           $ref: "#/components/responses/500Response"
         "400":
@@ -6614,7 +6767,7 @@ paths:
             $ref: "#/components/schemas/Fid"
         - name: viewer_fid
           in: query
-          required: false
+          required: true
           description: The FID of the user to customize this response for. Providing this will also return a list of followers that respects this user's mutes and blocks and includes `viewer_context`.
           schema:
             $ref: "#/components/schemas/Fid"

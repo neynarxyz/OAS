@@ -830,11 +830,11 @@ paths:
     get:
       tags:
         - User
-      summary: Get User Information by username
-      description: Returns metadata about a specific user
+      summary: DEPRECATED - Get User Information by username
+      description: Now deprecated, use [v2/user/by_username](https://docs.neynar.com/reference/user-by-username) instead. Returns metadata about a specific user
       externalDocs:
         url: https://docs.neynar.com/reference/user-by-username-v1
-      operationId: user-by-username
+      operationId: user-by-username-v1
       parameters:
         - name: username
           in: query
@@ -861,7 +861,7 @@ paths:
           $ref: "#/components/responses/400Response"
         "404":
           $ref: "#/components/responses/404Response"
-      deprecated: false
+      deprecated: true
   /farcaster/user-cast-likes:
     get:
       tags:
@@ -1279,153 +1279,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ReactionsAndRecastsResponse"
-        "400":
-          $ref: "#/components/responses/400Response"
-  /farcaster/cast-likes:
-    get:
-      tags:
-        - Reactions
-      summary: DEPRECATED - Get all like reactions for a specific cast
-      description: Now deprecated, use [/v2/farcaster/reactions/cast](https://docs.neynar.com/reference/reactions-cast) - Get all like reactions for a specific cast in reverse chronological order.
-      externalDocs:
-        url: https://docs.neynar.com/reference/cast-likes-v1
-      operationId: cast-likes
-      deprecated: true
-      parameters:
-        - name: castHash
-          in: query
-          required: true
-          description: Cast hash
-          schema:
-            $ref: "#/components/schemas/CastHash"
-        - name: viewerFid
-          in: query
-          description: >-
-            fid of the user viewing this information, needed for contextual
-            information.
-          required: false
-          schema:
-            $ref: "#/components/schemas/Fid"
-        - name: limit
-          in: query
-          description: Number of results to retrieve (default 25, max 150)
-          required: false
-          schema:
-            type: integer
-            default: 25
-            minimum: 1
-            maximum: 150
-        - name: cursor
-          in: query
-          description: Pagination cursor.
-          required: false
-          schema:
-            type: string
-      responses:
-        "200":
-          description: Successful operation.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/CastLikesResponse"
-        "400":
-          $ref: "#/components/responses/400Response"
-  /farcaster/cast-reactions:
-    get:
-      tags:
-        - Reactions
-      summary: DEPRECATED - Get all reactions for a specific cast
-      description: Now deprecated, use [/v2/farcaster/reactions/cast](https://docs.neynar.com/reference/reactions-cast) - Get all reactions (likes and recasts) for a specific cast.
-      externalDocs:
-        url: https://docs.neynar.com/reference/cast-reactions-v1
-      operationId: cast-reactions
-      deprecated: true
-      parameters:
-        - name: castHash
-          in: query
-          required: true
-          description: Cast hash
-          schema:
-            $ref: "#/components/schemas/CastHash"
-        - name: viewerFid
-          in: query
-          description: >-
-            fid of the user viewing this information, needed for contextual
-            information.
-          required: false
-          schema:
-            $ref: "#/components/schemas/Fid"
-        - name: limit
-          in: query
-          description: Number of results to retrieve (default 25, max 150)
-          required: false
-          schema:
-            type: integer
-            default: 25
-            minimum: 1
-            maximum: 150
-        - name: cursor
-          in: query
-          description: Pagination cursor.
-          required: false
-          schema:
-            type: string
-      responses:
-        "200":
-          description: Successful operation.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/CastReactionsResponse"
-        "400":
-          $ref: "#/components/responses/400Response"
-  /farcaster/cast-recasters:
-    get:
-      tags:
-        - Reactions
-      summary: DEPRECATED - Get all recasters for a specific cast
-      description: Now deprecated, use [/v2/farcaster/reactions/cast](https://docs.neynar.com/reference/reactions-cast) - Get all recasters for a specific cast.
-      externalDocs:
-        url: https://docs.neynar.com/reference/cast-recasters-v1
-      operationId: cast-recasters
-      deprecated: true
-      parameters:
-        - name: castHash
-          in: query
-          required: true
-          description: Cast hash
-          schema:
-            $ref: "#/components/schemas/CastHash"
-        - name: viewerFid
-          in: query
-          description: >-
-            fid of the user viewing this information, needed for contextual
-            information.
-          required: false
-          schema:
-            $ref: "#/components/schemas/Fid"
-        - name: limit
-          in: query
-          description: Number of results to retrieve (default 25, max 150)
-          required: false
-          schema:
-            type: integer
-            default: 25
-            minimum: 1
-            maximum: 150
-        - name: cursor
-          in: query
-          description: Pagination cursor.
-          required: false
-          schema:
-            type: string
-      responses:
-        "200":
-          description: Successful operation.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/CastRecasterResponse"
         "400":
           $ref: "#/components/responses/400Response"
   /farcaster/followers:
