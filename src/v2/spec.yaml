@@ -1335,6 +1335,15 @@ components:
           $ref: "#/components/schemas/Fid"
         muted_fid:
           $ref: "#/components/schemas/Fid"
+    BanReqBody:
+      type: object
+      required:
+        - fids
+      properties:
+        fid:
+          type: array
+          items:
+            $ref: "#/components/schemas/Fid"
     ReactionReqBody:
       type: object
       required:
@@ -2736,6 +2745,16 @@ components:
             $ref: "#/components/schemas/MuteList"
         next:
           $ref: "#/components/schemas/NextCursor"
+    MuteResponse:
+      type: object
+      required:
+        - success
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
     BlockList:
       type: object
       required:
@@ -2765,7 +2784,36 @@ components:
             $ref: "#/components/schemas/BlockList"
         next:
           $ref: "#/components/schemas/NextCursor"
-    MuteResponse:
+    BanList:
+      type: object
+      required:
+        - object
+        - timestamp
+        - banned_at
+      properties:
+        object:
+          type: string
+          enum:
+            - ban
+        blocked:
+          $ref: "#/components/schemas/User"
+        blocker:
+          $ref: "#/components/schemas/User"
+        blocked_at:
+          $ref: "#/components/schemas/Timestamp"
+    BanListResponse:
+      type: object
+      required:
+        - bans
+        - next
+      properties:
+        blocks:
+          type: array
+          items:
+            $ref: "#/components/schemas/BanList"
+        next:
+          $ref: "#/components/schemas/NextCursor"
+    BanResponse:
       type: object
       required:
         - success
@@ -7295,6 +7343,100 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/BlockListResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
+        "500":
+          $ref: "#/components/responses/500Response"
+  
+  /farcaster/ban/list:
+    get:
+      tags:
+        - Ban
+      summary: Get fids that your app has banned
+      description: Fetches all fids that your app has banned.
+      operationId: ban-list
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: limit
+          in: query
+          description: Number of results to retrieve (default 20, max 100).
+          required: false
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+          example: 20
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BanListResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
+        "500":
+          $ref: "#/components/responses/500Response"
+  /farcaster/ban:
+    post:
+      tags:
+        - Ban
+      summary: Bans a list of fids from your app.
+      description: Bans a list of fids from the app associated with your API key. Banned users, their casts and reactions will not appear in feeds.
+      operationId: add-ban
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BanReqBody"
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BanResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
+        "500":
+          $ref: "#/components/responses/500Response"
+    delete:
+      tags:
+        - Ban
+      summary: Deletes a list of fids from your app's ban list.
+      description: Deletes a list of fids from the app associated with your API key.
+      operationId: delete-ban
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BanReqBody"
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BanResponse"
         "400":
           $ref: "#/components/responses/400Response"
         "404":
