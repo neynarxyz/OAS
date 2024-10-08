@@ -2412,6 +2412,18 @@ components:
             $ref: "#/components/schemas/User"
         next:
           $ref: "#/components/schemas/NextCursor"
+    FollowersResponse:
+      type: object
+      required:
+        - users
+        - next
+      properties:
+        users:
+          type: array
+          items:
+            $ref: "#/components/schemas/HydratedFollower"
+        next:
+          $ref: "#/components/schemas/NextCursor"
     BulkUsersByAddressResponse:
       type: object
       additionalProperties:
@@ -6137,7 +6149,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ChannelMemberListResponse"
-        "500": 
+        "500":
           $ref: "#/components/responses/500Response"
         "400":
           $ref: "#/components/responses/400Response"
@@ -6264,7 +6276,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ChannelMemberInviteListResponse"
-        "500": 
+        "500":
           $ref: "#/components/responses/500Response"
         "400":
           $ref: "#/components/responses/400Response"
@@ -6752,7 +6764,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UsersResponse"
+                $ref: "#/components/schemas/FollowersResponse"
         "400":
           $ref: "#/components/responses/400Response"
         "500":
@@ -7358,7 +7370,7 @@ paths:
           $ref: "#/components/responses/404Response"
         "500":
           $ref: "#/components/responses/500Response"
-  
+
   /farcaster/ban/list:
     get:
       tags:
