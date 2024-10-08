@@ -5625,6 +5625,12 @@ paths:
           schema:
             $ref: "#/components/schemas/Fid"
       responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
         "400":
           $ref: "#/components/responses/400Response"
         "404":
