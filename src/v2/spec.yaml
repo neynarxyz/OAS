@@ -1897,10 +1897,18 @@ components:
       properties:
         channel_id:
           $ref: "#/components/schemas/ChannelId"
+          deprecated: true
+          description: Use `channel.id` instead.
         role:
           $ref: "#/components/schemas/ChannelMemberRole"
         user:
-          $ref: "#/components/schemas/User"
+          oneOf:
+            - $ref: "#/components/schemas/User"
+            - $ref: "#/components/schemas/UserDehydrated"
+        channel:
+          oneOf:
+            - $ref: "#/components/schemas/Channel"
+            - $ref: "#/components/schemas/DehydratedChannel"
     ChannelMemberListResponse:
       type: object
       required:
