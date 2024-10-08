@@ -1345,7 +1345,7 @@ components:
           $ref: "#/components/schemas/Fid"
         muted_fid:
           $ref: "#/components/schemas/Fid"
-    BanReqBody:
+    CancelReqBody:
       type: object
       required:
         - fids
@@ -2823,36 +2823,36 @@ components:
             $ref: "#/components/schemas/BlockList"
         next:
           $ref: "#/components/schemas/NextCursor"
-    BanList:
+    CancelList:
       type: object
       required:
         - object
         - timestamp
-        - banned_at
+        - canceled_at
       properties:
         object:
           type: string
           enum:
-            - ban
+            - cancellation
         blocked:
           $ref: "#/components/schemas/User"
         blocker:
           $ref: "#/components/schemas/User"
         blocked_at:
           $ref: "#/components/schemas/Timestamp"
-    BanListResponse:
+    CancelListResponse:
       type: object
       required:
-        - bans
+        - cancellations
         - next
       properties:
         blocks:
           type: array
           items:
-            $ref: "#/components/schemas/BanList"
+            $ref: "#/components/schemas/CancelList"
         next:
           $ref: "#/components/schemas/NextCursor"
-    BanResponse:
+    CancelResponse:
       type: object
       required:
         - success
@@ -7389,13 +7389,13 @@ paths:
         "500":
           $ref: "#/components/responses/500Response"
 
-  /farcaster/ban/list:
+  /farcaster/cancel/list:
     get:
       tags:
-        - Ban
-      summary: Get fids that your app has banned
-      description: Fetches all fids that your app has banned.
-      operationId: ban-list
+        - Cancel
+      summary: Get fids that your app has canceled
+      description: Fetches all fids that your app has canceled.
+      operationId: cancellation-list
       parameters:
         - $ref: "#/components/parameters/ApiKey"
         - name: limit
@@ -7420,20 +7420,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/BanListResponse"
+                $ref: "#/components/schemas/CancelListResponse"
         "400":
           $ref: "#/components/responses/400Response"
         "404":
           $ref: "#/components/responses/404Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/ban:
+  /farcaster/cancel:
     post:
       tags:
-        - Ban
-      summary: Bans a list of fids from your app.
-      description: Bans a list of fids from the app associated with your API key. Banned users, their casts and reactions will not appear in feeds.
-      operationId: add-ban
+        - Cancel
+      summary: Cancels a list of fids from your app.
+      description: Cancels a list of fids from the app associated with your API key. Canceled users, their casts and reactions will not appear in feeds, notifications, or search results.
+      operationId: add-cancellation
       parameters:
         - $ref: "#/components/parameters/ApiKey"
       requestBody:
@@ -7441,14 +7441,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/BanReqBody"
+              $ref: "#/components/schemas/CancelReqBody"
       responses:
         "200":
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/BanResponse"
+                $ref: "#/components/schemas/CancelResponse"
         "400":
           $ref: "#/components/responses/400Response"
         "404":
@@ -7457,10 +7457,10 @@ paths:
           $ref: "#/components/responses/500Response"
     delete:
       tags:
-        - Ban
-      summary: Deletes a list of fids from your app's ban list.
+        - Cancel
+      summary: Deletes a list of fids from your app's cancellation list.
       description: Deletes a list of fids from the app associated with your API key.
-      operationId: delete-ban
+      operationId: delete-cancellation
       parameters:
         - $ref: "#/components/parameters/ApiKey"
       requestBody:
@@ -7468,14 +7468,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/BanReqBody"
+              $ref: "#/components/schemas/CancelReqBody"
       responses:
         "200":
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/BanResponse"
+                $ref: "#/components/schemas/CancelResponse"
         "400":
           $ref: "#/components/responses/400Response"
         "404":
