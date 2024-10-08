@@ -1836,8 +1836,17 @@ components:
           format: uri
         lead:
           $ref: "#/components/schemas/User"
+        moderator_fids:
+          type: array
+          items:
+            $ref: "#/components/schemas/Fid"
+        member_count:
+          type: integer
+          format: int32
         moderator:
           $ref: "#/components/schemas/User"
+          deprecated: true
+          description: Use `lead` instead.
         hosts:
           type: array
           items:
