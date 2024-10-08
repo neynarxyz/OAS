@@ -6852,7 +6852,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UsersResponse"
+                $ref: "#/components/schemas/FollowersResponse"
         "400":
           $ref: "#/components/responses/400Response"
         "500":
