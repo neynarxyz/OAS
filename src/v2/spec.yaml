@@ -1902,7 +1902,6 @@ components:
       type: object
       required:
         - object
-        - channel_id
         - role
         - user
         - channel
@@ -1911,10 +1910,6 @@ components:
           type: string
           enum:
             - member
-        channel_id:
-          $ref: "#/components/schemas/ChannelId"
-          deprecated: true
-          description: Use `channel.id` instead.
         role:
           $ref: "#/components/schemas/ChannelMemberRole"
         user:
