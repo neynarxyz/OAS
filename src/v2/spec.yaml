@@ -4094,8 +4094,6 @@ paths:
                 $ref: "#/components/schemas/ChannelMemberListResponse"
         "400":
           $ref: "#/components/responses/400Response"
-        "404":
-          $ref: "#/components/responses/404Response"
         "500":
           $ref: "#/components/responses/500Response"
   /farcaster/user:
