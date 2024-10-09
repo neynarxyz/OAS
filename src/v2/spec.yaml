@@ -1923,6 +1923,7 @@ components:
       type: object
       required:
         - members
+        - next
       properties:
         members:
           type: array
