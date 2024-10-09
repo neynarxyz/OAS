@@ -1350,7 +1350,7 @@ components:
       required:
         - fids
       properties:
-        fid:
+        fids:
           type: array
           items:
             $ref: "#/components/schemas/Fid"
