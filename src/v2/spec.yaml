@@ -1904,6 +1904,7 @@ components:
         - channel_id
         - role
         - user
+        - channel
       properties:
         channel_id:
           $ref: "#/components/schemas/ChannelId"
