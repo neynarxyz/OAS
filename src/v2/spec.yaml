@@ -1901,11 +1901,16 @@ components:
     ChannelMember:
       type: object
       required:
+        - object
         - channel_id
         - role
         - user
         - channel
       properties:
+        object:
+          type: string
+          enum:
+            - member
         channel_id:
           $ref: "#/components/schemas/ChannelId"
           deprecated: true
