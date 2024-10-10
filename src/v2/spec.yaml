@@ -2836,11 +2836,9 @@ components:
           type: string
           enum:
             - ban
-        blocked:
+        banned:
           $ref: "#/components/schemas/User"
-        blocker:
-          $ref: "#/components/schemas/User"
-        blocked_at:
+        banned_at:
           $ref: "#/components/schemas/Timestamp"
     BanListResponse:
       type: object
@@ -2848,7 +2846,7 @@ components:
         - bans
         - next
       properties:
-        blocks:
+        bans:
           type: array
           items:
             $ref: "#/components/schemas/BanList"
@@ -2864,6 +2862,7 @@ components:
           example: true
         message:
           type: string
+          nullable: true
     UsersActiveChannelsResponse:
       type: object
       properties:
