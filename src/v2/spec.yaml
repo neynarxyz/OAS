@@ -1590,7 +1590,21 @@ components:
             direct_replies:
               type: array
               items:
-                $ref: "#/components/schemas/CastWithInteractionsAndConversations"
+                $ref: "#/components/schemas/CastWithInteractionsAndConversationsRef"
+              description: "note: This is recursive. It contains the direct replies to the cast and their direct replies up to n reply_depth."
+    CastWithInteractionsAndConversationsRef:
+      description: Reference to CastWithInteractionsAndConversations to avoid circular reference
+      type: object
+      required:
+        - direct_replies
+      allOf:
+        - $ref: "#/components/schemas/CastWithInteractions"
+        - type: object
+          properties:
+            direct_replies:
+              type: array
+              items:
+                type: object
               description: "note: This is recursive. It contains the direct replies to the cast and their direct replies up to n reply_depth."
     Conversation:
       type: object

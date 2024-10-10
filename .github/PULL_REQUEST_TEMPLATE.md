@@ -28,7 +28,7 @@
 - [ ] I have validated that all new/updated endpoints conform to OAS standards.
 - [ ] I have updated or added necessary schema definitions.
 - [ ] I have ensured that the new schema I have added doesn't exist.
-- [ ] I have added description where ever necessary.
+- [ ] I have added description wherever necessary.
 - [ ] I have ensured that endpoint's responses are correct.
 - [ ] I have considered backward compatibility with previous versions of the API.
 - [ ] I have communicated any breaking changes to the appropriate stakeholders.
