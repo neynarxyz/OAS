@@ -1902,7 +1902,6 @@ components:
       type: object
       required:
         - object
-        - channel_id
         - role
         - user
         - channel
@@ -1911,10 +1910,6 @@ components:
           type: string
           enum:
             - member
-        channel_id:
-          $ref: "#/components/schemas/ChannelId"
-          deprecated: true
-          description: Use `channel.id` instead.
         role:
           $ref: "#/components/schemas/ChannelMemberRole"
         user:
@@ -2841,11 +2836,9 @@ components:
           type: string
           enum:
             - ban
-        blocked:
+        banned:
           $ref: "#/components/schemas/User"
-        blocker:
-          $ref: "#/components/schemas/User"
-        blocked_at:
+        banned_at:
           $ref: "#/components/schemas/Timestamp"
     BanListResponse:
       type: object
@@ -2853,7 +2846,7 @@ components:
         - bans
         - next
       properties:
-        blocks:
+        bans:
           type: array
           items:
             $ref: "#/components/schemas/BanList"
@@ -2869,6 +2862,7 @@ components:
           example: true
         message:
           type: string
+          nullable: true
     UsersActiveChannelsResponse:
       type: object
       properties:
