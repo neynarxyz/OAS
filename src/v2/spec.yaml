@@ -184,37 +184,37 @@ components:
         alt:
           type: string
         height:
-          type: string  # Should be 'integer' but open-graph-scraper lies and returns a string
+          type: string # Should be 'integer' but open-graph-scraper lies and returns a string
         url:
           type: string
         width:
-          type: string  # Should be 'integer' but open-graph-scraper lies and returns a string
+          type: string # Should be 'integer' but open-graph-scraper lies and returns a string
       required:
         - url
     TwitterPlayerObject:
       type: object
       properties:
         height:
-          type: string  # Should be 'integer' but open-graph-scraper lies and returns a string
+          type: string # Should be 'integer' but open-graph-scraper lies and returns a string
         stream:
           type: string
         url:
           type: string
         width:
-          type: string  # Should be 'integer' but open-graph-scraper lies and returns a string
+          type: string # Should be 'integer' but open-graph-scraper lies and returns a string
       required:
         - url
     ImageObject:
       type: object
       properties:
         height:
-          type: string  # Should be 'integer' but open-graph-scraper lies and returns a string
+          type: string # Should be 'integer' but open-graph-scraper lies and returns a string
         type:
           type: string
         url:
           type: string
         width:
-          type: string  # Should be 'integer' but open-graph-scraper lies and returns a string
+          type: string # Should be 'integer' but open-graph-scraper lies and returns a string
         alt:
           type: string
       required:
@@ -223,13 +223,13 @@ components:
       type: object
       properties:
         height:
-          type: string  # Should be 'integer' but open-graph-scraper lies and returns a string
+          type: string # Should be 'integer' but open-graph-scraper lies and returns a string
         type:
           type: string
         url:
           type: string
         width:
-          type: string  # Should be 'integer' but open-graph-scraper lies and returns a string
+          type: string # Should be 'integer' but open-graph-scraper lies and returns a string
       required:
         - url
     MusicSongObject:
@@ -238,7 +238,7 @@ components:
         disc:
           type: string
         track:
-          type: string  # Should be 'integer' but open-graph-scraper lies and returns a string
+          type: string # Should be 'integer' but open-graph-scraper lies and returns a string
         url:
           type: string
       required:
@@ -1549,7 +1549,7 @@ components:
           channel: "#/components/schemas/Channel"
           dehydratedChannel: "#/components/schemas/DehydratedChannel"
     CastWithInteractions:
-      allOf:
+      anyOf:
         - $ref: "#/components/schemas/Cast"
         - type: object
         - required:
@@ -1583,7 +1583,7 @@ components:
       type: object
       required:
         - direct_replies
-      allOf:
+      anyOf:
         - $ref: "#/components/schemas/CastWithInteractions"
         - type: object
           properties:
