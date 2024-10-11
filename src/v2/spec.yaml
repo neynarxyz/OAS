@@ -1309,9 +1309,12 @@ components:
           $ref: "#/components/schemas/PostCastReqBodyEmbedsCastIdProperties"
         castId:
           $ref: "#/components/schemas/PostCastReqBodyEmbedsCastIdProperties"
+        url:
+          type: string
       oneOf:
         - required: ["cast_id"]
         - required: ["castId"]
+        - required: ["url"]
     PostCastReqBody:
       type: object
       required:
