@@ -4509,7 +4509,6 @@ paths:
             enum:
               - above
               - below
-            default: ""
         - name: limit
           in: query
           description: Number of results to retrieve (default 20, max 50)
