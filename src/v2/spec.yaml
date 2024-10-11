@@ -4512,15 +4512,6 @@ paths:
           description: Sort type for the ordering of descendants. Default is `desc_chron`
           schema:
             $ref: "#/components/schemas/CastConversationSortType"
-        - name: fold
-          in: query
-          required: false
-          description: Show conversation above or below the fold. Lower quality responses are hidden below the fold. Not passing in a value shows the full conversation without any folding.
-          schema:
-            type: string
-            enum:
-              - above
-              - below
         - name: limit
           in: query
           description: Number of results to retrieve (default 20, max 50)
