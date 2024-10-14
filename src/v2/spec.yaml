@@ -1868,6 +1868,14 @@ components:
         follower_count:
           description: Number of followers the channel has.
           type: number
+        external_link:
+          type: object
+          description: Channel's external link.
+          properties:
+            title:
+              type: string
+            url:
+              type: string
         image_url:
           type: string
         parent_url:
