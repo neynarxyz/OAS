@@ -3031,63 +3031,67 @@ components:
           type: array
           items:
             type: integer
+    WebhookSubscriptionFiltersCast:
+      type: object
+      properties:
+        exclude_author_fids:
+          description: |
+            Exclude casts that matches these authors.
+            **Note:**
+            This is applied as an AND operation against rest of the filters.
+            Rest of the filters are bundled as an OR operation.
+          type: array
+          items:
+            type: integer
+        author_fids:
+          type: array
+          items:
+            type: integer
+        mentioned_fids:
+          type: array
+          items:
+            type: integer
+        parent_urls:
+          type: array
+          items:
+            type: string
+        root_parent_urls:
+          type: array
+          items:
+            type: string
+        parent_hashes:
+          type: array
+          items:
+            type: string
+        parent_author_fids:
+          type: array
+          items:
+            type: integer
+        text:
+          type: string
+          description: |
+            Regex pattern to match the text key of the cast.
+            **Note:** 
+            1) Regex must be parsed by Go's RE2 engine (Test your expression here: https://www.lddgo.net/en/string/golangregex)
+            2) Use backslashes to escape special characters.
+            For example: (?i)\\$degen should be written as (?i)\\\\$degen
+          example: (?i)\$degen
+        embeds:
+          type: string
+          description: |
+            Regex pattern to match the embeded_url (key embeds) of the cast.
+            **Note:** 
+            1) Regex must be parsed by Go's RE2 engine (Test your expression here: https://www.lddgo.net/en/string/golangregex)
+            2) Use backslashes to escape special characters.
+            For example: \\b(farcaster|neynar)\\b should be written as \\\\b(farcaster|neynar)\\\\b
+          example: \b(farcaster|neynar)\b
     WebhookSubscriptionFilters:
       type: object
       properties:
         cast.created:
-          type: object
-          properties:
-            exclude_author_fids:
-              description: |
-                Exclude casts that matches these authors.
-                **Note:**
-                This is applied as an AND operation against rest of the filters.
-                Rest of the filters are bundled as an OR operation.
-              type: array
-              items:
-                type: integer
-            author_fids:
-              type: array
-              items:
-                type: integer
-            mentioned_fids:
-              type: array
-              items:
-                type: integer
-            parent_urls:
-              type: array
-              items:
-                type: string
-            root_parent_urls:
-              type: array
-              items:
-                type: string
-            parent_hashes:
-              type: array
-              items:
-                type: string
-            parent_author_fids:
-              type: array
-              items:
-                type: integer
-            text:
-              type: string
-              description: |
-                Regex pattern to match the text key of the cast.
-                **Note:** 
-                1) Regex must be parsed by Go's RE2 engine (Test your expression here: https://www.lddgo.net/en/string/golangregex)
-                2) Use backslashes to escape special characters.
-                For example: (?i)\\$degen should be written as (?i)\\\\$degen
-              example: (?i)\$degen
-            embeds:
-              type: string
-              description: |
-                Regex pattern to match the embeded_url (key embeds) of the cast.
-                **Note:** 
-                1) Regex must be parsed by Go's RE2 engine (Test your expression here: https://www.lddgo.net/en/string/golangregex)
-                2) Use backslashes to escape special characters.
-                For example: \\b(farcaster|neynar)\\b should be written as \\\\b(farcaster|neynar)\\\\b
-              example: \b(farcaster|neynar)\b
+          $ref: "#/components/schemas/WebhookSubscriptionFiltersCast"
+        cast.deleted:
+          $ref: "#/components/schemas/WebhookSubscriptionFiltersCast"
         user.created:
           type: object
         user.updated:
