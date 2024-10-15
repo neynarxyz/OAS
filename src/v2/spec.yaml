@@ -6356,8 +6356,8 @@ paths:
     get:
       tags:
         - Channel
-      summary: Retrieve a list of open invites, either in a channel or for a user. If both are provided, open channel invite for that user is returned.
-      description: Retrieve a list of invites in a channel
+      summary: List of open invites
+      description: Retrieve a list of invites, either in a channel or for a user. If both are provided, open channel invite for that user is returned.
       operationId: list-channel-invites
       parameters:
         - $ref: "#/components/parameters/ApiKey"
