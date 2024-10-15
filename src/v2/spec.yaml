@@ -1507,7 +1507,6 @@ components:
         - followed_by
         - blocking
         - blocked_by
-        - muted
       properties:
         following:
           description: Indicates if the viewer is following the user.
@@ -1520,9 +1519,6 @@ components:
           type: boolean
         blocked_by:
           description: Indicates if the viewer is blocked by the user.
-          type: boolean
-        muted:
-          description: Indicates if the viewer is muted by the user. Note this is a Neynar specific mute, which is not synced with other client-specific mutes.
           type: boolean
     CastWithInteractionsReactions:
       type: object
