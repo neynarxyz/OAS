@@ -6352,7 +6352,7 @@ paths:
     get:
       tags:
         - Channel
-      summary: Retrieve a list of invites in a channel
+      summary: Retrieve a list of open invites, either in a channel or for a user. If both are provided, open channel invite for that user is returned.
       description: Retrieve a list of invites in a channel
       operationId: list-channel-invites
       parameters:
