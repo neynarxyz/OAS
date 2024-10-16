@@ -64,6 +64,7 @@ components:
       example: "chron"
     ForYouProvider:
       type: string
+      default: openrank
       enum:
         - openrank
         - karma3
@@ -1891,8 +1892,12 @@ components:
           $ref: "#/components/schemas/User"
           deprecated: true
           description: Use `lead` instead.
+        pinned_cast_hash:
+          $ref: "#/components/schemas/CastHash"
+          description: Hash of the pinned cast in the channel.
         hosts:
           type: array
+          deprecated: true
           items:
             $ref: "#/components/schemas/User"
         viewer_context:
