@@ -2792,6 +2792,23 @@ components:
         signer:
           $ref: "#/components/schemas/Signer"
     MuteList:
+      deprecated: true
+      type: object
+      required:
+        - object
+        - muted
+        - timestamp
+        - muted_at
+      properties:
+        object:
+          type: string
+          enum:
+            - mute
+        muted:
+          $ref: "#/components/schemas/User"
+        muted_at:
+          $ref: "#/components/schemas/Timestamp"
+    MuteRecord:
       type: object
       required:
         - object
@@ -2816,7 +2833,7 @@ components:
         mutes:
           type: array
           items:
-            $ref: "#/components/schemas/MuteList"
+            $ref: "#/components/schemas/MuteRecord"
         next:
           $ref: "#/components/schemas/NextCursor"
     MuteResponse:
@@ -2830,6 +2847,24 @@ components:
         message:
           type: string
     BlockList:
+      deprecated: true
+      type: object
+      required:
+        - object
+        - timestamp
+        - blocked_at
+      properties:
+        object:
+          type: string
+          enum:
+            - block
+        blocked:
+          $ref: "#/components/schemas/User"
+        blocker:
+          $ref: "#/components/schemas/User"
+        blocked_at:
+          $ref: "#/components/schemas/Timestamp"
+    BlockRecord:
       type: object
       required:
         - object
@@ -2855,10 +2890,10 @@ components:
         blocks:
           type: array
           items:
-            $ref: "#/components/schemas/BlockList"
+            $ref: "#/components/schemas/BlockRecord"
         next:
           $ref: "#/components/schemas/NextCursor"
-    BanList:
+    BanRecord:
       type: object
       required:
         - object
@@ -2882,7 +2917,7 @@ components:
         bans:
           type: array
           items:
-            $ref: "#/components/schemas/BanList"
+            $ref: "#/components/schemas/BanRecord"
         next:
           $ref: "#/components/schemas/NextCursor"
     BanResponse:
