@@ -58,9 +58,10 @@ components:
     CastConversationSortType:
       type: string
       enum:
+        - chron
         - desc_chron
         - algorithmic
-      example: "desc_chron"
+      example: "chron"
     ForYouProvider:
       type: string
       enum:
@@ -4552,7 +4553,7 @@ paths:
         - name: sort_type
           in: query
           required: false
-          description: Sort type for the ordering of descendants. Default is `desc_chron`
+          description: Sort type for the ordering of descendants. Default is `chron`
           schema:
             $ref: "#/components/schemas/CastConversationSortType"
         - name: fold
