@@ -3691,7 +3691,7 @@ paths:
     get:
       tags:
         - User
-      summary: Fetches fid to assign it new user
+      summary: Fetch fresh fid
       description: Fetches fid to assign it new user
       externalDocs:
         url: https://docs.neynar.com/reference/get-fresh-fid
@@ -3711,7 +3711,7 @@ paths:
     get:
       tags:
         - Signer
-      summary: Fetches the status of a signer by public key
+      summary: Fetch status by public key
       description: Fetches the status of a developer managed signer by public key
       externalDocs:
         url: https://docs.neynar.com/reference/developer-managed-signer
@@ -3770,7 +3770,7 @@ paths:
     get:
       tags:
         - Signer
-      summary: Fetches the status of a signer
+      summary: Fetch status
       description: Gets information status of a signer by passing in a signer_uuid (Use post API to generate a signer)
       externalDocs:
         url: https://docs.neynar.com/reference/signer
@@ -3801,7 +3801,7 @@ paths:
     post:
       tags:
         - Signer
-      summary: Creates a signer and returns the signer status
+      summary: Create signer
       description: |
         Creates a signer and returns the signer status. \
         **Note**: While tesing please reuse the signer, it costs money to approve a signer.
@@ -3907,7 +3907,7 @@ paths:
     get:
       tags:
         - User
-      summary: Fetch users based on FIDs
+      summary: Based on FIDs
       description: Fetches information about multiple users based on FIDs
       externalDocs:
         url: https://docs.neynar.com/reference/user-bulk
@@ -4036,7 +4036,7 @@ paths:
     get:
       tags:
         - User
-      summary: Fetches users based on Eth or Sol addresses
+      summary: Based on Eth or Sol addresses
       description:
         Fetches all users based on multiple Ethereum or Solana addresses.
 
@@ -4089,7 +4089,7 @@ paths:
     get:
       tags:
         - Channel
-      summary: Retrieve all channels that a given fid follows
+      summary: Fetch all channels that a given fid follows
       description: Returns a list of all channels with their details that a fid follows.
       externalDocs:
         url: https://docs.neynar.com/reference/user-channels
@@ -4104,7 +4104,7 @@ paths:
             $ref: "#/components/schemas/Fid"
         - name: limit
           in: query
-          description: Number of results to retrieve (default 25, max 100)
+          description: Number of results to fetch (default 25, max 100)
           required: false
           schema:
             type: integer
@@ -4128,7 +4128,7 @@ paths:
     get:
       tags:
         - Channel
-      summary: Retrieve all channels that a given fid is a member of
+      summary: Fetch all channels that a given fid is a member of
       description: Returns a list of all channels with their details that an fid is a member of. Data may have a delay of up to 1 hour.
       externalDocs:
         url: https://docs.neynar.com/reference/user-channel-memberships
@@ -4144,7 +4144,7 @@ paths:
             $ref: "#/components/schemas/Fid"
         - name: limit
           in: query
-          description: Number of results to retrieve (default 20, max 100)
+          description: Number of results to fetch (default 20, max 100)
           required: false
           schema:
             type: integer
@@ -4211,7 +4211,7 @@ paths:
     post:
       tags:
         - User
-      summary: Register account on farcaster
+      summary: Register farcaster account
       description: |
         Register account on farcaster.
 
@@ -4283,7 +4283,7 @@ paths:
     get:
       tags:
         - Cast
-      summary: Retrieve cast for a given hash or Warpcast URL
+      summary: Fetch cast for a given hash or Warpcast URL
       description: Gets information about an individual cast by passing in a Warpcast web URL or cast hash
       externalDocs:
         url: https://docs.neynar.com/reference/cast
@@ -4322,7 +4322,7 @@ paths:
     post:
       tags:
         - Cast
-      summary: Posts a cast
+      summary: Post a cast
       description: |
         Posts a cast or cast reply. Works with mentions and embeds.  
         (In order to post a cast `signer_uuid` must be approved)
@@ -4395,8 +4395,8 @@ paths:
     get:
       tags:
         - Cast
-      summary: Gets information about an array of casts
-      description: Retrieve multiple casts using their respective hashes.
+      summary: Bulk fetch casts
+      description: Fetch multiple casts using their respective hashes.
       externalDocs:
         url: https://docs.neynar.com/reference/casts
       operationId: casts
@@ -4515,7 +4515,7 @@ paths:
     get:
       tags:
         - Cast
-      summary: Retrieve the conversation for a given cast
+      summary: Fetch the conversation for a given cast
       description: Gets all casts related to a conversation surrounding a cast by passing in a cast hash or Warpcast URL. Includes all the ancestors of a cast up to the root parent in a chronological order. Includes all direct_replies to the cast up to the reply_depth specified in the query parameter.
       externalDocs:
         url: https://docs.neynar.com/reference/cast-conversation
@@ -4572,7 +4572,7 @@ paths:
               - below
         - name: limit
           in: query
-          description: Number of results to retrieve (default 20, max 50)
+          description: Number of results to fetch (default 20, max 50)
           required: false
           schema:
             type: integer
@@ -4595,13 +4595,13 @@ paths:
           $ref: "#/components/responses/400Response"
   /farcaster/feed:
     get:
-      summary: Retrieve casts based on filters
+      summary: Fetch casts based on filters
       externalDocs:
         url: https://docs.neynar.com/reference/feed
       operationId: feed
       tags:
         - Feed
-      description: Retrieve casts based on filters. Ensure setting the correct parameters based on the feed_type and filter_type.
+      description: Fetch casts based on filters. Ensure setting the correct parameters based on the feed_type and filter_type.
       parameters:
         - $ref: "#/components/parameters/ApiKey"
         - name: feed_type
@@ -4666,7 +4666,7 @@ paths:
             default: true
         - name: limit
           in: query
-          description: Number of results to retrieve (default 25, max 100)
+          description: Number of results to fetch (default 25, max 100)
           schema:
             type: integer
             default: 25
@@ -4695,13 +4695,13 @@ paths:
           $ref: "#/components/responses/400Response"
   /farcaster/feed/following:
     get:
-      summary: Retrieve feed based on who a user is following
+      summary: Following
       externalDocs:
         url: https://docs.neynar.com/reference/feed-following
       operationId: feed-following
       tags:
         - Feed
-      description: Retrieve feed based on who a user is following
+      description: Fetch feed based on who a user is following
       parameters:
         - $ref: "#/components/parameters/ApiKey"
         - name: fid
@@ -4726,7 +4726,7 @@ paths:
             default: true
         - name: limit
           in: query
-          description: Number of results to retrieve (default 25, max 100)
+          description: Number of results to fetch (default 25, max 100)
           schema:
             type: integer
             default: 25
@@ -4748,13 +4748,13 @@ paths:
           $ref: "#/components/responses/400Response"
   /farcaster/feed/for_you:
     get:
-      summary: Retrieve a personalized For You feed for a user
+      summary: For you
       externalDocs:
         url: https://docs.neynar.com/reference/feed-for-you
       operationId: feed-for-you
       tags:
         - Feed
-      description: Retrieve a personalized For You feed for a user
+      description: Fetch a personalized For You feed for a user
       parameters:
         - $ref: "#/components/parameters/ApiKey"
         - name: fid
@@ -4779,7 +4779,7 @@ paths:
         - name: limit
           in: query
           required: false
-          description: Number of results to retrieve (default 25, max 50)
+          description: Number of results to fetch (default 25, max 50)
           schema:
             type: integer
             default: 25
@@ -4922,13 +4922,13 @@ paths:
           $ref: "#/components/responses/400Response"
   /farcaster/feed/channels:
     get:
-      summary: Retrieve feed based on channel ids
+      summary: Fetch feed based on channel ids
       externalDocs:
         url: https://docs.neynar.com/reference/feed-channels
       operationId: feed-channels
       tags:
         - Feed
-      description: Retrieve feed based on channel ids
+      description: Fetch feed based on channel ids
       parameters:
         - $ref: "#/components/parameters/ApiKey"
         - name: channel_ids
@@ -4965,7 +4965,7 @@ paths:
             default: true
         - name: limit
           in: query
-          description: Number of results to retrieve (default 25, max 100)
+          description: Number of results to fetch (default 25, max 100)
           schema:
             type: integer
             default: 25
@@ -4994,13 +4994,13 @@ paths:
           $ref: "#/components/responses/400Response"
   /farcaster/feed/parent_urls:
     get:
-      summary: Retrieve feed based on parent urls
+      summary: Fetch feed based on parent urls
       externalDocs:
         url: https://docs.neynar.com/reference/feed/parent_urls
       operationId: feed-parent-urls
       tags:
         - Feed
-      description: Retrieve feed based on parent urls
+      description: Fetch feed based on parent urls
       parameters:
         - $ref: "#/components/parameters/ApiKey"
         - name: parent_urls
@@ -5031,7 +5031,7 @@ paths:
             default: false
         - name: limit
           in: query
-          description: Number of results to retrieve (default 25, max 100)
+          description: Number of results to fetch (default 25, max 100)
           schema:
             type: integer
             default: 25
@@ -5053,18 +5053,18 @@ paths:
           $ref: "#/components/responses/400Response"
   /farcaster/feed/frames:
     get:
-      summary: Retrieve feed of casts with Frames, reverse chronological order
+      summary: Casts with Frames
       externalDocs:
         url: https://docs.neynar.com/reference/feed-frames
       operationId: feed-frames
       tags:
         - Feed
-      description: Retrieve feed of casts with Frames, reverse chronological order
+      description: Fetch feed of casts with Frames, reverse chronological order
       parameters:
         - $ref: "#/components/parameters/ApiKey"
         - name: limit
           in: query
-          description: Number of results to retrieve (default 25, max 100)
+          description: Number of results to fetch (default 25, max 100)
           schema:
             type: integer
             default: 25
@@ -5093,18 +5093,18 @@ paths:
           $ref: "#/components/responses/400Response"
   /farcaster/feed/trending:
     get:
-      summary: Retrieve trending casts
+      summary: Fetch trending casts
       externalDocs:
         url: https://docs.neynar.com/reference/feed-trending
       operationId: feed-trending
       tags:
         - Feed
-      description: Retrieve trending casts or on the global feed or channels feeds. 7d time window available for channel feeds only.
+      description: Fetch trending casts or on the global feed or channels feeds. 7d time window available for channel feeds only.
       parameters:
         - $ref: "#/components/parameters/ApiKey"
         - name: limit
           in: query
-          description: Number of results to retrieve (max 10)
+          description: Number of results to fetch (max 10)
           schema:
             type: integer
             default: 10
@@ -5173,13 +5173,13 @@ paths:
           $ref: "#/components/responses/500Response"
   /farcaster/feed/user/popular:
     get:
-      summary: Retrieve 10 most popular casts for a user
+      summary: 10 most popular casts
       externalDocs:
         url: https://docs.neynar.com/reference/feed-user-popular
       operationId: feed-user-popular
       tags:
         - Feed
-      description: Retrieve 10 most popular casts for a given user FID; popularity based on replies, likes and recasts; sorted by most popular first
+      description: Fetch 10 most popular casts for a given user FID; popularity based on replies, likes and recasts; sorted by most popular first
       parameters:
         - $ref: "#/components/parameters/ApiKey"
         - name: fid
@@ -5206,8 +5206,8 @@ paths:
           $ref: "#/components/responses/400Response"
   /farcaster/feed/user/replies_and_recasts:
     get:
-      summary: Retrieve recent replies and recasts for a user
-      description: Retrieve recent replies and recasts for a given user FID; sorted by most recent first
+      summary: Recent replies and recasts
+      description: Fetch recent replies and recasts for a given user FID; sorted by most recent first
       externalDocs:
         url: https://docs.neynar.com/reference/feed-user-replies-recasts
       operationId: feed-user-replies-recasts
@@ -5236,7 +5236,7 @@ paths:
           description: filter to fetch only replies or recasts
         - name: limit
           in: query
-          description: Number of results to retrieve (default 25, max 100)
+          description: Number of results to fetch (default 25, max 100)
           schema:
             type: integer
             default: 25
@@ -5266,8 +5266,8 @@ paths:
           $ref: "#/components/responses/400Response"
   /farcaster/feed/user/casts:
     get:
-      summary: Retrieve casts for a user
-      description: Retrieve casts for a given user FID in reverse chronological order. Also allows filtering by parent_url and channel
+      summary: Chronologically
+      description: Fetch casts for a given user FID in reverse chronological order. Also allows filtering by parent_url and channel
       externalDocs:
         url: https://docs.neynar.com/reference/feed-user-casts
       operationId: feed-user-casts
@@ -5292,7 +5292,7 @@ paths:
         - name: limit
           in: query
           required: false
-          description: Number of results to retrieve
+          description: Number of results to fetch
           schema:
             type: integer
             default: 25
@@ -5337,8 +5337,8 @@ paths:
     get:
       tags:
         - Frame
-      summary: Retrieve a frame by UUID or URL
-      description: Retrieve a frame either by UUID or Neynar URL
+      summary: Fetch a frame by UUID or URL
+      description: Fetch a frame either by UUID or Neynar URL
       operationId: lookup-neynar-frame
       parameters:
         - $ref: "#/components/parameters/ApiKey"
@@ -5352,12 +5352,12 @@ paths:
           schema:
             type: string
             format: uuid
-          description: UUID of the frame to retrieve
+          description: UUID of the frame to fetch
         - name: url
           in: query
           schema:
             type: string
-          description: URL of the Neynar frame to retrieve
+          description: URL of the Neynar frame to fetch
       responses:
         "200":
           description: A frame object
@@ -5446,8 +5446,8 @@ paths:
     get:
       tags:
         - Frame
-      summary: Retrieve a list of frames
-      description: Retrieve a list of frames made by the developer (identified by API key)
+      summary: Fetch a list of frames
+      description: Fetch a list of frames made by the developer (identified by API key)
       operationId: fetch-neynar-frames
       parameters:
         - $ref: "#/components/parameters/ApiKey"
@@ -5466,7 +5466,7 @@ paths:
     get:
       tags:
         - Frame
-      summary: Fetches the frame meta tags from the URL
+      summary: Fetch the frame meta tags from the URL
       description: Fetches the frame meta tags from the URL
       operationId: frame-from-url
       parameters:
@@ -5498,7 +5498,7 @@ paths:
     post:
       tags:
         - Reaction
-      summary: Posts a reaction
+      summary: Post a reaction
       description: |
         Post a reaction (like or recast) to a given cast \
         (In order to post a reaction `signer_uuid` must be approved)
@@ -5707,7 +5707,7 @@ paths:
     get:
       tags:
         - User
-      summary: "Lookup a user by custody-address"
+      summary: "By custody-address"
       description: "Lookup a user by custody-address"
       operationId: lookup-user-by-custody-address
       externalDocs:
@@ -5736,7 +5736,7 @@ paths:
     get:
       tags:
         - User
-      summary: "Fetch a user by username"
+      summary: "By username"
       description: "Fetches a single hydrated user object given a username"
       operationId: user-by-username-v2
       externalDocs:
@@ -5806,7 +5806,7 @@ paths:
     post:
       tags:
         - Frame
-      summary: Posts a frame signature packet
+      summary: Post a frame signature packet
       description: |
         Post a frame action that has been signed with a developer managed signer
 
@@ -5837,7 +5837,7 @@ paths:
     post:
       tags:
         - Frame
-      summary: Posts a frame action, cast action or a cast composer action
+      summary: Post a frame action, cast action or a cast composer action
       description: |
         Post frame actions, cast actions or cast composer actions to the server  \
         (In order to post any of these actions, you need to have an approved `signer_uuid`)
@@ -5927,8 +5927,8 @@ paths:
     get:
       tags:
         - Frame
-      summary: Retrieve a list of all the frames validated by a user
-      description: Retrieve a list of all the frames validated by a user
+      summary: Fetch a list of all the frames validated by a user
+      description: Fetch a list of all the frames validated by a user
       externalDocs:
         url: https://docs.neynar.com/reference/validate-frame-list
       operationId: validate-frame-list
@@ -5951,8 +5951,8 @@ paths:
     get:
       tags:
         - Frame
-      summary: Retrieve analytics for the frame
-      description: Retrieve analytics for total-interactors, interactors, nteractions-per-cast and input-text.
+      summary: Fetch analytics for the frame
+      description: Fetch analytics for total-interactors, interactors, nteractions-per-cast and input-text.
       externalDocs:
         url: https://docs.neynar.com/reference/validate-frame-analytics
       operationId: validate-frame-analytics
@@ -6021,7 +6021,7 @@ paths:
     get:
       tags:
         - Notifications
-      summary: Retrieve notifications for a given user
+      summary: Fetch notifications for a user
       description: Returns a list of notifications for a specific FID.
       externalDocs:
         url: https://docs.neynar.com/reference/notifications
@@ -6067,7 +6067,7 @@ paths:
     get:
       tags:
         - Notifications
-      summary: Retrieve notifications for a user in given channels
+      summary: Fetch notifications for a user in specific channels
       description: Returns a list of notifications for a user in specific channels
       externalDocs:
         url: https://docs.neynar.com/reference/notifications
@@ -6114,7 +6114,7 @@ paths:
     get:
       tags:
         - Notifications
-      summary: Retrieve notifications for a user in given parent_urls
+      summary: Fetch notifications for a user in given parent_urls
       description: Returns a list of notifications for a user in specific parent_urls
       externalDocs:
         url: https://docs.neynar.com/reference/notifications
@@ -6192,7 +6192,7 @@ paths:
     get:
       tags:
         - Channel
-      summary: Retrieve all channels with their details
+      summary: Fetch all channels with their details
       description: Returns a list of all channels with their details
       externalDocs:
         url: https://docs.neynar.com/reference/list-all-channels
@@ -6201,7 +6201,7 @@ paths:
         - $ref: "#/components/parameters/ApiKey"
         - name: limit
           in: query
-          description: Number of results to retrieve
+          description: Number of results to fetch
           required: false
           schema:
             type: integer
@@ -6265,8 +6265,8 @@ paths:
     get:
       tags:
         - Channel
-      summary: Retrieve a list of members in a channel
-      description: Retrieve a list of members in a channel
+      summary: Fetch a list of members in a channel
+      description: Fetch a list of members in a channel
       operationId: list-channel-members
       parameters:
         - $ref: "#/components/parameters/ApiKey"
@@ -6285,7 +6285,7 @@ paths:
           description: FID of the user being queried. Specify this to check if a user is a member of the channel without paginating through all members.
         - name: limit
           in: query
-          description: Number of results to retrieve
+          description: Number of results to fetch
           required: false
           schema:
             type: integer
@@ -6394,7 +6394,7 @@ paths:
       tags:
         - Channel
       summary: List of open invites
-      description: Retrieve a list of invites, either in a channel or for a user. If both are provided, open channel invite for that user is returned.
+      description: Fetch a list of invites, either in a channel or for a user. If both are provided, open channel invite for that user is returned.
       operationId: list-channel-invites
       parameters:
         - $ref: "#/components/parameters/ApiKey"
@@ -6412,7 +6412,7 @@ paths:
           description: FID of the user being invited
         - name: limit
           in: query
-          description: Number of results to retrieve
+          description: Number of results to fetch
           required: false
           schema:
             type: integer
@@ -6456,7 +6456,7 @@ paths:
           description: Channel ID or name for the channel being queried
         - name: limit
           in: query
-          description: Number of results to retrieve
+          description: Number of results to fetch
           required: false
           schema:
             type: integer
@@ -6480,7 +6480,7 @@ paths:
     get:
       tags:
         - Channel
-      summary: (Bulk) Retrieve channels by id or parent_url
+      summary: (Bulk) Fetch channels by id or parent_url
       description: Returns details of multiple channels
       externalDocs:
         url: https://docs.neynar.com/reference/channel-details-bulk
@@ -6521,7 +6521,7 @@ paths:
     get:
       tags:
         - Channel
-      summary: Retrieve channel details by id or parent_url
+      summary: Fetch channel details by id or parent_url
       description: Returns details of a channel
       externalDocs:
         url: https://docs.neynar.com/reference/channel-details
@@ -6631,7 +6631,7 @@ paths:
     get:
       tags:
         - Channel
-      summary: Retrieve followers for a given channel
+      summary: Fetch followers for a given channel
       description: Returns a list of followers for a specific channel. Max limit is 1000. Use cursor for pagination.
       externalDocs:
         url: https://docs.neynar.com/reference/channel-followers
@@ -6659,7 +6659,7 @@ paths:
             type: string
         - name: limit
           in: query
-          description: Number of followers to retrieve (default 25, max 1000)
+          description: Number of followers to fetch (default 25, max 1000)
           required: false
           schema:
             type: integer
@@ -6679,7 +6679,7 @@ paths:
     get:
       tags:
         - Channel
-      summary: Retrieve relevant channel followers for a given user
+      summary: Fetch relevant channel followers for a given user
       description: Returns a list of relevant channel followers for a specific FID. This usually shows on a channel as "X, Y, Z follow this channel".
       externalDocs:
         url: https://docs.neynar.com/reference/relevant-channel-followers
@@ -6713,7 +6713,7 @@ paths:
     get:
       tags:
         - Channel
-      summary: Get channels that a user is active in
+      summary: Fetch channels that a user is active in
       description: Fetches all channels that a user has casted in, in reverse chronological order.
       operationId: active-channels
       parameters:
@@ -6727,7 +6727,7 @@ paths:
           example: 194
         - name: limit
           in: query
-          description: Number of results to retrieve (default 20, max 100).
+          description: Number of results to fetch (default 20, max 100).
           required: false
           schema:
             type: integer
@@ -6756,7 +6756,7 @@ paths:
     get:
       tags:
         - Channel
-      summary: Retrieve users who are active in a channel
+      summary: Fetch users who are active in a channel
       description: Returns a list of users who are active in a given channel, ordered by ascending FIDs
       externalDocs:
         url: https://docs.neynar.com/reference/channel-users
@@ -6806,7 +6806,7 @@ paths:
             type: string
         - name: limit
           in: query
-          description: Number of results to retrieve (default 25, max 100)
+          description: Number of results to fetch (default 25, max 100)
           required: false
           schema:
             type: integer
@@ -6827,7 +6827,7 @@ paths:
     get:
       tags:
         - Channel
-      summary: Retrieve trending channels based on activity
+      summary: Fetch trending channels based on activity
       description: Returns a list of trending channels based on activity
       externalDocs:
         url: https://docs.neynar.com/reference/trending-channels
@@ -6845,7 +6845,7 @@ paths:
               - 30d
         - name: limit
           in: query
-          description: Number of results to retrieve (default 10, max 25)
+          description: Number of results to fetch (default 10, max 25)
           required: false
           schema:
             type: integer
@@ -6874,7 +6874,7 @@ paths:
     get:
       tags:
         - Follows
-      summary: Retrieve followers for a given user
+      summary: Fetch followers for a given user
       description: Returns a list of followers for a specific FID.
       externalDocs:
         url: https://docs.neynar.com/reference/followers-v2
@@ -6896,13 +6896,13 @@ paths:
         - name: sort_type
           in: query
           required: false
-          description: Sort type for retrieve followers. Default is `desc_chron`
+          description: Sort type for fetch followers. Default is `desc_chron`
           schema:
             $ref: "#/components/schemas/FollowSortType"
         - name: limit
           in: query
           required: false
-          description: Number of results to retrieve (default 20, max 100)
+          description: Number of results to fetch (default 20, max 100)
           schema:
             type: integer
             default: 20
@@ -6929,7 +6929,7 @@ paths:
     get:
       tags:
         - Follows
-      summary: Retrieve relevant followers for a given user
+      summary: Fetch relevant followers for a given user
       description: Returns a list of relevant followers for a specific FID. This usually shows on a profile as "X, Y and Z follow this user".
       externalDocs:
         url: https://docs.neynar.com/reference/relevant-followers
@@ -6961,8 +6961,8 @@ paths:
     get:
       tags:
         - Follows
-      summary: Retrieve a list of users followed by a user
-      description: Retrieve a list of users followed by a user. Can optionally include a viewer_fid and sort_type.
+      summary: Fetch a list of users followed by a user
+      description: Fetch a list of users followed by a user. Can optionally include a viewer_fid and sort_type.
       externalDocs:
         url: https://docs.neynar.com/reference/following-v2
       operationId: following-v2
@@ -6990,7 +6990,7 @@ paths:
             $ref: "#/components/schemas/FollowSortType"
         - name: limit
           in: query
-          description: Number of results to retrieve (default 25, max 100)
+          description: Number of results to fetch (default 25, max 100)
           schema:
             type: integer
             default: 25
@@ -7017,7 +7017,7 @@ paths:
     get:
       tags:
         - Reaction
-      summary: Fetches reactions for a given user
+      summary: Fetch reactions for a given user
       description: Fetches reactions for a given user
       operationId: reactions-user
       externalDocs:
@@ -7046,7 +7046,7 @@ paths:
             $ref: "#/components/schemas/ReactionsType"
         - name: limit
           in: query
-          description: Number of results to retrieve (default 25, max 100)
+          description: Number of results to fetch (default 25, max 100)
           schema:
             type: integer
             default: 25
@@ -7070,7 +7070,7 @@ paths:
     get:
       tags:
         - Reaction
-      summary: Fetches reactions for a given cast
+      summary: Fetch reactions for a given cast
       description: Fetches reactions for a given cast
       operationId: reactions-cast
       externalDocs:
@@ -7099,7 +7099,7 @@ paths:
             $ref: "#/components/schemas/Fid"
         - name: limit
           in: query
-          description: Number of results to retrieve (default 25, max 100)
+          description: Number of results to fetch (default 25, max 100)
           schema:
             type: integer
             default: 25
@@ -7149,7 +7149,7 @@ paths:
     get:
       tags:
         - Storage
-      summary: Fetches storage allocations for a given user
+      summary: Fetch storage allocations for a given user
       description: Fetches storage allocations for a given user
       operationId: storage-allocations
       externalDocs:
@@ -7175,7 +7175,7 @@ paths:
     get:
       tags:
         - Storage
-      summary: Fetches storage usage for a given user
+      summary: Fetch storage usage for a given user
       description: Fetches storage usage for a given user
       operationId: storage-usage
       externalDocs:
@@ -7378,7 +7378,7 @@ paths:
     get:
       tags:
         - Mute
-      summary: Get fids that a user has muted
+      summary: Fetch fids that a user has muted
       description: Fetches all fids that a user has muted.
       operationId: mute-list
       parameters:
@@ -7392,7 +7392,7 @@ paths:
           example: 194
         - name: limit
           in: query
-          description: Number of results to retrieve (default 20, max 100).
+          description: Number of results to fetch (default 20, max 100).
           required: false
           schema:
             type: integer
@@ -7478,7 +7478,7 @@ paths:
     get:
       tags:
         - Block
-      summary: Get fids that a user has blocked or has been blocked by
+      summary: Fetch fids that a user has blocked or has been blocked by
       description: Fetches all fids that a user has blocked or has been blocked by
       operationId: block-list
       parameters:
@@ -7499,7 +7499,7 @@ paths:
           example: 194
         - name: limit
           in: query
-          description: Number of results to retrieve (default 20, max 100).
+          description: Number of results to fetch (default 20, max 100).
           required: false
           schema:
             type: integer
@@ -7531,14 +7531,14 @@ paths:
     get:
       tags:
         - Ban
-      summary: Get fids that your app has banned
+      summary: Fetch fids that your app has banned
       description: Fetches all fids that your app has banned.
       operationId: ban-list
       parameters:
         - $ref: "#/components/parameters/ApiKey"
         - name: limit
           in: query
-          description: Number of results to retrieve (default 20, max 100).
+          description: Number of results to fetch (default 20, max 100).
           required: false
           schema:
             type: integer
@@ -7624,7 +7624,7 @@ paths:
     get:
       tags:
         - Cast
-      summary: Fetches all composer actions on Warpcast
+      summary: Fetch all composer actions on Warpcast
       description: Fetches all composer actions on Warpcast. You can filter by top or featured.
       operationId: composer-list
       externalDocs:
@@ -7640,7 +7640,7 @@ paths:
           description: Type of list to fetch.
         - name: limit
           in: query
-          description: Number of results to retrieve (default 25, max 25).
+          description: Number of results to fetch (default 25, max 25).
           required: false
           schema:
             type: integer
