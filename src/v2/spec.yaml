@@ -1153,6 +1153,7 @@ components:
                 $ref: "#/components/schemas/SolAddress"
         verified_accounts:
           type: array
+          description: Verified accounts of the user on other platforms, currently only X is supported.
           items:
             type: object
             properties:
