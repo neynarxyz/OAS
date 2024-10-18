@@ -3603,6 +3603,9 @@ components:
           example: "https://example.com"
         action:
           type: object
+          required:
+            - type
+            - payload
           properties:
             type:
               type: string
@@ -3613,9 +3616,6 @@ components:
               description: |
                 The payload of the action being performed.
               type: object
-          required:
-            - type
-            - payload
 
   parameters:
     ApiKey:
