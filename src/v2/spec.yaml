@@ -671,13 +671,17 @@ components:
           $ref: "#/components/schemas/Fid"
         hash:
           type: string
-    EmbedCastId:
+    EmbedCast:
       type: object
       required:
         - cast_id
       properties:
         cast_id:
           $ref: "#/components/schemas/CastId"
+        metadata:
+          $ref: "#/components/schemas/EmbedCastMetadata"
+    EmbedCastMetadata:
+      $ref: "#/components/schemas/Cast"        
     Frame:
       type: object
       required:
@@ -1170,7 +1174,7 @@ components:
     Embed:
       oneOf:
         - $ref: "#/components/schemas/EmbedUrl"
-        - $ref: "#/components/schemas/EmbedCastId"
+        - $ref: "#/components/schemas/EmbedCast"
     Cast:
       type: object
       required:
