@@ -3582,6 +3582,32 @@ components:
             The UUID of the signer. Signer should have atleast one write permission
         type:
           $ref: "#/components/schemas/NotificationType"
+    FarcasterActionReqBody:
+      type: object
+      required:
+        - signer_uuid
+        - base_url
+        - action
+      properties:
+        signer_uuid:
+          type: string
+          format: uuid
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        base_url:
+          type: string
+          format: uri
+          example: "https://example.com"
+        action:
+          type: object
+          properties:
+            type:
+              type: string
+              example: "create.user"
+            payload:
+              type: object
+          required:
+            - type
+            - payload
 
   parameters:
     ApiKey:
@@ -3698,6 +3724,11 @@ tags:
     externalDocs:
       description: More info about webhook
       url: https://docs.neynar.com/reference/webhook-operations
+  - name: Action
+    description: Securely communicate and perform actions on behalf of users across different apps
+    externalDocs:
+      description: More info about farcaster actions
+      url: https://docs.neynar.com/reference/farcaster-actions-operations
 
 paths:
   /farcaster/user/fid:
@@ -7678,6 +7709,31 @@ paths:
           $ref: "#/components/responses/400Response"
         "500":
           $ref: "#/components/responses/500Response"
+  /farcaster/action:
+    post:
+      tags:
+        - Action
+      summary: Perform actions on behalf of users across different apps
+      description: Securely communicate and perform actions on behalf of users across different apps. It enables an app to send data or trigger actions in another app on behalf of a mutual user by signing messages using the user's Farcaster signer.
+      externalDocs:
+        url: https://docs.neynar.com/reference/farcaster-action
+      operationId: farcaster-action
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FarcasterActionReqBody"
+      responses:
+        "default":
+          description: Any possible response
+          content:
+            "*/*":
+              schema:
+                type: object
+                additionalProperties: true
 
   # /farcaster/webhook/subscription:
   #   get:
