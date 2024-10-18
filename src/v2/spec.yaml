@@ -1205,7 +1205,8 @@ components:
             - fid
           properties:
             fid:
-              $ref: "#/components/schemas/Fid"
+              allOf: # Need this seemingly pointless allOf for the nullable to work
+                - $ref: "#/components/schemas/Fid"
               nullable: true
         author:
           $ref: "#/components/schemas/User"
@@ -1569,10 +1570,10 @@ components:
         - $ref: "#/components/schemas/Channel"
         - $ref: "#/components/schemas/DehydratedChannel"
       discriminator:
-        propertyName: type
+        propertyName: object
         mapping:
           channel: "#/components/schemas/Channel"
-          dehydratedChannel: "#/components/schemas/DehydratedChannel"
+          dehydrated_channel: "#/components/schemas/DehydratedChannel"
     CastWithInteractions:
       allOf:
         - $ref: "#/components/schemas/Cast"
@@ -1600,7 +1601,8 @@ components:
               items:
                 $ref: "#/components/schemas/User"
             channel:
-              $ref: "#/components/schemas/ChannelOrDehydratedChannel"
+              allOf: # Need this seemingly pointless allOf for the nullable to work
+                - $ref: "#/components/schemas/ChannelOrDehydratedChannel"
               nullable: true
             viewer_context:
               $ref: "#/components/schemas/CastViewerContext"
@@ -3535,7 +3537,8 @@ components:
           format: int64
           nullable: true
         tier:
-          $ref: "#/components/schemas/SubscriptionTier"
+          allOf: # Need this seemingly pointless allOf for the nullable to work
+            - $ref: "#/components/schemas/SubscriptionTier"
           nullable: true
       required:
         - object
