@@ -1088,6 +1088,7 @@ components:
         - following_count
         - verifications
         - verified_addresses
+        - verified_accounts
         - active_status
         - power_badge
       properties:
@@ -1150,6 +1151,17 @@ components:
               type: array
               items:
                 $ref: "#/components/schemas/SolAddress"
+        verified_accounts:
+          type: array
+          items:
+            type: object
+            properties:
+              platform:
+                type: string
+                enum:
+                  - x
+              username:
+                type: string
         active_status:
           $ref: "#/components/schemas/ActiveStatus"
         power_badge:
