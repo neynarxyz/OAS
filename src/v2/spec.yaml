@@ -1209,7 +1209,14 @@ components:
                 - $ref: "#/components/schemas/Fid"
               nullable: true
         author:
-          $ref: "#/components/schemas/User"
+          oneOf:
+            - $ref: "#/components/schemas/User"
+            - $ref: "#/components/schemas/UserDehydrated"
+          discriminator:
+            propertyName: object
+            mapping:
+              user: "#/components/schemas/User"
+              user_dehydrated: "#/components/schemas/UserDehydrated"
         text:
           type: string
         timestamp:
@@ -2367,6 +2374,12 @@ components:
             - user_dehydrated
         fid:
           $ref: "#/components/schemas/Fid"
+        username:
+          type: string
+        display_name:
+          type: string
+        pfp_url:
+          type: string
     UserResponse:
       type: object
       required:
