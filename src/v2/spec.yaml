@@ -737,17 +737,14 @@ components:
               type: string
               example: "0"
     SubscribedTo:
-      type: object
-      required:
-        - object
-        - user
-        - expires_at
-        - subscribed_at
-        - tier
-        - creator
-      anyOf:
+      allOf:
         - $ref: "#/components/schemas/Subscription"
         - type: object
+          required:
+            - expires_at
+            - subscribed_at
+            - tier
+            - creator
           properties:
             expires_at:
               type: string
@@ -1170,7 +1167,7 @@ components:
         viewer_context:
           $ref: "#/components/schemas/UserViewerContext"
 
-    EmbeddedCast:
+    Embed:
       oneOf:
         - $ref: "#/components/schemas/EmbedUrl"
         - $ref: "#/components/schemas/EmbedCastId"
@@ -1200,14 +1197,12 @@ components:
           nullable: true
         parent_author:
           type: object
-          anyOf:
-            - $ref: "#/components/schemas/Fid"
-            - required:
-                - fid
-              properties:
-                fid:
-                  type: integer
-                  nullable: true
+          required:
+            - fid
+          properties:
+            fid:
+              $ref: "#/components/schemas/Fid"
+              nullable: true
         author:
           $ref: "#/components/schemas/User"
         text:
@@ -1217,7 +1212,7 @@ components:
         embeds:
           type: array
           items:
-            $ref: "#/components/schemas/EmbeddedCast"
+            $ref: "#/components/schemas/Embed"
         type:
           $ref: "#/components/schemas/CastNotificationType"
     ProfileUrl:
@@ -1575,10 +1570,10 @@ components:
           channel: "#/components/schemas/Channel"
           dehydratedChannel: "#/components/schemas/DehydratedChannel"
     CastWithInteractions:
-      anyOf:
+      allOf:
         - $ref: "#/components/schemas/Cast"
         - type: object
-        - required:
+          required:
             - reactions
             - replies
             - thread_hash
@@ -1606,12 +1601,11 @@ components:
             viewer_context:
               $ref: "#/components/schemas/CastViewerContext"
     CastWithInteractionsAndConversations:
-      type: object
-      required:
-        - direct_replies
-      anyOf:
+      allOf:
         - $ref: "#/components/schemas/CastWithInteractions"
         - type: object
+          required:
+            - direct_replies
           properties:
             direct_replies:
               type: array
@@ -1620,12 +1614,11 @@ components:
               description: "note: This is recursive. It contains the direct replies to the cast and their direct replies up to n reply_depth."
     CastWithInteractionsAndConversationsRef:
       description: Reference to CastWithInteractionsAndConversations to avoid circular reference
-      type: object
-      required:
-        - direct_replies
-      anyOf:
+      allOf:
         - $ref: "#/components/schemas/CastWithInteractions"
         - type: object
+          required:
+            - direct_replies
           properties:
             direct_replies:
               type: array
@@ -3192,10 +3185,10 @@ components:
         subscription:
           $ref: "#/components/schemas/WebhookSubscriptionFilters"
     WebhookPutReqBody:
-      type: object
-      anyOf:
+      allOf:
         - $ref: "#/components/schemas/WebhookPostReqBody"
-        - required:
+        - type: object
+          required:
             - webhook_id
           properties:
             webhook_id:
