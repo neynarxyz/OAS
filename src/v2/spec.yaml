@@ -7725,7 +7725,7 @@ paths:
       description: Securely communicate and perform actions on behalf of users across different apps. It enables an app to send data or trigger actions in another app on behalf of a mutual user by signing messages using the user's Farcaster signer.
       externalDocs:
         url: https://docs.neynar.com/docs/farcaster-actions-spec
-      operationId: farcaster-action
+      operationId: publish-farcaster-action
       parameters:
         - $ref: "#/components/parameters/ApiKey"
       requestBody:
