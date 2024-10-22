@@ -1613,8 +1613,6 @@ components:
               nullable: true
             viewer_context:
               $ref: "#/components/schemas/CastViewerContext"
-            author_channel_context:
-              $ref: "#/components/schemas/ChannelUserContext"
     CastWithInteractionsAndConversations:
       allOf:
         - $ref: "#/components/schemas/CastWithInteractions"
@@ -1862,8 +1860,6 @@ components:
             - channel_dehydrated
         image_url:
           type: string
-        viewer_context:
-          $ref: "#/components/schemas/ChannelUserContext"
     Channel:
       type: object
       required:
@@ -1924,9 +1920,8 @@ components:
           items:
             $ref: "#/components/schemas/User"
         viewer_context:
-          $ref: "#/components/schemas/ChannelUserContext"
+          $ref: "#/components/schemas/ChannelViewerContext"
     ChannelViewerContext:
-      deprecated: true
       type: object
       required:
         - following
@@ -1934,17 +1929,6 @@ components:
         following:
           type: boolean
           description: Indicates if the viewer is following the channel.
-    ChannelUserContext:
-      description: Adds context on the viewer's or author's role in the channel.
-      type: object
-      required:
-        - following
-      properties:
-        following:
-          description: Indicates if the user is following the channel.
-          type: boolean
-        role:
-          $ref: "#/components/schemas/ChannelMemberRole"
     ChannelListResponse:
       type: object
       required:
