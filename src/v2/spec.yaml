@@ -671,17 +671,13 @@ components:
           $ref: "#/components/schemas/Fid"
         hash:
           type: string
-    EmbedCast:
+    EmbedCastId:
       type: object
       required:
         - cast_id
       properties:
         cast_id:
           $ref: "#/components/schemas/CastId"
-        metadata:
-          $ref: "#/components/schemas/EmbedCastMetadata"
-    EmbedCastMetadata:
-      $ref: "#/components/schemas/Cast"        
     Frame:
       type: object
       required:
@@ -741,14 +737,17 @@ components:
               type: string
               example: "0"
     SubscribedTo:
-      allOf:
+      type: object
+      required:
+        - object
+        - user
+        - expires_at
+        - subscribed_at
+        - tier
+        - creator
+      anyOf:
         - $ref: "#/components/schemas/Subscription"
         - type: object
-          required:
-            - expires_at
-            - subscribed_at
-            - tier
-            - creator
           properties:
             expires_at:
               type: string
@@ -1171,10 +1170,10 @@ components:
         viewer_context:
           $ref: "#/components/schemas/UserViewerContext"
 
-    Embed:
+    EmbeddedCast:
       oneOf:
         - $ref: "#/components/schemas/EmbedUrl"
-        - $ref: "#/components/schemas/EmbedCast"
+        - $ref: "#/components/schemas/EmbedCastId"
     Cast:
       type: object
       required:
@@ -1201,22 +1200,16 @@ components:
           nullable: true
         parent_author:
           type: object
-          required:
-            - fid
-          properties:
-            fid:
-              allOf: # Need this seemingly pointless allOf for the nullable to work
-                - $ref: "#/components/schemas/Fid"
-              nullable: true
+          anyOf:
+            - $ref: "#/components/schemas/Fid"
+            - required:
+                - fid
+              properties:
+                fid:
+                  type: integer
+                  nullable: true
         author:
-          oneOf:
-            - $ref: "#/components/schemas/User"
-            - $ref: "#/components/schemas/UserDehydrated"
-          discriminator:
-            propertyName: object
-            mapping:
-              user: "#/components/schemas/User"
-              user_dehydrated: "#/components/schemas/UserDehydrated"
+          $ref: "#/components/schemas/User"
         text:
           type: string
         timestamp:
@@ -1224,7 +1217,7 @@ components:
         embeds:
           type: array
           items:
-            $ref: "#/components/schemas/Embed"
+            $ref: "#/components/schemas/EmbeddedCast"
         type:
           $ref: "#/components/schemas/CastNotificationType"
     ProfileUrl:
@@ -1577,15 +1570,15 @@ components:
         - $ref: "#/components/schemas/Channel"
         - $ref: "#/components/schemas/DehydratedChannel"
       discriminator:
-        propertyName: object
+        propertyName: type
         mapping:
           channel: "#/components/schemas/Channel"
-          dehydrated_channel: "#/components/schemas/DehydratedChannel"
+          dehydratedChannel: "#/components/schemas/DehydratedChannel"
     CastWithInteractions:
-      allOf:
+      anyOf:
         - $ref: "#/components/schemas/Cast"
         - type: object
-          required:
+        - required:
             - reactions
             - replies
             - thread_hash
@@ -1608,17 +1601,17 @@ components:
               items:
                 $ref: "#/components/schemas/User"
             channel:
-              allOf: # Need this seemingly pointless allOf for the nullable to work
-                - $ref: "#/components/schemas/ChannelOrDehydratedChannel"
+              $ref: "#/components/schemas/ChannelOrDehydratedChannel"
               nullable: true
             viewer_context:
               $ref: "#/components/schemas/CastViewerContext"
     CastWithInteractionsAndConversations:
-      allOf:
+      type: object
+      required:
+        - direct_replies
+      anyOf:
         - $ref: "#/components/schemas/CastWithInteractions"
         - type: object
-          required:
-            - direct_replies
           properties:
             direct_replies:
               type: array
@@ -1627,11 +1620,12 @@ components:
               description: "note: This is recursive. It contains the direct replies to the cast and their direct replies up to n reply_depth."
     CastWithInteractionsAndConversationsRef:
       description: Reference to CastWithInteractionsAndConversations to avoid circular reference
-      allOf:
+      type: object
+      required:
+        - direct_replies
+      anyOf:
         - $ref: "#/components/schemas/CastWithInteractions"
         - type: object
-          required:
-            - direct_replies
           properties:
             direct_replies:
               type: array
@@ -2374,12 +2368,6 @@ components:
             - user_dehydrated
         fid:
           $ref: "#/components/schemas/Fid"
-        username:
-          type: string
-        display_name:
-          type: string
-        pfp_url:
-          type: string
     UserResponse:
       type: object
       required:
@@ -3204,10 +3192,10 @@ components:
         subscription:
           $ref: "#/components/schemas/WebhookSubscriptionFilters"
     WebhookPutReqBody:
-      allOf:
+      type: object
+      anyOf:
         - $ref: "#/components/schemas/WebhookPostReqBody"
-        - type: object
-          required:
+        - required:
             - webhook_id
           properties:
             webhook_id:
@@ -3550,8 +3538,7 @@ components:
           format: int64
           nullable: true
         tier:
-          allOf: # Need this seemingly pointless allOf for the nullable to work
-            - $ref: "#/components/schemas/SubscriptionTier"
+          $ref: "#/components/schemas/SubscriptionTier"
           nullable: true
       required:
         - object
