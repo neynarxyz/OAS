@@ -7094,51 +7094,51 @@ paths:
           $ref: "#/components/responses/400Response"
         "500":
           $ref: "#/components/responses/500Response"
-/farcaster/following/suggested:
-  get:
-    tags:
-      - Follows
-    summary: Fetch a list of suggested users to follow
-    description: Used to help users discover new users to follow
-    externalDocs:
-      url: https://docs.neynar.com/reference/suggested-follows
-    operationId: suggested-follows
-    parameters:
-      - $ref: "#/components/parameters/ApiKey"
-      - name: fid
-        in: query
-        required: true
-        schema:
-          $ref: "#/components/schemas/Fid"
-        example: 2
-        description: FID of the user whose following you want to fetch.
-      - name: viewer_fid
-        in: query
-        required: false
-        schema:
-          $ref: "#/components/schemas/Fid"
-        example: 3
-        description: Providing this will return a list of users that respects this user's mutes and blocks and includes `viewer_context`.
-      - name: limit
-        in: query
-        description: Number of results to fetch (default 25, max 100)
-        schema:
-          type: integer
-          default: 25
-          minimum: 1
-          maximum: 100
-          example: 25
-    responses:
-      "200":
-        description: Successful operation.
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/UsersResponse"
-      "400":
-        $ref: "#/components/responses/400Response"
-      "500":
-        $ref: "#/components/responses/500Response"
+  /farcaster/following/suggested:
+    get:
+      tags:
+        - Follows
+      summary: Fetch a list of suggested users to follow
+      description: Used to help users discover new users to follow
+      externalDocs:
+        url: https://docs.neynar.com/reference/suggested-follows
+      operationId: suggested-follows
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: fid
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/Fid"
+          example: 2
+          description: FID of the user whose following you want to fetch.
+        - name: viewer_fid
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/Fid"
+          example: 3
+          description: Providing this will return a list of users that respects this user's mutes and blocks and includes `viewer_context`.
+        - name: limit
+          in: query
+          description: Number of results to fetch (default 25, max 100)
+          schema:
+            type: integer
+            default: 25
+            minimum: 1
+            maximum: 100
+            example: 25
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsersResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "500":
+          $ref: "#/components/responses/500Response"
   /farcaster/reactions/user:
     get:
       tags:
