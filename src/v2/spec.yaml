@@ -1608,7 +1608,9 @@ components:
               items:
                 $ref: "#/components/schemas/User"
             channel:
-              $ref: "#/components/schemas/ChannelOrDehydratedChannel"
+              anyOf:
+                - $ref: "#/components/schemas/ChannelOrDehydratedChannel"
+              nullable: true
             viewer_context:
               $ref: "#/components/schemas/CastViewerContext"
             author_channel_context:
