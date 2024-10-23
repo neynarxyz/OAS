@@ -3773,7 +3773,7 @@ paths:
       tags:
         - User
       summary: Fetch fresh fid
-      description: Fetches fid to assign it new user
+      description: Fetches fid to [assign it to new user](https://docs.neynar.com/reference/register-user)
       externalDocs:
         url: https://docs.neynar.com/reference/get-fresh-fid
       operationId: get-fresh-fid
