@@ -1186,6 +1186,7 @@ components:
         - text
         - timestamp
         - type
+        - embeds
       properties:
         hash:
           type: string
@@ -1222,7 +1223,12 @@ components:
           $ref: "#/components/schemas/Timestamp"
         type:
           $ref: "#/components/schemas/CastNotificationType"
-        # Note: 'embeds' property is intentionally omitted to break the circular reference
+        embeds:
+          type: array
+          items: 
+            type: object
+            description: |
+              It is an Embed object (Check #/components/schemas/Cast). Embed object is intentionally omitted to break the circular reference.
     Cast:
       type: object
       required:
