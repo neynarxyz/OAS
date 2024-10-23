@@ -1608,8 +1608,7 @@ components:
               items:
                 $ref: "#/components/schemas/User"
             channel:
-              allOf: # Need this seemingly pointless allOf for the nullable to work
-                - $ref: "#/components/schemas/ChannelOrDehydratedChannel"
+              $ref: "#/components/schemas/ChannelOrDehydratedChannel"
               nullable: true
             viewer_context:
               $ref: "#/components/schemas/CastViewerContext"
