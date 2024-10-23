@@ -679,9 +679,17 @@ components:
         cast_id:
           $ref: "#/components/schemas/CastId"
         metadata:
-          $ref: "#/components/schemas/EmbedCastMetadata"
-    EmbedCastMetadata:
-      $ref: "#/components/schemas/Cast"
+          $ref: "#/components/schemas/EmbedCastMetadataRef"
+    EmbedCastMetadataRef:
+      description: Reference to avoid circular reference in EmbedCastMetadata
+      anyOf:
+        - $ref: "#/components/schemas/Cast"
+        - type: object
+          properties:
+            embeds:
+              type: array
+              items:
+                type: object # Breaks the recursive reference
     Frame:
       type: object
       required:
@@ -1170,7 +1178,6 @@ components:
           type: boolean
         viewer_context:
           $ref: "#/components/schemas/UserViewerContext"
-
     Embed:
       oneOf:
         - $ref: "#/components/schemas/EmbedUrl"
