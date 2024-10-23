@@ -1224,11 +1224,11 @@ components:
         type:
           $ref: "#/components/schemas/CastNotificationType"
         embeds:
+          description: |
+            It is an array of Embed object (Check #/components/schemas/Cast). Embed object is intentionally omitted to break the circular reference.
           type: array
-          items: 
+          items:
             type: object
-            description: |
-              It is an Embed object (Check #/components/schemas/Cast). Embed object is intentionally omitted to break the circular reference.
     Cast:
       type: object
       required:
