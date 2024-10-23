@@ -679,17 +679,9 @@ components:
         cast_id:
           $ref: "#/components/schemas/CastId"
         metadata:
-          $ref: "#/components/schemas/EmbedCastMetadataRef"
-    EmbedCastMetadataRef:
-      description: Reference to avoid circular reference in EmbedCastMetadata
-      anyOf:
-        - $ref: "#/components/schemas/Cast"
-        - type: object
-          properties:
-            embeds:
-              type: array
-              items:
-                type: object # Breaks the recursive reference
+          $ref: "#/components/schemas/EmbedCastMetadata"
+    EmbedCastMetadata:
+      $ref: "#/components/schemas/CastWithoutEmbeds"
     Frame:
       type: object
       required:
@@ -1182,6 +1174,55 @@ components:
       oneOf:
         - $ref: "#/components/schemas/EmbedUrl"
         - $ref: "#/components/schemas/EmbedCast"
+    CastWithoutEmbeds:
+      type: object
+      required:
+        - hash
+        - parent_hash
+        - parent_url
+        - root_parent_url
+        - parent_author
+        - author
+        - text
+        - timestamp
+        - type
+      properties:
+        hash:
+          type: string
+        parent_hash:
+          type: string
+          nullable: true
+        parent_url:
+          type: string
+          nullable: true
+        root_parent_url:
+          type: string
+          nullable: true
+        parent_author:
+          type: object
+          required:
+            - fid
+          properties:
+            fid:
+              allOf:
+                - $ref: "#/components/schemas/Fid"
+              nullable: true
+        author:
+          oneOf:
+            - $ref: "#/components/schemas/User"
+            - $ref: "#/components/schemas/UserDehydrated"
+          discriminator:
+            propertyName: object
+            mapping:
+              user: "#/components/schemas/User"
+              user_dehydrated: "#/components/schemas/UserDehydrated"
+        text:
+          type: string
+        timestamp:
+          $ref: "#/components/schemas/Timestamp"
+        type:
+          $ref: "#/components/schemas/CastNotificationType"
+        # Note: 'embeds' property is intentionally omitted to break the circular reference
     Cast:
       type: object
       required:
