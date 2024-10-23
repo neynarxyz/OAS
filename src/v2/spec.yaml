@@ -1608,7 +1608,7 @@ components:
               items:
                 $ref: "#/components/schemas/User"
             channel:
-              anyOf:
+              oneOf:
                 - $ref: "#/components/schemas/ChannelOrDehydratedChannel"
               nullable: true
             viewer_context:
