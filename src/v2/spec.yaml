@@ -2102,7 +2102,7 @@ components:
         casts:
           type: array
           items:
-            $ref: "#/components/schemas/FollowResponse"
+            $ref: "#/components/schemas/CastWithInteractions"
     CastsResponse:
       type: object
       required:
