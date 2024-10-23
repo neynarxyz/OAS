@@ -681,7 +681,7 @@ components:
         metadata:
           $ref: "#/components/schemas/EmbedCastMetadata"
     EmbedCastMetadata:
-      $ref: "#/components/schemas/Cast"        
+      $ref: "#/components/schemas/Cast"
     Frame:
       type: object
       required:
@@ -1608,7 +1608,8 @@ components:
               items:
                 $ref: "#/components/schemas/User"
             channel:
-              $ref: "#/components/schemas/ChannelOrDehydratedChannel"
+              anyOf:
+                - $ref: "#/components/schemas/ChannelOrDehydratedChannel"
               nullable: true
             viewer_context:
               $ref: "#/components/schemas/CastViewerContext"
