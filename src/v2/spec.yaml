@@ -3995,7 +3995,7 @@ paths:
     get:
       tags:
         - User
-      summary: Usernames
+      summary: Search for Usernames
       description: Search for Usernames
       externalDocs:
         url: https://docs.neynar.com/reference/user-search
@@ -4075,7 +4075,7 @@ paths:
     get:
       tags:
         - User
-      summary: Power user objects
+      summary: Power users
       description: Fetches power users based on Warpcast power badges. Information is updated once a day.
       externalDocs:
         url: https://docs.neynar.com/reference/user-power
@@ -4418,7 +4418,7 @@ paths:
     get:
       tags:
         - Cast
-      summary: Fetch cast by hash or URL
+      summary: By hash or URL
       description: Gets information about an individual cast by passing in a Warpcast web URL or cast hash
       externalDocs:
         url: https://docs.neynar.com/reference/cast
@@ -4650,7 +4650,7 @@ paths:
     get:
       tags:
         - Cast
-      summary: Fetch conversation
+      summary: Conversation for a cast
       description: Gets all casts related to a conversation surrounding a cast by passing in a cast hash or Warpcast URL. Includes all the ancestors of a cast up to the root parent in a chronological order. Includes all direct_replies to the cast up to the reply_depth specified in the query parameter.
       externalDocs:
         url: https://docs.neynar.com/reference/cast-conversation
@@ -4730,7 +4730,7 @@ paths:
           $ref: "#/components/responses/400Response"
   /farcaster/feed:
     get:
-      summary: Filter casts
+      summary: By filters
       externalDocs:
         url: https://docs.neynar.com/reference/feed
       operationId: feed
@@ -5057,7 +5057,7 @@ paths:
           $ref: "#/components/responses/400Response"
   /farcaster/feed/channels:
     get:
-      summary: Channel IDs
+      summary: By channel IDs
       externalDocs:
         url: https://docs.neynar.com/reference/feed-channels
       operationId: feed-channels
@@ -5129,7 +5129,7 @@ paths:
           $ref: "#/components/responses/400Response"
   /farcaster/feed/parent_urls:
     get:
-      summary: Parent URLs
+      summary: By parent URLs
       externalDocs:
         url: https://docs.neynar.com/reference/feed/parent_urls
       operationId: feed-parent-urls
@@ -5505,7 +5505,7 @@ paths:
     post:
       tags:
         - Frame
-      summary: Create a frame
+      summary: Create frame
       description: Create a new frame with a list of pages.
       operationId: publish-neynar-frame
       parameters:
@@ -5528,7 +5528,7 @@ paths:
     put:
       tags:
         - Frame
-      summary: Update a frame
+      summary: Update frame
       description: Update an existing frame with a list of pages, if it was made by the developer (identified by API key)
       operationId: update-neynar-frame
       parameters:
@@ -5553,7 +5553,7 @@ paths:
     delete:
       tags:
         - Frame
-      summary: Delete a frame
+      summary: Delete frame
       description: Delete an existing frame, if it was made by the developer (identified by API key)
       operationId: delete-neynar-frame
       parameters:
@@ -5670,7 +5670,7 @@ paths:
     delete:
       tags:
         - Reaction
-      summary: Delete a reaction
+      summary: Delete reaction
       description: |
         Delete a reaction (like or recast) to a cast \
         (In order to delete a reaction `signer_uuid` must be approved)
@@ -5737,7 +5737,7 @@ paths:
     delete:
       tags:
         - User
-      summary: Remove verification for an eth address for the user
+      summary: Delete eth address verification
       description: |
         Removes verification for an eth address for the user \
         (In order to delete verification `signer_uuid` must be approved)
@@ -5765,7 +5765,7 @@ paths:
     post:
       tags:
         - User
-      summary: Follow a user
+      summary: Follow user
       description: |
         Follow a user \
         (In order to follow a user `signer_uuid` must be approved)
@@ -5803,7 +5803,7 @@ paths:
     delete:
       tags:
         - User
-      summary: Unfollow a user
+      summary: Unfollow user
       description: |
         Unfollow a user \
         (In order to unfollow a user `signer_uuid` must be approved)
@@ -6062,7 +6062,7 @@ paths:
     get:
       tags:
         - Frame
-      summary: All frames validated by a user
+      summary: All frames validated by user
       description: Fetch a list of all the frames validated by a user
       externalDocs:
         url: https://docs.neynar.com/reference/validate-frame-list
@@ -6156,7 +6156,7 @@ paths:
     get:
       tags:
         - Notifications
-      summary: For a user
+      summary: For user
       description: Returns a list of notifications for a specific FID.
       externalDocs:
         url: https://docs.neynar.com/reference/notifications
@@ -6202,7 +6202,7 @@ paths:
     get:
       tags:
         - Notifications
-      summary: For a user in specific channels
+      summary: For user in specific channels
       description: Returns a list of notifications for a user in specific channels
       externalDocs:
         url: https://docs.neynar.com/reference/notifications
@@ -6249,7 +6249,7 @@ paths:
     get:
       tags:
         - Notifications
-      summary: For a user in given parent_urls
+      summary: For user in given parent_urls
       description: Returns a list of notifications for a user in specific parent_urls
       externalDocs:
         url: https://docs.neynar.com/reference/notifications
@@ -6360,7 +6360,7 @@ paths:
     delete:
       tags:
         - Channel
-      summary: Remove a user
+      summary: Remove user
       description: Remove a user from a channel or a user's invite to a channel role
       operationId: remove-channel-member
       parameters:
@@ -6575,7 +6575,7 @@ paths:
     get:
       tags:
         - Channel
-      summary: Search based on ID or name
+      summary: Search by ID or name
       description: Returns a list of channels based on ID or name
       externalDocs:
         url: https://docs.neynar.com/reference/search-channels
@@ -6767,7 +6767,7 @@ paths:
     get:
       tags:
         - Channel
-      summary: For a channel
+      summary: For channel
       description: Returns a list of followers for a specific channel. Max limit is 1000. Use cursor for pagination.
       externalDocs:
         url: https://docs.neynar.com/reference/channel-followers
@@ -6815,7 +6815,7 @@ paths:
     get:
       tags:
         - Channel
-      summary: Relevant followers for a user
+      summary: Relevant followers
       description: Returns a list of relevant channel followers for a specific FID. This usually shows on a channel as "X, Y, Z follow this channel".
       externalDocs:
         url: https://docs.neynar.com/reference/relevant-channel-followers
@@ -6849,7 +6849,7 @@ paths:
     get:
       tags:
         - Channel
-      summary: Fetch channels that a user is active in
+      summary: Fetch channels that user is active in
       description: Fetches all channels that a user has casted in, in reverse chronological order.
       operationId: active-channels
       parameters:
@@ -7010,7 +7010,7 @@ paths:
     get:
       tags:
         - Follows
-      summary: Followers of a user
+      summary: Followers
       description: Returns a list of followers for a specific FID.
       externalDocs:
         url: https://docs.neynar.com/reference/followers-v2
@@ -7065,7 +7065,7 @@ paths:
     get:
       tags:
         - Follows
-      summary: Relevant followers of a user
+      summary: Relevant followers
       description: Returns a list of relevant followers for a specific FID. This usually shows on a profile as "X, Y and Z follow this user".
       externalDocs:
         url: https://docs.neynar.com/reference/relevant-followers
@@ -7097,7 +7097,7 @@ paths:
     get:
       tags:
         - Follows
-      summary: Users followed by a user
+      summary: Followed by
       description: Fetch a list of users followed by a user. Can optionally include a viewer_fid and sort_type.
       externalDocs:
         url: https://docs.neynar.com/reference/following-v2
@@ -7153,8 +7153,8 @@ paths:
     get:
       tags:
         - Follows
-      summary: Fetch a list of suggested users to follow
-      description: Used to help users discover new users to follow
+      summary: Suggested follows
+      description: List of suggested users to help discover new users to follow
       externalDocs:
         url: https://docs.neynar.com/reference/suggested-follows
       operationId: suggested-follows
@@ -7198,7 +7198,7 @@ paths:
     get:
       tags:
         - Reaction
-      summary: Reactions for a user
+      summary: Reactions for user
       description: Fetches reactions for a given user
       operationId: reactions-user
       externalDocs:
@@ -7251,7 +7251,7 @@ paths:
     get:
       tags:
         - Reaction
-      summary: Reactions for a cast
+      summary: Reactions for cast
       description: Fetches reactions for a given cast
       operationId: reactions-cast
       externalDocs:
@@ -7330,7 +7330,7 @@ paths:
     get:
       tags:
         - Storage
-      summary: Storage allocations of a user
+      summary: Storage allocations of user
       description: Fetches storage allocations for a given user
       operationId: storage-allocations
       externalDocs:
@@ -7356,7 +7356,7 @@ paths:
     get:
       tags:
         - Storage
-      summary: Storage usage of a user
+      summary: Storage usage of user
       description: Fetches storage usage for a given user
       operationId: storage-usage
       externalDocs:

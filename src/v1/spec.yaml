@@ -1045,7 +1045,7 @@ paths:
     get:
       tags:
         - Cast
-      summary: DEPRECATED - Fetch casts for a user
+      summary: DEPRECATED - Casts by user
       description: Now deprecated, use [/v2/farcaster/feed/user/casts](https://docs.neynar.com/reference/feed-user-casts) instead
       deprecated: true
       externalDocs:

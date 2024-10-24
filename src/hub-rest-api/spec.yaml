@@ -789,7 +789,7 @@ paths:
     post:
       tags:
         - Message
-      summary: Submit a signed message
+      summary: Submit signed message
       operationId: SubmitMessage
       requestBody:
         description:
@@ -816,7 +816,7 @@ paths:
     post:
       tags:
         - Message
-      summary: Validate a signed message
+      summary: Validate signed message
       operationId: ValidateMessage
       requestBody:
         description:
@@ -880,7 +880,7 @@ paths:
       tags:
         - HubEvents
       operationId: GetEventById
-      summary: event by ID
+      summary: Event by ID
       parameters:
         - name: event_id
           in: query
