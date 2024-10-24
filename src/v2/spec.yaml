@@ -4249,7 +4249,7 @@ paths:
     post:
       tags:
         - User
-      summary: Register account
+      summary: Register new account
       description: |
         Register account on farcaster.
 
@@ -4886,7 +4886,7 @@ paths:
     get:
       tags:
         - Subscribers
-      summary: Subscribed to FIDs
+      summary: Subscribed to
       description: Fetch what fids and contracts a FID is subscribed to.
       externalDocs:
         url: https://docs.neynar.com/reference/subscribed-to
@@ -5611,7 +5611,7 @@ paths:
     post:
       tags:
         - User
-      summary: Verify an address
+      summary: Add verification
       description: |
         Adds verification for an eth address or contract for the user \
         (In order to add verification `signer_uuid` must be approved)
@@ -7516,7 +7516,7 @@ paths:
     get:
       tags:
         - Block
-      summary: Blocked/Blocked by FIDs
+      summary: Blocked / Blocked by FIDs
       description: Fetches all fids that a user has blocked or has been blocked by
       operationId: block-list
       parameters:
