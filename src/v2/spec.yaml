@@ -1077,9 +1077,13 @@ components:
         latitude:
           type: number
           format: double
+          minimum: -90
+          maximum: 90
         longitude:
           type: number
           format: double
+          minimum: -180
+          maximum: 180
         address:
           type: object
           properties:
