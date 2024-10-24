@@ -1742,6 +1742,22 @@ components:
           type: string
         display_name:
           type: string
+        location:
+          type: object
+          required:
+            - latitude
+            - longitude
+          properties:
+            latitude:
+              type: number
+              format: double
+              minimum: -90
+              maximum: 90
+            longitude:
+              type: number
+              format: double
+              minimum: -180
+              maximum: 180
     CastViewerContext:
       type: object
       description: Adds context on interactions the viewer has made with the cast.
@@ -4506,6 +4522,8 @@ paths:
               pfp_url: "https://i.imgur.com/keIWEYM.jpg"
               username: "dan"
               display_name: "Dan Romero"
+              latitude: 37.7749
+              longitude: -122.4194
       responses:
         "200":
           description: Successful operation.
