@@ -1374,7 +1374,7 @@ components:
           type: string
         target_author_fid:
           $ref: "#/components/schemas/Fid"
-          description: If the target is a cast hash, this value should indicate the target cast's author's fid (unsigned integer)
+          description: If the target is a cast hash, this value should indicate the target cast's author's FID (unsigned integer)
         idem:
           $ref: "#/components/schemas/Idem"
     ChannelType:
@@ -3729,8 +3729,8 @@ paths:
     get:
       tags:
         - User
-      summary: Fetch fresh fid
-      description: Fetches fid to [assign it to new user](https://docs.neynar.com/reference/register-user)
+      summary: Fetch fresh FID
+      description: Fetches FID to [assign it to new user](https://docs.neynar.com/reference/register-user)
       externalDocs:
         url: https://docs.neynar.com/reference/get-fresh-fid
       operationId: get-fresh-fid
@@ -3749,7 +3749,7 @@ paths:
     get:
       tags:
         - Signer
-      summary: Fetch status by public key
+      summary: Status by public key
       description: Fetches the status of a developer managed signer by public key
       externalDocs:
         url: https://docs.neynar.com/reference/developer-managed-signer
@@ -3774,7 +3774,7 @@ paths:
     post:
       tags:
         - Signer
-      summary: Registers Signed Key
+      summary: Register Signed Key
       description: Registers an signed key and returns the developer managed signer status with an approval url.
       externalDocs:
         url: https://docs.neynar.com/reference/register-signed-key-for-developer-managed-signer
@@ -3808,7 +3808,7 @@ paths:
     get:
       tags:
         - Signer
-      summary: Fetch status
+      summary: Status
       description: Gets information status of a signer by passing in a signer_uuid (Use post API to generate a signer)
       externalDocs:
         url: https://docs.neynar.com/reference/signer
@@ -3862,7 +3862,7 @@ paths:
       tags:
         - Signer
       summary: Register Signed Key
-      description: Registers an app fid, deadline and a signature. Returns the signer status with an approval url.
+      description: Registers an app FID, deadline and a signature. Returns the signer status with an approval url.
       externalDocs:
         url: https://docs.neynar.com/reference/register-signed-key
       operationId: register-signed-key
@@ -4127,8 +4127,8 @@ paths:
     get:
       tags:
         - Channel
-      summary: Fetch all channels that a given fid follows
-      description: Returns a list of all channels with their details that a fid follows.
+      summary: Following
+      description: Returns a list of all channels with their details that a FID follows.
       externalDocs:
         url: https://docs.neynar.com/reference/user-channels
       operationId: user-channels
@@ -4137,7 +4137,7 @@ paths:
         - name: fid
           in: query
           required: true
-          description: The fid of the user.
+          description: The FID of the user.
           schema:
             $ref: "#/components/schemas/Fid"
         - name: limit
@@ -4166,8 +4166,8 @@ paths:
     get:
       tags:
         - Channel
-      summary: Fetch all channels that a given fid is a member of
-      description: Returns a list of all channels with their details that an fid is a member of. Data may have a delay of up to 1 hour.
+      summary: Member of
+      description: Returns a list of all channels with their details that an FID is a member of. Data may have a delay of up to 1 hour.
       externalDocs:
         url: https://docs.neynar.com/reference/user-channel-memberships
       operationId: user-channel-memberships
@@ -4249,11 +4249,11 @@ paths:
     post:
       tags:
         - User
-      summary: Register farcaster account
+      summary: Register new account
       description: |
         Register account on farcaster.
 
-        **Note:** This API must be called within 10 minutes of the fetch fid API call (i.e., /v2/farcaster/user/fid). Otherwise, Neynar will assign this fid to another available user.
+        **Note:** This API must be called within 10 minutes of the fetch FID API call (i.e., /v2/farcaster/user/fid). Otherwise, Neynar will assign this FID to another available user.
       externalDocs:
         url: https://docs.neynar.com/reference/register-user
       operationId: register-user
@@ -4292,7 +4292,7 @@ paths:
     post:
       tags:
         - Signer
-      summary: Publish a message to farcaster
+      summary: Publish message
       description: Publish a message to farcaster.
         The message must be signed by a signer managed by the developer. Use the @farcaster/core library to construct and sign the message. Use the Message.toJSON method on the signed message and pass the JSON in the body of this POST request.
       externalDocs:
@@ -4649,7 +4649,7 @@ paths:
             $ref: "#/components/schemas/FeedType"
             default: following
           example: filter
-          description: Defaults to following (requires fid or address). If set to filter (requires filter_type)
+          description: Defaults to following (requires FID or address). If set to filter (requires filter_type)
         - name: filter_type
           in: query
           schema:
@@ -4660,7 +4660,7 @@ paths:
           in: query
           schema:
             $ref: "#/components/schemas/Fid"
-          description: (Optional) fid of user whose feed you want to create. By default, the API expects this field, except if you pass a filter_type
+          description: (Optional) FID of user whose feed you want to create. By default, the API expects this field, except if you pass a filter_type
         - name: fids
           in: query
           schema:
@@ -4748,7 +4748,7 @@ paths:
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
-          description: fid of user whose feed you want to create
+          description: FID of user whose feed you want to create
         - name: viewer_fid
           in: query
           required: false
@@ -4801,7 +4801,7 @@ paths:
           example: 194
           schema:
             $ref: "#/components/schemas/Fid"
-          description: fid of user whose feed you want to create
+          description: FID of user whose feed you want to create
         - name: viewer_fid
           in: query
           required: false
@@ -4854,8 +4854,8 @@ paths:
     get:
       tags:
         - Subscribers
-      summary: Fetch created subscriptions for a given fid
-      description: Fetch created subscriptions for a given fid's.
+      summary: Subscriptions created by FID
+      description: Fetch created subscriptions for a given FID's.
       externalDocs:
         url: https://docs.neynar.com/reference/subscriptions-created
       operationId: subscriptions-created
@@ -4886,8 +4886,8 @@ paths:
     get:
       tags:
         - Subscribers
-      summary: Fetch what a given fid is subscribed to
-      description: Fetch what fids and contracts a fid is subscribed to.
+      summary: Subscribed to
+      description: Fetch what fids and contracts a FID is subscribed to.
       externalDocs:
         url: https://docs.neynar.com/reference/subscribed-to
       operationId: subscribed-to
@@ -4924,8 +4924,8 @@ paths:
     get:
       tags:
         - Subscribers
-      summary: Fetch subscribers for a given fid
-      description: Fetch subscribers for a given fid's contracts. Doesn't return addresses that don't have an fid.
+      summary: Subscribers of a user
+      description: Fetch subscribers for a given FID's contracts. Doesn't return addresses that don't have an FID.
       externalDocs:
         url: https://docs.neynar.com/reference/subscribers
       operationId: subscribers
@@ -5226,7 +5226,7 @@ paths:
           example: 194
           schema:
             $ref: "#/components/schemas/Fid"
-          description: fid of user whose feed you want to create
+          description: FID of user whose feed you want to create
         - name: viewer_fid
           in: query
           required: false
@@ -5244,7 +5244,7 @@ paths:
           $ref: "#/components/responses/400Response"
   /farcaster/feed/user/replies_and_recasts:
     get:
-      summary: Recent replies and recasts
+      summary: Replies and recasts
       description: Fetch recent replies and recasts for a given user FID; sorted by most recent first
       externalDocs:
         url: https://docs.neynar.com/reference/feed-user-replies-recasts
@@ -5259,7 +5259,7 @@ paths:
           example: 194
           schema:
             $ref: "#/components/schemas/Fid"
-          description: fid of user whose replies and recasts you want to fetch
+          description: FID of user whose replies and recasts you want to fetch
         - name: filter
           in: query
           required: false
@@ -5504,7 +5504,7 @@ paths:
     get:
       tags:
         - Frame
-      summary: Fetch the frame meta tags from the URL
+      summary: Meta tags from URL
       description: Fetches the frame meta tags from the URL
       operationId: frame-from-url
       parameters:
@@ -5611,7 +5611,7 @@ paths:
     post:
       tags:
         - User
-      summary: Adds verification for an ethereum address or contract for the user
+      summary: Add verification
       description: |
         Adds verification for an eth address or contract for the user \
         (In order to add verification `signer_uuid` must be approved)
@@ -5640,7 +5640,7 @@ paths:
     delete:
       tags:
         - User
-      summary: Delete eth address verification
+      summary: Delete verification
       description: |
         Removes verification for an eth address for the user \
         (In order to delete verification `signer_uuid` must be approved)
@@ -5844,7 +5844,7 @@ paths:
     post:
       tags:
         - Frame
-      summary: Post a frame signature packet
+      summary: Signature packet
       description: |
         Post a frame action that has been signed with a developer managed signer
 
@@ -6559,7 +6559,7 @@ paths:
     get:
       tags:
         - Channel
-      summary: Fetch by ID or parent_url
+      summary: By ID or parent_url
       description: Returns details of a channel
       externalDocs:
         url: https://docs.neynar.com/reference/channel-details
@@ -6761,7 +6761,7 @@ paths:
           required: true
           schema:
             $ref: "#/components/schemas/Fid"
-          description: The user's fid (identifier)
+          description: The user's FID (identifier)
           example: 194
         - name: limit
           in: query
@@ -6865,7 +6865,7 @@ paths:
     get:
       tags:
         - Channel
-      summary: Fetch trending channels based on activity
+      summary: Channels by activity
       description: Returns a list of trending channels based on activity
       externalDocs:
         url: https://docs.neynar.com/reference/trending-channels
@@ -7187,7 +7187,7 @@ paths:
     get:
       tags:
         - Storage
-      summary: Storage allocations of user
+      summary: Allocation of user
       description: Fetches storage allocations for a given user
       operationId: storage-allocations
       externalDocs:
@@ -7213,7 +7213,7 @@ paths:
     get:
       tags:
         - Storage
-      summary: Storage usage of user
+      summary: Usage of user
       description: Fetches storage usage for a given user
       operationId: storage-usage
       externalDocs:
@@ -7241,7 +7241,7 @@ paths:
         - Storage
       summary: Buy storage
       description: |
-        This api will help you rent units of storage for an year for a specific fid.
+        This api will help you rent units of storage for an year for a specific FID.
         A storage unit lets you store 5000 casts, 2500 reactions and 2500 links.
       operationId: buy-storage
       externalDocs:
@@ -7416,7 +7416,7 @@ paths:
     get:
       tags:
         - Mute
-      summary: Fetch fids that a user has muted
+      summary: Muted FIDs of user
       description: Fetches all fids that a user has muted.
       operationId: mute-list
       parameters:
@@ -7426,7 +7426,7 @@ paths:
           required: true
           schema:
             $ref: "#/components/schemas/Fid"
-          description: The user's fid (identifier)
+          description: The user's FID (identifier)
           example: 194
         - name: limit
           in: query
@@ -7461,8 +7461,8 @@ paths:
     post:
       tags:
         - Mute
-      summary: Adds a mute for a fid
-      description: Adds a mute for a given fid. This is a whitelisted API, reach out if you want access.
+      summary: Mute FID
+      description: Adds a mute for a given FID. This is a whitelisted API, reach out if you want access.
       operationId: add-mute
       parameters:
         - $ref: "#/components/parameters/ApiKey"
@@ -7488,8 +7488,8 @@ paths:
     delete:
       tags:
         - Mute
-      summary: Deletes a mute for a fid
-      description: Deletes a mute for a given fid. This is a whitelisted API, reach out if you want access.
+      summary: Unmute FID
+      description: Deletes a mute for a given FID. This is a whitelisted API, reach out if you want access.
       operationId: delete-mute
       parameters:
         - $ref: "#/components/parameters/ApiKey"
@@ -7516,7 +7516,7 @@ paths:
     get:
       tags:
         - Block
-      summary: Fetch fids that a user has blocked or has been blocked by
+      summary: Blocked / Blocked by FIDs
       description: Fetches all fids that a user has blocked or has been blocked by
       operationId: block-list
       parameters:
@@ -7569,7 +7569,7 @@ paths:
     get:
       tags:
         - Ban
-      summary: Fetch fids that your app has banned
+      summary: Banned FIDs of app
       description: Fetches all fids that your app has banned.
       operationId: ban-list
       parameters:
@@ -7607,7 +7607,7 @@ paths:
     post:
       tags:
         - Ban
-      summary: Bans a list of fids from your app.
+      summary: Ban FIDs from app
       description: Bans a list of fids from the app associated with your API key. Banned users, their casts and reactions will not appear in feeds.
       operationId: add-ban
       parameters:
@@ -7634,7 +7634,7 @@ paths:
     delete:
       tags:
         - Ban
-      summary: Deletes a list of fids from your app's ban list.
+      summary: Unban FIDs from app
       description: Deletes a list of fids from the app associated with your API key.
       operationId: delete-ban
       parameters:
