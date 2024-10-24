@@ -671,17 +671,13 @@ components:
           $ref: "#/components/schemas/Fid"
         hash:
           type: string
-    EmbedCast:
+    EmbedCastId:
       type: object
       required:
         - cast_id
       properties:
         cast_id:
           $ref: "#/components/schemas/CastId"
-        metadata:
-          $ref: "#/components/schemas/EmbedCastMetadata"
-    EmbedCastMetadata:
-      $ref: "#/components/schemas/CastWithoutEmbeds"
     Frame:
       type: object
       required:
@@ -741,14 +737,17 @@ components:
               type: string
               example: "0"
     SubscribedTo:
-      allOf:
+      type: object
+      required:
+        - object
+        - user
+        - expires_at
+        - subscribed_at
+        - tier
+        - creator
+      anyOf:
         - $ref: "#/components/schemas/Subscription"
         - type: object
-          required:
-            - expires_at
-            - subscribed_at
-            - tier
-            - creator
           properties:
             expires_at:
               type: string
@@ -1170,65 +1169,10 @@ components:
           type: boolean
         viewer_context:
           $ref: "#/components/schemas/UserViewerContext"
-    Embed:
+    EmbeddedCast:
       oneOf:
         - $ref: "#/components/schemas/EmbedUrl"
-        - $ref: "#/components/schemas/EmbedCast"
-    CastWithoutEmbeds:
-      type: object
-      required:
-        - hash
-        - parent_hash
-        - parent_url
-        - root_parent_url
-        - parent_author
-        - author
-        - text
-        - timestamp
-        - type
-        - embeds
-      properties:
-        hash:
-          type: string
-        parent_hash:
-          type: string
-          nullable: true
-        parent_url:
-          type: string
-          nullable: true
-        root_parent_url:
-          type: string
-          nullable: true
-        parent_author:
-          type: object
-          required:
-            - fid
-          properties:
-            fid:
-              allOf:
-                - $ref: "#/components/schemas/Fid"
-              nullable: true
-        author:
-          oneOf:
-            - $ref: "#/components/schemas/User"
-            - $ref: "#/components/schemas/UserDehydrated"
-          discriminator:
-            propertyName: object
-            mapping:
-              user: "#/components/schemas/User"
-              user_dehydrated: "#/components/schemas/UserDehydrated"
-        text:
-          type: string
-        timestamp:
-          $ref: "#/components/schemas/Timestamp"
-        type:
-          $ref: "#/components/schemas/CastNotificationType"
-        embeds:
-          description: |
-            It is an array of Embed object (Check #/components/schemas/Cast). Embed object is intentionally omitted to break the circular reference.
-          type: array
-          items:
-            type: object
+        - $ref: "#/components/schemas/EmbedCastId"
     Cast:
       type: object
       required:
@@ -1255,22 +1199,16 @@ components:
           nullable: true
         parent_author:
           type: object
-          required:
-            - fid
-          properties:
-            fid:
-              allOf: # Need this seemingly pointless allOf for the nullable to work
-                - $ref: "#/components/schemas/Fid"
-              nullable: true
+          anyOf:
+            - $ref: "#/components/schemas/Fid"
+            - required:
+                - fid
+              properties:
+                fid:
+                  type: integer
+                  nullable: true
         author:
-          oneOf:
-            - $ref: "#/components/schemas/User"
-            - $ref: "#/components/schemas/UserDehydrated"
-          discriminator:
-            propertyName: object
-            mapping:
-              user: "#/components/schemas/User"
-              user_dehydrated: "#/components/schemas/UserDehydrated"
+          $ref: "#/components/schemas/User"
         text:
           type: string
         timestamp:
@@ -1278,7 +1216,7 @@ components:
         embeds:
           type: array
           items:
-            $ref: "#/components/schemas/Embed"
+            $ref: "#/components/schemas/EmbeddedCast"
         type:
           $ref: "#/components/schemas/CastNotificationType"
     ProfileUrl:
@@ -1631,15 +1569,15 @@ components:
         - $ref: "#/components/schemas/Channel"
         - $ref: "#/components/schemas/DehydratedChannel"
       discriminator:
-        propertyName: object
+        propertyName: type
         mapping:
           channel: "#/components/schemas/Channel"
-          dehydrated_channel: "#/components/schemas/DehydratedChannel"
+          dehydratedChannel: "#/components/schemas/DehydratedChannel"
     CastWithInteractions:
-      allOf:
+      anyOf:
         - $ref: "#/components/schemas/Cast"
         - type: object
-          required:
+        - required:
             - reactions
             - replies
             - thread_hash
@@ -1662,19 +1600,17 @@ components:
               items:
                 $ref: "#/components/schemas/User"
             channel:
-              anyOf:
-                - $ref: "#/components/schemas/ChannelOrDehydratedChannel"
+              $ref: "#/components/schemas/ChannelOrDehydratedChannel"
               nullable: true
             viewer_context:
               $ref: "#/components/schemas/CastViewerContext"
-            author_channel_context:
-              $ref: "#/components/schemas/ChannelUserContext"
     CastWithInteractionsAndConversations:
-      allOf:
+      type: object
+      required:
+        - direct_replies
+      anyOf:
         - $ref: "#/components/schemas/CastWithInteractions"
         - type: object
-          required:
-            - direct_replies
           properties:
             direct_replies:
               type: array
@@ -1683,11 +1619,12 @@ components:
               description: "note: This is recursive. It contains the direct replies to the cast and their direct replies up to n reply_depth."
     CastWithInteractionsAndConversationsRef:
       description: Reference to CastWithInteractionsAndConversations to avoid circular reference
-      allOf:
+      type: object
+      required:
+        - direct_replies
+      anyOf:
         - $ref: "#/components/schemas/CastWithInteractions"
         - type: object
-          required:
-            - direct_replies
           properties:
             direct_replies:
               type: array
@@ -1916,8 +1853,6 @@ components:
             - channel_dehydrated
         image_url:
           type: string
-        viewer_context:
-          $ref: "#/components/schemas/ChannelUserContext"
     Channel:
       type: object
       required:
@@ -1978,7 +1913,7 @@ components:
           items:
             $ref: "#/components/schemas/User"
         viewer_context:
-          $ref: "#/components/schemas/ChannelUserContext"
+          $ref: "#/components/schemas/ChannelViewerContext"
     ChannelViewerContext:
       deprecated: true
       type: object
@@ -1988,17 +1923,6 @@ components:
         following:
           type: boolean
           description: Indicates if the viewer is following the channel.
-    ChannelUserContext:
-      description: Adds context on the viewer's or author's role in the channel.
-      type: object
-      required:
-        - following
-      properties:
-        following:
-          description: Indicates if the user is following the channel.
-          type: boolean
-        role:
-          $ref: "#/components/schemas/ChannelMemberRole"
     ChannelListResponse:
       type: object
       required:
@@ -2444,12 +2368,6 @@ components:
             - user_dehydrated
         fid:
           $ref: "#/components/schemas/Fid"
-        username:
-          type: string
-        display_name:
-          type: string
-        pfp_url:
-          type: string
     UserResponse:
       type: object
       required:
@@ -3274,10 +3192,10 @@ components:
         subscription:
           $ref: "#/components/schemas/WebhookSubscriptionFilters"
     WebhookPutReqBody:
-      allOf:
+      type: object
+      anyOf:
         - $ref: "#/components/schemas/WebhookPostReqBody"
-        - type: object
-          required:
+        - required:
             - webhook_id
           properties:
             webhook_id:
@@ -3620,8 +3538,7 @@ components:
           format: int64
           nullable: true
         tier:
-          allOf: # Need this seemingly pointless allOf for the nullable to work
-            - $ref: "#/components/schemas/SubscriptionTier"
+          $ref: "#/components/schemas/SubscriptionTier"
           nullable: true
       required:
         - object
@@ -4042,7 +3959,7 @@ paths:
     get:
       tags:
         - User
-      summary: Based on FIDs
+      summary: By FIDs
       description: Fetches information about multiple users based on FIDs
       externalDocs:
         url: https://docs.neynar.com/reference/user-bulk
@@ -4075,7 +3992,7 @@ paths:
     get:
       tags:
         - User
-      summary: Fetch power user objects
+      summary: Power users
       description: Fetches power users based on Warpcast power badges. Information is updated once a day.
       externalDocs:
         url: https://docs.neynar.com/reference/user-power
@@ -4115,7 +4032,7 @@ paths:
     get:
       tags:
         - User
-      summary: Fetch power user FIDs
+      summary: Power user FIDs
       description: Fetches power users and respond in a backwards compatible format to Warpcast's deprecated power badge endpoint.
       externalDocs:
         url: https://docs.neynar.com/reference/user-power-lite
@@ -4171,7 +4088,7 @@ paths:
     get:
       tags:
         - User
-      summary: Based on Eth or Sol addresses
+      summary: By Eth or Sol addresses
       description:
         Fetches all users based on multiple Ethereum or Solana addresses.
 
@@ -4418,7 +4335,7 @@ paths:
     get:
       tags:
         - Cast
-      summary: Fetch cast for a given hash or Warpcast URL
+      summary: By hash or URL
       description: Gets information about an individual cast by passing in a Warpcast web URL or cast hash
       externalDocs:
         url: https://docs.neynar.com/reference/cast
@@ -4650,7 +4567,7 @@ paths:
     get:
       tags:
         - Cast
-      summary: Fetch the conversation for a given cast
+      summary: Conversation for a cast
       description: Gets all casts related to a conversation surrounding a cast by passing in a cast hash or Warpcast URL. Includes all the ancestors of a cast up to the root parent in a chronological order. Includes all direct_replies to the cast up to the reply_depth specified in the query parameter.
       externalDocs:
         url: https://docs.neynar.com/reference/cast-conversation
@@ -4730,7 +4647,7 @@ paths:
           $ref: "#/components/responses/400Response"
   /farcaster/feed:
     get:
-      summary: Fetch casts based on filters
+      summary: By filters
       externalDocs:
         url: https://docs.neynar.com/reference/feed
       operationId: feed
@@ -5057,7 +4974,7 @@ paths:
           $ref: "#/components/responses/400Response"
   /farcaster/feed/channels:
     get:
-      summary: Fetch feed based on channel ids
+      summary: By channel IDs
       externalDocs:
         url: https://docs.neynar.com/reference/feed-channels
       operationId: feed-channels
@@ -5129,7 +5046,7 @@ paths:
           $ref: "#/components/responses/400Response"
   /farcaster/feed/parent_urls:
     get:
-      summary: Fetch feed based on parent urls
+      summary: By parent URLs
       externalDocs:
         url: https://docs.neynar.com/reference/feed/parent_urls
       operationId: feed-parent-urls
@@ -5228,7 +5145,7 @@ paths:
           $ref: "#/components/responses/400Response"
   /farcaster/feed/trending:
     get:
-      summary: Fetch trending casts
+      summary: Trending casts
       externalDocs:
         url: https://docs.neynar.com/reference/feed-trending
       operationId: feed-trending
@@ -5472,7 +5389,7 @@ paths:
     get:
       tags:
         - Frame
-      summary: Fetch a frame by UUID or URL
+      summary: Frame by UUID or URL
       description: Fetch a frame either by UUID or Neynar URL
       operationId: lookup-neynar-frame
       parameters:
@@ -5505,7 +5422,7 @@ paths:
     post:
       tags:
         - Frame
-      summary: Create a new frame
+      summary: Create frame
       description: Create a new frame with a list of pages.
       operationId: publish-neynar-frame
       parameters:
@@ -5528,7 +5445,7 @@ paths:
     put:
       tags:
         - Frame
-      summary: Update an existing frame
+      summary: Update frame
       description: Update an existing frame with a list of pages, if it was made by the developer (identified by API key)
       operationId: update-neynar-frame
       parameters:
@@ -5553,7 +5470,7 @@ paths:
     delete:
       tags:
         - Frame
-      summary: Delete a frame
+      summary: Delete frame
       description: Delete an existing frame, if it was made by the developer (identified by API key)
       operationId: delete-neynar-frame
       parameters:
@@ -5581,7 +5498,7 @@ paths:
     get:
       tags:
         - Frame
-      summary: Fetch a list of frames
+      summary: List of frames
       description: Fetch a list of frames made by the developer (identified by API key)
       operationId: fetch-neynar-frames
       parameters:
@@ -5670,9 +5587,9 @@ paths:
     delete:
       tags:
         - Reaction
-      summary: Delete a reaction
+      summary: Delete reaction
       description: |
-        Delete a reaction (like or recast) to a given cast \
+        Delete a reaction (like or recast) to a cast \
         (In order to delete a reaction `signer_uuid` must be approved)
       externalDocs:
         url: https://docs.neynar.com/reference/delete-reaction
@@ -5737,7 +5654,7 @@ paths:
     delete:
       tags:
         - User
-      summary: Removes verification for an eth address for the user
+      summary: Delete eth address verification
       description: |
         Removes verification for an eth address for the user \
         (In order to delete verification `signer_uuid` must be approved)
@@ -5765,7 +5682,7 @@ paths:
     post:
       tags:
         - User
-      summary: Follow a user
+      summary: Follow user
       description: |
         Follow a user \
         (In order to follow a user `signer_uuid` must be approved)
@@ -5803,7 +5720,7 @@ paths:
     delete:
       tags:
         - User
-      summary: Unfollow a user
+      summary: Unfollow user
       description: |
         Unfollow a user \
         (In order to unfollow a user `signer_uuid` must be approved)
@@ -6004,7 +5921,7 @@ paths:
     post:
       tags:
         - Frame
-      summary: Validates a frame action against Farcaster Hub
+      summary: Validate frame action
       description: |
         Validates a frame against by an interacting user against a Farcaster Hub \
         (In order to validate a frame, message bytes from Frame Action must be provided in hex)
@@ -6062,7 +5979,7 @@ paths:
     get:
       tags:
         - Frame
-      summary: Fetch a list of all the frames validated by a user
+      summary: All frames validated by user
       description: Fetch a list of all the frames validated by a user
       externalDocs:
         url: https://docs.neynar.com/reference/validate-frame-list
@@ -6086,7 +6003,7 @@ paths:
     get:
       tags:
         - Frame
-      summary: Fetch analytics for the frame
+      summary: Analytics for the frame
       description: Fetch analytics for total-interactors, interactors, nteractions-per-cast and input-text.
       externalDocs:
         url: https://docs.neynar.com/reference/validate-frame-analytics
@@ -6156,7 +6073,7 @@ paths:
     get:
       tags:
         - Notifications
-      summary: Fetch notifications for a user
+      summary: For user
       description: Returns a list of notifications for a specific FID.
       externalDocs:
         url: https://docs.neynar.com/reference/notifications
@@ -6202,7 +6119,7 @@ paths:
     get:
       tags:
         - Notifications
-      summary: Fetch notifications for a user in specific channels
+      summary: For user in specific channels
       description: Returns a list of notifications for a user in specific channels
       externalDocs:
         url: https://docs.neynar.com/reference/notifications
@@ -6249,7 +6166,7 @@ paths:
     get:
       tags:
         - Notifications
-      summary: Fetch notifications for a user in given parent_urls
+      summary: For user in given parent_urls
       description: Returns a list of notifications for a user in specific parent_urls
       externalDocs:
         url: https://docs.neynar.com/reference/notifications
@@ -6296,7 +6213,7 @@ paths:
     post:
       tags:
         - Notifications
-      summary: Mark notifications as seen
+      summary: Mark as seen
       description: Mark notifications as seen
       externalDocs:
         url: https://docs.neynar.com/reference/mark-notifications-as-seen
@@ -6360,7 +6277,7 @@ paths:
     delete:
       tags:
         - Channel
-      summary: Remove a user from a channel
+      summary: Remove user
       description: Remove a user from a channel or a user's invite to a channel role
       operationId: remove-channel-member
       parameters:
@@ -6400,7 +6317,7 @@ paths:
     get:
       tags:
         - Channel
-      summary: Fetch a list of members in a channel
+      summary: Fetch members
       description: Fetch a list of members in a channel
       operationId: list-channel-members
       parameters:
@@ -6448,7 +6365,7 @@ paths:
     post:
       tags:
         - Channel
-      summary: Invite a user to a channel
+      summary: Invite
       description: Invite a user to a channel
       operationId: invite-channel-member
       parameters:
@@ -6487,7 +6404,7 @@ paths:
     put:
       tags:
         - Channel
-      summary: Accept or reject a channel invite
+      summary: Accept or reject an invite
       description: Accept or reject a channel invite
       operationId: respond-channel-invite
       parameters:
@@ -6528,7 +6445,7 @@ paths:
     get:
       tags:
         - Channel
-      summary: List of open invites
+      summary: Open invites
       description: Fetch a list of invites, either in a channel or for a user. If both are provided, open channel invite for that user is returned.
       operationId: list-channel-invites
       parameters:
@@ -6575,8 +6492,8 @@ paths:
     get:
       tags:
         - Channel
-      summary: Search for channels based on id or name
-      description: Returns a list of channels based on id or name
+      summary: Search by ID or name
+      description: Returns a list of channels based on ID or name
       externalDocs:
         url: https://docs.neynar.com/reference/search-channels
       operationId: search-channels
@@ -6615,7 +6532,7 @@ paths:
     get:
       tags:
         - Channel
-      summary: (Bulk) Fetch channels by id or parent_url
+      summary: Bulk fetch
       description: Returns details of multiple channels
       externalDocs:
         url: https://docs.neynar.com/reference/channel-details-bulk
@@ -6635,7 +6552,7 @@ paths:
           schema:
             $ref: "#/components/schemas/ChannelType"
           example: "id"
-          description: Type of identifier being used to query the channels. Defaults to id.
+          description: Type of identifier being used to query the channels. Defaults to ID.
         - name: viewer_fid
           in: query
           required: false
@@ -6656,7 +6573,7 @@ paths:
     get:
       tags:
         - Channel
-      summary: Fetch channel details by id or parent_url
+      summary: Fetch by ID or parent_url
       description: Returns details of a channel
       externalDocs:
         url: https://docs.neynar.com/reference/channel-details
@@ -6676,7 +6593,7 @@ paths:
           schema:
             $ref: "#/components/schemas/ChannelType"
           example: "parent_url"
-          description: Type of identifier being used to query the channel. Defaults to id.
+          description: Type of identifier being used to query the channel. Defaults to ID.
         - name: viewer_fid
           in: query
           required: false
@@ -6763,10 +6680,11 @@ paths:
         "500":
           $ref: "#/components/responses/500Response"
   /farcaster/channel/followers:
+    name: "Fetch followers"
     get:
       tags:
         - Channel
-      summary: Fetch followers for a given channel
+      summary: For channel
       description: Returns a list of followers for a specific channel. Max limit is 1000. Use cursor for pagination.
       externalDocs:
         url: https://docs.neynar.com/reference/channel-followers
@@ -6814,7 +6732,7 @@ paths:
     get:
       tags:
         - Channel
-      summary: Fetch relevant channel followers for a given user
+      summary: Relevant followers
       description: Returns a list of relevant channel followers for a specific FID. This usually shows on a channel as "X, Y, Z follow this channel".
       externalDocs:
         url: https://docs.neynar.com/reference/relevant-channel-followers
@@ -6824,7 +6742,7 @@ paths:
         - name: id
           in: query
           required: true
-          description: Channel id being queried
+          description: Channel ID being queried
           example: "neynar"
           schema:
             type: string
@@ -6848,7 +6766,7 @@ paths:
     get:
       tags:
         - Channel
-      summary: Fetch channels that a user is active in
+      summary: Fetch channels that user is active in
       description: Fetches all channels that a user has casted in, in reverse chronological order.
       operationId: active-channels
       parameters:
@@ -7009,7 +6927,7 @@ paths:
     get:
       tags:
         - Follows
-      summary: Fetch followers for a given user
+      summary: Followers
       description: Returns a list of followers for a specific FID.
       externalDocs:
         url: https://docs.neynar.com/reference/followers-v2
@@ -7064,7 +6982,7 @@ paths:
     get:
       tags:
         - Follows
-      summary: Fetch relevant followers for a given user
+      summary: Relevant followers
       description: Returns a list of relevant followers for a specific FID. This usually shows on a profile as "X, Y and Z follow this user".
       externalDocs:
         url: https://docs.neynar.com/reference/relevant-followers
@@ -7096,7 +7014,7 @@ paths:
     get:
       tags:
         - Follows
-      summary: Fetch a list of users followed by a user
+      summary: Followed by
       description: Fetch a list of users followed by a user. Can optionally include a viewer_fid and sort_type.
       externalDocs:
         url: https://docs.neynar.com/reference/following-v2
@@ -7148,56 +7066,11 @@ paths:
           $ref: "#/components/responses/400Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/following/suggested:
-    get:
-      tags:
-        - Follows
-      summary: Fetch a list of suggested users to follow
-      description: Used to help users discover new users to follow
-      externalDocs:
-        url: https://docs.neynar.com/reference/suggested-follows
-      operationId: suggested-follows
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
-        - name: fid
-          in: query
-          required: true
-          schema:
-            $ref: "#/components/schemas/Fid"
-          example: 2
-          description: FID of the user whose following you want to fetch.
-        - name: viewer_fid
-          in: query
-          required: false
-          schema:
-            $ref: "#/components/schemas/Fid"
-          example: 3
-          description: Providing this will return a list of users that respects this user's mutes and blocks and includes `viewer_context`.
-        - name: limit
-          in: query
-          description: Number of results to fetch (default 25, max 100)
-          schema:
-            type: integer
-            default: 25
-            minimum: 1
-            maximum: 100
-            example: 25
-      responses:
-        "200":
-          description: Successful operation.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/UsersResponse"
-        "400":
-          $ref: "#/components/responses/400Response"
-        "500":
-          $ref: "#/components/responses/500Response"
   /farcaster/reactions/user:
     get:
       tags:
         - Reaction
-      summary: Fetch reactions for a given user
+      summary: Reactions for user
       description: Fetches reactions for a given user
       operationId: reactions-user
       externalDocs:
@@ -7250,7 +7123,7 @@ paths:
     get:
       tags:
         - Reaction
-      summary: Fetch reactions for a given cast
+      summary: Reactions for cast
       description: Fetches reactions for a given cast
       operationId: reactions-cast
       externalDocs:
@@ -7303,7 +7176,7 @@ paths:
     get:
       tags:
         - fname
-      summary: Check if a given fname is available
+      summary: Check fname availability
       description: Check if a given fname is available
       operationId: fname-availability
       externalDocs:
@@ -7329,7 +7202,7 @@ paths:
     get:
       tags:
         - Storage
-      summary: Fetch storage allocations for a given user
+      summary: Storage allocations of user
       description: Fetches storage allocations for a given user
       operationId: storage-allocations
       externalDocs:
@@ -7355,7 +7228,7 @@ paths:
     get:
       tags:
         - Storage
-      summary: Fetch storage usage for a given user
+      summary: Storage usage of user
       description: Fetches storage usage for a given user
       operationId: storage-usage
       externalDocs:
@@ -7381,7 +7254,7 @@ paths:
     post:
       tags:
         - Storage
-      summary: Buy storage for an fid
+      summary: Buy storage
       description: |
         This api will help you rent units of storage for an year for a specific fid.
         A storage unit lets you store 5000 casts, 2500 reactions and 2500 links.
@@ -7464,7 +7337,7 @@ paths:
     patch:
       tags:
         - Webhook
-      summary: Update webhook active status
+      summary: Update webhook status
       description: Update webhook active status
       operationId: update-webhook-active-status
       externalDocs:
@@ -7540,7 +7413,7 @@ paths:
     get:
       tags:
         - Webhook
-      summary: Fetch a list of webhooks associated to a user
+      summary: Associated webhooks of user
       description: Fetch a list of webhooks associated to a user
       operationId: fetch-webhooks
       externalDocs:
@@ -7804,7 +7677,7 @@ paths:
     get:
       tags:
         - Cast
-      summary: Fetch all composer actions on Warpcast
+      summary: Fetch composer actions
       description: Fetches all composer actions on Warpcast. You can filter by top or featured.
       operationId: composer-list
       externalDocs:

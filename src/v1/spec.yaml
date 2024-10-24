@@ -1045,7 +1045,7 @@ paths:
     get:
       tags:
         - Cast
-      summary: DEPRECATED - Fetch casts for a given user
+      summary: DEPRECATED - Casts by user
       description: Now deprecated, use [/v2/farcaster/feed/user/casts](https://docs.neynar.com/reference/feed-user-casts) instead
       deprecated: true
       externalDocs:
@@ -1286,7 +1286,7 @@ paths:
       tags:
         - Follows
       summary: Gets all followers for a given FID
-      description: Gets a list of users who follow a given user in reverse chronological order.
+      description: Gets a list of users who follow a user in reverse chronological order.
       externalDocs:
         url: https://docs.neynar.com/reference/followers-v1
       operationId: followers
@@ -1336,7 +1336,7 @@ paths:
       tags:
         - Follows
       summary: Gets all following users of a FID
-      description: Gets a list of users who is following a given user in reverse chronological order.
+      description: Gets a list of users who is following a user in reverse chronological order.
       externalDocs:
         url: https://docs.neynar.com/reference/following-v1
       operationId: following
