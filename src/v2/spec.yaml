@@ -6680,7 +6680,6 @@ paths:
         "500":
           $ref: "#/components/responses/500Response"
   /farcaster/channel/followers:
-    name: "Fetch followers"
     get:
       tags:
         - Channel
