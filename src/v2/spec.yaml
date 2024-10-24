@@ -27,15 +27,6 @@ components:
       type: string
       description: UUID of the signer
       example: 19d0c5fd-9b33-4a48-a0e2-bc7b0555baec
-    ActiveStatus:
-      type: string
-      enum:
-        - active
-        - inactive
-      description: |
-        The status of a user.
-          - active: The user is currently active.
-          - inactive: The user is not currently active.
     SubscriptionProviders:
       type: string
       enum:
@@ -1089,7 +1080,6 @@ components:
         - verifications
         - verified_addresses
         - verified_accounts
-        - active_status
         - power_badge
       properties:
         object:
@@ -1163,8 +1153,6 @@ components:
                   - x
               username:
                 type: string
-        active_status:
-          $ref: "#/components/schemas/ActiveStatus"
         power_badge:
           type: boolean
         viewer_context:
@@ -1679,7 +1667,6 @@ components:
                   - "0x5a927ac639636e534b678e81768ca19e2c6280b7"
                   - "0xe9e261852ea62150eee685807df8fe3f211310a0"
                 sol_addresses: []
-              active_status: "active"
               power_badge: true
             text: ".@fun built out hatecast.xyz based on a random conversation we had about app ideas for Farcaster."
             timestamp: "2023-09-13T22:10:22.000Z"
@@ -1744,7 +1731,6 @@ components:
                   - "0x5a927ac639636e534b678e81768ca19e2c6280b7"
                   - "0xe9e261852ea62150eee685807df8fe3f211310a0"
                 sol_addresses: []
-              active_status: "active"
               power_badge: true
             text: ".@fun built out hatecast.xyz based on a random conversation we had about app ideas for Farcaster."
             timestamp: "2023-09-13T22:10:22.000Z"

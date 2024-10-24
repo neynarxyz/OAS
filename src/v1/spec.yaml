@@ -36,15 +36,6 @@ components:
       format: int32
       default: 3
       description: User identifier (unsigned integer)
-    ActiveStatus:
-      type: string
-      enum:
-        - active
-        - inactive
-      description: |
-        The status of a user.
-          - active: The user is currently active.
-          - inactive: The user is not currently active.
     ReactionType:
       type: string
       enum:
@@ -96,7 +87,6 @@ components:
         - followerCount
         - followingCount
         - verifications
-        - activeStatus
       properties:
         fid:
           $ref: "#/components/schemas/Fid"
@@ -147,8 +137,6 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Address"
-        activeStatus:
-          $ref: "#/components/schemas/ActiveStatus"
         viewerContext:
           $ref: "#/components/schemas/ViewerContext"
     Reactor:
