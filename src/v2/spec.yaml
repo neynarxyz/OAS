@@ -5350,7 +5350,7 @@ paths:
     get:
       tags:
         - Frame
-      summary: Fetch a frame by UUID or URL
+      summary: Frame by UUID or URL
       description: Fetch a frame either by UUID or Neynar URL
       operationId: lookup-neynar-frame
       parameters:
@@ -5383,7 +5383,7 @@ paths:
     post:
       tags:
         - Frame
-      summary: Create a new frame
+      summary: Create a frame
       description: Create a new frame with a list of pages.
       operationId: publish-neynar-frame
       parameters:
@@ -5406,7 +5406,7 @@ paths:
     put:
       tags:
         - Frame
-      summary: Update an existing frame
+      summary: Update a frame
       description: Update an existing frame with a list of pages, if it was made by the developer (identified by API key)
       operationId: update-neynar-frame
       parameters:
@@ -5459,7 +5459,7 @@ paths:
     get:
       tags:
         - Frame
-      summary: Fetch a list of frames
+      summary: List of frames
       description: Fetch a list of frames made by the developer (identified by API key)
       operationId: fetch-neynar-frames
       parameters:
@@ -5882,7 +5882,7 @@ paths:
     post:
       tags:
         - Frame
-      summary: Validates a frame action against Farcaster Hub
+      summary: Validate frame action
       description: |
         Validates a frame against by an interacting user against a Farcaster Hub \
         (In order to validate a frame, message bytes from Frame Action must be provided in hex)
@@ -5940,7 +5940,7 @@ paths:
     get:
       tags:
         - Frame
-      summary: Fetch a list of all the frames validated by a user
+      summary: All frames validated by a user
       description: Fetch a list of all the frames validated by a user
       externalDocs:
         url: https://docs.neynar.com/reference/validate-frame-list
@@ -5964,7 +5964,7 @@ paths:
     get:
       tags:
         - Frame
-      summary: Fetch analytics for the frame
+      summary: Analytics for the frame
       description: Fetch analytics for total-interactors, interactors, nteractions-per-cast and input-text.
       externalDocs:
         url: https://docs.neynar.com/reference/validate-frame-analytics
@@ -6888,7 +6888,7 @@ paths:
     get:
       tags:
         - Follows
-      summary: Fetch followers for a user
+      summary: Followers of a user
       description: Returns a list of followers for a specific FID.
       externalDocs:
         url: https://docs.neynar.com/reference/followers-v2
@@ -6943,7 +6943,7 @@ paths:
     get:
       tags:
         - Follows
-      summary: Fetch relevant followers for a user
+      summary: Relevant followers of a user
       description: Returns a list of relevant followers for a specific FID. This usually shows on a profile as "X, Y and Z follow this user".
       externalDocs:
         url: https://docs.neynar.com/reference/relevant-followers
@@ -6975,7 +6975,7 @@ paths:
     get:
       tags:
         - Follows
-      summary: Fetch a list of users followed by a user
+      summary: Users followed by a user
       description: Fetch a list of users followed by a user. Can optionally include a viewer_fid and sort_type.
       externalDocs:
         url: https://docs.neynar.com/reference/following-v2
@@ -7031,7 +7031,7 @@ paths:
     get:
       tags:
         - Reaction
-      summary: Fetch reactions for a user
+      summary: Reactions for a user
       description: Fetches reactions for a given user
       operationId: reactions-user
       externalDocs:
@@ -7084,7 +7084,7 @@ paths:
     get:
       tags:
         - Reaction
-      summary: Fetch reactions for a cast
+      summary: Reactions for a cast
       description: Fetches reactions for a given cast
       operationId: reactions-cast
       externalDocs:
@@ -7137,7 +7137,7 @@ paths:
     get:
       tags:
         - fname
-      summary: Check if a given fname is available
+      summary: Check fname availability
       description: Check if a given fname is available
       operationId: fname-availability
       externalDocs:
@@ -7163,7 +7163,7 @@ paths:
     get:
       tags:
         - Storage
-      summary: Fetch storage allocations for a user
+      summary: Storage allocations of a user
       description: Fetches storage allocations for a given user
       operationId: storage-allocations
       externalDocs:
@@ -7189,7 +7189,7 @@ paths:
     get:
       tags:
         - Storage
-      summary: Fetch storage usage for a user
+      summary: Storage usage of a user
       description: Fetches storage usage for a given user
       operationId: storage-usage
       externalDocs:
@@ -7215,7 +7215,7 @@ paths:
     post:
       tags:
         - Storage
-      summary: Buy storage for an fid
+      summary: Buy storage
       description: |
         This api will help you rent units of storage for an year for a specific fid.
         A storage unit lets you store 5000 casts, 2500 reactions and 2500 links.
@@ -7298,7 +7298,7 @@ paths:
     patch:
       tags:
         - Webhook
-      summary: Update webhook active status
+      summary: Update webhook status
       description: Update webhook active status
       operationId: update-webhook-active-status
       externalDocs:
@@ -7374,7 +7374,7 @@ paths:
     get:
       tags:
         - Webhook
-      summary: Fetch a list of webhooks associated to a user
+      summary: Associated webhooks of user
       description: Fetch a list of webhooks associated to a user
       operationId: fetch-webhooks
       externalDocs:

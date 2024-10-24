@@ -789,7 +789,7 @@ paths:
     post:
       tags:
         - Message
-      summary: Submit a signed protobuf-serialized message to the Hub
+      summary: Submit a signed message
       operationId: SubmitMessage
       requestBody:
         description:
@@ -816,7 +816,7 @@ paths:
     post:
       tags:
         - Message
-      summary: Validate a signed protobuf-serialized message with the Hub
+      summary: Validate a signed message
       operationId: ValidateMessage
       requestBody:
         description:
@@ -844,7 +844,7 @@ paths:
       tags:
         - HubEvents
       operationId: ListEvents
-      summary: Fetch a page of Hub events
+      summary: Page of events
       parameters:
         - name: from_event_id
           in: query
@@ -880,7 +880,7 @@ paths:
       tags:
         - HubEvents
       operationId: GetEventById
-      summary: Fetch an event by its ID
+      summary: event by ID
       parameters:
         - name: event_id
           in: query
