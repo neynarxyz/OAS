@@ -38,7 +38,7 @@ paths:
     get:
       tags:
         - Casts
-      summary: Fetch a cast by its FID and Hash.
+      summary: By FID and Hash
       operationId: GetCastById
       parameters:
         - name: fid
@@ -69,7 +69,7 @@ paths:
     get:
       tags:
         - Casts
-      summary: Fetch all casts authored by an FID.
+      summary: By FID
       operationId: ListCastsByFid
       parameters:
         - name: fid
@@ -107,7 +107,7 @@ paths:
     get:
       tags:
         - Casts
-      summary: Fetch all casts that mention an FID
+      summary: Mentioning an FID
       operationId: ListCastsByMention
       parameters:
         - name: fid
@@ -145,7 +145,7 @@ paths:
     get:
       tags:
         - Casts
-      summary: Fetch all casts by parent cast's FID and Hash OR by the parent's URL
+      summary: By parent cast's FID and Hash OR by the parent's URL
       operationId: ListCastsByParent
       parameters:
         - name: fid
@@ -193,7 +193,7 @@ paths:
     get:
       tags:
         - Reactions
-      summary: Fetch a reaction by its created FID and target Cast.
+      summary: By its created FID and target cast
       operationId: GetReactionById
       parameters:
         - name: fid
@@ -236,7 +236,7 @@ paths:
     get:
       tags:
         - Reactions
-      summary: Fetch all reactions to a cast
+      summary: On cast
       operationId: ListReactionsByCast
       parameters:
         - name: target_fid
@@ -287,7 +287,7 @@ paths:
     get:
       tags:
         - Reactions
-      summary: Fetch all reactions by an FID
+      summary: By FID
       operationId: ListReactionsByFid
       parameters:
         - name: fid
@@ -332,7 +332,7 @@ paths:
       tags:
         - Reactions
       operationId: ListReactionsByTarget
-      summary: Fetch all reactions to a target URL
+      summary: To a target URL
       parameters:
         - name: url
           in: query
@@ -375,7 +375,7 @@ paths:
     get:
       tags:
         - Links
-      summary: Fetch a link by its FID and target FID.
+      summary: By its FID and target FID.
       operationId: GetLinkById
       parameters:
         - name: fid
@@ -411,7 +411,7 @@ paths:
     get:
       tags:
         - Links
-      summary: Fetch all links from a source FID
+      summary: From source FID
       operationId: ListLinksByFid
       parameters:
         - name: fid
@@ -455,7 +455,7 @@ paths:
     get:
       tags:
         - Links
-      summary: Fetch all links to a target FID
+      summary: To target FID
       operationId: ListLinksByTargetFid
       parameters:
         - name: target_fid
@@ -569,7 +569,7 @@ paths:
       tags:
         - Storage
       operationId: GetStorageLimitsByFid
-      summary: Fetch an FID's storage limits.
+      summary: FID's limits
       parameters:
         - name: fid
           in: query
@@ -592,7 +592,7 @@ paths:
       tags:
         - Usernames
       operationId: ListUsernameProofsByFid
-      summary: Fetch a list of proofs provided by an FID
+      summary: Proofs provided by an FID
       parameters:
         - name: fid
           in: query
@@ -614,7 +614,7 @@ paths:
     get:
       tags:
         - Usernames
-      summary: Fetch an proof for a username by the Farcaster username
+      summary: Proof for a username
       operationId: GetUsernameProof
       parameters:
         - name: name
@@ -642,7 +642,7 @@ paths:
       tags:
         - Verifications
       operationId: ListVerificationsByFid
-      summary: Fetch a list of verifications provided by an FID
+      summary: Provided by an FID
       parameters:
         - name: fid
           in: query

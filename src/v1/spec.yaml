@@ -792,13 +792,13 @@ paths:
         - name: fid
           in: query
           required: true
-          description: fid of a user
+          description: FID of a user
           schema:
             $ref: "#/components/schemas/Fid"
         - name: viewerFid
           in: query
           description: >-
-            fid of the user viewing this information, needed for contextual
+            FID of the user viewing this information, needed for contextual
             information.
           schema:
             $ref: "#/components/schemas/Fid"
@@ -834,7 +834,7 @@ paths:
         - name: viewerFid
           in: query
           description: >-
-            fid of the user viewing this information, needed for contextual
+            FID of the user viewing this information, needed for contextual
             information.
           schema:
             $ref: "#/components/schemas/Fid"
@@ -869,7 +869,7 @@ paths:
         - name: viewerFid
           in: query
           description: >-
-            fid of the user viewing this information, needed for contextual
+            FID of the user viewing this information, needed for contextual
             information.
           schema:
             $ref: "#/components/schemas/Fid"
@@ -909,7 +909,7 @@ paths:
         - name: viewerFid
           in: query
           description: >-
-            fid of the user viewing this information, needed for contextual
+            FID of the user viewing this information, needed for contextual
             information.
           required: false
           schema:
@@ -950,7 +950,7 @@ paths:
         - name: fid
           in: query
           required: true
-          description: fid of a user
+          description: FID of a user
           schema:
             $ref: "#/components/schemas/Fid"
       responses:
@@ -982,7 +982,7 @@ paths:
         - name: viewerFid
           in: query
           description: >-
-            fid of the user viewing this information, needed for contextual
+            FID of the user viewing this information, needed for contextual
             information.
           required: false
           schema:
@@ -1016,7 +1016,7 @@ paths:
         - name: viewerFid
           in: query
           description: >-
-            fid of the user viewing this information, needed for contextual
+            FID of the user viewing this information, needed for contextual
             information.
           required: false
           schema:
@@ -1043,7 +1043,7 @@ paths:
         - name: fid
           in: query
           required: true
-          description: fid of a user
+          description: FID of a user
           schema:
             $ref: "#/components/schemas/Fid"
         - name: parent_url
@@ -1057,7 +1057,7 @@ paths:
         - name: viewerFid
           in: query
           description: >-
-            fid of the user viewing this information, needed for contextual
+            FID of the user viewing this information, needed for contextual
             information.
           required: false
           schema:
@@ -1099,7 +1099,7 @@ paths:
         - name: viewerFid
           in: query
           description: >-
-            fid of the user viewing this information, needed for contextual
+            FID of the user viewing this information, needed for contextual
             information.
           required: false
           schema:
@@ -1193,13 +1193,13 @@ paths:
         - name: fid
           in: query
           required: true
-          description: fid of a user
+          description: FID of a user
           schema:
             $ref: "#/components/schemas/Fid"
         - name: viewerFid
           in: query
           description: >-
-            fid of the user viewing this information, needed for contextual
+            FID of the user viewing this information, needed for contextual
             information.
           required: false
           schema:
@@ -1232,14 +1232,14 @@ paths:
         - name: fid
           in: query
           required: true
-          description: fid of a user
+          description: FID of a user
           example: 6131
           schema:
             $ref: "#/components/schemas/Fid"
         - name: viewerFid
           in: query
           description: >-
-            fid of the user viewing this information, needed for contextual
+            FID of the user viewing this information, needed for contextual
             information.
           required: false
           example: 3
@@ -1289,7 +1289,7 @@ paths:
         - name: viewerFid
           in: query
           description: >-
-            fid of the user viewing this information, needed for contextual
+            FID of the user viewing this information, needed for contextual
             information.
           required: false
           example: 194
@@ -1339,7 +1339,7 @@ paths:
         - name: viewerFid
           in: query
           description: >-
-            fid of the user viewing this information, needed for contextual
+            FID of the user viewing this information, needed for contextual
             information.
           required: false
           example: 194

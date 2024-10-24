@@ -10,12 +10,12 @@ security:
 
 components:
   securitySchemes:
-      ApiKeyAuth:
-        type: apiKey
-        in: header
-        name: x-api-key
-        description: "API key to authorize requests"
-        x-default: "NEYNAR_API_DOCS"
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: "API key to authorize requests"
+      x-default: "NEYNAR_API_DOCS"
   schemas:
     ConflictErrorRes:
       type: object
@@ -49,7 +49,7 @@ components:
     SubscriptionCheckResponse:
       type: object
       additionalProperties:
-        $ref: '#/components/schemas/SubscriptionStatus'
+        $ref: "#/components/schemas/SubscriptionStatus"
       example:
         "0xedd3783e8c7c52b80cfbd026a63c207edc9cbee7":
           object: "subscribed_to_dehydrated"
@@ -67,7 +67,7 @@ components:
           status: false
           expires_at: null
           subscribed_at: null
-          tier: null 
+          tier: null
     SubscriptionStatus:
       type: object
       properties:
@@ -85,7 +85,7 @@ components:
           format: int64
           nullable: true
         tier:
-          $ref: '#/components/schemas/SubscriptionTier'
+          $ref: "#/components/schemas/SubscriptionTier"
           nullable: true
       required:
         - object
@@ -150,14 +150,12 @@ components:
           schema:
             $ref: "#/components/schemas/ErrorRes"
 
-
-
 paths:
   /stp/subscription_check:
     get:
       tags:
         - STP
-      summary: Check if a wallet address is subscribed to a STP contract
+      summary: Wallet address' subscription check
       description: Check if a wallet address is subscribed to a given STP contract.
       operationId: subscription-check
       externalDocs:
