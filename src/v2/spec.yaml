@@ -1067,6 +1067,22 @@ components:
           $ref: "#/components/schemas/Fid"
         fname:
           type: string
+    LocationAddress:
+      type: object
+      required:
+        - city
+        - country
+      properties:
+        city:
+          type: string
+        state:
+          type: string
+        state_code:
+          type: string
+        country:
+          type: string
+        country_code:
+          type: string
     Location:
       description: Coordinates and place names for a location
       type: object
@@ -1085,21 +1101,7 @@ components:
           minimum: -180
           maximum: 180
         address:
-          type: object
-          required:
-            - city
-            - country
-          properties:
-            city:
-              type: string
-            state:
-              type: string
-            state_code:
-              type: string
-            country:
-              type: string
-            country_code:
-              type: string
+          $ref: "#/components/schemas/LocationAddress"
     User:
       type: object
       required:
