@@ -1086,6 +1086,9 @@ components:
           maximum: 180
         address:
           type: object
+          required:
+            - city
+            - country
           properties:
             city:
               type: string
