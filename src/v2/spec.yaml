@@ -171,32 +171,32 @@ components:
           type: string
         metadata:
           $ref: "#/components/schemas/EmbedUrlMetadata"
-    TwitterImageObject:
-      type: object
-      properties:
-        alt:
-          type: string
-        height:
-          type: string # Should be 'integer' but open-graph-scraper lies and returns a string
-        url:
-          type: string
-        width:
-          type: string # Should be 'integer' but open-graph-scraper lies and returns a string
-      required:
-        - url
-    TwitterPlayerObject:
-      type: object
-      properties:
-        height:
-          type: string # Should be 'integer' but open-graph-scraper lies and returns a string
-        stream:
-          type: string
-        url:
-          type: string
-        width:
-          type: string # Should be 'integer' but open-graph-scraper lies and returns a string
-      required:
-        - url
+    # TwitterImageObject:
+    #   type: object
+    #   properties:
+    #     alt:
+    #       type: string
+    #     height:
+    #       type: string # Should be 'integer' but open-graph-scraper lies and returns a string
+    #     url:
+    #       type: string
+    #     width:
+    #       type: string # Should be 'integer' but open-graph-scraper lies and returns a string
+    #   required:
+    #     - url
+    # TwitterPlayerObject:
+    #   type: object
+    #   properties:
+    #     height:
+    #       type: string # Should be 'integer' but open-graph-scraper lies and returns a string
+    #     stream:
+    #       type: string
+    #     url:
+    #       type: string
+    #     width:
+    #       type: string # Should be 'integer' but open-graph-scraper lies and returns a string
+    #   required:
+    #     - url
     ImageObject:
       type: object
       properties:
@@ -225,116 +225,117 @@ components:
           type: string # Should be 'integer' but open-graph-scraper lies and returns a string
       required:
         - url
-    MusicSongObject:
-      type: object
-      properties:
-        disc:
-          type: string
-        track:
-          type: string # Should be 'integer' but open-graph-scraper lies and returns a string
-        url:
-          type: string
-      required:
-        - url
+    # MusicSongObject:
+    #   type: object
+    #   properties:
+    #     disc:
+    #       type: string
+    #     track:
+    #       type: string # Should be 'integer' but open-graph-scraper lies and returns a string
+    #     url:
+    #       type: string
+    #   required:
+    #     - url
     OgObject:
+      # Adapted from https://github.com/jshemas/openGraphScraper/blob/80b1800c377f5a647e365f07a2262e997a9b897c/lib/types.ts#L118-L347
       type: object
       properties:
-        alAndroidAppName:
-          type: string
-        alAndroidClass:
-          type: string
-        alAndroidPackage:
-          type: string
-        alAndroidUrl:
-          type: string
-        alIosAppName:
-          type: string
-        alIosAppStoreId:
-          type: string
-        alIosUrl:
-          type: string
-        alIpadAppName:
-          type: string
-        alIpadAppStoreId:
-          type: string
-        alIpadUrl:
-          type: string
-        alIphoneAppName:
-          type: string
-        alIphoneAppStoreId:
-          type: string
-        alIphoneUrl:
-          type: string
-        alWebShouldFallback:
-          type: string
-        alWebUrl:
-          type: string
-        alWindowsAppId:
-          type: string
-        alWindowsAppName:
-          type: string
-        alWindowsPhoneAppId:
-          type: string
-        alWindowsPhoneAppName:
-          type: string
-        alWindowsPhoneUrl:
-          type: string
-        alWindowsUniversalAppId:
-          type: string
-        alWindowsUniversalAppName:
-          type: string
-        alWindowsUniversalUrl:
-          type: string
-        alWindowsUrl:
-          type: string
-        articleAuthor:
-          type: string
-        articleExpirationTime:
-          type: string
-        articleModifiedTime:
-          type: string
-        articlePublishedDate:
-          type: string
-        articlePublishedTime:
-          type: string
-        articleModifiedDate:
-          type: string
-        articlePublisher:
-          type: string
-        articleSection:
-          type: string
-        articleTag:
-          type: string
-        author:
-          type: string
-        bookAuthor:
-          type: string
-        bookCanonicalName:
-          type: string
-        bookIsbn:
-          type: string
-        bookReleaseDate:
-          type: string
-        booksBook:
-          type: string
-        booksRatingScale:
-          type: string
-        booksRatingValue:
-          type: string
-        bookTag:
-          type: string
-        businessContactDataCountryName:
-          type: string
-        businessContactDataLocality:
-          type: string
-        businessContactDataPostalCode:
-          type: string
-        businessContactDataRegion:
-          type: string
-        businessContactDataStreetAddress:
-          type: string
-        charset:
-          type: string
+        # alAndroidAppName:
+        #   type: string
+        # alAndroidClass:
+        #   type: string
+        # alAndroidPackage:
+        #   type: string
+        # alAndroidUrl:
+        #   type: string
+        # alIosAppName:
+        #   type: string
+        # alIosAppStoreId:
+        #   type: string
+        # alIosUrl:
+        #   type: string
+        # alIpadAppName:
+        #   type: string
+        # alIpadAppStoreId:
+        #   type: string
+        # alIpadUrl:
+        #   type: string
+        # alIphoneAppName:
+        #   type: string
+        # alIphoneAppStoreId:
+        #   type: string
+        # alIphoneUrl:
+        #   type: string
+        # alWebShouldFallback:
+        #   type: string
+        # alWebUrl:
+        #   type: string
+        # alWindowsAppId:
+        #   type: string
+        # alWindowsAppName:
+        #   type: string
+        # alWindowsPhoneAppId:
+        #   type: string
+        # alWindowsPhoneAppName:
+        #   type: string
+        # alWindowsPhoneUrl:
+        #   type: string
+        # alWindowsUniversalAppId:
+        #   type: string
+        # alWindowsUniversalAppName:
+        #   type: string
+        # alWindowsUniversalUrl:
+        #   type: string
+        # alWindowsUrl:
+        #   type: string
+        # articleAuthor:
+        #   type: string
+        # articleExpirationTime:
+        #   type: string
+        # articleModifiedTime:
+        #   type: string
+        # articlePublishedDate:
+        #   type: string
+        # articlePublishedTime:
+        #   type: string
+        # articleModifiedDate:
+        #   type: string
+        # articlePublisher:
+        #   type: string
+        # articleSection:
+        #   type: string
+        # articleTag:
+        #   type: string
+        # author:
+        #   type: string
+        # bookAuthor:
+        #   type: string
+        # bookCanonicalName:
+        #   type: string
+        # bookIsbn:
+        #   type: string
+        # bookReleaseDate:
+        #   type: string
+        # booksBook:
+        #   type: string
+        # booksRatingScale:
+        #   type: string
+        # booksRatingValue:
+        #   type: string
+        # bookTag:
+        #   type: string
+        # businessContactDataCountryName:
+        #   type: string
+        # businessContactDataLocality:
+        #   type: string
+        # businessContactDataPostalCode:
+        #   type: string
+        # businessContactDataRegion:
+        #   type: string
+        # businessContactDataStreetAddress:
+        #   type: string
+        # charset:
+        #   type: string
         # customMetaTags:
         #   type: object
         #   additionalProperties:
@@ -343,80 +344,80 @@ components:
         #       - type: array
         #         items:
         #           type: string
-        dcContributor:
-          type: string
-        dcCoverage:
-          type: string
-        dcCreator:
-          type: string
-        dcDate:
-          type: string
-        dcDateCreated:
-          type: string
-        dcDateIssued:
-          type: string
-        dcDescription:
-          type: string
-        dcFormatMedia:
-          type: string
-        dcFormatSize:
-          type: string
-        dcIdentifier:
-          type: string
-        dcLanguage:
-          type: string
-        dcPublisher:
-          type: string
-        dcRelation:
-          type: string
-        dcRights:
-          type: string
-        dcSource:
-          type: string
-        dcSubject:
-          type: string
-        dcTitle:
-          type: string
-        dcType:
-          type: string
+        # dcContributor:
+        #   type: string
+        # dcCoverage:
+        #   type: string
+        # dcCreator:
+        #   type: string
+        # dcDate:
+        #   type: string
+        # dcDateCreated:
+        #   type: string
+        # dcDateIssued:
+        #   type: string
+        # dcDescription:
+        #   type: string
+        # dcFormatMedia:
+        #   type: string
+        # dcFormatSize:
+        #   type: string
+        # dcIdentifier:
+        #   type: string
+        # dcLanguage:
+        #   type: string
+        # dcPublisher:
+        #   type: string
+        # dcRelation:
+        #   type: string
+        # dcRights:
+        #   type: string
+        # dcSource:
+        #   type: string
+        # dcSubject:
+        #   type: string
+        # dcTitle:
+        #   type: string
+        # dcType:
+        #   type: string
         # error:
         #   type: string
         # errorDetails:
         #   type: object
         favicon:
           type: string
-        fbAppId:
-          type: string
-        jsonLD:
-          type: array
-          items:
-            type: object
+        # fbAppId:
+        #   type: string
+        # jsonLD:
+        #   type: array
+        #   items:
+        #     type: object
         modifiedTime:
           type: string
-        musicAlbum:
-          type: string
-        musicAlbumDisc:
-          type: string
-        musicAlbumTrack:
-          type: string
-        musicAlbumUrl:
-          type: string
-        musicCreator:
-          type: string
-        musicDuration:
-          type: string
-        musicMusician:
-          type: string
-        musicPlaylist:
-          type: string
-        musicRadioStation:
-          type: string
-        musicReleaseDate:
-          type: string
-        musicSong:
-          type: array
-          items:
-            $ref: "#/components/schemas/MusicSongObject"
+        # musicAlbum:
+        #   type: string
+        # musicAlbumDisc:
+        #   type: string
+        # musicAlbumTrack:
+        #   type: string
+        # musicAlbumUrl:
+        #   type: string
+        # musicCreator:
+        #   type: string
+        # musicDuration:
+        #   type: string
+        # musicMusician:
+        #   type: string
+        # musicPlaylist:
+        #   type: string
+        # musicRadioStation:
+        #   type: string
+        # musicReleaseDate:
+        #   type: string
+        # musicSong:
+        #   type: array
+        #   items:
+        #     $ref: "#/components/schemas/MusicSongObject"
         ogArticleAuthor:
           type: string
         ogArticleExpirationTime:
@@ -513,100 +514,221 @@ components:
           type: string
         ogWebsite:
           type: string
-        placeLocationLatitude:
-          type: string
-        placeLocationLongitude:
-          type: string
-        profileFirstName:
-          type: string
-        profileGender:
-          type: string
-        profileLastName:
-          type: string
-        profileUsername:
-          type: string
-        publishedTime:
-          type: string
-        releaseDate:
-          type: string
-        requestUrl:
-          type: string
-        restaurantContactInfoCountryName:
-          type: string
-        restaurantContactInfoEmail:
-          type: string
-        restaurantContactInfoLocality:
-          type: string
-        restaurantContactInfoPhoneNumber:
-          type: string
-        restaurantContactInfoPostalCode:
-          type: string
-        restaurantContactInfoRegion:
-          type: string
-        restaurantContactInfoStreetAddress:
-          type: string
-        restaurantContactInfoWebsite:
-          type: string
-        restaurantMenu:
-          type: string
-        restaurantRestaurant:
-          type: string
-        restaurantSection:
-          type: string
-        restaurantVariationPriceAmount:
-          type: string
-        restaurantVariationPriceCurrency:
-          type: string
+        # placeLocationLatitude:
+        #   type: string
+        # placeLocationLongitude:
+        #   type: string
+        # profileFirstName:
+        #   type: string
+        # profileGender:
+        #   type: string
+        # profileLastName:
+        #   type: string
+        # profileUsername:
+        #   type: string
+        # publishedTime:
+        #   type: string
+        # releaseDate:
+        #   type: string
+        # requestUrl:
+        #   type: string
+        # restaurantContactInfoCountryName:
+        #   type: string
+        # restaurantContactInfoEmail:
+        #   type: string
+        # restaurantContactInfoLocality:
+        #   type: string
+        # restaurantContactInfoPhoneNumber:
+        #   type: string
+        # restaurantContactInfoPostalCode:
+        #   type: string
+        # restaurantContactInfoRegion:
+        #   type: string
+        # restaurantContactInfoStreetAddress:
+        #   type: string
+        # restaurantContactInfoWebsite:
+        #   type: string
+        # restaurantMenu:
+        #   type: string
+        # restaurantRestaurant:
+        #   type: string
+        # restaurantSection:
+        #   type: string
+        # restaurantVariationPriceAmount:
+        #   type: string
+        # restaurantVariationPriceCurrency:
+        #   type: string
         # success:
         #   type: boolean
-        twitterAccount:
-          type: string
-        twitterAppIdGooglePlay:
-          type: string
-        twitterAppIdiPad:
-          type: string
-        twitterAppIdiPhone:
-          type: string
-        twitterAppNameGooglePlay:
-          type: string
-        twitterAppNameiPad:
-          type: string
-        twitterAppNameiPhone:
-          type: string
-        twitterAppUrlGooglePlay:
-          type: string
-        twitterAppUrliPad:
-          type: string
-        twitterAppUrliPhone:
-          type: string
-        twitterCard:
-          type: string
-        twitterCreator:
-          type: string
-        twitterCreatorId:
-          type: string
-        twitterDescription:
-          type: string
-        twitterImage:
-          type: array
-          items:
-            $ref: "#/components/schemas/TwitterImageObject"
-        twitterPlayer:
-          type: array
-          items:
-            $ref: "#/components/schemas/TwitterPlayerObject"
-        twitterPlayerStreamContentType:
-          type: string
-        twitterSite:
-          type: string
-        twitterSiteId:
-          type: string
-        twitterTitle:
-          type: string
-        twitterUrl:
-          type: string
+        # twitterAccount:
+        #   type: string
+        # twitterAppIdGooglePlay:
+        #   type: string
+        # twitterAppIdiPad:
+        #   type: string
+        # twitterAppIdiPhone:
+        #   type: string
+        # twitterAppNameGooglePlay:
+        #   type: string
+        # twitterAppNameiPad:
+        #   type: string
+        # twitterAppNameiPhone:
+        #   type: string
+        # twitterAppUrlGooglePlay:
+        #   type: string
+        # twitterAppUrliPad:
+        #   type: string
+        # twitterAppUrliPhone:
+        #   type: string
+        # twitterCard:
+        #   type: string
+        # twitterCreator:
+        #   type: string
+        # twitterCreatorId:
+        #   type: string
+        # twitterDescription:
+        #   type: string
+        # twitterImage:
+        #   type: array
+        #   items:
+        #     $ref: "#/components/schemas/TwitterImageObject"
+        # twitterPlayer:
+        #   type: array
+        #   items:
+        #     $ref: "#/components/schemas/TwitterPlayerObject"
+        # twitterPlayerStreamContentType:
+        #   type: string
+        # twitterSite:
+        #   type: string
+        # twitterSiteId:
+        #   type: string
+        # twitterTitle:
+        #   type: string
+        # twitterUrl:
+        #   type: string
         updatedTime:
           type: string
+    OembedData:
+      # Adapted from https://github.com/extractus/oembed-extractor/blob/e3b9aff4084118e12b6e98bdf997a78901ea6dfd/index.d.ts#L30-L107
+      type: object
+      description: Basic data structure of every oembed response see https://oembed.com/
+      required:
+        - type
+        - version
+      properties:
+        type:
+          type: string
+          enum: [rich, video, photo, link]
+        version:
+          type: string
+        title:
+          type: string
+          description: A text title, describing the resource.
+        author_name:
+          type: string
+          description: The name of the author/owner of the resource.
+        author_url:
+          type: string
+          description: A URL for the author/owner of the resource.
+        provider_name:
+          type: string
+          description: The name of the resource provider.
+        provider_url:
+          type: string
+          description: The url of the resource provider.
+        cache_age:
+          oneOf:
+            - type: string
+            - type: number
+          description: The suggested cache lifetime for this resource, in seconds. Consumers may choose to use this value or not.
+        thumbnail_url:
+          type: string
+          description: A URL to a thumbnail image representing the resource. The thumbnail must respect any maxwidth and maxheight parameters. If this parameter is present, thumbnail_width and thumbnail_height must also be present.
+        thumbnail_width:
+          type: number
+          description: The width of the optional thumbnail. If this parameter is present, thumbnail_url and thumbnail_height must also be present.
+        thumbnail_height:
+          type: number
+          description: The height of the optional thumbnail. If this parameter is present, thumbnail_url and thumbnail_width must also be present.
+
+    LinkTypeData:
+      allOf:
+        - $ref: '#/components/schemas/OembedData'
+        - type: object
+          properties:
+            type:
+              type: string
+              enum: [link]
+              readOnly: true
+
+    PhotoTypeData:
+      allOf:
+        - $ref: '#/components/schemas/OembedData'
+        - type: object
+          required:
+            - url
+            - width
+            - height
+          properties:
+            type:
+              type: string
+              enum: [photo]
+              readOnly: true
+            url:
+              type: string
+              description: The source URL of the image. Consumers should be able to insert this URL into an <img> element. Only HTTP and HTTPS URLs are valid.
+            width:
+              type: number
+              description: The width in pixels of the image specified in the url parameter.
+            height:
+              type: number
+              description: The height in pixels of the image specified in the url parameter.
+
+    VideoTypeData:
+      allOf:
+        - $ref: '#/components/schemas/OembedData'
+        - type: object
+          required:
+            - html
+            - width
+            - height
+          properties:
+            type:
+              type: string
+              enum: [video]
+              readOnly: true
+            html:
+              type: string
+              description: The HTML required to embed a video player. The HTML should have no padding or margins. Consumers may wish to load the HTML in an off-domain iframe to avoid XSS vulnerabilities.
+            width:
+              type: number
+              description: The width in pixels required to display the HTML.
+            height:
+              type: number
+              description: The height in pixels required to display the HTML.
+
+    RichTypeData:
+      allOf:
+        - $ref: '#/components/schemas/OembedData'
+        - type: object
+          required:
+            - html
+            - width
+            - height
+          properties:
+            type:
+              type: string
+              enum: [rich]
+              readOnly: true
+            html:
+              type: string
+              description: The HTML required to display the resource. The HTML should have no padding or margins. Consumers may wish to load the HTML in an off-domain iframe to avoid XSS vulnerabilities. The markup should be valid XHTML 1.0 Basic.
+            width:
+              type: number
+              description: The width in pixels required to display the HTML.
+            height:
+              type: number
+              description: The height in pixels required to display the HTML.
     EmbedUrlMetadata:
       type: object
       required:
@@ -644,8 +766,24 @@ components:
                   width_px:
                     type: integer
         html:
-          # Converted from https://github.com/jshemas/openGraphScraper/blob/80b1800c377f5a647e365f07a2262e997a9b897c/lib/types.ts#L118-L347
-          $ref: "#/components/schemas/OgObject"
+          allOf:
+            - $ref: "#/components/schemas/OgObject"
+            - type: object
+              properties:
+                oembed: 
+                  oneOf:
+                    - $ref: "#/components/schemas/RichTypeData"
+                    - $ref: "#/components/schemas/VideoTypeData"
+                    - $ref: "#/components/schemas/PhotoTypeData"
+                    - $ref: "#/components/schemas/LinkTypeData"
+                  discriminator:
+                    propertyName: type
+                    mapping:
+                      rich: "#/components/schemas/RichTypeData"
+                      video: "#/components/schemas/VideoTypeData"
+                      photo: "#/components/schemas/PhotoTypeData"
+                      link: "#/components/schemas/LinkTypeData"
+          
     ChannelMemberRole:
       type: string
       description: The role of a channel member
