@@ -145,7 +145,7 @@ paths:
     get:
       tags:
         - Casts
-      summary: By parent cast's FID and Hash OR by the parent's URL
+      summary: By parent cast
       operationId: ListCastsByParent
       parameters:
         - name: fid
@@ -193,7 +193,7 @@ paths:
     get:
       tags:
         - Reactions
-      summary: By its created FID and target cast
+      summary: By FID or cast
       operationId: GetReactionById
       parameters:
         - name: fid
@@ -973,7 +973,7 @@ components:
             type: integer
             format: int64
         embeds:
-          title: URLs or cast ids to be embedded in the cast
+          title: URLs or cast IDs to be embedded in the cast
           type: array
           items:
             $ref: "#/components/schemas/Embed"
@@ -1310,7 +1310,7 @@ components:
           type: integer
           format: int64
         targetFid:
-          title: The fid the link relates to
+          title: The FID the link relates to
           type: integer
           format: uint64
       required:

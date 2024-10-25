@@ -4208,7 +4208,7 @@ paths:
         - name: fid
           in: query
           required: true
-          description: The fid of the user.
+          description: The FID of the user.
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
@@ -4687,7 +4687,7 @@ paths:
           schema:
             $ref: "#/components/schemas/FilterType"
           example: fids
-          description: Used when feed_type=filter. Can be set to fids (requires fids) or parent_url (requires parent_url) or channel_id (requires channel_id)
+          description: Used when feed_type=filter. Can be set to FIDs (requires FIDs) or parent_url (requires parent_url) or channel_id (requires channel_id)
         - name: fid
           in: query
           schema:
@@ -4698,7 +4698,7 @@ paths:
           schema:
             type: string
           example: 3,2,194
-          description: Used when filter_type=fids . Create a feed based on a list of fids. Max array size is 250. Requires feed_type and filter_type.
+          description: Used when filter_type=FIDs . Create a feed based on a list of FIDs. Max array size is 250. Requires feed_type and filter_type.
         - name: parent_url
           in: query
           schema:
@@ -4919,7 +4919,7 @@ paths:
       tags:
         - Subscribers
       summary: Subscribed to
-      description: Fetch what fids and contracts a FID is subscribed to.
+      description: Fetch what FIDs and contracts a FID is subscribed to.
       externalDocs:
         url: https://docs.neynar.com/reference/subscribed-to
       operationId: subscribed-to
@@ -4998,7 +4998,7 @@ paths:
       operationId: feed-channels
       tags:
         - Feed
-      description: Fetch feed based on channel ids
+      description: Fetch feed based on channel IDs
       parameters:
         - $ref: "#/components/parameters/ApiKey"
         - name: channel_ids
@@ -5007,7 +5007,7 @@ paths:
           example: neynar,farcaster
           schema:
             type: string
-          description: Comma separated list of channel ids e.g. neynar,farcaster
+          description: Comma separated list of channel IDs e.g. neynar,farcaster
         - name: with_recasts
           in: query
           description: Include recasts in the response, true by default
@@ -5070,7 +5070,7 @@ paths:
       operationId: feed-parent-urls
       tags:
         - Feed
-      description: Fetch feed based on parent urls
+      description: Fetch feed based on parent URLs
       parameters:
         - $ref: "#/components/parameters/ApiKey"
         - name: parent_urls
@@ -6137,7 +6137,7 @@ paths:
     get:
       tags:
         - Notifications
-      summary: For user in specific channels
+      summary: For user by channel
       description: Returns a list of notifications for a user in specific channels
       externalDocs:
         url: https://docs.neynar.com/reference/notifications
@@ -6184,7 +6184,7 @@ paths:
     get:
       tags:
         - Notifications
-      summary: For user in given parent_urls
+      summary: For user by parent_urls
       description: Returns a list of notifications for a user in specific parent_urls
       externalDocs:
         url: https://docs.neynar.com/reference/notifications
@@ -7449,7 +7449,7 @@ paths:
       tags:
         - Mute
       summary: Muted FIDs of user
-      description: Fetches all fids that a user has muted.
+      description: Fetches all FIDs that a user has muted.
       operationId: mute-list
       parameters:
         - $ref: "#/components/parameters/ApiKey"
@@ -7549,7 +7549,7 @@ paths:
       tags:
         - Block
       summary: Blocked / Blocked by FIDs
-      description: Fetches all fids that a user has blocked or has been blocked by
+      description: Fetches all FIDs that a user has blocked or has been blocked by
       operationId: block-list
       parameters:
         - $ref: "#/components/parameters/ApiKey"
@@ -7602,7 +7602,7 @@ paths:
       tags:
         - Ban
       summary: Banned FIDs of app
-      description: Fetches all fids that your app has banned.
+      description: Fetches all FIDs that your app has banned.
       operationId: ban-list
       parameters:
         - $ref: "#/components/parameters/ApiKey"
@@ -7640,7 +7640,7 @@ paths:
       tags:
         - Ban
       summary: Ban FIDs from app
-      description: Bans a list of fids from the app associated with your API key. Banned users, their casts and reactions will not appear in feeds.
+      description: Bans a list of FIDs from the app associated with your API key. Banned users, their casts and reactions will not appear in feeds.
       operationId: add-ban
       parameters:
         - $ref: "#/components/parameters/ApiKey"
@@ -7667,7 +7667,7 @@ paths:
       tags:
         - Ban
       summary: Unban FIDs from app
-      description: Deletes a list of fids from the app associated with your API key.
+      description: Deletes a list of FIDs from the app associated with your API key.
       operationId: delete-ban
       parameters:
         - $ref: "#/components/parameters/ApiKey"
@@ -7739,7 +7739,7 @@ paths:
     post:
       tags:
         - Action
-      summary: Perform actions on behalf of users across different apps
+      summary: User actions across apps
       description: Securely communicate and perform actions on behalf of users across different apps. It enables an app to send data or trigger actions in another app on behalf of a mutual user by signing messages using the user's Farcaster signer.
       externalDocs:
         url: https://docs.neynar.com/docs/farcaster-actions-spec
