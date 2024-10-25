@@ -618,39 +618,50 @@ components:
       properties:
         type:
           type: string
-          enum: [rich, video, photo, link]
+          enum:
+            - rich
+            - video
+            - photo
+            - link
         version:
           type: string
+          nullable: true
         title:
           type: string
           description: A text title, describing the resource.
+          nullable: true
         author_name:
           type: string
           description: The name of the author/owner of the resource.
+          nullable: true
         author_url:
           type: string
           description: A URL for the author/owner of the resource.
+          nullable: true
         provider_name:
           type: string
           description: The name of the resource provider.
+          nullable: true
         provider_url:
           type: string
           description: The url of the resource provider.
+          nullable: true
         cache_age:
-          oneOf:
-            - type: string
-            - type: number
+          type: string
           description: The suggested cache lifetime for this resource, in seconds. Consumers may choose to use this value or not.
+          nullable: true
         thumbnail_url:
           type: string
           description: A URL to a thumbnail image representing the resource. The thumbnail must respect any maxwidth and maxheight parameters. If this parameter is present, thumbnail_width and thumbnail_height must also be present.
+          nullable: true
         thumbnail_width:
           type: number
           description: The width of the optional thumbnail. If this parameter is present, thumbnail_url and thumbnail_height must also be present.
+          nullable: true
         thumbnail_height:
           type: number
           description: The height of the optional thumbnail. If this parameter is present, thumbnail_url and thumbnail_width must also be present.
-
+          nullable: true
     LinkTypeData:
       allOf:
         - $ref: '#/components/schemas/OembedData'
@@ -658,9 +669,8 @@ components:
           properties:
             type:
               type: string
-              enum: [link]
-              readOnly: true
-
+              enum:
+                - link
     PhotoTypeData:
       allOf:
         - $ref: '#/components/schemas/OembedData'
@@ -672,18 +682,20 @@ components:
           properties:
             type:
               type: string
-              enum: [photo]
-              readOnly: true
+              enum:
+                - photo
             url:
               type: string
               description: The source URL of the image. Consumers should be able to insert this URL into an <img> element. Only HTTP and HTTPS URLs are valid.
+              nullable: true
             width:
               type: number
               description: The width in pixels of the image specified in the url parameter.
+              nullable: true
             height:
               type: number
               description: The height in pixels of the image specified in the url parameter.
-
+              nullable: true
     VideoTypeData:
       allOf:
         - $ref: '#/components/schemas/OembedData'
@@ -695,18 +707,20 @@ components:
           properties:
             type:
               type: string
-              enum: [video]
-              readOnly: true
+              enum:
+                - video
             html:
               type: string
               description: The HTML required to embed a video player. The HTML should have no padding or margins. Consumers may wish to load the HTML in an off-domain iframe to avoid XSS vulnerabilities.
+              nullable: true
             width:
               type: number
               description: The width in pixels required to display the HTML.
+              nullable: true
             height:
               type: number
               description: The height in pixels required to display the HTML.
-
+              nullable: true
     RichTypeData:
       allOf:
         - $ref: '#/components/schemas/OembedData'
@@ -718,17 +732,20 @@ components:
           properties:
             type:
               type: string
-              enum: [rich]
-              readOnly: true
+              enum:
+                - rich
             html:
               type: string
               description: The HTML required to display the resource. The HTML should have no padding or margins. Consumers may wish to load the HTML in an off-domain iframe to avoid XSS vulnerabilities. The markup should be valid XHTML 1.0 Basic.
+              nullable: true
             width:
               type: number
               description: The width in pixels required to display the HTML.
+              nullable: true
             height:
               type: number
               description: The height in pixels required to display the HTML.
+              nullable: true
     EmbedUrlMetadata:
       type: object
       required:
