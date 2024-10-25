@@ -1,28 +1,38 @@
-
 ## Description of the Change
+
 <!-- Provide a concise description of the changes made to the OpenAPI Specification in this pull request. -->
 
 ## OAS Change Summary
+
 <!-- List out the specific OAS changes. For example, new/updated endpoints, parameters, response codes, schemas, etc. -->
 
 ### New Endpoints
+
 <!-- List any new endpoints added, along with their method, path, and a brief description. -->
+
 - `POST /new/endpoint` - Description of the new endpoint.
 
 ### Updated Endpoints
+
 <!-- List any modified endpoints, describing the change and why it was made. -->
+
 - `GET /existing/endpoint` - Updated description, parameters, or responses.
 
 ### Deprecated Endpoints
+
 <!-- List any endpoints that are now deprecated. -->
+
 - `DELETE /old/endpoint` - Marked for deprecation due to [reason].
 
 ### New/Updated Schemas
+
 <!-- List any changes to request/response schemas. Include newly added or modified schema definitions. -->
+
 - `NewSchema` - Schema for a new resource.
 - `UpdatedSchema` - Modified to include additional fields.
 
 ## Checklist
+
 <!-- Ensure that the following items have been addressed before submitting the pull request. -->
 
 - [ ] I have validated that all new/updated endpoints conform to OAS standards.
@@ -35,4 +45,5 @@
 - [ ] I have tested the OAS changes using a tool like [Swagger editor](https://editor.swagger.io/)
 
 ## Additional Comments
+
 <!-- Add any additional information that reviewers should be aware of. -->
