@@ -1222,6 +1222,41 @@ components:
           $ref: "#/components/schemas/Fid"
         fname:
           type: string
+    LocationAddress:
+      type: object
+      required:
+        - city
+        - country
+      properties:
+        city:
+          type: string
+        state:
+          type: string
+        state_code:
+          type: string
+        country:
+          type: string
+        country_code:
+          type: string
+    Location:
+      description: Coordinates and place names for a location
+      type: object
+      required:
+        - latitude
+        - longitude
+      properties:
+        latitude:
+          type: number
+          format: double
+          minimum: -90
+          maximum: 90
+        longitude:
+          type: number
+          format: double
+          minimum: -180
+          maximum: 180
+        address:
+          $ref: "#/components/schemas/LocationAddress"
     User:
       type: object
       required:
@@ -1270,6 +1305,8 @@ components:
                   items:
                     type: string
                   default: []
+            location:
+              $ref: "#/components/schemas/Location"
         follower_count:
           type: integer
           format: int32
