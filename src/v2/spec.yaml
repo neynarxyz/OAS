@@ -1362,6 +1362,14 @@ components:
           type: boolean
         viewer_context:
           $ref: "#/components/schemas/UserViewerContext"
+    Embed:
+      oneOf:
+        - $ref: "#/components/schemas/EmbedUrl"
+        - $ref: "#/components/schemas/EmbedCast"
+    EmbedDeep:
+      oneOf:
+        - $ref: "#/components/schemas/EmbedUrl"
+        - $ref: "#/components/schemas/EmbedCastDeep"
     CastEmbedded:
       # This should just be Cast, but have to duplicate to avoid the circular reference caused by embedded casts, 
       # because Readme chokes on them.
@@ -1411,9 +1419,7 @@ components:
           type: array
           items:
             type: object
-            oneOf:
-            - $ref: "#/components/schemas/EmbedUrl"
-            - $ref: "#/components/schemas/EmbedCastDeep"
+            $ref: "#/components/schemas/EmbedDeep"
         channel:
           anyOf:
             - $ref: "#/components/schemas/DehydratedChannel"
@@ -1461,9 +1467,7 @@ components:
           type: array
           items:
             type: object
-            oneOf:
-            - $ref: "#/components/schemas/EmbedUrl"
-            - $ref: "#/components/schemas/EmbedCast"
+            $ref: "#/components/schemas/Embed"
         type:
           $ref: "#/components/schemas/CastNotificationType"
     ProfileUrl:
