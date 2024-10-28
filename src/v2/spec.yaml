@@ -1377,6 +1377,7 @@ components:
         - timestamp
         - type
         - embeds
+        - channel
       properties:
         hash:
           type: string
@@ -1413,6 +1414,10 @@ components:
             oneOf:
             - $ref: "#/components/schemas/EmbedUrl"
             - $ref: "#/components/schemas/EmbedCastDeep"
+        channel:
+          anyOf:
+            - $ref: "#/components/schemas/DehydratedChannel"
+          nullable: true
     Cast:
       type: object
       required:
