@@ -2525,15 +2525,18 @@ components:
     CastDehydrated:
       type: object
       required:
-        - hash
         - object
+        - hash
+        - author
       properties:
-        hash:
-          type: string
         object:
           type: string
           enum:
             - cast_dehydrated
+        hash:
+          type: string
+        author:
+          $ref: "#/components/schemas/UserDehydrated"
     ReactionWithUserInfo:
       type: object
       required:
