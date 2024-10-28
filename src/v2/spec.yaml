@@ -3925,7 +3925,7 @@ paths:
       description: Fetches FID to [assign it to new user](https://docs.neynar.com/reference/register-user)
       externalDocs:
         url: https://docs.neynar.com/reference/get-fresh-fid
-      operationId: get-fresh-account-FID
+      operationId: get-fresh-account-fid
       parameters:
         - $ref: "#/components/parameters/ApiKey"
       responses:
