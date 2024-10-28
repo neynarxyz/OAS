@@ -817,13 +817,17 @@ components:
           $ref: "#/components/schemas/Fid"
         hash:
           type: string
-    EmbedCastId:
+    EmbedCast:
       type: object
       required:
         - cast_id
       properties:
         cast_id:
           $ref: "#/components/schemas/CastId"
+        metadata:
+          $ref: "#/components/schemas/EmbedCastMetadata"
+    EmbedCastMetadata:
+      $ref: "#/components/schemas/CastWithoutEmbeds"
     Frame:
       type: object
       required:
@@ -883,17 +887,14 @@ components:
               type: string
               example: "0"
     SubscribedTo:
-      type: object
-      required:
-        - object
-        - user
-        - expires_at
-        - subscribed_at
-        - tier
-        - creator
-      anyOf:
+      allOf:
         - $ref: "#/components/schemas/Subscription"
         - type: object
+          required:
+            - expires_at
+            - subscribed_at
+            - tier
+            - creator
           properties:
             expires_at:
               type: string
@@ -1349,10 +1350,65 @@ components:
           type: boolean
         viewer_context:
           $ref: "#/components/schemas/UserViewerContext"
-    EmbeddedCast:
+    Embed:
       oneOf:
         - $ref: "#/components/schemas/EmbedUrl"
-        - $ref: "#/components/schemas/EmbedCastId"
+        - $ref: "#/components/schemas/EmbedCast"
+    CastWithoutEmbeds:
+      type: object
+      required:
+        - hash
+        - parent_hash
+        - parent_url
+        - root_parent_url
+        - parent_author
+        - author
+        - text
+        - timestamp
+        - type
+        - embeds
+      properties:
+        hash:
+          type: string
+        parent_hash:
+          type: string
+          nullable: true
+        parent_url:
+          type: string
+          nullable: true
+        root_parent_url:
+          type: string
+          nullable: true
+        parent_author:
+          type: object
+          required:
+            - fid
+          properties:
+            fid:
+              allOf:
+                - $ref: "#/components/schemas/Fid"
+              nullable: true
+        author:
+          oneOf:
+            - $ref: "#/components/schemas/User"
+            - $ref: "#/components/schemas/UserDehydrated"
+          discriminator:
+            propertyName: object
+            mapping:
+              user: "#/components/schemas/User"
+              user_dehydrated: "#/components/schemas/UserDehydrated"
+        text:
+          type: string
+        timestamp:
+          $ref: "#/components/schemas/Timestamp"
+        type:
+          $ref: "#/components/schemas/CastNotificationType"
+        embeds:
+          description: |
+            It is an array of Embed object (Check #/components/schemas/Cast). Embed object is intentionally omitted to break the circular reference.
+          type: array
+          items:
+            type: object
     Cast:
       type: object
       required:
@@ -1379,16 +1435,22 @@ components:
           nullable: true
         parent_author:
           type: object
-          anyOf:
-            - $ref: "#/components/schemas/Fid"
-            - required:
-                - fid
-              properties:
-                fid:
-                  type: integer
-                  nullable: true
+          required:
+            - fid
+          properties:
+            fid:
+              allOf: # Need this seemingly pointless allOf for the nullable to work
+                - $ref: "#/components/schemas/Fid"
+              nullable: true
         author:
-          $ref: "#/components/schemas/User"
+          oneOf:
+            - $ref: "#/components/schemas/User"
+            - $ref: "#/components/schemas/UserDehydrated"
+          discriminator:
+            propertyName: object
+            mapping:
+              user: "#/components/schemas/User"
+              user_dehydrated: "#/components/schemas/UserDehydrated"
         text:
           type: string
         timestamp:
@@ -1396,7 +1458,7 @@ components:
         embeds:
           type: array
           items:
-            $ref: "#/components/schemas/EmbeddedCast"
+            $ref: "#/components/schemas/Embed"
         type:
           $ref: "#/components/schemas/CastNotificationType"
     ProfileUrl:
@@ -1749,15 +1811,15 @@ components:
         - $ref: "#/components/schemas/Channel"
         - $ref: "#/components/schemas/DehydratedChannel"
       discriminator:
-        propertyName: type
+        propertyName: object
         mapping:
           channel: "#/components/schemas/Channel"
-          dehydratedChannel: "#/components/schemas/DehydratedChannel"
+          dehydrated_channel: "#/components/schemas/DehydratedChannel"
     CastWithInteractions:
-      anyOf:
+      allOf:
         - $ref: "#/components/schemas/Cast"
         - type: object
-        - required:
+          required:
             - reactions
             - replies
             - thread_hash
@@ -1780,17 +1842,19 @@ components:
               items:
                 $ref: "#/components/schemas/User"
             channel:
-              $ref: "#/components/schemas/ChannelOrDehydratedChannel"
+              anyOf:
+                - $ref: "#/components/schemas/ChannelOrDehydratedChannel"
               nullable: true
             viewer_context:
               $ref: "#/components/schemas/CastViewerContext"
+            author_channel_context:
+              $ref: "#/components/schemas/ChannelUserContext"
     CastWithInteractionsAndConversations:
-      type: object
-      required:
-        - direct_replies
-      anyOf:
+      allOf:
         - $ref: "#/components/schemas/CastWithInteractions"
         - type: object
+          required:
+            - direct_replies
           properties:
             direct_replies:
               type: array
@@ -1799,12 +1863,11 @@ components:
               description: "note: This is recursive. It contains the direct replies to the cast and their direct replies up to n reply_depth."
     CastWithInteractionsAndConversationsRef:
       description: Reference to CastWithInteractionsAndConversations to avoid circular reference
-      type: object
-      required:
-        - direct_replies
-      anyOf:
+      allOf:
         - $ref: "#/components/schemas/CastWithInteractions"
         - type: object
+          required:
+            - direct_replies
           properties:
             direct_replies:
               type: array
@@ -2031,6 +2094,8 @@ components:
             - channel_dehydrated
         image_url:
           type: string
+        viewer_context:
+          $ref: "#/components/schemas/ChannelUserContext"
     Channel:
       type: object
       required:
@@ -2091,7 +2156,7 @@ components:
           items:
             $ref: "#/components/schemas/User"
         viewer_context:
-          $ref: "#/components/schemas/ChannelViewerContext"
+          $ref: "#/components/schemas/ChannelUserContext"
     ChannelViewerContext:
       deprecated: true
       type: object
@@ -2101,6 +2166,17 @@ components:
         following:
           type: boolean
           description: Indicates if the viewer is following the channel.
+    ChannelUserContext:
+      description: Adds context on the viewer's or author's role in the channel.
+      type: object
+      required:
+        - following
+      properties:
+        following:
+          description: Indicates if the user is following the channel.
+          type: boolean
+        role:
+          $ref: "#/components/schemas/ChannelMemberRole"
     ChannelListResponse:
       type: object
       required:
@@ -2546,6 +2622,12 @@ components:
             - user_dehydrated
         fid:
           $ref: "#/components/schemas/Fid"
+        username:
+          type: string
+        display_name:
+          type: string
+        pfp_url:
+          type: string
     UserResponse:
       type: object
       required:
@@ -3370,10 +3452,10 @@ components:
         subscription:
           $ref: "#/components/schemas/WebhookSubscriptionFilters"
     WebhookPutReqBody:
-      type: object
-      anyOf:
+      allOf:
         - $ref: "#/components/schemas/WebhookPostReqBody"
-        - required:
+        - type: object
+          required:
             - webhook_id
           properties:
             webhook_id:
@@ -3716,7 +3798,8 @@ components:
           format: int64
           nullable: true
         tier:
-          $ref: "#/components/schemas/SubscriptionTier"
+          allOf: # Need this seemingly pointless allOf for the nullable to work
+            - $ref: "#/components/schemas/SubscriptionTier"
           nullable: true
       required:
         - object
@@ -7239,6 +7322,51 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/FollowersResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "500":
+          $ref: "#/components/responses/500Response"
+  /farcaster/following/suggested:
+    get:
+      tags:
+        - Follows
+      summary: Fetch a list of suggested users to follow
+      description: Used to help users discover new users to follow
+      externalDocs:
+        url: https://docs.neynar.com/reference/suggested-follows
+      operationId: suggested-follows
+      parameters:
+        - $ref: "#/components/parameters/ApiKey"
+        - name: fid
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/Fid"
+          example: 2
+          description: FID of the user whose following you want to fetch.
+        - name: viewer_fid
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/Fid"
+          example: 3
+          description: Providing this will return a list of users that respects this user's mutes and blocks and includes `viewer_context`.
+        - name: limit
+          in: query
+          description: Number of results to fetch (default 25, max 100)
+          schema:
+            type: integer
+            default: 25
+            minimum: 1
+            maximum: 100
+            example: 25
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsersResponse"
         "400":
           $ref: "#/components/responses/400Response"
         "500":
