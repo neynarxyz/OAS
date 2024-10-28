@@ -7330,8 +7330,8 @@ paths:
     get:
       tags:
         - Follows
-      summary: Fetch a list of suggested users to follow
-      description: Used to help users discover new users to follow
+      summary: Suggest Follows
+      description: Fetch a list of suggested users to follow. Used to help users discover new users to follow
       externalDocs:
         url: https://docs.neynar.com/reference/suggested-follows
       operationId: suggested-follows
