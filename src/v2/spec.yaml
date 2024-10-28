@@ -2527,7 +2527,6 @@ components:
       required:
         - object
         - hash
-        - author
       properties:
         object:
           type: string
