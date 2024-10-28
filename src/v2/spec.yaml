@@ -820,14 +820,26 @@ components:
     EmbedCast:
       type: object
       required:
-        - cast_id
+        - cast
       properties:
         cast_id:
           $ref: "#/components/schemas/CastId"
-        metadata:
-          $ref: "#/components/schemas/EmbedCastMetadata"
-    EmbedCastMetadata:
-      $ref: "#/components/schemas/CastWithoutEmbeds"
+          deprecated: true
+          description: '[DEPRECATED: Use "cast" key instead]'
+        cast:
+          $ref: "#/components/schemas/CastEmbedded"
+    EmbedCastDeep:
+      type: object
+      required:
+        - cast
+      properties:
+        cast_id:
+          cast_id:
+          $ref: "#/components/schemas/CastId"
+          deprecated: true
+          description: '[DEPRECATED: Use "cast" key instead]'
+        cast:
+          $ref: "#/components/schemas/CastDehydrated"
     Frame:
       type: object
       required:
@@ -1350,11 +1362,9 @@ components:
           type: boolean
         viewer_context:
           $ref: "#/components/schemas/UserViewerContext"
-    Embed:
-      oneOf:
-        - $ref: "#/components/schemas/EmbedUrl"
-        - $ref: "#/components/schemas/EmbedCast"
-    CastWithoutEmbeds:
+    CastEmbedded:
+      # This should just be Cast, but have to duplicate to avoid the circular reference caused by embedded casts, 
+      # because Readme chokes on them.
       type: object
       required:
         - hash
@@ -1389,14 +1399,7 @@ components:
                 - $ref: "#/components/schemas/Fid"
               nullable: true
         author:
-          oneOf:
-            - $ref: "#/components/schemas/User"
-            - $ref: "#/components/schemas/UserDehydrated"
-          discriminator:
-            propertyName: object
-            mapping:
-              user: "#/components/schemas/User"
-              user_dehydrated: "#/components/schemas/UserDehydrated"
+          $ref: "#/components/schemas/UserDehydrated"
         text:
           type: string
         timestamp:
@@ -1404,11 +1407,12 @@ components:
         type:
           $ref: "#/components/schemas/CastNotificationType"
         embeds:
-          description: |
-            It is an array of Embed object (Check #/components/schemas/Cast). Embed object is intentionally omitted to break the circular reference.
           type: array
           items:
             type: object
+            oneOf:
+            - $ref: "#/components/schemas/EmbedUrl"
+            - $ref: "#/components/schemas/EmbedCastDeep"
     Cast:
       type: object
       required:
@@ -1443,14 +1447,7 @@ components:
                 - $ref: "#/components/schemas/Fid"
               nullable: true
         author:
-          oneOf:
-            - $ref: "#/components/schemas/User"
-            - $ref: "#/components/schemas/UserDehydrated"
-          discriminator:
-            propertyName: object
-            mapping:
-              user: "#/components/schemas/User"
-              user_dehydrated: "#/components/schemas/UserDehydrated"
+          $ref: "#/components/schemas/User"
         text:
           type: string
         timestamp:
@@ -1458,7 +1455,10 @@ components:
         embeds:
           type: array
           items:
-            $ref: "#/components/schemas/Embed"
+            type: object
+            oneOf:
+            - $ref: "#/components/schemas/EmbedUrl"
+            - $ref: "#/components/schemas/EmbedCast"
         type:
           $ref: "#/components/schemas/CastNotificationType"
     ProfileUrl:
