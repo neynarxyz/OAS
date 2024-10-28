@@ -3882,7 +3882,6 @@ components:
           type: object
           required:
             - type
-            - payload
           properties:
             type:
               type: string
@@ -3893,7 +3892,6 @@ components:
               description: |
                 The payload of the action being performed.
               type: object
-              nullable: true
   parameters:
     ApiKey:
       name: api_key
