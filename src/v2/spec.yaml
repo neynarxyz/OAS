@@ -820,14 +820,26 @@ components:
     EmbedCast:
       type: object
       required:
-        - cast_id
+        - cast
       properties:
         cast_id:
           $ref: "#/components/schemas/CastId"
-        metadata:
-          $ref: "#/components/schemas/EmbedCastMetadata"
-    EmbedCastMetadata:
-      $ref: "#/components/schemas/CastWithoutEmbeds"
+          deprecated: true
+          description: '[DEPRECATED: Use "cast" key instead]'
+        cast:
+          $ref: "#/components/schemas/CastEmbedded"
+    EmbedCastDeep:
+      type: object
+      required:
+        - cast
+      properties:
+        cast_id:
+          cast_id:
+          $ref: "#/components/schemas/CastId"
+          deprecated: true
+          description: '[DEPRECATED: Use "cast" key instead]'
+        cast:
+          $ref: "#/components/schemas/CastDehydrated"
     Frame:
       type: object
       required:
@@ -1354,7 +1366,13 @@ components:
       oneOf:
         - $ref: "#/components/schemas/EmbedUrl"
         - $ref: "#/components/schemas/EmbedCast"
-    CastWithoutEmbeds:
+    EmbedDeep:
+      oneOf:
+        - $ref: "#/components/schemas/EmbedUrl"
+        - $ref: "#/components/schemas/EmbedCastDeep"
+    CastEmbedded:
+      # This should just be Cast, but have to duplicate to avoid the circular reference caused by embedded casts, 
+      # because Readme chokes on them.
       type: object
       required:
         - hash
@@ -1367,6 +1385,7 @@ components:
         - timestamp
         - type
         - embeds
+        - channel
       properties:
         hash:
           type: string
@@ -1389,14 +1408,7 @@ components:
                 - $ref: "#/components/schemas/Fid"
               nullable: true
         author:
-          oneOf:
-            - $ref: "#/components/schemas/User"
-            - $ref: "#/components/schemas/UserDehydrated"
-          discriminator:
-            propertyName: object
-            mapping:
-              user: "#/components/schemas/User"
-              user_dehydrated: "#/components/schemas/UserDehydrated"
+          $ref: "#/components/schemas/UserDehydrated"
         text:
           type: string
         timestamp:
@@ -1404,11 +1416,14 @@ components:
         type:
           $ref: "#/components/schemas/CastNotificationType"
         embeds:
-          description: |
-            It is an array of Embed object (Check #/components/schemas/Cast). Embed object is intentionally omitted to break the circular reference.
           type: array
           items:
             type: object
+            $ref: "#/components/schemas/EmbedDeep"
+        channel:
+          allOf: # Need this seemingly pointless allOf for the nullable to work
+            - $ref: "#/components/schemas/DehydratedChannel"
+          nullable: true
     Cast:
       type: object
       required:
@@ -1443,14 +1458,7 @@ components:
                 - $ref: "#/components/schemas/Fid"
               nullable: true
         author:
-          oneOf:
-            - $ref: "#/components/schemas/User"
-            - $ref: "#/components/schemas/UserDehydrated"
-          discriminator:
-            propertyName: object
-            mapping:
-              user: "#/components/schemas/User"
-              user_dehydrated: "#/components/schemas/UserDehydrated"
+          $ref: "#/components/schemas/User"
         text:
           type: string
         timestamp:
@@ -1458,6 +1466,7 @@ components:
         embeds:
           type: array
           items:
+            type: object
             $ref: "#/components/schemas/Embed"
         type:
           $ref: "#/components/schemas/CastNotificationType"
@@ -1858,7 +1867,7 @@ components:
               items:
                 $ref: "#/components/schemas/User"
             channel:
-              anyOf:
+              allOf: # Need this seemingly pointless allOf for the nullable to work
                 - $ref: "#/components/schemas/ChannelOrDehydratedChannel"
               nullable: true
             viewer_context:
@@ -2520,15 +2529,17 @@ components:
     CastDehydrated:
       type: object
       required:
-        - hash
         - object
+        - hash
       properties:
-        hash:
-          type: string
         object:
           type: string
           enum:
             - cast_dehydrated
+        hash:
+          type: string
+        author:
+          $ref: "#/components/schemas/UserDehydrated"
     ReactionWithUserInfo:
       type: object
       required:
