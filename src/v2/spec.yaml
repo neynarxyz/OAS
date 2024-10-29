@@ -4085,6 +4085,8 @@ paths:
           example: 194, 191, 6131
           schema:
             type: string
+            x-comma-separated: true
+            x-accept-as: integer
         - name: viewer_fid
           in: query
           required: false
