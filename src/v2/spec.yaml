@@ -618,11 +618,11 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - rich
-            - video
-            - photo
-            - link
+          # enum:
+          #   - rich
+          #   - video
+          #   - photo
+          #   - link
         version:
           type: string
           nullable: true
@@ -662,7 +662,7 @@ components:
           type: number
           description: The height of the optional thumbnail. If this parameter is present, thumbnail_url and thumbnail_width must also be present.
           nullable: true
-    LinkTypeData:
+    OembedLinkData:
       allOf:
         - $ref: '#/components/schemas/OembedData'
         - type: object
@@ -671,7 +671,7 @@ components:
               type: string
               enum:
                 - link
-    PhotoTypeData:
+    OembedPhotoData:
       allOf:
         - $ref: '#/components/schemas/OembedData'
         - type: object
@@ -696,7 +696,7 @@ components:
               type: number
               description: The height in pixels of the image specified in the url parameter.
               nullable: true
-    VideoTypeData:
+    OembedVideoData:
       allOf:
         - $ref: '#/components/schemas/OembedData'
         - type: object
@@ -721,7 +721,7 @@ components:
               type: number
               description: The height in pixels required to display the HTML.
               nullable: true
-    RichTypeData:
+    OembedRichData:
       allOf:
         - $ref: '#/components/schemas/OembedData'
         - type: object
@@ -789,17 +789,17 @@ components:
               properties:
                 oembed: 
                   oneOf:
-                    - $ref: "#/components/schemas/RichTypeData"
-                    - $ref: "#/components/schemas/VideoTypeData"
-                    - $ref: "#/components/schemas/PhotoTypeData"
-                    - $ref: "#/components/schemas/LinkTypeData"
+                    - $ref: "#/components/schemas/OembedRichData"
+                    - $ref: "#/components/schemas/OembedVideoData"
+                    - $ref: "#/components/schemas/OembedPhotoData"
+                    - $ref: "#/components/schemas/OembedLinkData"
                   discriminator:
                     propertyName: type
                     mapping:
-                      rich: "#/components/schemas/RichTypeData"
-                      video: "#/components/schemas/VideoTypeData"
-                      photo: "#/components/schemas/PhotoTypeData"
-                      link: "#/components/schemas/LinkTypeData"
+                      rich: "#/components/schemas/OembedRichData"
+                      video: "#/components/schemas/OembedVideoData"
+                      photo: "#/components/schemas/OembedPhotoData"
+                      link: "#/components/schemas/OembedLinkData"
           
     ChannelMemberRole:
       type: string
