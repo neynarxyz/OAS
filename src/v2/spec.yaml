@@ -1853,7 +1853,7 @@ components:
           channel: "#/components/schemas/Channel"
           dehydrated_channel: "#/components/schemas/DehydratedChannel"
     CastWithInteractions:
-      anyOf:
+      allOf:
         - $ref: "#/components/schemas/Cast"
         - type: object
           required:
