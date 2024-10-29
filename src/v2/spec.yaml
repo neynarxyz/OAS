@@ -668,7 +668,7 @@ components:
           type: [number, "null"]
           description: The height of the optional thumbnail. If this parameter is present, thumbnail_url and thumbnail_width must also be present.
     OembedLinkData:
-      anyOf:
+      allOf:
         - $ref: '#/components/schemas/OembedData'
         - type: object
           properties:
@@ -677,7 +677,7 @@ components:
               enum:
                 - link
     OembedPhotoData:
-      anyOf:
+      allOf:
         - $ref: '#/components/schemas/OembedData'
         - type: object
           required:
@@ -699,7 +699,7 @@ components:
               type: [number, "null"]
               description: The height in pixels of the image specified in the url parameter.
     OembedVideoData:
-      anyOf:
+      allOf:
         - $ref: '#/components/schemas/OembedData'
         - type: object
           required:
@@ -721,7 +721,7 @@ components:
               type: [number, "null"]
               description: The height in pixels required to display the HTML.
     OembedRichData:
-      anyOf:
+      allOf:
         - $ref: '#/components/schemas/OembedData'
         - type: object
           required:
@@ -777,7 +777,7 @@ components:
                   width_px:
                     type: integer
         html:
-          anyOf:
+          allOf:
             - $ref: "#/components/schemas/OgObject"
             - type: object
               properties:
@@ -896,7 +896,7 @@ components:
               examples: 
                 - "0"
     SubscribedTo:
-      anyOf:
+      allOf:
         - $ref: "#/components/schemas/Subscription"
         - type: object
           required:
@@ -1501,7 +1501,7 @@ components:
             url:
               type: string
     SearchedUser:
-      anyOf:
+      oneOf:
         - $ref: "#/components/schemas/User"
         - $ref: "#/components/schemas/ProfileUrl"
     SignedKeyRequestSponsor:
@@ -3344,7 +3344,7 @@ components:
         subscription:
           $ref: "#/components/schemas/WebhookSubscriptionFilters"
     WebhookPutReqBody:
-      anyOf:
+      allOf:
         - $ref: "#/components/schemas/WebhookPostReqBody"
         - type: object
           required:
