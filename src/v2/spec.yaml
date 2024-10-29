@@ -14,16 +14,17 @@ components:
       type: apiKey
       in: header
       name: x-api-key
-      description: API key to authorize requests
-      x-default: NEYNAR_API_DOCS
+      description: "API key to authorize requests"
+      x-default: "NEYNAR_API_DOCS"
+
   schemas:
     Address:
       type: string
-      pattern: '^0x[a-fA-F0-9]{40}$'
+      pattern: "^0x[a-fA-F0-9]{40}$"
       description: Ethereum address
     SolAddress:
       type: string
-      pattern: '^[1-9A-HJ-NP-Za-km-z]{32,44}$'
+      pattern: "^[1-9A-HJ-NP-Za-km-z]{32,44}$"
       description: Solana address
     Fid:
       type: integer
@@ -32,13 +33,13 @@ components:
     ChannelId:
       type: string
       description: The unique identifier of a farcaster channel
-      examples:
-        - neynar
+      examples: 
+        - "neynar"
     SignerUUID:
       type: string
       description: UUID of the signer
-      examples:
-        - 19d0c5fd-9b33-4a48-a0e2-bc7b0555baec
+      examples: 
+        - "19d0c5fd-9b33-4a48-a0e2-bc7b0555baec"
     SubscriptionProviders:
       type: string
       enum:
@@ -57,16 +58,16 @@ components:
       enum:
         - desc_chron
         - algorithmic
-      examples:
-        - desc_chron
+      examples: 
+        - "desc_chron"
     CastConversationSortType:
       type: string
       enum:
         - chron
         - desc_chron
         - algorithmic
-      examples:
-        - chron
+      examples: 
+        - "chron"
     ForYouProvider:
       type: string
       default: openrank
@@ -103,12 +104,10 @@ components:
         - cursor
       properties:
         cursor:
-          type:
-            - string
-            - 'null'
+          type: [string, "null"]
     CastHash:
       type: string
-      default: '0xfe90f9de682273e05b201629ad2338bdcd89b6be'
+      default: "0xfe90f9de682273e05b201629ad2338bdcd89b6be"
       description: Cast Hash
     CastNotificationType:
       type: string
@@ -164,10 +163,10 @@ components:
           type: string
     Ed25519PublicKey:
       type: string
-      pattern: '^0x[a-fA-F0-9]{64}$'
+      pattern: "^0x[a-fA-F0-9]{64}$"
       description: Ed25519 public key
-      examples:
-        - '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef'
+      examples: 
+        - "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"
     Timestamp:
       type: string
       format: date-time
@@ -186,18 +185,44 @@ components:
         url:
           type: string
         metadata:
-          $ref: '#/components/schemas/EmbedUrlMetadata'
+          $ref: "#/components/schemas/EmbedUrlMetadata"
+    # TwitterImageObject:
+    #   type: object
+    #   properties:
+    #     alt:
+    #       type: string
+    #     height:
+    #       type: string # Should be 'integer' but open-graph-scraper lies and returns a string
+    #     url:
+    #       type: string
+    #     width:
+    #       type: string # Should be 'integer' but open-graph-scraper lies and returns a string
+    #   required:
+    #     - url
+    # TwitterPlayerObject:
+    #   type: object
+    #   properties:
+    #     height:
+    #       type: string # Should be 'integer' but open-graph-scraper lies and returns a string
+    #     stream:
+    #       type: string
+    #     url:
+    #       type: string
+    #     width:
+    #       type: string # Should be 'integer' but open-graph-scraper lies and returns a string
+    #   required:
+    #     - url
     ImageObject:
       type: object
       properties:
         height:
-          type: string
+          type: string # Should be 'integer' but open-graph-scraper lies and returns a string
         type:
           type: string
         url:
           type: string
         width:
-          type: string
+          type: string # Should be 'integer' but open-graph-scraper lies and returns a string
         alt:
           type: string
       required:
@@ -206,22 +231,208 @@ components:
       type: object
       properties:
         height:
-          type: string
+          type: string # Should be 'integer' but open-graph-scraper lies and returns a string
         type:
           type: string
         url:
           type: string
         width:
-          type: string
+          type: string # Should be 'integer' but open-graph-scraper lies and returns a string
       required:
         - url
+    # MusicSongObject:
+    #   type: object
+    #   properties:
+    #     disc:
+    #       type: string
+    #     track:
+    #       type: string # Should be 'integer' but open-graph-scraper lies and returns a string
+    #     url:
+    #       type: string
+    #   required:
+    #     - url
     OgObject:
+      # Adapted from https://github.com/jshemas/openGraphScraper/blob/80b1800c377f5a647e365f07a2262e997a9b897c/lib/types.ts#L118-L347
       type: object
       properties:
+        # alAndroidAppName:
+        #   type: string
+        # alAndroidClass:
+        #   type: string
+        # alAndroidPackage:
+        #   type: string
+        # alAndroidUrl:
+        #   type: string
+        # alIosAppName:
+        #   type: string
+        # alIosAppStoreId:
+        #   type: string
+        # alIosUrl:
+        #   type: string
+        # alIpadAppName:
+        #   type: string
+        # alIpadAppStoreId:
+        #   type: string
+        # alIpadUrl:
+        #   type: string
+        # alIphoneAppName:
+        #   type: string
+        # alIphoneAppStoreId:
+        #   type: string
+        # alIphoneUrl:
+        #   type: string
+        # alWebShouldFallback:
+        #   type: string
+        # alWebUrl:
+        #   type: string
+        # alWindowsAppId:
+        #   type: string
+        # alWindowsAppName:
+        #   type: string
+        # alWindowsPhoneAppId:
+        #   type: string
+        # alWindowsPhoneAppName:
+        #   type: string
+        # alWindowsPhoneUrl:
+        #   type: string
+        # alWindowsUniversalAppId:
+        #   type: string
+        # alWindowsUniversalAppName:
+        #   type: string
+        # alWindowsUniversalUrl:
+        #   type: string
+        # alWindowsUrl:
+        #   type: string
+        # articleAuthor:
+        #   type: string
+        # articleExpirationTime:
+        #   type: string
+        # articleModifiedTime:
+        #   type: string
+        # articlePublishedDate:
+        #   type: string
+        # articlePublishedTime:
+        #   type: string
+        # articleModifiedDate:
+        #   type: string
+        # articlePublisher:
+        #   type: string
+        # articleSection:
+        #   type: string
+        # articleTag:
+        #   type: string
+        # author:
+        #   type: string
+        # bookAuthor:
+        #   type: string
+        # bookCanonicalName:
+        #   type: string
+        # bookIsbn:
+        #   type: string
+        # bookReleaseDate:
+        #   type: string
+        # booksBook:
+        #   type: string
+        # booksRatingScale:
+        #   type: string
+        # booksRatingValue:
+        #   type: string
+        # bookTag:
+        #   type: string
+        # businessContactDataCountryName:
+        #   type: string
+        # businessContactDataLocality:
+        #   type: string
+        # businessContactDataPostalCode:
+        #   type: string
+        # businessContactDataRegion:
+        #   type: string
+        # businessContactDataStreetAddress:
+        #   type: string
+        # charset:
+        #   type: string
+        # customMetaTags:
+        #   type: object
+        #   additionalProperties:
+        #     oneOf:
+        #       - type: string
+        #       - type: array
+        #         items:
+        #           type: string
+        # dcContributor:
+        #   type: string
+        # dcCoverage:
+        #   type: string
+        # dcCreator:
+        #   type: string
+        # dcDate:
+        #   type: string
+        # dcDateCreated:
+        #   type: string
+        # dcDateIssued:
+        #   type: string
+        # dcDescription:
+        #   type: string
+        # dcFormatMedia:
+        #   type: string
+        # dcFormatSize:
+        #   type: string
+        # dcIdentifier:
+        #   type: string
+        # dcLanguage:
+        #   type: string
+        # dcPublisher:
+        #   type: string
+        # dcRelation:
+        #   type: string
+        # dcRights:
+        #   type: string
+        # dcSource:
+        #   type: string
+        # dcSubject:
+        #   type: string
+        # dcTitle:
+        #   type: string
+        # dcType:
+        #   type: string
+        # error:
+        #   type: string
+        # errorDetails:
+        #   type: object
         favicon:
           type: string
+        # fbAppId:
+        #   type: string
+        # jsonLD:
+        #   type: array
+        #   items:
+        #     type: object
         modifiedTime:
           type: string
+        # musicAlbum:
+        #   type: string
+        # musicAlbumDisc:
+        #   type: string
+        # musicAlbumTrack:
+        #   type: string
+        # musicAlbumUrl:
+        #   type: string
+        # musicCreator:
+        #   type: string
+        # musicDuration:
+        #   type: string
+        # musicMusician:
+        #   type: string
+        # musicPlaylist:
+        #   type: string
+        # musicRadioStation:
+        #   type: string
+        # musicReleaseDate:
+        #   type: string
+        # musicSong:
+        #   type: array
+        #   items:
+        #     $ref: "#/components/schemas/MusicSongObject"
         ogArticleAuthor:
           type: string
         ogArticleExpirationTime:
@@ -257,7 +468,7 @@ components:
         ogImage:
           type: array
           items:
-            $ref: '#/components/schemas/ImageObject'
+            $ref: "#/components/schemas/ImageObject"
         ogLocale:
           type: string
         ogLocaleAlternate:
@@ -291,7 +502,7 @@ components:
         ogVideo:
           type: array
           items:
-            $ref: '#/components/schemas/VideoObject'
+            $ref: "#/components/schemas/VideoObject"
         ogVideoActor:
           type: string
         ogVideoActorId:
@@ -318,76 +529,144 @@ components:
           type: string
         ogWebsite:
           type: string
+        # placeLocationLatitude:
+        #   type: string
+        # placeLocationLongitude:
+        #   type: string
+        # profileFirstName:
+        #   type: string
+        # profileGender:
+        #   type: string
+        # profileLastName:
+        #   type: string
+        # profileUsername:
+        #   type: string
+        # publishedTime:
+        #   type: string
+        # releaseDate:
+        #   type: string
+        # requestUrl:
+        #   type: string
+        # restaurantContactInfoCountryName:
+        #   type: string
+        # restaurantContactInfoEmail:
+        #   type: string
+        # restaurantContactInfoLocality:
+        #   type: string
+        # restaurantContactInfoPhoneNumber:
+        #   type: string
+        # restaurantContactInfoPostalCode:
+        #   type: string
+        # restaurantContactInfoRegion:
+        #   type: string
+        # restaurantContactInfoStreetAddress:
+        #   type: string
+        # restaurantContactInfoWebsite:
+        #   type: string
+        # restaurantMenu:
+        #   type: string
+        # restaurantRestaurant:
+        #   type: string
+        # restaurantSection:
+        #   type: string
+        # restaurantVariationPriceAmount:
+        #   type: string
+        # restaurantVariationPriceCurrency:
+        #   type: string
+        # success:
+        #   type: boolean
+        # twitterAccount:
+        #   type: string
+        # twitterAppIdGooglePlay:
+        #   type: string
+        # twitterAppIdiPad:
+        #   type: string
+        # twitterAppIdiPhone:
+        #   type: string
+        # twitterAppNameGooglePlay:
+        #   type: string
+        # twitterAppNameiPad:
+        #   type: string
+        # twitterAppNameiPhone:
+        #   type: string
+        # twitterAppUrlGooglePlay:
+        #   type: string
+        # twitterAppUrliPad:
+        #   type: string
+        # twitterAppUrliPhone:
+        #   type: string
+        # twitterCard:
+        #   type: string
+        # twitterCreator:
+        #   type: string
+        # twitterCreatorId:
+        #   type: string
+        # twitterDescription:
+        #   type: string
+        # twitterImage:
+        #   type: array
+        #   items:
+        #     $ref: "#/components/schemas/TwitterImageObject"
+        # twitterPlayer:
+        #   type: array
+        #   items:
+        #     $ref: "#/components/schemas/TwitterPlayerObject"
+        # twitterPlayerStreamContentType:
+        #   type: string
+        # twitterSite:
+        #   type: string
+        # twitterSiteId:
+        #   type: string
+        # twitterTitle:
+        #   type: string
+        # twitterUrl:
+        #   type: string
         updatedTime:
           type: string
     OembedData:
+      # Adapted from https://github.com/extractus/oembed-extractor/blob/e3b9aff4084118e12b6e98bdf997a78901ea6dfd/index.d.ts#L30-L107
       type: object
-      description: 'Basic data structure of every oembed response see https://oembed.com/'
+      description: Basic data structure of every oembed response see https://oembed.com/
       required:
         - type
         - version
       properties:
         type:
           type: string
+          # enum:
+          #   - rich
+          #   - video
+          #   - photo
+          #   - link
         version:
-          type:
-            - string
-            - 'null'
+          type: [string, "null"]
         title:
-          type:
-            - string
-            - 'null'
-          description: 'A text title, describing the resource.'
+          type: [string, "null"]
+          description: A text title, describing the resource.
         author_name:
-          type:
-            - string
-            - 'null'
+          type: [string, "null"]
           description: The name of the author/owner of the resource.
         author_url:
-          type:
-            - string
-            - 'null'
+          type: [string, "null"]
           description: A URL for the author/owner of the resource.
         provider_name:
-          type:
-            - string
-            - 'null'
+          type: [string, "null"]
           description: The name of the resource provider.
         provider_url:
-          type:
-            - string
-            - 'null'
+          type: [string, "null"]
           description: The url of the resource provider.
         cache_age:
-          type:
-            - string
-            - 'null'
-          description: >-
-            The suggested cache lifetime for this resource, in seconds.
-            Consumers may choose to use this value or not.
+          type: [string, "null"]
+          description: The suggested cache lifetime for this resource, in seconds. Consumers may choose to use this value or not.
         thumbnail_url:
-          type:
-            - string
-            - 'null'
-          description: >-
-            A URL to a thumbnail image representing the resource. The thumbnail
-            must respect any maxwidth and maxheight parameters. If this
-            parameter is present, thumbnail_width and thumbnail_height must also
-            be present.
+          type: [string, "null"]
+          description: A URL to a thumbnail image representing the resource. The thumbnail must respect any maxwidth and maxheight parameters. If this parameter is present, thumbnail_width and thumbnail_height must also be present.
         thumbnail_width:
-          type:
-            - number
-            - 'null'
-          description: >-
-            The width of the optional thumbnail. If this parameter is present,
-            thumbnail_url and thumbnail_height must also be present.
+          type: [number, "null"]
+          description: The width of the optional thumbnail. If this parameter is present, thumbnail_url and thumbnail_height must also be present.
         thumbnail_height:
-          type:
-            - number
-            - 'null'
-          description: >-
-            The height of the optional thumbnail. If this parameter is present,
-            thumbnail_url and thumbnail_width must also be present.
+          type: [number, "null"]
+          description: The height of the optional thumbnail. If this parameter is present, thumbnail_url and thumbnail_width must also be present.
     OembedLinkData:
       allOf:
         - $ref: '#/components/schemas/OembedData'
@@ -411,25 +690,14 @@ components:
               enum:
                 - photo
             url:
-              type:
-                - string
-                - 'null'
-              description: >-
-                The source URL of the image. Consumers should be able to insert
-                this URL into an <img> element. Only HTTP and HTTPS URLs are
-                valid.
+              type: [string, "null"]
+              description: The source URL of the image. Consumers should be able to insert this URL into an <img> element. Only HTTP and HTTPS URLs are valid.
             width:
-              type:
-                - number
-                - 'null'
+              type: [number, "null"]
               description: The width in pixels of the image specified in the url parameter.
             height:
-              type:
-                - number
-                - 'null'
-              description: >-
-                The height in pixels of the image specified in the url
-                parameter.
+              type: [number, "null"]
+              description: The height in pixels of the image specified in the url parameter.
     OembedVideoData:
       allOf:
         - $ref: '#/components/schemas/OembedData'
@@ -444,22 +712,13 @@ components:
               enum:
                 - video
             html:
-              type:
-                - string
-                - 'null'
-              description: >-
-                The HTML required to embed a video player. The HTML should have
-                no padding or margins. Consumers may wish to load the HTML in an
-                off-domain iframe to avoid XSS vulnerabilities.
+              type: [string, "null"]
+              description: The HTML required to embed a video player. The HTML should have no padding or margins. Consumers may wish to load the HTML in an off-domain iframe to avoid XSS vulnerabilities.
             width:
-              type:
-                - number
-                - 'null'
+              type: [number, "null"]
               description: The width in pixels required to display the HTML.
             height:
-              type:
-                - number
-                - 'null'
+              type: [number, "null"]
               description: The height in pixels required to display the HTML.
     OembedRichData:
       allOf:
@@ -475,23 +734,13 @@ components:
               enum:
                 - rich
             html:
-              type:
-                - string
-                - 'null'
-              description: >-
-                The HTML required to display the resource. The HTML should have
-                no padding or margins. Consumers may wish to load the HTML in an
-                off-domain iframe to avoid XSS vulnerabilities. The markup
-                should be valid XHTML 1.0 Basic.
+              type: [string, "null"]
+              description: The HTML required to display the resource. The HTML should have no padding or margins. Consumers may wish to load the HTML in an off-domain iframe to avoid XSS vulnerabilities. The markup should be valid XHTML 1.0 Basic.
             width:
-              type:
-                - number
-                - 'null'
+              type: [number, "null"]
               description: The width in pixels required to display the HTML.
             height:
-              type:
-                - number
-                - 'null'
+              type: [number, "null"]
               description: The height in pixels required to display the HTML.
     EmbedUrlMetadata:
       type: object
@@ -501,13 +750,9 @@ components:
         _status:
           type: string
         content_type:
-          type:
-            - string
-            - 'null'
+          type: [string, "null"]
         content_length:
-          type:
-            - integer
-            - 'null'
+          type: [integer, "null"]
         image:
           type: object
           properties:
@@ -533,22 +778,23 @@ components:
                     type: integer
         html:
           allOf:
-            - $ref: '#/components/schemas/OgObject'
+            - $ref: "#/components/schemas/OgObject"
             - type: object
               properties:
-                oembed:
+                oembed: 
                   oneOf:
-                    - $ref: '#/components/schemas/OembedRichData'
-                    - $ref: '#/components/schemas/OembedVideoData'
-                    - $ref: '#/components/schemas/OembedPhotoData'
-                    - $ref: '#/components/schemas/OembedLinkData'
+                    - $ref: "#/components/schemas/OembedRichData"
+                    - $ref: "#/components/schemas/OembedVideoData"
+                    - $ref: "#/components/schemas/OembedPhotoData"
+                    - $ref: "#/components/schemas/OembedLinkData"
                   discriminator:
                     propertyName: type
                     mapping:
-                      rich: '#/components/schemas/OembedRichData'
-                      video: '#/components/schemas/OembedVideoData'
-                      photo: '#/components/schemas/OembedPhotoData'
-                      link: '#/components/schemas/OembedLinkData'
+                      rich: "#/components/schemas/OembedRichData"
+                      video: "#/components/schemas/OembedVideoData"
+                      photo: "#/components/schemas/OembedPhotoData"
+                      link: "#/components/schemas/OembedLinkData"
+          
     ChannelMemberRole:
       type: string
       description: The role of a channel member
@@ -562,7 +808,7 @@ components:
         - hash
       properties:
         fid:
-          $ref: '#/components/schemas/Fid'
+          $ref: "#/components/schemas/Fid"
         hash:
           type: string
     EmbedCast:
@@ -571,22 +817,22 @@ components:
         - cast
       properties:
         cast_id:
-          $ref: '#/components/schemas/CastId'
+          $ref: "#/components/schemas/CastId"
           deprecated: true
           description: '[DEPRECATED: Use "cast" key instead]'
         cast:
-          $ref: '#/components/schemas/CastEmbedded'
+          $ref: "#/components/schemas/CastEmbedded"
     EmbedCastDeep:
       type: object
       required:
         - cast
       properties:
         cast_id:
-          $ref: '#/components/schemas/CastId'
+          $ref: "#/components/schemas/CastId"
           deprecated: true
           description: '[DEPRECATED: Use "cast" key instead]'
         cast:
-          $ref: '#/components/schemas/CastDehydrated'
+          $ref: "#/components/schemas/CastDehydrated"
     Frame:
       type: object
       required:
@@ -603,7 +849,7 @@ components:
         buttons:
           type: array
           items:
-            $ref: '#/components/schemas/FrameActionButton'
+            $ref: "#/components/schemas/FrameActionButton"
         post_url:
           type: string
           description: Post URL to take an action on this frame
@@ -626,31 +872,32 @@ components:
             serialized:
               type: string
               description: State for the frame in a serialized format
+
     SubscriptionTier:
       type: object
       properties:
         id:
           type: integer
-          examples:
+          examples: 
             - 1
         price:
           type: object
           properties:
             period_duration_seconds:
               type: integer
-              examples:
+              examples: 
                 - 2592000
             tokens_per_period:
               type: string
-              examples:
-                - '3000000000000000'
+              examples: 
+                - "3000000000000000"
             initial_mint_price:
               type: string
-              examples:
-                - '0'
+              examples: 
+                - "0"
     SubscribedTo:
       allOf:
-        - $ref: '#/components/schemas/Subscription'
+        - $ref: "#/components/schemas/Subscription"
         - type: object
           required:
             - expires_at
@@ -661,17 +908,17 @@ components:
             expires_at:
               type: string
               format: date-time
-              examples:
-                - '2023-09-13T22:10:22.000Z'
+              examples: 
+                - "2023-09-13T22:10:22.000Z"
             subscribed_at:
               type: string
               format: date-time
-              examples:
-                - '2023-09-13T22:10:22.000Z'
+              examples: 
+                - "2023-09-13T22:10:22.000Z"
             tier:
-              $ref: '#/components/schemas/SubscriptionTier'
+              $ref: "#/components/schemas/SubscriptionTier"
             creator:
-              $ref: '#/components/schemas/User'
+              $ref: "#/components/schemas/User"
     Subscriber:
       type: object
       required:
@@ -681,12 +928,12 @@ components:
       properties:
         object:
           type: string
-          examples:
-            - subscriber
+          examples: 
+            - "subscriber"
         user:
-          $ref: '#/components/schemas/User'
+          $ref: "#/components/schemas/User"
         subscribed_to:
-          $ref: '#/components/schemas/SubscribedToObject'
+          $ref: "#/components/schemas/SubscribedToObject"
     Subscriptions:
       type: object
       required:
@@ -698,7 +945,7 @@ components:
         subscriptions_created:
           type: array
           items:
-            $ref: '#/components/schemas/Subscription'
+            $ref: "#/components/schemas/Subscription"
     Subscription:
       type: object
       required:
@@ -713,59 +960,58 @@ components:
       properties:
         object:
           type: string
-          examples:
-            - subscription
+          examples: 
+            - "subscription"
         provider_name:
           type: string
-          examples:
-            - fabric_stp
+          examples: 
+            - "fabric_stp"
         contract_address:
           type: string
-          examples:
-            - '0xff63fc310d47ef80961056ac8df0b3f1a9e3ef58'
+          examples: 
+            - "0xff63fc310d47ef80961056ac8df0b3f1a9e3ef58"
         chain:
           type: integer
-          examples:
+          examples: 
             - 8453
         metadata:
           type: object
           properties:
             title:
               type: string
-              examples:
-                - /memes channel sub
+              examples: 
+                - "/memes channel sub"
             symbol:
               type: string
-              examples:
-                - MMS
+              examples: 
+                - "MMS"
             art_url:
               type: string
-              examples:
-                - >-
-                  https://storage.withfabric.xyz/loom/403fdc10-95f3-4b25-9d77-5aac7ccb9fd1.jpg
+              examples: 
+                - "https://storage.withfabric.xyz/loom/403fdc10-95f3-4b25-9d77-5aac7ccb9fd1.jpg"
           required:
             - title
             - symbol
             - art_url
         owner_address:
           type: string
-          examples:
-            - '0xb6f6dce6000ca88cc936b450cedb16a5c15f157f'
+          examples: 
+            - "0xb6f6dce6000ca88cc936b450cedb16a5c15f157f"
         price:
           type: object
           properties:
             period_duration_seconds:
               type: integer
-              examples:
+              examples: 
                 - 2592000
             tokens_per_period:
               type: string
-              examples:
-                - '350574998400000'
+              examples: 
+                - "350574998400000"
             initial_mint_price:
               type: string
-              examples:
-                - '0'
+              examples: 
+                - "0"
           required:
             - period_duration_seconds
             - tokens_per_period
@@ -773,31 +1019,29 @@ components:
         tiers:
           type: array
           items:
-            $ref: '#/components/schemas/SubscriptionTier'
+            $ref: "#/components/schemas/SubscriptionTier"
         protocol_version:
           type: integer
-          examples:
+          examples: 
             - 1
         token:
           type: object
           properties:
             symbol:
               type: string
-              examples:
-                - ETH
+              examples: 
+                - "ETH"
             address:
-              type:
-                - string
-                - 'null'
-              examples:
+              type: [string, "null"]
+              examples: 
                 - null
             decimals:
               type: integer
-              examples:
+              examples: 
                 - 18
             erc20:
               type: boolean
-              examples:
+              examples: 
                 - false
           required:
             - symbol
@@ -809,38 +1053,38 @@ components:
       properties:
         object:
           type: string
-          examples:
-            - subscription_dehydrated
+          examples: 
+            - "subscription_dehydrated"
         provider_name:
           type: string
-          examples:
-            - fabric_stp
+          examples: 
+            - "fabric_stp"
         contract_address:
           type: string
-          examples:
-            - '0x325b3e2c19f4900f8f4eb5f6872dc2715e77cbac'
+          examples: 
+            - "0x325b3e2c19f4900f8f4eb5f6872dc2715e77cbac"
         protocol_version:
           type: integer
-          examples:
+          examples: 
             - 1
         chain:
           type: integer
-          examples:
+          examples: 
             - 8453
         expires_at:
           type: string
           format: date-time
-          examples:
-            - '2023-09-13T22:10:22.000Z'
+          examples: 
+            - "2023-09-13T22:10:22.000Z"
         subscribed_at:
           type: string
           format: date-time
-          examples:
-            - '2023-09-13T22:10:22.000Z'
+          examples: 
+            - "2023-09-13T22:10:22.000Z"
         tier_id:
           type: string
-          examples:
-            - '0'
+          examples: 
+            - "0"
       required:
         - object
         - provider_name
@@ -850,26 +1094,25 @@ components:
         subscribers:
           type: array
           items:
-            $ref: '#/components/schemas/Subscriber'
+            $ref: "#/components/schemas/Subscriber"
     SubscribedToResponse:
       type: object
       properties:
         subscribed_to:
           type: array
           items:
-            $ref: '#/components/schemas/SubscribedTo'
+            $ref: "#/components/schemas/SubscribedTo"
     SubscriptionsResponse:
       type: object
       properties:
         subscriptions_created:
           type: array
           items:
-            $ref: '#/components/schemas/Subscriptions'
+            $ref: "#/components/schemas/Subscriptions"
+
     FrameSignaturePacket:
       type: object
-      description: >-
-        The Frame Signature Packet
-        (https://docs.farcaster.xyz/developers/frames/spec#frame-signature-packet)
+      description: The Frame Signature Packet (https://docs.farcaster.xyz/developers/frames/spec#frame-signature-packet)
       required:
         - untrustedData
         - trustedData
@@ -879,7 +1122,7 @@ components:
           description: Untrusted data from the user
           properties:
             fid:
-              $ref: '#/components/schemas/Fid'
+              $ref: "#/components/schemas/Fid"
             url:
               type: string
               description: URL of the frame
@@ -905,9 +1148,9 @@ components:
               type: string
               description: Transaction ID
             address:
-              $ref: '#/components/schemas/Address'
+              $ref: "#/components/schemas/Address"
             castId:
-              $ref: '#/components/schemas/CastId'
+              $ref: "#/components/schemas/CastId"
         trustedData:
           type: object
           description: Trusted data from the user
@@ -929,15 +1172,15 @@ components:
         image:
           type: string
         button:
-          $ref: '#/components/schemas/FrameActionButton'
+          $ref: "#/components/schemas/FrameActionButton"
         input:
-          $ref: '#/components/schemas/FrameInput'
+          $ref: "#/components/schemas/FrameInput"
         state:
-          $ref: '#/components/schemas/FrameState'
+          $ref: "#/components/schemas/FrameState"
         transaction:
-          $ref: '#/components/schemas/FrameTransaction'
+          $ref: "#/components/schemas/FrameTransaction"
         address:
-          $ref: '#/components/schemas/FrameAddress'
+          $ref: "#/components/schemas/FrameAddress"
         frames_url:
           type: string
           description: URL of the frames
@@ -956,8 +1199,8 @@ components:
         text:
           type: string
           description: Input text for the frame
-          examples:
-            - Draw a purple ringed planet
+          examples: 
+            - "Draw a purple ringed planet"
     FrameState:
       type: object
       required:
@@ -966,8 +1209,8 @@ components:
         serialized:
           type: string
           description: State for the frame in a serialized format
-          examples:
-            - '%7B%22counter%22%3A1%7D'
+          examples: 
+            - "%7B%22counter%22%3A1%7D"
     FrameAddress:
       type: string
       description: The connected wallet address of the interacting user.
@@ -979,8 +1222,8 @@ components:
         hash:
           type: string
           description: Transaction hash
-          examples:
-            - '0xa80de157a3ab4648db1ecfab7e6355b342215bc549f6e37be9e6da527cc024f7'
+          examples: 
+            - "0xa80de157a3ab4648db1ecfab7e6355b342215bc549f6e37be9e6da527cc024f7"
     FrameActionButton:
       type: object
       required:
@@ -994,22 +1237,20 @@ components:
           type: integer
           description: Index of the button
         action_type:
-          $ref: '#/components/schemas/FrameButtonActionType'
+          $ref: "#/components/schemas/FrameButtonActionType"
         target:
           type: string
           description: Target of the button
         post_url:
           type: string
-          description: >-
-            Used specifically for the tx action type to post a successful
-            transaction hash
+          description: Used specifically for the tx action type to post a successful transaction hash
     ReactionLike:
       type: object
       required:
         - fid
       properties:
         fid:
-          $ref: '#/components/schemas/Fid'
+          $ref: "#/components/schemas/Fid"
     ReactionRecast:
       type: object
       required:
@@ -1017,7 +1258,7 @@ components:
         - fname
       properties:
         fid:
-          $ref: '#/components/schemas/Fid'
+          $ref: "#/components/schemas/Fid"
         fname:
           type: string
     LocationAddress:
@@ -1054,7 +1295,7 @@ components:
           minimum: -180
           maximum: 180
         address:
-          $ref: '#/components/schemas/LocationAddress'
+          $ref: "#/components/schemas/LocationAddress"
     User:
       type: object
       required:
@@ -1075,13 +1316,13 @@ components:
           enum:
             - user
         fid:
-          $ref: '#/components/schemas/Fid'
+          $ref: "#/components/schemas/Fid"
         username:
           type: string
         display_name:
           type: string
         custody_address:
-          $ref: '#/components/schemas/Address'
+          $ref: "#/components/schemas/Address"
         pfp_url:
           type: string
           description: The URL of the user's profile picture
@@ -1104,7 +1345,7 @@ components:
                     type: string
                   default: []
             location:
-              $ref: '#/components/schemas/Location'
+              $ref: "#/components/schemas/Location"
         follower_count:
           type: integer
           format: int32
@@ -1116,7 +1357,7 @@ components:
         verifications:
           type: array
           items:
-            $ref: '#/components/schemas/Address'
+            $ref: "#/components/schemas/Address"
         verified_addresses:
           type: object
           required:
@@ -1126,16 +1367,14 @@ components:
             eth_addresses:
               type: array
               items:
-                $ref: '#/components/schemas/Address'
+                $ref: "#/components/schemas/Address"
             sol_addresses:
               type: array
               items:
-                $ref: '#/components/schemas/SolAddress'
+                $ref: "#/components/schemas/SolAddress"
         verified_accounts:
           type: array
-          description: >-
-            Verified accounts of the user on other platforms, currently only X
-            is supported.
+          description: Verified accounts of the user on other platforms, currently only X is supported.
           items:
             type: object
             properties:
@@ -1148,16 +1387,18 @@ components:
         power_badge:
           type: boolean
         viewer_context:
-          $ref: '#/components/schemas/UserViewerContext'
+          $ref: "#/components/schemas/UserViewerContext"
     Embed:
       oneOf:
-        - $ref: '#/components/schemas/EmbedUrl'
-        - $ref: '#/components/schemas/EmbedCast'
+        - $ref: "#/components/schemas/EmbedUrl"
+        - $ref: "#/components/schemas/EmbedCast"
     EmbedDeep:
       oneOf:
-        - $ref: '#/components/schemas/EmbedUrl'
-        - $ref: '#/components/schemas/EmbedCastDeep'
+        - $ref: "#/components/schemas/EmbedUrl"
+        - $ref: "#/components/schemas/EmbedCastDeep"
     CastEmbedded:
+      # This should just be Cast, but have to duplicate to avoid the circular reference caused by embedded casts, 
+      # because Readme chokes on them.
       type: object
       required:
         - hash
@@ -1175,17 +1416,11 @@ components:
         hash:
           type: string
         parent_hash:
-          type:
-            - string
-            - 'null'
+          type: [string, "null"]
         parent_url:
-          type:
-            - string
-            - 'null'
+          type: [string, "null"]
         root_parent_url:
-          type:
-            - string
-            - 'null'
+          type: [string, "null"]
         parent_author:
           type: object
           required:
@@ -1193,24 +1428,24 @@ components:
           properties:
             fid:
               oneOf:
-                - type: 'null'
-                - $ref: '#/components/schemas/Fid'
+                - type: "null"
+                - $ref: "#/components/schemas/Fid"
         author:
-          $ref: '#/components/schemas/UserDehydrated'
+          $ref: "#/components/schemas/UserDehydrated"
         text:
           type: string
         timestamp:
-          $ref: '#/components/schemas/Timestamp'
+          $ref: "#/components/schemas/Timestamp"
         type:
-          $ref: '#/components/schemas/CastNotificationType'
+          $ref: "#/components/schemas/CastNotificationType"
         embeds:
           type: array
           items:
-            $ref: '#/components/schemas/EmbedDeep'
+            $ref: "#/components/schemas/EmbedDeep"
         channel:
           oneOf:
-            - type: 'null'
-            - $ref: '#/components/schemas/DehydratedChannel'
+            - type: "null"
+            - $ref: "#/components/schemas/DehydratedChannel"
     Cast:
       type: object
       required:
@@ -1227,17 +1462,11 @@ components:
         hash:
           type: string
         parent_hash:
-          type:
-            - string
-            - 'null'
+          type: [string, "null"]
         parent_url:
-          type:
-            - string
-            - 'null'
+          type: [string, "null"]
         root_parent_url:
-          type:
-            - string
-            - 'null'
+          type: [string, "null"]
         parent_author:
           type: object
           required:
@@ -1245,20 +1474,20 @@ components:
           properties:
             fid:
               oneOf:
-                - type: 'null'
-                - $ref: '#/components/schemas/Fid'
+                - type: "null"
+                - $ref: "#/components/schemas/Fid"
         author:
-          $ref: '#/components/schemas/User'
+          $ref: "#/components/schemas/User"
         text:
           type: string
         timestamp:
-          $ref: '#/components/schemas/Timestamp'
+          $ref: "#/components/schemas/Timestamp"
         embeds:
           type: array
           items:
-            $ref: '#/components/schemas/Embed'
+            $ref: "#/components/schemas/Embed"
         type:
-          $ref: '#/components/schemas/CastNotificationType'
+          $ref: "#/components/schemas/CastNotificationType"
     ProfileUrl:
       type: object
       required:
@@ -1273,31 +1502,24 @@ components:
               type: string
     SearchedUser:
       anyOf:
-        - $ref: '#/components/schemas/User'
-        - $ref: '#/components/schemas/ProfileUrl'
+        - $ref: "#/components/schemas/User"
+        - $ref: "#/components/schemas/ProfileUrl"
     SignedKeyRequestSponsor:
       type: object
       properties:
         fid:
-          $ref: '#/components/schemas/Fid'
+          $ref: "#/components/schemas/Fid"
           description: FID of the sponsor
         signature:
           type: string
-          description: >-
-            Signature generated by the fid of the sponsor and the signature
-            generated from signKeyRequest for the app.
+          description: Signature generated by the fid of the sponsor and the signature generated from signKeyRequest for the app.
         sponsored_by_neynar:
           type: boolean
-          description: >
+          description: |
             Neynar will sponsor the signer if set to true.
-
-            **Note: ** If sponsor.fid and sponsor.signature are provided along
-            with sponsored_by_neynar set to true, 
-
+            **Note: ** If sponsor.fid and sponsor.signature are provided along with sponsored_by_neynar set to true, 
             the sponsor.fid and sponsor.signature will be ignored. 
-
-            Neynar will sponsor the signer on behalf of the user. The developer
-            will get charged in compute units.
+            Neynar will sponsor the signer on behalf of the user. The developer will get charged in compute units.
     RegisterSignerKeyReqBody:
       type: object
       required:
@@ -1307,29 +1529,23 @@ components:
         - deadline
       properties:
         signer_uuid:
-          $ref: '#/components/schemas/SignerUUID'
+          $ref: "#/components/schemas/SignerUUID"
         signature:
           type: string
-          description: >-
-            Signature generated by the custody address of the app. Signed data
-            includes app_fid, deadline, signer’s public key
+          description: Signature generated by the custody address of the app. Signed data includes app_fid, deadline, signer’s public key
         app_fid:
-          $ref: '#/components/schemas/Fid'
+          $ref: "#/components/schemas/Fid"
           description: Application FID
         deadline:
           type: integer
-          description: >-
-            unix timestamp in seconds that controls how long the signed key
-            request is valid for. (24 hours from now is recommended)
+          description: unix timestamp in seconds that controls how long the signed key request is valid for. (24 hours from now is recommended)
         redirect_url:
           type: string
-          description: >
+          description: |
             Url to redirect to after the signer is approved. 
-
-            **Note** : This should only be used when requesting a signer from a
-            native mobile application.
+            **Note** : This should only be used when requesting a signer from a native mobile application.
         sponsor:
-          $ref: '#/components/schemas/SignedKeyRequestSponsor'
+          $ref: "#/components/schemas/SignedKeyRequestSponsor"
     RegisterDeveloperManagedSignedKeyReqBody:
       type: object
       required:
@@ -1339,32 +1555,26 @@ components:
         - deadline
       properties:
         public_key:
-          $ref: '#/components/schemas/Ed25519PublicKey'
+          $ref: "#/components/schemas/Ed25519PublicKey"
         signature:
           type: string
-          description: >-
-            Signature generated by the custody address of the app. Signed data
-            includes app_fid, deadline, signer’s public key
+          description: Signature generated by the custody address of the app. Signed data includes app_fid, deadline, signer’s public key
         app_fid:
-          $ref: '#/components/schemas/Fid'
+          $ref: "#/components/schemas/Fid"
           description: Application FID
         deadline:
           type: integer
-          description: >-
-            unix timestamp in seconds that controls how long the signed key
-            request is valid for. (24 hours from now is recommended)
+          description: unix timestamp in seconds that controls how long the signed key request is valid for. (24 hours from now is recommended)
         redirect_url:
           type: string
-          description: >
+          description: |
             Url to redirect to after the signer is approved. 
-
-            **Note** : This should only be used when requesting a signer from a
-            native mobile application.
+            **Note** : This should only be used when requesting a signer from a native mobile application.
         sponsor:
-          $ref: '#/components/schemas/SignedKeyRequestSponsor'
+          $ref: "#/components/schemas/SignedKeyRequestSponsor"
     CastParent:
       type: string
-      description: 'parent_url of the channel the cast is in, or hash of the cast'
+      description: parent_url of the channel the cast is in, or hash of the cast
     PostCastReqBodyEmbedsCastIdProperties:
       type: object
       required:
@@ -1374,49 +1584,44 @@ components:
         hash:
           type: string
         fid:
-          $ref: '#/components/schemas/Fid'
+          $ref: "#/components/schemas/Fid"
     PostCastReqBodyEmbeds:
       type: object
       properties:
         cast_id:
-          $ref: '#/components/schemas/PostCastReqBodyEmbedsCastIdProperties'
+          $ref: "#/components/schemas/PostCastReqBodyEmbedsCastIdProperties"
         castId:
-          $ref: '#/components/schemas/PostCastReqBodyEmbedsCastIdProperties'
+          $ref: "#/components/schemas/PostCastReqBodyEmbedsCastIdProperties"
         url:
           type: string
       oneOf:
-        - required:
-            - cast_id
-        - required:
-            - castId
-        - required:
-            - url
+        - required: ["cast_id"]
+        - required: ["castId"]
+        - required: ["url"]
     PostCastReqBody:
       type: object
       required:
         - signer_uuid
       properties:
         signer_uuid:
-          $ref: '#/components/schemas/SignerUUID'
+          $ref: "#/components/schemas/SignerUUID"
         text:
           type: string
         embeds:
           type: array
           items:
-            $ref: '#/components/schemas/PostCastReqBodyEmbeds'
+            $ref: "#/components/schemas/PostCastReqBodyEmbeds"
         parent:
-          $ref: '#/components/schemas/CastParent'
+          $ref: "#/components/schemas/CastParent"
         channel_id:
           type: string
-          description: >-
-            Channel ID of the channel where the cast is to be posted. e.g.
-            neynar, farcaster, warpcast
-          examples:
-            - neynar
+          description: Channel ID of the channel where the cast is to be posted. e.g. neynar, farcaster, warpcast
+          examples: 
+            - "neynar"
         idem:
-          $ref: '#/components/schemas/Idem'
+          $ref: "#/components/schemas/Idem"
         parent_author_fid:
-          $ref: '#/components/schemas/Fid'
+          $ref: "#/components/schemas/Fid"
     MuteReqBody:
       type: object
       required:
@@ -1424,9 +1629,9 @@ components:
         - muted_fid
       properties:
         fid:
-          $ref: '#/components/schemas/Fid'
+          $ref: "#/components/schemas/Fid"
         muted_fid:
-          $ref: '#/components/schemas/Fid'
+          $ref: "#/components/schemas/Fid"
     BanReqBody:
       type: object
       required:
@@ -1435,7 +1640,7 @@ components:
         fids:
           type: array
           items:
-            $ref: '#/components/schemas/Fid'
+            $ref: "#/components/schemas/Fid"
     ReactionReqBody:
       type: object
       required:
@@ -1444,23 +1649,21 @@ components:
         - target
       properties:
         signer_uuid:
-          $ref: '#/components/schemas/SignerUUID'
+          $ref: "#/components/schemas/SignerUUID"
         reaction_type:
-          $ref: '#/components/schemas/ReactionType'
+          $ref: "#/components/schemas/ReactionType"
         target:
           type: string
         target_author_fid:
-          $ref: '#/components/schemas/Fid'
-          description: >-
-            If the target is a cast hash, this value should indicate the target
-            cast's author's FID (unsigned integer)
+          $ref: "#/components/schemas/Fid"
+          description: If the target is a cast hash, this value should indicate the target cast's author's FID (unsigned integer)
         idem:
-          $ref: '#/components/schemas/Idem'
+          $ref: "#/components/schemas/Idem"
     ChannelType:
       type: string
       enum:
-        - id
-        - parent_url
+        - "id"
+        - "parent_url"
     PublishMessageReqBody:
       type: object
     PublishMessageResponse:
@@ -1472,9 +1675,9 @@ components:
         - target_hash
       properties:
         signer_uuid:
-          $ref: '#/components/schemas/SignerUUID'
+          $ref: "#/components/schemas/SignerUUID"
         target_hash:
-          $ref: '#/components/schemas/CastHash'
+          $ref: "#/components/schemas/CastHash"
     FollowReqBody:
       type: object
       required:
@@ -1482,11 +1685,11 @@ components:
         - target_fids
       properties:
         signer_uuid:
-          $ref: '#/components/schemas/SignerUUID'
+          $ref: "#/components/schemas/SignerUUID"
         target_fids:
           type: array
           items:
-            $ref: '#/components/schemas/Fid'
+            $ref: "#/components/schemas/Fid"
     FrameDeveloperManagedActionReqBody:
       type: object
       required:
@@ -1494,11 +1697,11 @@ components:
         - signature_packet
       properties:
         cast_hash:
-          $ref: '#/components/schemas/CastHash'
+          $ref: "#/components/schemas/CastHash"
         action:
-          $ref: '#/components/schemas/FrameAction'
+          $ref: "#/components/schemas/FrameAction"
         signature_packet:
-          $ref: '#/components/schemas/FrameSignaturePacket'
+          $ref: "#/components/schemas/FrameSignaturePacket"
     FrameActionReqBody:
       type: object
       required:
@@ -1506,11 +1709,11 @@ components:
         - action
       properties:
         signer_uuid:
-          $ref: '#/components/schemas/SignerUUID'
+          $ref: "#/components/schemas/SignerUUID"
         cast_hash:
-          $ref: '#/components/schemas/CastHash'
+          $ref: "#/components/schemas/CastHash"
         action:
-          $ref: '#/components/schemas/FrameAction'
+          $ref: "#/components/schemas/FrameAction"
     AddVerificationReqBody:
       type: object
       required:
@@ -1520,17 +1723,17 @@ components:
         - eth_signature
       properties:
         signer_uuid:
-          $ref: '#/components/schemas/SignerUUID'
+          $ref: "#/components/schemas/SignerUUID"
         address:
-          $ref: '#/components/schemas/Address'
+          $ref: "#/components/schemas/Address"
         block_hash:
           type: string
         eth_signature:
           type: string
         verification_type:
-          $ref: '#/components/schemas/VerificationType'
+          $ref: "#/components/schemas/VerificationType"
         chain_id:
-          $ref: '#/components/schemas/VerificationChainId'
+          $ref: "#/components/schemas/VerificationChainId"
     RemoveVerificationReqBody:
       type: object
       required:
@@ -1540,16 +1743,16 @@ components:
         - eth_signature
       properties:
         signer_uuid:
-          $ref: '#/components/schemas/SignerUUID'
+          $ref: "#/components/schemas/SignerUUID"
         address:
-          $ref: '#/components/schemas/Address'
+          $ref: "#/components/schemas/Address"
     UpdateUserReqBody:
       type: object
       required:
         - signer_uuid
       properties:
         signer_uuid:
-          $ref: '#/components/schemas/SignerUUID'
+          $ref: "#/components/schemas/SignerUUID"
         bio:
           type: string
         pfp_url:
@@ -1621,11 +1824,11 @@ components:
         likes:
           type: array
           items:
-            $ref: '#/components/schemas/ReactionLike'
+            $ref: "#/components/schemas/ReactionLike"
         recasts:
           type: array
           items:
-            $ref: '#/components/schemas/ReactionRecast'
+            $ref: "#/components/schemas/ReactionRecast"
         likes_count:
           type: integer
           format: int32
@@ -1642,16 +1845,16 @@ components:
           format: int32
     ChannelOrDehydratedChannel:
       oneOf:
-        - $ref: '#/components/schemas/Channel'
-        - $ref: '#/components/schemas/DehydratedChannel'
+        - $ref: "#/components/schemas/Channel"
+        - $ref: "#/components/schemas/DehydratedChannel"
       discriminator:
         propertyName: object
         mapping:
-          channel: '#/components/schemas/Channel'
-          dehydrated_channel: '#/components/schemas/DehydratedChannel'
+          channel: "#/components/schemas/Channel"
+          dehydrated_channel: "#/components/schemas/DehydratedChannel"
     CastWithInteractions:
       allOf:
-        - $ref: '#/components/schemas/Cast'
+        - $ref: "#/components/schemas/Cast"
         - type: object
           required:
             - reactions
@@ -1663,30 +1866,28 @@ components:
             frames:
               type: array
               items:
-                $ref: '#/components/schemas/Frame'
+                $ref: "#/components/schemas/Frame"
             reactions:
-              $ref: '#/components/schemas/CastWithInteractionsReactions'
+              $ref: "#/components/schemas/CastWithInteractionsReactions"
             replies:
-              $ref: '#/components/schemas/CastWithInteractionsReplies'
+              $ref: "#/components/schemas/CastWithInteractionsReplies"
             thread_hash:
-              type:
-                - string
-                - 'null'
+              type: [string, "null"]
             mentioned_profiles:
               type: array
               items:
-                $ref: '#/components/schemas/User'
+                $ref: "#/components/schemas/User"
             channel:
               oneOf:
-                - $ref: '#/components/schemas/ChannelOrDehydratedChannel'
-                - type: 'null'
+                - $ref: "#/components/schemas/ChannelOrDehydratedChannel"
+                - type: "null"
             viewer_context:
-              $ref: '#/components/schemas/CastViewerContext'
+              $ref: "#/components/schemas/CastViewerContext"
             author_channel_context:
-              $ref: '#/components/schemas/ChannelUserContext'
+              $ref: "#/components/schemas/ChannelUserContext"
     CastWithInteractionsAndConversations:
       allOf:
-        - $ref: '#/components/schemas/CastWithInteractions'
+        - $ref: "#/components/schemas/CastWithInteractions"
         - type: object
           required:
             - direct_replies
@@ -1694,16 +1895,12 @@ components:
             direct_replies:
               type: array
               items:
-                $ref: '#/components/schemas/CastWithInteractionsAndConversationsRef'
-              description: >-
-                note: This is recursive. It contains the direct replies to the
-                cast and their direct replies up to n reply_depth.
+                $ref: "#/components/schemas/CastWithInteractionsAndConversationsRef"
+              description: "note: This is recursive. It contains the direct replies to the cast and their direct replies up to n reply_depth."
     CastWithInteractionsAndConversationsRef:
-      description: >-
-        Reference to CastWithInteractionsAndConversations to avoid circular
-        reference
+      description: Reference to CastWithInteractionsAndConversations to avoid circular reference
       allOf:
-        - $ref: '#/components/schemas/CastWithInteractions'
+        - $ref: "#/components/schemas/CastWithInteractions"
         - type: object
           required:
             - direct_replies
@@ -1712,9 +1909,7 @@ components:
               type: array
               items:
                 type: object
-              description: >-
-                note: This is recursive. It contains the direct replies to the
-                cast and their direct replies up to n reply_depth.
+              description: "note: This is recursive. It contains the direct replies to the cast and their direct replies up to n reply_depth."
     Conversation:
       type: object
       required:
@@ -1726,13 +1921,13 @@ components:
             - cast
           properties:
             cast:
-              $ref: '#/components/schemas/CastWithInteractionsAndConversations'
+              $ref: "#/components/schemas/CastWithInteractionsAndConversations"
             chronological_parent_casts:
               type: array
               items:
-                $ref: '#/components/schemas/CastWithInteractions'
+                $ref: "#/components/schemas/CastWithInteractions"
         next:
-          $ref: '#/components/schemas/NextCursor'
+          $ref: "#/components/schemas/NextCursor"
     Signer:
       type: object
       required:
@@ -1741,9 +1936,9 @@ components:
         - status
       properties:
         signer_uuid:
-          $ref: '#/components/schemas/SignerUUID'
+          $ref: "#/components/schemas/SignerUUID"
         public_key:
-          $ref: '#/components/schemas/Ed25519PublicKey'
+          $ref: "#/components/schemas/Ed25519PublicKey"
         status:
           type: string
           enum:
@@ -1754,7 +1949,7 @@ components:
         signer_approval_url:
           type: string
         fid:
-          $ref: '#/components/schemas/Fid'
+          $ref: "#/components/schemas/Fid"
     DeveloperManagedSigner:
       type: object
       required:
@@ -1762,7 +1957,7 @@ components:
         - status
       properties:
         public_key:
-          $ref: '#/components/schemas/Ed25519PublicKey'
+          $ref: "#/components/schemas/Ed25519PublicKey"
         status:
           type: string
           enum:
@@ -1772,14 +1967,14 @@ components:
         signer_approval_url:
           type: string
         fid:
-          $ref: '#/components/schemas/Fid'
+          $ref: "#/components/schemas/Fid"
     CastResponse:
       type: object
       required:
         - cast
       properties:
         cast:
-          $ref: '#/components/schemas/CastWithInteractions'
+          $ref: "#/components/schemas/CastWithInteractions"
     ChannelFollowReqBody:
       type: object
       required:
@@ -1787,9 +1982,9 @@ components:
         - channel_id
       properties:
         signer_uuid:
-          $ref: '#/components/schemas/SignerUUID'
+          $ref: "#/components/schemas/SignerUUID"
         channel_id:
-          $ref: '#/components/schemas/ChannelId'
+          $ref: "#/components/schemas/ChannelId"
     DehydratedChannel:
       type: object
       required:
@@ -1808,7 +2003,7 @@ components:
         image_url:
           type: string
         viewer_context:
-          $ref: '#/components/schemas/ChannelUserContext'
+          $ref: "#/components/schemas/ChannelUserContext"
     Channel:
       type: object
       required:
@@ -1848,28 +2043,28 @@ components:
           type: string
           format: uri
         lead:
-          $ref: '#/components/schemas/User'
+          $ref: "#/components/schemas/User"
         moderator_fids:
           type: array
           items:
-            $ref: '#/components/schemas/Fid'
+            $ref: "#/components/schemas/Fid"
         member_count:
           type: integer
           format: int32
         moderator:
-          $ref: '#/components/schemas/User'
+          $ref: "#/components/schemas/User"
           deprecated: true
           description: Use `lead` instead.
         pinned_cast_hash:
-          $ref: '#/components/schemas/CastHash'
+          $ref: "#/components/schemas/CastHash"
           description: Hash of the pinned cast in the channel.
         hosts:
           type: array
           deprecated: true
           items:
-            $ref: '#/components/schemas/User'
+            $ref: "#/components/schemas/User"
         viewer_context:
-          $ref: '#/components/schemas/ChannelUserContext'
+          $ref: "#/components/schemas/ChannelUserContext"
     ChannelViewerContext:
       deprecated: true
       type: object
@@ -1889,7 +2084,7 @@ components:
           description: Indicates if the user is following the channel.
           type: boolean
         role:
-          $ref: '#/components/schemas/ChannelMemberRole'
+          $ref: "#/components/schemas/ChannelMemberRole"
     ChannelListResponse:
       type: object
       required:
@@ -1898,9 +2093,9 @@ components:
         channels:
           type: array
           items:
-            $ref: '#/components/schemas/Channel'
+            $ref: "#/components/schemas/Channel"
         next:
-          $ref: '#/components/schemas/NextCursor'
+          $ref: "#/components/schemas/NextCursor"
     ChannelMemberInvite:
       type: object
       required:
@@ -1910,13 +2105,13 @@ components:
         - invited
       properties:
         channel_id:
-          $ref: '#/components/schemas/ChannelId'
+          $ref: "#/components/schemas/ChannelId"
         role:
-          $ref: '#/components/schemas/ChannelMemberRole'
+          $ref: "#/components/schemas/ChannelMemberRole"
         inviter:
-          $ref: '#/components/schemas/User'
+          $ref: "#/components/schemas/User"
         invited:
-          $ref: '#/components/schemas/User'
+          $ref: "#/components/schemas/User"
     ChannelMember:
       type: object
       required:
@@ -1930,15 +2125,15 @@ components:
           enum:
             - member
         role:
-          $ref: '#/components/schemas/ChannelMemberRole'
+          $ref: "#/components/schemas/ChannelMemberRole"
         user:
           oneOf:
-            - $ref: '#/components/schemas/User'
-            - $ref: '#/components/schemas/UserDehydrated'
+            - $ref: "#/components/schemas/User"
+            - $ref: "#/components/schemas/UserDehydrated"
         channel:
           oneOf:
-            - $ref: '#/components/schemas/Channel'
-            - $ref: '#/components/schemas/DehydratedChannel'
+            - $ref: "#/components/schemas/Channel"
+            - $ref: "#/components/schemas/DehydratedChannel"
     ChannelMemberListResponse:
       type: object
       required:
@@ -1948,9 +2143,9 @@ components:
         members:
           type: array
           items:
-            $ref: '#/components/schemas/ChannelMember'
+            $ref: "#/components/schemas/ChannelMember"
         next:
-          $ref: '#/components/schemas/NextCursor'
+          $ref: "#/components/schemas/NextCursor"
     ChannelMemberInviteListResponse:
       type: object
       required:
@@ -1959,9 +2154,9 @@ components:
         invites:
           type: array
           items:
-            $ref: '#/components/schemas/ChannelMemberInvite'
+            $ref: "#/components/schemas/ChannelMemberInvite"
         next:
-          $ref: '#/components/schemas/NextCursor'
+          $ref: "#/components/schemas/NextCursor"
     ChannelSearchResponse:
       type: object
       required:
@@ -1971,16 +2166,16 @@ components:
         channels:
           type: array
           items:
-            $ref: '#/components/schemas/Channel'
+            $ref: "#/components/schemas/Channel"
         next:
-          $ref: '#/components/schemas/NextCursor'
+          $ref: "#/components/schemas/NextCursor"
     ChannelResponse:
       type: object
       required:
         - channel
       properties:
         channel:
-          $ref: '#/components/schemas/Channel'
+          $ref: "#/components/schemas/Channel"
     ChannelResponseBulk:
       type: object
       required:
@@ -1989,7 +2184,7 @@ components:
         channels:
           type: array
           items:
-            $ref: '#/components/schemas/Channel'
+            $ref: "#/components/schemas/Channel"
     UserSearchResponse:
       type: object
       required:
@@ -2003,9 +2198,9 @@ components:
             users:
               type: array
               items:
-                $ref: '#/components/schemas/SearchedUser'
+                $ref: "#/components/schemas/SearchedUser"
             next:
-              $ref: '#/components/schemas/NextCursor'
+              $ref: "#/components/schemas/NextCursor"
     ChannelActivity:
       type: object
       required:
@@ -2026,7 +2221,7 @@ components:
         cast_count_30d:
           type: string
         channel:
-          $ref: '#/components/schemas/Channel'
+          $ref: "#/components/schemas/Channel"
     TrendingChannelResponse:
       type: object
       required:
@@ -2036,9 +2231,9 @@ components:
         channels:
           type: array
           items:
-            $ref: '#/components/schemas/ChannelActivity'
+            $ref: "#/components/schemas/ChannelActivity"
         next:
-          $ref: '#/components/schemas/NextCursor'
+          $ref: "#/components/schemas/NextCursor"
     BulkCastsResponse:
       type: object
       required:
@@ -2047,7 +2242,7 @@ components:
         casts:
           type: array
           items:
-            $ref: '#/components/schemas/CastWithInteractions'
+            $ref: "#/components/schemas/CastWithInteractions"
     CastsResponse:
       type: object
       required:
@@ -2061,7 +2256,7 @@ components:
             casts:
               type: array
               items:
-                $ref: '#/components/schemas/CastWithInteractions'
+                $ref: "#/components/schemas/CastWithInteractions"
     CastsSearchResponse:
       type: object
       required:
@@ -2076,9 +2271,9 @@ components:
             casts:
               type: array
               items:
-                $ref: '#/components/schemas/CastWithInteractions'
+                $ref: "#/components/schemas/CastWithInteractions"
             next:
-              $ref: '#/components/schemas/NextCursor'
+              $ref: "#/components/schemas/NextCursor"
     FeedResponse:
       type: object
       required:
@@ -2088,9 +2283,9 @@ components:
         casts:
           type: array
           items:
-            $ref: '#/components/schemas/CastWithInteractions'
+            $ref: "#/components/schemas/CastWithInteractions"
         next:
-          $ref: '#/components/schemas/NextCursor'
+          $ref: "#/components/schemas/NextCursor"
     PostCastResponse:
       type: object
       required:
@@ -2107,14 +2302,14 @@ components:
             - text
           properties:
             hash:
-              $ref: '#/components/schemas/CastHash'
+              $ref: "#/components/schemas/CastHash"
             author:
               type: object
               required:
                 - fid
               properties:
                 fid:
-                  $ref: '#/components/schemas/Fid'
+                  $ref: "#/components/schemas/Fid"
             text:
               type: string
     OperationResponse:
@@ -2134,7 +2329,7 @@ components:
         success:
           type: boolean
         target_fid:
-          $ref: '#/components/schemas/Fid'
+          $ref: "#/components/schemas/Fid"
         hash:
           type: string
     BulkFollowResponse:
@@ -2148,7 +2343,7 @@ components:
         details:
           type: array
           items:
-            $ref: '#/components/schemas/FollowResponse'
+            $ref: "#/components/schemas/FollowResponse"
     NotificationsResponse:
       type: object
       required:
@@ -2162,9 +2357,9 @@ components:
         notifications:
           type: array
           items:
-            $ref: '#/components/schemas/Notification'
+            $ref: "#/components/schemas/Notification"
         next:
-          $ref: '#/components/schemas/NextCursor'
+          $ref: "#/components/schemas/NextCursor"
     Notification:
       type: object
       required:
@@ -2191,19 +2386,17 @@ components:
         follows:
           type: array
           items:
-            $ref: '#/components/schemas/Follow'
+            $ref: "#/components/schemas/Follow"
         cast:
-          $ref: '#/components/schemas/CastWithInteractions'
+          $ref: "#/components/schemas/CastWithInteractions"
         reactions:
           type: array
           items:
-            $ref: '#/components/schemas/ReactionWithUserInfo'
+            $ref: "#/components/schemas/ReactionWithUserInfo"
         count:
           type: integer
           format: int32
-          description: >-
-            The number of notifications of this(follows, likes, recast) type
-            bundled in a single notification.
+          description: The number of notifications of this(follows, likes, recast) type bundled in a single notification.
     Follow:
       type: object
       required:
@@ -2215,7 +2408,7 @@ components:
           enum:
             - follow
         user:
-          $ref: '#/components/schemas/User'
+          $ref: "#/components/schemas/User"
     CastDehydrated:
       type: object
       required:
@@ -2229,7 +2422,7 @@ components:
         hash:
           type: string
         author:
-          $ref: '#/components/schemas/UserDehydrated'
+          $ref: "#/components/schemas/UserDehydrated"
     ReactionWithUserInfo:
       type: object
       required:
@@ -2243,9 +2436,9 @@ components:
             - likes
             - recasts
         cast:
-          $ref: '#/components/schemas/CastDehydrated'
+          $ref: "#/components/schemas/CastDehydrated"
         user:
-          $ref: '#/components/schemas/User'
+          $ref: "#/components/schemas/User"
     ReactionForCast:
       type: object
       required:
@@ -2268,7 +2461,7 @@ components:
             - likes
             - recasts
         user:
-          $ref: '#/components/schemas/User'
+          $ref: "#/components/schemas/User"
     ReactionWithCastInfo:
       type: object
       required:
@@ -2284,7 +2477,7 @@ components:
             - like
             - recast
         cast:
-          $ref: '#/components/schemas/CastWithInteractions'
+          $ref: "#/components/schemas/CastWithInteractions"
         reaction_timestamp:
           type: string
           format: date-time
@@ -2294,7 +2487,7 @@ components:
             - likes
             - recasts
         user:
-          $ref: '#/components/schemas/UserDehydrated'
+          $ref: "#/components/schemas/UserDehydrated"
     RelevantFollowersResponse:
       type: object
       required:
@@ -2304,11 +2497,11 @@ components:
         top_relevant_followers_hydrated:
           type: array
           items:
-            $ref: '#/components/schemas/HydratedFollower'
+            $ref: "#/components/schemas/HydratedFollower"
         all_relevant_followers_dehydrated:
           type: array
           items:
-            $ref: '#/components/schemas/DehydratedFollower'
+            $ref: "#/components/schemas/DehydratedFollower"
     HydratedFollower:
       type: object
       properties:
@@ -2317,7 +2510,7 @@ components:
           enum:
             - follow
         user:
-          $ref: '#/components/schemas/User'
+          $ref: "#/components/schemas/User"
     DehydratedFollower:
       type: object
       properties:
@@ -2326,7 +2519,7 @@ components:
           enum:
             - follow
         user:
-          $ref: '#/components/schemas/UserDehydrated'
+          $ref: "#/components/schemas/UserDehydrated"
     UserDehydrated:
       type: object
       required:
@@ -2338,7 +2531,7 @@ components:
           enum:
             - user_dehydrated
         fid:
-          $ref: '#/components/schemas/Fid'
+          $ref: "#/components/schemas/Fid"
         username:
           type: string
         display_name:
@@ -2351,7 +2544,7 @@ components:
         - user
       properties:
         user:
-          $ref: '#/components/schemas/User'
+          $ref: "#/components/schemas/User"
     ReactionsResponse:
       type: object
       required:
@@ -2361,9 +2554,9 @@ components:
         reactions:
           type: array
           items:
-            $ref: '#/components/schemas/ReactionWithCastInfo'
+            $ref: "#/components/schemas/ReactionWithCastInfo"
         next:
-          $ref: '#/components/schemas/NextCursor'
+          $ref: "#/components/schemas/NextCursor"
     ReactionsCastResponse:
       type: object
       required:
@@ -2373,82 +2566,82 @@ components:
         reactions:
           type: array
           items:
-            $ref: '#/components/schemas/ReactionForCast'
+            $ref: "#/components/schemas/ReactionForCast"
         next:
-          $ref: '#/components/schemas/NextCursor'
+          $ref: "#/components/schemas/NextCursor"
     StorageAllocationsResponse:
       type: object
       properties:
         total_active_units:
           type: integer
-          examples:
+          examples: 
             - 13
         allocations:
           type: array
           items:
-            $ref: '#/components/schemas/StorageAllocation'
+            $ref: "#/components/schemas/StorageAllocation"
     StorageAllocation:
       type: object
       properties:
         object:
           type: string
-          examples:
-            - storage_allocation
+          examples: 
+            - "storage_allocation"
         user:
-          $ref: '#/components/schemas/UserDehydrated'
+          $ref: "#/components/schemas/UserDehydrated"
         units:
           type: integer
-          examples:
+          examples: 
             - 10
         expiry:
           type: string
           format: date-time
-          examples:
-            - '2024-10-08T22:03:49.000Z'
+          examples: 
+            - "2024-10-08T22:03:49.000Z"
         timestamp:
           type: string
           format: date-time
-          examples:
-            - '2023-10-09T22:03:49.000Z'
+          examples: 
+            - "2023-10-09T22:03:49.000Z"
     StorageUsageResponse:
       type: object
       properties:
         object:
           type: string
-          examples:
-            - storage_usage
+          examples: 
+            - "storage_usage"
         user:
-          $ref: '#/components/schemas/UserDehydrated'
+          $ref: "#/components/schemas/UserDehydrated"
         casts:
-          $ref: '#/components/schemas/StorageObject'
+          $ref: "#/components/schemas/StorageObject"
         reactions:
-          $ref: '#/components/schemas/StorageObject'
+          $ref: "#/components/schemas/StorageObject"
         links:
-          $ref: '#/components/schemas/StorageObject'
+          $ref: "#/components/schemas/StorageObject"
         verified_addresses:
-          $ref: '#/components/schemas/StorageObject'
+          $ref: "#/components/schemas/StorageObject"
         username_proofs:
-          $ref: '#/components/schemas/StorageObject'
+          $ref: "#/components/schemas/StorageObject"
         signers:
-          $ref: '#/components/schemas/StorageObject'
+          $ref: "#/components/schemas/StorageObject"
         total_active_units:
           type: integer
-          examples:
+          examples: 
             - 2
     StorageObject:
       type: object
       properties:
         object:
           type: string
-          examples:
-            - storage
+          examples: 
+            - "storage"
         used:
           type: integer
-          examples:
+          examples: 
             - 3659
         capacity:
           type: integer
-          examples:
+          examples: 
             - 10000
     BulkUsersResponse:
       type: object
@@ -2458,7 +2651,7 @@ components:
         users:
           type: array
           items:
-            $ref: '#/components/schemas/User'
+            $ref: "#/components/schemas/User"
     UsersResponse:
       type: object
       required:
@@ -2468,9 +2661,9 @@ components:
         users:
           type: array
           items:
-            $ref: '#/components/schemas/User'
+            $ref: "#/components/schemas/User"
         next:
-          $ref: '#/components/schemas/NextCursor'
+          $ref: "#/components/schemas/NextCursor"
     FollowersResponse:
       type: object
       required:
@@ -2480,15 +2673,15 @@ components:
         users:
           type: array
           items:
-            $ref: '#/components/schemas/HydratedFollower'
+            $ref: "#/components/schemas/HydratedFollower"
         next:
-          $ref: '#/components/schemas/NextCursor'
+          $ref: "#/components/schemas/NextCursor"
     BulkUsersByAddressResponse:
       type: object
       additionalProperties:
         type: array
         items:
-          $ref: '#/components/schemas/User'
+          $ref: "#/components/schemas/User"
     FeedType:
       type: string
       enum:
@@ -2550,7 +2743,7 @@ components:
         pages:
           type: array
           items:
-            $ref: '#/components/schemas/NeynarFramePage'
+            $ref: "#/components/schemas/NeynarFramePage"
         valid:
           type: boolean
           description: Indicates if the frame is valid.
@@ -2568,23 +2761,23 @@ components:
           description: Unique identifier for the page.
         version:
           type: string
-          default: vNext
-          examples:
-            - vNext
+          default: "vNext"
+          examples: 
+            - "vNext"
           description: The version of the page schema.
         title:
           type: string
-          examples:
-            - Welcome to Neynar
+          examples: 
+            - "Welcome to Neynar"
           description: The title of the page.
         image:
-          $ref: '#/components/schemas/NeynarPageImage'
+          $ref: "#/components/schemas/NeynarPageImage"
         buttons:
           type: array
           items:
-            $ref: '#/components/schemas/NeynarPageButton'
+            $ref: "#/components/schemas/NeynarPageButton"
         input:
-          $ref: '#/components/schemas/NeynarPageInput'
+          $ref: "#/components/schemas/NeynarPageInput"
       required:
         - uuid
         - title
@@ -2596,15 +2789,15 @@ components:
         url:
           type: string
           format: uri
-          examples:
-            - 'https://i.imgur.com/qo2AzBf.jpeg'
+          examples: 
+            - "https://i.imgur.com/qo2AzBf.jpeg"
           description: The URL of the page's image.
         aspect_ratio:
           type: string
           description: The aspect ratio of the image.
           enum:
-            - '1.91:1'
-            - '1:1'
+            - "1.91:1"
+            - "1:1"
       required:
         - url
         - aspect_ratio
@@ -2616,20 +2809,20 @@ components:
           description: The title of the button.
         index:
           type: integer
-          description: 'The index of the button, first button should have index 1 and so on.'
+          description: The index of the button, first button should have index 1 and so on.
         action_type:
           type: string
           description: The type of action that the button performs.
           enum:
-            - post
-            - post_redirect
-            - mint
-            - link
+            - "post"
+            - "post_redirect"
+            - "mint"
+            - "link"
         next_page:
           oneOf:
-            - $ref: '#/components/schemas/NeynarNextFramePage'
-            - $ref: '#/components/schemas/NeynarNextFramePageRedirect'
-            - $ref: '#/components/schemas/NeynarNextFramePageMintUrl'
+            - $ref: "#/components/schemas/NeynarNextFramePage"
+            - $ref: "#/components/schemas/NeynarNextFramePageRedirect"
+            - $ref: "#/components/schemas/NeynarNextFramePageMintUrl"
       required:
         - title
         - index
@@ -2672,7 +2865,7 @@ components:
       properties:
         mint_url:
           type: string
-          description: 'The URL for minting, specific to the mint action.'
+          description: The URL for minting, specific to the mint action.
       required:
         - mint_url
     NeynarFrameCreationRequest:
@@ -2684,7 +2877,7 @@ components:
         pages:
           type: array
           items:
-            $ref: '#/components/schemas/NeynarFramePage'
+            $ref: "#/components/schemas/NeynarFramePage"
       required:
         - name
         - pages
@@ -2701,7 +2894,7 @@ components:
         pages:
           type: array
           items:
-            $ref: '#/components/schemas/NeynarFramePage'
+            $ref: "#/components/schemas/NeynarFramePage"
       required:
         - uuid
         - pages
@@ -2724,7 +2917,7 @@ components:
           type: string
           format: uri
         interactor:
-          $ref: '#/components/schemas/User'
+          $ref: "#/components/schemas/User"
         tapped_button:
           type: object
           required:
@@ -2733,22 +2926,22 @@ components:
             index:
               type: integer
         input:
-          $ref: '#/components/schemas/FrameInput'
+          $ref: "#/components/schemas/FrameInput"
         state:
-          $ref: '#/components/schemas/FrameState'
+          $ref: "#/components/schemas/FrameState"
         cast:
-          $ref: '#/components/schemas/CastWithInteractions'
+          $ref: "#/components/schemas/CastWithInteractions"
         timestamp:
-          $ref: '#/components/schemas/Timestamp'
+          $ref: "#/components/schemas/Timestamp"
         signer:
           type: object
           properties:
             client:
-              $ref: '#/components/schemas/User'
+              $ref: "#/components/schemas/User"
         transaction:
-          $ref: '#/components/schemas/FrameTransaction'
+          $ref: "#/components/schemas/FrameTransaction"
         address:
-          $ref: '#/components/schemas/FrameAddress'
+          $ref: "#/components/schemas/FrameAddress"
     ValidateFrameActionResponse:
       type: object
       required:
@@ -2757,10 +2950,10 @@ components:
       properties:
         valid:
           type: boolean
-          examples:
+          examples: 
             - true
         action:
-          $ref: '#/components/schemas/ValidatedFrameAction'
+          $ref: "#/components/schemas/ValidatedFrameAction"
     UserFIDResponse:
       type: object
       required:
@@ -2800,7 +2993,7 @@ components:
         message:
           type: string
         signer:
-          $ref: '#/components/schemas/Signer'
+          $ref: "#/components/schemas/Signer"
     MuteRecord:
       type: object
       required:
@@ -2814,9 +3007,9 @@ components:
           enum:
             - mute
         muted:
-          $ref: '#/components/schemas/User'
+          $ref: "#/components/schemas/User"
         muted_at:
-          $ref: '#/components/schemas/Timestamp'
+          $ref: "#/components/schemas/Timestamp"
     MuteListResponse:
       type: object
       required:
@@ -2826,9 +3019,9 @@ components:
         mutes:
           type: array
           items:
-            $ref: '#/components/schemas/MuteRecord'
+            $ref: "#/components/schemas/MuteRecord"
         next:
-          $ref: '#/components/schemas/NextCursor'
+          $ref: "#/components/schemas/NextCursor"
     MuteResponse:
       type: object
       required:
@@ -2836,7 +3029,7 @@ components:
       properties:
         success:
           type: boolean
-          examples:
+          examples: 
             - true
         message:
           type: string
@@ -2852,11 +3045,11 @@ components:
           enum:
             - block
         blocked:
-          $ref: '#/components/schemas/User'
+          $ref: "#/components/schemas/User"
         blocker:
-          $ref: '#/components/schemas/User'
+          $ref: "#/components/schemas/User"
         blocked_at:
-          $ref: '#/components/schemas/Timestamp'
+          $ref: "#/components/schemas/Timestamp"
     BlockListResponse:
       type: object
       required:
@@ -2866,9 +3059,9 @@ components:
         blocks:
           type: array
           items:
-            $ref: '#/components/schemas/BlockRecord'
+            $ref: "#/components/schemas/BlockRecord"
         next:
-          $ref: '#/components/schemas/NextCursor'
+          $ref: "#/components/schemas/NextCursor"
     BanRecord:
       type: object
       required:
@@ -2881,9 +3074,9 @@ components:
           enum:
             - ban
         banned:
-          $ref: '#/components/schemas/User'
+          $ref: "#/components/schemas/User"
         banned_at:
-          $ref: '#/components/schemas/Timestamp'
+          $ref: "#/components/schemas/Timestamp"
     BanListResponse:
       type: object
       required:
@@ -2893,9 +3086,9 @@ components:
         bans:
           type: array
           items:
-            $ref: '#/components/schemas/BanRecord'
+            $ref: "#/components/schemas/BanRecord"
         next:
-          $ref: '#/components/schemas/NextCursor'
+          $ref: "#/components/schemas/NextCursor"
     BanResponse:
       type: object
       required:
@@ -2903,40 +3096,31 @@ components:
       properties:
         success:
           type: boolean
-          examples:
+          examples: 
             - true
         message:
-          type:
-            - string
-            - 'null'
+          type: [string, "null"]
     UsersActiveChannelsResponse:
       type: object
       properties:
         channels:
           type: array
           items:
-            $ref: '#/components/schemas/Channel'
+            $ref: "#/components/schemas/Channel"
         next:
-          $ref: '#/components/schemas/NextCursor'
+          $ref: "#/components/schemas/NextCursor"
     VerificationType:
       type: integer
       format: int32
       default: 0
-      enum:
-        - 0
-        - 1
-      description: 'Type of verification. 0 = EOA, 1 = contract'
+      enum: [0, 1]
+      description: Type of verification. 0 = EOA, 1 = contract
     VerificationChainId:
       type: integer
       format: int32
       default: 0
-      enum:
-        - 0
-        - 1
-        - 10
-      description: >-
-        Chain ID for farcaster verifications. 0 for EOA verifications, 1 or 10
-        for contract verifications
+      enum: [0, 1, 10]
+      description: Chain ID for farcaster verifications. 0 for EOA verifications, 1 or 10 for contract verifications
     DeleteFrameResponse:
       type: object
       properties:
@@ -2978,7 +3162,7 @@ components:
         secrets:
           type: array
           items:
-            $ref: '#/components/schemas/WebhookSecret'
+            $ref: "#/components/schemas/WebhookSecret"
         description:
           type: string
         http_timeout:
@@ -2999,7 +3183,7 @@ components:
           type: string
           format: date-time
         subscription:
-          $ref: '#/components/schemas/WebhookSubscription'
+          $ref: "#/components/schemas/WebhookSubscription"
     WebhookSecret:
       type: object
       required:
@@ -3038,7 +3222,7 @@ components:
         subscription_id:
           type: string
         filters:
-          $ref: '#/components/schemas/WebhookSubscriptionFilters'
+          $ref: "#/components/schemas/WebhookSubscriptionFilters"
         created_at:
           type: string
           format: date-time
@@ -3105,42 +3289,31 @@ components:
             type: integer
         text:
           type: string
-          description: >
+          description: |
             Regex pattern to match the text key of the cast.
-
             **Note:** 
-
-            1) Regex must be parsed by Go's RE2 engine (Test your expression
-            here: https://www.lddgo.net/en/string/golangregex)
-
+            1) Regex must be parsed by Go's RE2 engine (Test your expression here: https://www.lddgo.net/en/string/golangregex)
             2) Use backslashes to escape special characters.
-
             For example: (?i)\\$degen should be written as (?i)\\\\$degen
-          examples:
-            - (?i)\$degen
+          examples: 
+            - "(?i)\\$degen"
         embeds:
           type: string
-          description: >
+          description: |
             Regex pattern to match the embeded_url (key embeds) of the cast.
-
             **Note:** 
-
-            1) Regex must be parsed by Go's RE2 engine (Test your expression
-            here: https://www.lddgo.net/en/string/golangregex)
-
+            1) Regex must be parsed by Go's RE2 engine (Test your expression here: https://www.lddgo.net/en/string/golangregex)
             2) Use backslashes to escape special characters.
-
-            For example: \\b(farcaster|neynar)\\b should be written as
-            \\\\b(farcaster|neynar)\\\\b
-          examples:
+            For example: \\b(farcaster|neynar)\\b should be written as \\\\b(farcaster|neynar)\\\\b
+          examples: 
             - "\b(farcaster|neynar)\b"
     WebhookSubscriptionFilters:
       type: object
       properties:
         cast.created:
-          $ref: '#/components/schemas/WebhookSubscriptionFiltersCast'
+          $ref: "#/components/schemas/WebhookSubscriptionFiltersCast"
         cast.deleted:
-          $ref: '#/components/schemas/WebhookSubscriptionFiltersCast'
+          $ref: "#/components/schemas/WebhookSubscriptionFiltersCast"
         user.created:
           type: object
         user.updated:
@@ -3151,13 +3324,13 @@ components:
               items:
                 type: integer
         follow.created:
-          $ref: '#/components/schemas/WebhookSubscriptionFiltersFollow'
+          $ref: "#/components/schemas/WebhookSubscriptionFiltersFollow"
         follow.deleted:
-          $ref: '#/components/schemas/WebhookSubscriptionFiltersFollow'
+          $ref: "#/components/schemas/WebhookSubscriptionFiltersFollow"
         reaction.created:
-          $ref: '#/components/schemas/WebhookSubscriptionFiltersReaction'
+          $ref: "#/components/schemas/WebhookSubscriptionFiltersReaction"
         reaction.deleted:
-          $ref: '#/components/schemas/WebhookSubscriptionFiltersReaction'
+          $ref: "#/components/schemas/WebhookSubscriptionFiltersReaction"
     WebhookPostReqBody:
       type: object
       required:
@@ -3169,10 +3342,10 @@ components:
         url:
           type: string
         subscription:
-          $ref: '#/components/schemas/WebhookSubscriptionFilters'
+          $ref: "#/components/schemas/WebhookSubscriptionFilters"
     WebhookPutReqBody:
       allOf:
-        - $ref: '#/components/schemas/WebhookPostReqBody'
+        - $ref: "#/components/schemas/WebhookPostReqBody"
         - type: object
           required:
             - webhook_id
@@ -3190,8 +3363,8 @@ components:
         active:
           type: string
           enum:
-            - 'true'
-            - 'false'
+            - "true"
+            - "false"
     WebhookDeleteReqBody:
       type: object
       required:
@@ -3207,7 +3380,7 @@ components:
         success:
           type: boolean
         webhook:
-          $ref: '#/components/schemas/Webhook'
+          $ref: "#/components/schemas/Webhook"
     WebhookListResponse:
       type: object
       required:
@@ -3216,7 +3389,24 @@ components:
         webhooks:
           type: array
           items:
-            $ref: '#/components/schemas/Webhook'
+            $ref: "#/components/schemas/Webhook"
+    # WebhookSubscriptionResponse:
+    #   type: object
+    #   required:
+    #   - subscription
+    #   properties:
+    #     subscription:
+    #       $ref: '#/components/schemas/WebhookSubscription'
+    # WebhookUpdateSubscriptionReqBody:
+    #   type: object
+    #   required:
+    #     - webhook_id
+    #     - subscription
+    #   properties:
+    #     webhook_id:
+    #       type: string
+    #     subscription:
+    #       $ref: '#/components/schemas/WebhookSubscriptionFilters'
     FrameType:
       type: string
       enum:
@@ -3248,7 +3438,7 @@ components:
               - interaction_count
             properties:
               fid:
-                $ref: '#/components/schemas/Fid'
+                $ref: "#/components/schemas/Fid"
               username:
                 type: string
               interaction_count:
@@ -3305,17 +3495,17 @@ components:
               - input_text
             properties:
               fid:
-                $ref: '#/components/schemas/Fid'
+                $ref: "#/components/schemas/Fid"
               username:
                 type: string
               input_text:
                 type: string
     FrameValidateAnalyticsResponse:
       oneOf:
-        - $ref: '#/components/schemas/FrameValidateAnalyticsInteractors'
-        - $ref: '#/components/schemas/FrameValidateAnalyticsTotalInteractors'
-        - $ref: '#/components/schemas/FrameValidateAnalyticsInteractionsPerCast'
-        - $ref: '#/components/schemas/FrameValidateAnalyticsInputText'
+        - $ref: "#/components/schemas/FrameValidateAnalyticsInteractors"
+        - $ref: "#/components/schemas/FrameValidateAnalyticsTotalInteractors"
+        - $ref: "#/components/schemas/FrameValidateAnalyticsInteractionsPerCast"
+        - $ref: "#/components/schemas/FrameValidateAnalyticsInputText"
     ValidateFrameAnalyticsType:
       type: string
       enum:
@@ -3337,18 +3527,12 @@ components:
         - code
     Idem:
       type: string
-      description: >
+      description: |
         An Idempotency key is a unique identifier for the request.
-
         **Note:** 
-
-        1) This is used to prevent duplicate requests. Use the same idem key on
-        retry attempts.
-
+        1) This is used to prevent duplicate requests. Use the same idem key on retry attempts.
         2) This should be a unique identifier for each request.
-
-        3) Recommended format is a 16-character string generated by the
-        developer at the time of making this request.
+        3) Recommended format is a 16-character string generated by the developer at the time of making this request.
     BuyStorageReqBody:
       type: object
       required:
@@ -3357,20 +3541,18 @@ components:
         fid:
           type: integer
           minimum: 1
-          examples:
+          examples: 
             - 1
         units:
           type: integer
-          description: >
+          description: |
             Number of storage units to buy.
-
-            A storage unit lets you store 5000 casts, 2500 reactions and 2500
-            links.
+            A storage unit lets you store 5000 casts, 2500 reactions and 2500 links.
           minimum: 1
-          examples:
+          examples: 
             - 1
         idem:
-          $ref: '#/components/schemas/Idem'
+          $ref: "#/components/schemas/Idem"
     ZodError:
       type: object
       required:
@@ -3380,12 +3562,12 @@ components:
       properties:
         message:
           type: string
-          examples:
-            - Invalid query parameters
+          examples: 
+            - "Invalid query parameters"
         code:
           type: string
-          examples:
-            - InvalidField
+          examples: 
+            - "InvalidField"
         errors:
           type: array
           items:
@@ -3448,7 +3630,7 @@ components:
                 properties:
                   action_type:
                     type: string
-                    description: 'Type of the action (e.g., post).'
+                    description: Type of the action (e.g., post).
                   post_url:
                     type: string
                     format: uri
@@ -3470,32 +3652,27 @@ components:
                 description: Category of the action.
               object:
                 type: string
-                description: 'Object type, which is "composer_action".'
+                description: Object type, which is "composer_action".
         next:
-          $ref: '#/components/schemas/NextCursor'
+          $ref: "#/components/schemas/NextCursor"
     SubscriptionStatus:
       type: object
       properties:
         object:
           type: string
-          enum:
-            - subscribed_to_dehydrated
+          enum: ["subscribed_to_dehydrated"]
         status:
           type: boolean
         expires_at:
-          type:
-            - integer
-            - 'null'
+          type: [integer, "null"]
           format: int64
         subscribed_at:
-          type:
-            - integer
-            - 'null'
+          type: [integer, "null"]
           format: int64
         tier:
           oneOf:
-            - type: 'null'
-            - $ref: '#/components/schemas/SubscriptionTier'
+            - type: "null"
+            - $ref: "#/components/schemas/SubscriptionTier"
       required:
         - object
         - status
@@ -3505,7 +3682,7 @@ components:
     Fids:
       type: array
       items:
-        $ref: '#/components/schemas/Fid'
+        $ref: "#/components/schemas/Fid"
       description: List of FIDs
     UserPowerLiteResponse:
       type: object
@@ -3518,7 +3695,7 @@ components:
             - fids
           properties:
             fids:
-              $ref: '#/components/schemas/Fids'
+              $ref: "#/components/schemas/Fids"
     NotificationType:
       type: string
       enum:
@@ -3534,11 +3711,10 @@ components:
       properties:
         signer_uuid:
           type: string
-          description: >
-            The UUID of the signer. Signer should have atleast one write
-            permission
+          description: |
+            The UUID of the signer. Signer should have atleast one write permission
         type:
-          $ref: '#/components/schemas/NotificationType'
+          $ref: "#/components/schemas/NotificationType"
     FarcasterActionReqBody:
       type: object
       required:
@@ -3549,18 +3725,17 @@ components:
         signer_uuid:
           type: string
           format: uuid
-          description: >
-            The signer_uuid of the user on behalf of whom the action is being
-            performed.
-          examples:
-            - 123e4567-e89b-12d3-a456-426614174000
+          description: |
+            The signer_uuid of the user on behalf of whom the action is being performed.
+          examples: 
+            - "123e4567-e89b-12d3-a456-426614174000"
         base_url:
           type: string
           format: uri
           description: |
             The base URL of the app on which the action is being performed.
-          examples:
-            - 'https://example.com'
+          examples: 
+            - "https://example.com"
         action:
           type: object
           required:
@@ -3570,8 +3745,8 @@ components:
               type: string
               description: |
                 The type of action being performed.
-              examples:
-                - create.user
+              examples: 
+                - "create.user"
             payload:
               description: |
                 The payload of the action being performed.
