@@ -1421,7 +1421,7 @@ components:
             type: object
             $ref: "#/components/schemas/EmbedDeep"
         channel:
-          anyOf:
+          allOf: # Need this seemingly pointless allOf for the nullable to work
             - $ref: "#/components/schemas/DehydratedChannel"
           nullable: true
     Cast:
@@ -1867,7 +1867,7 @@ components:
               items:
                 $ref: "#/components/schemas/User"
             channel:
-              anyOf:
+              allOf: # Need this seemingly pointless allOf for the nullable to work
                 - $ref: "#/components/schemas/ChannelOrDehydratedChannel"
               nullable: true
             viewer_context:
