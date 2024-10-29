@@ -1853,7 +1853,7 @@ components:
           channel: "#/components/schemas/Channel"
           dehydrated_channel: "#/components/schemas/DehydratedChannel"
     CastWithInteractions:
-      allOf:
+      anyOf:
         - $ref: "#/components/schemas/Cast"
         - type: object
           required:
@@ -1886,7 +1886,7 @@ components:
             author_channel_context:
               $ref: "#/components/schemas/ChannelUserContext"
     CastWithInteractionsAndConversations:
-      allOf:
+      anyOf:
         - $ref: "#/components/schemas/CastWithInteractions"
         - type: object
           required:
@@ -1899,7 +1899,7 @@ components:
               description: "note: This is recursive. It contains the direct replies to the cast and their direct replies up to n reply_depth."
     CastWithInteractionsAndConversationsRef:
       description: Reference to CastWithInteractionsAndConversations to avoid circular reference
-      allOf:
+      anyOf:
         - $ref: "#/components/schemas/CastWithInteractions"
         - type: object
           required:
