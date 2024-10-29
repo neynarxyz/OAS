@@ -668,7 +668,7 @@ components:
           type: [number, "null"]
           description: The height of the optional thumbnail. If this parameter is present, thumbnail_url and thumbnail_width must also be present.
     OembedLinkData:
-      allOf:
+      anyOf:
         - $ref: '#/components/schemas/OembedData'
         - type: object
           properties:
@@ -677,7 +677,7 @@ components:
               enum:
                 - link
     OembedPhotoData:
-      allOf:
+      anyOf:
         - $ref: '#/components/schemas/OembedData'
         - type: object
           required:
@@ -699,7 +699,7 @@ components:
               type: [number, "null"]
               description: The height in pixels of the image specified in the url parameter.
     OembedVideoData:
-      allOf:
+      anyOf:
         - $ref: '#/components/schemas/OembedData'
         - type: object
           required:
@@ -721,7 +721,7 @@ components:
               type: [number, "null"]
               description: The height in pixels required to display the HTML.
     OembedRichData:
-      allOf:
+      anyOf:
         - $ref: '#/components/schemas/OembedData'
         - type: object
           required:
@@ -777,7 +777,7 @@ components:
                   width_px:
                     type: integer
         html:
-          allOf:
+          anyOf:
             - $ref: "#/components/schemas/OgObject"
             - type: object
               properties:
@@ -896,7 +896,7 @@ components:
               examples: 
                 - "0"
     SubscribedTo:
-      allOf:
+      anyOf:
         - $ref: "#/components/schemas/Subscription"
         - type: object
           required:
@@ -1853,7 +1853,7 @@ components:
           channel: "#/components/schemas/Channel"
           dehydrated_channel: "#/components/schemas/DehydratedChannel"
     CastWithInteractions:
-      allOf:
+      anyOf:
         - $ref: "#/components/schemas/Cast"
         - type: object
           required:
@@ -1886,7 +1886,7 @@ components:
             author_channel_context:
               $ref: "#/components/schemas/ChannelUserContext"
     CastWithInteractionsAndConversations:
-      allOf:
+      anyOf:
         - $ref: "#/components/schemas/CastWithInteractions"
         - type: object
           required:
@@ -1899,7 +1899,7 @@ components:
               description: "note: This is recursive. It contains the direct replies to the cast and their direct replies up to n reply_depth."
     CastWithInteractionsAndConversationsRef:
       description: Reference to CastWithInteractionsAndConversations to avoid circular reference
-      allOf:
+      anyOf:
         - $ref: "#/components/schemas/CastWithInteractions"
         - type: object
           required:
@@ -3344,7 +3344,7 @@ components:
         subscription:
           $ref: "#/components/schemas/WebhookSubscriptionFilters"
     WebhookPutReqBody:
-      allOf:
+      anyOf:
         - $ref: "#/components/schemas/WebhookPostReqBody"
         - type: object
           required:
@@ -3751,15 +3751,6 @@ components:
               description: |
                 The payload of the action being performed.
               type: object
-  parameters:
-    ApiKey:
-      name: api_key
-      in: header
-      required: true
-      schema:
-        type: string
-        default: NEYNAR_API_DOCS
-      description: API key required for authentication.
 
   responses:
     401Response:
@@ -3881,8 +3872,6 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/get-fresh-fid
       operationId: get-fresh-fid
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
       responses:
         "200":
           description: Successful operation.
@@ -3902,7 +3891,6 @@ paths:
         url: https://docs.neynar.com/reference/developer-managed-signer
       operationId: developer-managed-signer
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: public_key
           required: true
           in: query
@@ -3926,8 +3914,6 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/register-signed-key-for-developer-managed-signer
       operationId: register-signed-key-for-developer-managed-signer
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
@@ -3961,7 +3947,6 @@ paths:
         url: https://docs.neynar.com/reference/signer
       operationId: signer
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: signer_uuid
           required: true
           in: query
@@ -3993,8 +3978,6 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/create-signer
       operationId: create-signer
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
       responses:
         "200":
           description: Successful operation.
@@ -4013,8 +3996,6 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/register-signed-key
       operationId: register-signed-key
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
@@ -4051,7 +4032,6 @@ paths:
         url: https://docs.neynar.com/reference/user-search
       operationId: user-search
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: q
           in: query
           required: true
@@ -4098,7 +4078,6 @@ paths:
         url: https://docs.neynar.com/reference/user-bulk
       operationId: user-bulk
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: fids
           description: Comma separated list of FIDs, up to 100 at a time
           in: query
@@ -4131,7 +4110,6 @@ paths:
         url: https://docs.neynar.com/reference/user-power
       operationId: power-users
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: viewer_fid
           in: query
           required: false
@@ -4170,8 +4148,6 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/user-power-lite
       operationId: user-power-lite
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
       responses:
         "200":
           description: Successful operation.
@@ -4194,7 +4170,6 @@ paths:
         url: https://docs.neynar.com/reference/active-users
       operationId: active-users
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: limit
           in: query
           required: false
@@ -4236,7 +4211,6 @@ paths:
         url: https://docs.neynar.com/reference/user-bulk-by-address
       operationId: user-bulk-by-address
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: addresses
           description: Comma separated list of Ethereum addresses, up to 350 at a time
           in: query
@@ -4280,7 +4254,6 @@ paths:
         url: https://docs.neynar.com/reference/user-channels
       operationId: user-channels
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: fid
           in: query
           required: true
@@ -4319,7 +4292,6 @@ paths:
         url: https://docs.neynar.com/reference/user-channel-memberships
       operationId: user-channel-memberships
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: fid
           in: query
           required: true
@@ -4364,8 +4336,6 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/update-user
       operationId: update-user
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
@@ -4406,8 +4376,6 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/register-user
       operationId: register-user
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
@@ -4447,8 +4415,6 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/publish-message
       operationId: publish-message
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
@@ -4476,7 +4442,6 @@ paths:
         url: https://docs.neynar.com/reference/cast
       operationId: cast
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: identifier
           required: true
           in: query
@@ -4516,8 +4481,6 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/post-cast
       operationId: post-cast
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
@@ -4552,8 +4515,6 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/delete-cast
       operationId: delete-cast
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
@@ -4588,7 +4549,6 @@ paths:
         url: https://docs.neynar.com/reference/casts
       operationId: casts
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: casts
           in: query
           required: true
@@ -4634,7 +4594,6 @@ paths:
         url: https://docs.neynar.com/reference/cast-search
       operationId: cast-search
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: q
           in: query
           required: true
@@ -4708,7 +4667,6 @@ paths:
         url: https://docs.neynar.com/reference/cast-conversation
       operationId: cast-conversation
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: identifier
           required: true
           in: query
@@ -4790,7 +4748,6 @@ paths:
         - Feed
       description: Fetch casts based on filters. Ensure setting the correct parameters based on the feed_type and filter_type.
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: feed_type
           in: query
           required: true
@@ -4890,7 +4847,6 @@ paths:
         - Feed
       description: Fetch feed based on who a user is following
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: fid
           in: query
           required: true
@@ -4943,7 +4899,6 @@ paths:
         - Feed
       description: Fetch a personalized For You feed for a user
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: fid
           in: query
           required: true
@@ -5009,7 +4964,6 @@ paths:
         url: https://docs.neynar.com/reference/subscriptions-created
       operationId: subscriptions-created
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: fid
           in: query
           required: true
@@ -5041,7 +4995,6 @@ paths:
         url: https://docs.neynar.com/reference/subscribed-to
       operationId: subscribed-to
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: fid
           in: query
           required: true
@@ -5079,7 +5032,6 @@ paths:
         url: https://docs.neynar.com/reference/subscribers
       operationId: subscribers
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: fid
           in: query
           required: true
@@ -5117,7 +5069,6 @@ paths:
         - Feed
       description: Fetch feed based on channel IDs
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: channel_ids
           in: query
           required: true
@@ -5189,7 +5140,6 @@ paths:
         - Feed
       description: Fetch feed based on parent URLs
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: parent_urls
           in: query
           required: true
@@ -5248,7 +5198,6 @@ paths:
         - Feed
       description: Fetch feed of casts with Frames, reverse chronological order
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: limit
           in: query
           description: Number of results to fetch (default 25, max 100)
@@ -5288,7 +5237,6 @@ paths:
         - Feed
       description: Fetch trending casts or on the global feed or channels feeds. 7d time window available for channel feeds only.
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: limit
           in: query
           description: Number of results to fetch (max 10)
@@ -5368,7 +5316,6 @@ paths:
         - Feed
       description: Fetch 10 most popular casts for a given user FID; popularity based on replies, likes and recasts; sorted by most popular first
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: fid
           in: query
           required: true
@@ -5401,7 +5348,6 @@ paths:
       tags:
         - Feed
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: fid
           in: query
           required: true
@@ -5461,7 +5407,6 @@ paths:
       tags:
         - Feed
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: fid
           in: query
           required: true
@@ -5528,7 +5473,6 @@ paths:
       description: Fetch a frame either by UUID or Neynar URL
       operationId: lookup-neynar-frame
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: type
           in: query
           required: true
@@ -5560,8 +5504,6 @@ paths:
       summary: Create frame
       description: Create a new frame with a list of pages.
       operationId: publish-neynar-frame
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
@@ -5583,8 +5525,6 @@ paths:
       summary: Update frame
       description: Update an existing frame with a list of pages, if it was made by the developer (identified by API key)
       operationId: update-neynar-frame
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
@@ -5608,8 +5548,6 @@ paths:
       summary: Delete frame
       description: Delete an existing frame, if it was made by the developer (identified by API key)
       operationId: delete-neynar-frame
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
@@ -5636,8 +5574,6 @@ paths:
       summary: List of frames
       description: Fetch a list of frames made by the developer (identified by API key)
       operationId: fetch-neynar-frames
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
       responses:
         "200":
           description: A list of frames
@@ -5657,7 +5593,6 @@ paths:
       description: Fetches the frame meta tags from the URL
       operationId: frame-from-url
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: url
           in: query
           required: true
@@ -5692,8 +5627,6 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/post-reaction
       operationId: post-reaction
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
@@ -5729,8 +5662,6 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/delete-reaction
       operationId: delete-reaction
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
@@ -5766,8 +5697,6 @@ paths:
         (In order to add verification `signer_uuid` must be approved)
       externalDocs:
         url: https://docs.neynar.com/reference/add-verification
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
@@ -5795,8 +5724,6 @@ paths:
         (In order to delete verification `signer_uuid` must be approved)
       externalDocs:
         url: https://docs.neynar.com/reference/remove-verification
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
@@ -5824,8 +5751,6 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/follow-user
       operationId: follow-user
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
@@ -5862,8 +5787,6 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/unfollow-user
       operationId: unfollow-user
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
@@ -5900,7 +5823,6 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/lookup-user-by-custody-address
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: custody_address
           in: query
           required: true
@@ -5929,7 +5851,6 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/user-by-username-v2
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: username
           in: query
           required: true
@@ -5966,7 +5887,6 @@ paths:
         url: https://docs.neynar.com/reference/fetch-authorization-url
       operationId: fetch-authorization-url
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: client_id
           in: query
           required: true
@@ -6001,8 +5921,6 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/post-frame-developer-managed-action
       operationId: post-frame-developer-managed-action
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
@@ -6033,8 +5951,6 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/post-frame-action
       operationId: post-frame-action
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
@@ -6063,8 +5979,6 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/validate-frame
       operationId: validate-frame
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
@@ -6119,8 +6033,6 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/validate-frame-list
       operationId: validate-frame-list
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
       responses:
         "200":
           description: Successful response
@@ -6144,7 +6056,6 @@ paths:
         url: https://docs.neynar.com/reference/validate-frame-analytics
       operationId: validate-frame-analytics
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: frame_url
           in: query
           required: true
@@ -6214,7 +6125,6 @@ paths:
         url: https://docs.neynar.com/reference/notifications
       operationId: notifications
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: fid
           in: query
           required: true
@@ -6260,7 +6170,6 @@ paths:
         url: https://docs.neynar.com/reference/notifications
       operationId: notifications-channel
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: fid
           in: query
           required: true
@@ -6307,7 +6216,6 @@ paths:
         url: https://docs.neynar.com/reference/notifications
       operationId: notifications-parent-url
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: fid
           in: query
           required: true
@@ -6353,8 +6261,6 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/mark-notifications-as-seen
       operationId: mark-notifications-as-seen
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
@@ -6385,7 +6291,6 @@ paths:
         url: https://docs.neynar.com/reference/list-all-channels
       operationId: list-all-channels
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: limit
           in: query
           description: Number of results to fetch
@@ -6415,8 +6320,6 @@ paths:
       summary: Remove user
       description: Remove a user from a channel or a user's invite to a channel role
       operationId: remove-channel-member
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
@@ -6456,7 +6359,6 @@ paths:
       description: Fetch a list of members in a channel
       operationId: list-channel-members
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: channel_id
           in: query
           required: true
@@ -6503,8 +6405,6 @@ paths:
       summary: Invite
       description: Invite a user to a channel
       operationId: invite-channel-member
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
@@ -6542,8 +6442,6 @@ paths:
       summary: Accept or reject an invite
       description: Accept or reject a channel invite
       operationId: respond-channel-invite
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
@@ -6584,7 +6482,6 @@ paths:
       description: Fetch a list of invites, either in a channel or for a user. If both are provided, open channel invite for that user is returned.
       operationId: list-channel-invites
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: channel_id
           in: query
           schema:
@@ -6633,7 +6530,6 @@ paths:
         url: https://docs.neynar.com/reference/search-channels
       operationId: search-channels
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: q
           in: query
           required: true
@@ -6673,7 +6569,6 @@ paths:
         url: https://docs.neynar.com/reference/channel-details-bulk
       operationId: channel-details-bulk
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: ids
           in: query
           required: true
@@ -6714,7 +6609,6 @@ paths:
         url: https://docs.neynar.com/reference/channel-details
       operationId: channel-details
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: id
           in: query
           required: true
@@ -6754,8 +6648,6 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/follow-channel
       operationId: follow-channel
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
@@ -6788,8 +6680,6 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/unfollow-channel
       operationId: unfollow-channel
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
@@ -6824,7 +6714,6 @@ paths:
         url: https://docs.neynar.com/reference/channel-followers
       operationId: channel-followers
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: id
           in: query
           required: true
@@ -6872,7 +6761,6 @@ paths:
         url: https://docs.neynar.com/reference/relevant-channel-followers
       operationId: relevant-channel-followers
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: id
           in: query
           required: true
@@ -6904,7 +6792,6 @@ paths:
       description: Fetches all channels that a user has casted in, in reverse chronological order.
       operationId: active-channels
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: fid
           in: query
           required: true
@@ -6949,7 +6836,6 @@ paths:
         url: https://docs.neynar.com/reference/channel-users
       operationId: channel-users
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: id
           in: query
           required: true
@@ -7020,7 +6906,6 @@ paths:
         url: https://docs.neynar.com/reference/trending-channels
       operationId: trending-channels
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: time_window
           in: query
           required: false
@@ -7067,7 +6952,6 @@ paths:
         url: https://docs.neynar.com/reference/followers-v2
       operationId: followers-v2
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: fid
           in: query
           required: true
@@ -7122,7 +7006,6 @@ paths:
         url: https://docs.neynar.com/reference/relevant-followers
       operationId: relevant-followers
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: target_fid
           in: query
           required: true
@@ -7154,7 +7037,6 @@ paths:
         url: https://docs.neynar.com/reference/following-v2
       operationId: following-v2
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: fid
           in: query
           required: true
@@ -7210,7 +7092,6 @@ paths:
         url: https://docs.neynar.com/reference/suggested-follows
       operationId: suggested-follows
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: fid
           in: query
           required: true
@@ -7255,7 +7136,6 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/reactions
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: fid
           in: query
           required: true
@@ -7308,7 +7188,6 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/reactions-cast
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: hash
           in: query
           required: true
@@ -7361,7 +7240,6 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/fname-availability
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: fname
           in: query
           required: true
@@ -7387,7 +7265,6 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/storage-allocations
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: fid
           in: query
           required: true
@@ -7413,7 +7290,6 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/storage-usage
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: fid
           in: query
           required: true
@@ -7440,8 +7316,6 @@ paths:
       operationId: buy-storage
       externalDocs:
         url: https://docs.neynar.com/reference/buy-storage
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
@@ -7471,7 +7345,6 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/lookup-webhook
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: webhook_id
           in: query
           required: true
@@ -7494,8 +7367,6 @@ paths:
       operationId: publish-webhook
       externalDocs:
         url: https://docs.neynar.com/reference/publish-webhook
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
@@ -7521,8 +7392,6 @@ paths:
       operationId: update-webhook-active-status
       externalDocs:
         url: https://docs.neynar.com/reference/update-webhook-active-status
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
@@ -7546,8 +7415,6 @@ paths:
       operationId: update-webhook
       externalDocs:
         url: https://docs.neynar.com/reference/update-webhook
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
@@ -7571,8 +7438,6 @@ paths:
       operationId: delete-webhook
       externalDocs:
         url: https://docs.neynar.com/reference/delete-webhook
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
@@ -7597,8 +7462,6 @@ paths:
       operationId: fetch-webhooks
       externalDocs:
         url: https://docs.neynar.com/reference/fetch-webhooks
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
       responses:
         "200":
           description: List of webhooks
@@ -7614,7 +7477,6 @@ paths:
       description: Fetches all FIDs that a user has muted.
       operationId: mute-list
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: fid
           in: query
           required: true
@@ -7658,8 +7520,6 @@ paths:
       summary: Mute FID
       description: Adds a mute for a given FID. This is a whitelisted API, reach out if you want access.
       operationId: add-mute
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
@@ -7685,8 +7545,6 @@ paths:
       summary: Unmute FID
       description: Deletes a mute for a given FID. This is a whitelisted API, reach out if you want access.
       operationId: delete-mute
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
@@ -7714,7 +7572,6 @@ paths:
       description: Fetches all FIDs that a user has blocked or has been blocked by
       operationId: block-list
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: blocker_fid
           in: query
           required: false
@@ -7767,7 +7624,6 @@ paths:
       description: Fetches all FIDs that your app has banned.
       operationId: ban-list
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: limit
           in: query
           description: Number of results to fetch (default 20, max 100).
@@ -7804,8 +7660,6 @@ paths:
       summary: Ban FIDs from app
       description: Bans a list of FIDs from the app associated with your API key. Banned users, their casts and reactions will not appear in feeds.
       operationId: add-ban
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
@@ -7831,8 +7685,6 @@ paths:
       summary: Unban FIDs from app
       description: Deletes a list of FIDs from the app associated with your API key.
       operationId: delete-ban
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
@@ -7862,7 +7714,6 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/composer-list
       parameters:
-        - $ref: "#/components/parameters/ApiKey"
         - name: list
           in: query
           required: true
@@ -7906,8 +7757,6 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/docs/farcaster-actions-spec
       operationId: publish-farcaster-action
-      parameters:
-        - $ref: "#/components/parameters/ApiKey"
       requestBody:
         required: true
         content:
@@ -7933,7 +7782,6 @@ paths:
   #     externalDocs:
   #       url: https://docs.neynar.com/reference/lookup-webhook-subscription
   #     parameters:
-  #       - $ref: "#/components/parameters/ApiKey"
   #       - name: webhook_id
   #         in: query
   #         required: true
@@ -7956,8 +7804,6 @@ paths:
   #     operationId: update-webhook-subscription
   #     externalDocs:
   #       url: https://docs.neynar.com/reference/update-webhook-subscription
-  #     parameters:
-  #       - $ref: "#/components/parameters/ApiKey"
   #     requestBody:
   #       required: true
   #       content:
@@ -7983,8 +7829,6 @@ paths:
   #     operationId: delete-webhook-subscription
   #     externalDocs:
   #       url: https://docs.neynar.com/reference/delete-webhook-subscription
-  #     parameters:
-  #       - $ref: "#/components/parameters/ApiKey"
   #     requestBody:
   #       required: true
   #       content:
