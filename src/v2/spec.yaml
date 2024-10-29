@@ -834,7 +834,6 @@ components:
         - cast
       properties:
         cast_id:
-          cast_id:
           $ref: "#/components/schemas/CastId"
           deprecated: true
           description: '[DEPRECATED: Use "cast" key instead]'
