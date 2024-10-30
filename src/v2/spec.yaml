@@ -5890,9 +5890,9 @@ paths:
         - User
       summary: "By location"
       description: "Fetches a list of users given a location"
-      operationId: user-by-location
+      operationId: fetch-users-by-location
       externalDocs:
-        url: https://docs.neynar.com/reference/user-by-location
+        url: https://docs.neynar.com/reference/fetch-users-by-location
       parameters:
         - name: latitude
           in: query
@@ -5921,6 +5921,8 @@ paths:
           schema:
             type: integer
             example: 10
+            default: 25
+            maximum: 100
           description: Number of results to fetch
         - name: cursor
           in: query
