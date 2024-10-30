@@ -671,6 +671,8 @@ components:
       allOf:
         - $ref: '#/components/schemas/OembedData'
         - type: object
+          required:
+            - type
           properties:
             type:
               type: string
@@ -681,6 +683,7 @@ components:
         - $ref: '#/components/schemas/OembedData'
         - type: object
           required:
+            - type
             - url
             - width
             - height
@@ -703,6 +706,7 @@ components:
         - $ref: '#/components/schemas/OembedData'
         - type: object
           required:
+            - type
             - html
             - width
             - height
@@ -725,6 +729,7 @@ components:
         - $ref: '#/components/schemas/OembedData'
         - type: object
           required:
+            - type
             - html
             - width
             - height
