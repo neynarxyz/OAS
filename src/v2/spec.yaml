@@ -3875,8 +3875,8 @@ paths:
       summary: Fetch fresh FID
       description: Fetches FID to [assign it to new user](https://docs.neynar.com/reference/register-user)
       externalDocs:
-        url: https://docs.neynar.com/reference/get-fresh-fid
-      operationId: get-fresh-fid
+        url: https://docs.neynar.com/reference/get-fresh-account-fid
+      operationId: get-fresh-account-FID
       responses:
         "200":
           description: Successful operation.
@@ -3893,8 +3893,8 @@ paths:
       summary: Status by public key
       description: Fetches the status of a developer managed signer by public key
       externalDocs:
-        url: https://docs.neynar.com/reference/developer-managed-signer
-      operationId: developer-managed-signer
+        url: https://docs.neynar.com/reference/lookup-developer-managed-signer
+      operationId: lookup-developer-managed-signer
       parameters:
         - name: public_key
           required: true
@@ -3941,7 +3941,6 @@ paths:
           $ref: "#/components/responses/400Response"
         "500":
           $ref: "#/components/responses/500Response"
-
   /farcaster/signer:
     get:
       tags:
@@ -3949,8 +3948,8 @@ paths:
       summary: Status
       description: Gets information status of a signer by passing in a signer_uuid (Use post API to generate a signer)
       externalDocs:
-        url: https://docs.neynar.com/reference/signer
-      operationId: signer
+        url: https://docs.neynar.com/reference/lookup-signer
+      operationId: lookup-signer
       parameters:
         - name: signer_uuid
           required: true
@@ -4034,8 +4033,8 @@ paths:
       summary: Search for Usernames
       description: Search for Usernames
       externalDocs:
-        url: https://docs.neynar.com/reference/user-search
-      operationId: user-search
+        url: https://docs.neynar.com/reference/search-user
+      operationId: search-user
       parameters:
         - name: q
           in: query
@@ -4080,8 +4079,8 @@ paths:
       summary: By FIDs
       description: Fetches information about multiple users based on FIDs
       externalDocs:
-        url: https://docs.neynar.com/reference/user-bulk
-      operationId: user-bulk
+        url: https://docs.neynar.com/reference/fetch-bulk-users
+      operationId: fetch-bulk-users
       parameters:
         - name: fids
           description: Comma separated list of FIDs, up to 100 at a time
@@ -4114,8 +4113,8 @@ paths:
       summary: Power users
       description: Fetches power users based on Warpcast power badges. Information is updated once a day.
       externalDocs:
-        url: https://docs.neynar.com/reference/user-power
-      operationId: power-users
+        url: https://docs.neynar.com/reference/fetch-power-users
+      operationId: fetch-power-users
       parameters:
         - name: viewer_fid
           in: query
@@ -4153,8 +4152,8 @@ paths:
       summary: Power user FIDs
       description: Fetches power users and respond in a backwards compatible format to Warpcast's deprecated power badge endpoint.
       externalDocs:
-        url: https://docs.neynar.com/reference/user-power-lite
-      operationId: user-power-lite
+        url: https://docs.neynar.com/reference/fetch-power-users-lite
+      operationId: fetch-power-users-lite
       responses:
         "200":
           description: Successful operation.
@@ -4215,8 +4214,8 @@ paths:
 
         You can pass in Ethereum and Solana addresses, comma separated, in the same request. The response will contain users associated with the given addresses.
       externalDocs:
-        url: https://docs.neynar.com/reference/user-bulk-by-address
-      operationId: user-bulk-by-address
+        url: https://docs.neynar.com/reference/fetch-bulk-users-by-ethereum-address
+      operationId: fetch-bulk-users-by-ethereum-address
       parameters:
         - name: addresses
           description: Comma separated list of Ethereum addresses, up to 350 at a time
@@ -4258,8 +4257,8 @@ paths:
       summary: Following
       description: Returns a list of all channels with their details that a FID follows.
       externalDocs:
-        url: https://docs.neynar.com/reference/user-channels
-      operationId: user-channels
+        url: https://docs.neynar.com/reference/fetch-user-channels
+      operationId: fetch-user-channels
       parameters:
         - name: fid
           in: query
@@ -4296,8 +4295,8 @@ paths:
       summary: Member of
       description: Returns a list of all channels with their details that an FID is a member of. Data may have a delay of up to 1 hour.
       externalDocs:
-        url: https://docs.neynar.com/reference/user-channel-memberships
-      operationId: user-channel-memberships
+        url: https://docs.neynar.com/reference/fetch-user-channel-memberships
+      operationId: fetch-user-channel-memberships
       parameters:
         - name: fid
           in: query
@@ -4381,8 +4380,8 @@ paths:
 
         **Note:** This API must be called within 10 minutes of the fetch FID API call (i.e., /v2/farcaster/user/fid). Otherwise, Neynar will assign this FID to another available user.
       externalDocs:
-        url: https://docs.neynar.com/reference/register-user
-      operationId: register-user
+        url: https://docs.neynar.com/reference/register-account
+      operationId: register-account
       requestBody:
         required: true
         content:
@@ -4420,8 +4419,8 @@ paths:
       description: Publish a message to farcaster.
         The message must be signed by a signer managed by the developer. Use the @farcaster/core library to construct and sign the message. Use the Message.toJSON method on the signed message and pass the JSON in the body of this POST request.
       externalDocs:
-        url: https://docs.neynar.com/reference/publish-message
-      operationId: publish-message
+        url: https://docs.neynar.com/reference/publish-message-to-farcaster
+      operationId: publish-message-to-farcaster
       requestBody:
         required: true
         content:
@@ -4446,8 +4445,8 @@ paths:
       summary: By hash or URL
       description: Gets information about an individual cast by passing in a Warpcast web URL or cast hash
       externalDocs:
-        url: https://docs.neynar.com/reference/cast
-      operationId: cast
+        url: https://docs.neynar.com/reference/lookup-cast-by-hash-or-warpcast-url
+      operationId: lookup-cast-by-hash-or-warpcast-url
       parameters:
         - name: identifier
           required: true
@@ -4486,8 +4485,8 @@ paths:
         Posts a cast or cast reply. Works with mentions and embeds.  
         (In order to post a cast `signer_uuid` must be approved)
       externalDocs:
-        url: https://docs.neynar.com/reference/post-cast
-      operationId: post-cast
+        url: https://docs.neynar.com/reference/publish-cast
+      operationId: publish-cast
       requestBody:
         required: true
         content:
@@ -4553,8 +4552,8 @@ paths:
       summary: Bulk fetch casts
       description: Fetch multiple casts using their respective hashes.
       externalDocs:
-        url: https://docs.neynar.com/reference/casts
-      operationId: casts
+        url: https://docs.neynar.com/reference/fetch-bulk-casts
+      operationId: fetch-bulk-casts
       parameters:
         - name: casts
           in: query
@@ -4598,8 +4597,8 @@ paths:
       summary: Search for casts
       description: Search for casts based on a query string, with optional AND filters
       externalDocs:
-        url: https://docs.neynar.com/reference/cast-search
-      operationId: cast-search
+        url: https://docs.neynar.com/reference/search-casts
+      operationId: search-casts
       parameters:
         - name: q
           in: query
@@ -4671,8 +4670,8 @@ paths:
       summary: Conversation for a cast
       description: Gets all casts related to a conversation surrounding a cast by passing in a cast hash or Warpcast URL. Includes all the ancestors of a cast up to the root parent in a chronological order. Includes all direct_replies to the cast up to the reply_depth specified in the query parameter.
       externalDocs:
-        url: https://docs.neynar.com/reference/cast-conversation
-      operationId: cast-conversation
+        url: https://docs.neynar.com/reference/lookup-cast-conversation
+      operationId: lookup-cast-conversation
       parameters:
         - name: identifier
           required: true
@@ -4749,8 +4748,8 @@ paths:
     get:
       summary: By filters
       externalDocs:
-        url: https://docs.neynar.com/reference/feed
-      operationId: feed
+        url: https://docs.neynar.com/reference/fetch-feed
+      operationId: fetch-feed
       tags:
         - Feed
       description: Fetch casts based on filters. Ensure setting the correct parameters based on the feed_type and filter_type.
@@ -4848,8 +4847,8 @@ paths:
     get:
       summary: Following
       externalDocs:
-        url: https://docs.neynar.com/reference/feed-following
-      operationId: feed-following
+        url: https://docs.neynar.com/reference/fetch-user-following-feed
+      operationId: fetch-user-following-feed
       tags:
         - Feed
       description: Fetch feed based on who a user is following
@@ -4900,8 +4899,8 @@ paths:
     get:
       summary: For you
       externalDocs:
-        url: https://docs.neynar.com/reference/feed-for-you
-      operationId: feed-for-you
+        url: https://docs.neynar.com/reference/fetch-feed-for-you
+      operationId: fetch-feed-for-you
       tags:
         - Feed
       description: Fetch a personalized For You feed for a user
@@ -4968,8 +4967,8 @@ paths:
       summary: Subscriptions created by FID
       description: Fetch created subscriptions for a given FID's.
       externalDocs:
-        url: https://docs.neynar.com/reference/subscriptions-created
-      operationId: subscriptions-created
+        url: https://docs.neynar.com/reference/fetch-subscriptions-for-fid
+      operationId: fetch-subscriptions-for-fid
       parameters:
         - name: fid
           in: query
@@ -4999,8 +4998,8 @@ paths:
       summary: Subscribed to
       description: Fetch what FIDs and contracts a FID is subscribed to.
       externalDocs:
-        url: https://docs.neynar.com/reference/subscribed-to
-      operationId: subscribed-to
+        url: https://docs.neynar.com/reference/fetch-subscribed-to-for-fid
+      operationId: fetch-subscribed-to-for-fid
       parameters:
         - name: fid
           in: query
@@ -5036,8 +5035,8 @@ paths:
       summary: Subscribers of a user
       description: Fetch subscribers for a given FID's contracts. Doesn't return addresses that don't have an FID.
       externalDocs:
-        url: https://docs.neynar.com/reference/subscribers
-      operationId: subscribers
+        url: https://docs.neynar.com/reference/fetch-subscribers-for-fid
+      operationId: fetch-subscribers-for-fid
       parameters:
         - name: fid
           in: query
@@ -5070,8 +5069,8 @@ paths:
     get:
       summary: By channel IDs
       externalDocs:
-        url: https://docs.neynar.com/reference/feed-channels
-      operationId: feed-channels
+        url: https://docs.neynar.com/reference/fetch-feed-by-channel-ids
+      operationId: fetch-feed-by-channel-ids
       tags:
         - Feed
       description: Fetch feed based on channel IDs
@@ -5141,8 +5140,8 @@ paths:
     get:
       summary: By parent URLs
       externalDocs:
-        url: https://docs.neynar.com/reference/feed/parent_urls
-      operationId: feed-parent-urls
+        url: https://docs.neynar.com/reference/fetch-feed-by-parent-urls
+      operationId: fetch-feed-by-parent-urls
       tags:
         - Feed
       description: Fetch feed based on parent URLs
@@ -5199,8 +5198,8 @@ paths:
     get:
       summary: Casts with Frames
       externalDocs:
-        url: https://docs.neynar.com/reference/feed-frames
-      operationId: feed-frames
+        url: https://docs.neynar.com/reference/fetch-frames-only-feed
+      operationId: fetch-frames-only-feed
       tags:
         - Feed
       description: Fetch feed of casts with Frames, reverse chronological order
@@ -5238,8 +5237,8 @@ paths:
     get:
       summary: Trending casts
       externalDocs:
-        url: https://docs.neynar.com/reference/feed-trending
-      operationId: feed-trending
+        url: https://docs.neynar.com/reference/fetch-trending-feed
+      operationId: fetch-trending-feed
       tags:
         - Feed
       description: Fetch trending casts or on the global feed or channels feeds. 7d time window available for channel feeds only.
@@ -5317,8 +5316,8 @@ paths:
     get:
       summary: 10 most popular casts
       externalDocs:
-        url: https://docs.neynar.com/reference/feed-user-popular
-      operationId: feed-user-popular
+        url: https://docs.neynar.com/reference/fetch-popular-casts-by-user
+      operationId: fetch-popular-casts-by-user
       tags:
         - Feed
       description: Fetch 10 most popular casts for a given user FID; popularity based on replies, likes and recasts; sorted by most popular first
@@ -5350,8 +5349,8 @@ paths:
       summary: Replies and recasts
       description: Fetch recent replies and recasts for a given user FID; sorted by most recent first
       externalDocs:
-        url: https://docs.neynar.com/reference/feed-user-replies-recasts
-      operationId: feed-user-replies-recasts
+        url: https://docs.neynar.com/reference/fetch-replies-and-recasts-for-user
+      operationId: fetch-replies-and-recasts-for-user
       tags:
         - Feed
       parameters:
@@ -5409,8 +5408,8 @@ paths:
       summary: Chronologically
       description: Fetch casts for a given user FID in reverse chronological order. Also allows filtering by parent_url and channel
       externalDocs:
-        url: https://docs.neynar.com/reference/feed-user-casts
-      operationId: feed-user-casts
+        url: https://docs.neynar.com/reference/fetch-casts-for-user
+      operationId: fetch-casts-for-user
       tags:
         - Feed
       parameters:
@@ -5478,6 +5477,8 @@ paths:
         - Frame
       summary: Frame by UUID or URL
       description: Fetch a frame either by UUID or Neynar URL
+      externalDocs:
+        url: https://docs.neynar.com/reference/lookup-neynar-frame
       operationId: lookup-neynar-frame
       parameters:
         - name: type
@@ -5510,6 +5511,8 @@ paths:
         - Frame
       summary: Create frame
       description: Create a new frame with a list of pages.
+      externalDocs:
+        url: https://docs.neynar.com/reference/publish-neynar-frame
       operationId: publish-neynar-frame
       requestBody:
         required: true
@@ -5531,6 +5534,8 @@ paths:
         - Frame
       summary: Update frame
       description: Update an existing frame with a list of pages, if it was made by the developer (identified by API key)
+      externalDocs:
+        url: https://docs.neynar.com/reference/update-neynar-frame
       operationId: update-neynar-frame
       requestBody:
         required: true
@@ -5554,6 +5559,8 @@ paths:
         - Frame
       summary: Delete frame
       description: Delete an existing frame, if it was made by the developer (identified by API key)
+      externalDocs:
+        url: https://docs.neynar.com/reference/delete-neynar-frame
       operationId: delete-neynar-frame
       requestBody:
         required: true
@@ -5580,6 +5587,8 @@ paths:
         - Frame
       summary: List of frames
       description: Fetch a list of frames made by the developer (identified by API key)
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-neynar-frames
       operationId: fetch-neynar-frames
       responses:
         "200":
@@ -5598,7 +5607,9 @@ paths:
         - Frame
       summary: Meta tags from URL
       description: Fetches the frame meta tags from the URL
-      operationId: frame-from-url
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-frame-meta-tags-from-url
+      operationId: fetch-frame-meta-tags-from-url
       parameters:
         - name: url
           in: query
@@ -5632,8 +5643,8 @@ paths:
         Post a reaction (like or recast) to a given cast \
         (In order to post a reaction `signer_uuid` must be approved)
       externalDocs:
-        url: https://docs.neynar.com/reference/post-reaction
-      operationId: post-reaction
+        url: https://docs.neynar.com/reference/publish-reaction
+      operationId: publish-reaction
       requestBody:
         required: true
         content:
@@ -5703,7 +5714,8 @@ paths:
         Adds verification for an eth address or contract for the user \
         (In order to add verification `signer_uuid` must be approved)
       externalDocs:
-        url: https://docs.neynar.com/reference/add-verification
+        url: https://docs.neynar.com/reference/publish-verification
+      operationId: publish-verification
       requestBody:
         required: true
         content:
@@ -5730,7 +5742,8 @@ paths:
         Removes verification for an eth address for the user \
         (In order to delete verification `signer_uuid` must be approved)
       externalDocs:
-        url: https://docs.neynar.com/reference/remove-verification
+        url: https://docs.neynar.com/reference/delete-verification
+      operationId: delete-verification
       requestBody:
         required: true
         content:
@@ -5826,9 +5839,9 @@ paths:
         - User
       summary: "By custody-address"
       description: "Lookup a user by custody-address"
-      operationId: lookup-user-by-custody-address
       externalDocs:
         url: https://docs.neynar.com/reference/lookup-user-by-custody-address
+      operationId: lookup-user-by-custody-address
       parameters:
         - name: custody_address
           in: query
@@ -5854,9 +5867,9 @@ paths:
         - User
       summary: "By username"
       description: "Fetches a single hydrated user object given a username"
-      operationId: user-by-username-v2
       externalDocs:
-        url: https://docs.neynar.com/reference/user-by-username-v2
+        url: https://docs.neynar.com/reference/lookup-user-by-username-v2
+      operationId: lookup-user-by-username-v2
       parameters:
         - name: username
           in: query
@@ -5926,8 +5939,8 @@ paths:
 
         The POST request to the post_url has a timeout of 5 seconds.
       externalDocs:
-        url: https://docs.neynar.com/reference/post-frame-developer-managed-action
-      operationId: post-frame-developer-managed-action
+        url: https://docs.neynar.com/reference/post-frame-action-developer-managed
+      operationId: post-frame-action-developer-managed
       requestBody:
         required: true
         content:
@@ -5984,8 +5997,8 @@ paths:
         Validates a frame against by an interacting user against a Farcaster Hub \
         (In order to validate a frame, message bytes from Frame Action must be provided in hex)
       externalDocs:
-        url: https://docs.neynar.com/reference/validate-frame
-      operationId: validate-frame
+        url: https://docs.neynar.com/reference/validate-frame-action
+      operationId: validate-frame-action
       requestBody:
         required: true
         content:
@@ -6038,8 +6051,8 @@ paths:
       summary: All frames validated by user
       description: Fetch a list of all the frames validated by a user
       externalDocs:
-        url: https://docs.neynar.com/reference/validate-frame-list
-      operationId: validate-frame-list
+        url: https://docs.neynar.com/reference/fetch-validate-frame-list
+      operationId: fetch-validate-frame-list
       responses:
         "200":
           description: Successful response
@@ -6060,8 +6073,8 @@ paths:
       summary: Analytics for the frame
       description: Fetch analytics for total-interactors, interactors, nteractions-per-cast and input-text.
       externalDocs:
-        url: https://docs.neynar.com/reference/validate-frame-analytics
-      operationId: validate-frame-analytics
+        url: https://docs.neynar.com/reference/fetch-validate-frame-analytics
+      operationId: fetch-validate-frame-analytics
       parameters:
         - name: frame_url
           in: query
@@ -6129,8 +6142,8 @@ paths:
       summary: For user
       description: Returns a list of notifications for a specific FID.
       externalDocs:
-        url: https://docs.neynar.com/reference/notifications
-      operationId: notifications
+        url: https://docs.neynar.com/reference/fetch-all-notifications
+      operationId: fetch-all-notifications
       parameters:
         - name: fid
           in: query
@@ -6174,8 +6187,8 @@ paths:
       summary: For user by channel
       description: Returns a list of notifications for a user in specific channels
       externalDocs:
-        url: https://docs.neynar.com/reference/notifications
-      operationId: notifications-channel
+        url: https://docs.neynar.com/reference/fetch-channel-notifications-for-user
+      operationId: fetch-channel-notifications-for-user
       parameters:
         - name: fid
           in: query
@@ -6220,8 +6233,8 @@ paths:
       summary: For user by parent_urls
       description: Returns a list of notifications for a user in specific parent_urls
       externalDocs:
-        url: https://docs.neynar.com/reference/notifications
-      operationId: notifications-parent-url
+        url: https://docs.neynar.com/reference/fetch-notifications-by-parent-url-for-user
+      operationId: fetch-notifications-by-parent-url-for-user
       parameters:
         - name: fid
           in: query
@@ -6295,8 +6308,8 @@ paths:
       summary: Fetch all channels with their details
       description: Returns a list of all channels with their details
       externalDocs:
-        url: https://docs.neynar.com/reference/list-all-channels
-      operationId: list-all-channels
+        url: https://docs.neynar.com/reference/fetch-all-channels
+      operationId: fetch-all-channels
       parameters:
         - name: limit
           in: query
@@ -6326,6 +6339,8 @@ paths:
         - Channel
       summary: Remove user
       description: Remove a user from a channel or a user's invite to a channel role
+      externalDocs:
+        url: https://docs.neynar.com/reference/remove-channel-member
       operationId: remove-channel-member
       requestBody:
         required: true
@@ -6364,7 +6379,9 @@ paths:
         - Channel
       summary: Fetch members
       description: Fetch a list of members in a channel
-      operationId: list-channel-members
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-channel-members
+      operationId: fetch-channel-members
       parameters:
         - name: channel_id
           in: query
@@ -6411,7 +6428,9 @@ paths:
         - Channel
       summary: Invite
       description: Invite a user to a channel
-      operationId: invite-channel-member
+      externalDocs:
+        url: https://docs.neynar.com/reference/invite-member-to-channel
+      operationId: invite-member-to-channel
       requestBody:
         required: true
         content:
@@ -6448,7 +6467,9 @@ paths:
         - Channel
       summary: Accept or reject an invite
       description: Accept or reject a channel invite
-      operationId: respond-channel-invite
+      externalDocs:
+        url: https://docs.neynar.com/reference/respond-to-channel-invite
+      operationId: respond-to-channel-invite
       requestBody:
         required: true
         content:
@@ -6487,7 +6508,9 @@ paths:
         - Channel
       summary: Open invites
       description: Fetch a list of invites, either in a channel or for a user. If both are provided, open channel invite for that user is returned.
-      operationId: list-channel-invites
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-channel-invites
+      operationId: fetch-channel-invites
       parameters:
         - name: channel_id
           in: query
@@ -6573,8 +6596,8 @@ paths:
       summary: Bulk fetch
       description: Returns details of multiple channels
       externalDocs:
-        url: https://docs.neynar.com/reference/channel-details-bulk
-      operationId: channel-details-bulk
+        url: https://docs.neynar.com/reference/fetch-bulk-channels
+      operationId: fetch-bulk-channels
       parameters:
         - name: ids
           in: query
@@ -6613,8 +6636,8 @@ paths:
       summary: By ID or parent_url
       description: Returns details of a channel
       externalDocs:
-        url: https://docs.neynar.com/reference/channel-details
-      operationId: channel-details
+        url: https://docs.neynar.com/reference/lookup-channel
+      operationId: lookup-channel
       parameters:
         - name: id
           in: query
@@ -6718,8 +6741,8 @@ paths:
       summary: For channel
       description: Returns a list of followers for a specific channel. Max limit is 1000. Use cursor for pagination.
       externalDocs:
-        url: https://docs.neynar.com/reference/channel-followers
-      operationId: channel-followers
+        url: https://docs.neynar.com/reference/fetch-followers-for-a-channel
+      operationId: fetch-followers-for-a-channel
       parameters:
         - name: id
           in: query
@@ -6765,8 +6788,8 @@ paths:
       summary: Relevant followers
       description: Returns a list of relevant channel followers for a specific FID. This usually shows on a channel as "X, Y, Z follow this channel".
       externalDocs:
-        url: https://docs.neynar.com/reference/relevant-channel-followers
-      operationId: relevant-channel-followers
+        url: https://docs.neynar.com/reference/fetch-relevant-followers-for-a-channel
+      operationId: fetch-relevant-followers-for-a-channel
       parameters:
         - name: id
           in: query
@@ -6797,7 +6820,9 @@ paths:
         - Channel
       summary: Fetch channels that user is active in
       description: Fetches all channels that a user has casted in, in reverse chronological order.
-      operationId: active-channels
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-users-active-channels
+      operationId: fetch-users-active-channels
       parameters:
         - name: fid
           in: query
@@ -6840,8 +6865,8 @@ paths:
       summary: Fetch users who are active in a channel
       description: Returns a list of users who are active in a given channel, ordered by ascending FIDs
       externalDocs:
-        url: https://docs.neynar.com/reference/channel-users
-      operationId: channel-users
+        url: https://docs.neynar.com/reference/fetch-active-users-in-single-channel
+      operationId: fetch-active-users-in-single-channel
       parameters:
         - name: id
           in: query
@@ -6910,8 +6935,8 @@ paths:
       summary: Channels by activity
       description: Returns a list of trending channels based on activity
       externalDocs:
-        url: https://docs.neynar.com/reference/trending-channels
-      operationId: trending-channels
+        url: https://docs.neynar.com/reference/fetch-trending-channels
+      operationId: fetch-trending-channels
       parameters:
         - name: time_window
           in: query
@@ -6956,8 +6981,8 @@ paths:
       summary: Followers
       description: Returns a list of followers for a specific FID.
       externalDocs:
-        url: https://docs.neynar.com/reference/followers-v2
-      operationId: followers-v2
+        url: https://docs.neynar.com/reference/fetch-user-followers-v2
+      operationId: fetch-user-followers-v2
       parameters:
         - name: fid
           in: query
@@ -7010,8 +7035,8 @@ paths:
       summary: Relevant followers
       description: Returns a list of relevant followers for a specific FID. This usually shows on a profile as "X, Y and Z follow this user".
       externalDocs:
-        url: https://docs.neynar.com/reference/relevant-followers
-      operationId: relevant-followers
+        url: https://docs.neynar.com/reference/fetch-relevant-followers
+      operationId: fetch-relevant-followers
       parameters:
         - name: target_fid
           in: query
@@ -7041,8 +7066,8 @@ paths:
       summary: Followed by
       description: Fetch a list of users followed by a user. Can optionally include a viewer_fid and sort_type.
       externalDocs:
-        url: https://docs.neynar.com/reference/following-v2
-      operationId: following-v2
+        url: https://docs.neynar.com/reference/fetch-user-following-v2
+      operationId: fetch-user-following-v2
       parameters:
         - name: fid
           in: query
@@ -7096,8 +7121,8 @@ paths:
       summary: Suggest Follows
       description: Fetch a list of suggested users to follow. Used to help users discover new users to follow
       externalDocs:
-        url: https://docs.neynar.com/reference/suggested-follows
-      operationId: suggested-follows
+        url: https://docs.neynar.com/reference/fetch-follow-suggestions
+      operationId: fetch-follow-suggestions
       parameters:
         - name: fid
           in: query
@@ -7139,9 +7164,9 @@ paths:
         - Reaction
       summary: Reactions for user
       description: Fetches reactions for a given user
-      operationId: reactions-user
       externalDocs:
-        url: https://docs.neynar.com/reference/reactions
+        url: https://docs.neynar.com/reference/fetch-user-reactions
+      operationId: fetch-user-reactions
       parameters:
         - name: fid
           in: query
@@ -7191,9 +7216,9 @@ paths:
         - Reaction
       summary: Reactions for cast
       description: Fetches reactions for a given cast
-      operationId: reactions-cast
       externalDocs:
-        url: https://docs.neynar.com/reference/reactions-cast
+        url: https://docs.neynar.com/reference/fetch-reactions-for-cast
+      operationId: fetch-reactions-for-cast
       parameters:
         - name: hash
           in: query
@@ -7243,9 +7268,9 @@ paths:
         - fname
       summary: Check fname availability
       description: Check if a given fname is available
-      operationId: fname-availability
       externalDocs:
-        url: https://docs.neynar.com/reference/fname-availability
+        url: https://docs.neynar.com/reference/is-fname-available
+      operationId: is-fname-available
       parameters:
         - name: fname
           in: query
@@ -7268,9 +7293,9 @@ paths:
         - Storage
       summary: Allocation of user
       description: Fetches storage allocations for a given user
-      operationId: storage-allocations
       externalDocs:
-        url: https://docs.neynar.com/reference/storage-allocations
+        url: https://docs.neynar.com/reference/lookup-user-storage-allocations
+      operationId: lookup-user-storage-allocations
       parameters:
         - name: fid
           in: query
@@ -7293,9 +7318,9 @@ paths:
         - Storage
       summary: Usage of user
       description: Fetches storage usage for a given user
-      operationId: storage-usage
       externalDocs:
-        url: https://docs.neynar.com/reference/storage-usage
+        url: https://docs.neynar.com/reference/lookup-user-storage-usage
+      operationId: lookup-user-storage-usage
       parameters:
         - name: fid
           in: query
@@ -7320,9 +7345,9 @@ paths:
       description: |
         This api will help you rent units of storage for an year for a specific FID.
         A storage unit lets you store 5000 casts, 2500 reactions and 2500 links.
-      operationId: buy-storage
       externalDocs:
         url: https://docs.neynar.com/reference/buy-storage
+      operationId: buy-storage
       requestBody:
         required: true
         content:
@@ -7348,9 +7373,9 @@ paths:
         - Webhook
       summary: Fetch a webhook
       description: Fetch a webhook
-      operationId: lookup-webhook
       externalDocs:
         url: https://docs.neynar.com/reference/lookup-webhook
+      operationId: lookup-webhook
       parameters:
         - name: webhook_id
           in: query
@@ -7371,9 +7396,9 @@ paths:
         - Webhook
       summary: Create a webhook
       description: Create a webhook
-      operationId: publish-webhook
       externalDocs:
         url: https://docs.neynar.com/reference/publish-webhook
+      operationId: publish-webhook
       requestBody:
         required: true
         content:
@@ -7396,9 +7421,9 @@ paths:
         - Webhook
       summary: Update webhook status
       description: Update webhook active status
-      operationId: update-webhook-active-status
       externalDocs:
         url: https://docs.neynar.com/reference/update-webhook-active-status
+      operationId: update-webhook-active-status
       requestBody:
         required: true
         content:
@@ -7419,9 +7444,9 @@ paths:
         - Webhook
       summary: Update a webhook
       description: Update a webhook
-      operationId: update-webhook
       externalDocs:
         url: https://docs.neynar.com/reference/update-webhook
+      operationId: update-webhook
       requestBody:
         required: true
         content:
@@ -7442,9 +7467,9 @@ paths:
         - Webhook
       summary: Delete a webhook
       description: Delete a webhook
-      operationId: delete-webhook
       externalDocs:
         url: https://docs.neynar.com/reference/delete-webhook
+      operationId: delete-webhook
       requestBody:
         required: true
         content:
@@ -7466,9 +7491,9 @@ paths:
         - Webhook
       summary: Associated webhooks of user
       description: Fetch a list of webhooks associated to a user
-      operationId: fetch-webhooks
       externalDocs:
         url: https://docs.neynar.com/reference/fetch-webhooks
+      operationId: fetch-webhooks
       responses:
         "200":
           description: List of webhooks
@@ -7482,7 +7507,9 @@ paths:
         - Mute
       summary: Muted FIDs of user
       description: Fetches all FIDs that a user has muted.
-      operationId: mute-list
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-mute-list
+      operationId: fetch-mute-list
       parameters:
         - name: fid
           in: query
@@ -7526,7 +7553,9 @@ paths:
         - Mute
       summary: Mute FID
       description: Adds a mute for a given FID. This is a whitelisted API, reach out if you want access.
-      operationId: add-mute
+      externalDocs:
+        url: https://docs.neynar.com/reference/publish-mute
+      operationId: publish-mute
       requestBody:
         required: true
         content:
@@ -7551,6 +7580,8 @@ paths:
         - Mute
       summary: Unmute FID
       description: Deletes a mute for a given FID. This is a whitelisted API, reach out if you want access.
+      externalDocs:
+        url: https://docs.neynar.com/reference/delete-mute
       operationId: delete-mute
       requestBody:
         required: true
@@ -7577,7 +7608,9 @@ paths:
         - Block
       summary: Blocked / Blocked by FIDs
       description: Fetches all FIDs that a user has blocked or has been blocked by
-      operationId: block-list
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-block-list
+      operationId: fetch-block-list
       parameters:
         - name: blocker_fid
           in: query
@@ -7622,14 +7655,15 @@ paths:
           $ref: "#/components/responses/404Response"
         "500":
           $ref: "#/components/responses/500Response"
-
   /farcaster/ban/list:
     get:
       tags:
         - Ban
       summary: Banned FIDs of app
       description: Fetches all FIDs that your app has banned.
-      operationId: ban-list
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-ban-list
+      operationId: fetch-ban-list
       parameters:
         - name: limit
           in: query
@@ -7666,7 +7700,9 @@ paths:
         - Ban
       summary: Ban FIDs from app
       description: Bans a list of FIDs from the app associated with your API key. Banned users, their casts and reactions will not appear in feeds.
-      operationId: add-ban
+      externalDocs:
+        url: https://docs.neynar.com/reference/publish-bans
+      operationId: publish-bans
       requestBody:
         required: true
         content:
@@ -7691,7 +7727,9 @@ paths:
         - Ban
       summary: Unban FIDs from app
       description: Deletes a list of FIDs from the app associated with your API key.
-      operationId: delete-ban
+      externalDocs:
+        url: https://docs.neynar.com/reference/delete-bans
+      operationId: delete-bans
       requestBody:
         required: true
         content:
@@ -7717,9 +7755,9 @@ paths:
         - Cast
       summary: Fetch composer actions
       description: Fetches all composer actions on Warpcast. You can filter by top or featured.
-      operationId: composer-list
       externalDocs:
-        url: https://docs.neynar.com/reference/composer-list
+        url: https://docs.neynar.com/reference/fetch-composer-action-list
+      operationId: fetch-composer-action-list
       parameters:
         - name: list
           in: query
