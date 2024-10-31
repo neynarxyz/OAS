@@ -4052,11 +4052,13 @@ paths:
         - name: limit
           in: query
           required: false
+          description: Number of users to fetch
           example: 10
           schema:
             type: integer
             format: int32
             default: 5
+            minimum: 1
             maximum: 10
         - name: cursor
           in: query
@@ -4125,12 +4127,14 @@ paths:
         - name: limit
           in: query
           required: false
-          description: Number of power users to fetch, max 100
+          description: Number of power users to fetch
           example: 10
           schema:
             type: integer
             format: int32
             default: 25
+            maximum: 100
+            minimum: 1
         - name: cursor
           in: query
           description: Pagination cursor.
@@ -4235,8 +4239,9 @@ paths:
             $ref: "#/components/schemas/Fid"
         - name: limit
           in: query
-          description: Number of results to fetch (default 25, max 100)
+          description: Number of results to fetch
           required: false
+          example: 30
           schema:
             type: integer
             default: 25
@@ -4274,8 +4279,9 @@ paths:
             $ref: "#/components/schemas/Fid"
         - name: limit
           in: query
-          description: Number of results to fetch (default 20, max 100)
+          description: Number of results to fetch
           required: false
+          example: 30
           schema:
             type: integer
             default: 20
@@ -4611,11 +4617,13 @@ paths:
           in: query
           required: false
           example: 25
+          description: Number of results to fetch
           schema:
             type: integer
             format: int32
             default: 25
             maximum: 100
+            minimum: 1
         - name: cursor
           in: query
           description: Pagination cursor
@@ -4690,8 +4698,9 @@ paths:
               - below
         - name: limit
           in: query
-          description: Number of results to fetch (default 20, max 50)
+          description: Number of results to fetch
           required: false
+          example: 30
           schema:
             type: integer
             default: 20
@@ -4783,7 +4792,8 @@ paths:
             default: true
         - name: limit
           in: query
-          description: Number of results to fetch (default 25, max 100)
+          description: Number of results to fetch
+          example: 30
           schema:
             type: integer
             default: 25
@@ -4842,7 +4852,8 @@ paths:
             default: true
         - name: limit
           in: query
-          description: Number of results to fetch (default 25, max 100)
+          description: Number of results to fetch
+          example: 30
           schema:
             type: integer
             default: 25
@@ -4894,7 +4905,8 @@ paths:
         - name: limit
           in: query
           required: false
-          description: Number of results to fetch (default 25, max 50)
+          description: Number of results to fetch
+          example: 30
           schema:
             type: integer
             default: 25
@@ -5076,7 +5088,8 @@ paths:
             default: true
         - name: limit
           in: query
-          description: Number of results to fetch (default 25, max 100)
+          description: Number of results to fetch
+          example: 30
           schema:
             type: integer
             default: 25
@@ -5141,7 +5154,8 @@ paths:
             default: false
         - name: limit
           in: query
-          description: Number of results to fetch (default 25, max 100)
+          description: Number of results to fetch
+          example: 30
           schema:
             type: integer
             default: 25
@@ -5173,7 +5187,8 @@ paths:
       parameters:
         - name: limit
           in: query
-          description: Number of results to fetch (default 25, max 100)
+          description: Number of results to fetch
+          example: 30
           schema:
             type: integer
             default: 25
@@ -5212,7 +5227,8 @@ paths:
       parameters:
         - name: limit
           in: query
-          description: Number of results to fetch (max 10)
+          description: Number of results to fetch
+          example: 30
           schema:
             type: integer
             default: 10
@@ -5342,7 +5358,8 @@ paths:
           description: filter to fetch only replies or recasts
         - name: limit
           in: query
-          description: Number of results to fetch (default 25, max 100)
+          description: Number of results to fetch
+          example: 30
           schema:
             type: integer
             default: 25
@@ -5398,6 +5415,7 @@ paths:
           in: query
           required: false
           description: Number of results to fetch
+          example: 30
           schema:
             type: integer
             default: 25
@@ -5898,6 +5916,7 @@ paths:
         - name: limit
           in: query
           required: false
+          example: 30
           schema:
             type: integer
             example: 10
@@ -6341,6 +6360,7 @@ paths:
           in: query
           description: Number of results to fetch
           required: false
+          example: 30
           schema:
             type: integer
             default: 20
@@ -6426,6 +6446,7 @@ paths:
           in: query
           description: Number of results to fetch
           required: false
+          example: 30
           schema:
             type: integer
             default: 20
@@ -6554,6 +6575,7 @@ paths:
           in: query
           description: Number of results to fetch
           required: false
+          example: 30
           schema:
             type: integer
             default: 20
@@ -6597,6 +6619,7 @@ paths:
           in: query
           description: Number of results to fetch
           required: false
+          example: 30
           schema:
             type: integer
             default: 20
@@ -6791,12 +6814,13 @@ paths:
             type: string
         - name: limit
           in: query
-          description: Number of followers to fetch (default 25, max 1000)
+          description: Number of followers to fetch
           required: false
+          example: 30
           schema:
             type: integer
             default: 25
-            minimum: 15
+            minimum: 1
             maximum: 1000
       responses:
         "200":
@@ -6859,7 +6883,7 @@ paths:
           example: 194
         - name: limit
           in: query
-          description: Number of results to fetch (default 20, max 100).
+          description: Number of results to fetch
           required: false
           schema:
             type: integer
@@ -6937,7 +6961,7 @@ paths:
             type: string
         - name: limit
           in: query
-          description: Number of results to fetch (default 25, max 100)
+          description: Number of results to fetch
           required: false
           schema:
             type: integer
@@ -6975,7 +6999,7 @@ paths:
               - 30d
         - name: limit
           in: query
-          description: Number of results to fetch (default 10, max 25)
+          description: Number of results to fetch
           required: false
           schema:
             type: integer
@@ -7031,7 +7055,8 @@ paths:
         - name: limit
           in: query
           required: false
-          description: Number of results to fetch (default 20, max 100)
+          description: Number of results to fetch
+          example: 30
           schema:
             type: integer
             default: 20
@@ -7117,13 +7142,13 @@ paths:
             $ref: "#/components/schemas/FollowSortType"
         - name: limit
           in: query
-          description: Number of results to fetch (default 25, max 100)
+          description: Number of results to fetch
           schema:
             type: integer
             default: 25
             minimum: 1
             maximum: 100
-            example: 25
+          example: 25
         - name: cursor
           in: query
           description: Pagination cursor.
@@ -7166,7 +7191,8 @@ paths:
           description: Providing this will return a list of users that respects this user's mutes and blocks and includes `viewer_context`.
         - name: limit
           in: query
-          description: Number of results to fetch (default 25, max 100)
+          description: Number of results to fetch
+          example: 30
           schema:
             type: integer
             default: 25
@@ -7216,7 +7242,8 @@ paths:
             $ref: "#/components/schemas/ReactionsType"
         - name: limit
           in: query
-          description: Number of results to fetch (default 25, max 100)
+          description: Number of results to fetch
+          example: 30
           schema:
             type: integer
             default: 25
@@ -7268,7 +7295,8 @@ paths:
             $ref: "#/components/schemas/Fid"
         - name: limit
           in: query
-          description: Number of results to fetch (default 25, max 100)
+          description: Number of results to fetch
+          example: 30
           schema:
             type: integer
             default: 25
@@ -7546,7 +7574,7 @@ paths:
           example: 194
         - name: limit
           in: query
-          description: Number of results to fetch (default 20, max 100).
+          description: Number of results to fetch
           required: false
           schema:
             type: integer
@@ -7654,7 +7682,7 @@ paths:
           example: 194
         - name: limit
           in: query
-          description: Number of results to fetch (default 20, max 100).
+          description: Number of results to fetch
           required: false
           schema:
             type: integer
@@ -7693,7 +7721,7 @@ paths:
       parameters:
         - name: limit
           in: query
-          description: Number of results to fetch (default 20, max 100).
+          description: Number of results to fetch
           required: false
           schema:
             type: integer
@@ -7794,7 +7822,7 @@ paths:
           description: Type of list to fetch.
         - name: limit
           in: query
-          description: Number of results to fetch (default 25, max 25).
+          description: Number of results to fetch.
           required: false
           schema:
             type: integer
