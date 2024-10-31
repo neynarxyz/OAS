@@ -5897,6 +5897,65 @@ paths:
           $ref: "#/components/responses/404Response"
         "500":
           $ref: "#/components/responses/500Response"
+  /farcaster/user/by_location:
+    get:
+      tags:
+        - User
+      summary: "By location"
+      description: "Fetches a list of users given a location"
+      operationId: fetch-users-by-location
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-users-by-location
+      parameters:
+        - name: latitude
+          in: query
+          required: true
+          schema:
+            type: number
+            example: 37.77
+          description: Latitude of the location
+        - name: longitude
+          in: query
+          required: true
+          schema:
+            type: number
+            example: -122.41
+          description: Longitude of the location
+        - name: viewer_fid
+          in: query
+          description: FID of the user viewing the feed. Providing this will return a list of users that respects this user's mutes and blocks and includes `viewer_context`.
+          required: false
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            example: 10
+            default: 25
+            maximum: 100
+          description: Number of results to fetch
+        - name: cursor
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Pagination cursor
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsersResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
+        "500":
+          $ref: "#/components/responses/500Response"
   /farcaster/login/authorize:
     get:
       tags:
