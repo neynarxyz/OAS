@@ -7871,6 +7871,7 @@ paths:
             minimum: 1
             maximum: 25
           example: 25
+          x-is-limit-param: true
         - name: cursor
           in: query
           description: Pagination cursor.
