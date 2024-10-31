@@ -4165,39 +4165,6 @@ paths:
           $ref: "#/components/responses/400Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/user/active:
-    get:
-      tags:
-        - User
-      summary: Fetch active users
-      description: Warpcast has deprecated the active badge. Use user/power endpoint instead.
-      deprecated: true
-      externalDocs:
-        url: https://docs.neynar.com/reference/active-users
-      operationId: active-users
-      parameters:
-        - name: limit
-          in: query
-          required: false
-          example: 10
-          schema:
-            type: integer
-            format: int32
-            default: 25
-        - name: cursor
-          in: query
-          description: Pagination cursor.
-          schema:
-            type: string
-      responses:
-        "200":
-          description: Successful operation.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/UsersResponse"
-        "400":
-          $ref: "#/components/responses/400Response"
   /farcaster/user/bulk-by-address:
     get:
       tags:
