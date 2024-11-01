@@ -4,7 +4,7 @@ info:
   version: "2.0"
 servers:
   - url: https://api.neynar.com/v2
-  
+
 security:
   - ApiKeyAuth: []
 
@@ -30,7 +30,7 @@ components:
       type: integer
       format: int32
       description: The unique identifier of a farcaster user (unsigned integer)
-      examples: 
+      examples:
         - 3
         - 191
         - 2
@@ -39,12 +39,12 @@ components:
     ChannelId:
       type: string
       description: The unique identifier of a farcaster channel
-      examples: 
+      examples:
         - "neynar"
     SignerUUID:
       type: string
       description: UUID of the signer
-      examples: 
+      examples:
         - "19d0c5fd-9b33-4a48-a0e2-bc7b0555baec"
     SubscriptionProviders:
       type: string
@@ -64,7 +64,7 @@ components:
       enum:
         - desc_chron
         - algorithmic
-      examples: 
+      examples:
         - "desc_chron"
     CastConversationSortType:
       type: string
@@ -72,7 +72,7 @@ components:
         - chron
         - desc_chron
         - algorithmic
-      examples: 
+      examples:
         - "chron"
     ForYouProvider:
       type: string
@@ -171,7 +171,7 @@ components:
       type: string
       pattern: "^0x[a-fA-F0-9]{64}$"
       description: Ed25519 public key
-      examples: 
+      examples:
         - "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"
     Timestamp:
       type: string
@@ -675,7 +675,7 @@ components:
           description: The height of the optional thumbnail. If this parameter is present, thumbnail_url and thumbnail_width must also be present.
     OembedLinkData:
       allOf:
-        - $ref: '#/components/schemas/OembedData'
+        - $ref: "#/components/schemas/OembedData"
         - type: object
           required:
             - type
@@ -686,7 +686,7 @@ components:
                 - link
     OembedPhotoData:
       allOf:
-        - $ref: '#/components/schemas/OembedData'
+        - $ref: "#/components/schemas/OembedData"
         - type: object
           required:
             - type
@@ -709,7 +709,7 @@ components:
               description: The height in pixels of the image specified in the url parameter.
     OembedVideoData:
       allOf:
-        - $ref: '#/components/schemas/OembedData'
+        - $ref: "#/components/schemas/OembedData"
         - type: object
           required:
             - type
@@ -732,7 +732,7 @@ components:
               description: The height in pixels required to display the HTML.
     OembedRichData:
       allOf:
-        - $ref: '#/components/schemas/OembedData'
+        - $ref: "#/components/schemas/OembedData"
         - type: object
           required:
             - type
@@ -792,7 +792,7 @@ components:
             - $ref: "#/components/schemas/OgObject"
             - type: object
               properties:
-                oembed: 
+                oembed:
                   oneOf:
                     - $ref: "#/components/schemas/OembedRichData"
                     - $ref: "#/components/schemas/OembedVideoData"
@@ -805,7 +805,6 @@ components:
                       video: "#/components/schemas/OembedVideoData"
                       photo: "#/components/schemas/OembedPhotoData"
                       link: "#/components/schemas/OembedLinkData"
-          
     ChannelMemberRole:
       type: string
       description: The role of a channel member
@@ -889,22 +888,22 @@ components:
       properties:
         id:
           type: integer
-          examples: 
+          examples:
             - 1
         price:
           type: object
           properties:
             period_duration_seconds:
               type: integer
-              examples: 
+              examples:
                 - 2592000
             tokens_per_period:
               type: string
-              examples: 
+              examples:
                 - "3000000000000000"
             initial_mint_price:
               type: string
-              examples: 
+              examples:
                 - "0"
     SubscribedTo:
       allOf:
@@ -919,12 +918,12 @@ components:
             expires_at:
               type: string
               format: date-time
-              examples: 
+              examples:
                 - "2023-09-13T22:10:22.000Z"
             subscribed_at:
               type: string
               format: date-time
-              examples: 
+              examples:
                 - "2023-09-13T22:10:22.000Z"
             tier:
               $ref: "#/components/schemas/SubscriptionTier"
@@ -939,7 +938,7 @@ components:
       properties:
         object:
           type: string
-          examples: 
+          examples:
             - "subscriber"
         user:
           $ref: "#/components/schemas/User"
@@ -971,34 +970,34 @@ components:
       properties:
         object:
           type: string
-          examples: 
+          examples:
             - "subscription"
         provider_name:
           type: string
-          examples: 
+          examples:
             - "fabric_stp"
         contract_address:
           type: string
-          examples: 
+          examples:
             - "0xff63fc310d47ef80961056ac8df0b3f1a9e3ef58"
         chain:
           type: integer
-          examples: 
+          examples:
             - 8453
         metadata:
           type: object
           properties:
             title:
               type: string
-              examples: 
+              examples:
                 - "/memes channel sub"
             symbol:
               type: string
-              examples: 
+              examples:
                 - "MMS"
             art_url:
               type: string
-              examples: 
+              examples:
                 - "https://storage.withfabric.xyz/loom/403fdc10-95f3-4b25-9d77-5aac7ccb9fd1.jpg"
           required:
             - title
@@ -1006,22 +1005,22 @@ components:
             - art_url
         owner_address:
           type: string
-          examples: 
+          examples:
             - "0xb6f6dce6000ca88cc936b450cedb16a5c15f157f"
         price:
           type: object
           properties:
             period_duration_seconds:
               type: integer
-              examples: 
+              examples:
                 - 2592000
             tokens_per_period:
               type: string
-              examples: 
+              examples:
                 - "350574998400000"
             initial_mint_price:
               type: string
-              examples: 
+              examples:
                 - "0"
           required:
             - period_duration_seconds
@@ -1033,26 +1032,26 @@ components:
             $ref: "#/components/schemas/SubscriptionTier"
         protocol_version:
           type: integer
-          examples: 
+          examples:
             - 1
         token:
           type: object
           properties:
             symbol:
               type: string
-              examples: 
+              examples:
                 - "ETH"
             address:
               type: [string, "null"]
-              examples: 
+              examples:
                 - null
             decimals:
               type: integer
-              examples: 
+              examples:
                 - 18
             erc20:
               type: boolean
-              examples: 
+              examples:
                 - false
           required:
             - symbol
@@ -1064,37 +1063,37 @@ components:
       properties:
         object:
           type: string
-          examples: 
+          examples:
             - "subscription_dehydrated"
         provider_name:
           type: string
-          examples: 
+          examples:
             - "fabric_stp"
         contract_address:
           type: string
-          examples: 
+          examples:
             - "0x325b3e2c19f4900f8f4eb5f6872dc2715e77cbac"
         protocol_version:
           type: integer
-          examples: 
+          examples:
             - 1
         chain:
           type: integer
-          examples: 
+          examples:
             - 8453
         expires_at:
           type: string
           format: date-time
-          examples: 
+          examples:
             - "2023-09-13T22:10:22.000Z"
         subscribed_at:
           type: string
           format: date-time
-          examples: 
+          examples:
             - "2023-09-13T22:10:22.000Z"
         tier_id:
           type: string
-          examples: 
+          examples:
             - "0"
       required:
         - object
@@ -1210,7 +1209,7 @@ components:
         text:
           type: string
           description: Input text for the frame
-          examples: 
+          examples:
             - "Draw a purple ringed planet"
     FrameState:
       type: object
@@ -1220,7 +1219,7 @@ components:
         serialized:
           type: string
           description: State for the frame in a serialized format
-          examples: 
+          examples:
             - "%7B%22counter%22%3A1%7D"
     FrameAddress:
       type: string
@@ -1233,7 +1232,7 @@ components:
         hash:
           type: string
           description: Transaction hash
-          examples: 
+          examples:
             - "0xa80de157a3ab4648db1ecfab7e6355b342215bc549f6e37be9e6da527cc024f7"
     FrameActionButton:
       type: object
@@ -1408,7 +1407,7 @@ components:
         - $ref: "#/components/schemas/EmbedUrl"
         - $ref: "#/components/schemas/EmbedCastDeep"
     CastEmbedded:
-      # This should just be Cast, but have to duplicate to avoid the circular reference caused by embedded casts, 
+      # This should just be Cast, but have to duplicate to avoid the circular reference caused by embedded casts,
       # because Readme chokes on them.
       type: object
       required:
@@ -1629,7 +1628,7 @@ components:
         channel_id:
           type: string
           description: Channel ID of the channel where the cast is to be posted. e.g. neynar, farcaster, warpcast
-          examples: 
+          examples:
             - "neynar"
         idem:
           $ref: "#/components/schemas/Idem"
@@ -2587,7 +2586,7 @@ components:
       properties:
         total_active_units:
           type: integer
-          examples: 
+          examples:
             - 13
         allocations:
           type: array
@@ -2598,30 +2597,30 @@ components:
       properties:
         object:
           type: string
-          examples: 
+          examples:
             - "storage_allocation"
         user:
           $ref: "#/components/schemas/UserDehydrated"
         units:
           type: integer
-          examples: 
+          examples:
             - 10
         expiry:
           type: string
           format: date-time
-          examples: 
+          examples:
             - "2024-10-08T22:03:49.000Z"
         timestamp:
           type: string
           format: date-time
-          examples: 
+          examples:
             - "2023-10-09T22:03:49.000Z"
     StorageUsageResponse:
       type: object
       properties:
         object:
           type: string
-          examples: 
+          examples:
             - "storage_usage"
         user:
           $ref: "#/components/schemas/UserDehydrated"
@@ -2639,22 +2638,22 @@ components:
           $ref: "#/components/schemas/StorageObject"
         total_active_units:
           type: integer
-          examples: 
+          examples:
             - 2
     StorageObject:
       type: object
       properties:
         object:
           type: string
-          examples: 
+          examples:
             - "storage"
         used:
           type: integer
-          examples: 
+          examples:
             - 3659
         capacity:
           type: integer
-          examples: 
+          examples:
             - 10000
     BulkUsersResponse:
       type: object
@@ -2775,12 +2774,12 @@ components:
         version:
           type: string
           default: "vNext"
-          examples: 
+          examples:
             - "vNext"
           description: The version of the page schema.
         title:
           type: string
-          examples: 
+          examples:
             - "Welcome to Neynar"
           description: The title of the page.
         image:
@@ -2802,7 +2801,7 @@ components:
         url:
           type: string
           format: uri
-          examples: 
+          examples:
             - "https://i.imgur.com/qo2AzBf.jpeg"
           description: The URL of the page's image.
         aspect_ratio:
@@ -2963,7 +2962,7 @@ components:
       properties:
         valid:
           type: boolean
-          examples: 
+          examples:
             - true
         action:
           $ref: "#/components/schemas/ValidatedFrameAction"
@@ -3042,7 +3041,7 @@ components:
       properties:
         success:
           type: boolean
-          examples: 
+          examples:
             - true
         message:
           type: string
@@ -3109,7 +3108,7 @@ components:
       properties:
         success:
           type: boolean
-          examples: 
+          examples:
             - true
         message:
           type: [string, "null"]
@@ -3308,7 +3307,7 @@ components:
             1) Regex must be parsed by Go's RE2 engine (Test your expression here: https://www.lddgo.net/en/string/golangregex)
             2) Use backslashes to escape special characters.
             For example: (?i)\\$degen should be written as (?i)\\\\$degen
-          examples: 
+          examples:
             - "(?i)\\$degen"
         embeds:
           type: string
@@ -3318,7 +3317,7 @@ components:
             1) Regex must be parsed by Go's RE2 engine (Test your expression here: https://www.lddgo.net/en/string/golangregex)
             2) Use backslashes to escape special characters.
             For example: \\b(farcaster|neynar)\\b should be written as \\\\b(farcaster|neynar)\\\\b
-          examples: 
+          examples:
             - "\b(farcaster|neynar)\b"
     WebhookSubscriptionFilters:
       type: object
@@ -3357,14 +3356,20 @@ components:
         subscription:
           $ref: "#/components/schemas/WebhookSubscriptionFilters"
     WebhookPutReqBody:
-      allOf:
-        - $ref: "#/components/schemas/WebhookPostReqBody"
-        - type: object
-          required:
-            - webhook_id
-          properties:
-            webhook_id:
-              type: string
+      type: object
+      required:
+        - name
+        - url
+        - webhook_id
+      properties:
+        name:
+          type: string
+        url:
+          type: string
+        subscription:
+          $ref: "#/components/schemas/WebhookSubscriptionFilters"
+        webhook_id:
+          type: string
     WebhookPatchReqBody:
       type: object
       required:
@@ -3554,7 +3559,7 @@ components:
         fid:
           type: integer
           minimum: 1
-          examples: 
+          examples:
             - 1
         units:
           type: integer
@@ -3562,7 +3567,7 @@ components:
             Number of storage units to buy.
             A storage unit lets you store 5000 casts, 2500 reactions and 2500 links.
           minimum: 1
-          examples: 
+          examples:
             - 1
         idem:
           $ref: "#/components/schemas/Idem"
@@ -3575,11 +3580,11 @@ components:
       properties:
         message:
           type: string
-          examples: 
+          examples:
             - "Invalid query parameters"
         code:
           type: string
-          examples: 
+          examples:
             - "InvalidField"
         errors:
           type: array
@@ -3740,14 +3745,14 @@ components:
           format: uuid
           description: |
             The signer_uuid of the user on behalf of whom the action is being performed.
-          examples: 
+          examples:
             - "123e4567-e89b-12d3-a456-426614174000"
         base_url:
           type: string
           format: uri
           description: |
             The base URL of the app on which the action is being performed.
-          examples: 
+          examples:
             - "https://example.com"
         action:
           type: object
@@ -3758,7 +3763,7 @@ components:
               type: string
               description: |
                 The type of action being performed.
-              examples: 
+              examples:
                 - "create.user"
             payload:
               description: |
@@ -5877,8 +5882,8 @@ paths:
       summary: "By username"
       description: "Fetches a single hydrated user object given a username"
       externalDocs:
-        url: https://docs.neynar.com/reference/lookup-user-by-username-v2
-      operationId: lookup-user-by-username-v2
+        url: https://docs.neynar.com/reference/lookup-user-by-username
+      operationId: lookup-user-by-username
       parameters:
         - name: username
           in: query
@@ -7064,8 +7069,8 @@ paths:
       summary: Followers
       description: Returns a list of followers for a specific FID.
       externalDocs:
-        url: https://docs.neynar.com/reference/fetch-user-followers-v2
-      operationId: fetch-user-followers-v2
+        url: https://docs.neynar.com/reference/fetch-user-followers
+      operationId: fetch-user-followers
       parameters:
         - name: fid
           in: query
