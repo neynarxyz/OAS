@@ -79,7 +79,6 @@ components:
       default: openrank
       enum:
         - openrank
-        - karma3
         - mbd
       description: |
         The provider of the For You feed.
@@ -1727,6 +1726,7 @@ components:
         action:
           $ref: "#/components/schemas/FrameAction"
     AddVerificationReqBody:
+      "x-is-request-body": true
       type: object
       required:
         - signer_uuid
@@ -7312,8 +7312,8 @@ paths:
       summary: Reactions for cast
       description: Fetches reactions for a given cast
       externalDocs:
-        url: https://docs.neynar.com/reference/fetch-reactions-for-cast
-      operationId: fetch-reactions-for-cast
+        url: https://docs.neynar.com/reference/fetch-cast-reactions
+      operationId: fetch-cast-reactions
       parameters:
         - name: hash
           in: query
@@ -7326,8 +7326,9 @@ paths:
             Customize which reaction types the request should search for. This is a comma-separated string that can include the following values: 'likes' and 'recasts'. By default api returns both. To select multiple types, use a comma-separated list of these values.
           required: true
           schema:
-            type: string
-            pattern: "^(likes,?|recasts,?|all,?)+$"
+            type: array
+            items:
+              $ref: "#/components/schemas/ReactionsType"
           example: "likes,recasts"
         - name: viewer_fid
           in: query
