@@ -7925,8 +7925,8 @@ paths:
       summary: Fetch composer actions
       description: Fetches all composer actions on Warpcast. You can filter by top or featured.
       externalDocs:
-        url: https://docs.neynar.com/reference/fetch-composer-action-list
-      operationId: fetch-composer-action-list
+        url: https://docs.neynar.com/reference/fetch-composer-actions
+      operationId: fetch-composer-actions
       parameters:
         - name: list
           in: query
