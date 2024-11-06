@@ -943,6 +943,46 @@ components:
           $ref: "#/components/schemas/User"
         subscribed_to:
           $ref: "#/components/schemas/SubscribedToObject"
+    ValidateFrameActionReqBody:
+      type: object
+      required:
+        - message_bytes_in_hex
+      properties:
+        message_bytes_in_hex:
+          type: string
+          description: Hexadecimal string of message bytes.
+        cast_reaction_context:
+          default: true
+          type: boolean
+          description: Adds viewer_context inside the cast object to indicate whether the interactor reacted to the cast housing the frame.
+        follow_context:
+          default: false
+          type: boolean
+          description: Adds viewer_context inside the user (interactor) object to indicate whether the interactor follows or is followed by the cast author.
+        signer_context:
+          default: false
+          type: boolean
+          description: Adds context about the app used by the user inside `frame.action`.
+        channel_follow_context:
+          default: false
+          type: boolean
+          description: Adds context about the channel that the cast belongs to inside of the cast object.
+    RemoveChannelMemberReqBody:
+      type: object
+      required:
+        - signer_uuid
+        - channel_id
+        - fid
+        - role
+      properties:
+        signer_uuid:
+          $ref: "#/components/schemas/SignerUUID"
+        channel_id:
+          $ref: "#/components/schemas/ChannelId"
+        fid:
+          $ref: "#/components/schemas/Fid"
+        role:
+          $ref: "#/components/schemas/ChannelMemberRole"
     Subscriptions:
       type: object
       required:
@@ -2137,6 +2177,22 @@ components:
           $ref: "#/components/schemas/User"
         invited:
           $ref: "#/components/schemas/User"
+    InviteChannelMemberReqBody:
+      type: object
+      required:
+        - signer_uuid
+        - channel_id
+        - fid
+        - role
+      properties:
+        signer_uuid:
+          $ref: "#/components/schemas/SignerUUID"
+        channel_id:
+          $ref: "#/components/schemas/ChannelId"
+        fid:
+          $ref: "#/components/schemas/Fid"
+        role:
+          $ref: "#/components/schemas/ChannelMemberRole"
     ChannelMember:
       type: object
       required:
@@ -2893,7 +2949,7 @@ components:
           description: The URL for minting, specific to the mint action.
       required:
         - mint_url
-    NeynarFrameCreationRequest:
+    NeynarFrameCreationReqBody:
       type: object
       properties:
         name:
@@ -2906,7 +2962,7 @@ components:
       required:
         - name
         - pages
-    NeynarFrameUpdateRequest:
+    NeynarFrameUpdateReqBody:
       type: object
       properties:
         uuid:
@@ -2979,6 +3035,12 @@ components:
             - true
         action:
           $ref: "#/components/schemas/ValidatedFrameAction"
+    DeleteFrameReqBody:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
     UserFIDResponse:
       type: object
       required:
@@ -3556,6 +3618,23 @@ components:
       type: string
       enum:
         - code
+    RespondToChannelInviteReqBody:
+      type: object
+      required:
+        - signer_uuid
+        - channel_id
+        - role
+        - accept
+      properties:
+        signer_uuid:
+          $ref: "#/components/schemas/SignerUUID"
+        channel_id:
+          $ref: "#/components/schemas/ChannelId"
+        role:
+          $ref: "#/components/schemas/ChannelMemberRole"
+        accept:
+          type: boolean
+          description: Accept or reject the invite
     Idem:
       type: string
       description: |
@@ -5546,7 +5625,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/NeynarFrameCreationRequest"
+              $ref: "#/components/schemas/NeynarFrameCreationReqBody"
       responses:
         "200":
           description: Frame created successfully
@@ -5569,7 +5648,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/NeynarFrameUpdateRequest"
+              $ref: "#/components/schemas/NeynarFrameUpdateReqBody"
       responses:
         "200":
           description: Frame updated successfully
@@ -5594,11 +5673,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                uuid:
-                  type: string
-                  format: uuid
+              $ref: "#/components/schemas/DeleteFrameReqBody"
       responses:
         "200":
           description: Frame deleted successfully
@@ -6092,35 +6167,13 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              required:
-                - message_bytes_in_hex
-              properties:
-                message_bytes_in_hex:
-                  type: string
-                  description: Hexadecimal string of message bytes.
-                cast_reaction_context:
-                  default: true
-                  type: boolean
-                  description: Adds viewer_context inside the cast object to indicate whether the interactor reacted to the cast housing the frame.
-                follow_context:
-                  default: false
-                  type: boolean
-                  description: Adds viewer_context inside the user (interactor) object to indicate whether the interactor follows or is followed by the cast author.
-                signer_context:
-                  default: false
-                  type: boolean
-                  description: Adds context about the app used by the user inside `frame.action`.
-                channel_follow_context:
-                  default: false
-                  type: boolean
-                  description: Adds context about the channel that the cast belongs to inside of the cast object.
-              example:
-                message_bytes_in_hex: "0a49080d1085940118f6a6a32e20018201390a1a86db69b3ffdf6ab8acb6872b69ccbe7eb6a67af7ab71e95aa69f10021a1908ef011214237025b322fd03a9ddc7ec6c078fb9c56d1a72111214e3d88aeb2d0af356024e0c693f31c11b42c76b721801224043cb2f3fcbfb5dafce110e934b9369267cf3d1aef06f51ce653dc01700fc7b778522eb7873fd60dda4611376200076caf26d40a736d3919ce14e78a684e4d30b280132203a66717c82d728beb3511b05975c6603275c7f6a0600370bf637b9ecd2bd231e"
-                cast_reaction_context: true
-                follow_context: false
-                signer_context: false
-                channel_follow_context: true
+              $ref: "#/components/schemas/ValidateFrameActionReqBody"
+            example:
+              message_bytes_in_hex: "0a49080d1085940118f6a6a32e20018201390a1a86db69b3ffdf6ab8acb6872b69ccbe7eb6a67af7ab71e95aa69f10021a1908ef011214237025b322fd03a9ddc7ec6c078fb9c56d1a72111214e3d88aeb2d0af356024e0c693f31c11b42c76b721801224043cb2f3fcbfb5dafce110e934b9369267cf3d1aef06f51ce653dc01700fc7b778522eb7873fd60dda4611376200076caf26d40a736d3919ce14e78a684e4d30b280132203a66717c82d728beb3511b05975c6603275c7f6a0600370bf637b9ecd2bd231e"
+              cast_reaction_context: true
+              follow_context: false
+              signer_context: false
+              channel_follow_context: true
       responses:
         "200":
           description: Successful operation.
@@ -6437,21 +6490,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              required:
-                - signer_uuid
-                - channel_id
-                - fid
-                - role
-              properties:
-                signer_uuid:
-                  $ref: "#/components/schemas/SignerUUID"
-                channel_id:
-                  $ref: "#/components/schemas/ChannelId"
-                fid:
-                  $ref: "#/components/schemas/Fid"
-                role:
-                  $ref: "#/components/schemas/ChannelMemberRole"
+              $ref: "#/components/schemas/RemoveChannelMemberReqBody"
       responses:
         "200":
           description: Successful operation.
@@ -6521,28 +6560,14 @@ paths:
       summary: Invite
       description: Invite a user to a channel
       externalDocs:
-        url: https://docs.neynar.com/reference/invite-member-to-channel
-      operationId: invite-member-to-channel
+        url: https://docs.neynar.com/reference/invite-channel-member
+      operationId: invite-channel-member
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              type: object
-              required:
-                - signer_uuid
-                - channel_id
-                - fid
-                - role
-              properties:
-                signer_uuid:
-                  $ref: "#/components/schemas/SignerUUID"
-                channel_id:
-                  $ref: "#/components/schemas/ChannelId"
-                fid:
-                  $ref: "#/components/schemas/Fid"
-                role:
-                  $ref: "#/components/schemas/ChannelMemberRole"
+              $ref: "#/components/schemas/InviteChannelMemberReqBody"
       responses:
         "200":
           description: Successful operation.
@@ -6567,22 +6592,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              required:
-                - signer_uuid
-                - channel_id
-                - role
-                - accept
-              properties:
-                signer_uuid:
-                  $ref: "#/components/schemas/SignerUUID"
-                channel_id:
-                  $ref: "#/components/schemas/ChannelId"
-                role:
-                  $ref: "#/components/schemas/ChannelMemberRole"
-                accept:
-                  type: boolean
-                  description: Accept or reject the invite
+              $ref: "#/components/schemas/RespondToChannelInviteReqBody"
       responses:
         "200":
           description: Successful operation.
