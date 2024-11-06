@@ -17,7 +17,10 @@ paths:
       tags:
         - Info
       summary: Sync Methods
-      operationId: GetInfo
+      externalDocs:
+        description: "Farcaster Hub API"
+        url: https://docs.neynar.com/reference/get-info
+      operationId: get-info
       parameters:
         - name: dbstats
           in: query

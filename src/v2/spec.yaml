@@ -4303,6 +4303,7 @@ paths:
           example: "0xa6a8736f18f383f1cc2d938576933e5ea7df01a1,0x7cac817861e5c3384753403fb6c0c556c204b1ce"
           schema:
             type: string
+            x-comma-separated: true
         - name: address_types
           in: query
           description: >
@@ -4311,6 +4312,7 @@ paths:
           schema:
             type: string
             pattern: "^(custody_address,?|verified_address,?)+$"
+            x-comma-separated: true
           example: "custody_address,verified_address"
         - name: viewer_fid
           in: query
@@ -4645,6 +4647,7 @@ paths:
           example: "0xa896906a5e397b4fec247c3ee0e9e4d4990b8004,0x27ff810f7f718afd8c40be236411f017982e0994"
           schema:
             type: string
+            x-comma-separated: true
         - name: viewer_fid
           in: query
           required: false
@@ -5175,6 +5178,7 @@ paths:
           example: neynar,farcaster
           schema:
             type: string
+            x-comma-separated: true
           description: Comma separated list of channel IDs e.g. neynar,farcaster
         - name: with_recasts
           in: query
@@ -5248,6 +5252,7 @@ paths:
           example: "chain://eip155:1/erc721:0xd4498134211baad5846ce70ce04e7c4da78931cc"
           schema:
             type: string
+            x-comma-separated: true
           description: Comma separated list of parent_urls
         - name: with_recasts
           in: query
@@ -6296,8 +6301,11 @@ paths:
         - name: type
           in: query
           required: false
+          description: Notification type to fetch. Comma separated values of follows, recasts, likes, mentions, replies.
           schema:
-            $ref: "#/components/schemas/NotificationType"
+            type: string
+            pattern: "^(follows,?|recasts,?|likes,?|mentions,?|replies,?)+$"
+            x-comma-separated: true
           description: Notification type to fetch.
         - name: priority_mode
           in: query
@@ -6343,6 +6351,7 @@ paths:
           required: true
           schema:
             type: string
+            x-comma-separated: true
           example: "neynar,farcaster"
           description: Comma separated channel_ids (find list of all channels here - https://docs.neynar.com/reference/list-all-channels)
         - name: priority_mode
@@ -6389,6 +6398,7 @@ paths:
           required: true
           schema:
             type: string
+            x-comma-separated: true
           example: "chain://eip155:1/erc721:0xd4498134211baad5846ce70ce04e7c4da78931cc"
           description: Comma separated parent_urls
         - name: priority_mode
@@ -6710,6 +6720,7 @@ paths:
           required: true
           schema:
             type: string
+            x-comma-separated: true
           example: "neynar,warpcast"
           description: Comma separated list of channel IDs or parent_urls, up to 100 at a time
         - name: type
@@ -7351,6 +7362,7 @@ paths:
           schema:
             type: string
             pattern: "^(likes,?|recasts,?|all,?)+$"
+            x-comma-separated: true
           example: "likes,recasts"
         - name: viewer_fid
           in: query
