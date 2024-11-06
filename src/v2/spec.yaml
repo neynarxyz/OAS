@@ -6585,8 +6585,8 @@ paths:
       summary: Accept or reject an invite
       description: Accept or reject a channel invite
       externalDocs:
-        url: https://docs.neynar.com/reference/respond-to-channel-invite
-      operationId: respond-to-channel-invite
+        url: https://docs.neynar.com/reference/respond-channel-invite
+      operationId: respond-channel-invite
       requestBody:
         required: true
         content:
