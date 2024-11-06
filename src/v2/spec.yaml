@@ -17,6 +17,16 @@ components:
       description: "API key to authorize requests"
       x-default: "NEYNAR_API_DOCS"
 
+  parameters:
+    NeynarExperimentalHeader:
+      name: x-neynar-experimental
+      in: header
+      required: false
+      schema:
+        type: boolean
+      x-default: false
+      description: "Enables experimental features"
+
   schemas:
     Address:
       type: string
