@@ -6306,7 +6306,6 @@ paths:
             type: string
             pattern: "^(follows,?|recasts,?|likes,?|mentions,?|replies,?)+$"
             x-comma-separated: true
-          description: Notification type to fetch.
         - name: priority_mode
           in: query
           required: false
