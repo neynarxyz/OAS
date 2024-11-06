@@ -3983,6 +3983,9 @@ tags:
     description: Operations related to a ban
 
 paths:
+  /{path}:
+    parameters:
+      - $ref: "#/components/parameters/NeynarExperimentalHeader"
   /farcaster/user/fid:
     get:
       tags:
