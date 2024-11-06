@@ -7169,8 +7169,8 @@ paths:
       summary: Followed by
       description: Fetch a list of users followed by a user. Can optionally include a viewer_fid and sort_type.
       externalDocs:
-        url: https://docs.neynar.com/reference/fetch-user-following-v2
-      operationId: fetch-user-following-v2
+        url: https://docs.neynar.com/reference/fetch-user-following
+      operationId: fetch-user-following
       parameters:
         - name: fid
           in: query
