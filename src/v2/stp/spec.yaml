@@ -157,9 +157,9 @@ paths:
         - STP
       summary: Subscription check by wallet address
       description: Check if a wallet address is subscribed to a given STP contract.
-      operationId: subscription-check
       externalDocs:
-        url: https://docs.neynar.com/reference/subscription-check
+        url: https://docs.neynar.com/reference/fetch-subscription-check
+      operationId: fetch-subscription-check
       parameters:
         - name: addresses
           description: Comma separated list of Ethereum addresses, up to 350 at a time
