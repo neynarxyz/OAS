@@ -3618,7 +3618,7 @@ components:
       type: string
       enum:
         - code
-    RespondToChannelInviteReqBody:
+    RespondChannelInviteReqBody:
       type: object
       required:
         - signer_uuid
@@ -6592,7 +6592,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/RespondToChannelInviteReqBody"
+              $ref: "#/components/schemas/RespondChannelInviteReqBody"
       responses:
         "200":
           description: Successful operation.
