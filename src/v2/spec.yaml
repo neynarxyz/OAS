@@ -4013,7 +4013,7 @@ paths:
         url: https://docs.neynar.com/reference/lookup-developer-managed-signer
       operationId: lookup-developer-managed-signer
       parameters:
-        $ref: "#/components/parameters/XExperimentsEnabled"
+        - $ref: "#/components/parameters/XExperimentsEnabled"
         - name: public_key
           required: true
           in: query
