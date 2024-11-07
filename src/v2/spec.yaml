@@ -22,9 +22,9 @@ components:
       name: x-experiments-enabled
       in: header
       required: true
-      default: false
       schema:
-        type: string
+        type: boolean
+        default: false
       description: Enable experimental features
 
   schemas:
