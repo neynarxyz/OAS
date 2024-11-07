@@ -17,6 +17,16 @@ components:
       description: "API key to authorize requests"
       x-default: "NEYNAR_API_DOCS"
 
+  parameters:
+    NeynarExperimentalHeader:
+      name: x-neynar-experimental
+      in: header
+      required: false
+      schema:
+        type: boolean
+        default: false
+      description: "Enables experimental features"
+
   schemas:
     Address:
       type: string
@@ -3973,6 +3983,9 @@ tags:
     description: Operations related to a ban
 
 paths:
+  /{path}:
+    parameters:
+      - $ref: "#/components/parameters/NeynarExperimentalHeader"
   /farcaster/user/fid:
     get:
       tags:
