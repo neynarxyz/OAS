@@ -1448,6 +1448,15 @@ components:
                 type: string
         power_badge:
           type: boolean
+        experimental:
+          type: object
+          required:
+            - neynar_user_score
+          properties:
+            neynar_user_score:
+              type: number
+              format: double
+              description: Score that represents the probability that the account is not spam.
         viewer_context:
           $ref: "#/components/schemas/UserViewerContext"
     Embed:
