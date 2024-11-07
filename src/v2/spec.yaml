@@ -17,16 +17,6 @@ components:
       description: "API key to authorize requests"
       x-default: "NEYNAR_API_DOCS"
 
-  parameters:
-    XExperimentsEnabled:
-      name: x-experiments-enabled
-      in: header
-      required: true
-      schema:
-        type: boolean
-        default: false
-      description: Enable experimental features
-
   schemas:
     Address:
       type: string
@@ -3992,8 +3982,6 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/get-fresh-account-fid
       operationId: get-fresh-account-FID
-      parameters:
-        - $ref: "#/components/parameters/XExperimentsEnabled"
       responses:
         "200":
           description: Successful operation.
@@ -4013,7 +4001,6 @@ paths:
         url: https://docs.neynar.com/reference/lookup-developer-managed-signer
       operationId: lookup-developer-managed-signer
       parameters:
-        - $ref: "#/components/parameters/XExperimentsEnabled"
         - name: public_key
           required: true
           in: query
