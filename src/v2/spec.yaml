@@ -3983,9 +3983,6 @@ tags:
     description: Operations related to a ban
 
 paths:
-  /{path}:
-    parameters:
-      - $ref: "#/components/parameters/NeynarExperimentalHeader"
   /farcaster/user/fid:
     get:
       tags:
@@ -3995,6 +3992,8 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/get-fresh-account-fid
       operationId: get-fresh-account-FID
+      parameters:
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
         "200":
           description: Successful operation.
@@ -4185,6 +4184,7 @@ paths:
           description: Pagination cursor.
           schema:
             type: string
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
         "200":
           description: Successful operation.
@@ -4219,6 +4219,7 @@ paths:
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
         "200":
           description: Successful operation.
@@ -4261,6 +4262,7 @@ paths:
           description: Pagination cursor.
           schema:
             type: string
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
         "200":
           description: Successful operation.
@@ -4279,6 +4281,8 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/fetch-power-users-lite
       operationId: fetch-power-users-lite
+      parameters:
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
         "200":
           description: Successful operation.
@@ -4333,6 +4337,7 @@ paths:
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
         "200":
           description: Successful operation.
@@ -6004,6 +6009,7 @@ paths:
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
         "200":
           description: Successful operation.
@@ -6065,6 +6071,7 @@ paths:
           schema:
             type: string
           description: Pagination cursor
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
         "200":
           description: Successful operation.
@@ -6564,6 +6571,7 @@ paths:
           required: false
           schema:
             type: string
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
         "200":
           description: Successful response
@@ -6903,6 +6911,7 @@ paths:
             minimum: 1
             maximum: 1000
           x-is-limit-param: true
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
         "200":
           description: Successful response
@@ -6936,6 +6945,7 @@ paths:
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
         200:
           description: Successful response
@@ -7082,6 +7092,7 @@ paths:
           description: Pagination cursor.
           schema:
             type: string
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
         "200":
           description: Successful response
@@ -7115,6 +7126,7 @@ paths:
           description: The FID of the user to customize this response for. Providing this will also return a list of followers that respects this user's mutes and blocks and includes `viewer_context`.
           schema:
             $ref: "#/components/schemas/Fid"
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
         200:
           description: Successful response
@@ -7169,6 +7181,7 @@ paths:
           description: Pagination cursor.
           schema:
             type: string
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
         "200":
           description: Successful operation.
@@ -7215,6 +7228,7 @@ paths:
             maximum: 100
             example: 25
           x-is-limit-param: true
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
         "200":
           description: Successful operation.
@@ -7608,6 +7622,7 @@ paths:
           required: false
           schema:
             type: string
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
         "200":
           description: successful operation
@@ -7717,6 +7732,7 @@ paths:
           required: false
           schema:
             type: string
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
         "200":
           description: successful operation
@@ -7812,6 +7828,7 @@ paths:
           required: false
           schema:
             type: string
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
         "200":
           description: successful operation
