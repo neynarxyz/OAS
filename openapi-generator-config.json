@@ -1,5 +1,15 @@
 {
   "withSeparateModelsAndApi": true,
   "apiPackage": "apis",
-  "modelPackage": "models"
+  "modelPackage": "models",
+  "templateDir": "./templates",
+  "modelPropertyNaming": "original",
+  "ensureUniqueParams": true,
+  "generateAliasAsModel": true,
+  "additionalProperties": {
+    "useSingleRequestParameter": true,
+    "withInterfaces": true,
+    "supportsES6": true,
+    "paramNaming": "snake_case"
+  }
 }
