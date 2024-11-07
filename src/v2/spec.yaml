@@ -3984,7 +3984,7 @@ tags:
 
 paths:
   /{path}:
-    parameters:
+    headers:
       - $ref: "#/components/parameters/NeynarExperimentalHeader"
   /farcaster/user/fid:
     get:
