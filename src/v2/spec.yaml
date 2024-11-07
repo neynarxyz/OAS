@@ -3993,7 +3993,7 @@ paths:
         url: https://docs.neynar.com/reference/get-fresh-account-fid
       operationId: get-fresh-account-FID
       parameters:
-        $ref: "#/components/parameters/XExperimentsEnabled"
+        - $ref: "#/components/parameters/XExperimentsEnabled"
       responses:
         "200":
           description: Successful operation.
