@@ -5,6 +5,8 @@ info:
 servers:
   - url: https://api.neynar.com/v2
 
+x-sdk-version: "2.0.0"
+
 security:
   - ApiKeyAuth: []
 
