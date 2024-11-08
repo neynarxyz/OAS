@@ -1,0 +1,105 @@
+name: Create Pull Request in NodeJS SDK
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  create-pull-request:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout OAS repository
+        uses: actions/checkout@v3
+
+      - name: Checkout nodejs-sdk repository
+        uses: actions/checkout@v3
+        with:
+          repository: 'neynarxyz/nodejs-sdk.git'
+          ref: 'main'
+          path: 'nodejs-sdk'
+          token: ${{ secrets.OAS_TO_SDK_FGPAT }}
+          submodules: recursive
+          persist-credentials: true
+
+      - name: Update OAS submodule and package version in nodejs-sdk
+        run: |
+          cd nodejs-sdk
+
+          yarn install
+
+          # Update OAS submodule
+          git submodule update --remote src/oas
+
+          # Set Git config
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+
+          # Parse x-sdk-version from OAS
+          # Install yq for YAML parsing
+          sudo wget -O /usr/bin/yq https://github.com/mikefarah/yq/releases/download/v4.24.5/yq_linux_amd64
+          sudo chmod +x /usr/bin/yq
+          SDK_VERSION=$(yq e '.info."x-sdk-version"' src/oas/src/v2/spec.yaml)
+          echo "SDK Version: $SDK_VERSION"
+
+          # Check if SDK_VERSION is empty
+          if [ -z "$SDK_VERSION" ]; then
+            echo "Error: x-sdk-version not found in OAS file."
+            exit 1
+          fi
+
+          # Set branch name using SDK_VERSION and GITHUB_RUN_ID
+          BRANCH_NAME="update-oas-v${SDK_VERSION}-${GITHUB_RUN_ID}"
+          echo "Branch Name: $BRANCH_NAME"
+
+          # Export variables for use in subsequent steps
+          echo "SDK_VERSION=$SDK_VERSION" >> $GITHUB_ENV
+          echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
+
+          # Create and checkout the new branch
+          git checkout -b "$BRANCH_NAME"
+
+          # Commit updated OAS submodule
+          git add .
+          git commit -m "Update OAS submodule"
+
+          # Generate code
+          yarn generate:all
+
+          # Commit generated files
+          git add .
+          git commit -m "Update generated files"
+
+          # Update package.json version
+          npm version --no-git-tag-version "$SDK_VERSION"
+
+          # Commit updated package.json
+          git add package.json
+          git commit -m "Update package.json version to $SDK_VERSION"
+
+          # Push changes
+          git push origin HEAD:"$BRANCH_NAME"
+        shell: bash
+
+      - name: Create Pull Request via API
+        run: |
+          # Install jq for JSON parsing
+          sudo apt-get update && sudo apt-get install -y jq
+
+          # Prepare JSON payload for the pull request
+          DATA=$(jq -n \
+            --arg title "Update OAS submodule to version $SDK_VERSION" \
+            --arg head "$BRANCH_NAME" \
+            --arg base "main" \
+            --arg body "This pull request updates the OAS submodule to include the latest changes." \
+            '{title: $title, head: $head, base: $base, body: $body}')
+
+          echo "Creating Pull Request with data: $DATA"
+
+          # Create the pull request via GitHub API
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.OAS_TO_SDK_FGPAT }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/neynarxyz/nodejs-sdk/pulls \
+            -d "$DATA"
+        shell: bash
