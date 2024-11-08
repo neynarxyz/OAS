@@ -1,4 +1,4 @@
-openapi: 3.0.1
+openapi: 3.1.0
 info:
   title: Farcaster Hub API
   version: "1.0"
@@ -19,8 +19,8 @@ paths:
       summary: Sync Methods
       externalDocs:
         description: "Farcaster Hub API"
-        url: https://docs.neynar.com/reference/get-info
-      operationId: get-info
+        url: https://docs.neynar.com/reference/lookup-hub-info
+      operationId: lookup-hub-info
       parameters:
         - name: dbstats
           in: query
@@ -42,7 +42,10 @@ paths:
       tags:
         - Casts
       summary: By FID and Hash
-      operationId: GetCastById
+      externalDocs:
+        description: "Lookup a cast by its FID and hash"
+        url: https://docs.neynar.com/reference/lookup-cast-by-hash-and-fid
+      operationId: lookup-cast-by-hash-and-fid
       parameters:
         - name: fid
           in: query
@@ -73,7 +76,10 @@ paths:
       tags:
         - Casts
       summary: By FID
-      operationId: ListCastsByFid
+      externalDocs:
+        description: "Fetch user's casts"
+        url: https://docs.neynar.com/reference/fetch-users-casts
+      operationId: fetch-users-casts
       parameters:
         - name: fid
           in: query
@@ -111,7 +117,10 @@ paths:
       tags:
         - Casts
       summary: Mentioning an FID
-      operationId: ListCastsByMention
+      externalDocs:
+        description: "Fetch casts mentioning a user"
+        url: https://docs.neynar.com/reference/fetch-casts-mentioning-user
+      operationId: fetch-casts-mentioning-user
       parameters:
         - name: fid
           in: query
@@ -149,7 +158,10 @@ paths:
       tags:
         - Casts
       summary: By parent cast
-      operationId: ListCastsByParent
+      externalDocs:
+        description: "Fetch casts by parent"
+        url: https://docs.neynar.com/reference/fetch-casts-by-parent
+      operationId: fetch-casts-by-parent
       parameters:
         - name: fid
           in: query
@@ -197,7 +209,10 @@ paths:
       tags:
         - Reactions
       summary: By FID or cast
-      operationId: GetReactionById
+      externalDocs:
+        description: "Lookup a reaction by its FID or cast"
+        url: https://docs.neynar.com/reference/lookup-reaction
+      operationId: lookup-reaction
       parameters:
         - name: fid
           in: query
@@ -240,7 +255,10 @@ paths:
       tags:
         - Reactions
       summary: On cast
-      operationId: ListReactionsByCast
+      externalDocs:
+        description: "Fetch reactions on a cast"
+        url: https://docs.neynar.com/reference/fetch-cast-reactions
+      operationId: fetch-cast-reactions
       parameters:
         - name: target_fid
           in: query
@@ -291,7 +309,10 @@ paths:
       tags:
         - Reactions
       summary: By FID
-      operationId: ListReactionsByFid
+      externalDocs:
+        description: "Fetch reactions by a user"
+        url: https://docs.neynar.com/reference/fetch-user-reactions
+      operationId: fetch-user-reactions
       parameters:
         - name: fid
           in: query
@@ -379,7 +400,10 @@ paths:
       tags:
         - Links
       summary: By its FID and target FID.
-      operationId: GetLinkById
+      externalDocs:
+        description: "Lookup a link by its FID and target FID"
+        url: https://docs.neynar.com/reference/lookup-user-relation
+      operationId: lookup-user-relation
       parameters:
         - name: fid
           in: query
@@ -415,7 +439,10 @@ paths:
       tags:
         - Links
       summary: From source FID
-      operationId: ListLinksByFid
+      externalDocs:
+        description: "Fetch a list of users that a user is following"
+        url: https://docs.neynar.com/reference/fetch-user-following
+      operationId: fetch-user-following
       parameters:
         - name: fid
           in: query
@@ -459,7 +486,10 @@ paths:
       tags:
         - Links
       summary: To target FID
-      operationId: ListLinksByTargetFid
+      externalDocs:
+        description: "Fetch a list of users that are following a user"
+        url: https://docs.neynar.com/reference/fetch-user-followers
+      operationId: fetch-user-followers
       parameters:
         - name: target_fid
           in: query
@@ -507,7 +537,10 @@ paths:
         based on whether the caller provides the `user_data_type` parameter. If included, a single
         `UserDataAdd` message is returned (or a `not_found` error). If omitted, a paginated list
         of `UserDataAdd` messages is returned instead"
-      operationId: GetUserDataByFid
+      externalDocs:
+        description: "Fetch user data for a user"
+        url: https://docs.neynar.com/reference/fetch-user-data
+      operationId: fetch-user-data
       parameters:
         - name: fid
           in: query
@@ -552,7 +585,10 @@ paths:
     get:
       tags:
         - FIDs
-      operationId: ListFids
+      externalDocs:
+        description: "Fetch a list of all the FIDs"
+        url: https://docs.neynar.com/reference/fetch-fids
+      operationId: fetch-fids
       summary: Fetch a list of all the FIDs
       parameters:
         - $ref: "#/components/parameters/pageSize"
@@ -571,7 +607,10 @@ paths:
     get:
       tags:
         - Storage
-      operationId: GetStorageLimitsByFid
+      externalDocs:
+        description: "Fetch a user's storage limits"
+        url: https://docs.neynar.com/reference/lookup-user-storage-limit
+      operationId: lookup-user-storage-limit
       summary: FID's limits
       parameters:
         - name: fid
@@ -594,7 +633,10 @@ paths:
     get:
       tags:
         - Usernames
-      operationId: ListUsernameProofsByFid
+      externalDocs:
+        description: "Fetch proofs provided by a user"
+        url: https://docs.neynar.com/reference/fetch-username-proofs-by-fid
+      operationId: fetch-username-proofs-by-fid
       summary: Proofs provided by an FID
       parameters:
         - name: fid
@@ -618,7 +660,10 @@ paths:
       tags:
         - Usernames
       summary: Proof for a username
-      operationId: GetUsernameProof
+      externalDocs:
+        description: "Fetch a proof for a username"
+        url: https://docs.neynar.com/reference/fetch-username-proof-by-name
+      operationId: fetch-username-proof-by-name
       parameters:
         - name: name
           in: query
@@ -644,7 +689,10 @@ paths:
     get:
       tags:
         - Verifications
-      operationId: ListVerificationsByFid
+      externalDocs:
+        description: "Fetch verifications provided by a user"
+        url: https://docs.neynar.com/reference/fetch-verifications-by-fid
+      operationId: fetch-verifications-by-fid
       summary: Provided by an FID
       parameters:
         - name: fid
@@ -690,7 +738,10 @@ paths:
       tags:
         - OnChainEvents
       summary: Fetch an on chain ID Registry Event for a given Address
-      operationId: GetOnChainIdRegistrationByAddress
+      externalDocs:
+        description: "Fetch an on chain ID Registry Event for a given Address"
+        url: https://docs.neynar.com/reference/lookup-on-chain-id-registry-event-by-address
+      operationId: lookup-on-chain-id-registry-event-by-address
       parameters:
         - name: address
           in: query
@@ -714,7 +765,10 @@ paths:
       tags:
         - OnChainEvents
       summary: Fetch a list of on-chain events provided by an FID
-      operationId: ListOnChainEventsByFid
+      externalDocs:
+        description: "Fetch on-chain events provided by a user"
+        url: https://docs.neynar.com/reference/fetch-user-on-chain-events
+      operationId: fetch-user-on-chain-events
       parameters:
         - name: fid
           in: query
@@ -754,7 +808,10 @@ paths:
         based on whether the caller provides the `signer` parameter. If included, a single
         `OnChainEventSigner` message is returned (or a `not_found` error). If omitted, a
         non-paginated list of `OnChainEventSigner` messages is returned instead"
-      operationId: ListOnChainSignersByFid
+      externalDocs:
+        description: "Fetch on-chain signers provided by a user"
+        url: https://docs.neynar.com/reference/fetch-user-on-chain-signers
+      operationId: fetch-user-on-chain-signers-events
       parameters:
         - name: fid
           in: query
@@ -793,7 +850,10 @@ paths:
       tags:
         - Message
       summary: Submit signed message
-      operationId: SubmitMessage
+      externalDocs:
+        description: "Submit a message to the Farcaster network"
+        url: https://docs.neynar.com/reference/submit-signed-message
+      operationId: publish-message
       requestBody:
         description:
           "* \nA Message is a delta operation on the Farcaster network.\
@@ -820,7 +880,10 @@ paths:
       tags:
         - Message
       summary: Validate signed message
-      operationId: ValidateMessage
+      externalDocs:
+        description: "Validate a message on the Farcaster network"
+        url: https://docs.neynar.com/reference/validate-message
+      operationId: validate-message
       requestBody:
         description:
           "* \nA Message is a delta operation on the Farcaster network.\
@@ -846,7 +909,10 @@ paths:
     get:
       tags:
         - HubEvents
-      operationId: ListEvents
+      externalDocs:
+        description: "Fetch a list of events"
+        url: https://docs.neynar.com/reference/fetch-events
+      operationId: fetch-events
       summary: Page of events
       parameters:
         - name: from_event_id
@@ -882,7 +948,10 @@ paths:
     get:
       tags:
         - HubEvents
-      operationId: GetEventById
+      externalDocs:
+        description: "Lookup an event by its ID"
+        url: https://docs.neynar.com/reference/lookup-event
+      operationId: lookup-event
       summary: Event by ID
       parameters:
         - name: event_id
@@ -959,13 +1028,15 @@ components:
           items:
             type: integer
             format: uint64
-            example: 2
+            examples:
+              - 2
         parentCastId:
           $ref: "#/components/schemas/CastId"
         parentUrl:
           title: Parent URL
           type: string
-          example: chain://eip155:1/erc721:0x39d89b649ffa044383333d297e325d42d31329b2
+          examples:
+            - chain://eip155:1/erc721:0x39d89b649ffa044383333d297e325d42d31329b2
         text:
           title: Text of the cast
           type: string
@@ -1159,7 +1230,8 @@ components:
       properties:
         type:
           type: string
-          example: HUB_EVENT_TYPE_MERGE_MESSAGE
+          examples:
+            - HUB_EVENT_TYPE_MERGE_MESSAGE
         id:
           type: integer
           format: uint64
@@ -1174,7 +1246,8 @@ components:
       properties:
         type:
           type: string
-          example: HUB_EVENT_TYPE_PRUNE_MESSAGE
+          examples:
+            - HUB_EVENT_TYPE_PRUNE_MESSAGE
         id:
           type: integer
           format: uint64
@@ -1189,7 +1262,8 @@ components:
       properties:
         type:
           type: string
-          example: HUB_EVENT_TYPE_REVOKE_MESSAGE
+          examples:
+            - HUB_EVENT_TYPE_REVOKE_MESSAGE
         id:
           type: integer
           format: uint64
@@ -1204,7 +1278,8 @@ components:
       properties:
         type:
           type: string
-          example: HUB_EVENT_TYPE_MERGE_USERNAME_PROOF
+          examples:
+            - HUB_EVENT_TYPE_MERGE_USERNAME_PROOF
         id:
           type: integer
           format: uint64
@@ -1219,7 +1294,8 @@ components:
       properties:
         type:
           type: string
-          example: HUB_EVENT_TYPE_MERGE_ON_CHAIN_EVENT
+          examples:
+            - HUB_EVENT_TYPE_MERGE_ON_CHAIN_EVENT
         id:
           type: integer
           format: uint64
@@ -1261,17 +1337,20 @@ components:
         to:
           pattern: ^0x[a-fA-F0-9]*$
           type: string
-          example: "0x00000000fcd5a8e45785c8a4b9a718c9348e4f18"
+          examples:
+            - "0x00000000fcd5a8e45785c8a4b9a718c9348e4f18"
         eventType:
           $ref: "#/components/schemas/IdRegisterEventType"
         from:
           pattern: ^0x[a-fA-F0-9]*$|^$
           type: string
-          example: "0x00000000fcd5a8e45785c8a4b9a718c9348e4f18"
+          examples:
+            - "0x00000000fcd5a8e45785c8a4b9a718c9348e4f18"
         recoveryAddress:
           pattern: ^0x[a-fA-F0-9]*$
           type: string
-          example: "0x00000000fcd5a8e45785c8a4b9a718c9348e4f18"
+          examples:
+            - "0x00000000fcd5a8e45785c8a4b9a718c9348e4f18"
       required:
         - to
         - from
@@ -1416,7 +1495,8 @@ components:
           title: Hash digest of data
           pattern: ^0x[0-9a-fA-F]{40}$
           type: string
-          example: "0xd2b1ddc6c88e865a33cb1a565e0058d757042974"
+          examples:
+            - "0xd2b1ddc6c88e865a33cb1a565e0058d757042974"
         hashScheme:
           $ref: "#/components/schemas/HashScheme"
         signature:
@@ -1447,12 +1527,14 @@ components:
           title: Farcaster ID of the user producing the message
           type: integer
           format: uint64
-          example: 2
+          examples:
+            - 2
         timestamp:
           title: Farcaster epoch timestamp in seconds
           type: integer
           format: int64
-          example: 48994466
+          examples:
+            - 48994466
         network:
           $ref: "#/components/schemas/FarcasterNetwork"
     MessageDataCastAdd:
@@ -1582,19 +1664,22 @@ components:
       properties:
         type:
           type: string
-          example: EVENT_TYPE_SIGNER
+          examples:
+            - EVENT_TYPE_SIGNER
         chainId:
           type: integer
         blockNumber:
           type: integer
         blockHash:
           type: string
-          example: "0x75fbbb8b2a4ede67ac350e1b0503c6a152c0091bd8e3ef4a6927d58e088eae28"
+          examples:
+            - "0x75fbbb8b2a4ede67ac350e1b0503c6a152c0091bd8e3ef4a6927d58e088eae28"
         blockTimestamp:
           type: integer
         transactionHash:
           type: string
-          example: "0x36ef79e6c460e6ae251908be13116ff0065960adb1ae032b4cc65a8352f28952"
+          examples:
+            - "0x36ef79e6c460e6ae251908be13116ff0065960adb1ae032b4cc65a8352f28952"
         logIndex:
           type: integer
         txIndex:
@@ -1873,7 +1958,8 @@ components:
           format: uint64
         name:
           type: string
-          example: "neynar"
+          examples:
+            - "neynar"
         owner:
           pattern: ^0x[0-9a-fA-F]{40}$
           type: string
