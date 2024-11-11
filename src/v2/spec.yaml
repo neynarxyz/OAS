@@ -4016,6 +4016,8 @@ tags:
     description: Operations related to a block
   - name: Ban
     description: Operations related to a ban
+  - name: STP
+    description: Operations related to a STP
 
 paths:
   /farcaster/user/fid:
