@@ -892,7 +892,6 @@ components:
             serialized:
               type: string
               description: State for the frame in a serialized format
-
     SubscriptionTier:
       type: object
       properties:
@@ -3881,6 +3880,32 @@ components:
               description: |
                 The payload of the action being performed.
               type: object
+    SubscriptionCheckResponse:
+      type: object
+      additionalProperties:
+        $ref: "#/components/schemas/SubscriptionStatus"
+      examples:
+        - summary: Active subscription example
+          value:
+            "0xedd3783e8c7c52b80cfbd026a63c207edc9cbee7":
+              object: "subscribed_to_dehydrated"
+              status: true
+              expires_at: 1748890497000
+              subscribed_at: 1719256819704
+              tier:
+                id: 1
+                price:
+                  period_duration_seconds: 2592000
+                  tokens_per_period: "3499999997472000"
+                  initial_mint_price: "0"
+        - summary: Inactive subscription example
+          value:
+            "0x5a927ac639636e534b678e81768ca19e2c6280b7":
+              object: "subscribed_to_dehydrated"
+              status: false
+              expires_at: null
+              subscribed_at: null
+              tier: null
 
   responses:
     401Response:
@@ -7975,6 +8000,46 @@ paths:
               schema:
                 type: object
                 additionalProperties: true
+  /stp/subscription_check:
+    get:
+      tags:
+        - STP
+      summary: Subscription check by wallet address
+      description: Check if a wallet address is subscribed to a given STP contract.
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-subscription-check
+      operationId: fetch-subscription-check
+      parameters:
+        - name: addresses
+          description: Comma separated list of Ethereum addresses, up to 350 at a time
+          in: query
+          required: true
+          example: 0xedd3783e8c7c52b80cfbd026a63c207edc9cbee7,0x5a927ac639636e534b678e81768ca19e2c6280b7
+          schema:
+            type: string
+        - name: contract_address
+          description: Ethereum address of the STP contract
+          in: query
+          required: true
+          example: "0x76ad4cb9ac51c09f4d9c2cadcea75c9fa9074e5b"
+          schema:
+            type: string
+        - name: chain_id
+          description: Chain ID of the STP contract
+          in: query
+          required: true
+          example: "8453"
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SubscriptionCheckResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
 
   # /farcaster/webhook/subscription:
   #   get:
