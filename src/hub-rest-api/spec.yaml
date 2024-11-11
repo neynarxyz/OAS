@@ -211,8 +211,8 @@ paths:
       summary: By FID or cast
       externalDocs:
         description: "Lookup a reaction by its FID or cast"
-        url: https://docs.neynar.com/reference/lookup-reaction
-      operationId: lookup-reaction
+        url: https://docs.neynar.com/reference/lookup-reaction-by-id
+      operationId: lookup-reaction-by-id
       parameters:
         - name: fid
           in: query
@@ -355,7 +355,10 @@ paths:
     get:
       tags:
         - Reactions
-      operationId: ListReactionsByTarget
+      externalDocs:
+        description: "Fetch reactions by a target URL"
+        url: https://docs.neynar.com/reference/fetch-reactions-by-target
+      operationId: fetch-reactions-by-target
       summary: To a target URL
       parameters:
         - name: url
@@ -584,7 +587,7 @@ paths:
   /v1/fids:
     get:
       tags:
-        - FIDs
+        - Fids
       externalDocs:
         description: "Fetch a list of all the FIDs"
         url: https://docs.neynar.com/reference/fetch-fids
