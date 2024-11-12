@@ -4017,7 +4017,7 @@ tags:
     description: Operations related to a block
   - name: Ban
     description: Operations related to a ban
-  - name: STP
+  - name: Stp
     description: Operations related to a STP
 
 paths:
@@ -8006,7 +8006,7 @@ paths:
   /stp/subscription_check:
     get:
       tags:
-        - STP
+        - Stp
       summary: Subscription check by wallet address
       description: Check if a wallet address is subscribed to a given STP contract.
       externalDocs:
