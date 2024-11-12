@@ -29,7 +29,7 @@ jobs:
           yarn install
 
           # Update OAS submodule
-          git submodule update --remote src/oas
+          git submodule update --remote oas
 
           # Set Git config
           git config user.name "GitHub Actions"
@@ -39,7 +39,7 @@ jobs:
           # Install yq for YAML parsing
           sudo wget -O /usr/bin/yq https://github.com/mikefarah/yq/releases/download/v4.24.5/yq_linux_amd64
           sudo chmod +x /usr/bin/yq
-          SDK_VERSION=$(yq e '.info."x-sdk-version"' src/oas/src/v2/spec.yaml)
+          SDK_VERSION=$(yq e '.info."x-sdk-version"' oas/src/v2/spec.yaml)
           echo "SDK Version: $SDK_VERSION"
 
           # Check if SDK_VERSION is empty
