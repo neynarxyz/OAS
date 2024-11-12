@@ -27,6 +27,7 @@ components:
         type: boolean
         default: false
       description: "Enables experimental features"
+      x-is-global-header: true
 
   schemas:
     Address:
