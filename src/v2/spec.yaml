@@ -1460,6 +1460,103 @@ components:
               description: Score that represents the probability that the account is not spam.
         viewer_context:
           $ref: "#/components/schemas/UserViewerContext"
+    TokenBalance:
+      type: object
+      description: The token balance associated with a wallet address and a network
+      required:
+        - object
+        - token
+        - balance
+      properties:
+        object:
+          type: string
+          enum:
+            - token_balance
+        token:
+          type: object
+          required:
+            - object
+            - name
+            - symbol
+          properties:
+            object:
+              type: string
+              enum:
+                - token
+            name:
+              type: string
+              description: The token name e.g. "Ethereum"
+            symbol:
+              type: string
+              description: The token symbol e.g. "ETH"
+            address:
+              type: string
+              description: The contract address of the token (omitted for native token)
+            decimals:
+              type: integer
+              description: The number of decimals the token uses
+        balance:
+          type: object
+          required:
+            - in_token
+            - in_usdc
+          properties:
+            in_token:
+              type: string
+              description: The balance in the token
+            in_usdc:
+              type: string
+              description: The balance in USDC
+    AddressBalance:
+      type: object
+      description: The token balances associated with a wallet address
+      required:
+        - object
+        - verified_address
+        - token_balances
+      properties:
+        object:
+          type: string
+          enum:
+            - address_balance
+        verified_address:
+          type: object
+          required:
+            - address
+            - network
+          properties:
+            address:
+              type: string
+              description: The wallet address
+            network:
+              type: string
+              description: A blockchain network e.g. "base-mainnet"
+              enum:
+                - 'base-mainnet'
+        token_balances:
+          type: array
+          items:
+            $ref: "#/components/schemas/TokenBalance"
+    BalanceResponse:
+      type: object
+      properties:
+        user_balance:
+          type: object
+          required:
+            - object
+            - user
+            - address_balances
+          properties:
+            object:
+              type: string
+              enum:
+                - user_balance
+            user:
+              $ref: "#/components/schemas/UserDehydrated"
+            address_balances:
+              type: array
+              items:
+                $ref: "#/components/schemas/AddressBalance"
     Embed:
       oneOf:
         - $ref: "#/components/schemas/EmbedUrl"
@@ -6118,6 +6215,36 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/UsersResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
+        "500":
+          $ref: "#/components/responses/500Response"
+  /farcaster/user/balance:
+    get:
+      tags:
+        - User
+      summary: "Token balance"
+      description: "Fetches the token balances of a user given their FID"
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-user-balance
+      operationId: fetch-user-balance
+      parameters:
+        - name: fid
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/Fid"
+          example: 3
+          description: FID of the user to fetch
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BalanceResponse"
         "400":
           $ref: "#/components/responses/400Response"
         "404":
