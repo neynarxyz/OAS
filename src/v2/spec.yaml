@@ -1509,9 +1509,9 @@ components:
               description: The balance in USDC
     Networks:
       type: string
-      description: A blockchain network e.g. "base-mainnet"
+      description: A blockchain network e.g. "base"
       enum:
-        - 'base-mainnet'
+        - 'base'
     AddressBalance:
       type: object
       description: The token balances associated with a wallet address
@@ -6267,7 +6267,7 @@ paths:
             items:
               $ref: "#/components/schemas/Networks"
           explode: false
-          description: Comma separated list of networks to fetch balances for. Currently, only "base-mainnet" is supported.
+          description: Comma separated list of networks to fetch balances for. Currently, only "base" is supported.
       responses:
         "200":
           description: Successful operation.
