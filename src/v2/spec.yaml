@@ -3639,6 +3639,11 @@ components:
       type: string
       enum:
         - code
+    BulkUserAddressType:
+      type: string
+      enum:
+        - custody_address
+        - verified_address
     RespondChannelInviteReqBody:
       type: object
       required:
@@ -3882,6 +3887,20 @@ components:
               description: |
                 The payload of the action being performed.
               type: object
+    ValidateFrameAggregateWindow:
+      type: string
+      enum:
+        - "10s"
+        - "1m"
+        - "2m"
+        - "5m"
+        - "10m"
+        - "20m"
+        - "30m"
+        - "2h"
+        - "12h"
+        - "1d"
+        - "7d"
     SubscriptionCheckResponse:
       type: object
       additionalProperties:
@@ -4366,10 +4385,10 @@ paths:
             Customize which address types the request should search for. This is a comma-separated string that can include the following values: 'custody_address' and 'verified_address'. By default api returns both. To select multiple types, use a comma-separated list of these values.
           required: false
           schema:
-            type: string
-            pattern: "^(custody_address,?|verified_address,?)+$"
-            x-comma-separated: true
-          example: "custody_address,verified_address"
+            type: array
+            items:
+              $ref: "#/components/schemas/BulkUserAddressType"
+          explode: false
         - name: viewer_fid
           in: query
           required: false
@@ -6312,19 +6331,7 @@ paths:
           required: false
           description: Required for `analytics_type=interactions-per-cast`
           schema:
-            type: string
-            enum:
-              - "10s"
-              - "1m"
-              - "2m"
-              - "5m"
-              - "10m"
-              - "20m"
-              - "30m"
-              - "2h"
-              - "12h"
-              - "1d"
-              - "7d"
+            $ref: "#/components/schemas/ValidateFrameAggregateWindow"
       responses:
         "200":
           description: Successful response
@@ -6362,9 +6369,10 @@ paths:
           required: false
           description: Notification type to fetch. Comma separated values of follows, recasts, likes, mentions, replies.
           schema:
-            type: string
-            pattern: "^(follows,?|recasts,?|likes,?|mentions,?|replies,?)+$"
-            x-comma-separated: true
+            type: array
+            items:
+              $ref: "#/components/schemas/NotificationType"
+          explode: false
         - name: priority_mode
           in: query
           required: false
@@ -7354,10 +7362,10 @@ paths:
             Customize which reaction types the request should search for. This is a comma-separated string that can include the following values: 'likes' and 'recasts'. By default api returns both. To select multiple types, use a comma-separated list of these values.
           required: true
           schema:
-            type: string
-            pattern: "^(likes,?|recasts,?|all,?)+$"
-            x-comma-separated: true
-          example: "likes,recasts"
+            type: array
+            items:
+              $ref: "#/components/schemas/ReactionsType"
+          explode: false
         - name: viewer_fid
           in: query
           required: false
