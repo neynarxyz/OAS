@@ -1507,6 +1507,11 @@ components:
             in_usdc:
               type: string
               description: The balance in USDC
+    Networks:
+      type: string
+      description: A blockchain network e.g. "base-mainnet"
+      enum:
+        - 'base-mainnet'
     AddressBalance:
       type: object
       description: The token balances associated with a wallet address
@@ -1529,10 +1534,7 @@ components:
               type: string
               description: The wallet address
             network:
-              type: string
-              description: A blockchain network e.g. "base-mainnet"
-              enum:
-                - 'base-mainnet'
+              $ref: "#/components/schemas/Networks"
         token_balances:
           type: array
           items:
@@ -6238,6 +6240,15 @@ paths:
             $ref: "#/components/schemas/Fid"
           example: 3
           description: FID of the user to fetch
+        - name: networks
+          in: query
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/Networks"
+          explode: false
+          description: Comma separated list of networks to fetch balances for. Currently, only "base-mainnet" is supported.
       responses:
         "200":
           description: Successful operation.
