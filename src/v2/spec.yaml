@@ -4136,8 +4136,8 @@ tags:
     description: Operations related to a block
   - name: Ban
     description: Operations related to a ban
-  - name: Stp
-    description: Operations related to a STP
+  - name: Onchain
+    description: Operations related to onchain data
 
 paths:
   /farcaster/user/fid:
@@ -5515,7 +5515,7 @@ paths:
           $ref: "#/components/responses/400Response"
   /farcaster/feed/trending:
     get:
-      summary: Trending casts
+      summary: Trending feeds
       externalDocs:
         url: https://docs.neynar.com/reference/fetch-trending-feed
       operationId: fetch-trending-feed
@@ -6245,7 +6245,7 @@ paths:
   /farcaster/user/balance:
     get:
       tags:
-        - User
+        - Onchain
       summary: "Token balance"
       description: "Fetches the token balances of a user given their FID"
       externalDocs:
@@ -8153,7 +8153,7 @@ paths:
   /stp/subscription_check:
     get:
       tags:
-        - Stp
+        - Onchain
       summary: Subscription check by wallet address
       description: Check if a wallet address is subscribed to a given STP contract.
       externalDocs:
