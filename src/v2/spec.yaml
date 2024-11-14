@@ -8153,9 +8153,9 @@ paths:
   /stp/subscription_check:
     get:
       tags:
-        - Onchain
-      summary: Subscription check by wallet address
-      description: Check if a wallet address is subscribed to a given STP contract.
+        - Subscribers
+      summary: Hypersub subscription check
+      description: Check if a wallet address is subscribed to a given STP (Hypersub) contract.
       externalDocs:
         url: https://docs.neynar.com/reference/fetch-subscription-check
       operationId: fetch-subscription-check
