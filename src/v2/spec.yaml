@@ -4467,8 +4467,8 @@ paths:
 
         You can pass in Ethereum and Solana addresses, comma separated, in the same request. The response will contain users associated with the given addresses.
       externalDocs:
-        url: https://docs.neynar.com/reference/fetch-bulk-users-by-ethereum-or-sol-address
-      operationId: fetch-bulk-users-by-ethereum-or-sol-address
+        url: https://docs.neynar.com/reference/fetch-bulk-users-by-eth-or-sol-address
+      operationId: fetch-bulk-users-by-eth-or-sol-address
       parameters:
         - name: addresses
           description: Comma separated list of Ethereum addresses, up to 350 at a time
