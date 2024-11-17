@@ -8167,6 +8167,7 @@ paths:
           example: 0xedd3783e8c7c52b80cfbd026a63c207edc9cbee7,0x5a927ac639636e534b678e81768ca19e2c6280b7
           schema:
             type: string
+            x-comma-separated: true
         - name: contract_address
           description: Ethereum address of the STP contract
           in: query
