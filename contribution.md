@@ -104,8 +104,6 @@ This document outlines important guidelines and gotchas to consider when contrib
     - HubEvents
   ```
 
-```
-
 ### 10. Use `snake_case` for Top-Level Keys in `reqBody`
 
 - Ensure all top-level keys in `reqBody` are in `snake_case`.
