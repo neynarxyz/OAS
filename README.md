@@ -1,6 +1,7 @@
 # OAS
 
 ### Overview
+[![Validate and Lint OpenAPI Specs](https://github.com/neynarxyz/OAS/actions/workflows/validate-oas.yml/badge.svg)](https://github.com/neynarxyz/OAS/actions/workflows/validate-oas.yml)
 
 The OpenAPI specification for the [Neynar](https://neynar.com) [APIs](https://docs.neynar.com). 
 Sign up for an API key on [neynar.com](https://neynar.com).
