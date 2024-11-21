@@ -1,51 +1,35 @@
 # OAS
 
-The OpenAPI specification for the [Neynar](https://neynar.com) [APIs](https://docs.neynar.com)
+### Overview
 
-### Installation
+The OpenAPI specification for the [Neynar](https://neynar.com) [APIs](https://docs.neynar.com). 
+Sign up for an API key on [neynar.com](https://neynar.com).
 
-Prerequisite
-
-- JAVA must be installed
-
-replace \<generator\> with a [desired generator](https://openapi-generator.tech/docs/generators).
+###  Installing client code generator
 
 ```
 brew install openapi-generator
 ```
+Prerequisite - [Java](https://www.java.com/) must be installed
 
-// v1
+### Generating typescript client code using the OAS definitions
 
-```
-openapi-generator generate -i src/v1/spec.yaml -g typescript-axios -o src/v1/swagger-tmp --config openapi-generator-config.json
-```
-
-// v2
+#### v1
 
 ```
-openapi-generator generate -i src/v2/spec.yaml -g typescript-axios -o src/v2/swagger-tmp --config openapi-generator-config.json
+openapi-generator generate -i src/v1/spec.yaml -g typescript-axios -o src/v1/swagger-tmp
 ```
 
-// stp
+#### v2
 
 ```
-openapi-generator generate -i src/v2/stp/spec.yaml -g typescript-axios -o src/v2/swagger-tmp --config openapi-generator-config.json
+openapi-generator generate -i src/v2/spec.yaml -g typescript-axios -o src/v2/swagger-tmp
 ```
 
-// hub-rest-api
+#### hub-rest-api
 
 ```
-openapi-generator generate -i src/hub-rest-api/spec.yaml -g typescript-axios -o src/hub-rest-api/swagger-tmp --config openapi-generator-config.json
+openapi-generator generate -i src/hub-rest-api/spec.yaml -g typescript-axios -o src/hub-rest-api/swagger-tmp
 ```
 
-### API Documentation
-
-[docs.neynar.com](https://docs.neynar.com/)
-
-### Clients library that use this specs
-
-[farcaster-js](https://github.com/standard-crypto/farcaster-js/)
-
-### How to get an API key?
-
-Get more information at [neynar.com](https://neynar.com/)
+For other languages, replace \<generator\> with a [desired generator](https://openapi-generator.tech/docs/generators)
