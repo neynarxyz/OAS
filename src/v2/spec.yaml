@@ -189,13 +189,6 @@ components:
     Timestamp:
       type: string
       format: date-time
-    IndividualHashObj:
-      type: object
-      properties:
-        hash:
-          type: string
-      required:
-        - hash
     EmbedUrl:
       type: object
       required:

@@ -642,57 +642,6 @@ components:
             custodyAddress:
               type: string
               nullable: true
-    CastLikesResponse:
-      type: object
-      required:
-        - result
-      properties:
-        result:
-          type: object
-          required:
-            - likes
-            - next
-          properties:
-            likes:
-              type: array
-              items:
-                $ref: "#/components/schemas/Reaction"
-            next:
-              $ref: "#/components/schemas/NextCursor"
-    CastReactionsResponse:
-      type: object
-      required:
-        - result
-      properties:
-        result:
-          type: object
-          required:
-            - casts
-            - next
-          properties:
-            casts:
-              type: array
-              items:
-                $ref: "#/components/schemas/Reaction"
-            next:
-              $ref: "#/components/schemas/NextCursor"
-    CastRecasterResponse:
-      type: object
-      required:
-        - result
-      properties:
-        result:
-          type: object
-          required:
-            - users
-            - next
-          properties:
-            users:
-              type: array
-              items:
-                $ref: "#/components/schemas/Recaster"
-            next:
-              $ref: "#/components/schemas/NextCursor"
     FollowResponseUser:
       allOf:
         - $ref: "#/components/schemas/User"
