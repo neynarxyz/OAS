@@ -147,54 +147,6 @@ components:
             $ref: "#/components/schemas/Address"
         viewerContext:
           $ref: "#/components/schemas/ViewerContext"
-    Reactor:
-      type: object
-      required:
-        - fid
-        - username
-        - displayName
-        - pfp
-        - followerCount
-        - followingCount
-      properties:
-        fid:
-          type: integer
-          format: int32
-          description: The unique identifier of the reactor.
-        username:
-          type: string
-          description: The username of the reactor.
-        displayName:
-          type: string
-          description: The display name of the reactor.
-        pfp:
-          type: object
-          required:
-            - url
-          properties:
-            url:
-              type: string
-              description: The URL of the reactor's profile picture.
-        followerCount:
-          type: integer
-          format: int32
-          description: The number of followers the reactor has.
-        followingCount:
-          type: integer
-          format: int32
-          description: The number of users the reactor is following.
-        viewerContext:
-          type: object
-          required:
-            - following
-            - followedBy
-          properties:
-            following:
-              type: boolean
-              description: Indicates if the viewer is following the reactor.
-            followedBy:
-              type: boolean
-              description: Indicates if the reactor is followed by the viewer.
     EmbedUrl:
       type: object
       required:

@@ -1933,6 +1933,8 @@ components:
           $ref: "#/components/schemas/SignerUUID"
         address:
           $ref: "#/components/schemas/Address"
+        block_hash:
+          type: string
     UpdateUserReqBody:
       type: object
       required:
@@ -2252,15 +2254,6 @@ components:
             $ref: "#/components/schemas/User"
         viewer_context:
           $ref: "#/components/schemas/ChannelUserContext"
-    ChannelViewerContext:
-      deprecated: true
-      type: object
-      required:
-        - following
-      properties:
-        following:
-          type: boolean
-          description: Indicates if the viewer is following the channel.
     ChannelUserContext:
       description: Adds context on the viewer's or author's role in the channel.
       type: object
@@ -5528,7 +5521,7 @@ paths:
         - name: limit
           in: query
           description: Number of results to fetch
-          example: 30
+          example: 10
           schema:
             type: integer
             default: 10
@@ -6037,6 +6030,8 @@ paths:
             example:
               signer_uuid: 19d0c5fd-9b33-4a48-a0e2-bc7b0555baec
               address: "0x1ea99cbed57e4020314ba3fadd7c692d2de34d5f"
+              block_hash: "0x191905a9201170abb55f4c90a4cc968b44c1b71cdf3db2764b775c93e7e22b29"
+              eth_signature: "0x2fc09da1f4dcb723fefb91f77932c249c418c0af00c66ed92ee1f35002c80d6a1145280c9f361d207d28447f8f7463366840d3a9309036cf6954afd1fd331beb1"
       responses:
         "200":
           description: Successful operation.
@@ -7134,7 +7129,7 @@ paths:
             $ref: "#/components/schemas/Fid"
         - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
-        200:
+        "200":
           description: Successful response
           content:
             application/json:
@@ -7315,7 +7310,7 @@ paths:
             $ref: "#/components/schemas/Fid"
         - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
-        200:
+        "200":
           description: Successful response
           content:
             application/json:
@@ -8145,6 +8140,13 @@ paths:
             schema:
               $ref: "#/components/schemas/FarcasterActionReqBody"
       responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
         "default":
           description: Any possible response
           content:
