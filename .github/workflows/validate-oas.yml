@@ -46,7 +46,7 @@ jobs:
         run: |
           echo "$SPEC_FILES" | tr ' ' '\n' | while read file; do
             echo "Linting $file"
-            spectral lint --ruleset oas3_1 "$file"
+            spectral lint "$file"
           done
         env:
           SPEC_FILES: ${{ steps.find_specs.outputs.spec_files }}
