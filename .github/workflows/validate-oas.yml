@@ -1,0 +1,52 @@
+name: Validate and Lint OpenAPI Specs
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  validate-and-lint:
+    name: Validate and Lint OpenAPI Specs
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set Up Node.js Environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Install Validation Tools
+        run: |
+          npm install -g @apidevtools/swagger-cli @stoplight/spectral
+
+      - name: Find OpenAPI Spec Files
+        id: find_specs
+        run: |
+          echo "##[group]Searching for OpenAPI spec files"
+          SPEC_FILES=$(find src -type f \( -name "*.yaml" -o -name "*.yml" -o -name "*.json" \))
+          echo "Found the following spec files:"
+          echo "$SPEC_FILES"
+          echo "::set-output name=spec_files::$SPEC_FILES"
+          echo "##[endgroup]"
+
+      - name: Validate OpenAPI Spec Files
+        run: |
+          echo "$SPEC_FILES" | tr ' ' '\n' | while read file; do
+            echo "Validating $file"
+            swagger-cli validate "$file"
+          done
+        env:
+          SPEC_FILES: ${{ steps.find_specs.outputs.spec_files }}
+
+      - name: Lint OpenAPI Spec Files
+        run: |
+          echo "$SPEC_FILES" | tr ' ' '\n' | while read file; do
+            echo "Linting $file"
+            spectral lint "$file"
+          done
+        env:
+          SPEC_FILES: ${{ steps.find_specs.outputs.spec_files }}
