@@ -1,15 +1,45 @@
 openapi: 3.1.0
 info:
-  title: Farcaster Hub API
+  title: Neynar's Farcaster Hub API
   version: "1.0"
   description: >
     Perform basic queries of Farcaster state via the REST API of a Farcaster hub.
-    See the [Farcaster docs](https://www.thehubble.xyz/docs/httpapi/httpapi.html) for more details.
+    See the [Neynar docs](https://docs.neynar.com/reference) for more details.
+  contact:
+    name: Neynar
+    url: https://neynar.com/
+    email: team@neynar.com
 servers:
   - url: https://hub-api.neynar.com
 
 security:
   - ApiKeyAuth: []
+
+tags:
+  - name: Info
+    description: Operations related to hub information.
+  - name: Casts
+    description: Operations related to casts.
+  - name: Reactions
+    description: Operations related to reactions.
+  - name: Links
+    description: Operations related to links.
+  - name: UserData
+    description: Operations related to user data.
+  - name: Fids
+    description: Operations related to FIDs.
+  - name: Storage
+    description: Operations related to storage limits.
+  - name: Usernames
+    description: Operations related to usernames.
+  - name: Verifications
+    description: Operations related to verifications.
+  - name: OnChainEvents
+    description: Operations related to on-chain events.
+  - name: Message
+    description: Operations related to messages.
+  - name: HubEvents
+    description: Operations related to hub events.
 
 paths:
   /v1/info:
@@ -17,6 +47,7 @@ paths:
       tags:
         - Info
       summary: Sync Methods
+      description: Retrieve hub information.
       externalDocs:
         description: "Farcaster Hub API"
         url: https://docs.neynar.com/reference/lookup-hub-info
@@ -29,7 +60,7 @@ paths:
           schema:
             type: boolean
       responses:
-        200:
+        '200':
           description: A successful response.
           content:
             application/json:
@@ -42,6 +73,7 @@ paths:
       tags:
         - Casts
       summary: By FID and Hash
+      description: Lookup a cast by its FID and hash.
       externalDocs:
         description: "Lookup a cast by its FID and hash"
         url: https://docs.neynar.com/reference/lookup-cast-by-hash-and-fid
@@ -63,7 +95,7 @@ paths:
             type: string
           example: "0x03aff391a6eb1772b20b4ead9a89f732be75fe27"
       responses:
-        200:
+        '200':
           description: The requested Cast.
           content:
             application/json:
@@ -76,6 +108,7 @@ paths:
       tags:
         - Casts
       summary: By FID
+      description: Fetch user's casts.
       externalDocs:
         description: "Fetch user's casts"
         url: https://docs.neynar.com/reference/fetch-users-casts
@@ -92,7 +125,7 @@ paths:
         - $ref: "#/components/parameters/paginationReverse"
         - $ref: "#/components/parameters/pageToken"
       responses:
-        200:
+        '200':
           description: The requested Casts.
           content:
             application/json:
@@ -117,6 +150,7 @@ paths:
       tags:
         - Casts
       summary: Mentioning an FID
+      description: Fetch casts mentioning a user.
       externalDocs:
         description: "Fetch casts mentioning a user"
         url: https://docs.neynar.com/reference/fetch-casts-mentioning-user
@@ -133,7 +167,7 @@ paths:
         - $ref: "#/components/parameters/paginationReverse"
         - $ref: "#/components/parameters/pageToken"
       responses:
-        200:
+        '200':
           description: The requested Casts.
           content:
             application/json:
@@ -158,6 +192,7 @@ paths:
       tags:
         - Casts
       summary: By parent cast
+      description: Fetch casts by parent.
       externalDocs:
         description: "Fetch casts by parent"
         url: https://docs.neynar.com/reference/fetch-casts-by-parent
@@ -184,7 +219,7 @@ paths:
         - $ref: "#/components/parameters/paginationReverse"
         - $ref: "#/components/parameters/pageToken"
       responses:
-        200:
+        '200':
           description: The requested Casts.
           content:
             application/json:
@@ -209,6 +244,7 @@ paths:
       tags:
         - Reactions
       summary: By FID or cast
+      description: Lookup a reaction by its FID or cast.
       externalDocs:
         description: "Lookup a reaction by its FID or cast"
         url: https://docs.neynar.com/reference/lookup-reaction-by-id
@@ -242,7 +278,7 @@ paths:
             $ref: "#/components/schemas/ReactionType"
           required: true
       responses:
-        200:
+        '200':
           description: The requested Reaction.
           content:
             application/json:
@@ -255,6 +291,7 @@ paths:
       tags:
         - Reactions
       summary: On cast
+      description: Fetch reactions on a cast.
       externalDocs:
         description: "Fetch reactions on a cast"
         url: https://docs.neynar.com/reference/fetch-cast-reactions
@@ -284,7 +321,7 @@ paths:
         - $ref: "#/components/parameters/paginationReverse"
         - $ref: "#/components/parameters/pageToken"
       responses:
-        200:
+        '200':
           description: The requested Reactions.
           content:
             application/json:
@@ -309,6 +346,7 @@ paths:
       tags:
         - Reactions
       summary: By FID
+      description: Fetch reactions by a user.
       externalDocs:
         description: "Fetch reactions by a user"
         url: https://docs.neynar.com/reference/fetch-user-reactions
@@ -331,7 +369,7 @@ paths:
         - $ref: "#/components/parameters/paginationReverse"
         - $ref: "#/components/parameters/pageToken"
       responses:
-        200:
+        '200':
           description: The requested Reactions.
           content:
             application/json:
@@ -355,11 +393,12 @@ paths:
     get:
       tags:
         - Reactions
+      summary: To a target URL
+      description: Fetch reactions by a target URL.
       externalDocs:
         description: "Fetch reactions by a target URL"
         url: https://docs.neynar.com/reference/fetch-reactions-by-target
       operationId: fetch-reactions-by-target
-      summary: To a target URL
       parameters:
         - name: url
           in: query
@@ -378,7 +417,7 @@ paths:
         - $ref: "#/components/parameters/paginationReverse"
         - $ref: "#/components/parameters/pageToken"
       responses:
-        200:
+        '200':
           description: The requested Reactions.
           content:
             application/json:
@@ -402,7 +441,8 @@ paths:
     get:
       tags:
         - Links
-      summary: By its FID and target FID.
+      summary: By its FID and target FID
+      description: Lookup a link by its FID and target FID.
       externalDocs:
         description: "Lookup a link by its FID and target FID"
         url: https://docs.neynar.com/reference/lookup-user-relation
@@ -429,7 +469,7 @@ paths:
           schema:
             $ref: "#/components/schemas/LinkType"
       responses:
-        200:
+        '200':
           description: The requested Link.
           content:
             application/json:
@@ -442,6 +482,7 @@ paths:
       tags:
         - Links
       summary: From source FID
+      description: Fetch a list of users that a user is following.
       externalDocs:
         description: "Fetch a list of users that a user is following"
         url: https://docs.neynar.com/reference/fetch-user-following
@@ -464,7 +505,7 @@ paths:
         - $ref: "#/components/parameters/paginationReverse"
         - $ref: "#/components/parameters/pageToken"
       responses:
-        200:
+        '200':
           description: The requested Links.
           content:
             application/json:
@@ -489,6 +530,7 @@ paths:
       tags:
         - Links
       summary: To target FID
+      description: Fetch a list of users that are following a user.
       externalDocs:
         description: "Fetch a list of users that are following a user"
         url: https://docs.neynar.com/reference/fetch-user-followers
@@ -511,7 +553,7 @@ paths:
         - $ref: "#/components/parameters/paginationReverse"
         - $ref: "#/components/parameters/pageToken"
       responses:
-        200:
+        '200':
           description: The requested Links.
           content:
             application/json:
@@ -535,11 +577,8 @@ paths:
     get:
       tags:
         - UserData
-      summary: Fetch UserData for a FID.
-      description: "**Note:** one of two different response schemas is returned
-        based on whether the caller provides the `user_data_type` parameter. If included, a single
-        `UserDataAdd` message is returned (or a `not_found` error). If omitted, a paginated list
-        of `UserDataAdd` messages is returned instead"
+      summary: Fetch UserData for a FID
+      description: "**Note:** one of two different response schemas is returned based on whether the caller provides the `user_data_type` parameter. If included, a single `UserDataAdd` message is returned (or a `not_found` error). If omitted, a paginated list of `UserDataAdd` messages is returned instead."
       externalDocs:
         description: "Fetch user data for a user"
         url: https://docs.neynar.com/reference/fetch-user-data
@@ -562,7 +601,7 @@ paths:
         - $ref: "#/components/parameters/paginationReverse"
         - $ref: "#/components/parameters/pageToken"
       responses:
-        200:
+        '200':
           description: The requested UserData.
           content:
             application/json:
@@ -588,17 +627,18 @@ paths:
     get:
       tags:
         - Fids
+      summary: Fetch a list of all the FIDs
+      description: Fetch a list of all the FIDs.
       externalDocs:
         description: "Fetch a list of all the FIDs"
         url: https://docs.neynar.com/reference/fetch-fids
       operationId: fetch-fids
-      summary: Fetch a list of all the FIDs
       parameters:
         - $ref: "#/components/parameters/pageSize"
         - $ref: "#/components/parameters/paginationReverse"
         - $ref: "#/components/parameters/pageToken"
       responses:
-        200:
+        '200':
           description: A successful response.
           content:
             application/json:
@@ -610,11 +650,12 @@ paths:
     get:
       tags:
         - Storage
+      summary: FID's limits
+      description: Fetch a user's storage limits.
       externalDocs:
         description: "Fetch a user's storage limits"
         url: https://docs.neynar.com/reference/lookup-user-storage-limit
       operationId: lookup-user-storage-limit
-      summary: FID's limits
       parameters:
         - name: fid
           in: query
@@ -623,7 +664,7 @@ paths:
             type: integer
           example: 3
       responses:
-        200:
+        '200':
           description: A successful response.
           content:
             application/json:
@@ -636,11 +677,12 @@ paths:
     get:
       tags:
         - Usernames
+      summary: Proofs provided by an FID
+      description: Fetch proofs provided by a user.
       externalDocs:
         description: "Fetch proofs provided by a user"
         url: https://docs.neynar.com/reference/fetch-username-proofs-by-fid
       operationId: fetch-username-proofs-by-fid
-      summary: Proofs provided by an FID
       parameters:
         - name: fid
           in: query
@@ -650,7 +692,7 @@ paths:
           description: The FID being requested
           example: 616
       responses:
-        200:
+        '200':
           description: A successful response.
           content:
             application/json:
@@ -663,6 +705,7 @@ paths:
       tags:
         - Usernames
       summary: Proof for a username
+      description: Fetch a proof for a username.
       externalDocs:
         description: "Fetch a proof for a username"
         url: https://docs.neynar.com/reference/fetch-username-proof-by-name
@@ -680,7 +723,7 @@ paths:
             "ENS address":
               value: "dwr.eth"
       responses:
-        200:
+        '200':
           description: A successful response.
           content:
             application/json:
@@ -692,11 +735,12 @@ paths:
     get:
       tags:
         - Verifications
+      summary: Provided by an FID
+      description: Fetch verifications provided by a user.
       externalDocs:
         description: "Fetch verifications provided by a user"
         url: https://docs.neynar.com/reference/fetch-verifications-by-fid
       operationId: fetch-verifications-by-fid
-      summary: Provided by an FID
       parameters:
         - name: fid
           in: query
@@ -715,8 +759,8 @@ paths:
         - $ref: "#/components/parameters/paginationReverse"
         - $ref: "#/components/parameters/pageToken"
       responses:
-        200:
-          description: The requested Reactions.
+        '200':
+          description: The requested Verifications.
           content:
             application/json:
               schema:
@@ -740,9 +784,10 @@ paths:
     get:
       tags:
         - OnChainEvents
-      summary: Fetch an on chain ID Registry Event for a given Address
+      summary: Fetch an on-chain ID Registry Event for a given Address
+      description: Fetch an on-chain ID Registry Event for a given Address.
       externalDocs:
-        description: "Fetch an on chain ID Registry Event for a given Address"
+        description: "Fetch an on-chain ID Registry Event for a given Address"
         url: https://docs.neynar.com/reference/lookup-on-chain-id-registry-event-by-address
       operationId: lookup-on-chain-id-registry-event-by-address
       parameters:
@@ -755,7 +800,7 @@ paths:
           description: The ETH address being requested
           example: "0x6b0bda3f2ffed5efc83fa8c024acff1dd45793f1"
       responses:
-        200:
+        '200':
           description: A successful response.
           content:
             application/json:
@@ -768,6 +813,7 @@ paths:
       tags:
         - OnChainEvents
       summary: Fetch a list of on-chain events provided by an FID
+      description: Fetch on-chain events provided by a user.
       externalDocs:
         description: "Fetch on-chain events provided by a user"
         url: https://docs.neynar.com/reference/fetch-user-on-chain-events
@@ -784,10 +830,10 @@ paths:
           in: query
           schema:
             $ref: "#/components/schemas/OnChainEventType"
-          description: The numeric of string value of the event type being requested.
+          description: The numeric or string value of the event type being requested
           required: true
       responses:
-        200:
+        '200':
           description: A successful response.
           content:
             application/json:
@@ -807,10 +853,7 @@ paths:
       tags:
         - OnChainEvents
       summary: Fetch a list of signers provided by an FID
-      description: "**Note:** one of two different response schemas is returned
-        based on whether the caller provides the `signer` parameter. If included, a single
-        `OnChainEventSigner` message is returned (or a `not_found` error). If omitted, a
-        non-paginated list of `OnChainEventSigner` messages is returned instead"
+      description: "**Note:** one of two different response schemas is returned based on whether the caller provides the `signer` parameter. If included, a single `OnChainEventSigner` message is returned (or a `not_found` error). If omitted, a non-paginated list of `OnChainEventSigner` messages is returned instead."
       externalDocs:
         description: "Fetch on-chain signers provided by a user"
         url: https://docs.neynar.com/reference/fetch-user-on-chain-signers
@@ -831,7 +874,7 @@ paths:
           required: false
           example: "0x0852c07b5695ff94138b025e3f9b4788e06133f04e254f0ea0eb85a06e999cdd"
       responses:
-        200:
+        '200':
           description: A successful response.
           content:
             application/json:
@@ -853,15 +896,14 @@ paths:
       tags:
         - Message
       summary: Submit signed message
+      description: Submit a message to the Farcaster network.
       externalDocs:
         description: "Submit a message to the Farcaster network"
         url: https://docs.neynar.com/reference/submit-signed-message
       operationId: publish-message
       requestBody:
-        description:
-          "* \nA Message is a delta operation on the Farcaster network.\
-          \ The message protobuf is an envelope \nthat wraps a MessageData object\
-          \ and contains a hash and signature which can verify its authenticity."
+        description: |
+          A Message is a delta operation on the Farcaster network. The message protobuf is an envelope that wraps a MessageData object and contains a hash and signature which can verify its authenticity.
         content:
           application/octet-stream:
             schema:
@@ -869,7 +911,7 @@ paths:
               format: binary
         required: true
       responses:
-        200:
+        '200':
           description: A successful response.
           content:
             application/json:
@@ -883,15 +925,14 @@ paths:
       tags:
         - Message
       summary: Validate signed message
+      description: Validate a message on the Farcaster network.
       externalDocs:
         description: "Validate a message on the Farcaster network"
         url: https://docs.neynar.com/reference/validate-message
       operationId: validate-message
       requestBody:
-        description:
-          "* \nA Message is a delta operation on the Farcaster network.\
-          \ The message protobuf is an envelope \nthat wraps a MessageData object\
-          \ and contains a hash and signature which can verify its authenticity."
+        description: |
+          A Message is a delta operation on the Farcaster network. The message protobuf is an envelope that wraps a MessageData object and contains a hash and signature which can verify its authenticity.
         content:
           application/octet-stream:
             schema:
@@ -899,7 +940,7 @@ paths:
               format: binary
         required: true
       responses:
-        200:
+        '200':
           description: A successful response.
           content:
             application/json:
@@ -912,24 +953,26 @@ paths:
     get:
       tags:
         - HubEvents
+      summary: Page of events
+      description: Fetch a list of events.
       externalDocs:
         description: "Fetch a list of events"
         url: https://docs.neynar.com/reference/fetch-events
       operationId: fetch-events
-      summary: Page of events
       parameters:
         - name: from_event_id
           in: query
           required: false
           schema:
             type: integer
-          description: "An optional Hub Id to start getting events from.
+          description: |
+            An optional Hub Id to start getting events from.
             This is also returned from the API as nextPageEventId, which
             can be used to page through all the Hub events. Set it to 0
-            to start from the first event"
+            to start from the first event.
           example: 0
       responses:
-        200:
+        '200':
           description: A successful response.
           content:
             application/json:
@@ -951,11 +994,12 @@ paths:
     get:
       tags:
         - HubEvents
+      summary: Event by ID
+      description: Lookup an event by its ID.
       externalDocs:
         description: "Lookup an event by its ID"
         url: https://docs.neynar.com/reference/lookup-event
       operationId: lookup-event
-      summary: Event by ID
       parameters:
         - name: event_id
           in: query
@@ -964,7 +1008,7 @@ paths:
             type: integer
           description: The Hub Id of the event
       responses:
-        200:
+        '200':
           description: A successful response.
           content:
             application/json:
@@ -1067,22 +1111,6 @@ components:
           $ref: "#/components/schemas/CastId"
       required:
         - castId
-    CastRemove:
-      allOf:
-        - $ref: "#/components/schemas/MessageCommon"
-        - type: object
-          properties:
-            data:
-              allOf:
-                - $ref: "#/components/schemas/MessageDataCastRemove"
-                - type: object
-                  properties:
-                    type:
-                      $ref: "#/components/schemas/MessageType"
-                  required:
-                    - type
-          required:
-            - data
     CastId:
       description: "Identifier used to look up a Cast"
       required:
@@ -1099,17 +1127,6 @@ components:
     CastHash:
       pattern: ^0x[0-9a-fA-F]{40}$
       type: string
-    CastRemoveBody:
-      description: "Removes an existing Cast"
-      type: object
-      properties:
-        targetHash:
-          title: Hash of the cast to remove
-          pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
-          type: string
-          format: byte
-      required:
-        - targetHash
     DbStats:
       required:
         - numFidEvents
@@ -1164,8 +1181,8 @@ components:
       description: |-
         Farcaster network the message is intended for.
         - FARCASTER_NETWORK_MAINNET: Public primary network
-         - FARCASTER_NETWORK_TESTNET: Public test network
-         - FARCASTER_NETWORK_DEVNET: Private test network
+        - FARCASTER_NETWORK_TESTNET: Public test network
+        - FARCASTER_NETWORK_DEVNET: Private test network
       default: FARCASTER_NETWORK_MAINNET
       enum:
         - FARCASTER_NETWORK_MAINNET
@@ -1244,6 +1261,38 @@ components:
         - type
         - id
         - mergeMessageBody
+    HubEventMergeOnChainEvent:
+      type: object
+      properties:
+        type:
+          type: string
+          examples:
+            - HUB_EVENT_TYPE_MERGE_ON_CHAIN_EVENT
+        id:
+          type: integer
+          format: uint64
+        mergeOnChainEventBody:
+          $ref: "#/components/schemas/MergeOnChainEventBody"
+      required:
+        - type
+        - id
+        - mergeOnChainEventBody
+    HubEventMergeUsernameProof:
+      type: object
+      properties:
+        type:
+          type: string
+          examples:
+            - HUB_EVENT_TYPE_MERGE_USERNAME_PROOF
+        id:
+          type: integer
+          format: uint64
+        mergeUsernameProofBody:
+          $ref: "#/components/schemas/MergeUserNameProofBody"
+      required:
+        - type
+        - id
+        - mergeUsernameProofBody
     HubEventPruneMessage:
       type: object
       properties:
@@ -1276,38 +1325,6 @@ components:
         - type
         - id
         - revokeMessageBody
-    HubEventMergeUsernameProof:
-      type: object
-      properties:
-        type:
-          type: string
-          examples:
-            - HUB_EVENT_TYPE_MERGE_USERNAME_PROOF
-        id:
-          type: integer
-          format: uint64
-        mergeUsernameProofBody:
-          $ref: "#/components/schemas/MergeUserNameProofBody"
-      required:
-        - type
-        - id
-        - mergeUsernameProofBody
-    HubEventMergeOnChainEvent:
-      type: object
-      properties:
-        type:
-          type: string
-          examples:
-            - HUB_EVENT_TYPE_MERGE_ON_CHAIN_EVENT
-        id:
-          type: integer
-          format: uint64
-        mergeOnChainEventBody:
-          $ref: "#/components/schemas/MergeOnChainEventBody"
-      required:
-        - type
-        - id
-        - mergeOnChainEventBody
     HubInfoResponse:
       title: Response Types for the Sync RPC Methods
       required:
@@ -1401,22 +1418,6 @@ components:
       required:
         - type
         - targetFid
-    LinkRemove:
-      allOf:
-        - $ref: "#/components/schemas/MessageCommon"
-        - type: object
-          properties:
-            data:
-              allOf:
-                - $ref: "#/components/schemas/MessageDataLink"
-                - type: object
-                  properties:
-                    type:
-                      $ref: "#/components/schemas/MessageType"
-                  required:
-                    - type
-          required:
-            - data
     LinkType:
       type: string
       description: |-
@@ -1488,9 +1489,7 @@ components:
             - data
         - $ref: "#/components/schemas/MessageCommon"
       description:
-        "* \nA Message is a delta operation on the Farcaster network. The\
-        \ message protobuf is an envelope \nthat wraps a MessageData object and contains\
-        \ a hash and signature which can verify its authenticity."
+        "A Message is a delta operation on the Farcaster network. The message protobuf is an envelope that wraps a MessageData object and contains a hash and signature which can verify its authenticity."
     MessageCommon:
       type: object
       properties:
@@ -1519,6 +1518,26 @@ components:
         - signature
         - signatureScheme
         - signer
+    MessageDataCastAdd:
+      allOf:
+        - $ref: "#/components/schemas/MessageDataCommon"
+        - type: object
+          required:
+            - castAddBody
+          properties:
+            castAddBody:
+              $ref: "#/components/schemas/CastAddBody"
+    MessageDataCastRemove:
+      allOf:
+        - $ref: "#/components/schemas/MessageDataCommon"
+        - type: object
+          required:
+            - targetHash
+          properties:
+            targetHash:
+              title: Hash of the cast to remove
+              pattern: ^0x[0-9a-fA-F]{40}$
+              type: string
     MessageDataCommon:
       required:
         - fid
@@ -1540,24 +1559,6 @@ components:
             - 48994466
         network:
           $ref: "#/components/schemas/FarcasterNetwork"
-    MessageDataCastAdd:
-      allOf:
-        - $ref: "#/components/schemas/MessageDataCommon"
-        - type: object
-          required:
-            - castAddBody
-          properties:
-            castAddBody:
-              $ref: "#/components/schemas/CastAddBody"
-    MessageDataCastRemove:
-      allOf:
-        - $ref: "#/components/schemas/MessageDataCommon"
-        - type: object
-          required:
-            - castRemoveBody
-          properties:
-            castRemoveBody:
-              $ref: "#/components/schemas/CastRemoveBody"
     MessageDataFrameAction:
       allOf:
         - $ref: "#/components/schemas/MessageDataCommon"
@@ -1625,17 +1626,17 @@ components:
       type: string
       description: |-
         Type of the MessageBody.
-         - MESSAGE_TYPE_CAST_ADD: Add a new Cast
-         - MESSAGE_TYPE_CAST_REMOVE: Remove an existing Cast
-         - MESSAGE_TYPE_REACTION_ADD: Add a Reaction to a Cast
-         - MESSAGE_TYPE_REACTION_REMOVE: Remove a Reaction from a Cast
-         - MESSAGE_TYPE_LINK_ADD: Add a new Link
-         - MESSAGE_TYPE_LINK_REMOVE: Remove an existing Link
-         - MESSAGE_TYPE_VERIFICATION_ADD_ETH_ADDRESS: Add a Verification of an Ethereum Address
-         - MESSAGE_TYPE_VERIFICATION_REMOVE: Remove a Verification
-         - MESSAGE_TYPE_USER_DATA_ADD: Add metadata about a user
-         - MESSAGE_TYPE_USERNAME_PROOF: Add or replace a username proof
-         - MESSAGE_TYPE_FRAME_ACTION: A Farcaster Frame action
+        - MESSAGE_TYPE_CAST_ADD: Add a new Cast
+        - MESSAGE_TYPE_CAST_REMOVE: Remove an existing Cast
+        - MESSAGE_TYPE_REACTION_ADD: Add a Reaction to a Cast
+        - MESSAGE_TYPE_REACTION_REMOVE: Remove a Reaction from a Cast
+        - MESSAGE_TYPE_LINK_ADD: Add a new Link
+        - MESSAGE_TYPE_LINK_REMOVE: Remove an existing Link
+        - MESSAGE_TYPE_VERIFICATION_ADD_ETH_ADDRESS: Add a Verification of an Ethereum Address
+        - MESSAGE_TYPE_VERIFICATION_REMOVE: Remove a Verification
+        - MESSAGE_TYPE_USER_DATA_ADD: Add metadata about a user
+        - MESSAGE_TYPE_USERNAME_PROOF: Add or replace a username proof
+        - MESSAGE_TYPE_FRAME_ACTION: A Farcaster Frame action
       default: MESSAGE_TYPE_CAST_ADD
       enum:
         - MESSAGE_TYPE_CAST_ADD
@@ -1699,6 +1700,15 @@ components:
         - logIndex
         - txIndex
         - fid
+    OnChainEventIdRegister:
+      allOf:
+        - $ref: "#/components/schemas/OnChainEventCommon"
+        - type: object
+          properties:
+            idRegisterEventBody:
+              $ref: "#/components/schemas/IdRegisterEventBody"
+          required:
+            - idRegisterEventBody
     OnChainEventSigner:
       allOf:
         - $ref: "#/components/schemas/OnChainEventCommon"
@@ -1717,15 +1727,6 @@ components:
               $ref: "#/components/schemas/SignerMigratedEventBody"
           required:
             - signerMigratedEventBody
-    OnChainEventIdRegister:
-      allOf:
-        - $ref: "#/components/schemas/OnChainEventCommon"
-        - type: object
-          properties:
-            idRegisterEventBody:
-              $ref: "#/components/schemas/IdRegisterEventBody"
-          required:
-            - idRegisterEventBody
     OnChainEventStorageRent:
       allOf:
         - $ref: "#/components/schemas/OnChainEventCommon"
@@ -1779,21 +1780,12 @@ components:
           type: string
       required:
         - type
-    ReactionRemove:
-      allOf:
-        - $ref: "#/components/schemas/MessageCommon"
-        - type: object
-          properties:
-            data:
-              $ref: "#/components/schemas/MessageDataReaction"
-          required:
-            - data
     ReactionType:
       type: string
       description: |-
         Type of Reaction.
         - REACTION_TYPE_LIKE: Like the target cast
-         - REACTION_TYPE_RECAST: Share target cast to the user's audience
+        - REACTION_TYPE_RECAST: Share target cast to the user's audience
       default: REACTION_TYPE_LIKE
       enum:
         - REACTION_TYPE_LIKE
@@ -1810,7 +1802,7 @@ components:
       description: |-
         Type of signature scheme used to sign the Message hash
         - SIGNATURE_SCHEME_ED25519: Ed25519 signature (default)
-         - SIGNATURE_SCHEME_EIP712: ECDSA signature using EIP-712 scheme
+        - SIGNATURE_SCHEME_EIP712: ECDSA signature using EIP-712 scheme
       default: SIGNATURE_SCHEME_ED25519
       enum:
         - SIGNATURE_SCHEME_ED25519
@@ -1942,10 +1934,10 @@ components:
       description: |-
         Type of UserData.
         - USER_DATA_TYPE_PFP: Profile Picture for the user
-         - USER_DATA_TYPE_DISPLAY: Display Name for the user
-         - USER_DATA_TYPE_BIO: Bio for the user
-         - USER_DATA_TYPE_URL: URL of the user
-         - USER_DATA_TYPE_USERNAME: Preferred Name for the user
+        - USER_DATA_TYPE_DISPLAY: Display Name for the user
+        - USER_DATA_TYPE_BIO: Bio for the user
+        - USER_DATA_TYPE_URL: URL of the user
+        - USER_DATA_TYPE_USERNAME: Preferred Name for the user
       default: USER_DATA_TYPE_PFP
       enum:
         - USER_DATA_TYPE_PFP
