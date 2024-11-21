@@ -2036,22 +2036,6 @@ components:
         - address
         - ethSignature
         - blockHash
-    VerificationRemove:
-      allOf:
-        - $ref: "#/components/schemas/MessageCommon"
-        - type: object
-          properties:
-            data:
-              allOf:
-                - $ref: "#/components/schemas/MessageDataVerificationRemove"
-                - type: object
-                  properties:
-                    type:
-                      $ref: "#/components/schemas/MessageType"
-                  required:
-                    - type
-          required:
-            - data
     VerificationRemoveBody:
       description: "Removes a Verification of any type"
       type: object
