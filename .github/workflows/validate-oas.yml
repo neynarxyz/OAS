@@ -30,23 +30,26 @@ jobs:
           SPEC_FILES=$(find src -type f \( -name "*.yaml" -o -name "*.yml" -o -name "*.json" \))
           echo "Found the following spec files:"
           echo "$SPEC_FILES"
-          echo "::set-output name=spec_files::$SPEC_FILES"
+          echo "spec_files=$SPEC_FILES" >> $GITHUB_OUTPUT
           echo "##[endgroup]"
+        shell: bash
 
       - name: Validate OpenAPI Spec Files
         run: |
-          echo "$SPEC_FILES" | tr ' ' '\n' | while read file; do
+          for file in $SPEC_FILES; do
             echo "Validating $file"
             swagger-cli validate "$file"
           done
         env:
           SPEC_FILES: ${{ steps.find_specs.outputs.spec_files }}
+        shell: bash
 
       - name: Lint OpenAPI Spec Files
         run: |
-          echo "$SPEC_FILES" | tr ' ' '\n' | while read file; do
+          for file in $SPEC_FILES; do
             echo "Linting $file"
             spectral lint "$file"
           done
         env:
           SPEC_FILES: ${{ steps.find_specs.outputs.spec_files }}
+        shell: bash
