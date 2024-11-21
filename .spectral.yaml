@@ -28,3 +28,5 @@ rules:
     given: "$.components.*.*"
     then:
       function: unreferencedReusableObject
+      functionOptions:
+        reusableObjectsLocation: '#/components'
