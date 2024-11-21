@@ -5,31 +5,74 @@
 The OpenAPI specification for the [Neynar](https://neynar.com) [APIs](https://docs.neynar.com). 
 Sign up for an API key on [neynar.com](https://neynar.com).
 
-###  Installing client code generator
+### Installing Spectral for OpenAPI Validation
 
-```
-brew install openapi-generator
-```
-Prerequisite - [Java](https://www.java.com/) must be installed
+We use [Spectral](https://github.com/stoplightio/spectral) to lint and validate our OpenAPI specifications. Spectral helps ensure that the OpenAPI files are compliant with the OpenAPI specification and follow best practices.
 
-### Generating typescript client code using the OAS definitions
+#### Install Spectral
+
+You can install Spectral globally using Yarn:
+
+```bash
+yarn global add @stoplight/spectral-cli
+```
+
+### Validating OpenAPI Specifications
+
+To validate an OpenAPI specification file using Spectral, run:
 
 #### v1
 
+```bash
+spectral lint src/v1/spec.yaml
 ```
+
+#### v2
+
+```bash
+spectral lint src/v2/spec.yaml
+```
+
+#### hub-rest-api
+
+```bash
+spectral lint src/hub-rest-api/spec.yaml
+```
+
+Spectral will output any errors or warnings found in the specification files.
+
+### Installing Client Code Generator
+
+We use [OpenAPI Generator](https://openapi-generator.tech/) to generate client code from the OpenAPI specifications.
+
+#### Install OpenAPI Generator
+
+Prerequisite: [Java](https://www.java.com/) must be installed.
+
+Install OpenAPI Generator using Homebrew:
+
+```bash
+brew install openapi-generator
+```
+
+### Generating TypeScript Client Code Using the OAS Definitions
+
+#### v1
+
+```bash
 openapi-generator generate -i src/v1/spec.yaml -g typescript-axios -o src/v1/swagger-tmp
 ```
 
 #### v2
 
-```
+```bash
 openapi-generator generate -i src/v2/spec.yaml -g typescript-axios -o src/v2/swagger-tmp
 ```
 
 #### hub-rest-api
 
-```
+```bash
 openapi-generator generate -i src/hub-rest-api/spec.yaml -g typescript-axios -o src/hub-rest-api/swagger-tmp
 ```
 
-For other languages, replace \<generator\> with a [desired generator](https://openapi-generator.tech/docs/generators)
+For other languages, replace `<generator>` with a [desired generator](https://openapi-generator.tech/docs/generators).
