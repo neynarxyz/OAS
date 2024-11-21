@@ -17,11 +17,11 @@ jobs:
       - name: Set Up Node.js Environment
         uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version: '22'
 
       - name: Install Validation Tools
         run: |
-          npm install -g @apidevtools/swagger-cli @stoplight/spectral
+          npm install -g @stoplight/spectral@latest @apidevtools/swagger-cli@latest
 
       - name: Find OpenAPI Spec Files
         id: find_specs
@@ -46,7 +46,7 @@ jobs:
         run: |
           echo "$SPEC_FILES" | tr ' ' '\n' | while read file; do
             echo "Linting $file"
-            spectral lint --ruleset "spectral:oas" "$file"
+            spectral lint --ruleset oas3_1 "$file"
           done
         env:
           SPEC_FILES: ${{ steps.find_specs.outputs.spec_files }}
