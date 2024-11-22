@@ -4,9 +4,9 @@ This document outlines important guidelines and gotchas to consider when contrib
 
 ## Gotchas While Writing OAS v3.1.0
 
-### 1. Bump up `x-node-sdk-version` in `src/v2/spec.yaml`
+### 1. Bump up `version` in `src/v2/spec.yaml`
 
-- This will be the version of the nodejs-sdk that will get published to npm.
+- This will be the version of the sdk that will get published.
 
 ### 2. Avoid Deprecated `example`
 
