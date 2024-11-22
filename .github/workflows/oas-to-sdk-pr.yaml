@@ -22,6 +22,11 @@ jobs:
           submodules: recursive
           persist-credentials: true
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '>=19.9.0'
+
       - name: Update OAS submodule and package version in nodejs-sdk
         run: |
           cd nodejs-sdk
