@@ -1,0 +1,32 @@
+extends: "spectral:oas" 
+
+rules:
+  # Example: Enforce operation descriptions
+  operation-description:
+    description: "Operations must have a non-empty description."
+    severity: error
+    given: "$.paths[*][*]"
+    then:
+      field: description
+      function: truthy
+
+  # Example: Enforce usage of HTTPS in servers
+  server-https:
+    description: "Servers MUST use HTTPS."
+    message: "The URL '{{value}}' does not use HTTPS."
+    severity: error
+    given: "$.servers[*].url"
+    then:
+      function: pattern
+      functionOptions:
+        match: '^https://'
+
+  # Example: Disallow unused components
+  unused-components:
+    description: "All components must be referenced."
+    severity: warn
+    given: "$.components.*.*"
+    then:
+      function: unreferencedReusableObject
+      functionOptions:
+        reusableObjectsLocation: '#/components'
