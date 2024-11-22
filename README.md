@@ -1,51 +1,109 @@
 # OAS
+[![Validate and Lint OpenAPI Specs](https://github.com/neynarxyz/OAS/actions/workflows/validate-oas.yml/badge.svg)](https://github.com/neynarxyz/OAS/actions/workflows/validate-oas.yml)
 
-The OpenAPI specification for the [Neynar](https://neynar.com) [APIs](https://docs.neynar.com)
+### Overview
 
-### Installation
+The OpenAPI specification for the [Neynar](https://neynar.com) [APIs](https://docs.neynar.com). 
+Sign up for an API key on [neynar.com](https://neynar.com).
 
-Prerequisite
+### Installing Spectral for OpenAPI Validation
 
-- JAVA must be installed
+We use [Spectral](https://github.com/stoplightio/spectral) to lint and validate our OpenAPI specifications. Spectral helps ensure that the OpenAPI files are compliant with the OpenAPI specification and follow best practices.
 
-replace \<generator\> with a [desired generator](https://openapi-generator.tech/docs/generators).
+#### Install Spectral
 
+You can install Spectral globally using Yarn:
+
+```bash
+yarn global add @stoplight/spectral-cli
 ```
+
+### Validating OpenAPI Specifications
+
+To validate an OpenAPI specification file using Spectral, run:
+
+#### v1
+
+```bash
+spectral lint src/v1/spec.yaml
+```
+
+#### v2
+
+```bash
+spectral lint src/v2/spec.yaml
+```
+
+#### hub-rest-api
+
+```bash
+spectral lint src/hub-rest-api/spec.yaml
+```
+
+Spectral will output any errors or warnings found in the specification files.
+
+### Validating OpenAPI Specifications with Swagger
+In addition to Spectral, you can use the Swagger CLI to validate your OpenAPI specifications.
+
+#### Install Swagger CLI
+You can install Swagger CLI globally using Yarn:
+
+```bash
+yarn global add swagger-cli
+```
+
+#### Validate OpenAPI Specifications with Swagger CLI
+To validate an OpenAPI specification file using Swagger CLI, run:
+
+v1
+```bash
+swagger-cli validate src/v1/spec.yaml
+```
+
+v2
+```bash
+swagger-cli validate src/v2/spec.yaml
+```
+
+hub-rest-api
+```bash
+swagger-cli validate src/hub-rest-api/spec.yaml
+```
+
+This will check for structural errors and report any issues.
+
+### Installing Client Code Generator
+
+We use [OpenAPI Generator](https://openapi-generator.tech/) to generate client code from the OpenAPI specifications.
+
+#### Install OpenAPI Generator
+
+Prerequisite: [Java](https://www.java.com/) must be installed.
+
+Install OpenAPI Generator using Homebrew:
+
+```bash
 brew install openapi-generator
 ```
 
-// v1
+### Generating TypeScript Client Code Using the OAS Definitions
 
-```
-openapi-generator generate -i src/v1/spec.yaml -g typescript-axios -o src/v1/swagger-tmp --config openapi-generator-config.json
-```
+#### v1
 
-// v2
-
-```
-openapi-generator generate -i src/v2/spec.yaml -g typescript-axios -o src/v2/swagger-tmp --config openapi-generator-config.json
+```bash
+openapi-generator generate -i src/v1/spec.yaml -g typescript-axios -o src/v1/swagger-tmp
 ```
 
-// stp
+#### v2
 
-```
-openapi-generator generate -i src/v2/stp/spec.yaml -g typescript-axios -o src/v2/swagger-tmp --config openapi-generator-config.json
-```
-
-// hub-rest-api
-
-```
-openapi-generator generate -i src/hub-rest-api/spec.yaml -g typescript-axios -o src/hub-rest-api/swagger-tmp --config openapi-generator-config.json
+```bash
+openapi-generator generate -i src/v2/spec.yaml -g typescript-axios -o src/v2/swagger-tmp
 ```
 
-### API Documentation
+#### hub-rest-api
 
-[docs.neynar.com](https://docs.neynar.com/)
+```bash
+openapi-generator generate -i src/hub-rest-api/spec.yaml -g typescript-axios -o src/hub-rest-api/swagger-tmp
+```
 
-### Clients library that use this specs
-
-[farcaster-js](https://github.com/standard-crypto/farcaster-js/)
-
-### How to get an API key?
-
-Get more information at [neynar.com](https://neynar.com/)
+For other languages, replace `<generator>` with a [desired generator](https://openapi-generator.tech/docs/generators).

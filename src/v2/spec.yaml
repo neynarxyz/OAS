@@ -2,7 +2,14 @@ openapi: 3.1.0
 info:
   title: Farcaster API V2
   version: "2.0"
-  x-sdk-version: "2.0.0"
+  x-sdk-version: "2.0.1"
+  description: >
+    The Farcaster API allows you to interact with the Farcaster protocol.
+    See the [Neynar docs](https://docs.neynar.com/reference) for more details.
+  contact:
+    name: Neynar
+    url: https://neynar.com/
+    email: team@neynar.com
 servers:
   - url: https://api.neynar.com/v2
 
@@ -27,6 +34,7 @@ components:
         type: boolean
         default: false
       description: "Enables experimental features"
+      x-is-global-header: true
 
   schemas:
     Address:
@@ -54,7 +62,9 @@ components:
         - "neynar"
     SignerUUID:
       type: string
-      description: UUID of the signer
+      description: |
+        UUID of the signer.
+        `signer_uuid` is paired with API key, can't use a `uuid` made with a different API key.
       examples:
         - "19d0c5fd-9b33-4a48-a0e2-bc7b0555baec"
     SubscriptionProviders:
@@ -186,13 +196,6 @@ components:
     Timestamp:
       type: string
       format: date-time
-    IndividualHashObj:
-      type: object
-      properties:
-        hash:
-          type: string
-      required:
-        - hash
     EmbedUrl:
       type: object
       required:
@@ -1459,6 +1462,105 @@ components:
               description: Score that represents the probability that the account is not spam.
         viewer_context:
           $ref: "#/components/schemas/UserViewerContext"
+    TokenBalance:
+      type: object
+      description: The token balance associated with a wallet address and a network
+      required:
+        - object
+        - token
+        - balance
+      properties:
+        object:
+          type: string
+          enum:
+            - token_balance
+        token:
+          type: object
+          required:
+            - object
+            - name
+            - symbol
+          properties:
+            object:
+              type: string
+              enum:
+                - token
+            name:
+              type: string
+              description: The token name e.g. "Ethereum"
+            symbol:
+              type: string
+              description: The token symbol e.g. "ETH"
+            address:
+              type: string
+              description: The contract address of the token (omitted for native token)
+            decimals:
+              type: integer
+              description: The number of decimals the token uses
+        balance:
+          type: object
+          required:
+            - in_token
+            - in_usdc
+          properties:
+            in_token:
+              type: string
+              description: The balance in the token
+            in_usdc:
+              type: string
+              description: The balance in USDC
+    Networks:
+      type: string
+      description: A blockchain network e.g. "base"
+      enum:
+        - "base"
+    AddressBalance:
+      type: object
+      description: The token balances associated with a wallet address
+      required:
+        - object
+        - verified_address
+        - token_balances
+      properties:
+        object:
+          type: string
+          enum:
+            - address_balance
+        verified_address:
+          type: object
+          required:
+            - address
+            - network
+          properties:
+            address:
+              type: string
+              description: The wallet address
+            network:
+              $ref: "#/components/schemas/Networks"
+        token_balances:
+          type: array
+          items:
+            $ref: "#/components/schemas/TokenBalance"
+    BalanceResponse:
+      type: object
+      properties:
+        user_balance:
+          type: object
+          required:
+            - object
+            - user
+            - address_balances
+          properties:
+            object:
+              type: string
+              enum:
+                - user_balance
+            user:
+              $ref: "#/components/schemas/UserDehydrated"
+            address_balances:
+              type: array
+              items:
+                $ref: "#/components/schemas/AddressBalance"
     Embed:
       oneOf:
         - $ref: "#/components/schemas/EmbedUrl"
@@ -1831,6 +1933,8 @@ components:
           $ref: "#/components/schemas/SignerUUID"
         address:
           $ref: "#/components/schemas/Address"
+        block_hash:
+          type: string
     UpdateUserReqBody:
       type: object
       required:
@@ -2150,15 +2254,6 @@ components:
             $ref: "#/components/schemas/User"
         viewer_context:
           $ref: "#/components/schemas/ChannelUserContext"
-    ChannelViewerContext:
-      deprecated: true
-      type: object
-      required:
-        - following
-      properties:
-        following:
-          type: boolean
-          description: Indicates if the viewer is following the channel.
     ChannelUserContext:
       description: Adds context on the viewer's or author's role in the channel.
       type: object
@@ -3638,6 +3733,11 @@ components:
       type: string
       enum:
         - code
+    BulkUserAddressType:
+      type: string
+      enum:
+        - custody_address
+        - verified_address
     RespondChannelInviteReqBody:
       type: object
       required:
@@ -3881,6 +3981,20 @@ components:
               description: |
                 The payload of the action being performed.
               type: object
+    ValidateFrameAggregateWindow:
+      type: string
+      enum:
+        - "10s"
+        - "1m"
+        - "2m"
+        - "5m"
+        - "10m"
+        - "20m"
+        - "30m"
+        - "2h"
+        - "12h"
+        - "1d"
+        - "7d"
     SubscriptionCheckResponse:
       type: object
       additionalProperties:
@@ -4017,8 +4131,8 @@ tags:
     description: Operations related to a block
   - name: Ban
     description: Operations related to a ban
-  - name: STP
-    description: Operations related to a STP
+  - name: Onchain
+    description: Operations related to onchain data
 
 paths:
   /farcaster/user/fid:
@@ -4348,8 +4462,8 @@ paths:
 
         You can pass in Ethereum and Solana addresses, comma separated, in the same request. The response will contain users associated with the given addresses.
       externalDocs:
-        url: https://docs.neynar.com/reference/fetch-bulk-users-by-ethereum-address
-      operationId: fetch-bulk-users-by-ethereum-address
+        url: https://docs.neynar.com/reference/fetch-bulk-users-by-eth-or-sol-address
+      operationId: fetch-bulk-users-by-eth-or-sol-address
       parameters:
         - name: addresses
           description: Comma separated list of Ethereum addresses, up to 350 at a time
@@ -4365,10 +4479,10 @@ paths:
             Customize which address types the request should search for. This is a comma-separated string that can include the following values: 'custody_address' and 'verified_address'. By default api returns both. To select multiple types, use a comma-separated list of these values.
           required: false
           schema:
-            type: string
-            pattern: "^(custody_address,?|verified_address,?)+$"
-            x-comma-separated: true
-          example: "custody_address,verified_address"
+            type: array
+            items:
+              $ref: "#/components/schemas/BulkUserAddressType"
+          explode: false
         - name: viewer_fid
           in: query
           required: false
@@ -5396,7 +5510,7 @@ paths:
           $ref: "#/components/responses/400Response"
   /farcaster/feed/trending:
     get:
-      summary: Trending casts
+      summary: Trending feeds
       externalDocs:
         url: https://docs.neynar.com/reference/fetch-trending-feed
       operationId: fetch-trending-feed
@@ -5407,7 +5521,7 @@ paths:
         - name: limit
           in: query
           description: Number of results to fetch
-          example: 30
+          example: 10
           schema:
             type: integer
             default: 10
@@ -5916,6 +6030,8 @@ paths:
             example:
               signer_uuid: 19d0c5fd-9b33-4a48-a0e2-bc7b0555baec
               address: "0x1ea99cbed57e4020314ba3fadd7c692d2de34d5f"
+              block_hash: "0x191905a9201170abb55f4c90a4cc968b44c1b71cdf3db2764b775c93e7e22b29"
+              eth_signature: "0x2fc09da1f4dcb723fefb91f77932c249c418c0af00c66ed92ee1f35002c80d6a1145280c9f361d207d28447f8f7463366840d3a9309036cf6954afd1fd331beb1"
       responses:
         "200":
           description: Successful operation.
@@ -6123,6 +6239,45 @@ paths:
           $ref: "#/components/responses/404Response"
         "500":
           $ref: "#/components/responses/500Response"
+  /farcaster/user/balance:
+    get:
+      tags:
+        - Onchain
+      summary: "Token balance"
+      description: "Fetches the token balances of a user given their FID"
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-user-balance
+      operationId: fetch-user-balance
+      parameters:
+        - name: fid
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/Fid"
+          example: 3
+          description: FID of the user to fetch
+        - name: networks
+          in: query
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/Networks"
+          explode: false
+          description: Comma separated list of networks to fetch balances for. Currently, only "base" is supported.
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BalanceResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
+        "500":
+          $ref: "#/components/responses/500Response"
   /farcaster/login/authorize:
     get:
       tags:
@@ -6311,19 +6466,7 @@ paths:
           required: false
           description: Required for `analytics_type=interactions-per-cast`
           schema:
-            type: string
-            enum:
-              - "10s"
-              - "1m"
-              - "2m"
-              - "5m"
-              - "10m"
-              - "20m"
-              - "30m"
-              - "2h"
-              - "12h"
-              - "1d"
-              - "7d"
+            $ref: "#/components/schemas/ValidateFrameAggregateWindow"
       responses:
         "200":
           description: Successful response
@@ -6361,9 +6504,10 @@ paths:
           required: false
           description: Notification type to fetch. Comma separated values of follows, recasts, likes, mentions, replies.
           schema:
-            type: string
-            pattern: "^(follows,?|recasts,?|likes,?|mentions,?|replies,?)+$"
-            x-comma-separated: true
+            type: array
+            items:
+              $ref: "#/components/schemas/NotificationType"
+          explode: false
         - name: priority_mode
           in: query
           required: false
@@ -6985,7 +7129,7 @@ paths:
             $ref: "#/components/schemas/Fid"
         - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
-        200:
+        "200":
           description: Successful response
           content:
             application/json:
@@ -7166,7 +7310,7 @@ paths:
             $ref: "#/components/schemas/Fid"
         - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
-        200:
+        "200":
           description: Successful response
           content:
             application/json:
@@ -7353,10 +7497,10 @@ paths:
             Customize which reaction types the request should search for. This is a comma-separated string that can include the following values: 'likes' and 'recasts'. By default api returns both. To select multiple types, use a comma-separated list of these values.
           required: true
           schema:
-            type: string
-            pattern: "^(likes,?|recasts,?|all,?)+$"
-            x-comma-separated: true
-          example: "likes,recasts"
+            type: array
+            items:
+              $ref: "#/components/schemas/ReactionsType"
+          explode: false
         - name: viewer_fid
           in: query
           required: false
@@ -7996,6 +8140,13 @@ paths:
             schema:
               $ref: "#/components/schemas/FarcasterActionReqBody"
       responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
         "default":
           description: Any possible response
           content:
@@ -8006,9 +8157,9 @@ paths:
   /stp/subscription_check:
     get:
       tags:
-        - STP
-      summary: Subscription check by wallet address
-      description: Check if a wallet address is subscribed to a given STP contract.
+        - Subscribers
+      summary: Hypersub subscription check
+      description: Check if a wallet address is subscribed to a given STP (Hypersub) contract.
       externalDocs:
         url: https://docs.neynar.com/reference/fetch-subscription-check
       operationId: fetch-subscription-check
@@ -8020,6 +8171,7 @@ paths:
           example: 0xedd3783e8c7c52b80cfbd026a63c207edc9cbee7,0x5a927ac639636e534b678e81768ca19e2c6280b7
           schema:
             type: string
+            x-comma-separated: true
         - name: contract_address
           description: Ethereum address of the STP contract
           in: query
