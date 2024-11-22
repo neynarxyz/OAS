@@ -15,9 +15,9 @@ jobs:
       - name: Checkout nodejs-sdk repository
         uses: actions/checkout@v3
         with:
-          repository: 'neynarxyz/nodejs-sdk.git'
-          ref: 'main'
-          path: 'nodejs-sdk'
+          repository: "neynarxyz/nodejs-sdk.git"
+          ref: "main"
+          path: "nodejs-sdk"
           token: ${{ secrets.OAS_TO_SDK_FGPAT }}
           submodules: recursive
           persist-credentials: true
@@ -35,16 +35,16 @@ jobs:
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
 
-          # Parse x-node-sdk-version from OAS
+          # Parse version from OAS
           # Install yq for YAML parsing
           sudo wget -O /usr/bin/yq https://github.com/mikefarah/yq/releases/download/v4.24.5/yq_linux_amd64
           sudo chmod +x /usr/bin/yq
-          SDK_VERSION=$(yq e '.info."x-node-sdk-version"' oas/src/v2/spec.yaml)
+          SDK_VERSION=$(yq e '.info."version"' oas/src/v2/spec.yaml)
           echo "SDK Version: $SDK_VERSION"
 
           # Check if SDK_VERSION is empty
           if [ -z "$SDK_VERSION" ]; then
-            echo "Error: x-node-sdk-version not found in OAS file."
+            echo "Error: version not found in OAS file."
             exit 1
           fi
 
