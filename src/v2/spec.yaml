@@ -5038,7 +5038,7 @@ paths:
           schema:
             type: string
           example: 3,2,194
-          description: Used when filter_type=FIDs . Create a feed based on a list of FIDs. Max array size is 250. Requires feed_type and filter_type.
+          description: Used when filter_type=FIDs . Create a feed based on a list of FIDs. Max array size is 100. Requires feed_type and filter_type.
         - name: parent_url
           in: query
           schema:
