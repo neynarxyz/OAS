@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Farcaster API V2
-  version: "2.0.4"
+  version: "2.0.5"
   description: >
     The Farcaster API allows you to interact with the Farcaster protocol.
     See the [Neynar docs](https://docs.neynar.com/reference) for more details.
@@ -7569,7 +7569,7 @@ paths:
                 $ref: "#/components/schemas/FnameAvailabilityResponse"
         "400":
           $ref: "#/components/responses/400Response"
-  /fungible/owner/relevant:
+  /farcaster/fungible/owner/relevant:
     get:
       tags:
         - Onchain
