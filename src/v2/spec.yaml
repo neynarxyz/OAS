@@ -4064,9 +4064,10 @@ components:
             nsfw:
               type: string
               enum:
-                - true
-                - false
-              description: Indicates if the token is NSFW (Not Safe For Work)
+                - "true"
+                - "false"
+              description: |
+                Indicates if the token is NSFW (Not Safe For Work).
             website_link:
               type: string
               description: Website link related to the token
@@ -8340,7 +8341,7 @@ paths:
           $ref: "#/components/responses/400Response"
   /fungible:
     post:
-      summary: ERC20 token on Base
+      summary: Deploy fungible
       description: Creates a new fungible ERC20 token on Base.
       operationId: deploy-fungible
       tags:
