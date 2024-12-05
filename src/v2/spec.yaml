@@ -4091,7 +4091,9 @@ components:
           default: wow
           enum:
             - wow
-          description: Factory name
+          description: |
+            Factory name
+            - wow -> wow.xyz
       required:
         - owner
         - symbol
@@ -8342,7 +8344,9 @@ paths:
   /fungible:
     post:
       summary: Deploy fungible
-      description: Creates a new fungible ERC20 token on Base.
+      description: |
+        Creates a new token.
+        This is a whitelisted API, reach out if you want access.
       operationId: deploy-fungible
       tags:
         - Onchain
