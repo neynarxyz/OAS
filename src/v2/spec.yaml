@@ -7969,7 +7969,7 @@ paths:
       tags:
         - Mute
       summary: Mute FID
-      description: Adds a mute for a given FID. This is a whitelisted API, reach out if you want access.
+      description: Adds a mute for a given FID. This is an allowlisted API, reach out if you want access.
       externalDocs:
         url: https://docs.neynar.com/reference/publish-mute
       operationId: publish-mute
@@ -7996,7 +7996,7 @@ paths:
       tags:
         - Mute
       summary: Unmute FID
-      description: Deletes a mute for a given FID. This is a whitelisted API, reach out if you want access.
+      description: Deletes a mute for a given FID. This is an allowlisted API, reach out if you want access.
       externalDocs:
         url: https://docs.neynar.com/reference/delete-mute
       operationId: delete-mute
@@ -8346,7 +8346,7 @@ paths:
       summary: Deploy fungible
       description: |
         Creates a new token.
-        This is a whitelisted API, reach out if you want access.
+        This is an allowlisted API, reach out if you want access.
       operationId: deploy-fungible
       tags:
         - Onchain
