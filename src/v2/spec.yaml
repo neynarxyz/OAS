@@ -8344,7 +8344,7 @@ paths:
       description: Creates a new fungible ERC20 token on Base.
       operationId: deploy-fungible
       tags:
-        - Fungible
+        - Onchain
       requestBody:
         required: true
         content:
