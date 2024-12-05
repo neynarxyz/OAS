@@ -4034,6 +4034,94 @@ components:
               expires_at: null
               subscribed_at: null
               tier: null
+    DeployFungibleReqBody:
+      type: object
+      properties:
+        owner:
+          type: string
+          description: Ethereum address of the one who is creating the token
+        symbol:
+          type: string
+          description: Symbol/Ticker for the token
+        name:
+          type: string
+          description: Name of the token
+        metadata:
+          type: object
+          properties:
+            media:
+              oneOf:
+                - type: string
+                  format: binary
+                  description: |
+                    Media file associated with the token. 
+                    Supported formats are image/jpeg, image/gif and image/png
+                - type: string
+                  description: URI of the media file
+            description:
+              type: string
+              description: Description of the token
+            nsfw:
+              type: string
+              enum:
+                - true
+                - false
+              description: Indicates if the token is NSFW (Not Safe For Work)
+            website_link:
+              type: string
+              description: Website link related to the token
+            twitter:
+              type: string
+              description: Twitter profile link
+            discord:
+              type: string
+              description: Discord server link
+            telegram:
+              type: string
+              description: Telegram link
+        network:
+          type: string
+          default: base
+          enum:
+            - base
+          description: Network/Chain name
+        factory:
+          type: string
+          default: wow
+          enum:
+            - wow
+          description: Factory name
+      required:
+        - owner
+        - symbol
+        - name
+    DeployFungibleResponse:
+      type: object
+      properties:
+        contract:
+          type: object
+          properties:
+            fungible:
+              type: object
+              properties:
+                object:
+                  type: string
+                  example: fungible
+                name:
+                  type: string
+                  description: Name of the token
+                symbol:
+                  type: string
+                  description: Symbol of the token
+                media:
+                  type: string
+                  description: URI of the token media
+                address:
+                  type: string
+                  description: Contract address of the token
+                decimals:
+                  type: integer
+                  description: Decimal precision of the token
 
   responses:
     401Response:
@@ -8250,6 +8338,30 @@ paths:
                 $ref: "#/components/schemas/SubscriptionCheckResponse"
         "400":
           $ref: "#/components/responses/400Response"
+  /fungible:
+    post:
+      summary: ERC20 token on Base
+      description: Creates a new fungible ERC20 token on Base.
+      operationId: deploy-fungible
+      tags:
+        - Fungible
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/DeployFungibleReqBody"
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeployFungibleResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "500":
+          $ref: "#/components/responses/500Response"
 
   # /farcaster/webhook/subscription:
   #   get:
