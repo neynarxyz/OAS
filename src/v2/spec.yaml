@@ -4034,70 +4034,6 @@ components:
               expires_at: null
               subscribed_at: null
               tier: null
-    DeployFungibleReqBody:
-      type: object
-      properties:
-        owner:
-          type: string
-          description: Ethereum address of the one who is creating the token
-        symbol:
-          type: string
-          description: Symbol/Ticker for the token
-        name:
-          type: string
-          description: Name of the token
-        metadata:
-          type: object
-          properties:
-            media:
-              oneOf:
-                - type: string
-                  format: binary
-                  description: |
-                    Media file associated with the token. 
-                    Supported formats are image/jpeg, image/gif and image/png
-                - type: string
-                  description: URI of the media file
-            description:
-              type: string
-              description: Description of the token
-            nsfw:
-              type: string
-              enum:
-                - "true"
-                - "false"
-              description: |
-                Indicates if the token is NSFW (Not Safe For Work).
-            website_link:
-              type: string
-              description: Website link related to the token
-            twitter:
-              type: string
-              description: Twitter profile link
-            discord:
-              type: string
-              description: Discord server link
-            telegram:
-              type: string
-              description: Telegram link
-        network:
-          type: string
-          default: base
-          enum:
-            - base
-          description: Network/Chain name
-        factory:
-          type: string
-          default: wow
-          enum:
-            - wow
-          description: |
-            Factory name
-            - wow -> wow.xyz
-      required:
-        - owner
-        - symbol
-        - name
     DeployFungibleResponse:
       type: object
       properties:
@@ -8355,7 +8291,69 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: "#/components/schemas/DeployFungibleReqBody"
+              type: object
+              properties:
+                owner:
+                  type: string
+                  description: Ethereum address of the one who is creating the token
+                symbol:
+                  type: string
+                  description: Symbol/Ticker for the token
+                name:
+                  type: string
+                  description: Name of the token
+                metadata:
+                  type: object
+                  properties:
+                    media:
+                      oneOf:
+                        - type: string
+                          format: binary
+                          description: |
+                            Media file associated with the token. 
+                            Supported formats are image/jpeg, image/gif and image/png
+                        - type: string
+                          description: URI of the media file
+                    description:
+                      type: string
+                      description: Description of the token
+                    nsfw:
+                      type: string
+                      enum:
+                        - "true"
+                        - "false"
+                      description: |
+                        Indicates if the token is NSFW (Not Safe For Work).
+                    website_link:
+                      type: string
+                      description: Website link related to the token
+                    twitter:
+                      type: string
+                      description: Twitter profile link
+                    discord:
+                      type: string
+                      description: Discord server link
+                    telegram:
+                      type: string
+                      description: Telegram link
+                network:
+                  type: string
+                  default: base
+                  enum:
+                    - base
+                  description: Network/Chain name
+                factory:
+                  type: string
+                  default: wow
+                  enum:
+                    - wow
+                  description: |
+                    Factory name
+                    - wow -> wow.xyz
+              required:
+                - owner
+                - symbol
+                - name
       responses:
         "200":
           description: Successful response
