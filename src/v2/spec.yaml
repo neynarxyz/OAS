@@ -4808,8 +4808,8 @@ paths:
       summary: Embedded URL metadata
       description: Crawls the given URL and returns metadata useful when embedding the URL in a cast.
       externalDocs:
-        url: https://docs.neynar.com/reference/crawl-embedded-url-metadata
-      operationId: crawl-embedded-url-metadata
+        url: https://docs.neynar.com/reference/fetch-embedded-url-metadata
+      operationId: fetch-embedded-url-metadata
       parameters:
         - name: url
           in: query
