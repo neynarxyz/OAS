@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Farcaster API V2
-  version: "2.0.5"
+  version: "2.0.6"
   description: >
     The Farcaster API allows you to interact with the Farcaster protocol.
     See the [Neynar docs](https://docs.neynar.com/reference) for more details.
@@ -4804,7 +4804,7 @@ paths:
   /farcaster/cast/embed/crawl:
     get:
       tags:
-        - Embed
+        - Cast
       summary: Embedded URL metadata
       description: Crawls the given URL and returns metadata useful when embedding the URL in a cast.
       externalDocs:
