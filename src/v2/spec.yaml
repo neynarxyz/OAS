@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Farcaster API V2
-  version: "2.0.5"
+  version: "2.0.6"
   description: >
     The Farcaster API allows you to interact with the Farcaster protocol.
     See the [Neynar docs](https://docs.neynar.com/reference) for more details.
@@ -1849,6 +1849,13 @@ components:
       enum:
         - "id"
         - "parent_url"
+    CastEmbedCrawlResponse:
+      type: object
+      required:
+        - metadata
+      properties:
+        metadata:
+          $ref: "#/components/schemas/EmbedUrlMetadata"
     PublishMessageReqBody:
       type: object
     PublishMessageResponse:
@@ -4794,6 +4801,30 @@ paths:
           $ref: "#/components/responses/400Response"
         "500":
           $ref: "#/components/responses/500Response"
+  /farcaster/cast/embed/crawl:
+    get:
+      tags:
+        - Cast
+      summary: Embedded URL metadata
+      description: Crawls the given URL and returns metadata useful when embedding the URL in a cast.
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-embedded-url-metadata
+      operationId: fetch-embedded-url-metadata
+      parameters:
+        - name: url
+          in: query
+          schema:
+            type: string
+          description: URL to crawl metadata of
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CastEmbedCrawlResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
   /farcaster/cast:
     get:
       tags:
