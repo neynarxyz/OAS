@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Farcaster API V2
-  version: "2.1.0"
+  version: "2.1.1"
   description: >
     The Farcaster API allows you to interact with the Farcaster protocol.
     See the [Neynar docs](https://docs.neynar.com/reference) for more details.
@@ -1941,39 +1941,43 @@ components:
           $ref: "#/components/schemas/Address"
         block_hash:
           type: string
-    UpdateUserReqBody:
+    UserMetadata:
       type: object
-      required:
-        - signer_uuid
-      properties:
-        signer_uuid:
-          $ref: "#/components/schemas/SignerUUID"
-        bio:
-          type: string
-        pfp_url:
-          type: string
-        url:
-          type: string
-        username:
-          type: string
-        display_name:
-          type: string
-        location:
-          type: object
+      bio:
+        type: string
+      pfp_url:
+        type: string
+      url:
+        type: string
+      username:
+        type: string
+      display_name:
+        type: string
+      location:
+        type: object
+        required:
+          - latitude
+          - longitude
+        properties:
+          latitude:
+            type: number
+            format: double
+            minimum: -90
+            maximum: 90
+          longitude:
+            type: number
+            format: double
+            minimum: -180
+            maximum: 180
+    UpdateUserReqBody:
+      allOf:
+        - $ref: "#/components/schemas/UserMetadata"
+        - type: object
           required:
-            - latitude
-            - longitude
+            - signer_uuid
           properties:
-            latitude:
-              type: number
-              format: double
-              minimum: -90
-              maximum: 90
-            longitude:
-              type: number
-              format: double
-              minimum: -180
-              maximum: 180
+            signer_uuid:
+              $ref: "#/components/schemas/SignerUUID"
     CastViewerContext:
       type: object
       description: Adds context on interactions the viewer has made with the cast.
@@ -3201,6 +3205,8 @@ components:
           type: number
         fname:
           type: string
+        metadata:
+          $ref: "#/components/schemas/UserMetadata"
     RegisterUserResponse:
       type: object
       required:
