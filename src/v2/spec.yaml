@@ -1941,43 +1941,39 @@ components:
           $ref: "#/components/schemas/Address"
         block_hash:
           type: string
-    UserMetadata:
-      type: object
-      bio:
-        type: string
-      pfp_url:
-        type: string
-      url:
-        type: string
-      username:
-        type: string
-      display_name:
-        type: string
-      location:
-        type: object
-        required:
-          - latitude
-          - longitude
-        properties:
-          latitude:
-            type: number
-            format: double
-            minimum: -90
-            maximum: 90
-          longitude:
-            type: number
-            format: double
-            minimum: -180
-            maximum: 180
     UpdateUserReqBody:
-      allOf:
-        - $ref: "#/components/schemas/UserMetadata"
-        - type: object
+      type: object
+      required:
+        - signer_uuid
+      properties:
+        signer_uuid:
+          $ref: "#/components/schemas/SignerUUID"
+        bio:
+          type: string
+        pfp_url:
+          type: string
+        url:
+          type: string
+        username:
+          type: string
+        display_name:
+          type: string
+        location:
+          type: object
           required:
-            - signer_uuid
+            - latitude
+            - longitude
           properties:
-            signer_uuid:
-              $ref: "#/components/schemas/SignerUUID"
+            latitude:
+              type: number
+              format: double
+              minimum: -90
+              maximum: 90
+            longitude:
+              type: number
+              format: double
+              minimum: -180
+              maximum: 180
     CastViewerContext:
       type: object
       description: Adds context on interactions the viewer has made with the cast.
@@ -3206,7 +3202,33 @@ components:
         fname:
           type: string
         metadata:
-          $ref: "#/components/schemas/UserMetadata"
+          type: object
+          bio:
+            type: string
+          pfp_url:
+            type: string
+          url:
+            type: string
+          username:
+            type: string
+          display_name:
+            type: string
+          location:
+            type: object
+            required:
+              - latitude
+              - longitude
+            properties:
+              latitude:
+                type: number
+                format: double
+                minimum: -90
+                maximum: 90
+              longitude:
+                type: number
+                format: double
+                minimum: -180
+                maximum: 180
     RegisterUserResponse:
       type: object
       required:
