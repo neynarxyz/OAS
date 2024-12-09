@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Farcaster API V2
-  version: "2.0.6"
+  version: "2.0.7"
   description: >
     The Farcaster API allows you to interact with the Farcaster protocol.
     See the [Neynar docs](https://docs.neynar.com/reference) for more details.
@@ -8376,6 +8376,8 @@ paths:
         Creates a new token.
         This is an allowlisted API, reach out if you want access.
       operationId: deploy-fungible
+      externalDocs:
+        url: https://docs.neynar.com/reference/deploy-fungible
       tags:
         - Onchain
       requestBody:
