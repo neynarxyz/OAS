@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Farcaster API V2
-  version: "2.1.1"
+  version: "2.2.0"
   description: >
     The Farcaster API allows you to interact with the Farcaster protocol.
     See the [Neynar docs](https://docs.neynar.com/reference) for more details.
@@ -979,6 +979,49 @@ components:
           default: false
           type: boolean
           description: Adds context about the channel that the cast belongs to inside of the cast object.
+    SendFrameNotificationsReqBody:
+      type: object
+      required:
+        - target_fids
+        - notification
+      properties:
+        target_fids:
+          type: array
+          items:
+            $ref: "#/components/schemas/Fid"
+          maxItems: 100
+          description: An array of target FIDs to whom the notifications should be sent. Each FID must be a positive integer, with a maximum of 100 FIDs allowed per call.
+          example: [1, 2, 3]
+        notification:
+          type: object
+          required:
+            - title
+            - body
+            - target_url
+          properties:
+            title:
+              type: string
+              maxLength: 32
+              minLength: 1
+              description: The title of the notification. Must be between 1 and 32 characters.
+              example: "New Message"
+            body:
+              type: string
+              maxLength: 128
+              minLength: 1
+              description: The body of the notification. Must be between 1 and 128 characters.
+              example: "You have received a new message in your inbox."
+            target_url:
+              type: string
+              format: uri
+              maxLength: 256
+              description: The target URL to open when the user clicks the notification. Must be a valid URL.
+              example: "https://example.com/notifications"
+            uuid:
+              type: string
+              format: uuid
+              description: An optional UUID for the notification, used as an idempotency key.
+              example: "123e4567-e89b-12d3-a456-426614174000"
     RemoveChannelMemberReqBody:
       type: object
       required:
@@ -3158,6 +3201,34 @@ components:
           $ref: "#/components/schemas/FrameTransaction"
         address:
           $ref: "#/components/schemas/FrameAddress"
+    SendFrameNotificationsResponse:
+      type: object
+      required:
+        - notification_deliveries
+      properties:
+        notification_deliveries:
+          type: array
+          items:
+            $ref: "#/components/schemas/NotificationDelivery"
+    NotificationDelivery:
+      type: object
+      required:
+        - object
+        - fid
+        - status
+      properties:
+        object:
+          type: string
+          enum:
+            - notification_delivery
+        fid:
+          $ref: "#/components/schemas/Fid"
+        status:
+          type: string
+          enum:
+            - success
+            - token_not_found
+            - failed
     ValidateFrameActionResponse:
       type: object
       required:
@@ -6528,6 +6599,46 @@ paths:
                 $ref: "#/components/schemas/Frame"
         "400":
           $ref: "#/components/responses/400Response"
+        "500":
+          $ref: "#/components/responses/500Response"
+  /farcaster/frame/notifications:
+    post:
+      tags:
+        - Frame
+      summary: Send notifications
+      description: |
+        Send notifications to interactors of a frame
+      externalDocs:
+        url: https://docs.neynar.com/reference/publish-frame-notifications
+      operationId: publish-frame-notifications
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SendFrameNotificationsReqBody"
+            example:
+              target_fids: [1, 6131]
+              notification:
+                title: "Title for the notification"
+                body: "Body of the notification describing the event for the user"
+                target_url: "https://domain-of-your-frame.com/the-page-on-which-the-user-should-land"
+                uuid: "9cb07cfe-1130-48b3-a245-5dd153ced3a3"
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SendFrameNotificationsResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/ZodError"
+                  - $ref: "#/components/schemas/ErrorRes"
         "500":
           $ref: "#/components/responses/500Response"
   /farcaster/frame/validate:
