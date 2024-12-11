@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Farcaster API V2
-  version: "2.2.0"
+  version: "2.2.1"
   description: >
     The Farcaster API allows you to interact with the Farcaster protocol.
     See the [Neynar docs](https://docs.neynar.com/reference) for more details.
@@ -2166,6 +2166,24 @@ components:
                 $ref: "#/components/schemas/CastWithInteractions"
         next:
           $ref: "#/components/schemas/NextCursor"
+    SharedSignerPermission:
+      type: string
+      enum:
+        - WRITE_ALL
+        - READ_ONLY
+        - NONE
+        - PUBLISH_CAST
+        - DELETE_CAST
+        - PUBLISH_REACTION
+        - DELETE_REACTION
+        - UPDATE_PROFILE
+        - FOLLOW_USER
+        - UNFOLLOW_USER
+        - FOLLOW_CHANNEL
+        - UNFOLLOW_CHANNEL
+        - ADD_VERIFICATION
+        - REMOVE_VERIFICATION
+        - WRITE_FRAME_ACTION
     Signer:
       type: object
       required:
@@ -2188,6 +2206,10 @@ components:
           type: string
         fid:
           $ref: "#/components/schemas/Fid"
+        permissions:
+          type: array
+          items:
+            $ref: "#/components/schemas/SharedSignerPermission"
     DeveloperManagedSigner:
       type: object
       required:
@@ -3316,6 +3338,8 @@ components:
           type: string
         signer:
           $ref: "#/components/schemas/Signer"
+        user:
+          $ref: "#/components/schemas/User"
     MuteRecord:
       type: object
       required:
