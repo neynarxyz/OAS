@@ -2018,13 +2018,13 @@ components:
               format: double
               minimum: -180
               maximum: 180
-          verified_accounts:
-            type: object
-            properties:
-              x:
-                type: string
-              github:
-                type: string
+        verified_accounts:
+          type: object
+          properties:
+            x:
+              type: string
+            github:
+              type: string
     CastViewerContext:
       type: object
       description: Adds context on interactions the viewer has made with the cast.
