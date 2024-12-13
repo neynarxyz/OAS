@@ -1473,10 +1473,12 @@ components:
           properties:
             eth_addresses:
               type: array
+              description: List of verified Ethereum addresses of the user sorted by oldest to most recent.
               items:
                 $ref: "#/components/schemas/Address"
             sol_addresses:
               type: array
+              description: List of verified Solana addresses of the user sorted by oldest to most recent.
               items:
                 $ref: "#/components/schemas/SolAddress"
         verified_accounts:
