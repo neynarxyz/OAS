@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Farcaster API V2
-  version: "2.2.3"
+  version: "2.3.0"
   description: >
     The Farcaster API allows you to interact with the Farcaster protocol.
     See the [Neynar docs](https://docs.neynar.com/reference) for more details.
@@ -4236,9 +4236,11 @@ components:
           default: wow
           enum:
             - wow
+            - clanker
           description: |
             Factory name
-            - wow -> wow.xyz
+            - wow -> [wow.xyz](https://wow.xyz)
+            - clanker -> [clanker.world](https://www.clanker.world)
       required:
         - owner
         - symbol
