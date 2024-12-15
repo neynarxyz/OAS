@@ -4239,8 +4239,8 @@ components:
             - clanker
           description: |
             Factory name
-            - wow -> [wow.xyz](https://wow.xyz/)
-            - clanker -> [clanker.world](https://www.clanker.world/)
+            - wow -> [wow.xyz](https://wow.xyz)
+            - clanker -> [clanker.world](https://www.clanker.world)
       required:
         - owner
         - symbol
