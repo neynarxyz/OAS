@@ -42,7 +42,7 @@
 - [ ] I have ensured that endpoint's responses are correct.
 - [ ] I have considered backward compatibility with previous versions of the API.
 - [ ] I have communicated any breaking changes to the appropriate stakeholders.
-- [ ] I have tested the OAS changes using a tool like [Swagger editor](https://editor.swagger.io/)
+- [ ] I have tested the OAS changes using a tool like [Swagger editor](https://editor-next.swagger.io/?_gl=1*ad75lu*_gcl_au*MjA3NjEyNzk1Mi4xNzMzNDM5MDcw)
 
 ## Additional Comments
 
