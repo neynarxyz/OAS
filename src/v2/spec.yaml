@@ -2226,6 +2226,10 @@ components:
         - public_key
         - status
       properties:
+        object:
+          type: string
+          enum:
+            - signer
         signer_uuid:
           $ref: "#/components/schemas/SignerUUID"
         public_key:
@@ -4297,6 +4301,23 @@ components:
                 decimals:
                   type: integer
                   description: Decimal precision of the token
+    NonceResponse:
+      type: object
+      required:
+        - nonce
+      properties:
+        nonce:
+          type: string
+          description: The nonce value to sign the message
+    SignerListResponse:
+      type: object
+      required:
+        - signers
+      properties:
+        signers:
+          type: array
+          items:
+            $ref: "#/components/schemas/Signer"
 
   responses:
     401Response:
@@ -4409,6 +4430,8 @@ tags:
     description: Operations related to a ban
   - name: Onchain
     description: Operations related to onchain data
+  - name: Login
+    description: Operations related to login
 
 paths:
   /farcaster/user/fid:
@@ -4535,6 +4558,52 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Signer"
+        "500":
+          $ref: "#/components/responses/500Response"
+  /farcaster/signer/list:
+    get:
+      tags:
+        - Signer
+      summary: List signers
+      description: Fetches a list of signers for a custody address
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-signers
+      operationId: fetch-signers
+      parameters:
+        - name: message
+          in: query
+          required: true
+          description: |
+            A Sign-In with Ethereum (SIWE) message that the user's Ethereum wallet signs. This message
+            includes details such as the domain, address, statement, URI, nonce, and other relevant
+            information following the EIP-4361 standard. It should be structured and URL-encoded.
+
+            example: 
+            example.com wants you to sign in with your Ethereum account:\n0x23A...F232\n\nSign in to continue.\n\nURI: example.com\nVersion: 1\nChain ID: 1\nNonce: xyz123\nIssued At: 2021-09-01T14:52:07Z
+          schema:
+            type: string
+            example: "example.com%20wants%20you%20to%20sign%20in%20with%20your%20Ethereum%20account%3A%5Cn0x23A...F232%5Cn%5CnSign%20in%20to%20continue.%5Cn%5CnURI%3A%20example.com%5CnVersion%3A%201%5CnChain%20ID%3A%201%5CnNonce%3A%20xyz123%5CnIssued%20At%3A%202021-09-01T14%3A52%3A07Z"
+        - name: signature
+          in: query
+          description: |
+            The digital signature produced by signing the provided SIWE message with the user's
+            Ethereum private key. This signature is used to verify the authenticity of the message and
+            the identity of the signer.
+          required: true
+          schema:
+            type: string
+            example: "0x25f8...1cf"
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignerListResponse"
+        "401":
+          $ref: "#/components/responses/401Response"
+        "400":
+          $ref: "#/components/responses/400Response"
         "500":
           $ref: "#/components/responses/500Response"
   /farcaster/signer/signed_key:
@@ -6623,6 +6692,26 @@ paths:
           $ref: "#/components/responses/400Response"
         "404":
           $ref: "#/components/responses/404Response"
+        "500":
+          $ref: "#/components/responses/500Response"
+  /farcaster/login/nonce:
+    get:
+      tags:
+        - Login
+      summary: Fetch nonce
+      description: Nonce to sign a message
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-nonce
+      operationId: fetch-nonce
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NonceResponse"
+        "401":
+          $ref: "#/components/responses/401Response"
         "500":
           $ref: "#/components/responses/500Response"
   /farcaster/login/authorize:
