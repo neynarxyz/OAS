@@ -4309,6 +4309,7 @@ components:
         nonce:
           type: string
           description: The nonce value to sign the message
+          examples: ["neynarbMi9zSDuOC1GFqixR"]
     SignerListResponse:
       type: object
       required:
