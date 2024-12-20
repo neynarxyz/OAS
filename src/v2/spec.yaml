@@ -2191,12 +2191,17 @@ components:
                 type: string
                 enum:
                   - notification_token
+              url:
+                type: string
               token:
                 type: string
               status:
                 type: string
+                enum:
+                  - enabled
+                  - disabled
               fid:
-                type: number
+                $ref: "#/components/schemas/Fid"
               created_at:
                 type: string
                 format: date-time
