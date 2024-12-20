@@ -2176,6 +2176,35 @@ components:
                 $ref: "#/components/schemas/CastWithInteractions"
         next:
           $ref: "#/components/schemas/NextCursor"
+    FrameNotificationTokens:
+      type: object
+      required:
+        - notification_tokens
+        - next
+      properties:
+        notification_tokens:
+          type: array
+          items:
+            type: object
+            properties:
+              object:
+                type: string
+                enum:
+                  - notification_token
+              token:
+                type: string
+              status:
+                type: string
+              fid:
+                type: number
+              created_at:
+                type: string
+                format: date-time
+              updated_at:
+                type: string
+                format: date-time
+        next:
+          $ref: "#/components/schemas/NextCursor"
     ConversationSummary:
       type: object
       required:
@@ -6806,6 +6835,45 @@ paths:
           $ref: "#/components/responses/400Response"
         "500":
           $ref: "#/components/responses/500Response"
+  /farcaster/frame/notification_tokens:
+    get:
+      tags:
+        - Frame
+      summary: |
+        List of frame notification tokens.
+      description: |
+        Returns a list of notifications tokens related for an app
+      externalDocs:
+        url: https://docs.neynar.com/reference/list-notification-tokens
+      operationId: list-notification-tokens
+      parameters:
+        - name: limit
+          in: query
+          description: Number of results to fetch
+          required: false
+          example: 30
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+          x-is-limit-param: true
+        - name: fids
+          in: query
+          schema:
+            type: string
+          example: 3,2,194
+          description: Filter results by fid, up to 100 at a time
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FrameNotificationTokens"
+        "400":
+          $ref: "#/components/responses/400Response"
+
   /farcaster/frame/notifications:
     post:
       tags:
