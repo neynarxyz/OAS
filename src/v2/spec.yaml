@@ -5826,6 +5826,14 @@ paths:
           schema:
             type: boolean
             default: true
+        - name: fids
+          in: query
+          description: Comma separated list of FIDs to filter the feed by, up to 10 at a time
+          required: false
+          schema:
+            type: string
+            x-comma-separated: true
+            x-accept-as: integer
         - name: limit
           in: query
           description: Number of results to fetch
