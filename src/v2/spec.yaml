@@ -1,4 +1,4 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
   title: Farcaster API V2
   version: "2.5.0"
@@ -6844,8 +6844,8 @@ paths:
       description: |
         Returns a list of notifications tokens related for an app
       externalDocs:
-        url: https://docs.neynar.com/reference/list-notification-tokens
-      operationId: list-notification-tokens
+        url: https://docs.neynar.com/reference/fetch-notification-tokens
+      operationId: fetch-notification-tokens
       parameters:
         - name: limit
           in: query
@@ -6859,11 +6859,14 @@ paths:
             maximum: 100
           x-is-limit-param: true
         - name: fids
+          description: Comma separated list of FIDs, up to 100 at a time
           in: query
+          required: false
+          example: 194, 191, 6131
           schema:
             type: string
-          example: 3,2,194
-          description: Filter results by fid, up to 100 at a time
+            x-comma-separated: true
+            x-accept-as: integer
       responses:
         "200":
           description: Successful operation.
