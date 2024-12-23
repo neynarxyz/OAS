@@ -82,9 +82,6 @@ jobs:
           git add package.json
           git commit -m "Update package.json version to $SDK_VERSION"
 
-          # Pull and rebase
-          git pull --rebase
-
           # Push changes
           git push origin HEAD:"$BRANCH_NAME"
         shell: bash
