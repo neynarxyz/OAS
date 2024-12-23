@@ -5398,7 +5398,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CastMetricsResponse"
+                $ref: "#/components/schemas/CastsMetricsResponse"
         "400":
           $ref: "#/components/responses/400Response"
   /farcaster/cast/conversation:
