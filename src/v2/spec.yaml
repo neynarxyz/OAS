@@ -5378,7 +5378,6 @@ paths:
               - 1d
               - 7d
               - 30d
-          default: "30d"
         - name: author_fid
           in: query
           required: false
