@@ -84,15 +84,10 @@ paths:
       parameters:
         - name: fid
           in: query
-          description: "The Farcaster ID (FID) of the cast's creator. This is a unique identifier assigned to each user in the Farcaster network."
+          description: "The FID of the cast's creator"
           required: true
           schema:
-            type: integer
-            minimum: 1
-            examples:
-              - 3
-              - 1337
-              - 42069
+            $ref: "#/components/schemas/FidSchema"
         - name: hash
           in: query
           description: "The unique hash identifier of the cast. This is a 40-character hexadecimal string prefixed with '0x' that uniquely identifies a specific cast in the Farcaster network."
@@ -125,11 +120,10 @@ paths:
       parameters:
         - name: fid
           in: query
-          description: The FID of the casts' creator
+          description: "The FID of the casts' creator"
           required: true
           schema:
-            type: integer
-          example: 3
+            $ref: "#/components/schemas/FidSchema"
         - $ref: "#/components/parameters/pageSize"
         - $ref: "#/components/parameters/paginationReverse"
         - $ref: "#/components/parameters/pageToken"
@@ -139,23 +133,16 @@ paths:
           content:
             application/json:
               schema:
-                required:
-                  - messages
-                  - nextPageToken
-                type: object
-                properties:
-                  messages:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/CastAdd"
-                  nextPageToken:
-                    description: "Base64-encoded pagination token for fetching the next page of results. An empty value indicates there are no more pages to return. Used in conjunction with the pageSize parameter to implement pagination across large result sets."
-                    pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
-                    type: string
-                    format: byte
-                    examples:
-                      - "AuzO1V0DtaItCwwa10X6YsfStlynsGWT"
-                      - ""  # Example of no more pages
+                allOf:
+                  - type: object
+                    required:
+                      - messages
+                    properties:
+                      messages:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/CastAdd"
+                  - $ref: "#/components/schemas/PaginationResponse"
         default:
           $ref: "#/components/responses/ErrorResponse"
   /v1/castsByMention:
@@ -185,23 +172,16 @@ paths:
           content:
             application/json:
               schema:
-                required:
-                  - messages
-                  - nextPageToken
-                type: object
-                properties:
-                  messages:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/CastAdd"
-                  nextPageToken:
-                    description: "Base64-encoded pagination token for fetching the next page of results. An empty value indicates there are no more pages to return. Used in conjunction with the pageSize parameter to implement pagination across large result sets."
-                    pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
-                    type: string
-                    format: byte
-                    examples:
-                      - "AuzO1V0DtaItCwwa10X6YsfStlynsGWT"
-                      - ""  # Example of no more pages
+                allOf:
+                  - type: object
+                    required:
+                      - messages
+                    properties:
+                      messages:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/CastAdd"
+                  - $ref: "#/components/schemas/PaginationResponse"
         default:
           $ref: "#/components/responses/ErrorResponse"
   /v1/castsByParent:
@@ -253,24 +233,17 @@ paths:
           content:
             application/json:
               schema:
-                required:
-                  - messages
-                  - nextPageToken
-                type: object
-                properties:
-                  messages:
-                    description: "An array of reply casts to the specified parent cast, ordered by recency (newest first). Each cast includes its content, timestamp, and other metadata."
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/CastAdd"
-                  nextPageToken:
-                    description: "Base64-encoded pagination token for fetching the next page of results. An empty value indicates there are no more pages to return. Used in conjunction with the pageSize parameter to implement pagination across large result sets."
-                    pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
-                    type: string
-                    format: byte
-                    examples:
-                      - "AuzO1V0DtaItCwwa10X6YsfStlynsGWT"
-                      - ""  # Example of no more pages
+                allOf:
+                  - type: object
+                    required:
+                      - messages
+                    properties:
+                      messages:
+                        description: "An array of reply casts to the specified parent cast, ordered by recency (newest first). Each cast includes its content, timestamp, and other metadata."
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/CastAdd"
+                  - $ref: "#/components/schemas/PaginationResponse"
         default:
           $ref: "#/components/responses/ErrorResponse"
   /v1/reactionById:
@@ -333,14 +306,9 @@ paths:
       parameters:
         - name: target_fid
           in: query
-          description: "The Farcaster ID (FID) of the cast's creator. Required to uniquely identify the cast that received the reactions. Must be used in conjunction with target_hash."
+          description: "The FID of the cast's creator. Required to uniquely identify the cast that received the reactions. Must be used in conjunction with target_hash."
           schema:
-            type: integer
-            minimum: 1
-            examples:
-              - 616    # Example creator FID
-              - 1337   # Another creator FID
-              - 42069  # Popular creator FID
+            $ref: "#/components/schemas/FidSchema"
           required: true
         - name: target_hash
           in: query
@@ -367,23 +335,16 @@ paths:
           content:
             application/json:
               schema:
-                required:
-                  - messages
-                  - nextPageToken
-                type: object
-                properties:
-                  messages:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Reaction"
-                  nextPageToken:
-                    description: "Base64-encoded pagination token for fetching the next page of results. An empty value indicates there are no more pages to return. Used in conjunction with the pageSize parameter to implement pagination across large result sets."
-                    pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
-                    type: string
-                    format: byte
-                    examples:
-                      - "AuzO1V0DtaItCwwa10X6YsfStlynsGWT"
-                      - ""  # Example of no more pages
+                allOf:
+                  - type: object
+                    required:
+                      - messages
+                    properties:
+                      messages:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/Reaction"
+                  - $ref: "#/components/schemas/PaginationResponse"
         default:
           $ref: "#/components/responses/ErrorResponse"
   /v1/reactionsByFid:
@@ -399,11 +360,10 @@ paths:
       parameters:
         - name: fid
           in: query
-          description: The FID of the reaction's creator
+          description: "The FID of the reaction's creator"
           schema:
-            type: integer
+            $ref: "#/components/schemas/FidSchema"
           required: true
-          example: 3
         - name: reaction_type
           in: query
           description: The type of reaction, either as a numerical enum value or string representation
@@ -419,23 +379,16 @@ paths:
           content:
             application/json:
               schema:
-                required:
-                  - messages
-                  - nextPageToken
-                type: object
-                properties:
-                  messages:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Reaction"
-                  nextPageToken:
-                    description: "Base64-encoded pagination token for fetching the next page of results. An empty value indicates there are no more pages to return. Used in conjunction with the pageSize parameter to implement pagination across large result sets."
-                    pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
-                    type: string
-                    format: byte
-                    examples:
-                      - "AuzO1V0DtaItCwwa10X6YsfStlynsGWT"
-                      - ""  # Example of no more pages
+                allOf:
+                  - type: object
+                    required:
+                      - messages
+                    properties:
+                      messages:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/Reaction"
+                  - $ref: "#/components/schemas/PaginationResponse"
         default:
           $ref: "#/components/responses/ErrorResponse"
   /v1/reactionsByTarget:
@@ -473,23 +426,16 @@ paths:
           content:
             application/json:
               schema:
-                required:
-                  - messages
-                  - nextPageToken
-                type: object
-                properties:
-                  messages:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Reaction"
-                  nextPageToken:
-                    description: "Base64-encoded pagination token for fetching the next page of results. An empty value indicates there are no more pages to return. Used in conjunction with the pageSize parameter to implement pagination across large result sets."
-                    pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
-                    type: string
-                    format: byte
-                    examples:
-                      - "AuzO1V0DtaItCwwa10X6YsfStlynsGWT"
-                      - ""  # Example of no more pages
+                allOf:
+                  - type: object
+                    required:
+                      - messages
+                    properties:
+                      messages:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/Reaction"
+                  - $ref: "#/components/schemas/PaginationResponse"
         default:
           $ref: "#/components/responses/ErrorResponse"
   /v1/linkById:
@@ -505,18 +451,16 @@ paths:
       parameters:
         - name: fid
           in: query
-          description: The FID of the link's originator
+          description: "The FID of the link's originator"
           required: true
           schema:
-            type: integer
-          example: 3
+            $ref: "#/components/schemas/FidSchema"
         - name: target_fid
           in: query
-          description: The FID of the target of the link
+          description: "The FID of the target user for this link"
           required: true
           schema:
-            type: integer
-          example: 616
+            $ref: "#/components/schemas/FidSchema"
         - name: link_type
           in: query
           description: The type of link, as a string value
@@ -545,11 +489,10 @@ paths:
       parameters:
         - name: fid
           in: query
-          schema:
-            type: integer
+          description: "The FID of the link's originator"
           required: true
-          example: 616
-          description: The FID of the link's originator
+          schema:
+            $ref: "#/components/schemas/FidSchema"
         - name: link_type
           in: query
           schema:
@@ -565,19 +508,16 @@ paths:
           content:
             application/json:
               schema:
-                required:
-                  - messages
-                  - nextPageToken
-                type: object
-                properties:
-                  messages:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/LinkAdd"
-                  nextPageToken:
-                    pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
-                    type: string
-                    format: byte
+                allOf:
+                  - type: object
+                    required:
+                      - messages
+                    properties:
+                      messages:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/LinkAdd"
+                  - $ref: "#/components/schemas/PaginationResponse"
         default:
           $ref: "#/components/responses/ErrorResponse"
   /v1/linksByTargetFid:
@@ -593,11 +533,10 @@ paths:
       parameters:
         - name: target_fid
           in: query
-          schema:
-            type: integer
+          description: "The FID of the target user for this link"
           required: true
-          example: 3
-          description: The FID of the target of the link
+          schema:
+            $ref: "#/components/schemas/FidSchema"
         - name: link_type
           in: query
           schema:
@@ -613,19 +552,16 @@ paths:
           content:
             application/json:
               schema:
-                required:
-                  - messages
-                  - nextPageToken
-                type: object
-                properties:
-                  messages:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/LinkAdd"
-                  nextPageToken:
-                    pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
-                    type: string
-                    format: byte
+                allOf:
+                  - type: object
+                    required:
+                      - messages
+                    properties:
+                      messages:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/LinkAdd"
+                  - $ref: "#/components/schemas/PaginationResponse"
         default:
           $ref: "#/components/responses/ErrorResponse"
   /v1/userDataByFid:
@@ -663,19 +599,16 @@ paths:
               schema:
                 oneOf:
                   - $ref: "#/components/schemas/UserDataAdd"
-                  - type: object
-                    required:
-                      - messages
-                      - nextPageToken
-                    properties:
-                      messages:
-                        type: array
-                        items:
-                          $ref: "#/components/schemas/UserDataAdd"
-                      nextPageToken:
-                        pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
-                        type: string
-                        format: byte
+                  - allOf:
+                      - type: object
+                        required:
+                          - messages
+                        properties:
+                          messages:
+                            type: array
+                            items:
+                              $ref: "#/components/schemas/UserDataAdd"
+                      - $ref: "#/components/schemas/PaginationResponse"
         default:
           $ref: "#/components/responses/ErrorResponse"
   /v1/fids:
@@ -1099,6 +1032,19 @@ components:
       schema:
         type: string
   schemas:
+    PaginationResponse:
+      type: object
+      required:
+        - nextPageToken
+      properties:
+        nextPageToken:
+          type: string
+          format: byte
+          pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
+          description: "Base64-encoded pagination token for fetching the next page of results. An empty value indicates there are no more pages to return. Used in conjunction with the pageSize parameter to implement pagination across large result sets."
+          examples:
+            - "AuzO1V0DtaItCwwa10X6YsfStlynsGWT"
+            - ""  # Example of no more pages
     CastAdd:
       allOf:
         - $ref: "#/components/schemas/MessageCommon"
@@ -1252,21 +1198,31 @@ components:
         - FARCASTER_NETWORK_MAINNET
         - FARCASTER_NETWORK_TESTNET
         - FARCASTER_NETWORK_DEVNET
+    FidSchema:
+      type: integer
+      format: uint64
+      minimum: 1
+      description: >
+        Farcaster ID (FID). A unique identifier assigned to each user in the Farcaster network.
+        This number is permanent and cannot be changed. FIDs are assigned sequentially when
+        users register on the network.
+      examples:
+        - 1    # First user on the network
+        - 194  # Early adopter
+        - 1337 # Regular user
+        - 2    # Another early user
+
     FidsResponse:
-      type: object
-      properties:
-        fids:
-          type: array
-          items:
-            type: integer
-            format: uint64
-        nextPageToken:
-          pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
-          type: string
-          format: byte
-      required:
-        - fids
-        - nextPageToken
+      allOf:
+        - type: object
+          properties:
+            fids:
+              type: array
+              items:
+                $ref: "#/components/schemas/FidSchema"
+          required:
+            - fids
+        - $ref: "#/components/schemas/PaginationResponse"
     FrameActionBody:
       description: "Contains the data for a user's interaction with a Farcaster Frame. Frames are interactive elements within casts that can have up to 4 clickable buttons, allowing users to engage with content in predefined ways."
       type: object
@@ -1489,13 +1445,8 @@ components:
             - 49012345
         targetFid:
           title: "Target User FID"
-          description: "The Farcaster ID (FID) of the user being followed. Must be a valid FID of an existing user in the network."
-          type: integer
-          format: uint64
-          examples:
-            - 2
-            - 194
-            - 3
+          description: "The FID of the user being followed. Must be a valid FID of an existing user in the network."
+          $ref: "#/components/schemas/FidSchema"
       required:
         - type
         - targetFid
@@ -2100,8 +2051,8 @@ components:
           type: string
           format: byte
         fid:
-          type: integer
-          format: uint64
+          description: "The FID of the user who owns this username proof"
+          $ref: "#/components/schemas/FidSchema"
         type:
           $ref: "#/components/schemas/UserNameType"
       required:
