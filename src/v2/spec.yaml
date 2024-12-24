@@ -4492,6 +4492,8 @@ tags:
     description: Operations related to onchain data
   - name: Login
     description: Operations related to login
+  - name: Metrics
+    description: Operations related to retrieving metrics
 
 paths:
   /farcaster/user/fid:
@@ -5354,7 +5356,7 @@ paths:
   /farcaster/cast/metrics:
     get:
       tags:
-        - Cast
+        - Metrics
       summary: Metrics for casts
       description: Fetches metrics casts matching a query
       externalDocs:
