@@ -217,12 +217,11 @@ paths:
               - "0x03aff391a6eb1772b20b4ead9a89f732be75fe27"  # Another cast hash
         - name: url
           in: query
-          description: "The URL associated with the parent cast. This can be used as an alternative to the FID+hash combination for identifying a parent cast. Supports both standard HTTP(S) URLs (e.g., Warpcast conversation URLs) and chain URLs (e.g., NFT references). The URL must match exactly with the URL stored in the parent cast. Not required if using FID+hash lookup."
+          description: "Cast URL starting with 'chain://'"
           schema:
             type: string
             format: uri
             examples:
-              - "https://warpcast.com/~/conversations/0x776593353e47dc4e7f4df3199a9b04cc8efa30d9"  # Warpcast conversation URL
               - "chain://eip155:1/erc721:0x39d89b649ffa044383333d297e325d42d31329b2"  # NFT reference URL
         - $ref: "#/components/parameters/pageSize"
         - $ref: "#/components/parameters/paginationReverse"
@@ -239,7 +238,7 @@ paths:
                       - messages
                     properties:
                       messages:
-                        description: "An array of reply casts to the specified parent cast, ordered by recency (newest first). Each cast includes its content, timestamp, and other metadata."
+                        description: "An array of reply casts to the specified parent cast, ordered by oldest first. Each cast includes its content, timestamp, and other metadata."
                         type: array
                         items:
                           $ref: "#/components/schemas/CastAdd"
@@ -280,7 +279,6 @@ paths:
           example: "0xfec8fd3546e1f46cf5ad10a4ff9f5d53a3bbe9be"
         - name: reaction_type
           in: query
-          description: The type of reaction, either as a numerical enum value or string representation
           schema:
             $ref: "#/components/schemas/ReactionType"
           required: true
@@ -322,7 +320,6 @@ paths:
           required: true
         - name: reaction_type
           in: query
-          description: "The specific type of reaction to filter by. Can be either a like (showing appreciation) or recast (sharing to user's audience). This parameter helps narrow down the reaction results to a specific interaction type."
           schema:
             $ref: "#/components/schemas/ReactionType"
           required: true
@@ -366,7 +363,6 @@ paths:
           required: true
         - name: reaction_type
           in: query
-          description: The type of reaction, either as a numerical enum value or string representation
           schema:
             $ref: "#/components/schemas/ReactionType"
           required: true
@@ -404,16 +400,14 @@ paths:
       parameters:
         - name: url
           in: query
-          description: "The target URL to fetch reactions for. Can be a regular HTTP(S) URL or a chain URL (e.g., for NFTs). The URL must match exactly with the URL in the original reaction."
+          description: "Target URL starting with 'chain://'."
           schema:
             type: string
             examples:
-              - "https://example.com/some-content"
               - "chain://eip155:1/erc721:0x39d89b649ffa044383333d297e325d42d31329b2"
           required: true
         - name: reaction_type
           in: query
-          description: "The specific type of reaction to filter by. Can be either a like (showing appreciation) or recast (sharing to user's audience). This parameter helps narrow down the reaction results to a specific interaction type."
           schema:
             $ref: "#/components/schemas/ReactionType"
           required: true
@@ -463,7 +457,6 @@ paths:
             $ref: "#/components/schemas/FidSchema"
         - name: link_type
           in: query
-          description: The type of link, as a string value
           required: true
           schema:
             $ref: "#/components/schemas/LinkType"
@@ -498,7 +491,6 @@ paths:
           schema:
             $ref: "#/components/schemas/LinkType"
           required: false
-          description: The type of link, as a string value
         - $ref: "#/components/parameters/pageSize"
         - $ref: "#/components/parameters/paginationReverse"
         - $ref: "#/components/parameters/pageToken"
@@ -542,7 +534,6 @@ paths:
           schema:
             $ref: "#/components/schemas/LinkType"
           required: false
-          description: The type of link, as a string value
         - $ref: "#/components/parameters/pageSize"
         - $ref: "#/components/parameters/paginationReverse"
         - $ref: "#/components/parameters/pageToken"
@@ -1433,7 +1424,6 @@ components:
       type: object
       properties:
         type:
-          description: "Specifies the type of social connection. Currently only supports 'follow' to indicate following another user."
           $ref: "#/components/schemas/LinkType"
         displayTimestamp:
           title: "Original Timestamp"
