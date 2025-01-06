@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Farcaster API V2
-  version: "2.6.1"
+  version: "2.7.0"
   description: >
     The Farcaster API allows you to interact with the Farcaster protocol.
     See the [Neynar docs](https://docs.neynar.com/reference) for more details.
@@ -2614,6 +2614,31 @@ components:
                 $ref: "#/components/schemas/CastWithInteractions"
             next:
               $ref: "#/components/schemas/NextCursor"
+    CastsMetrics:
+      type: object
+      required:
+        - start
+        - resolution_in_seconds
+        - cast_count
+      properties:
+        start:
+          type: string
+          format: date-time
+        resolution_in_seconds:
+          type: integer
+          format: int32
+        cast_count:
+          type: integer
+          format: int32
+    CastsMetricsResponse:
+      type: object
+      required:
+        - metrics
+      properties:
+        metrics:
+          type: array
+          items:
+            $ref: "#/components/schemas/CastsMetrics"
     FeedResponse:
       type: object
       required:
@@ -4467,6 +4492,8 @@ tags:
     description: Operations related to onchain data
   - name: Login
     description: Operations related to login
+  - name: Metrics
+    description: Operations related to retrieving metrics
 
 paths:
   /farcaster/user/fid:
@@ -5324,6 +5351,55 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CastsSearchResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+  /farcaster/cast/metrics:
+    get:
+      tags:
+        - Metrics
+      summary: Metrics for casts
+      description: Fetches metrics casts matching a query
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-cast-metrics
+      operationId: fetch-cast-metrics
+      parameters:
+        - name: q
+          in: query
+          required: true
+          description: "Query string to search for casts"
+          example: "star wars"
+          schema:
+            type: string
+        - name: interval
+          in: query
+          required: false
+          description: "Interval of time for which to fetch metrics. Choices are `1d`, `7d`, `30d`"
+          schema:
+            type: string
+            enum:
+              - 1d
+              - 7d
+              - 30d
+        - name: author_fid
+          in: query
+          required: false
+          description: "Fid of the user whose casts you want to search"
+          example: 194
+          schema:
+            $ref: "#/components/schemas/Fid"
+        - name: channel_id
+          in: query
+          required: false
+          schema:
+            type: string
+          description: "Channel ID of the casts you want to search"
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CastsMetricsResponse"
         "400":
           $ref: "#/components/responses/400Response"
   /farcaster/cast/conversation:
