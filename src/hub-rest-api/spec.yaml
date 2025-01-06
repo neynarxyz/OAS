@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Farcaster Hub API
-  version: "1.0"
+  version: "2.7.1"
   description: >
     Perform basic queries of Farcaster state via the REST API of a Farcaster hub.
     See the [Neynar docs](https://docs.neynar.com/reference) for more details.
