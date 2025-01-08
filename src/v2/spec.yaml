@@ -1928,6 +1928,7 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Fid"
+          maxItems: 100
     FrameDeveloperManagedActionReqBody:
       type: object
       required:
