@@ -1928,6 +1928,7 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Fid"
+          maxItems: 100
     FrameDeveloperManagedActionReqBody:
       type: object
       required:
@@ -3325,11 +3326,16 @@ components:
       type: object
       required:
         - notification_deliveries
+        - disabled_fids
       properties:
         notification_deliveries:
           type: array
           items:
             $ref: "#/components/schemas/NotificationDelivery"
+        disabled_fids:
+          type: array
+          items:
+            $ref: "#/components/schemas/Fid"
     NotificationDelivery:
       type: object
       required:
