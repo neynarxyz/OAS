@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Farcaster API V2
-  version: "2.8.0"
+  version: "2.8.1"
   description: >
     The Farcaster API allows you to interact with the Farcaster protocol.
     See the [Neynar docs](https://docs.neynar.com/reference) for more details.
@@ -3326,16 +3326,11 @@ components:
       type: object
       required:
         - notification_deliveries
-        - disabled_fids
       properties:
         notification_deliveries:
           type: array
           items:
             $ref: "#/components/schemas/NotificationDelivery"
-        disabled_fids:
-          type: array
-          items:
-            $ref: "#/components/schemas/Fid"
     NotificationDelivery:
       type: object
       required:
@@ -3354,6 +3349,7 @@ components:
           enum:
             - success
             - token_not_found
+            - token_disabled
             - failed
     ValidateFrameActionResponse:
       type: object
