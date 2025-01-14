@@ -2747,6 +2747,7 @@ components:
             - likes
             - mention
             - reply
+            - quote
         seen:
           type: boolean
         follows:
@@ -4185,6 +4186,7 @@ components:
         - likes
         - mentions
         - replies
+        - quotes
     MarkNotificationsAsSeenReqBody:
       type: object
       required:
