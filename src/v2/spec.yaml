@@ -5324,6 +5324,18 @@ paths:
           schema:
             type: string
           description: "Channel ID of the casts you want to search"
+        - name: start_time
+          in: query
+          required: false
+          schema:
+            type: int
+          description: "Start time of the casts you want to search, as a unix timestamp in seconds"
+        - name: end_time
+          in: query
+          required: false
+          schema:
+            type: int
+          description: "End time of the casts you want to search, as a unix timestamp in seconds"
         - name: priority_mode
           in: query
           required: false
