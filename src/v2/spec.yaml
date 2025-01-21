@@ -5880,7 +5880,7 @@ paths:
           schema:
             type: string
             x-comma-separated: true
-          description: Comma separated list of channel IDs e.g. neynar,farcaster
+          description: Comma separated list of up to 10 channel IDs e.g. neynar,farcaster
         - name: with_recasts
           in: query
           description: Include recasts in the response, true by default
