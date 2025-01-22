@@ -5294,7 +5294,7 @@ paths:
         - name: q
           in: query
           required: true
-          description: "Query string to search for casts"
+          description: "Query string to search for casts. Include 'before:YYYY-MM-DD' or 'after:YYYY-MM-DD' to search for casts before or after a specific date."
           example: "star wars"
           schema:
             type: string
