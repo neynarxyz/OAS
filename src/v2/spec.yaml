@@ -3323,6 +3323,51 @@ components:
           $ref: "#/components/schemas/FrameTransaction"
         address:
           $ref: "#/components/schemas/FrameAddress"
+    FrameCatalogResponse:
+      type: object
+      required:
+        - frames
+        - next
+      properties:
+        frames:
+          type: array
+          items:
+            type: object
+            required:
+              - name
+              - home_url
+              - icon_url
+              - image_url
+              - button_title
+              - splash_image_url
+              - splash_background_color
+              - author
+            properties:
+              name:
+                type: string
+                description: Name of the frame
+              home_url:
+                type: string
+                description: Home URL of the frame
+              icon_url:
+                type: string
+                description: URL of the frame's icon
+              image_url:
+                type: string
+                description: URL of the frame's image
+              button_title:
+                type: string
+                description: Title of the frame's button
+              splash_image_url:
+                type: string
+                description: URL of the frame's splash image
+              splash_background_color:
+                type: string
+                description: Background color for the frame's splash screen
+              author:
+                $ref: "#/components/schemas/User"
+        next:
+          $ref: "#/components/schemas/NextCursor"
     SendFrameNotificationsResponse:
       type: object
       required:
@@ -6397,6 +6442,38 @@ paths:
                 $ref: "#/components/schemas/DeleteFrameResponse"
         "404":
           $ref: "#/components/responses/404Response"
+
+  /farcaster/frame/catalog:
+    get:
+      tags:
+        - Frame
+      summary: Frames Catalog
+      description: A curated list of featured frames
+      operationId: fetch-frame-catalog
+      parameters:
+        - name: limit
+          in: query
+          description: Number of results to fetch
+          required: false
+          schema:
+            type: integer
+            default: 100
+            maximum: 100
+          x-is-limit-param: true
+        - name: cursor
+          in: query
+          description: Pagination cursor
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FrameCatalogResponse"
+
   /farcaster/frame/list:
     get:
       tags:
