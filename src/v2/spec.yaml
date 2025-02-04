@@ -3395,40 +3395,7 @@ components:
         frames:
           type: array
           items:
-            type: object
-            required:
-              - name
-              - home_url
-              - icon_url
-              - image_url
-              - button_title
-              - splash_image_url
-              - splash_background_color
-              - author
-            properties:
-              name:
-                type: string
-                description: Name of the frame
-              home_url:
-                type: string
-                description: Home URL of the frame
-              icon_url:
-                type: string
-                description: URL of the frame's icon
-              image_url:
-                type: string
-                description: URL of the frame's image
-              button_title:
-                type: string
-                description: Title of the frame's button
-              splash_image_url:
-                type: string
-                description: URL of the frame's splash image
-              splash_background_color:
-                type: string
-                description: Background color for the frame's splash screen
-              author:
-                $ref: "#/components/schemas/User"
+            $ref: "#/components/schemas/FrameV2"
         next:
           $ref: "#/components/schemas/NextCursor"
     SendFrameNotificationsResponse:
