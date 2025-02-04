@@ -862,8 +862,7 @@ components:
         - $ref: "#/components/schemas/FrameV1"
         - $ref: "#/components/schemas/FrameV2"
       mapping:
-        # 'vNext' for v1, and 'next' for v2.
-        # Bit confusing but that's the spec:
+        # 'vNext' for v1, and 'next' for v2. See specs:
         # v1: https://docs.farcaster.xyz/developers/frames/spec#constructing-a-frame
         # v2: https://docs.farcaster.xyz/developers/frames/v2/spec#frame-embed-metatags
         vNext: "#/components/schemas/FrameV1"
@@ -918,10 +917,9 @@ components:
                   description: State for the frame in a serialized format
     FrameV2:
       description: Frame v2 object
-
       allOf:
         - $ref: "#/components/schemas/FrameBase"
-        # these required properties come from FrameEmbed
+        # required properties come from FrameEmbed
         # See: https://docs.farcaster.xyz/developers/frames/v2/spec#frame-embed-metatags
         - type: object
           required:
@@ -945,6 +943,8 @@ components:
               examples:
                 - Yionk flag
                 - Buy storage
+            # properties below come from Farcaster Manifest
+            # see: https://docs.farcaster.xyz/developers/frames/v2/spec#frame-manifest
             icon:
               type: string
               description: Icon URL of frame app
