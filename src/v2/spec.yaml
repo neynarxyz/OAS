@@ -925,8 +925,6 @@ components:
           required:
             - title
             - name
-            - splash_image
-            - splash_background_color
           properties:
             name:
               type: string
@@ -948,6 +946,8 @@ components:
             icon:
               type: string
               description: Icon URL of frame app
+            # splash_* properties are required in v2 FrameEmbed but not honored by Warpcast
+            # we make them optional too
             splash_image:
               type: string
               description: Splash screen image URL
