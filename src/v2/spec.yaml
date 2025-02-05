@@ -226,7 +226,11 @@ components:
           properties:
             version:
               type: string
-              enum: ["1"]
+              enum:
+                - "0.0.0"
+                - "0.0.1"
+                - "1"
+                - "next"
             name:
               type: string
               maxLength: 32
@@ -256,7 +260,6 @@ components:
             - home_url
             - icon_url
             - image_url
-            - button_title
         triggers:
           type: array
           items:
@@ -297,7 +300,6 @@ components:
                   - url
       required:
         - account_association
-        - frame
 
     # TwitterImageObject:
     #   type: object
