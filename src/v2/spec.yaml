@@ -204,6 +204,101 @@ components:
           type: string
         metadata:
           $ref: "#/components/schemas/EmbedUrlMetadata"
+
+    FarcasterManifest:
+      type: object
+      properties:
+        account_association:
+          type: object
+          properties:
+            header:
+              type: string
+            payload:
+              type: string
+            signature:
+              type: string
+          required:
+            - header
+            - payload
+            - signature
+        frame:
+          type: object
+          properties:
+            version:
+              type: string
+              enum: ["1"]
+            name:
+              type: string
+              maxLength: 32
+            home_url:
+              type: string
+              maxLength: 512
+            icon_url:
+              type: string
+              maxLength: 512
+            image_url:
+              type: string
+              maxLength: 512
+            button_title:
+              type: string
+              maxLength: 32
+            splash_image_url:
+              type: string
+              maxLength: 512
+            splash_background_color:
+              type: string
+            webhook_url:
+              type: string
+              maxLength: 512
+          required:
+            - version
+            - name
+            - home_url
+            - icon_url
+            - image_url
+            - button_title
+        triggers:
+          type: array
+          items:
+            oneOf:
+              - type: object
+                properties:
+                  type:
+                    type: string
+                    enum: ["cast"]
+                  id:
+                    type: string
+                  url:
+                    type: string
+                    maxLength: 512
+                  name:
+                    type: string
+                    maxLength: 32
+                required:
+                  - type
+                  - id
+                  - url
+              - type: object
+                properties:
+                  type:
+                    type: string
+                    enum: ["composer"]
+                  id:
+                    type: string
+                  url:
+                    type: string
+                    maxLength: 512
+                  name:
+                    type: string
+                    maxLength: 32
+                required:
+                  - type
+                  - id
+                  - url
+      required:
+        - account_association
+        - frame
+
     # TwitterImageObject:
     #   type: object
     #   properties:
@@ -927,34 +1022,10 @@ components:
             - name
             - icon
           properties:
-            name:
-              type: string
-              description: App name for Frame v2
-              examples:
-                - Yionk!
-                - CastStorage
-            title:
-              type: string
-              description: Action button text
-              examples:
-                - Yionk flag
-                - Buy storage
-            # properties below come from Farcaster Manifest
-            # homeUrl is under frames_url
-            # see: https://docs.farcaster.xyz/developers/frames/v2/spec#frame-manifest
-            icon:
-              type: string
-              description: Icon URL of frame app
+            manifest:
+              $ref: "#/components/schemas/FarcasterManifest"
             author:
               $ref: "#/components/schemas/User"
-            # splash_* properties are required in v2 FrameEmbed but not honored by Warpcast
-            # we make them optional too
-            splash_image:
-              type: string
-              description: Splash screen image URL
-            splash_background_color:
-              type: string
-              description: Splash screen background color
 
     SubscriptionTier:
       type: object
