@@ -204,6 +204,101 @@ components:
           type: string
         metadata:
           $ref: "#/components/schemas/EmbedUrlMetadata"
+
+    FarcasterManifest:
+      type: object
+      properties:
+        account_association:
+          type: object
+          properties:
+            header:
+              type: string
+            payload:
+              type: string
+            signature:
+              type: string
+          required:
+            - header
+            - payload
+            - signature
+        frame:
+          type: object
+          properties:
+            version:
+              type: string
+              enum: ["1"]
+            name:
+              type: string
+              maxLength: 32
+            home_url:
+              type: string
+              maxLength: 512
+            icon_url:
+              type: string
+              maxLength: 512
+            image_url:
+              type: string
+              maxLength: 512
+            button_title:
+              type: string
+              maxLength: 32
+            splash_image_url:
+              type: string
+              maxLength: 512
+            splash_background_color:
+              type: string
+            webhook_url:
+              type: string
+              maxLength: 512
+          required:
+            - version
+            - name
+            - home_url
+            - icon_url
+            - image_url
+            - button_title
+        triggers:
+          type: array
+          items:
+            oneOf:
+              - type: object
+                properties:
+                  type:
+                    type: string
+                    enum: ["cast"]
+                  id:
+                    type: string
+                  url:
+                    type: string
+                    maxLength: 512
+                  name:
+                    type: string
+                    maxLength: 32
+                required:
+                  - type
+                  - id
+                  - url
+              - type: object
+                properties:
+                  type:
+                    type: string
+                    enum: ["composer"]
+                  id:
+                    type: string
+                  url:
+                    type: string
+                    maxLength: 512
+                  name:
+                    type: string
+                    maxLength: 32
+                required:
+                  - type
+                  - id
+                  - url
+      required:
+        - account_association
+        - frame
+
     # TwitterImageObject:
     #   type: object
     #   properties:
@@ -856,6 +951,20 @@ components:
         cast:
           $ref: "#/components/schemas/CastDehydrated"
     Frame:
+      discriminator:
+        propertyName: "version"
+      oneOf:
+        - $ref: "#/components/schemas/FrameV1"
+        - $ref: "#/components/schemas/FrameV2"
+      mapping:
+        # 'vNext' for v1, and 'next' for v2. See specs:
+        # v1: https://docs.farcaster.xyz/developers/frames/spec#constructing-a-frame
+        # v2: https://docs.farcaster.xyz/developers/frames/v2/spec#frame-embed-metatags
+        vNext: "#/components/schemas/FrameV1"
+        next: "#/components/schemas/FrameV2"
+
+    FrameBase:
+      description: Frame base object used across all versions
       type: object
       required:
         - version
@@ -864,36 +973,60 @@ components:
       properties:
         version:
           type: string
-          description: Version of the frame
+          description: Version of the frame, 'next' for v2, 'vNext' for v1
         image:
           type: string
           description: URL of the image
-        buttons:
-          type: array
-          items:
-            $ref: "#/components/schemas/FrameActionButton"
-        post_url:
-          type: string
-          description: Post URL to take an action on this frame
         frames_url:
           type: string
-          description: URL of the frames
-        title:
-          type: string
-        image_aspect_ratio:
-          type: string
-        input:
-          type: object
+          description: Launch URL of the frame
+
+    FrameV1:
+      description: Frame v1 object
+      allOf:
+        - $ref: "#/components/schemas/FrameBase"
+        - type: object
           properties:
-            text:
+            buttons:
+              type: array
+              items:
+                $ref: "#/components/schemas/FrameActionButton"
+            post_url:
               type: string
-              description: Input text for the frame
-        state:
-          type: object
+              description: Post URL to take an action on this frame
+            title:
+              type: string
+            image_aspect_ratio:
+              type: string
+            input:
+              type: object
+              properties:
+                text:
+                  type: string
+                  description: Input text for the frame
+            state:
+              type: object
+              properties:
+                serialized:
+                  type: string
+                  description: State for the frame in a serialized format
+    FrameV2:
+      description: Frame v2 object
+      allOf:
+        - $ref: "#/components/schemas/FrameBase"
+        # required properties come from FrameEmbed
+        # See: https://docs.farcaster.xyz/developers/frames/v2/spec#frame-embed-metatags
+        - type: object
+          required:
+            - title
+            - name
+            - icon
           properties:
-            serialized:
-              type: string
-              description: State for the frame in a serialized format
+            manifest:
+              $ref: "#/components/schemas/FarcasterManifest"
+            author:
+              $ref: "#/components/schemas/User"
+
     SubscriptionTier:
       type: object
       properties:
@@ -3323,6 +3456,18 @@ components:
           $ref: "#/components/schemas/FrameTransaction"
         address:
           $ref: "#/components/schemas/FrameAddress"
+    FrameCatalogResponse:
+      type: object
+      required:
+        - frames
+        - next
+      properties:
+        frames:
+          type: array
+          items:
+            $ref: "#/components/schemas/FrameV2"
+        next:
+          $ref: "#/components/schemas/NextCursor"
     SendFrameNotificationsResponse:
       type: object
       required:
@@ -6397,6 +6542,38 @@ paths:
                 $ref: "#/components/schemas/DeleteFrameResponse"
         "404":
           $ref: "#/components/responses/404Response"
+
+  /farcaster/frame/catalog:
+    get:
+      tags:
+        - Frame
+      summary: Frames Catalog
+      description: A curated list of featured frames
+      operationId: fetch-frame-catalog
+      parameters:
+        - name: limit
+          in: query
+          description: Number of results to fetch
+          required: false
+          schema:
+            type: integer
+            default: 100
+            maximum: 100
+          x-is-limit-param: true
+        - name: cursor
+          in: query
+          description: Pagination cursor
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FrameCatalogResponse"
+
   /farcaster/frame/list:
     get:
       tags:
