@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Farcaster API V2
-  version: "2.11.0"
+  version: "2.12.0"
   description: >
     The Farcaster API allows you to interact with the Farcaster protocol.
     See the [Neynar docs](https://docs.neynar.com/reference) for more details.
@@ -914,6 +914,9 @@ components:
                       video: "#/components/schemas/OembedVideoData"
                       photo: "#/components/schemas/OembedPhotoData"
                       link: "#/components/schemas/OembedLinkData"
+        frame:
+          $ref: "#/components/schemas/Frame"
+
     ChannelMemberRole:
       type: string
       description: The role of a channel member
@@ -964,6 +967,9 @@ components:
         # v2: https://docs.farcaster.xyz/developers/frames/v2/spec#frame-embed-metatags
         vNext: "#/components/schemas/FrameV1"
         next: "#/components/schemas/FrameV2"
+        "1": "#/components/schemas/FrameV2"
+        "0.0.0": "#/components/schemas/FrameV2"
+        "0.0.1": "#/components/schemas/FrameV2"
 
     FrameBase:
       description: Frame base object used across all versions
