@@ -7118,7 +7118,7 @@ paths:
       tags:
         - Frame
       summary: |
-        List of frame notification tokens.
+        List of frame notification tokens
       description: |
         Returns a list of notifications tokens related for an app
       externalDocs:
