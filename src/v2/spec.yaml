@@ -259,7 +259,6 @@ components:
             - name
             - home_url
             - icon_url
-            - image_url
         triggers:
           type: array
           items:
