@@ -1791,6 +1791,10 @@ components:
                 - $ref: "#/components/schemas/Fid"
         author:
           $ref: "#/components/schemas/UserDehydrated"
+        app:
+          oneOf:
+            - type: "null"
+            - $ref: "#/components/schemas/AppDehydrated"
         text:
           type: string
         timestamp:
@@ -2931,6 +2935,10 @@ components:
           type: string
         author:
           $ref: "#/components/schemas/UserDehydrated"
+        app:
+          oneOf:
+            - type: "null"
+            - $ref: "#/components/schemas/AppDehydrated"
     ReactionWithUserInfo:
       type: object
       required:
@@ -3038,6 +3046,24 @@ components:
           type: string
           enum:
             - user_dehydrated
+        fid:
+          $ref: "#/components/schemas/Fid"
+        username:
+          type: string
+        display_name:
+          type: string
+        pfp_url:
+          type: string
+    AppDehydrated:
+      type: object
+      required:
+        - object
+        - fid
+      properties:
+        object:
+          type: string
+          enum:
+            - app_dehydrated
         fid:
           $ref: "#/components/schemas/Fid"
         username:
