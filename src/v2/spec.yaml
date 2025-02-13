@@ -7017,13 +7017,15 @@ paths:
       description: Returns a list of interactions between two users
       operationId: fetch-user-interactions
       parameters:
-        - name: fid
+        - name: fids
+          description: Comma separated list of two FIDs
           in: query
           required: true
+          example: 194, 191
           schema:
-            $ref: "#/components/schemas/Fid"
-          example: 194
-          description: FID of the user you want to fetch interactions for.
+            type: string
+            x-comma-separated: true
+            x-accept-as: integer
         - name: type
           in: query
           required: false
