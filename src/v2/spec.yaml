@@ -259,7 +259,6 @@ components:
             - name
             - home_url
             - icon_url
-            - image_url
         triggers:
           type: array
           items:
@@ -914,6 +913,9 @@ components:
                       video: "#/components/schemas/OembedVideoData"
                       photo: "#/components/schemas/OembedPhotoData"
                       link: "#/components/schemas/OembedLinkData"
+        frame:
+          $ref: "#/components/schemas/Frame"
+
     ChannelMemberRole:
       type: string
       description: The role of a channel member
@@ -964,6 +966,9 @@ components:
         # v2: https://docs.farcaster.xyz/developers/frames/v2/spec#frame-embed-metatags
         vNext: "#/components/schemas/FrameV1"
         next: "#/components/schemas/FrameV2"
+        "1": "#/components/schemas/FrameV2"
+        "0.0.0": "#/components/schemas/FrameV2"
+        "0.0.1": "#/components/schemas/FrameV2"
 
     FrameBase:
       description: Frame base object used across all versions
@@ -7152,7 +7157,7 @@ paths:
       tags:
         - Frame
       summary: |
-        List of frame notification tokens.
+        List of frame notification tokens
       description: |
         Returns a list of notifications tokens related for an app
       externalDocs:
