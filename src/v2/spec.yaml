@@ -7012,7 +7012,7 @@ paths:
         - name: fids
           description: Comma separated list of two FIDs
           in: query
-          required: false
+          required: true
           example: 194, 191
           schema:
             type: string
