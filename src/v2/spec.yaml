@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Farcaster API V2
-  version: "2.13.0"
+  version: "2.13.1"
   description: >
     The Farcaster API allows you to interact with the Farcaster protocol.
     See the [Neynar docs](https://docs.neynar.com/reference) for more details.
@@ -7004,13 +7004,15 @@ paths:
       description: Returns a list of interactions between two users
       operationId: fetch-user-interactions
       parameters:
-        - name: fid
+        - name: fids
+          description: Comma separated list of two FIDs
           in: query
-          required: true
+          required: false
+          example: 194, 191
           schema:
-            $ref: "#/components/schemas/Fid"
-          example: 194
-          description: FID of the user you want to fetch interactions for.
+            type: string
+            x-comma-separated: true
+            x-accept-as: integer
         - name: type
           in: query
           required: false
