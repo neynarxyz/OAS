@@ -932,6 +932,18 @@ components:
           $ref: "#/components/schemas/Fid"
         hash:
           type: string
+    CastTextRange:
+      type: object
+      require:
+        - start
+        - end
+      properties:
+        start:
+          type: number
+          minimum: 0
+        end:
+          type: number
+          minimum: 0
     EmbedCast:
       type: object
       required:
@@ -2252,6 +2264,9 @@ components:
             - replies
             - thread_hash
             - mentioned_profiles
+            - mentioned_profiles_ranges
+            - mentioned_channels
+            - mentioned_channels_ranges
             - channel
           properties:
             frames:
@@ -2268,6 +2283,24 @@ components:
               type: array
               items:
                 $ref: "#/components/schemas/User"
+            mentioned_profiles_ranges:
+              description: |
+                Ranges indicating their mark in a text where mention is placed.
+                Index of a list here corresponds to an index of an element in mentioned_profiles field.
+              type: array
+              items:
+                $ref: "#/components/schemas/CastTextRange"
+            mentioned_channels:
+              type: array
+              items:
+                $ref: "#/components/schemas/DehydratedChannel"
+            mentioned_channels_ranges:
+              description: |
+                Ranges indicating their mark in a text where mention is placed.
+                Index of a list here corresponds to an index of an element in mentioned_channels field.
+              type: array
+              items:
+                $ref: "#/components/schemas/CastTextRange"
             channel:
               oneOf:
                 - $ref: "#/components/schemas/ChannelOrDehydratedChannel"
