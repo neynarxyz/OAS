@@ -4662,6 +4662,8 @@ tags:
       url: https://docs.neynar.com/reference/storage-operations
   - name: Frame
     description: Operations related to frames
+  - name: Agents
+    description: Operations for building AI agents
   - name: fname
     description: Operations related to fname
   - name: Webhook
@@ -5679,7 +5681,7 @@ paths:
   /farcaster/cast/conversation/summary:
     get:
       tags:
-        - Cast
+        - Agents
       summary: Conversation summary for a cast
       description: >
         Generates a summary of all casts related to a conversation surrounding
@@ -7039,7 +7041,7 @@ paths:
   /farcaster/user/interactions:
     get:
       tags:
-        - User
+        - Agents
       summary: User interactions
       description: Returns a list of interactions between two users
       operationId: fetch-user-interactions
