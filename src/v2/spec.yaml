@@ -6435,6 +6435,13 @@ paths:
           schema:
             $ref: "#/components/schemas/Fid"
           description: FID of user whose recent casts you want to fetch
+        - name: app_fid
+          in: query
+          required: false
+          example: 9152
+          schema:
+            $ref: "#/components/schemas/Fid"
+          description: Optionally filter to casts created via a specific app FID, e.g. 9152 for Warpcast
         - name: viewer_fid
           in: query
           required: false
