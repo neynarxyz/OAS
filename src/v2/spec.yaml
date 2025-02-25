@@ -7238,6 +7238,12 @@ paths:
             type: string
             x-comma-separated: true
             x-accept-as: integer
+        - name: cursor
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Pagination cursor
       responses:
         "200":
           description: Successful operation.
