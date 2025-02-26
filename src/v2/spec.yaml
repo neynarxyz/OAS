@@ -5496,6 +5496,17 @@ paths:
           example: "star wars"
           schema:
             type: string
+        - name: mode
+          in: query
+          required: false
+          description: "Choices are `literal` (default), `semantic`, `hybrid`"
+          example: "literal"
+          schema:
+            type: string
+            enum:
+              - literal
+              - semantic
+              - hybrid
         - name: author_fid
           in: query
           required: false
