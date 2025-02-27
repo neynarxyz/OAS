@@ -8247,8 +8247,8 @@ paths:
     get:
       tags:
         - Follows
-      summary: Followed by
-      description: Fetch a list of users followed by a user. Can optionally include a viewer_fid and sort_type.
+      summary: Following
+      description: Fetch a list of users who a given user is following. Can optionally include a viewer_fid and sort_type.
       externalDocs:
         url: https://docs.neynar.com/reference/fetch-user-following
       operationId: fetch-user-following
