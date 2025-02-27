@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Farcaster API V2
-  version: "2.15.0"
+  version: "2.15.1"
   description: >
     The Farcaster API allows you to interact with the Farcaster protocol.
     See the [Neynar docs](https://docs.neynar.com/reference) for more details.
@@ -1990,6 +1990,7 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/PostCastReqBodyEmbeds"
+          maxItems: 2
         parent:
           $ref: "#/components/schemas/CastParent"
         channel_id:
