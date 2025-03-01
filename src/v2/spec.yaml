@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Farcaster API V2
-  version: "2.16"
+  version: "2.17.0"
   description: >
     The Farcaster API allows you to interact with the Farcaster protocol.
     See the [Neynar docs](https://docs.neynar.com/reference) for more details.
@@ -7452,6 +7452,17 @@ paths:
             type: boolean
             default: false
           description: When true, only returns notifications from power badge users and users that the viewer follows (if viewer_fid is provided).
+        - name: limit
+          in: query
+          description: Number of results to fetch
+          required: false
+          example: 15
+          schema:
+            type: integer
+            default: 15
+            minimum: 1
+            maximum: 25
+          x-is-limit-param: true
         - name: cursor
           in: query
           description: Pagination cursor.
@@ -7499,6 +7510,17 @@ paths:
             type: boolean
             default: false
           description: When true, only returns notifications from power badge users and users that the viewer follows (if viewer_fid is provided).
+        - name: limit
+          in: query
+          description: Number of results to fetch
+          required: false
+          example: 15
+          schema:
+            type: integer
+            default: 15
+            minimum: 1
+            maximum: 25
+          x-is-limit-param: true
         - name: cursor
           in: query
           description: Pagination cursor.
@@ -7546,6 +7568,17 @@ paths:
             type: boolean
             default: false
           description: When true, only returns notifications from power badge users and users that the viewer follows (if viewer_fid is provided).
+        - name: limit
+          in: query
+          description: Number of results to fetch
+          required: false
+          example: 15
+          schema:
+            type: integer
+            default: 15
+            minimum: 1
+            maximum: 25
+          x-is-limit-param: true
         - name: cursor
           in: query
           description: Pagination cursor.
