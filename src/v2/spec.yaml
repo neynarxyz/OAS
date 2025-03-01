@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Farcaster API V2
-  version: "2.15.1"
+  version: "2.16"
   description: >
     The Farcaster API allows you to interact with the Farcaster protocol.
     See the [Neynar docs](https://docs.neynar.com/reference) for more details.
@@ -5496,6 +5496,17 @@ paths:
           example: "star wars"
           schema:
             type: string
+        - name: mode
+          in: query
+          required: false
+          description: "Choices are `literal` (default), `semantic`, `hybrid`"
+          example: "literal"
+          schema:
+            type: string
+            enum:
+              - literal
+              - semantic
+              - hybrid
         - name: author_fid
           in: query
           required: false
