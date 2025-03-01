@@ -1109,6 +1109,154 @@ components:
           $ref: "#/components/schemas/User"
         subscribed_to:
           $ref: "#/components/schemas/SubscribedToObject"
+    TransactionFrameType:
+      type: string
+      enum:
+        - pay
+      description: Type of transaction frame
+
+    TransactionFrameLineItem:
+      type: object
+      required:
+        - name
+        - description
+      properties:
+        name:
+          type: string
+          description: Name of the line item
+        description:
+          type: string
+          description: Description of the line item
+        image:
+          type: string
+          description: Optional image URL for the line item
+
+    TransactionFrameAction:
+      type: object
+      properties:
+        text:
+          type: string
+          description: Custom text for action button
+        text_color:
+          type: string
+          description: Custom text color for action button
+        button_color:
+          type: string
+          description: Custom button color for action button
+
+    TransactionFrameDestination:
+      type: object
+      required:
+        - address
+        - network
+        - token_contract_address
+        - amount
+      properties:
+        address:
+          $ref: "#/components/schemas/Address"
+        network:
+          $ref: "#/components/schemas/Networks"
+        token_contract_address:
+          $ref: "#/components/schemas/Address"
+          description: Token contract address for the payment
+        amount:
+          type: number
+          minimum: 0.00000001
+          description: Amount to send (must be greater than 0)
+
+    TransactionFrameConfig:
+      type: object
+      required:
+        - line_items
+      properties:
+        allowlist_fids:
+          type: array
+          items:
+            $ref: "#/components/schemas/Fid"
+          description: Optional list of FIDs that are allowed to use this transaction frame
+        line_items:
+          type: array
+          minItems: 1
+          items:
+            $ref: "#/components/schemas/TransactionFrameLineItem"
+          description: List of items included in the transaction
+        action:
+          $ref: "#/components/schemas/TransactionFrameAction"
+    TransactionFrameBase:
+      type: object
+      required:
+        - id
+        - url
+        - type
+        - config 
+        - status
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the transaction frame
+        url:
+          type: string
+          format: uri
+          description: URL that can be used to access the transaction frame 
+        type:
+          $ref: "#/components/schemas/TransactionFrameType"
+        config:
+          $ref: "#/components/schemas/TransactionFrameConfig"
+        status:
+          $ref: "#/components/schemas/TransactionFrameStatus"
+
+    TransactionFramePay:
+      allOf:
+        - $ref: "#/components/schemas/TransactionFrameBase"
+        - type: object
+          required:
+            - transaction
+          properties:
+            transaction:
+              type: object
+              required:
+                - to
+              properties:
+                to:
+                  $ref: "#/components/schemas/TransactionFrameDestination"
+
+    TransactionFrame:
+      discriminator:
+        propertyName: type
+        mapping:
+          pay: "#/components/schemas/TransactionFramePay"
+      oneOf:
+        - $ref: "#/components/schemas/TransactionFramePay"
+    
+    TransactionFrameStatus:
+      type: string
+      enum:
+        - created
+        - completed
+    FramePayTransactionRequestBody:
+      type: object
+      required:
+        - transaction
+        - config
+      properties:
+        transaction:
+          type: object
+          required:
+            - to
+          properties:
+            to:
+              $ref: "#/components/schemas/TransactionFrameDestination"
+        config:
+          $ref: "#/components/schemas/TransactionFrameConfig"
+        idem:
+          $ref: "#/components/schemas/Idem"
+    TransactionFrameResponse:
+      type: object
+      required:
+        - transaction_frame
+      properties:
+        transaction_frame:
+          $ref: "#/components/schemas/TransactionFrame"
     ValidateFrameActionReqBody:
       type: object
       required:
@@ -7304,6 +7452,58 @@ paths:
                 oneOf:
                   - $ref: "#/components/schemas/ZodError"
                   - $ref: "#/components/schemas/ErrorRes"
+        "500":
+          $ref: "#/components/responses/500Response"
+  /farcaster/frame/transaction/pay:
+    post:
+      tags:
+        - Frame
+      summary: Create transaction pay frame
+      description: Creates a new transaction pay frame that can be used to collect payments through a frame
+      operationId: create-transaction-pay-frame
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FramePayTransactionRequestBody"
+      responses:
+        "200":
+          description: Transaction frame successfully created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TransactionFrameResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "401":
+          $ref: "#/components/responses/401Response"
+        "500":
+          $ref: "#/components/responses/500Response"
+    get:
+      tags:
+        - Frame
+      summary: Get transaction pay frame
+      description: Retrieves details about a transaction pay frame by ID
+      operationId: get-transaction-pay-frame
+      parameters:
+        - name: id
+          in: query
+          required: true
+          description: ID of the transaction frame to retrieve
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Transaction frame details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TransactionFrameResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
         "500":
           $ref: "#/components/responses/500Response"
   /farcaster/frame/validate:
