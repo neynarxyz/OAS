@@ -86,6 +86,8 @@ components:
         - algorithmic
       examples:
         - "desc_chron"
+    SearchSortType:
+      $ref: "#/components/schemas/FollowSortType"
     CastConversationSortType:
       type: string
       enum:
@@ -1188,7 +1190,7 @@ components:
         - id
         - url
         - type
-        - config 
+        - config
         - status
       properties:
         id:
@@ -1197,7 +1199,7 @@ components:
         url:
           type: string
           format: uri
-          description: URL that can be used to access the transaction frame 
+          description: URL that can be used to access the transaction frame
         type:
           $ref: "#/components/schemas/TransactionFrameType"
         config:
@@ -1227,7 +1229,7 @@ components:
           pay: "#/components/schemas/TransactionFramePay"
       oneOf:
         - $ref: "#/components/schemas/TransactionFramePay"
-    
+
     TransactionFrameStatus:
       type: string
       enum:
@@ -5655,6 +5657,12 @@ paths:
               - literal
               - semantic
               - hybrid
+        - name: sort_type
+          in: query
+          required: false
+          description: Sort type for search. Default is `desc_chron`
+          schema:
+            $ref: "#/components/schemas/SearchSortType"
         - name: author_fid
           in: query
           required: false
