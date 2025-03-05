@@ -7457,7 +7457,7 @@ paths:
   /farcaster/frame/transaction/pay:
     post:
       tags:
-        - Frame
+        - Agents
       summary: Create transaction pay frame
       description: Creates a new transaction pay frame that can be used to collect payments through a frame
       operationId: create-transaction-pay-frame
