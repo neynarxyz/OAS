@@ -40,6 +40,7 @@ components:
       type: string
       pattern: "^0x[a-fA-F0-9]{40}$"
       description: Ethereum address
+      example: "0x5a927ac639636e534b678e81768ca19e2c6280b7"
     SolAddress:
       type: string
       pattern: "^[1-9A-HJ-NP-Za-km-z]{32,44}$"
@@ -1125,26 +1126,31 @@ components:
       properties:
         name:
           type: string
-          description: Name of the line item
+          description: Name of the line item in transaction
+          example: "Payment"
         description:
           type: string
-          description: Description of the line item
+          description: Description of the line item in transaction
+          example: "Payment for goods"
         image:
           type: string
-          description: Optional image URL for the line item
-
+          description: Optional image URL for the line item in transaction
+          example: "https://i.imgur.com/ovGo3sz.png"
     TransactionFrameAction:
       type: object
       properties:
         text:
           type: string
           description: Custom text for action button
+          example: "Pay"
         text_color:
           type: string
           description: Custom text color for action button
+          example: "#FFFFFF"
         button_color:
           type: string
           description: Custom button color for action button
+          example: "#000000"
 
     TransactionFrameDestination:
       type: object
@@ -1160,11 +1166,13 @@ components:
           $ref: "#/components/schemas/Networks"
         token_contract_address:
           $ref: "#/components/schemas/Address"
-          description: Token contract address for the payment
+          description: Token contract address for the payment (e.g. 0x833589fcd6edb6e08f4c7c32d4f71b54bda02913 is USDC on Base)
+          example: "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913"
         amount:
           type: number
           minimum: 0.00000001
           description: Amount to send (must be greater than 0)
+          example: 0.01
 
     TransactionFrameConfig:
       type: object
@@ -1184,6 +1192,7 @@ components:
           description: List of items included in the transaction
         action:
           $ref: "#/components/schemas/TransactionFrameAction"
+          description: Action button for primary CTA on the transaction frame
     TransactionFrameBase:
       type: object
       required:
@@ -4994,6 +5003,10 @@ paths:
 
             example: 
             example.com wants you to sign in with your Ethereum account:\\n0x23A...F232\\n\\nSign in to continue.\\n\\nURI: example.com\\nVersion: 1\\nChain ID: 1\\nNonce: xyz123\\nIssued At: 2021-09-01T14:52:07Z
+
+            Note: This is just an example message (So, message is invalid, since we don't want any signers related to NEYNAR_API_DOCS to be exposed). 
+            
+            [Checkout fetch-signers API documentation for more details.](https://docs.neynar.com/docs/fetch-signers-1)
           schema:
             type: string
             example: "example.com%20wants%20you%20to%20sign%20in%20with%20your%20Ethereum%20account%3A%5Cn0x23A...F232%5Cn%5CnSign%20in%20to%20continue.%5Cn%5CnURI%3A%20example.com%5CnVersion%3A%201%5CnChain%20ID%3A%201%5CnNonce%3A%20xyz123%5CnIssued%20At%3A%202021-09-01T14%3A52%3A07Z"
@@ -5865,7 +5878,7 @@ paths:
     get:
       tags:
         - Agents
-      summary: Conversation summary for a cast
+      summary: Cast conversation summary
       description: >
         Generates a summary of all casts related to a conversation surrounding
         a cast by passing in a cast hash or Warpcast URL. 
