@@ -5859,7 +5859,7 @@ paths:
     get:
       tags:
         - Agents
-      summary: Conversation summary for a cast
+      summary: Cast conversation summary
       description: >
         Generates a summary of all casts related to a conversation surrounding
         a cast by passing in a cast hash or Warpcast URL. 
