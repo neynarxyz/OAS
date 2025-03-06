@@ -40,6 +40,7 @@ components:
       type: string
       pattern: "^0x[a-fA-F0-9]{40}$"
       description: Ethereum address
+      example: "0x5a927ac639636e534b678e81768ca19e2c6280b7"
     SolAddress:
       type: string
       pattern: "^[1-9A-HJ-NP-Za-km-z]{32,44}$"
@@ -1126,25 +1127,30 @@ components:
         name:
           type: string
           description: Name of the line item in transaction
+          example: "Payment"
         description:
           type: string
           description: Description of the line item in transaction
+          example: "Payment for goods"
         image:
           type: string
           description: Optional image URL for the line item in transaction
-
+          example: "https://i.imgur.com/ovGo3sz.png"
     TransactionFrameAction:
       type: object
       properties:
         text:
           type: string
           description: Custom text for action button
+          example: "Pay" 
         text_color:
           type: string
           description: Custom text color for action button
+          example: "#FFFFFF"
         button_color:
           type: string
           description: Custom button color for action button
+          example: "#000000"
 
     TransactionFrameDestination:
       type: object
@@ -1161,10 +1167,12 @@ components:
         token_contract_address:
           $ref: "#/components/schemas/Address"
           description: Token contract address for the payment (e.g. 0x833589fcd6edb6e08f4c7c32d4f71b54bda02913 is USDC on Base)
+          example: "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913"
         amount:
           type: number
           minimum: 0.00000001
           description: Amount to send (must be greater than 0)
+          example: 0.01
 
     TransactionFrameConfig:
       type: object
