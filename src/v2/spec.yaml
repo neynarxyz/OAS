@@ -1142,7 +1142,7 @@ components:
         text:
           type: string
           description: Custom text for action button
-          example: "Pay" 
+          example: "Pay"
         text_color:
           type: string
           description: Custom text color for action button
@@ -5003,6 +5003,10 @@ paths:
 
             example: 
             example.com wants you to sign in with your Ethereum account:\\n0x23A...F232\\n\\nSign in to continue.\\n\\nURI: example.com\\nVersion: 1\\nChain ID: 1\\nNonce: xyz123\\nIssued At: 2021-09-01T14:52:07Z
+
+            Note: This is just an example message (So, message is invalid, since we don't want any signers related to NEYNAR_API_DOCS to be exposed). 
+            
+            [Checkout fetch-signers API documentation for more details.](https://docs.neynar.com/docs/fetch-signers-1)
           schema:
             type: string
             example: "example.com%20wants%20you%20to%20sign%20in%20with%20your%20Ethereum%20account%3A%5Cn0x23A...F232%5Cn%5CnSign%20in%20to%20continue.%5Cn%5CnURI%3A%20example.com%5CnVersion%3A%201%5CnChain%20ID%3A%201%5CnNonce%3A%20xyz123%5CnIssued%20At%3A%202021-09-01T14%3A52%3A07Z"
