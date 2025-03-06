@@ -1125,13 +1125,13 @@ components:
       properties:
         name:
           type: string
-          description: Name of the line item
+          description: Name of the line item in transaction
         description:
           type: string
-          description: Description of the line item
+          description: Description of the line item in transaction
         image:
           type: string
-          description: Optional image URL for the line item
+          description: Optional image URL for the line item in transaction
 
     TransactionFrameAction:
       type: object
@@ -1160,7 +1160,7 @@ components:
           $ref: "#/components/schemas/Networks"
         token_contract_address:
           $ref: "#/components/schemas/Address"
-          description: Token contract address for the payment
+          description: Token contract address for the payment (e.g. 0x833589fcd6edb6e08f4c7c32d4f71b54bda02913 is USDC on Base)
         amount:
           type: number
           minimum: 0.00000001
@@ -1184,6 +1184,7 @@ components:
           description: List of items included in the transaction
         action:
           $ref: "#/components/schemas/TransactionFrameAction"
+          description: Action button for primary CTA on the transaction frame
     TransactionFrameBase:
       type: object
       required:
