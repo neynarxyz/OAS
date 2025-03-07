@@ -5662,7 +5662,11 @@ paths:
         - name: mode
           in: query
           required: false
-          description: "Choices are `literal` (default), `semantic`, `hybrid`"
+          description: |
+            Choices are:
+            - `literal` - Searches for the words in the query string (default)
+            - `semantic` - Searches for the meaning of the query string
+            - `hybrid` - Combines both literal and semantic results
           example: "literal"
           schema:
             type: string
@@ -5673,7 +5677,10 @@ paths:
         - name: sort_type
           in: query
           required: false
-          description: Sort type for search. Default is `desc_chron`
+          description: |
+            Choices are:
+            - `desc_chron` - All casts sorted by time (default)
+            - `algorithmic` - Casts sorted by engagement and time
           schema:
             $ref: "#/components/schemas/SearchSortType"
         - name: author_fid
