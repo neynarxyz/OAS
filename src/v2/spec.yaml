@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Farcaster API V2
-  version: "2.19.0"
+  version: "2.20.0"
   description: >
     The Farcaster API allows you to interact with the Farcaster protocol.
     See the [Neynar docs](https://docs.neynar.com/reference) for more details.
@@ -368,6 +368,25 @@ components:
     #       type: string
     #   required:
     #     - url
+    HtmlMetadata:
+      allOf:
+        - $ref: "#/components/schemas/OgObject"
+        - type: object
+          properties:
+            oembed:
+              oneOf:
+                - $ref: "#/components/schemas/OembedRichData"
+                - $ref: "#/components/schemas/OembedVideoData"
+                - $ref: "#/components/schemas/OembedPhotoData"
+                - $ref: "#/components/schemas/OembedLinkData"
+              discriminator:
+                propertyName: type
+                mapping:
+                  rich: "#/components/schemas/OembedRichData"
+                  video: "#/components/schemas/OembedVideoData"
+                  photo: "#/components/schemas/OembedPhotoData"
+                  link: "#/components/schemas/OembedLinkData"
+
     OgObject:
       # Adapted from https://github.com/jshemas/openGraphScraper/blob/80b1800c377f5a647e365f07a2262e997a9b897c/lib/types.ts#L118-L347
       type: object
@@ -899,23 +918,7 @@ components:
                   width_px:
                     type: integer
         html:
-          allOf:
-            - $ref: "#/components/schemas/OgObject"
-            - type: object
-              properties:
-                oembed:
-                  oneOf:
-                    - $ref: "#/components/schemas/OembedRichData"
-                    - $ref: "#/components/schemas/OembedVideoData"
-                    - $ref: "#/components/schemas/OembedPhotoData"
-                    - $ref: "#/components/schemas/OembedLinkData"
-                  discriminator:
-                    propertyName: type
-                    mapping:
-                      rich: "#/components/schemas/OembedRichData"
-                      video: "#/components/schemas/OembedVideoData"
-                      photo: "#/components/schemas/OembedPhotoData"
-                      link: "#/components/schemas/OembedLinkData"
+          $ref: "#/components/schemas/HtmlMetadata"
         frame:
           $ref: "#/components/schemas/Frame"
 
@@ -1050,6 +1053,13 @@ components:
               $ref: "#/components/schemas/FarcasterManifest"
             author:
               $ref: "#/components/schemas/UserDehydrated"
+            metadata:
+              type: object
+              required:
+                - html
+              properties:
+                html:
+                  $ref: "#/components/schemas/HtmlMetadata"
 
     SubscriptionTier:
       type: object
@@ -5005,7 +5015,7 @@ paths:
             example.com wants you to sign in with your Ethereum account:\\n0x23A...F232\\n\\nSign in to continue.\\n\\nURI: example.com\\nVersion: 1\\nChain ID: 1\\nNonce: xyz123\\nIssued At: 2021-09-01T14:52:07Z
 
             Note: This is just an example message (So, message is invalid, since we don't want any signers related to NEYNAR_API_DOCS to be exposed). 
-            
+
             [Checkout fetch-signers API documentation for more details.](https://docs.neynar.com/docs/fetch-signers-1)
           schema:
             type: string
