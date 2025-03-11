@@ -1053,8 +1053,13 @@ components:
               $ref: "#/components/schemas/FarcasterManifest"
             author:
               $ref: "#/components/schemas/UserDehydrated"
-            html:
-              $ref: "#/components/schemas/HtmlMetadata"
+            metadata:
+              type: object
+              required:
+                - html
+              properties:
+                html:
+                  $ref: "#/components/schemas/HtmlMetadata"
 
     SubscriptionTier:
       type: object
