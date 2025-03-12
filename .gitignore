@@ -1,3 +1,9 @@
 swagger-tmp
 node_modules
 *.DS_Store
+# Bundled OpenAPI files
+*.bundle.yaml
+# Original files
+*.original
+*.bundle.yaml
+*.bundle.yaml
