@@ -5007,9 +5007,7 @@ paths:
           in: query
           required: true
           description: |
-            A Sign-In with Ethereum (SIWE) message that the user's Ethereum wallet signs. This message
-            includes details such as the domain, address, statement, URI, nonce, and other relevant
-            information following the EIP-4361 standard. It should be structured and URL-encoded.
+            A Sign-In with Ethereum (SIWE) message that the user's Ethereum wallet signs. This message includes details such as the domain, address, statement, URI, nonce, and other relevant information following the EIP-4361 standard. It should be structured and URL-encoded.
 
             example: 
             example.com wants you to sign in with your Ethereum account:\\n0x23A...F232\\n\\nSign in to continue.\\n\\nURI: example.com\\nVersion: 1\\nChain ID: 1\\nNonce: xyz123\\nIssued At: 2021-09-01T14:52:07Z
@@ -5023,9 +5021,7 @@ paths:
         - name: signature
           in: query
           description: |
-            The digital signature produced by signing the provided SIWE message with the user's
-            Ethereum private key. This signature is used to verify the authenticity of the message and
-            the identity of the signer.
+            The digital signature produced by signing the provided SIWE message with the user's Ethereum private key. This signature is used to verify the authenticity of the message and the identity of the signer.
           required: true
           schema:
             type: string
