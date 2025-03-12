@@ -7,3 +7,4 @@ node_modules
 *.original
 *.bundle.yaml
 *.bundle.yaml
+src/v2/spec.bundle.yaml
