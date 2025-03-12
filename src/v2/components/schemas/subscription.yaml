@@ -1,0 +1,312 @@
+SubscriptionProviders:
+      type: string
+      enum:
+        - fabric_stp
+        - paragraph
+      description: |
+        The provider of the subscription.
+
+SubscriptionProvider:
+      type: string
+      enum:
+        - fabric_stp
+      description: |
+        The provider of the subscription.
+
+SubscriptionTier:
+      type: object
+      properties:
+        id:
+          type: integer
+          examples:
+            - 1
+        price:
+          type: object
+          properties:
+            period_duration_seconds:
+              type: integer
+              examples:
+                - 2592000
+            tokens_per_period:
+              type: string
+              examples:
+                - "3000000000000000"
+            initial_mint_price:
+              type: string
+              examples:
+                - "0"
+
+SubscribedTo:
+      allOf:
+        - $ref: "#/components/schemas/Subscription"
+        - type: object
+          required:
+            - expires_at
+            - subscribed_at
+            - tier
+            - creator
+          properties:
+            expires_at:
+              type: string
+              format: date-time
+              examples:
+                - "2023-09-13T22:10:22.000Z"
+            subscribed_at:
+              type: string
+              format: date-time
+              examples:
+                - "2023-09-13T22:10:22.000Z"
+            tier:
+              $ref: "#/components/schemas/SubscriptionTier"
+            creator:
+              $ref: "#/components/schemas/User"
+
+Subscriber:
+      type: object
+      required:
+        - object
+        - user
+        - subscribed_to
+      properties:
+        object:
+          type: string
+          examples:
+            - "subscriber"
+        user:
+          $ref: "#/components/schemas/User"
+        subscribed_to:
+          $ref: "#/components/schemas/SubscribedToObject"
+
+Subscriptions:
+      type: object
+      required:
+        - object
+        - subscriptions_created
+      properties:
+        object:
+          type: string
+        subscriptions_created:
+          type: array
+          items:
+            $ref: "#/components/schemas/Subscription"
+
+Subscription:
+      type: object
+      required:
+        - object
+        - contract_address
+        - chain
+        - metadata
+        - owner_address
+        - price
+        - protocol_version
+        - token
+      properties:
+        object:
+          type: string
+          examples:
+            - "subscription"
+        provider_name:
+          type: string
+          examples:
+            - "fabric_stp"
+        contract_address:
+          type: string
+          examples:
+            - "0xff63fc310d47ef80961056ac8df0b3f1a9e3ef58"
+        chain:
+          type: integer
+          examples:
+            - 8453
+        metadata:
+          type: object
+          properties:
+            title:
+              type: string
+              examples:
+                - "/memes channel sub"
+            symbol:
+              type: string
+              examples:
+                - "MMS"
+            art_url:
+              type: string
+              examples:
+                - "https://storage.withfabric.xyz/loom/403fdc10-95f3-4b25-9d77-5aac7ccb9fd1.jpg"
+          required:
+            - title
+            - symbol
+            - art_url
+        owner_address:
+          type: string
+          examples:
+            - "0xb6f6dce6000ca88cc936b450cedb16a5c15f157f"
+        price:
+          type: object
+          properties:
+            period_duration_seconds:
+              type: integer
+              examples:
+                - 2592000
+            tokens_per_period:
+              type: string
+              examples:
+                - "350574998400000"
+            initial_mint_price:
+              type: string
+              examples:
+                - "0"
+          required:
+            - period_duration_seconds
+            - tokens_per_period
+            - initial_mint_price
+        tiers:
+          type: array
+          items:
+            $ref: "#/components/schemas/SubscriptionTier"
+        protocol_version:
+          type: integer
+          examples:
+            - 1
+        token:
+          type: object
+          properties:
+            symbol:
+              type: string
+              examples:
+                - "ETH"
+            address:
+              type: [string, "null"]
+              examples:
+                - null
+            decimals:
+              type: integer
+              examples:
+                - 18
+            erc20:
+              type: boolean
+              examples:
+                - false
+          required:
+            - symbol
+            - address
+            - decimals
+            - erc20
+
+SubscribedToObject:
+      type: object
+      properties:
+        object:
+          type: string
+          examples:
+            - "subscription_dehydrated"
+        provider_name:
+          type: string
+          examples:
+            - "fabric_stp"
+        contract_address:
+          type: string
+          examples:
+            - "0x325b3e2c19f4900f8f4eb5f6872dc2715e77cbac"
+        protocol_version:
+          type: integer
+          examples:
+            - 1
+        chain:
+          type: integer
+          examples:
+            - 8453
+        expires_at:
+          type: string
+          format: date-time
+          examples:
+            - "2023-09-13T22:10:22.000Z"
+        subscribed_at:
+          type: string
+          format: date-time
+          examples:
+            - "2023-09-13T22:10:22.000Z"
+        tier_id:
+          type: string
+          examples:
+            - "0"
+      required:
+        - object
+        - provider_name
+
+SubscribersResponse:
+      type: object
+      properties:
+        subscribers:
+          type: array
+          items:
+            $ref: "#/components/schemas/Subscriber"
+
+SubscribedToResponse:
+      type: object
+      properties:
+        subscribed_to:
+          type: array
+          items:
+            $ref: "#/components/schemas/SubscribedTo"
+
+SubscriptionsResponse:
+      type: object
+      properties:
+        subscriptions_created:
+          type: array
+          items:
+            $ref: "#/components/schemas/Subscriptions"
+
+SubscriptionStatus:
+      type: object
+      properties:
+        object:
+          type: string
+          enum: ["subscribed_to_dehydrated"]
+        status:
+          type: boolean
+        expires_at:
+          type: [integer, "null"]
+          format: int64
+        subscribed_at:
+          type: [integer, "null"]
+          format: int64
+        tier:
+          oneOf:
+            - type: "null"
+            - $ref: "#/components/schemas/SubscriptionTier"
+      required:
+        - object
+        - status
+        - expires_at
+        - subscribed_at
+        - tier
+
+SubscriptionCheckResponse:
+      type: object
+      additionalProperties:
+        $ref: "#/components/schemas/SubscriptionStatus"
+      examples:
+        - summary: Active subscription example
+          value:
+            "0xedd3783e8c7c52b80cfbd026a63c207edc9cbee7":
+              object: "subscribed_to_dehydrated"
+              status: true
+              expires_at: 1748890497000
+              subscribed_at: 1719256819704
+              tier:
+                id: 1
+                price:
+                  period_duration_seconds: 2592000
+                  tokens_per_period: "3499999997472000"
+                  initial_mint_price: "0"
+        - summary: Inactive subscription example
+          value:
+            "0x5a927ac639636e534b678e81768ca19e2c6280b7":
+              object: "subscribed_to_dehydrated"
+              status: false
+              expires_at: null
+              subscribed_at: null
+              tier: null
+

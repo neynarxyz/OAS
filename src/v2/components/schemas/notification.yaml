@@ -1,0 +1,99 @@
+NotificationsResponse:
+      type: object
+      required:
+        - unseen_notifications_count
+        - notifications
+        - next
+      properties:
+        unseen_notifications_count:
+          type: integer
+          format: int32
+        notifications:
+          type: array
+          items:
+            $ref: "#/components/schemas/Notification"
+        next:
+          $ref: "#/components/schemas/NextCursor"
+
+Notification:
+      type: object
+      required:
+        - object
+        - most_recent_timestamp
+        - type
+        - seen
+      properties:
+        object:
+          type: string
+        most_recent_timestamp:
+          type: string
+          format: date-time
+        type:
+          type: string
+          enum:
+            - follows
+            - recasts
+            - likes
+            - mention
+            - reply
+            - quote
+        seen:
+          type: boolean
+        follows:
+          type: array
+          items:
+            $ref: "#/components/schemas/Follow"
+        cast:
+          $ref: "#/components/schemas/CastWithInteractions"
+        reactions:
+          type: array
+          items:
+            $ref: "#/components/schemas/ReactionWithUserInfo"
+        count:
+          type: integer
+          format: int32
+          description: The number of notifications of this(follows, likes, recast) type bundled in a single notification.
+
+NotificationDelivery:
+      type: object
+      required:
+        - object
+        - fid
+        - status
+      properties:
+        object:
+          type: string
+          enum:
+            - notification_delivery
+        fid:
+          $ref: "#/components/schemas/Fid"
+        status:
+          type: string
+          enum:
+            - success
+            - token_not_found
+            - token_disabled
+            - failed
+
+NotificationType:
+      type: string
+      enum:
+        - follows
+        - recasts
+        - likes
+        - mentions
+        - replies
+        - quotes
+
+MarkNotificationsAsSeenReqBody:
+      type: object
+      required:
+        - signer_uuid
+      properties:
+        signer_uuid:
+          type: string
+          description: |
+            The UUID of the signer. Signer should have atleast one write permission
+        type:
+          $ref: "#/components/schemas/NotificationType"
+

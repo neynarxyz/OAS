@@ -1,0 +1,81 @@
+    get:
+      summary: By channel IDs
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-feed-by-channel-ids
+      operationId: fetch-feed-by-channel-ids
+      tags:
+        - Feed
+      description: Fetch feed based on channel IDs
+      parameters:
+        - name: channel_ids
+          in: query
+          required: true
+          example: neynar,farcaster
+          schema:
+            type: string
+            x-comma-separated: true
+          description: Comma separated list of up to 10 channel IDs e.g. neynar,farcaster
+        - name: with_recasts
+          in: query
+          description: Include recasts in the response, true by default
+          schema:
+            type: boolean
+            default: true
+        - name: viewer_fid
+          in: query
+          required: false
+          description: Providing this will return a feed that respects this user's mutes and blocks and includes `viewer_context`.
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
+        - name: with_replies
+          in: query
+          description: Include replies in the response, false by default
+          schema:
+            type: boolean
+            default: false
+        - name: members_only
+          in: query
+          description: Only include casts from members of the channel. True by default.
+          schema:
+            type: boolean
+            default: true
+        - name: fids
+          in: query
+          description: Comma separated list of FIDs to filter the feed by, up to 10 at a time
+          required: false
+          schema:
+            type: string
+            x-comma-separated: true
+            x-accept-as: integer
+        - name: limit
+          in: query
+          description: Number of results to fetch
+          example: 30
+          schema:
+            type: integer
+            default: 25
+            minimum: 1
+            maximum: 100
+          x-is-limit-param: true
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          schema:
+            type: string
+        - name: should_moderate
+          in: query
+          description: If true, only casts that have been liked by the moderator (if one exists) will be returned.
+          deprecated: true
+          schema:
+            type: boolean
+            default: false
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FeedResponse"
+        "400":
+          $ref: "#/components/responses/400Response"

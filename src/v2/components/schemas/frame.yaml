@@ -1,52 +1,841 @@
-ValidateFrameReqBody:
-  type: object
-  required:
-    - url
-  properties:
-    url:
+Frame:
+      discriminator:
+        propertyName: "version"
+      oneOf:
+        - $ref: "#/components/schemas/FrameV1"
+        - $ref: "#/components/schemas/FrameV2"
+      mapping:
+        # 'vNext' for v1, and 'next' for v2. See specs:
+        # v1: https://docs.farcaster.xyz/developers/frames/spec#constructing-a-frame
+        # v2: https://docs.farcaster.xyz/developers/frames/v2/spec#frame-embed-metatags
+        vNext: "#/components/schemas/FrameV1"
+        next: "#/components/schemas/FrameV2"
+        "1": "#/components/schemas/FrameV2"
+        "0.0.0": "#/components/schemas/FrameV2"
+        "0.0.1": "#/components/schemas/FrameV2"
+
+FrameBase:
+      description: Frame base object used across all versions
+      type: object
+      required:
+        - version
+        - image
+        - frames_url
+      properties:
+        version:
+          type: string
+          description: Version of the frame, 'next' for v2, 'vNext' for v1
+        image:
+          type: string
+          description: URL of the image
+        frames_url:
+          type: string
+          description: Launch URL of the frame
+
+FrameV1:
+      description: Frame v1 object
+      allOf:
+        - $ref: "#/components/schemas/FrameBase"
+        - type: object
+          properties:
+            buttons:
+              type: array
+              items:
+                $ref: "#/components/schemas/FrameActionButton"
+            post_url:
+              type: string
+              description: Post URL to take an action on this frame
+            title:
+              type: string
+            image_aspect_ratio:
+              type: string
+            input:
+              type: object
+              properties:
+                text:
+                  type: string
+                  description: Input text for the frame
+            state:
+              type: object
+              properties:
+                serialized:
+                  type: string
+                  description: State for the frame in a serialized format
+
+FrameV2:
+      description: Frame v2 object
+      allOf:
+        - $ref: "#/components/schemas/FrameBase"
+        # required properties come from FrameEmbed
+        # See: https://docs.farcaster.xyz/developers/frames/v2/spec#frame-embed-metatags
+        - type: object
+          required:
+            - name
+            - icon
+          properties:
+            title:
+              type: string
+              description: Button title of a frame
+            manifest:
+              $ref: "#/components/schemas/FarcasterManifest"
+            author:
+              $ref: "#/components/schemas/UserDehydrated"
+            metadata:
+              type: object
+              required:
+                - html
+              properties:
+                html:
+                  $ref: "#/components/schemas/HtmlMetadata"
+
+TransactionFrameType:
       type: string
-      format: uri
-      example: "https://fcpolls.com/polls/1"
-ValidateFrameResponse:
-  type: object
-  properties:
-    result:
+      enum:
+        - pay
+      description: Type of transaction frame
+
+TransactionFrameLineItem:
+      type: object
+      required:
+        - name
+        - description
+      properties:
+        name:
+          type: string
+          description: Name of the line item in transaction
+          example: "Payment"
+        description:
+          type: string
+          description: Description of the line item in transaction
+          example: "Payment for goods"
+        image:
+          type: string
+          description: Optional image URL for the line item in transaction
+          example: "https://i.imgur.com/ovGo3sz.png"
+
+TransactionFrameAction:
       type: object
       properties:
-        valid:
-          type: boolean
-        errors:
+        text:
+          type: string
+          description: Custom text for action button
+          example: "Pay"
+        text_color:
+          type: string
+          description: Custom text color for action button
+          example: "#FFFFFF"
+        button_color:
+          type: string
+          description: Custom button color for action button
+          example: "#000000"
+
+TransactionFrameDestination:
+      type: object
+      required:
+        - address
+        - network
+        - token_contract_address
+        - amount
+      properties:
+        address:
+          $ref: "#/components/schemas/Address"
+        network:
+          $ref: "#/components/schemas/Networks"
+        token_contract_address:
+          $ref: "#/components/schemas/Address"
+          description: Token contract address for the payment (e.g. 0x833589fcd6edb6e08f4c7c32d4f71b54bda02913 is USDC on Base)
+          example: "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913"
+        amount:
+          type: number
+          minimum: 0.00000001
+          description: Amount to send (must be greater than 0)
+          example: 0.01
+
+TransactionFrameConfig:
+      type: object
+      required:
+        - line_items
+      properties:
+        allowlist_fids:
           type: array
           items:
-            type: string
-        frame:
-          $ref: "#/Frame"
-Frame:
-  type: object
-  properties:
-    version:
+            $ref: "#/components/schemas/Fid"
+          description: Optional list of FIDs that are allowed to use this transaction frame
+        line_items:
+          type: array
+          minItems: 1
+          items:
+            $ref: "#/components/schemas/TransactionFrameLineItem"
+          description: List of items included in the transaction
+        action:
+          $ref: "#/components/schemas/TransactionFrameAction"
+          description: Action button for primary CTA on the transaction frame
+
+TransactionFrameBase:
+      type: object
+      required:
+        - id
+        - url
+        - type
+        - config
+        - status
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the transaction frame
+        url:
+          type: string
+          format: uri
+          description: URL that can be used to access the transaction frame
+        type:
+          $ref: "#/components/schemas/TransactionFrameType"
+        config:
+          $ref: "#/components/schemas/TransactionFrameConfig"
+        status:
+          $ref: "#/components/schemas/TransactionFrameStatus"
+
+TransactionFramePay:
+      allOf:
+        - $ref: "#/components/schemas/TransactionFrameBase"
+        - type: object
+          required:
+            - transaction
+          properties:
+            transaction:
+              type: object
+              required:
+                - to
+              properties:
+                to:
+                  $ref: "#/components/schemas/TransactionFrameDestination"
+
+TransactionFrame:
+      discriminator:
+        propertyName: type
+        mapping:
+          pay: "#/components/schemas/TransactionFramePay"
+      oneOf:
+        - $ref: "#/components/schemas/TransactionFramePay"
+
+TransactionFrameStatus:
       type: string
-    image:
+      enum:
+        - created
+        - completed
+
+FramePayTransactionRequestBody:
+      type: object
+      required:
+        - transaction
+        - config
+      properties:
+        transaction:
+          type: object
+          required:
+            - to
+          properties:
+            to:
+              $ref: "#/components/schemas/TransactionFrameDestination"
+        config:
+          $ref: "#/components/schemas/TransactionFrameConfig"
+        idem:
+          $ref: "#/components/schemas/Idem"
+
+TransactionFrameResponse:
+      type: object
+      required:
+        - transaction_frame
+      properties:
+        transaction_frame:
+          $ref: "#/components/schemas/TransactionFrame"
+
+ValidateFrameActionReqBody:
+      type: object
+      required:
+        - message_bytes_in_hex
+      properties:
+        message_bytes_in_hex:
+          type: string
+          description: Hexadecimal string of message bytes.
+        cast_reaction_context:
+          default: true
+          type: boolean
+          description: Adds viewer_context inside the cast object to indicate whether the interactor reacted to the cast housing the frame.
+        follow_context:
+          default: false
+          type: boolean
+          description: Adds viewer_context inside the user (interactor) object to indicate whether the interactor follows or is followed by the cast author.
+        signer_context:
+          default: false
+          type: boolean
+          description: Adds context about the app used by the user inside `frame.action`.
+        channel_follow_context:
+          default: false
+          type: boolean
+          description: Adds context about the channel that the cast belongs to inside of the cast object.
+
+SendFrameNotificationsReqBody:
+      type: object
+      required:
+        - target_fids
+        - notification
+      properties:
+        target_fids:
+          type: array
+          items:
+            $ref: "#/components/schemas/Fid"
+          maxItems: 100
+          description: An array of target FIDs to whom the notifications should be sent. Each FID must be a positive integer, with a maximum of 100 FIDs allowed per call.
+          example: [1, 2, 3]
+        notification:
+          type: object
+          required:
+            - title
+            - body
+            - target_url
+          properties:
+            title:
+              type: string
+              maxLength: 32
+              minLength: 1
+              description: The title of the notification. Must be between 1 and 32 characters.
+              example: "New Message"
+            body:
+              type: string
+              maxLength: 128
+              minLength: 1
+              description: The body of the notification. Must be between 1 and 128 characters.
+              example: "You have received a new message in your inbox."
+            target_url:
+              type: string
+              format: uri
+              maxLength: 256
+              description: The target URL to open when the user clicks the notification. Must be a valid URL.
+              example: "https://example.com/notifications"
+            uuid:
+              type: string
+              format: uuid
+              description: An optional UUID for the notification, used as an idempotency key.
+              example: "123e4567-e89b-12d3-a456-426614174000"
+
+FrameSignaturePacket:
+      type: object
+      description: The Frame Signature Packet (https://docs.farcaster.xyz/developers/frames/spec#frame-signature-packet)
+      required:
+        - untrustedData
+        - trustedData
+      properties:
+        untrustedData:
+          type: object
+          description: Untrusted data from the user
+          properties:
+            fid:
+              $ref: "#/components/schemas/Fid"
+            url:
+              type: string
+              description: URL of the frame
+            messageHash:
+              type: string
+              description: Message hash
+            timestamp:
+              type: string
+              description: Timestamp
+            network:
+              type: integer
+              description: Network
+            buttonIndex:
+              type: integer
+              description: Index of the button
+            inputText:
+              type: string
+              description: Input text
+            state:
+              type: string
+              description: State
+            transactionId:
+              type: string
+              description: Transaction ID
+            address:
+              $ref: "#/components/schemas/Address"
+            castId:
+              $ref: "#/components/schemas/CastId"
+        trustedData:
+          type: object
+          description: Trusted data from the user
+          properties:
+            messageBytes:
+              type: string
+              description: Message bytes
+
+FrameAction:
+      type: object
+      required:
+        - button
+        - frames_url
+        - post_url
+      properties:
+        version:
+          type: string
+        title:
+          type: string
+        image:
+          type: string
+        button:
+          $ref: "#/components/schemas/FrameActionButton"
+        input:
+          $ref: "#/components/schemas/FrameInput"
+        state:
+          $ref: "#/components/schemas/FrameState"
+        transaction:
+          $ref: "#/components/schemas/FrameTransaction"
+        address:
+          $ref: "#/components/schemas/FrameAddress"
+        frames_url:
+          type: string
+          description: URL of the frames
+        post_url:
+          type: string
+          description: URL of the post to get the next frame
+
+FrameButtonActionType:
       type: string
-      format: uri
-    buttons:
-      type: array
-      items:
-        $ref: "#/FrameButton"
-    post_url:
-      type: string
-      format: uri
-FrameButton:
-  type: object
-  properties:
-    index:
-      type: integer
-    title:
-      type: string
-    action:
-      type: string
+      description: The action type of a frame button. Action types "mint" & "link" are to be handled on the client side only and so they will produce a no/op for POST /farcaster/frame/action.
       enum:
         - post
         - post_redirect
+        - tx
         - link
         - mint
+
+FrameInput:
+      type: object
+      properties:
+        text:
+          type: string
+          description: Input text for the frame
+          examples:
+            - "Draw a purple ringed planet"
+
+FrameState:
+      type: object
+      required:
+        - serialized
+      properties:
+        serialized:
+          type: string
+          description: State for the frame in a serialized format
+          examples:
+            - "%7B%22counter%22%3A1%7D"
+
+FrameAddress:
+      type: string
+      description: The connected wallet address of the interacting user.
+
+FrameTransaction:
+      type: object
+      required:
+        - hash
+      properties:
+        hash:
+          type: string
+          description: Transaction hash
+          examples:
+            - "0xa80de157a3ab4648db1ecfab7e6355b342215bc549f6e37be9e6da527cc024f7"
+
+FrameActionButton:
+      type: object
+      required:
+        - index
+        - action_type
+      properties:
+        title:
+          type: string
+          description: Title of the button
+        index:
+          type: integer
+          description: Index of the button
+        action_type:
+          $ref: "#/components/schemas/FrameButtonActionType"
+        target:
+          type: string
+          description: Target of the button
+        post_url:
+          type: string
+          description: Used specifically for the tx action type to post a successful transaction hash
+
+FrameDeveloperManagedActionReqBody:
+      type: object
+      required:
+        - action
+        - signature_packet
+      properties:
+        cast_hash:
+          $ref: "#/components/schemas/CastHash"
+        action:
+          $ref: "#/components/schemas/FrameAction"
+        signature_packet:
+          $ref: "#/components/schemas/FrameSignaturePacket"
+
+FrameActionReqBody:
+      type: object
+      required:
+        - signer_uuid
+        - action
+      properties:
+        signer_uuid:
+          $ref: "#/components/schemas/SignerUUID"
+        cast_hash:
+          $ref: "#/components/schemas/CastHash"
+        action:
+          $ref: "#/components/schemas/FrameAction"
+
+FrameNotificationTokens:
+      type: object
+      required:
+        - notification_tokens
+        - next
+      properties:
+        notification_tokens:
+          type: array
+          items:
+            type: object
+            properties:
+              object:
+                type: string
+                enum:
+                  - notification_token
+              url:
+                type: string
+              token:
+                type: string
+              status:
+                type: string
+                enum:
+                  - enabled
+                  - disabled
+              fid:
+                $ref: "#/components/schemas/Fid"
+              created_at:
+                type: string
+                format: date-time
+              updated_at:
+                type: string
+                format: date-time
+        next:
+          $ref: "#/components/schemas/NextCursor"
+
+NeynarFrame:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          description: Unique identifier for the frame.
+        name:
+          type: string
+          description: Name of the frame.
+        link:
+          type: string
+          format: uri
+          description: Generated link for the frame's first page.
+        pages:
+          type: array
+          items:
+            $ref: "#/components/schemas/NeynarFramePage"
+        valid:
+          type: boolean
+          description: Indicates if the frame is valid.
+      required:
+        - uuid
+        - name
+        - pages
+        - link
+
+NeynarFramePage:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          description: Unique identifier for the page.
+        version:
+          type: string
+          default: "vNext"
+          examples:
+            - "vNext"
+          description: The version of the page schema.
+        title:
+          type: string
+          examples:
+            - "Welcome to Neynar"
+          description: The title of the page.
+        image:
+          $ref: "#/components/schemas/NeynarPageImage"
+        buttons:
+          type: array
+          items:
+            $ref: "#/components/schemas/NeynarPageButton"
+        input:
+          $ref: "#/components/schemas/NeynarPageInput"
+      required:
+        - uuid
+        - title
+        - version
+        - image
+
+NeynarNextFramePage:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          description: The UUID of the next page.
+      required:
+        - uuid
+
+NeynarNextFramePageRedirect:
+      type: object
+      properties:
+        redirect_url:
+          type: string
+          format: uri
+          description: The URL to redirect to.
+      required:
+        - redirect_url
+
+NeynarNextFramePageMintUrl:
+      type: object
+      properties:
+        mint_url:
+          type: string
+          description: The URL for minting, specific to the mint action.
+      required:
+        - mint_url
+
+NeynarFrameCreationReqBody:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the frame.
+        pages:
+          type: array
+          items:
+            $ref: "#/components/schemas/NeynarFramePage"
+      required:
+        - name
+        - pages
+
+NeynarFrameUpdateReqBody:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          description: The UUID of the frame to update.
+        name:
+          type: string
+          description: The name of the frame.
+        pages:
+          type: array
+          items:
+            $ref: "#/components/schemas/NeynarFramePage"
+      required:
+        - uuid
+        - pages
+
+ValidatedFrameAction:
+      type: object
+      required:
+        - cast
+        - interactor
+        - timestamp
+        - tapped_button
+        - url
+        - object
+        - state
+      properties:
+        object:
+          type: string
+          enum:
+            - validated_frame_action
+        url:
+          type: string
+          format: uri
+        interactor:
+          $ref: "#/components/schemas/User"
+        tapped_button:
+          type: object
+          required:
+            - index
+          properties:
+            index:
+              type: integer
+        input:
+          $ref: "#/components/schemas/FrameInput"
+        state:
+          $ref: "#/components/schemas/FrameState"
+        cast:
+          $ref: "#/components/schemas/CastWithInteractions"
+        timestamp:
+          $ref: "#/components/schemas/Timestamp"
+        signer:
+          type: object
+          properties:
+            client:
+              $ref: "#/components/schemas/User"
+        transaction:
+          $ref: "#/components/schemas/FrameTransaction"
+        address:
+          $ref: "#/components/schemas/FrameAddress"
+
+FrameCatalogResponse:
+      type: object
+      required:
+        - frames
+        - next
+      properties:
+        frames:
+          type: array
+          items:
+            $ref: "#/components/schemas/FrameV2"
+        next:
+          $ref: "#/components/schemas/NextCursor"
+
+SendFrameNotificationsResponse:
+      type: object
+      required:
+        - notification_deliveries
+      properties:
+        notification_deliveries:
+          type: array
+          items:
+            $ref: "#/components/schemas/NotificationDelivery"
+
+ValidateFrameActionResponse:
+      type: object
+      required:
+        - valid
+        - action
+      properties:
+        valid:
+          type: boolean
+          examples:
+            - true
+        action:
+          $ref: "#/components/schemas/ValidatedFrameAction"
+
+DeleteFrameReqBody:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+
+DeleteFrameResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        uuid:
+          type: string
+          format: uuid
+
+FrameType:
+      type: string
+      enum:
+        - uuid
+        - url
+      description: Type of identifier (either 'uuid' or 'url')
+
+FrameValidateListResponse:
+      type: object
+      required:
+        - frames
+      properties:
+        frames:
+          type: array
+          items:
+            type: string
+            format: uri
+
+FrameValidateAnalyticsInteractors:
+      type: object
+      required:
+        - interactors
+      properties:
+        interactors:
+          type: array
+          items:
+            type: object
+            required:
+              - fid
+              - username
+              - interaction_count
+            properties:
+              fid:
+                $ref: "#/components/schemas/Fid"
+              username:
+                type: string
+              interaction_count:
+                type: number
+
+FrameValidateAnalyticsTotalInteractors:
+      type: object
+      required:
+        - total_interactors
+      properties:
+        total_interactors:
+          type: number
+
+FrameValidateAnalyticsInputText:
+      type: object
+      required:
+        - input_texts
+      properties:
+        input_texts:
+          type: array
+          items:
+            type: object
+            required:
+              - fid
+              - username
+              - input_text
+            properties:
+              fid:
+                $ref: "#/components/schemas/Fid"
+              username:
+                type: string
+              input_text:
+                type: string
+
+FrameValidateAnalyticsResponse:
+      oneOf:
+        - $ref: "#/components/schemas/FrameValidateAnalyticsInteractors"
+        - $ref: "#/components/schemas/FrameValidateAnalyticsTotalInteractors"
+        - $ref: "#/components/schemas/FrameValidateAnalyticsInteractionsPerCast"
+        - $ref: "#/components/schemas/FrameValidateAnalyticsInputText"
+
+ValidateFrameAnalyticsType:
+      type: string
+      enum:
+        - total-interactors
+        - interactors
+        - interactions-per-cast
+        - input-text
+
+ValidateFrameAggregateWindow:
+      type: string
+      enum:
+        - "10s"
+        - "1m"
+        - "2m"
+        - "5m"
+        - "10m"
+        - "20m"
+        - "30m"
+        - "2h"
+        - "12h"
+        - "1d"
+        - "7d"
+

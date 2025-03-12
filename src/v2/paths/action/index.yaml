@@ -1,0 +1,29 @@
+    post:
+      tags:
+        - Action
+      summary: User actions across apps
+      description: Securely communicate and perform actions on behalf of users across different apps. It enables an app to send data or trigger actions in another app on behalf of a mutual user by signing messages using the user's Farcaster signer.
+      externalDocs:
+        url: https://docs.neynar.com/docs/farcaster-actions-spec
+      operationId: publish-farcaster-action
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FarcasterActionReqBody"
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        "default":
+          description: Any possible response
+          content:
+            "*/*":
+              schema:
+                type: object
+                additionalProperties: true

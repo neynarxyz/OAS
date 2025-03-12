@@ -1,0 +1,34 @@
+    get:
+      tags:
+        - User
+      summary: By FIDs
+      description: Fetches information about multiple users based on FIDs
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-bulk-users
+      operationId: fetch-bulk-users
+      parameters:
+        - name: fids
+          description: Comma separated list of FIDs, up to 100 at a time
+          in: query
+          required: true
+          example: 194, 191, 6131
+          schema:
+            type: string
+            x-comma-separated: true
+            x-accept-as: integer
+        - name: viewer_fid
+          in: query
+          required: false
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BulkUsersResponse"
+        "400":
+          $ref: "#/components/responses/400Response"

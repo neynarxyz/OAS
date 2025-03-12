@@ -1,0 +1,49 @@
+    get:
+      tags:
+        - Channel
+      summary: For channel
+      description: Returns a list of followers for a specific channel. Max limit is 1000. Use cursor for pagination.
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-followers-for-a-channel
+      operationId: fetch-followers-for-a-channel
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: string
+          example: "founders"
+          description: Channel ID for the channel being queried
+        - name: viewer_fid
+          in: query
+          required: false
+          description: Providing this will return a list of followers that respects this user's mutes and blocks and includes `viewer_context`.
+          schema:
+            $ref: "#/components/schemas/Fid"
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Number of followers to fetch
+          required: false
+          example: 30
+          schema:
+            type: integer
+            default: 25
+            minimum: 1
+            maximum: 1000
+          x-is-limit-param: true
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsersResponse"
+        "400":
+          $ref: "#/components/responses/400Response"

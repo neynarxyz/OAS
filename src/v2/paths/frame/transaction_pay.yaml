@@ -1,0 +1,51 @@
+    post:
+      tags:
+        - Agents
+      summary: Create transaction pay frame
+      description: Creates a new transaction pay frame that can be used to collect payments through a frame
+      operationId: create-transaction-pay-frame
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FramePayTransactionRequestBody"
+      responses:
+        "200":
+          description: Transaction frame successfully created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TransactionFrameResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "401":
+          $ref: "#/components/responses/401Response"
+        "500":
+          $ref: "#/components/responses/500Response"
+    get:
+      tags:
+        - Frame
+      summary: Get transaction pay frame
+      description: Retrieves details about a transaction pay frame by ID
+      operationId: get-transaction-pay-frame
+      parameters:
+        - name: id
+          in: query
+          required: true
+          description: ID of the transaction frame to retrieve
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Transaction frame details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TransactionFrameResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
+        "500":
+          $ref: "#/components/responses/500Response"

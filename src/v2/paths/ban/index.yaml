@@ -1,0 +1,54 @@
+    post:
+      tags:
+        - Ban
+      summary: Ban FIDs from app
+      description: Bans a list of FIDs from the app associated with your API key. Banned users, their casts and reactions will not appear in feeds.
+      externalDocs:
+        url: https://docs.neynar.com/reference/publish-bans
+      operationId: publish-bans
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BanReqBody"
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BanResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
+        "500":
+          $ref: "#/components/responses/500Response"
+    delete:
+      tags:
+        - Ban
+      summary: Unban FIDs from app
+      description: Deletes a list of FIDs from the app associated with your API key.
+      externalDocs:
+        url: https://docs.neynar.com/reference/delete-bans
+      operationId: delete-bans
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BanReqBody"
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BanResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
+        "500":
+          $ref: "#/components/responses/500Response"

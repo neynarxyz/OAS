@@ -1,25 +1,26 @@
-name: Validate and Lint OpenAPI Specs
+name: Validate OpenAPI Specifications
 
 on:
   push:
     branches: [ main ]
+    paths:
+      - 'src/**/*.yaml'
+      - 'src/**/*.yml'
+      - 'src/**/*.json'
   pull_request:
+    branches: [ main ]
+    paths:
+      - 'src/**/*.yaml'
+      - 'src/**/*.yml'
+      - 'src/**/*.json'
 
 jobs:
-  validate-and-lint:
-    name: Validate and Lint OpenAPI Specs
+  validate:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Set Up Node.js Environment
-        uses: actions/setup-node@v3
-        with:
-          node-version: '22'
-
-      - name: Install Validation Tools
+      - name: Install Dependencies
         run: |
           npm install -g @stoplight/spectral@latest @apidevtools/swagger-cli@latest
 

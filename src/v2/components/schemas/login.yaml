@@ -1,0 +1,31 @@
+ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: "API key to authorize requests"
+      x-default: "NEYNAR_API_DOCS"
+
+AuthorizationUrlResponse:
+      type: object
+      required:
+        - authorization_url
+      properties:
+        authorization_url:
+          type: string
+          format: uri
+
+AuthorizationUrlResponseType:
+      type: string
+      enum:
+        - code
+
+NonceResponse:
+      type: object
+      required:
+        - nonce
+      properties:
+        nonce:
+          type: string
+          description: The nonce value to sign the message
+          examples: ["neynarbMi9zSDuOC1GFqixR"]
+

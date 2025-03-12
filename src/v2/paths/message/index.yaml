@@ -1,0 +1,26 @@
+    post:
+      tags:
+        - Signer
+      summary: Publish message
+      description: Publish a message to farcaster.
+        The message must be signed by a signer managed by the developer. Use the @farcaster/core library to construct and sign the message. Use the Message.toJSON method on the signed message and pass the JSON in the body of this POST request.
+      externalDocs:
+        url: https://docs.neynar.com/reference/publish-message-to-farcaster
+      operationId: publish-message-to-farcaster
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PublishMessageReqBody"
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PublishMessageResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "500":
+          $ref: "#/components/responses/500Response"

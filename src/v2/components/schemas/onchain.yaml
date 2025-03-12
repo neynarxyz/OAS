@@ -1,0 +1,107 @@
+RelevantFungibleOwnersResponse:
+      type: object
+      required:
+        - top_relevant_fungible_owners_hydrated
+        - all_relevant_fungible_owners_dehydrated
+      properties:
+        top_relevant_owners_hydrated:
+          type: array
+          items:
+            $ref: "#/components/schemas/User"
+        all_relevant_owners_dehydrated:
+          type: array
+          items:
+            $ref: "#/components/schemas/User"
+
+DeployFungibleReqBody:
+      type: object
+      properties:
+        owner:
+          type: string
+          description: Ethereum address of the one who is creating the token
+        symbol:
+          type: string
+          description: Symbol/Ticker for the token
+        name:
+          type: string
+          description: Name of the token
+        metadata[media]:
+          oneOf:
+            - type: string
+              format: binary
+              description: |
+                Media file associated with the token. 
+                Supported formats are image/jpeg, image/gif and image/png
+            - type: string
+              description: URI of the media file
+        metadata[description]:
+          type: string
+          description: Description of the token
+        metadata[nsfw]:
+          type: string
+          enum:
+            - "true"
+            - "false"
+          description: |
+            Indicates if the token is NSFW (Not Safe For Work).
+        metadata[website_link]:
+          type: string
+          description: Website link related to the token
+        metadata[twitter]:
+          type: string
+          description: Twitter profile link
+        metadata[discord]:
+          type: string
+          description: Discord server link
+        metadata[telegram]:
+          type: string
+          description: Telegram link
+        network:
+          type: string
+          default: base
+          enum:
+            - base
+          description: Network/Chain name
+        factory:
+          type: string
+          default: wow
+          enum:
+            - wow
+            - clanker
+          description: |
+            Factory name
+            - wow -> [wow.xyz](https://wow.xyz)
+            - clanker -> [clanker.world](https://www.clanker.world)
+      required:
+        - owner
+        - symbol
+        - name
+
+DeployFungibleResponse:
+      type: object
+      properties:
+        contract:
+          type: object
+          properties:
+            fungible:
+              type: object
+              properties:
+                object:
+                  type: string
+                  example: fungible
+                name:
+                  type: string
+                  description: Name of the token
+                symbol:
+                  type: string
+                  description: Symbol of the token
+                media:
+                  type: string
+                  description: URI of the token media
+                address:
+                  type: string
+                  description: Contract address of the token
+                decimals:
+                  type: integer
+                  description: Decimal precision of the token
+

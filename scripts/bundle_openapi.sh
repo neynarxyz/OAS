@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# This script bundles the modular OpenAPI files into a single file for validation
+# This script bundles the OpenAPI specification for validation
 
 set -e
 

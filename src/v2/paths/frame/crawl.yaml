@@ -1,0 +1,32 @@
+    get:
+      tags:
+        - Frame
+      summary: Meta tags from URL
+      description: Fetches the frame meta tags from the URL
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-frame-meta-tags-from-url
+      operationId: fetch-frame-meta-tags-from-url
+      parameters:
+        - name: url
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uri
+          example: https://frames.neynar.com/f/862277df/ff7be6a4
+          description: The frame URL to crawl
+      responses:
+        "200":
+          description: The response object containing the frame object
+          content:
+            application/json:
+              schema:
+                type: object
+                description: The frame object containing the meta tags
+                required:
+                  - frame
+                properties:
+                  frame:
+                    $ref: "#/components/schemas/Frame"
+        "400":
+          $ref: "#/components/responses/400Response"

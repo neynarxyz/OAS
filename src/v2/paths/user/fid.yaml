@@ -1,19 +1,19 @@
-get:
-  tags:
-    - User
-  summary: Fetch fresh FID
-  description: Fetches FID to [assign it to new user](https://docs.neynar.com/reference/register-account)
-  externalDocs:
-    url: https://docs.neynar.com/reference/get-fresh-account-fid
-  operationId: get-fresh-account-FID
-  parameters:
-    - $ref: "../../components/parameters/common.yaml#/NeynarExperimentalHeader"
-  responses:
-    "200":
-      description: Successful operation.
-      content:
-        application/json:
-          schema:
-            $ref: "../../components/schemas/user.yaml#/UserFIDResponse"
-    "500":
-      $ref: "../../components/responses/error.yaml#/500Response"
+    get:
+      tags:
+        - User
+      summary: Fetch fresh FID
+      description: Fetches FID to [assign it to new user](https://docs.neynar.com/reference/register-account)
+      externalDocs:
+        url: https://docs.neynar.com/reference/get-fresh-account-fid
+      operationId: get-fresh-account-FID
+      parameters:
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserFIDResponse"
+        "500":
+          $ref: "#/components/responses/500Response"

@@ -1,0 +1,15 @@
+    get:
+      tags:
+        - Webhook
+      summary: Associated webhooks of user
+      description: Fetch a list of webhooks associated to a user
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-webhooks
+      operationId: fetch-webhooks
+      responses:
+        "200":
+          description: List of webhooks
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WebhookListResponse"

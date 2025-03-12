@@ -1,0 +1,38 @@
+    get:
+      tags:
+        - Onchain
+      summary: "Token balance"
+      description: "Fetches the token balances of a user given their FID"
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-user-balance
+      operationId: fetch-user-balance
+      parameters:
+        - name: fid
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/Fid"
+          example: 3
+          description: FID of the user to fetch
+        - name: networks
+          in: query
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/Networks"
+          explode: false
+          description: Comma separated list of networks to fetch balances for. Currently, only "base" is supported.
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BalanceResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
+        "500":
+          $ref: "#/components/responses/500Response"

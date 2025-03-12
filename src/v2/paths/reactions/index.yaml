@@ -1,0 +1,51 @@
+get:
+  operationId: getReactions
+  summary: Get reactions
+  description: Get reactions for a cast
+  tags:
+    - Reaction
+  parameters:
+    - name: type
+      in: query
+      description: Type of reactions to fetch
+      required: true
+      schema:
+        $ref: "#/components/schemas/ReactionsType"
+    - name: cast_hash
+      in: query
+      description: Hash of the cast
+      required: true
+      schema:
+        type: string
+    - name: limit
+      in: query
+      description: Number of results to return
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+      x-is-limit-param: true
+      x-default: 25
+      x-max: 100
+    - name: cursor
+      in: query
+      description: Cursor for pagination
+      required: false
+      schema:
+        type: string
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ReactionsResponse"
+    "400":
+      $ref: "#/components/responses/400Response"
+    "401":
+      $ref: "#/components/responses/401Response"
+    "404":
+      $ref: "#/components/responses/404Response"
+    "500":
+      $ref: "#/components/responses/500Response"

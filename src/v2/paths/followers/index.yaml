@@ -1,0 +1,56 @@
+    get:
+      tags:
+        - Follows
+      summary: Followers
+      description: Returns a list of followers for a specific FID.
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-user-followers
+      operationId: fetch-user-followers
+      parameters:
+        - name: fid
+          in: query
+          required: true
+          description: User who's profile you are looking at
+          schema:
+            $ref: "#/components/schemas/Fid"
+        - name: viewer_fid
+          in: query
+          required: false
+          description: Providing this will return a list of followers that respects this user's mutes and blocks and includes `viewer_context`.
+          schema:
+            $ref: "#/components/schemas/Fid"
+        - name: sort_type
+          in: query
+          required: false
+          description: Sort type for fetch followers. Default is `desc_chron`
+          schema:
+            $ref: "#/components/schemas/FollowSortType"
+        - name: limit
+          in: query
+          required: false
+          description: Number of results to fetch
+          example: 30
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+          x-is-limit-param: true
+        - name: cursor
+          in: query
+          required: false
+          description: Pagination cursor.
+          schema:
+            type: string
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FollowersResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "500":
+          $ref: "#/components/responses/500Response"

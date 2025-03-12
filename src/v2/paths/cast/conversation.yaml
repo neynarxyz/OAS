@@ -1,68 +1,82 @@
-get:
-  tags:
-    - Cast
-  summary: Conversation
-  description: Fetches a conversation (thread of casts)
-  externalDocs:
-    url: https://docs.neynar.com/reference/fetch-conversation
-  operationId: fetch-conversation
-  parameters:
-    - name: identifier
-      in: query
-      required: true
-      description: Cast hash or URL
-      example: "0xfe90f9de682273e05b201629ad2338bdcd89b6be"
-      schema:
-        type: string
-    - name: type
-      in: query
-      required: false
-      description: Type of identifier
-      schema:
-        $ref: "../../components/schemas/cast.yaml#/CastParamType"
-      default: hash
-    - name: limit
-      in: query
-      required: false
-      description: Number of casts to return
-      example: 10
-      schema:
-        type: integer
-        format: int32
-        default: 25
-        maximum: 100
-        minimum: 1
-      x-is-limit-param: true
-    - name: cursor
-      in: query
-      description: Pagination cursor
-      schema:
-        type: string
-    - name: reply_depth
-      in: query
-      required: false
-      description: Depth of replies to fetch
-      schema:
-        $ref: "../../components/schemas/cast.yaml#/ReplyDepth"
-    - name: sort
-      in: query
-      required: false
-      description: Sort order for casts
-      schema:
-        $ref: "../../components/schemas/cast.yaml#/CastConversationSortType"
-      default: chron
-    - name: viewer_fid
-      in: query
-      required: false
-      example: 3
-      schema:
-        $ref: "../../components/schemas/common.yaml#/Fid"
-  responses:
-    "200":
-      description: Successful operation.
-      content:
-        application/json:
+    get:
+      tags:
+        - Cast
+      summary: Conversation for a cast
+      description: Gets all casts related to a conversation surrounding a cast by passing in a cast hash or Warpcast URL. Includes all the ancestors of a cast up to the root parent in a chronological order. Includes all direct_replies to the cast up to the reply_depth specified in the query parameter.
+      externalDocs:
+        url: https://docs.neynar.com/reference/lookup-cast-conversation
+      operationId: lookup-cast-conversation
+      parameters:
+        - name: identifier
+          required: true
+          in: query
+          example: "https://warpcast.com/rish/0x9288c1"
+          description: Cast identifier (Its either a url or a hash)
           schema:
-            $ref: "../../components/schemas/cast.yaml#/CastConversationResponse"
-    "400":
-      $ref: "../../components/responses/error.yaml#/400Response"
+            type: string
+        - name: type
+          required: true
+          in: query
+          example: url
+          schema:
+            $ref: "#/components/schemas/CastParamType"
+        - name: reply_depth
+          in: query
+          required: false
+          description: "The depth of replies in the conversation that will be returned (default 2)"
+          schema:
+            $ref: "#/components/schemas/ReplyDepth"
+        - name: include_chronological_parent_casts
+          in: query
+          required: false
+          description: "Include all parent casts in chronological order"
+          schema:
+            type: boolean
+            default: false
+        - name: viewer_fid
+          in: query
+          required: false
+          description: Providing this will return a conversation that respects this user's mutes and blocks and includes `viewer_context`.
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
+        - name: sort_type
+          in: query
+          required: false
+          description: Sort type for the ordering of descendants. Default is `chron`
+          schema:
+            $ref: "#/components/schemas/CastConversationSortType"
+        - name: fold
+          in: query
+          required: false
+          description: Show conversation above or below the fold. Lower quality responses are hidden below the fold. Not passing in a value shows the full conversation without any folding.
+          schema:
+            type: string
+            enum:
+              - above
+              - below
+        - name: limit
+          in: query
+          description: Number of results to fetch
+          required: false
+          example: 30
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 50
+          x-is-limit-param: true
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Conversation"
+        "400":
+          $ref: "#/components/responses/400Response"

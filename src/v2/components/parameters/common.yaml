@@ -1,9 +1,9 @@
-NeynarExperimentalHeader:
-  name: x-neynar-experimental
-  in: header
-  required: false
-  schema:
-    type: boolean
-    default: false
-  description: "Enables experimental features"
-  x-is-global-header: true
+    NeynarExperimentalHeader:
+      name: x-neynar-experimental
+      in: header
+      required: false
+      schema:
+        type: boolean
+        default: false
+      description: "Enables experimental features"
+      x-is-global-header: true

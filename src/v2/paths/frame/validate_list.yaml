@@ -1,0 +1,21 @@
+    get:
+      tags:
+        - Frame
+      summary: All frames validated by user
+      description: Fetch a list of all the frames validated by a user
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-validate-frame-list
+      operationId: fetch-validate-frame-list
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FrameValidateListResponse"
+        "401":
+          $ref: "#/components/responses/401Response"
+        "403":
+          $ref: "#/components/responses/403Response"
+        "500":
+          $ref: "#/components/responses/500Response"

@@ -1,0 +1,72 @@
+    post:
+      tags:
+        - User
+      summary: Follow user
+      description: |
+        Follow a user \
+        (In order to follow a user `signer_uuid` must be approved)
+      externalDocs:
+        url: https://docs.neynar.com/reference/follow-user
+      operationId: follow-user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FollowReqBody"
+            example:
+              signer_uuid: 19d0c5fd-9b33-4a48-a0e2-bc7b0555baec
+              target_fids:
+                - 3
+                - 194
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BulkFollowResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
+        "403":
+          $ref: "#/components/responses/403Response"
+        "500":
+          $ref: "#/components/responses/500Response"
+    delete:
+      tags:
+        - User
+      summary: Unfollow user
+      description: |
+        Unfollow a user \
+        (In order to unfollow a user `signer_uuid` must be approved)
+      externalDocs:
+        url: https://docs.neynar.com/reference/unfollow-user
+      operationId: unfollow-user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FollowReqBody"
+            example:
+              signer_uuid: 19d0c5fd-9b33-4a48-a0e2-bc7b0555baec
+              target_fids:
+                - 3
+                - 194
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BulkFollowResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
+        "403":
+          $ref: "#/components/responses/403Response"
+        "500":
+          $ref: "#/components/responses/500Response"

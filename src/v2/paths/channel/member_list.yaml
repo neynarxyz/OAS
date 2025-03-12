@@ -1,0 +1,51 @@
+    get:
+      tags:
+        - Channel
+      summary: Fetch members
+      description: Fetch a list of members in a channel
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-channel-members
+      operationId: fetch-channel-members
+      parameters:
+        - name: channel_id
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/ChannelId"
+          example: "neynar"
+          description: Channel ID for the channel being queried
+        - name: fid
+          in: query
+          schema:
+            $ref: "#/components/schemas/Fid"
+          example: 194
+          description: FID of the user being queried. Specify this to check if a user is a member of the channel without paginating through all members.
+        - name: limit
+          in: query
+          description: Number of results to fetch
+          required: false
+          example: 30
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+          x-is-limit-param: true
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          required: false
+          schema:
+            type: string
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChannelMemberListResponse"
+        "500":
+          $ref: "#/components/responses/500Response"
+        "400":
+          $ref: "#/components/responses/400Response"

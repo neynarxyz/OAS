@@ -1,0 +1,45 @@
+    get:
+      tags:
+        - Cast
+      summary: Bulk fetch casts
+      description: Fetch multiple casts using their respective hashes.
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-bulk-casts
+      operationId: fetch-bulk-casts
+      parameters:
+        - name: casts
+          in: query
+          required: true
+          description: "Hashes of the cast to be retrived (Comma separated, no spaces)"
+          example: "0xa896906a5e397b4fec247c3ee0e9e4d4990b8004,0x27ff810f7f718afd8c40be236411f017982e0994"
+          schema:
+            type: string
+            x-comma-separated: true
+        - name: viewer_fid
+          in: query
+          required: false
+          description: adds viewer_context to cast object to show whether viewer has liked or recasted the cast.
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
+        - name: sort_type
+          in: query
+          required: false
+          description: "Optional parameter to sort the casts based on different criteria"
+          schema:
+            type: string
+            enum:
+              - trending
+              - likes
+              - recasts
+              - replies
+              - recent
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CastsResponse"
+        "400":
+          $ref: "#/components/responses/400Response"

@@ -1,0 +1,53 @@
+MuteReqBody:
+      type: object
+      required:
+        - fid
+        - muted_fid
+      properties:
+        fid:
+          $ref: "#/components/schemas/Fid"
+        muted_fid:
+          $ref: "#/components/schemas/Fid"
+
+MuteRecord:
+      type: object
+      required:
+        - object
+        - muted
+        - timestamp
+        - muted_at
+      properties:
+        object:
+          type: string
+          enum:
+            - mute
+        muted:
+          $ref: "#/components/schemas/User"
+        muted_at:
+          $ref: "#/components/schemas/Timestamp"
+
+MuteListResponse:
+      type: object
+      required:
+        - mutes
+        - next
+      properties:
+        mutes:
+          type: array
+          items:
+            $ref: "#/components/schemas/MuteRecord"
+        next:
+          $ref: "#/components/schemas/NextCursor"
+
+MuteResponse:
+      type: object
+      required:
+        - success
+      properties:
+        success:
+          type: boolean
+          examples:
+            - true
+        message:
+          type: string
+

@@ -1,0 +1,31 @@
+    get:
+      tags:
+        - Signer
+      summary: Fetch authorization url
+      description: Fetch authorization url (Fetched authorized url useful for SIWN login operation)
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-authorization-url
+      operationId: fetch-authorization-url
+      parameters:
+        - name: client_id
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: response_type
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/AuthorizationUrlResponseType"
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthorizationUrlResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "401":
+          $ref: "#/components/responses/401Response"

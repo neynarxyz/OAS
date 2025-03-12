@@ -1,0 +1,56 @@
+    get:
+      tags:
+        - Frame
+      summary: Analytics for the frame
+      description: Fetch analytics for total-interactors, interactors, nteractions-per-cast and input-text.
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-validate-frame-analytics
+      operationId: fetch-validate-frame-analytics
+      parameters:
+        - name: frame_url
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uri
+          example: https://shorturl.at/bDRY9
+        - name: analytics_type
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/ValidateFrameAnalyticsType"
+        - name: start
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+            default: "2024-04-06T06:44:56.811Z"
+        - name: stop
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+            default: "2024-04-08T06:44:56.811Z"
+        - name: aggregate_window
+          in: query
+          required: false
+          description: Required for `analytics_type=interactions-per-cast`
+          schema:
+            $ref: "#/components/schemas/ValidateFrameAggregateWindow"
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FrameValidateAnalyticsResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "401":
+          $ref: "#/components/responses/401Response"
+        "403":
+          $ref: "#/components/responses/403Response"
+        "500":
+          $ref: "#/components/responses/500Response"

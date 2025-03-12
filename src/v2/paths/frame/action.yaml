@@ -1,0 +1,7 @@
+    post:
+      tags:
+        - Frame
+      summary: Post a frame action, cast action or a cast composer action
+      description: |
+        Post frame actions, cast actions or cast composer actions to the server  \
+        (In order to post any of these actions, you need to have an approved `signer_uuid`)

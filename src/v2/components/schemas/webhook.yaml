@@ -1,0 +1,15 @@
+SubscriptionProviders:
+      type: string
+      enum:
+        - fabric_stp
+        - paragraph
+      description: |
+        The provider of the subscription.
+
+SubscriptionProvider:
+      type: string
+      enum:
+        - fabric_stp
+      description: |
+        The provider of the subscription.
+

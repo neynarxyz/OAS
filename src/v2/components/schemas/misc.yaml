@@ -1,0 +1,3 @@
+SearchSortType:
+      $ref: "#/components/schemas/FollowSortType"
+

@@ -1,0 +1,19 @@
+    get:
+      tags:
+        - Login
+      summary: Fetch nonce
+      description: Nonce to sign a message
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-nonce
+      operationId: fetch-nonce
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NonceResponse"
+        "401":
+          $ref: "#/components/responses/401Response"
+        "500":
+          $ref: "#/components/responses/500Response"

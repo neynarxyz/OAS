@@ -1,0 +1,42 @@
+    get:
+      tags:
+        - User
+      summary: Power users
+      description: Fetches power users based on Warpcast power badges. Information is updated once a day.
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-power-users
+      operationId: fetch-power-users
+      parameters:
+        - name: viewer_fid
+          in: query
+          required: false
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
+        - name: limit
+          in: query
+          required: false
+          description: Number of power users to fetch
+          example: 10
+          schema:
+            type: integer
+            format: int32
+            default: 25
+            maximum: 100
+            minimum: 1
+          x-is-limit-param: true
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          schema:
+            type: string
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsersResponse"
+        "400":
+          $ref: "#/components/responses/400Response"

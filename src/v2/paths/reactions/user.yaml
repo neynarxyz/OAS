@@ -1,0 +1,53 @@
+    get:
+      tags:
+        - Reaction
+      summary: Reactions for user
+      description: Fetches reactions for a given user
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-user-reactions
+      operationId: fetch-user-reactions
+      parameters:
+        - name: fid
+          in: query
+          required: true
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
+        - name: viewer_fid
+          in: query
+          required: false
+          description: Providing this will return a list of reactions that respects this user's mutes and blocks and includes `viewer_context`.
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
+        - name: type
+          in: query
+          required: true
+          description: Type of reaction to fetch (likes or recasts or all)
+          example: all
+          schema:
+            $ref: "#/components/schemas/ReactionsType"
+        - name: limit
+          in: query
+          description: Number of results to fetch
+          example: 30
+          schema:
+            type: integer
+            default: 25
+            minimum: 1
+            maximum: 100
+          x-is-limit-param: true
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReactionsResponse"
+        "400":
+          $ref: "#/components/responses/400Response"

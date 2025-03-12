@@ -1,0 +1,117 @@
+    get:
+      tags:
+        - Webhook
+      summary: Fetch a webhook
+      description: Fetch a webhook
+      externalDocs:
+        url: https://docs.neynar.com/reference/lookup-webhook
+      operationId: lookup-webhook
+      parameters:
+        - name: webhook_id
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Details of a webhook
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WebhookResponse"
+        "404":
+          $ref: "#/components/responses/404Response"
+    post:
+      tags:
+        - Webhook
+      summary: Create a webhook
+      description: Create a webhook
+      externalDocs:
+        url: https://docs.neynar.com/reference/publish-webhook
+      operationId: publish-webhook
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WebhookPostReqBody"
+      responses:
+        "200":
+          description: Created webhook
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WebhookResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
+    patch:
+      tags:
+        - Webhook
+      summary: Update webhook status
+      description: Update webhook active status
+      externalDocs:
+        url: https://docs.neynar.com/reference/update-webhook-active-status
+      operationId: update-webhook-active-status
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WebhookPatchReqBody"
+      responses:
+        "200":
+          description: Updated webhook
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WebhookResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+    put:
+      tags:
+        - Webhook
+      summary: Update a webhook
+      description: Update a webhook
+      externalDocs:
+        url: https://docs.neynar.com/reference/update-webhook
+      operationId: update-webhook
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WebhookPutReqBody"
+      responses:
+        "200":
+          description: Updated webhook
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WebhookResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+    delete:
+      tags:
+        - Webhook
+      summary: Delete a webhook
+      description: Delete a webhook
+      externalDocs:
+        url: https://docs.neynar.com/reference/delete-webhook
+      operationId: delete-webhook
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WebhookDeleteReqBody"
+      responses:
+        "200":
+          description: Deleted webhook status message
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WebhookResponse"
+        "404":
+          $ref: "#/components/responses/404Response"

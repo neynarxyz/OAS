@@ -1,0 +1,24 @@
+    get:
+      tags:
+        - fname
+      summary: Check fname availability
+      description: Check if a given fname is available
+      externalDocs:
+        url: https://docs.neynar.com/reference/is-fname-available
+      operationId: is-fname-available
+      parameters:
+        - name: fname
+          in: query
+          required: true
+          example: "farcaster"
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FnameAvailabilityResponse"
+        "400":
+          $ref: "#/components/responses/400Response"

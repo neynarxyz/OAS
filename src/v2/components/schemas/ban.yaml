@@ -1,0 +1,51 @@
+BanReqBody:
+      type: object
+      required:
+        - fids
+      properties:
+        fids:
+          type: array
+          items:
+            $ref: "#/components/schemas/Fid"
+
+BanRecord:
+      type: object
+      required:
+        - object
+        - timestamp
+        - banned_at
+      properties:
+        object:
+          type: string
+          enum:
+            - ban
+        banned:
+          $ref: "#/components/schemas/User"
+        banned_at:
+          $ref: "#/components/schemas/Timestamp"
+
+BanListResponse:
+      type: object
+      required:
+        - bans
+        - next
+      properties:
+        bans:
+          type: array
+          items:
+            $ref: "#/components/schemas/BanRecord"
+        next:
+          $ref: "#/components/schemas/NextCursor"
+
+BanResponse:
+      type: object
+      required:
+        - success
+      properties:
+        success:
+          type: boolean
+          examples:
+            - true
+        message:
+          type: [string, "null"]
+

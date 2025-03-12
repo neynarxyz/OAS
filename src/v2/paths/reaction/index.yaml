@@ -1,0 +1,70 @@
+    post:
+      tags:
+        - Reaction
+      summary: Post a reaction
+      description: |
+        Post a reaction (like or recast) to a given cast \
+        (In order to post a reaction `signer_uuid` must be approved)
+      externalDocs:
+        url: https://docs.neynar.com/reference/publish-reaction
+      operationId: publish-reaction
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReactionReqBody"
+            example:
+              signer_uuid: 19d0c5fd-9b33-4a48-a0e2-bc7b0555baec
+              target: "0x1ea99cbed57e4020314ba3fadd7c692d2de34d5f"
+              reaction_type: like
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OperationResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
+        "403":
+          $ref: "#/components/responses/403Response"
+        "500":
+          $ref: "#/components/responses/500Response"
+    delete:
+      tags:
+        - Reaction
+      summary: Delete reaction
+      description: |
+        Delete a reaction (like or recast) to a cast \
+        (In order to delete a reaction `signer_uuid` must be approved)
+      externalDocs:
+        url: https://docs.neynar.com/reference/delete-reaction
+      operationId: delete-reaction
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReactionReqBody"
+            example:
+              signer_uuid: 19d0c5fd-9b33-4a48-a0e2-bc7b0555baec
+              target: "0x1ea99cbed57e4020314ba3fadd7c692d2de34d5f"
+              reaction_type: like
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OperationResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
+        "403":
+          $ref: "#/components/responses/403Response"
+        "500":
+          $ref: "#/components/responses/500Response"

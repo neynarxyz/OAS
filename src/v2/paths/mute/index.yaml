@@ -1,0 +1,54 @@
+    post:
+      tags:
+        - Mute
+      summary: Mute FID
+      description: Adds a mute for a given FID. This is an allowlisted API, reach out if you want access.
+      externalDocs:
+        url: https://docs.neynar.com/reference/publish-mute
+      operationId: publish-mute
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MuteReqBody"
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MuteResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
+        "500":
+          $ref: "#/components/responses/500Response"
+    delete:
+      tags:
+        - Mute
+      summary: Unmute FID
+      description: Deletes a mute for a given FID. This is an allowlisted API, reach out if you want access.
+      externalDocs:
+        url: https://docs.neynar.com/reference/delete-mute
+      operationId: delete-mute
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MuteReqBody"
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MuteResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
+        "500":
+          $ref: "#/components/responses/500Response"

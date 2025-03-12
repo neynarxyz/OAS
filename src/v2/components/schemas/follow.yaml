@@ -1,0 +1,8 @@
+FollowSortType:
+      type: string
+      enum:
+        - desc_chron
+        - algorithmic
+      examples:
+        - "desc_chron"
+

@@ -1,0 +1,29 @@
+    post:
+      tags:
+        - Storage
+      summary: Buy storage
+      description: |
+        This api will help you rent units of storage for an year for a specific FID.
+        A storage unit lets you store 5000 casts, 2500 reactions and 2500 links.
+      externalDocs:
+        url: https://docs.neynar.com/reference/buy-storage
+      operationId: buy-storage
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BuyStorageReqBody"
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StorageAllocationsResponse"
+        "400":
+          $ref: "#/components/responses/400ZodResponse"
+        "409":
+          $ref: "#/components/responses/409Response"
+        "500":
+          $ref: "#/components/responses/500Response"

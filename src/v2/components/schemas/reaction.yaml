@@ -1,32 +1,13 @@
 ReactionType:
-  type: string
-  enum:
-    - like
-    - recast
+      type: string
+      enum:
+        - like
+        - recast
+
 ReactionsType:
-  type: string
-  enum:
-    - all
-    - likes
-    - recasts
-ReactionsResponse:
-  type: object
-  properties:
-    result:
-      type: object
-      properties:
-        reactions:
-          type: array
-          items:
-            $ref: "#/Reaction"
-        next:
-          $ref: "./common.yaml#/NextCursor"
-Reaction:
-  type: object
-  properties:
-    type:
-      $ref: "#/ReactionType"
-    timestamp:
-      $ref: "./common.yaml#/Timestamp"
-    user:
-      $ref: "./user.yaml#/User"
+      type: string
+      enum:
+        - all
+        - likes
+        - recasts
+

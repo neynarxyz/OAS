@@ -1,0 +1,50 @@
+    post:
+      tags:
+        - Channel
+      summary: Invite
+      description: Invite a user to a channel
+      externalDocs:
+        url: https://docs.neynar.com/reference/invite-channel-member
+      operationId: invite-channel-member
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InviteChannelMemberReqBody"
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OperationResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "500":
+          $ref: "#/components/responses/500Response"
+    put:
+      tags:
+        - Channel
+      summary: Accept or reject an invite
+      description: Accept or reject a channel invite
+      externalDocs:
+        url: https://docs.neynar.com/reference/respond-channel-invite
+      operationId: respond-channel-invite
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RespondChannelInviteReqBody"
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OperationResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "500":
+          $ref: "#/components/responses/500Response"

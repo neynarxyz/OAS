@@ -1,0 +1,19 @@
+    get:
+      tags:
+        - Frame
+      summary: List of frames
+      description: Fetch a list of frames made by the developer (identified by API key)
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-neynar-frames
+      operationId: fetch-neynar-frames
+      responses:
+        "200":
+          description: A list of frames
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/NeynarFrame"
+        "404":
+          $ref: "#/components/responses/404Response"

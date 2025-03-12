@@ -1,0 +1,39 @@
+    get:
+      tags:
+        - Channel
+      summary: By ID or parent_url
+      description: Returns details of a channel
+      externalDocs:
+        url: https://docs.neynar.com/reference/lookup-channel
+      operationId: lookup-channel
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: string
+          example: "neynar"
+          description: Channel ID for the channel being queried
+        - name: type
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/ChannelType"
+          example: "parent_url"
+          description: Type of identifier being used to query the channel. Defaults to ID.
+        - name: viewer_fid
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/Fid"
+          example: 194
+          description: FID of the user viewing the channel.
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChannelResponse"
+        "404":
+          $ref: "#/components/responses/404Response"

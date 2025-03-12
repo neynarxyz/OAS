@@ -1,0 +1,25 @@
+    delete:
+      tags:
+        - Channel
+      summary: Remove user
+      description: Remove a user from a channel or a user's invite to a channel role
+      externalDocs:
+        url: https://docs.neynar.com/reference/remove-channel-member
+      operationId: remove-channel-member
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RemoveChannelMemberReqBody"
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OperationResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "500":
+          $ref: "#/components/responses/500Response"

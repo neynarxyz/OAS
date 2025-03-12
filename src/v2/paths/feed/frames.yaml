@@ -1,0 +1,40 @@
+    get:
+      summary: Casts with Frames
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-frames-only-feed
+      operationId: fetch-frames-only-feed
+      tags:
+        - Feed
+      description: Fetch feed of casts with Frames, reverse chronological order
+      parameters:
+        - name: limit
+          in: query
+          description: Number of results to fetch
+          example: 30
+          schema:
+            type: integer
+            default: 25
+            minimum: 1
+            maximum: 100
+          x-is-limit-param: true
+        - name: viewer_fid
+          in: query
+          required: false
+          description: Providing this will return a feed that respects this user's mutes and blocks and includes `viewer_context`.
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FeedResponse"
+        "400":
+          $ref: "#/components/responses/400Response"

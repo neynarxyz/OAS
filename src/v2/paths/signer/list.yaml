@@ -1,0 +1,14 @@
+    get:
+      tags:
+        - Signer
+      summary: List signers
+      description: Fetches a list of signers for a custody address
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-signers
+      operationId: fetch-signers
+      parameters:
+        - name: message
+          in: query
+          required: true
+          description: |
+            A Sign-In with Ethereum (SIWE) message that the user's Ethereum wallet signs. This message includes details such as the domain, address, statement, URI, nonce, and other relevant information following the EIP-4361 standard. It should be structured and URL-encoded.

@@ -1,0 +1,106 @@
+    get:
+      tags:
+        - Cast
+      summary: By hash or URL
+      description: Gets information about an individual cast by passing in a Warpcast web URL or cast hash
+      externalDocs:
+        url: https://docs.neynar.com/reference/lookup-cast-by-hash-or-warpcast-url
+      operationId: lookup-cast-by-hash-or-warpcast-url
+      parameters:
+        - name: identifier
+          required: true
+          in: query
+          example: "https://warpcast.com/rish/0x9288c1"
+          description: Cast identifier (Its either a url or a hash)
+          schema:
+            type: string
+        - name: type
+          required: true
+          in: query
+          example: url
+          schema:
+            $ref: "#/components/schemas/CastParamType"
+        - name: viewer_fid
+          in: query
+          required: false
+          description: adds viewer_context to cast object to show whether viewer has liked or recasted the cast.
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CastResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+    post:
+      tags:
+        - Cast
+      summary: Post a cast
+      description: |
+        Posts a cast or cast reply. Works with mentions and embeds.  
+        (In order to post a cast `signer_uuid` must be approved)
+      externalDocs:
+        url: https://docs.neynar.com/reference/publish-cast
+      operationId: publish-cast
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PostCastReqBody"
+            example:
+              signer_uuid: 19d0c5fd-9b33-4a48-a0e2-bc7b0555baec
+              text: "Writing to @farcaster via the @neynar APIs 🪐"
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PostCastResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
+        "403":
+          $ref: "#/components/responses/403Response"
+        "500":
+          $ref: "#/components/responses/500Response"
+    delete:
+      tags:
+        - Cast
+      summary: Delete a cast
+      description: |
+        Delete an existing cast. \
+        (In order to delete a cast `signer_uuid` must be approved)
+      externalDocs:
+        url: https://docs.neynar.com/reference/delete-cast
+      operationId: delete-cast
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DeleteCastReqBody"
+            example:
+              signer_uuid: 19d0c5fd-9b33-4a48-a0e2-bc7b0555baec
+              target_hash: "0x1ea99cbed57e4020314ba3fadd7c692d2de34d5f"
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OperationResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
+        "403":
+          $ref: "#/components/responses/403Response"
+        "500":
+          $ref: "#/components/responses/500Response"

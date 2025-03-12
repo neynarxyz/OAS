@@ -1,34 +1,317 @@
-ChannelResponse:
-  type: object
-  properties:
-    result:
+ChannelId:
+      type: string
+      description: The unique identifier of a farcaster channel
+      examples:
+        - "neynar"
+
+ChannelMemberRole:
+      type: string
+      description: The role of a channel member
+      enum:
+        - member
+        - moderator
+
+RemoveChannelMemberReqBody:
       type: object
+      required:
+        - signer_uuid
+        - channel_id
+        - fid
+        - role
+      properties:
+        signer_uuid:
+          $ref: "#/components/schemas/SignerUUID"
+        channel_id:
+          $ref: "#/components/schemas/ChannelId"
+        fid:
+          $ref: "#/components/schemas/Fid"
+        role:
+          $ref: "#/components/schemas/ChannelMemberRole"
+
+ChannelType:
+      type: string
+      enum:
+        - "id"
+        - "parent_url"
+
+ChannelOrDehydratedChannel:
+      oneOf:
+        - $ref: "#/components/schemas/Channel"
+        - $ref: "#/components/schemas/DehydratedChannel"
+      discriminator:
+        propertyName: object
+        mapping:
+          channel: "#/components/schemas/Channel"
+          dehydrated_channel: "#/components/schemas/DehydratedChannel"
+
+ChannelFollowReqBody:
+      type: object
+      required:
+        - signer_uuid
+        - channel_id
+      properties:
+        signer_uuid:
+          $ref: "#/components/schemas/SignerUUID"
+        channel_id:
+          $ref: "#/components/schemas/ChannelId"
+
+DehydratedChannel:
+      type: object
+      required:
+        - id
+        - name
+        - object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        object:
+          type: string
+          enum:
+            - channel_dehydrated
+        image_url:
+          type: string
+        viewer_context:
+          $ref: "#/components/schemas/ChannelUserContext"
+
+Channel:
+      type: object
+      required:
+        - id
+        - url
+        - object
+      properties:
+        id:
+          type: string
+        url:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        object:
+          type: string
+          enum:
+            - channel
+        created_at:
+          description: Epoch timestamp in seconds.
+          type: number
+        follower_count:
+          description: Number of followers the channel has.
+          type: number
+        external_link:
+          type: object
+          description: Channel's external link.
+          properties:
+            title:
+              type: string
+            url:
+              type: string
+        image_url:
+          type: string
+        parent_url:
+          type: string
+          format: uri
+        lead:
+          $ref: "#/components/schemas/User"
+        moderator_fids:
+          type: array
+          items:
+            $ref: "#/components/schemas/Fid"
+        member_count:
+          type: integer
+          format: int32
+        moderator:
+          $ref: "#/components/schemas/User"
+          deprecated: true
+          description: Use `lead` instead.
+        pinned_cast_hash:
+          $ref: "#/components/schemas/CastHash"
+          description: Hash of the pinned cast in the channel.
+        hosts:
+          type: array
+          deprecated: true
+          items:
+            $ref: "#/components/schemas/User"
+        viewer_context:
+          $ref: "#/components/schemas/ChannelUserContext"
+
+ChannelListResponse:
+      type: object
+      required:
+        - channels
+      properties:
+        channels:
+          type: array
+          items:
+            $ref: "#/components/schemas/Channel"
+        next:
+          $ref: "#/components/schemas/NextCursor"
+
+ChannelMemberInvite:
+      type: object
+      required:
+        - channel_id
+        - role
+        - inviter
+        - invited
+      properties:
+        channel_id:
+          $ref: "#/components/schemas/ChannelId"
+        role:
+          $ref: "#/components/schemas/ChannelMemberRole"
+        inviter:
+          $ref: "#/components/schemas/User"
+        invited:
+          $ref: "#/components/schemas/User"
+
+InviteChannelMemberReqBody:
+      type: object
+      required:
+        - signer_uuid
+        - channel_id
+        - fid
+        - role
+      properties:
+        signer_uuid:
+          $ref: "#/components/schemas/SignerUUID"
+        channel_id:
+          $ref: "#/components/schemas/ChannelId"
+        fid:
+          $ref: "#/components/schemas/Fid"
+        role:
+          $ref: "#/components/schemas/ChannelMemberRole"
+
+ChannelMember:
+      type: object
+      required:
+        - object
+        - role
+        - user
+        - channel
+      properties:
+        object:
+          type: string
+          enum:
+            - member
+        role:
+          $ref: "#/components/schemas/ChannelMemberRole"
+        user:
+          oneOf:
+            - $ref: "#/components/schemas/User"
+            - $ref: "#/components/schemas/UserDehydrated"
+        channel:
+          oneOf:
+            - $ref: "#/components/schemas/Channel"
+            - $ref: "#/components/schemas/DehydratedChannel"
+
+ChannelMemberListResponse:
+      type: object
+      required:
+        - members
+        - next
+      properties:
+        members:
+          type: array
+          items:
+            $ref: "#/components/schemas/ChannelMember"
+        next:
+          $ref: "#/components/schemas/NextCursor"
+
+ChannelMemberInviteListResponse:
+      type: object
+      required:
+        - invites
+      properties:
+        invites:
+          type: array
+          items:
+            $ref: "#/components/schemas/ChannelMemberInvite"
+        next:
+          $ref: "#/components/schemas/NextCursor"
+
+ChannelSearchResponse:
+      type: object
+      required:
+        - channels
+        - next
+      properties:
+        channels:
+          type: array
+          items:
+            $ref: "#/components/schemas/Channel"
+        next:
+          $ref: "#/components/schemas/NextCursor"
+
+ChannelResponse:
+      type: object
+      required:
+        - channel
       properties:
         channel:
-          $ref: "#/Channel"
-Channel:
-  type: object
-  properties:
-    id:
-      $ref: "./common.yaml#/ChannelId"
-    name:
-      type: string
-    description:
-      type: string
-    image_url:
-      type: string
-      format: uri
-    created_at:
-      $ref: "./common.yaml#/Timestamp"
-    updated_at:
-      $ref: "./common.yaml#/Timestamp"
-    lead_fid:
-      $ref: "./common.yaml#/Fid"
-    parent_url:
-      type: string
-      format: uri
-    viewer_context:
+          $ref: "#/components/schemas/Channel"
+
+ChannelResponseBulk:
       type: object
+      required:
+        - channels
       properties:
-        following:
+        channels:
+          type: array
+          items:
+            $ref: "#/components/schemas/Channel"
+
+ChannelActivity:
+      type: object
+      required:
+        - object
+        - cast_count_1d
+        - cast_count_7d
+        - cast_count_30d
+        - channel
+      properties:
+        object:
+          type: string
+          enum:
+            - channel_activity
+        cast_count_1d:
+          type: string
+        cast_count_7d:
+          type: string
+        cast_count_30d:
+          type: string
+        channel:
+          $ref: "#/components/schemas/Channel"
+
+TrendingChannelResponse:
+      type: object
+      required:
+        - channels
+        - next
+      properties:
+        channels:
+          type: array
+          items:
+            $ref: "#/components/schemas/ChannelActivity"
+        next:
+          $ref: "#/components/schemas/NextCursor"
+
+RespondChannelInviteReqBody:
+      type: object
+      required:
+        - signer_uuid
+        - channel_id
+        - role
+        - accept
+      properties:
+        signer_uuid:
+          $ref: "#/components/schemas/SignerUUID"
+        channel_id:
+          $ref: "#/components/schemas/ChannelId"
+        role:
+          $ref: "#/components/schemas/ChannelMemberRole"
+        accept:
           type: boolean
+          description: Accept or reject the invite
+

@@ -1,0 +1,37 @@
+FarcasterActionReqBody:
+      type: object
+      required:
+        - signer_uuid
+        - base_url
+        - action
+      properties:
+        signer_uuid:
+          type: string
+          format: uuid
+          description: |
+            The signer_uuid of the user on behalf of whom the action is being performed.
+          examples:
+            - "123e4567-e89b-12d3-a456-426614174000"
+        base_url:
+          type: string
+          format: uri
+          description: |
+            The base URL of the app on which the action is being performed.
+          examples:
+            - "https://example.com"
+        action:
+          type: object
+          required:
+            - type
+          properties:
+            type:
+              type: string
+              description: |
+                The type of action being performed.
+              examples:
+                - "create.user"
+            payload:
+              description: |
+                The payload of the action being performed.
+              type: object
+

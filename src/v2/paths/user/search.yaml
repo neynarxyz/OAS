@@ -1,0 +1,49 @@
+    get:
+      tags:
+        - User
+      summary: Search for Usernames
+      description: Search for Usernames
+      externalDocs:
+        url: https://docs.neynar.com/reference/search-user
+      operationId: search-user
+      parameters:
+        - name: q
+          in: query
+          required: true
+          example: r
+          schema:
+            type: string
+        - name: viewer_fid
+          in: query
+          required: false
+          description: Providing this will return search results that respects this user's mutes and blocks and includes `viewer_context`.
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
+        - name: limit
+          in: query
+          required: false
+          description: Number of users to fetch
+          example: 10
+          schema:
+            type: integer
+            format: int32
+            default: 5
+            minimum: 1
+            maximum: 10
+          x-is-limit-param: true
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          schema:
+            type: string
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserSearchResponse"
+        "400":
+          $ref: "#/components/responses/400Response"

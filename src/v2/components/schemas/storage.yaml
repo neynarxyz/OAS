@@ -1,0 +1,99 @@
+StorageAllocationsResponse:
+      type: object
+      properties:
+        total_active_units:
+          type: integer
+          examples:
+            - 13
+        allocations:
+          type: array
+          items:
+            $ref: "#/components/schemas/StorageAllocation"
+
+StorageAllocation:
+      type: object
+      properties:
+        object:
+          type: string
+          examples:
+            - "storage_allocation"
+        user:
+          $ref: "#/components/schemas/UserDehydrated"
+        units:
+          type: integer
+          examples:
+            - 10
+        expiry:
+          type: string
+          format: date-time
+          examples:
+            - "2024-10-08T22:03:49.000Z"
+        timestamp:
+          type: string
+          format: date-time
+          examples:
+            - "2023-10-09T22:03:49.000Z"
+
+StorageUsageResponse:
+      type: object
+      properties:
+        object:
+          type: string
+          examples:
+            - "storage_usage"
+        user:
+          $ref: "#/components/schemas/UserDehydrated"
+        casts:
+          $ref: "#/components/schemas/StorageObject"
+        reactions:
+          $ref: "#/components/schemas/StorageObject"
+        links:
+          $ref: "#/components/schemas/StorageObject"
+        verified_addresses:
+          $ref: "#/components/schemas/StorageObject"
+        username_proofs:
+          $ref: "#/components/schemas/StorageObject"
+        signers:
+          $ref: "#/components/schemas/StorageObject"
+        total_active_units:
+          type: integer
+          examples:
+            - 2
+
+StorageObject:
+      type: object
+      properties:
+        object:
+          type: string
+          examples:
+            - "storage"
+        used:
+          type: integer
+          examples:
+            - 3659
+        capacity:
+          type: integer
+          examples:
+            - 10000
+
+BuyStorageReqBody:
+      type: object
+      required:
+        - fid
+      properties:
+        fid:
+          type: integer
+          minimum: 1
+          examples:
+            - 1
+        units:
+          type: integer
+          description: |
+            Number of storage units to buy.
+            A storage unit lets you store 5000 casts, 2500 reactions and 2500 links.
+          minimum: 1
+          examples:
+            - 1
+        idem:
+          $ref: "#/components/schemas/Idem"
+

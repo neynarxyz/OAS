@@ -1,21 +1,19 @@
 get:
+  operationId: getSignerStatus
+  summary: Get signer status
+  description: Get the status of a signer
   tags:
     - Signer
-  summary: Signer status
-  description: Fetches the status of a signer
-  externalDocs:
-    url: https://docs.neynar.com/reference/signer-status
-  operationId: signer-status
   parameters:
     - name: signer_uuid
       in: query
+      description: UUID of the signer
       required: true
-      description: Signer UUID
       schema:
-        $ref: "../../components/schemas/common.yaml#/SignerUUID"
+        $ref: "#/components/schemas/SignerUUID"
   responses:
     "200":
-      description: Successful operation.
+      description: OK
       content:
         application/json:
           schema:
@@ -24,15 +22,13 @@ get:
               result:
                 type: object
                 properties:
-                  status:
-                    type: string
-                    enum:
-                      - approved
-                      - pending_approval
-                      - revoked
                   signer:
-                    $ref: "../../components/schemas/signer.yaml#/Signer"
+                    $ref: "#/components/schemas/Signer"
     "400":
-      $ref: "../../components/responses/error.yaml#/400Response"
+      $ref: "#/components/responses/400Response"
+    "401":
+      $ref: "#/components/responses/401Response"
     "404":
-      $ref: "../../components/responses/error.yaml#/404Response"
+      $ref: "#/components/responses/404Response"
+    "500":
+      $ref: "#/components/responses/500Response"

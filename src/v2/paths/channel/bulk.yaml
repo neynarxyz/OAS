@@ -1,0 +1,40 @@
+    get:
+      tags:
+        - Channel
+      summary: Bulk fetch
+      description: Returns details of multiple channels
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-bulk-channels
+      operationId: fetch-bulk-channels
+      parameters:
+        - name: ids
+          in: query
+          required: true
+          schema:
+            type: string
+            x-comma-separated: true
+          example: "neynar,warpcast"
+          description: Comma separated list of channel IDs or parent_urls, up to 100 at a time
+        - name: type
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/ChannelType"
+          example: "id"
+          description: Type of identifier being used to query the channels. Defaults to ID.
+        - name: viewer_fid
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/Fid"
+          example: 194
+          description: FID of the user viewing the channels.
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChannelResponseBulk"
+        "404":
+          $ref: "#/components/responses/404Response"

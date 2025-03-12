@@ -1,0 +1,39 @@
+    get:
+      tags:
+        - Channel
+      summary: Following
+      description: Returns a list of all channels with their details that a FID follows.
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-user-channels
+      operationId: fetch-user-channels
+      parameters:
+        - name: fid
+          in: query
+          required: true
+          description: The FID of the user.
+          schema:
+            $ref: "#/components/schemas/Fid"
+        - name: limit
+          in: query
+          description: Number of results to fetch
+          required: false
+          example: 30
+          schema:
+            type: integer
+            default: 25
+            minimum: 1
+            maximum: 100
+          x-is-limit-param: true
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChannelListResponse"

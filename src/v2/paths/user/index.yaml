@@ -1,0 +1,45 @@
+    patch:
+      tags:
+        - User
+      summary: Update user profile
+      description: |
+        Update user profile \
+        (In order to update user's profile `signer_uuid` must be approved)
+      externalDocs:
+        url: https://docs.neynar.com/reference/update-user
+      operationId: update-user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateUserReqBody"
+            example:
+              signer_uuid: 19d0c5fd-9b33-4a48-a0e2-bc7b0555baec
+              bio: "Experimenting on Farcaster"
+              pfp_url: "https://i.imgur.com/keIWEYM.jpg"
+              username: "dan"
+              display_name: "Dan Romero"
+              latitude: 37.7749
+              longitude: -122.4194
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OperationResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
+        "403":
+          $ref: "#/components/responses/403Response"
+        "500":
+          $ref: "#/components/responses/500Response"
+    post:
+      tags:
+        - User
+      summary: Register new account
+      description: |
+        Register account on farcaster.

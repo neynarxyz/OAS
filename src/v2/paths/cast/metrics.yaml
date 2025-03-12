@@ -1,0 +1,48 @@
+    get:
+      tags:
+        - Metrics
+      summary: Metrics for casts
+      description: Fetches metrics casts matching a query
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-cast-metrics
+      operationId: fetch-cast-metrics
+      parameters:
+        - name: q
+          in: query
+          required: true
+          description: "Query string to search for casts"
+          example: "star wars"
+          schema:
+            type: string
+        - name: interval
+          in: query
+          required: false
+          description: "Interval of time for which to fetch metrics. Choices are `1d`, `7d`, `30d`"
+          schema:
+            type: string
+            enum:
+              - 1d
+              - 7d
+              - 30d
+        - name: author_fid
+          in: query
+          required: false
+          description: "Fid of the user whose casts you want to search"
+          example: 194
+          schema:
+            $ref: "#/components/schemas/Fid"
+        - name: channel_id
+          in: query
+          required: false
+          schema:
+            type: string
+          description: "Channel ID of the casts you want to search"
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CastsMetricsResponse"
+        "400":
+          $ref: "#/components/responses/400Response"

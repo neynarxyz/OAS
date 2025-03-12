@@ -1,0 +1,41 @@
+    get:
+      tags:
+        - Onchain
+      summary: Relevant owners
+      description: Fetch a list of relevant owners for a specific FID. This usually shows on a fungible asset page as "X, Y, Z and N others you know own this asset".
+      operationId: fetch-relevant-fungible-owners
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-relevant-fungible-owners
+      parameters:
+        - name: contract_address
+          in: query
+          required: true
+          description: Contract address of the fungible asset
+          schema:
+            type: string
+          example: "0x0db510e79909666d6dec7f5e49370838c16d950f"
+        - name: networks
+          in: query
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/Networks"
+          explode: false
+          description: Comma separated list of networks to fetch balances for. Currently, only "base" is supported.
+        - name: viewer_fid
+          in: query
+          required: true
+          description: The FID of the user to customize this response for. Providing this will also return a list of owners that respects this user's mutes and blocks and includes `viewer_context`.
+          schema:
+            $ref: "#/components/schemas/Fid"
+          example: 194
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RelevantFungibleOwnersResponse"
+        "400":
+          $ref: "#/components/responses/400Response"

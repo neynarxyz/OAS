@@ -1,0 +1,54 @@
+    post:
+      tags:
+        - Block
+      summary: Block FID
+      description: Adds a block for a given FID.
+      externalDocs:
+        url: https://docs.neynar.com/reference/publish-block
+      operationId: publish-block
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BlockReqBody"
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OperationResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
+        "500":
+          $ref: "#/components/responses/500Response"
+    delete:
+      tags:
+        - Block
+      summary: Unblock FID
+      description: Deletes a block for a given FID.
+      externalDocs:
+        url: https://docs.neynar.com/reference/delete-block
+      operationId: delete-block
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BlockReqBody"
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OperationResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
+        "500":
+          $ref: "#/components/responses/500Response"

@@ -1,0 +1,105 @@
+    get:
+      tags:
+        - Frame
+      summary: Frame by UUID or URL
+      description: Fetch a frame either by UUID or Neynar URL
+      externalDocs:
+        url: https://docs.neynar.com/reference/lookup-neynar-frame
+      operationId: lookup-neynar-frame
+      parameters:
+        - name: type
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/FrameType"
+        - name: uuid
+          in: query
+          schema:
+            type: string
+            format: uuid
+          description: UUID of the frame to fetch
+        - name: url
+          in: query
+          schema:
+            type: string
+          description: URL of the Neynar frame to fetch
+      responses:
+        "200":
+          description: A frame object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NeynarFrame"
+        "404":
+          $ref: "#/components/responses/404Response"
+    post:
+      tags:
+        - Frame
+      summary: Create frame
+      description: Create a new frame with a list of pages.
+      externalDocs:
+        url: https://docs.neynar.com/reference/publish-neynar-frame
+      operationId: publish-neynar-frame
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NeynarFrameCreationReqBody"
+      responses:
+        "200":
+          description: Frame created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NeynarFrame"
+        "400":
+          $ref: "#/components/responses/400Response"
+    put:
+      tags:
+        - Frame
+      summary: Update frame
+      description: Update an existing frame with a list of pages, if it was made by the developer (identified by API key)
+      externalDocs:
+        url: https://docs.neynar.com/reference/update-neynar-frame
+      operationId: update-neynar-frame
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NeynarFrameUpdateReqBody"
+      responses:
+        "200":
+          description: Frame updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NeynarFrame"
+        "404":
+          $ref: "#/components/responses/404Response"
+        "400":
+          $ref: "#/components/responses/400Response"
+    delete:
+      tags:
+        - Frame
+      summary: Delete frame
+      description: Delete an existing frame, if it was made by the developer (identified by API key)
+      externalDocs:
+        url: https://docs.neynar.com/reference/delete-neynar-frame
+      operationId: delete-neynar-frame
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DeleteFrameReqBody"
+      responses:
+        "200":
+          description: Frame deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeleteFrameResponse"
+        "404":
+          $ref: "#/components/responses/404Response"

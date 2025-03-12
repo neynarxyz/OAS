@@ -1,47 +1,80 @@
-get:
-  tags:
-    - Feed
-  summary: Trending
-  description: Fetches trending casts
-  externalDocs:
-    url: https://docs.neynar.com/reference/fetch-trending-casts
-  operationId: fetch-trending-casts
-  parameters:
-    - name: provider
-      in: query
-      required: false
-      description: Provider of the trending feed
-      schema:
-        $ref: "../../components/schemas/feed.yaml#/FeedTrendingProvider"
-    - name: limit
-      in: query
-      required: false
-      description: Number of casts to return
-      example: 10
-      schema:
-        type: integer
-        format: int32
-        default: 25
-        maximum: 100
-        minimum: 1
-      x-is-limit-param: true
-    - name: cursor
-      in: query
-      description: Pagination cursor
-      schema:
-        type: string
-    - name: viewer_fid
-      in: query
-      required: false
-      example: 3
-      schema:
-        $ref: "../../components/schemas/common.yaml#/Fid"
-  responses:
-    "200":
-      description: Successful operation.
-      content:
-        application/json:
+    get:
+      summary: Trending feeds
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-trending-feed
+      operationId: fetch-trending-feed
+      tags:
+        - Feed
+      description: Fetch trending casts or on the global feed or channels feeds. 7d time window available for channel feeds only.
+      parameters:
+        - name: limit
+          in: query
+          description: Number of results to fetch
+          example: 10
           schema:
-            $ref: "../../components/schemas/feed.yaml#/FeedResponse"
-    "400":
-      $ref: "../../components/responses/error.yaml#/400Response"
+            type: integer
+            default: 10
+            minimum: 1
+            maximum: 10
+          x-is-limit-param: true
+        - name: cursor
+          in: query
+          description: Pagination cursor
+          schema:
+            type: string
+        - name: viewer_fid
+          in: query
+          required: false
+          description: Providing this will return a feed that respects this user's mutes and blocks and includes `viewer_context`.
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
+        - name: time_window
+          in: query
+          description: Time window for trending casts (7d window for channel feeds only)
+          schema:
+            type: string
+            enum:
+              - 1h
+              - 6h
+              - 12h
+              - 24h
+              - 7d
+            default: 24h
+        - name: channel_id
+          in: query
+          description: Channel ID to filter trending casts. Less active channels might have no casts in the time window selected.
+          schema:
+            type: string
+          example: neynar
+        - name: provider
+          in: query
+          description: The provider of the trending casts feed.
+          schema:
+            $ref: "#/components/schemas/FeedTrendingProvider"
+          example: neynar
+        - name: provider_metadata
+          in: query
+          schema:
+            type: string
+          description: |
+            provider_metadata is a URI-encoded stringified JSON object that can be used to pass additional metadata to the provider. Only available for mbd provider right now. See [here](https://docs.neynar.com/docs/feed-for-you-w-external-providers) on how to use.
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FeedResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/ZodError"
+                  - $ref: "#/components/schemas/ErrorRes"
+        "404":
+          $ref: "#/components/responses/404Response"
+        "500":
+          $ref: "#/components/responses/500Response"

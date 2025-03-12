@@ -1,0 +1,99 @@
+    get:
+      tags:
+        - Cast
+      summary: Search for casts
+      description: Search for casts based on a query string, with optional AND filters
+      externalDocs:
+        url: https://docs.neynar.com/reference/search-casts
+      operationId: search-casts
+      parameters:
+        - name: q
+          in: query
+          required: true
+          description: "Query string to search for casts. Include 'before:YYYY-MM-DD' or 'after:YYYY-MM-DD' to search for casts before or after a specific date."
+          example: "star wars"
+          schema:
+            type: string
+        - name: mode
+          in: query
+          required: false
+          description: |
+            Choices are:
+            - `literal` - Searches for the words in the query string (default)
+            - `semantic` - Searches for the meaning of the query string
+            - `hybrid` - Combines both literal and semantic results
+          example: "literal"
+          schema:
+            type: string
+            enum:
+              - literal
+              - semantic
+              - hybrid
+        - name: sort_type
+          in: query
+          required: false
+          description: |
+            Choices are:
+            - `desc_chron` - All casts sorted by time (default)
+            - `algorithmic` - Casts sorted by engagement and time
+          schema:
+            $ref: "#/components/schemas/SearchSortType"
+        - name: author_fid
+          in: query
+          required: false
+          description: "Fid of the user whose casts you want to search"
+          example: 194
+          schema:
+            $ref: "#/components/schemas/Fid"
+        - name: viewer_fid
+          in: query
+          required: false
+          description: Providing this will return search results that respects this user's mutes and blocks and includes `viewer_context`.
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
+        - name: parent_url
+          in: query
+          required: false
+          schema:
+            type: string
+          description: "Parent URL of the casts you want to search"
+        - name: channel_id
+          in: query
+          required: false
+          schema:
+            type: string
+          description: "Channel ID of the casts you want to search"
+        - name: priority_mode
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: false
+          description: When true, only returns search results from power badge users and users that the viewer follows (if viewer_fid is provided).
+        - name: limit
+          in: query
+          required: false
+          example: 25
+          description: Number of results to fetch
+          schema:
+            type: integer
+            format: int32
+            default: 25
+            maximum: 100
+            minimum: 1
+          x-is-limit-param: true
+        - name: cursor
+          in: query
+          description: Pagination cursor
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CastsSearchResponse"
+        "400":
+          $ref: "#/components/responses/400Response"

@@ -1,0 +1,39 @@
+    post:
+      tags:
+        - Frame
+      summary: Send notifications
+      description: |
+        Send notifications to interactors of a frame
+      externalDocs:
+        url: https://docs.neynar.com/reference/publish-frame-notifications
+      operationId: publish-frame-notifications
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SendFrameNotificationsReqBody"
+            example:
+              target_fids: [1, 6131]
+              notification:
+                title: "Title for the notification"
+                body: "Body of the notification describing the event for the user"
+                target_url: "https://domain-of-your-frame.com/the-page-on-which-the-user-should-land"
+                uuid: "9cb07cfe-1130-48b3-a245-5dd153ced3a3"
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SendFrameNotificationsResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/ZodError"
+                  - $ref: "#/components/schemas/ErrorRes"
+        "500":
+          $ref: "#/components/responses/500Response"

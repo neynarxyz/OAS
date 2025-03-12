@@ -1,0 +1,36 @@
+    get:
+      tags:
+        - Subscribers
+      summary: Subscribers of a user
+      description: Fetch subscribers for a given FID's contracts. Doesn't return addresses that don't have an FID.
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-subscribers-for-fid
+      operationId: fetch-subscribers-for-fid
+      parameters:
+        - name: fid
+          in: query
+          required: true
+          example: 3206
+          schema:
+            default: 3206
+            $ref: "#/components/schemas/Fid"
+        - name: viewer_fid
+          in: query
+          required: false
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
+        - name: subscription_provider
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/SubscriptionProviders"
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SubscribersResponse"
+        "400":
+          $ref: "#/components/responses/400Response"

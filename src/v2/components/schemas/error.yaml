@@ -1,34 +1,31 @@
 ErrorRes:
-  type: object
-  properties:
-    message:
-      type: string
-    code:
-      type: string
+      type: object
+      required:
+        - message
+      description: Details for the error response
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        property:
+          type: string
+        status:
+          type: integer
+          format: int32
+
 ConflictErrorRes:
-  type: object
-  properties:
-    message:
-      type: string
-    code:
-      type: string
-ZodError:
-  type: object
-  properties:
-    message:
-      type: string
-    code:
-      type: string
-    errors:
-      type: array
-      items:
-        type: object
-        properties:
-          code:
-            type: string
-          message:
-            type: string
-          path:
-            type: array
-            items:
-              type: string
+      type: object
+      required:
+        - message
+      description: Details for the conflict error response
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        property:
+          type: string
+        key:
+          type: string
+

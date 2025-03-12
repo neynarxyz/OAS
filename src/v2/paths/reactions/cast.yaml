@@ -1,0 +1,54 @@
+    get:
+      tags:
+        - Reaction
+      summary: Reactions for cast
+      description: Fetches reactions for a given cast
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-cast-reactions
+      operationId: fetch-cast-reactions
+      parameters:
+        - name: hash
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/CastHash"
+        - name: types
+          in: query
+          description: >
+            Customize which reaction types the request should search for. This is a comma-separated string that can include the following values: 'likes' and 'recasts'. By default api returns both. To select multiple types, use a comma-separated list of these values.
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/ReactionsType"
+          explode: false
+        - name: viewer_fid
+          in: query
+          required: false
+          description: Providing this will return a list of reactions that respects this user's mutes and blocks and includes `viewer_context`.
+          schema:
+            $ref: "#/components/schemas/Fid"
+        - name: limit
+          in: query
+          description: Number of results to fetch
+          example: 30
+          schema:
+            type: integer
+            default: 25
+            minimum: 1
+            maximum: 100
+          x-is-limit-param: true
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReactionsCastResponse"
+        "400":
+          $ref: "#/components/responses/400Response"

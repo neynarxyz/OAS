@@ -1,66 +1,50 @@
+CastConversationSortType:
+      type: string
+      enum:
+        - chron
+        - desc_chron
+        - algorithmic
+      examples:
+        - "chron"
+
+CastHash:
+      type: string
+      default: "0xfe90f9de682273e05b201629ad2338bdcd89b6be"
+      description: Cast Hash
+
+CastNotificationType:
+      type: string
+      enum:
+        - cast-mention
+        - cast-reply
+      description: |
+        The notification type of a cast.
+
 CastParamType:
-  type: string
-  enum:
-    - url
-    - hash
-  description: |
-    The query param accepted by the API. Sent along with identifier param.
-    url - Cast identifier is a url
-    hash - Cast identifier is a hash
+      type: string
+      enum:
+        - url
+        - hash
+      description: |
+        The query param accepted by the API. Sent along with identifier param.
+        url - Cast identifier is a url
+        hash - Cast identifier is a hash
 
 ReplyDepth:
-  type: integer
-  description: |
-    Depth of replies to fetch in the conversation.
-  default: 2
-  minimum: 0
-  maximum: 5
+      type: integer
+      description: |
+        Depth of replies to fetch in the conversation.
+      default: 2
+      minimum: 0
+      maximum: 5
 
-CastConversationSortType:
-  type: string
-  enum:
-    - chron
-    - desc_chron
-    - algorithmic
-  examples:
-    - "chron"
-
-CastConversationResponse:
-  type: object
-  properties:
-    result:
+EmbedUrl:
       type: object
+      required:
+        - url
       properties:
-        casts:
-          type: array
-          items:
-            $ref: "#/Cast"
-        next:
-          $ref: "./common.yaml#/NextCursor"
+        url:
+          type: string
+        metadata:
+          $ref: "#/components/schemas/EmbedUrlMetadata"
 
-Cast:
-  type: object
-  properties:
-    hash:
-      type: string
-    thread_hash:
-      type: string
-    parent_hash:
-      type: string
-    author:
-      $ref: "./user.yaml#/User"
-    text:
-      type: string
-    timestamp:
-      $ref: "./common.yaml#/Timestamp"
-    reactions:
-      type: object
-      properties:
-        likes:
-          type: array
-          items:
-            $ref: "./user.yaml#/User"
-        recasts:
-          type: array
-          items:
-            $ref: "./user.yaml#/User"

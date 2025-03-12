@@ -1,0 +1,24 @@
+    get:
+      tags:
+        - Storage
+      summary: Usage of user
+      description: Fetches storage usage for a given user
+      externalDocs:
+        url: https://docs.neynar.com/reference/lookup-user-storage-usage
+      operationId: lookup-user-storage-usage
+      parameters:
+        - name: fid
+          in: query
+          required: true
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
+      responses:
+        "200":
+          description: Details of storage usage
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StorageUsageResponse"
+        "400":
+          $ref: "#/components/responses/400Response"

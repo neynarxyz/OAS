@@ -1,0 +1,42 @@
+BlockReqBody:
+      type: object
+      required:
+        - signer_uuid
+        - blocked_fid
+      properties:
+        signer_uuid:
+          $ref: "#/components/schemas/SignerUUID"
+        blocked_fid:
+          $ref: "#/components/schemas/Fid"
+
+BlockRecord:
+      type: object
+      required:
+        - object
+        - timestamp
+        - blocked_at
+      properties:
+        object:
+          type: string
+          enum:
+            - block
+        blocked:
+          $ref: "#/components/schemas/User"
+        blocker:
+          $ref: "#/components/schemas/User"
+        blocked_at:
+          $ref: "#/components/schemas/Timestamp"
+
+BlockListResponse:
+      type: object
+      required:
+        - blocks
+        - next
+      properties:
+        blocks:
+          type: array
+          items:
+            $ref: "#/components/schemas/BlockRecord"
+        next:
+          $ref: "#/components/schemas/NextCursor"
+

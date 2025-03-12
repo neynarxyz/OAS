@@ -1,0 +1,31 @@
+    get:
+      summary: 10 most popular casts
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-popular-casts-by-user
+      operationId: fetch-popular-casts-by-user
+      tags:
+        - Feed
+      description: Fetch 10 most popular casts for a given user FID; popularity based on replies, likes and recasts; sorted by most popular first
+      parameters:
+        - name: fid
+          in: query
+          required: true
+          example: 194
+          schema:
+            $ref: "#/components/schemas/Fid"
+          description: FID of user whose feed you want to create
+        - name: viewer_fid
+          in: query
+          required: false
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BulkCastsResponse"
+        "400":
+          $ref: "#/components/responses/400Response"

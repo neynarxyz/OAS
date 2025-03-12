@@ -1,40 +1,454 @@
-UserFIDResponse:
-  type: object
-  properties:
-    result:
-      type: object
-      properties:
-        fid:
-          $ref: "./common.yaml#/Fid"
+Fid:
+      type: integer
+      format: int32
+      description: The unique identifier of a farcaster user (unsigned integer)
+      examples:
+        - 3
+        - 191
+        - 2
+        - 194
+        - 19960
 
 User:
-  type: object
-  properties:
-    fid:
-      $ref: "./common.yaml#/Fid"
-    username:
-      type: string
-    display_name:
-      type: string
-    pfp_url:
-      type: string
-      format: uri
-    profile:
       type: object
+      required:
+        - object
+        - fid
+        - custody_address
+        - username
+        - profile
+        - follower_count
+        - following_count
+        - verifications
+        - verified_addresses
+        - verified_accounts
+        - power_badge
       properties:
+        object:
+          type: string
+          enum:
+            - user
+        fid:
+          $ref: "#/components/schemas/Fid"
+        username:
+          type: string
+        display_name:
+          type: string
+        custody_address:
+          $ref: "#/components/schemas/Address"
+        pfp_url:
+          type: string
+          description: The URL of the user's profile picture
+        profile:
+          type: object
+          required:
+            - bio
+          properties:
+            bio:
+              type: object
+              required:
+                - text
+                - mentioned_profiles
+              properties:
+                text:
+                  type: string
+                mentioned_profiles:
+                  type: array
+                  items:
+                    type: string
+                  default: []
+            location:
+              $ref: "#/components/schemas/Location"
+        follower_count:
+          type: integer
+          format: int32
+          description: The number of followers the user has.
+        following_count:
+          type: integer
+          format: int32
+          description: The number of users the user is following.
+        verifications:
+          type: array
+          items:
+            $ref: "#/components/schemas/Address"
+        verified_addresses:
+          type: object
+          required:
+            - eth_addresses
+            - sol_addresses
+          properties:
+            eth_addresses:
+              type: array
+              description: List of verified Ethereum addresses of the user sorted by oldest to most recent.
+              items:
+                $ref: "#/components/schemas/Address"
+            sol_addresses:
+              type: array
+              description: List of verified Solana addresses of the user sorted by oldest to most recent.
+              items:
+                $ref: "#/components/schemas/SolAddress"
+        verified_accounts:
+          type: array
+          description: Verified accounts of the user on other platforms, currently only X is supported.
+          items:
+            type: object
+            properties:
+              platform:
+                type: string
+                enum:
+                  - x
+                  - github
+              username:
+                type: string
+        power_badge:
+          type: boolean
+        experimental:
+          type: object
+          required:
+            - neynar_user_score
+          properties:
+            neynar_user_score:
+              type: number
+              format: double
+              description: Score that represents the probability that the account is not spam.
+        viewer_context:
+          $ref: "#/components/schemas/UserViewerContext"
+
+SearchedUser:
+      anyOf:
+        - $ref: "#/components/schemas/User"
+        - $ref: "#/components/schemas/ProfileUrl"
+
+AddVerificationReqBody:
+      "x-is-request-body": true
+      type: object
+      required:
+        - signer_uuid
+        - address
+        - block_hash
+        - eth_signature
+      properties:
+        signer_uuid:
+          $ref: "#/components/schemas/SignerUUID"
+        address:
+          $ref: "#/components/schemas/Address"
+        block_hash:
+          type: string
+        eth_signature:
+          type: string
+        verification_type:
+          $ref: "#/components/schemas/VerificationType"
+        chain_id:
+          $ref: "#/components/schemas/VerificationChainId"
+
+RemoveVerificationReqBody:
+      type: object
+      required:
+        - signer_uuid
+        - address
+        - block_hash
+        - eth_signature
+      properties:
+        signer_uuid:
+          $ref: "#/components/schemas/SignerUUID"
+        address:
+          $ref: "#/components/schemas/Address"
+        block_hash:
+          type: string
+
+UpdateUserReqBody:
+      type: object
+      required:
+        - signer_uuid
+      properties:
+        signer_uuid:
+          $ref: "#/components/schemas/SignerUUID"
         bio:
+          type: string
+        pfp_url:
+          type: string
+        url:
+          type: string
+        username:
+          type: string
+        display_name:
+          type: string
+        location:
+          type: object
+          required:
+            - latitude
+            - longitude
+          properties:
+            latitude:
+              type: number
+              format: double
+              minimum: -90
+              maximum: 90
+            longitude:
+              type: number
+              format: double
+              minimum: -180
+              maximum: 180
+        verified_accounts:
           type: object
           properties:
-            text:
+            x:
               type: string
-    verified:
-      type: boolean
-    viewer_context:
+            github:
+              type: string
+
+UserViewerContext:
       type: object
+      description: Adds context on the viewer's follow relationship with the user.
+      required:
+        - following
+        - followed_by
+        - blocking
+        - blocked_by
       properties:
         following:
+          description: Indicates if the viewer is following the user.
           type: boolean
         followed_by:
+          description: Indicates if the viewer is followed by the user.
           type: boolean
-        can_send_direct_cast:
+        blocking:
+          description: Indicates if the viewer is blocking the user.
           type: boolean
+        blocked_by:
+          description: Indicates if the viewer is blocked by the user.
+          type: boolean
+
+ChannelUserContext:
+      description: Adds context on the viewer's or author's role in the channel.
+      type: object
+      required:
+        - following
+      properties:
+        following:
+          description: Indicates if the user is following the channel.
+          type: boolean
+        role:
+          $ref: "#/components/schemas/ChannelMemberRole"
+
+UserSearchResponse:
+      type: object
+      required:
+        - result
+      properties:
+        result:
+          type: object
+          required:
+            - users
+          properties:
+            users:
+              type: array
+              items:
+                $ref: "#/components/schemas/SearchedUser"
+            next:
+              $ref: "#/components/schemas/NextCursor"
+
+ReactionWithUserInfo:
+      type: object
+      required:
+        - object
+        - cast
+        - user
+      properties:
+        object:
+          type: string
+          enum:
+            - likes
+            - recasts
+        cast:
+          $ref: "#/components/schemas/CastDehydrated"
+        user:
+          $ref: "#/components/schemas/User"
+
+UserDehydrated:
+      type: object
+      required:
+        - object
+        - fid
+      properties:
+        object:
+          type: string
+          enum:
+            - user_dehydrated
+        fid:
+          $ref: "#/components/schemas/Fid"
+        username:
+          type: string
+        display_name:
+          type: string
+        pfp_url:
+          type: string
+
+UserResponse:
+      type: object
+      required:
+        - user
+      properties:
+        user:
+          $ref: "#/components/schemas/User"
+
+BulkUsersResponse:
+      type: object
+      required:
+        - users
+      properties:
+        users:
+          type: array
+          items:
+            $ref: "#/components/schemas/User"
+
+UsersResponse:
+      type: object
+      required:
+        - users
+        - next
+      properties:
+        users:
+          type: array
+          items:
+            $ref: "#/components/schemas/User"
+        next:
+          $ref: "#/components/schemas/NextCursor"
+
+BulkUsersByAddressResponse:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          $ref: "#/components/schemas/User"
+
+UserFIDResponse:
+      type: object
+      required:
+        - fid
+      properties:
+        fid:
+          type: integer
+
+RegisterUserReqBody:
+      type: object
+      required:
+        - signature
+        - fid
+        - requested_user_custody_address
+        - deadline
+      properties:
+        signature:
+          type: string
+        fid:
+          type: number
+        requested_user_custody_address:
+          type: string
+        deadline:
+          type: number
+        fname:
+          type: string
+        metadata:
+          type: object
+          properties:
+            bio:
+              type: string
+            pfp_url:
+              type: string
+            url:
+              type: string
+            username:
+              type: string
+            display_name:
+              type: string
+            verified_accounts:
+              type: object
+              properties:
+                x:
+                  type: string
+                github:
+                  type: string
+            location:
+              type: object
+              required:
+                - latitude
+                - longitude
+              properties:
+                latitude:
+                  type: number
+                  format: double
+                  minimum: -90
+                  maximum: 90
+                longitude:
+                  type: number
+                  format: double
+                  minimum: -180
+                  maximum: 180
+
+RegisterUserResponse:
+      type: object
+      required:
+        - success
+        - message
+        - signer
+      properties:
+        success:
+          type: boolean
+          enum:
+            - true
+        message:
+          type: string
+        signer:
+          $ref: "#/components/schemas/Signer"
+        user:
+          $ref: "#/components/schemas/User"
+
+UsersActiveChannelsResponse:
+      type: object
+      properties:
+        channels:
+          type: array
+          items:
+            $ref: "#/components/schemas/Channel"
+        next:
+          $ref: "#/components/schemas/NextCursor"
+
+VerificationType:
+      type: integer
+      format: int32
+      default: 0
+      enum: [0, 1]
+      description: Type of verification. 0 = EOA, 1 = contract
+
+VerificationChainId:
+      type: integer
+      format: int32
+      default: 0
+      enum: [0, 1, 10]
+      description: Chain ID for farcaster verifications. 0 for EOA verifications, 1 or 10 for contract verifications
+
+BulkUserAddressType:
+      type: string
+      enum:
+        - custody_address
+        - verified_address
+
+Fids:
+      type: array
+      items:
+        $ref: "#/components/schemas/Fid"
+      description: List of FIDs
+
+UserPowerLiteResponse:
+      type: object
+      required:
+        - result
+      properties:
+        result:
+          type: object
+          required:
+            - fids
+          properties:
+            fids:
+              $ref: "#/components/schemas/Fids"
+

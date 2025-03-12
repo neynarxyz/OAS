@@ -1,0 +1,56 @@
+    get:
+      tags:
+        - Follows
+      summary: Following
+      description: Fetch a list of users who a given user is following. Can optionally include a viewer_fid and sort_type.
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-user-following
+      operationId: fetch-user-following
+      parameters:
+        - name: fid
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/Fid"
+          example: 2
+          description: FID of the user whose following you want to fetch.
+        - name: viewer_fid
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/Fid"
+          example: 3
+          description: Providing this will return a list of users that respects this user's mutes and blocks and includes `viewer_context`.
+        - name: sort_type
+          in: query
+          required: false
+          description: "Optional parameter to sort the users based on different criteria."
+          schema:
+            $ref: "#/components/schemas/FollowSortType"
+        - name: limit
+          in: query
+          description: Number of results to fetch
+          schema:
+            type: integer
+            default: 25
+            minimum: 1
+            maximum: 100
+          example: 25
+          x-is-limit-param: true
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          schema:
+            type: string
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FollowersResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "500":
+          $ref: "#/components/responses/500Response"

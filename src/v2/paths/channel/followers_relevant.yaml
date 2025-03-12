@@ -1,0 +1,33 @@
+    get:
+      tags:
+        - Channel
+      summary: Relevant followers
+      description: Returns a list of relevant channel followers for a specific FID. This usually shows on a channel as "X, Y, Z follow this channel".
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-relevant-followers-for-a-channel
+      operationId: fetch-relevant-followers-for-a-channel
+      parameters:
+        - name: id
+          in: query
+          required: true
+          description: Channel ID being queried
+          example: "neynar"
+          schema:
+            type: string
+        - name: viewer_fid
+          in: query
+          required: true
+          description: The FID of the user to customize this response for. Providing this will also return a list of followers that respects this user's mutes and blocks and includes `viewer_context`.
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RelevantFollowersResponse"
+        "400":
+          $ref: "#/components/responses/400Response"

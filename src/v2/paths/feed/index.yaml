@@ -1,0 +1,100 @@
+    get:
+      summary: By filters
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-feed
+      operationId: fetch-feed
+      tags:
+        - Feed
+      description: Fetch casts based on filters. Ensure setting the correct parameters based on the feed_type and filter_type.
+      parameters:
+        - name: feed_type
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/FeedType"
+            default: following
+          example: filter
+          description: Defaults to following (requires FID or address). If set to filter (requires filter_type)
+        - name: filter_type
+          in: query
+          schema:
+            $ref: "#/components/schemas/FilterType"
+          example: fids
+          description: Used when feed_type=filter. Can be set to FIDs (requires FIDs) or parent_url (requires parent_url) or channel_id (requires channel_id)
+        - name: fid
+          in: query
+          schema:
+            $ref: "#/components/schemas/Fid"
+          description: (Optional) FID of user whose feed you want to create. By default, the API expects this field, except if you pass a filter_type
+        - name: fids
+          in: query
+          schema:
+            type: string
+          example: 3,2,194
+          description: Used when filter_type=FIDs . Create a feed based on a list of FIDs. Max array size is 100. Requires feed_type and filter_type.
+        - name: parent_url
+          in: query
+          schema:
+            type: string
+          description: Used when filter_type=parent_url can be used to fetch content under any parent url e.g. FIP-2 channels on Warpcast. Requires feed_type and filter_type
+        - name: channel_id
+          in: query
+          schema:
+            type: string
+          description: Used when filter_type=channel_id can be used to fetch casts under a channel. Requires feed_type and filter_type.
+        - name: members_only
+          in: query
+          description: Used when filter_type=channel_id. Only include casts from members of the channel. True by default.
+          schema:
+            type: boolean
+            default: true
+        - name: embed_url
+          in: query
+          schema:
+            type: string
+          description: Used when filter_type=embed_url can be used to fetch all casts with an embed url that contains embed_url. Requires feed_type and filter_type
+        - name: embed_types
+          in: query
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/EmbedType"
+          explode: false
+          description: Used when filter_type=embed_types can be used to fetch all casts with matching content types. Requires feed_type and filter_type
+        - name: with_recasts
+          in: query
+          description: Include recasts in the response, true by default
+          schema:
+            type: boolean
+            default: true
+        - name: limit
+          in: query
+          description: Number of results to fetch
+          example: 30
+          schema:
+            type: integer
+            default: 25
+            minimum: 1
+            maximum: 100
+          x-is-limit-param: true
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          schema:
+            type: string
+        - name: viewer_fid
+          in: query
+          required: false
+          description: Providing this will return a feed that respects this user's mutes and blocks and includes `viewer_context`.
+          example: 3
+          schema:
+            $ref: "#/components/schemas/Fid"
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FeedResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
