@@ -1,0 +1,642 @@
+ApiKeyAuth:
+  type: apiKey
+  in: header
+  name: x-api-key
+  description: "API key to authorize requests"
+  x-default: "NEYNAR_API_DOCS"
+UserFIDResponse:
+  type: object
+  properties:
+    result:
+      type: object
+      properties:
+        fid:
+          $ref: "./common.yaml#/Fid"
+ChannelResponse:
+  type: object
+  properties:
+    result:
+      type: object
+      properties:
+        channel:
+          $ref: "#/Channel"
+Channel:
+  type: object
+  properties:
+    id:
+      $ref: "./common.yaml#/ChannelId"
+    name:
+      type: string
+    description:
+      type: string
+    image_url:
+      type: string
+      format: uri
+    created_at:
+      $ref: "./common.yaml#/Timestamp"
+    updated_at:
+      $ref: "./common.yaml#/Timestamp"
+    lead_fid:
+      $ref: "./common.yaml#/Fid"
+    parent_url:
+      type: string
+      format: uri
+    viewer_context:
+      type: object
+      properties:
+        following:
+          type: boolean
+Address:
+  type: string
+  pattern: "^0x[a-fA-F0-9]{40}$"
+  description: Ethereum address
+  example: "0x5a927ac639636e534b678e81768ca19e2c6280b7"
+SolAddress:
+  type: string
+  pattern: "^[1-9A-HJ-NP-Za-km-z]{32,44}$"
+  description: Solana address
+Fid:
+  type: integer
+  format: int32
+  description: The unique identifier of a farcaster user (unsigned integer)
+  examples:
+    - 3
+    - 191
+    - 2
+    - 194
+    - 19960
+ChannelId:
+  type: string
+  description: The unique identifier of a farcaster channel
+  examples:
+    - "neynar"
+SignerUUID:
+  type: string
+  description: |
+    UUID of the signer.
+    `signer_uuid` is paired with API key, can't use a `uuid` made with a different API key.
+  examples:
+    - "19d0c5fd-9b33-4a48-a0e2-bc7b0555baec"
+Timestamp:
+  type: string
+  format: date-time
+Ed25519PublicKey:
+  type: string
+  pattern: "^0x[a-fA-F0-9]{64}$"
+  description: Ed25519 public key
+  examples:
+    - "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"
+Signer:
+  type: object
+  properties:
+    result:
+      type: object
+      properties:
+        signer_uuid:
+          $ref: "./common.yaml#/SignerUUID"
+        public_key:
+          $ref: "./common.yaml#/Ed25519PublicKey"
+        status:
+          type: string
+          enum:
+            - pending
+            - approved
+            - revoked
+        signer_approval_url:
+          type: string
+          format: uri
+FeedTrendingProvider:
+  type: string
+  enum:
+    - neynar
+    - openrank
+    - mbd
+  default: neynar
+  description: |
+    The provider of the trending casts feed.
+FeedResponse:
+  type: object
+  properties:
+    result:
+      type: object
+      properties:
+        casts:
+          type: array
+          items:
+            $ref: "./cast.yaml#/Cast"
+        next:
+          $ref: "./common.yaml#/NextCursor"
+CastParamType:
+  type: string
+  enum:
+    - url
+    - hash
+  description: |
+    The query param accepted by the API. Sent along with identifier param.
+    url - Cast identifier is a url
+    hash - Cast identifier is a hash
+ReplyDepth:
+  type: integer
+  description: |
+    Depth of replies to fetch in the conversation.
+  default: 2
+  minimum: 0
+  maximum: 5
+CastConversationSortType:
+  type: string
+  enum:
+    - chron
+    - desc_chron
+    - algorithmic
+  examples:
+    - "chron"
+CastConversationResponse:
+  type: object
+  properties:
+    result:
+      type: object
+      properties:
+        casts:
+          type: array
+          items:
+            $ref: "#/Cast"
+        next:
+          $ref: "./common.yaml#/NextCursor"
+Cast:
+  type: object
+  properties:
+    hash:
+      type: string
+    thread_hash:
+      type: string
+    parent_hash:
+      type: string
+    author:
+      $ref: "./user.yaml#/User"
+    text:
+      type: string
+    timestamp:
+      $ref: "./common.yaml#/Timestamp"
+    reactions:
+      type: object
+      properties:
+        likes:
+          type: array
+          items:
+            $ref: "./user.yaml#/User"
+        recasts:
+          type: array
+          items:
+            $ref: "./user.yaml#/User"
+ValidateFrameReqBody:
+  type: object
+  required:
+    - url
+  properties:
+    url:
+      type: string
+      format: uri
+      example: "https://fcpolls.com/polls/1"
+ValidateFrameResponse:
+  type: object
+  properties:
+    result:
+      type: object
+      properties:
+        valid:
+          type: boolean
+        errors:
+          type: array
+          items:
+            type: string
+        frame:
+          $ref: "#/Frame"
+Frame:
+  type: object
+  properties:
+    version:
+      type: string
+    image:
+      type: string
+      format: uri
+    buttons:
+      type: array
+      items:
+        $ref: "#/FrameButton"
+    post_url:
+      type: string
+      format: uri
+FrameButton:
+  type: object
+  properties:
+    index:
+      type: integer
+    title:
+      type: string
+    action:
+      type: string
+      enum:
+        - post
+        - post_redirect
+        - link
+        - mint
+ReactionType:
+  type: string
+  enum:
+    - like
+    - recast
+ReactionsType:
+  type: string
+  enum:
+    - all
+    - likes
+    - recasts
+ReactionsResponse:
+  type: object
+  properties:
+    result:
+      type: object
+      properties:
+        reactions:
+          type: array
+          items:
+            $ref: "#/Reaction"
+        next:
+          $ref: "./common.yaml#/NextCursor"
+Reaction:
+  type: object
+  properties:
+    type:
+      $ref: "#/ReactionType"
+    timestamp:
+      $ref: "./common.yaml#/Timestamp"
+    user:
+      $ref: "./user.yaml#/User"
+ErrorRes:
+  type: object
+  required:
+    - message
+  description: Details for the error response
+  properties:
+    code:
+      type: string
+    message:
+      type: string
+    property:
+      type: string
+    status:
+      type: integer
+      format: int32
+ConflictErrorRes:
+  type: object
+  required:
+    - message
+  description: Details for the conflict error response
+  properties:
+    code:
+      type: string
+    message:
+      type: string
+    property:
+      type: string
+    key:
+      type: string
+ZodError:
+  type: object
+  description: Zod validation error
+  properties:
+    errors:
+      type: array
+      items:
+        type: object
+401Response:
+  description: "Unauthorized"
+  content:
+    application/json:
+      schema:
+        $ref: "../schemas/error.yaml#/ErrorRes"
+404Response:
+  description: "Resource not found"
+  content:
+    application/json:
+      schema:
+        $ref: "../schemas/error.yaml#/ErrorRes"
+400Response:
+  description: "Bad Request"
+  content:
+    application/json:
+      schema:
+        $ref: "../schemas/error.yaml#/ErrorRes"
+400ZodResponse:
+  description: "Bad Request"
+  content:
+    application/json:
+      schema:
+        $ref: "../schemas/error.yaml#/ZodError"
+403Response:
+  description: "Forbidden"
+  content:
+    application/json:
+      schema:
+        $ref: "../schemas/error.yaml#/ErrorRes"
+409Response:
+  description: "Conflict"
+  content:
+    application/json:
+      schema:
+        $ref: "../schemas/error.yaml#/ConflictErrorRes"
+500Response:
+  description: "Server Error"
+  content:
+    application/json:
+      schema:
+        $ref: "../schemas/error.yaml#/ErrorRes"
+NeynarExperimentalHeader:
+  name: x-neynar-experimental
+  in: header
+  required: false
+  schema:
+    type: boolean
+    default: false
+  description: "Enables experimental features"
+  x-is-global-header: true
+get:
+  tags:
+    - Channel
+  summary: Info
+  description: Fetches information about a channel
+  externalDocs:
+    url: https://docs.neynar.com/reference/fetch-channel
+  operationId: fetch-channel
+  parameters:
+    - name: id
+      in: query
+      required: true
+      description: Channel ID
+      example: "neynar"
+      schema:
+        $ref: "../../components/schemas/common.yaml#/ChannelId"
+    - name: viewer_fid
+      in: query
+      required: false
+      example: 3
+      schema:
+        $ref: "../../components/schemas/common.yaml#/Fid"
+  responses:
+    "200":
+      description: Successful operation.
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/channel.yaml#/ChannelResponse"
+    "400":
+      $ref: "../../components/responses/error.yaml#/400Response"
+get:
+  tags:
+    - Signer
+  summary: Status
+  description: Gets information status of a signer by passing in a signer_uuid (Use post API to generate a signer)
+  externalDocs:
+    url: https://docs.neynar.com/reference/lookup-signer
+  operationId: lookup-signer
+  parameters:
+    - name: signer_uuid
+      required: true
+      in: query
+      example: 19d0c5fd-9b33-4a48-a0e2-bc7b0555baec
+      schema:
+        $ref: "../../components/schemas/common.yaml#/SignerUUID"
+  responses:
+    "200":
+      description: Successful operation.
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/signer.yaml#/Signer"
+    "400":
+      $ref: "../../components/responses/error.yaml#/400Response"
+    "404":
+      $ref: "../../components/responses/error.yaml#/404Response"
+    "403":
+      $ref: "../../components/responses/error.yaml#/403Response"
+    "500":
+      $ref: "../../components/responses/error.yaml#/500Response"
+get:
+  tags:
+    - User
+  summary: Fetch fresh FID
+  description: Fetches FID to [assign it to new user](https://docs.neynar.com/reference/register-account)
+  externalDocs:
+    url: https://docs.neynar.com/reference/get-fresh-account-fid
+  operationId: get-fresh-account-FID
+  parameters:
+    - $ref: "../../components/parameters/common.yaml#/NeynarExperimentalHeader"
+  responses:
+    "200":
+      description: Successful operation.
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/user.yaml#/UserFIDResponse"
+    "500":
+      $ref: "../../components/responses/error.yaml#/500Response"
+get:
+  tags:
+    - Reaction
+  summary: Reactions
+  description: Fetches reactions (likes, recasts) for a cast
+  externalDocs:
+    url: https://docs.neynar.com/reference/fetch-reactions
+  operationId: fetch-reactions
+  parameters:
+    - name: identifier
+      in: query
+      required: true
+      description: Cast hash or URL
+      example: "0xfe90f9de682273e05b201629ad2338bdcd89b6be"
+      schema:
+        type: string
+    - name: type
+      in: query
+      required: false
+      description: Type of identifier
+      schema:
+        $ref: "../../components/schemas/cast.yaml#/CastParamType"
+      default: hash
+    - name: reaction_type
+      in: query
+      required: false
+      description: Type of reaction
+      schema:
+        $ref: "../../components/schemas/reaction.yaml#/ReactionsType"
+      default: all
+    - name: limit
+      in: query
+      required: false
+      description: Number of reactions to return
+      example: 10
+      schema:
+        type: integer
+        format: int32
+        default: 25
+        maximum: 100
+        minimum: 1
+      x-is-limit-param: true
+    - name: cursor
+      in: query
+      description: Pagination cursor
+      schema:
+        type: string
+    - name: viewer_fid
+      in: query
+      required: false
+      example: 3
+      schema:
+        $ref: "../../components/schemas/common.yaml#/Fid"
+  responses:
+    "200":
+      description: Successful operation.
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/reaction.yaml#/ReactionsResponse"
+    "400":
+      $ref: "../../components/responses/error.yaml#/400Response"
+post:
+  tags:
+    - Frame
+  summary: Validate
+  description: Validates a frame
+  externalDocs:
+    url: https://docs.neynar.com/reference/validate-frame
+  operationId: validate-frame
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../../components/schemas/frame.yaml#/ValidateFrameReqBody"
+  responses:
+    "200":
+      description: Successful operation.
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/frame.yaml#/ValidateFrameResponse"
+    "400":
+      $ref: "../../components/responses/error.yaml#/400Response"
+get:
+  tags:
+    - Feed
+  summary: Trending
+  description: Fetches trending casts
+  externalDocs:
+    url: https://docs.neynar.com/reference/fetch-trending-casts
+  operationId: fetch-trending-casts
+  parameters:
+    - name: provider
+      in: query
+      required: false
+      description: Provider of the trending feed
+      schema:
+        $ref: "../../components/schemas/feed.yaml#/FeedTrendingProvider"
+    - name: limit
+      in: query
+      required: false
+      description: Number of casts to return
+      example: 10
+      schema:
+        type: integer
+        format: int32
+        default: 25
+        maximum: 100
+        minimum: 1
+      x-is-limit-param: true
+    - name: cursor
+      in: query
+      description: Pagination cursor
+      schema:
+        type: string
+    - name: viewer_fid
+      in: query
+      required: false
+      example: 3
+      schema:
+        $ref: "../../components/schemas/common.yaml#/Fid"
+  responses:
+    "200":
+      description: Successful operation.
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/feed.yaml#/FeedResponse"
+    "400":
+      $ref: "../../components/responses/error.yaml#/400Response"
+get:
+  tags:
+    - Cast
+  summary: Conversation
+  description: Fetches a conversation (thread of casts)
+  externalDocs:
+    url: https://docs.neynar.com/reference/fetch-conversation
+  operationId: fetch-conversation
+  parameters:
+    - name: identifier
+      in: query
+      required: true
+      description: Cast hash or URL
+      example: "0xfe90f9de682273e05b201629ad2338bdcd89b6be"
+      schema:
+        type: string
+    - name: type
+      in: query
+      required: false
+      description: Type of identifier
+      schema:
+        $ref: "../../components/schemas/cast.yaml#/CastParamType"
+      default: hash
+    - name: limit
+      in: query
+      required: false
+      description: Number of casts to return
+      example: 10
+      schema:
+        type: integer
+        format: int32
+        default: 25
+        maximum: 100
+        minimum: 1
+      x-is-limit-param: true
+    - name: cursor
+      in: query
+      description: Pagination cursor
+      schema:
+        type: string
+    - name: reply_depth
+      in: query
+      required: false
+      description: Depth of replies to fetch
+      schema:
+        $ref: "../../components/schemas/cast.yaml#/ReplyDepth"
+    - name: sort
+      in: query
+      required: false
+      description: Sort order for casts
+      schema:
+        $ref: "../../components/schemas/cast.yaml#/CastConversationSortType"
+      default: chron
+    - name: viewer_fid
+      in: query
+      required: false
+      example: 3
+      schema:
+        $ref: "../../components/schemas/common.yaml#/Fid"
+  responses:
+    "200":
+      description: Successful operation.
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/cast.yaml#/CastConversationResponse"
+    "400":
+      $ref: "../../components/responses/error.yaml#/400Response"
