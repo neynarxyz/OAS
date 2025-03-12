@@ -1,0 +1,31 @@
+get:
+  tags:
+    - Channel
+  summary: Info
+  description: Fetches information about a channel
+  externalDocs:
+    url: https://docs.neynar.com/reference/fetch-channel
+  operationId: fetch-channel
+  parameters:
+    - name: id
+      in: query
+      required: true
+      description: Channel ID
+      example: "neynar"
+      schema:
+        $ref: "../../components/schemas/common.yaml#/ChannelId"
+    - name: viewer_fid
+      in: query
+      required: false
+      example: 3
+      schema:
+        $ref: "../../components/schemas/common.yaml#/Fid"
+  responses:
+    "200":
+      description: Successful operation.
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/channel.yaml#/ChannelResponse"
+    "400":
+      $ref: "../../components/responses/error.yaml#/400Response"

@@ -1,0 +1,34 @@
+ErrorRes:
+  type: object
+  properties:
+    message:
+      type: string
+    code:
+      type: string
+ConflictErrorRes:
+  type: object
+  properties:
+    message:
+      type: string
+    code:
+      type: string
+ZodError:
+  type: object
+  properties:
+    message:
+      type: string
+    code:
+      type: string
+    errors:
+      type: array
+      items:
+        type: object
+        properties:
+          code:
+            type: string
+          message:
+            type: string
+          path:
+            type: array
+            items:
+              type: string

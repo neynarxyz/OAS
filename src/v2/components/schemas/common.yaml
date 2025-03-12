@@ -1,0 +1,38 @@
+Address:
+  type: string
+  pattern: "^0x[a-fA-F0-9]{40}$"
+  description: Ethereum address
+  example: "0x5a927ac639636e534b678e81768ca19e2c6280b7"
+SolAddress:
+  type: string
+  pattern: "^[1-9A-HJ-NP-Za-km-z]{32,44}$"
+  description: Solana address
+Fid:
+  type: integer
+  format: int32
+  description: The unique identifier of a farcaster user (unsigned integer)
+  examples:
+    - 3
+    - 191
+    - 2
+ChannelId:
+  type: string
+  description: The unique identifier of a channel
+  example: "neynar"
+SignerUUID:
+  type: string
+  format: uuid
+  description: The unique identifier of a signer
+  example: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+Timestamp:
+  type: string
+  format: date-time
+  description: ISO 8601 timestamp
+  example: "2023-01-01T00:00:00Z"
+Ed25519PublicKey:
+  type: string
+  description: Ed25519 public key
+  example: "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"
+NextCursor:
+  type: string
+  description: Pagination cursor for the next page of results

@@ -1,0 +1,52 @@
+ValidateFrameReqBody:
+  type: object
+  required:
+    - url
+  properties:
+    url:
+      type: string
+      format: uri
+      example: "https://fcpolls.com/polls/1"
+ValidateFrameResponse:
+  type: object
+  properties:
+    result:
+      type: object
+      properties:
+        valid:
+          type: boolean
+        errors:
+          type: array
+          items:
+            type: string
+        frame:
+          $ref: "#/Frame"
+Frame:
+  type: object
+  properties:
+    version:
+      type: string
+    image:
+      type: string
+      format: uri
+    buttons:
+      type: array
+      items:
+        $ref: "#/FrameButton"
+    post_url:
+      type: string
+      format: uri
+FrameButton:
+  type: object
+  properties:
+    index:
+      type: integer
+    title:
+      type: string
+    action:
+      type: string
+      enum:
+        - post
+        - post_redirect
+        - link
+        - mint

@@ -1,0 +1,6 @@
+ApiKeyAuth:
+  type: apiKey
+  in: header
+  name: x-api-key
+  description: "API key to authorize requests"
+  x-default: "NEYNAR_API_DOCS"

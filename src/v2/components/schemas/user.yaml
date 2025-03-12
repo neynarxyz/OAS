@@ -1,0 +1,40 @@
+UserFIDResponse:
+  type: object
+  properties:
+    result:
+      type: object
+      properties:
+        fid:
+          $ref: "./common.yaml#/Fid"
+
+User:
+  type: object
+  properties:
+    fid:
+      $ref: "./common.yaml#/Fid"
+    username:
+      type: string
+    display_name:
+      type: string
+    pfp_url:
+      type: string
+      format: uri
+    profile:
+      type: object
+      properties:
+        bio:
+          type: object
+          properties:
+            text:
+              type: string
+    verified:
+      type: boolean
+    viewer_context:
+      type: object
+      properties:
+        following:
+          type: boolean
+        followed_by:
+          type: boolean
+        can_send_direct_cast:
+          type: boolean

@@ -1,0 +1,66 @@
+CastParamType:
+  type: string
+  enum:
+    - url
+    - hash
+  description: |
+    The query param accepted by the API. Sent along with identifier param.
+    url - Cast identifier is a url
+    hash - Cast identifier is a hash
+
+ReplyDepth:
+  type: integer
+  description: |
+    Depth of replies to fetch in the conversation.
+  default: 2
+  minimum: 0
+  maximum: 5
+
+CastConversationSortType:
+  type: string
+  enum:
+    - chron
+    - desc_chron
+    - algorithmic
+  examples:
+    - "chron"
+
+CastConversationResponse:
+  type: object
+  properties:
+    result:
+      type: object
+      properties:
+        casts:
+          type: array
+          items:
+            $ref: "#/Cast"
+        next:
+          $ref: "./common.yaml#/NextCursor"
+
+Cast:
+  type: object
+  properties:
+    hash:
+      type: string
+    thread_hash:
+      type: string
+    parent_hash:
+      type: string
+    author:
+      $ref: "./user.yaml#/User"
+    text:
+      type: string
+    timestamp:
+      $ref: "./common.yaml#/Timestamp"
+    reactions:
+      type: object
+      properties:
+        likes:
+          type: array
+          items:
+            $ref: "./user.yaml#/User"
+        recasts:
+          type: array
+          items:
+            $ref: "./user.yaml#/User"

@@ -1,0 +1,68 @@
+get:
+  tags:
+    - Cast
+  summary: Conversation
+  description: Fetches a conversation (thread of casts)
+  externalDocs:
+    url: https://docs.neynar.com/reference/fetch-conversation
+  operationId: fetch-conversation
+  parameters:
+    - name: identifier
+      in: query
+      required: true
+      description: Cast hash or URL
+      example: "0xfe90f9de682273e05b201629ad2338bdcd89b6be"
+      schema:
+        type: string
+    - name: type
+      in: query
+      required: false
+      description: Type of identifier
+      schema:
+        $ref: "../../components/schemas/cast.yaml#/CastParamType"
+      default: hash
+    - name: limit
+      in: query
+      required: false
+      description: Number of casts to return
+      example: 10
+      schema:
+        type: integer
+        format: int32
+        default: 25
+        maximum: 100
+        minimum: 1
+      x-is-limit-param: true
+    - name: cursor
+      in: query
+      description: Pagination cursor
+      schema:
+        type: string
+    - name: reply_depth
+      in: query
+      required: false
+      description: Depth of replies to fetch
+      schema:
+        $ref: "../../components/schemas/cast.yaml#/ReplyDepth"
+    - name: sort
+      in: query
+      required: false
+      description: Sort order for casts
+      schema:
+        $ref: "../../components/schemas/cast.yaml#/CastConversationSortType"
+      default: chron
+    - name: viewer_fid
+      in: query
+      required: false
+      example: 3
+      schema:
+        $ref: "../../components/schemas/common.yaml#/Fid"
+  responses:
+    "200":
+      description: Successful operation.
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/cast.yaml#/CastConversationResponse"
+    "400":
+      $ref: "../../components/responses/error.yaml#/400Response"

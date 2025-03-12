@@ -23,20 +23,22 @@ jobs:
         run: |
           npm install -g @stoplight/spectral@latest @apidevtools/swagger-cli@latest
 
-      - name: Find OpenAPI Spec Files
+      - name: Find Main OpenAPI Spec Files
         run: |
-          echo "##[group]Searching for OpenAPI spec files"
-          find src -type f \( -name "*.yaml" -o -name "*.yml" -o -name "*.json" \) > spec_files.txt
+          echo "##[group]Searching for main OpenAPI spec files"
+          find src -type f -name "spec.yaml" > spec_files.txt
           echo "Found the following spec files:"
           cat spec_files.txt
           echo "##[endgroup]"
         shell: bash
 
-      - name: Validate OpenAPI Spec Files
+      - name: Bundle and Validate OpenAPI Spec Files
         run: |
           while IFS= read -r file; do
-            echo "Validating $file"
-            swagger-cli validate "$file"
+            echo "Bundling and validating $file"
+            bundle_file="${file%.yaml}.bundle.yaml"
+            swagger-cli bundle "$file" -o "$bundle_file"
+            swagger-cli validate "$bundle_file"
           done < spec_files.txt
         shell: bash
 

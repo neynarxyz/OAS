@@ -1,0 +1,47 @@
+get:
+  tags:
+    - Feed
+  summary: Trending
+  description: Fetches trending casts
+  externalDocs:
+    url: https://docs.neynar.com/reference/fetch-trending-casts
+  operationId: fetch-trending-casts
+  parameters:
+    - name: provider
+      in: query
+      required: false
+      description: Provider of the trending feed
+      schema:
+        $ref: "../../components/schemas/feed.yaml#/FeedTrendingProvider"
+    - name: limit
+      in: query
+      required: false
+      description: Number of casts to return
+      example: 10
+      schema:
+        type: integer
+        format: int32
+        default: 25
+        maximum: 100
+        minimum: 1
+      x-is-limit-param: true
+    - name: cursor
+      in: query
+      description: Pagination cursor
+      schema:
+        type: string
+    - name: viewer_fid
+      in: query
+      required: false
+      example: 3
+      schema:
+        $ref: "../../components/schemas/common.yaml#/Fid"
+  responses:
+    "200":
+      description: Successful operation.
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/feed.yaml#/FeedResponse"
+    "400":
+      $ref: "../../components/responses/error.yaml#/400Response"
