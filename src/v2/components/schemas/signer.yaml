@@ -1,0 +1,19 @@
+Signer:
+  type: object
+  properties:
+    result:
+      type: object
+      properties:
+        signer_uuid:
+          $ref: "./common.yaml#/SignerUUID"
+        public_key:
+          $ref: "./common.yaml#/Ed25519PublicKey"
+        status:
+          type: string
+          enum:
+            - pending
+            - approved
+            - revoked
+        signer_approval_url:
+          type: string
+          format: uri

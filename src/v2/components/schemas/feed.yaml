@@ -1,0 +1,21 @@
+FeedTrendingProvider:
+  type: string
+  enum:
+    - neynar
+    - openrank
+    - mbd
+  default: neynar
+  description: |
+    The provider of the trending casts feed.
+FeedResponse:
+  type: object
+  properties:
+    result:
+      type: object
+      properties:
+        casts:
+          type: array
+          items:
+            $ref: "./cast.yaml#/Cast"
+        next:
+          $ref: "./common.yaml#/NextCursor"

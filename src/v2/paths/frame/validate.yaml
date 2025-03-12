@@ -1,0 +1,23 @@
+post:
+  tags:
+    - Frame
+  summary: Validate
+  description: Validates a frame
+  externalDocs:
+    url: https://docs.neynar.com/reference/validate-frame
+  operationId: validate-frame
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../../components/schemas/frame.yaml#/ValidateFrameReqBody"
+  responses:
+    "200":
+      description: Successful operation.
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/frame.yaml#/ValidateFrameResponse"
+    "400":
+      $ref: "../../components/responses/error.yaml#/400Response"

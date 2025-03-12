@@ -1,0 +1,42 @@
+401Response:
+  description: "Unauthorized"
+  content:
+    application/json:
+      schema:
+        $ref: "../schemas/error.yaml#/ErrorRes"
+404Response:
+  description: "Resource not found"
+  content:
+    application/json:
+      schema:
+        $ref: "../schemas/error.yaml#/ErrorRes"
+400Response:
+  description: "Bad Request"
+  content:
+    application/json:
+      schema:
+        $ref: "../schemas/error.yaml#/ErrorRes"
+400ZodResponse:
+  description: "Bad Request"
+  content:
+    application/json:
+      schema:
+        $ref: "../schemas/error.yaml#/ZodError"
+403Response:
+  description: "Forbidden"
+  content:
+    application/json:
+      schema:
+        $ref: "../schemas/error.yaml#/ErrorRes"
+409Response:
+  description: "Conflict"
+  content:
+    application/json:
+      schema:
+        $ref: "../schemas/error.yaml#/ConflictErrorRes"
+500Response:
+  description: "Server Error"
+  content:
+    application/json:
+      schema:
+        $ref: "../schemas/error.yaml#/ErrorRes"

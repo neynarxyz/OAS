@@ -1,0 +1,8 @@
+UserFIDResponse:
+  type: object
+  properties:
+    result:
+      type: object
+      properties:
+        fid:
+          $ref: "./common.yaml#/Fid"

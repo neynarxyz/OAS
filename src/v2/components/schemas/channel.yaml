@@ -1,0 +1,34 @@
+ChannelResponse:
+  type: object
+  properties:
+    result:
+      type: object
+      properties:
+        channel:
+          $ref: "#/Channel"
+Channel:
+  type: object
+  properties:
+    id:
+      $ref: "./common.yaml#/ChannelId"
+    name:
+      type: string
+    description:
+      type: string
+    image_url:
+      type: string
+      format: uri
+    created_at:
+      $ref: "./common.yaml#/Timestamp"
+    updated_at:
+      $ref: "./common.yaml#/Timestamp"
+    lead_fid:
+      $ref: "./common.yaml#/Fid"
+    parent_url:
+      type: string
+      format: uri
+    viewer_context:
+      type: object
+      properties:
+        following:
+          type: boolean
