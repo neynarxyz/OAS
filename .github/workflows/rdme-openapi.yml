@@ -12,11 +12,6 @@ jobs:
       - name: Check out repo 📚
         uses: actions/checkout@v3
 
-      - name: Run `openapi` command for v1 spec 🚀
-        uses: readmeio/rdme@v8
-        with:
-          rdme: openapi src/v1/spec.yaml --key=${{ secrets.README_API_KEY }} --id=65313d8d196216005b2ed13e
-
       - name: Run `openapi` command for v2 spec 🚀
         uses: readmeio/rdme@v8
         with:
