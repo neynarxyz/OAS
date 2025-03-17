@@ -22,12 +22,6 @@ yarn global add @stoplight/spectral-cli
 
 To validate an OpenAPI specification file using Spectral, run:
 
-#### v1
-
-```bash
-spectral lint src/v1/spec.yaml
-```
-
 #### v2
 
 ```bash
@@ -54,11 +48,6 @@ yarn global add swagger-cli
 
 #### Validate OpenAPI Specifications with Swagger CLI
 To validate an OpenAPI specification file using Swagger CLI, run:
-
-v1
-```bash
-swagger-cli validate src/v1/spec.yaml
-```
 
 v2
 ```bash
@@ -87,12 +76,6 @@ brew install openapi-generator
 ```
 
 ### Generating TypeScript Client Code Using the OAS Definitions
-
-#### v1
-
-```bash
-openapi-generator generate -i src/v1/spec.yaml -g typescript-axios -o src/v1/swagger-tmp
-```
 
 #### v2
 
