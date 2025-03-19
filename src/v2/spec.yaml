@@ -99,8 +99,9 @@ components:
         - "chron"
     ForYouProvider:
       type: string
-      default: openrank
+      default: neynar
       enum:
+        - neynar
         - openrank
         - mbd
       description: |
