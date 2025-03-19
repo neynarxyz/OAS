@@ -2171,6 +2171,27 @@ components:
           $ref: "#/components/schemas/Idem"
         parent_author_fid:
           $ref: "#/components/schemas/Fid"
+    PostCastImpressionsReqBody:
+      type: object
+      required:
+        - impressions
+        - viewer_fid
+      properties:
+        impressions:
+          type: array
+          items:
+            type: object
+            required:
+              - cast_hash
+              - timestamp
+            properties:
+              cast_hash:
+                $ref: "#/components/schemas/CastHash"
+              timestamp:
+                $ref: "#/components/schemas/Timestamp"
+              duration:
+                type: integer
+                description: Duration in milliseconds the cast was viewed
     MuteReqBody:
       type: object
       required:
@@ -5648,6 +5669,45 @@ paths:
                 $ref: "#/components/schemas/CastsResponse"
         "400":
           $ref: "#/components/responses/400Response"
+  /farcaster/cast/impressions:
+    post:
+      tags:
+        - Cast
+      summary: Record impressions of casts
+      description: Record impressions of casts so that they can be filtered from feeds
+      externalDocs:
+        url: https://docs.neynar.com/reference/publish-cast-impressions
+      operationId: publish-cast-impressions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PostCastImpressionsReqBody"
+            example:
+              viewer_fid: 3,
+              impressions:
+                [
+                  {
+                    hash: "0x1ea99cbed57e4020314ba3fadd7c692d2de34d5f",
+                    timestamp: "2024-10-08T22:03:49.000Z",
+                  },
+                  {
+                    hash: "0x1ea99cbed57e4020314ba3fadd7c692d2de34d5f",
+                    timestamp: "2024-10-08T22:03:49.000Z",
+                  },
+                ]
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OperationResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "500":
+          $ref: "#/components/responses/500Response"
   /farcaster/cast/search:
     get:
       tags:
