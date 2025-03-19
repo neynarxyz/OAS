@@ -5689,11 +5689,11 @@ paths:
               impressions:
                 [
                   {
-                    hash: "0x1ea99cbed57e4020314ba3fadd7c692d2de34d5f",
+                    cast_hash: "0x1ea99cbed57e4020314ba3fadd7c692d2de34d5f",
                     timestamp: "2024-10-08T22:03:49.000Z",
                   },
                   {
-                    hash: "0x1ea99cbed57e4020314ba3fadd7c692d2de34d5f",
+                    cast_hash: "0x1ea99cbed57e4020314ba3fadd7c692d2de34d5f",
                     timestamp: "2024-10-08T22:03:49.000Z",
                   },
                 ]
