@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Farcaster API V2
-  version: "2.21.0"
+  version: "2.22.0"
   description: >
     The Farcaster API allows you to interact with the Farcaster protocol.
     See the [Neynar docs](https://docs.neynar.com/reference) for more details.
@@ -99,8 +99,9 @@ components:
         - "chron"
     ForYouProvider:
       type: string
-      default: openrank
+      default: neynar
       enum:
+        - neynar
         - openrank
         - mbd
       description: |
