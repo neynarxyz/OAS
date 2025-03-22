@@ -1794,8 +1794,7 @@ components:
           required:
             - eth_addresses
             - sol_addresses
-            - primary_eth_address
-            - primary_sol_address
+            - primary
           properties:
             eth_addresses:
               type: array
@@ -1807,16 +1806,20 @@ components:
               description: List of verified Solana addresses of the user sorted by oldest to most recent.
               items:
                 $ref: "#/components/schemas/SolAddress"
-            primary_eth_address:
-              description: If set, this is the primary Ethereum address of the user.
-              oneOf:
-                - $ref: "#/components/schemas/Address"
-                - type: "null"
-            primary_sol_address:
-              description: If set, this is the primary Solana address of the user.
-              oneOf:
-                - $ref: "#/components/schemas/SolAddress"
-                - type: "null"
+            primary:
+              type: object
+              required:
+                - eth_address
+                - sol_address
+              properties:
+                eth_address:
+                  oneOf:
+                    - $ref: "#/components/schemas/Address"
+                    - type: "null"
+                sol_address:
+                  oneOf:
+                    - $ref: "#/components/schemas/SolAddress"
+                    - type: "null"
         verified_accounts:
           type: array
           description: Verified accounts of the user on other platforms, currently only X is supported.
