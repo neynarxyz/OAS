@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Farcaster API V2
-  version: "2.23.0"
+  version: "2.24.0"
   description: >
     The Farcaster API allows you to interact with the Farcaster protocol.
     See the [Neynar docs](https://docs.neynar.com/reference) for more details.
@@ -1767,14 +1767,34 @@ components:
               required:
                 - text
                 - mentioned_profiles
+                - mentioned_profiles_ranges
+                - mentioned_channels
+                - mentioned_channels_ranges
               properties:
                 text:
                   type: string
                 mentioned_profiles:
                   type: array
                   items:
-                    type: string
-                  default: []
+                    $ref: "#/components/schemas/UserDehydrated"
+                mentioned_profiles_ranges:
+                  description: |
+                    Positions within the text (inclusive start, exclusive end) where each mention occurs.
+                    Each index within this list corresponds to the same-numbered index in the mentioned_profiles list.
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/CastTextRange"
+                mentioned_channels:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/DehydratedChannel"
+                mentioned_channels_ranges:
+                  description: |
+                    Positions within the text (inclusive start, exclusive end) where each mention occurs.
+                    Each index within this list corresponds to the same-numbered index in the mentioned_channels list.
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/CastTextRange"
             location:
               $ref: "#/components/schemas/Location"
         follower_count:
@@ -2475,8 +2495,8 @@ components:
                 $ref: "#/components/schemas/User"
             mentioned_profiles_ranges:
               description: |
-                Ranges indicating their mark in a text where mention is placed.
-                Index of a list here corresponds to an index of an element in mentioned_profiles field.
+                Positions within the text (inclusive start, exclusive end) where each mention occurs.
+                Each index within this list corresponds to the same-numbered index in the mentioned_profiles list.
               type: array
               items:
                 $ref: "#/components/schemas/CastTextRange"
@@ -2486,8 +2506,8 @@ components:
                 $ref: "#/components/schemas/DehydratedChannel"
             mentioned_channels_ranges:
               description: |
-                Ranges indicating their mark in a text where mention is placed.
-                Index of a list here corresponds to an index of an element in mentioned_channels field.
+                Positions within the text (inclusive start, exclusive end) where each mention occurs.
+                Each index within this list corresponds to the same-numbered index in the mentioned_channels list.
               type: array
               items:
                 $ref: "#/components/schemas/CastTextRange"
@@ -3274,6 +3294,8 @@ components:
           type: string
         pfp_url:
           type: string
+        custody_address:
+          $ref: "#/components/schemas/Address"
     UserResponse:
       type: object
       required:
