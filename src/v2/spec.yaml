@@ -6016,7 +6016,7 @@ paths:
           in: query
           schema:
             type: string
-          description: Used when filter_type=embed_url. Casts with an embedded URL that is prefixed by or equal to this embed_url param will be returned. Requires feed_type and filter_type.
+          description: Used when filter_type=embed_url. Casts with an embedded URL that is prefixed by or equal to this embed_url param will be returned. Include the protocol in your prefix, e.g. pass 'https://github.com' not 'github.com'. Requires feed_type and filter_type.
         - name: embed_types
           in: query
           schema:
