@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Farcaster API V2
-  version: "2.25.0"
+  version: "2.25.1"
   description: >
     The Farcaster API allows you to interact with the Farcaster protocol.
     See the [Neynar docs](https://docs.neynar.com/reference) for more details.
@@ -6016,7 +6016,7 @@ paths:
           in: query
           schema:
             type: string
-          description: Used when filter_type=embed_url. Casts with an embedded URL that is prefixed by or equal to this embed_url param will be returned. We will match against your given URL prefix as is, and additionally against a normalized version with 'https://' prepended if no protocol was included. Requires feed_type and filter_type.
+          description: Used when filter_type=embed_url. Casts with embedded URLs prefixed by this embed_url param will be returned. We normalize your given URL prefix and prepend 'https://' if no protocol is included. Requires feed_type and filter_type.
         - name: embed_types
           in: query
           schema:
