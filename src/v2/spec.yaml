@@ -1679,9 +1679,12 @@ components:
       type: object
       required:
         - fid
+        - fname
       properties:
         fid:
           $ref: "#/components/schemas/Fid"
+        fname:
+          type: string
     ReactionRecast:
       type: object
       required:
@@ -1783,7 +1786,7 @@ components:
                 mentioned_channels:
                   type: array
                   items:
-                    $ref: "#/components/schemas/DehydratedChannel"
+                    $ref: "#/components/schemas/ChannelDehydrated"
                 mentioned_channels_ranges:
                   description: |
                     Positions within the text (inclusive start, exclusive end) where each mention occurs.
@@ -2022,10 +2025,11 @@ components:
         channel:
           oneOf:
             - type: "null"
-            - $ref: "#/components/schemas/DehydratedChannel"
+            - $ref: "#/components/schemas/ChannelDehydrated"
     Cast:
       type: object
       required:
+        - object
         - hash
         - parent_hash
         - parent_url
@@ -2036,6 +2040,10 @@ components:
         - timestamp
         - embeds
       properties:
+        object:
+          type: string
+          enum:
+            - cast
         hash:
           type: string
         parent_hash:
@@ -2055,6 +2063,10 @@ components:
                 - $ref: "#/components/schemas/Fid"
         author:
           $ref: "#/components/schemas/User"
+        app:
+          oneOf:
+            - type: "null"
+            - $ref: "#/components/schemas/UserDehydrated"
         text:
           type: string
         timestamp:
@@ -2452,15 +2464,15 @@ components:
         count:
           type: integer
           format: int32
-    ChannelOrDehydratedChannel:
+    ChannelOrChannelDehydrated:
       oneOf:
         - $ref: "#/components/schemas/Channel"
-        - $ref: "#/components/schemas/DehydratedChannel"
+        - $ref: "#/components/schemas/ChannelDehydrated"
       discriminator:
         propertyName: object
         mapping:
           channel: "#/components/schemas/Channel"
-          dehydrated_channel: "#/components/schemas/DehydratedChannel"
+          channel_dehydrated: "#/components/schemas/ChannelDehydrated"
     CastWithInteractions:
       allOf:
         - $ref: "#/components/schemas/Cast"
@@ -2499,7 +2511,7 @@ components:
             mentioned_channels:
               type: array
               items:
-                $ref: "#/components/schemas/DehydratedChannel"
+                $ref: "#/components/schemas/ChannelDehydrated"
             mentioned_channels_ranges:
               description: |
                 Positions within the text (inclusive start, exclusive end) where each mention occurs.
@@ -2509,7 +2521,7 @@ components:
                 $ref: "#/components/schemas/CastTextRange"
             channel:
               oneOf:
-                - $ref: "#/components/schemas/ChannelOrDehydratedChannel"
+                - $ref: "#/components/schemas/ChannelOrChannelDehydrated"
                 - type: "null"
             viewer_context:
               $ref: "#/components/schemas/CastViewerContext"
@@ -2700,7 +2712,7 @@ components:
           $ref: "#/components/schemas/SignerUUID"
         channel_id:
           $ref: "#/components/schemas/ChannelId"
-    DehydratedChannel:
+    ChannelDehydrated:
       type: object
       required:
         - id
@@ -2855,7 +2867,7 @@ components:
         channel:
           oneOf:
             - $ref: "#/components/schemas/Channel"
-            - $ref: "#/components/schemas/DehydratedChannel"
+            - $ref: "#/components/schemas/ChannelDehydrated"
     ChannelMemberListResponse:
       type: object
       required:
