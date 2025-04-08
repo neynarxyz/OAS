@@ -5559,6 +5559,7 @@ paths:
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
         "200":
           description: Successful operation.
@@ -5673,6 +5674,7 @@ paths:
               - recasts
               - replies
               - recent
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
         "200":
           description: Successful operation.
@@ -5773,6 +5775,7 @@ paths:
           description: Pagination cursor
           schema:
             type: string
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
         "200":
           description: Successful operation.
@@ -5905,6 +5908,7 @@ paths:
           description: Pagination cursor.
           schema:
             type: string
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
         "200":
           description: Successful operation.
@@ -6053,6 +6057,7 @@ paths:
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
         "200":
           description: Successful operation.
@@ -6107,6 +6112,7 @@ paths:
           description: Pagination cursor.
           schema:
             type: string
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
         "200":
           description: Successful operation.
@@ -6168,6 +6174,7 @@ paths:
             type: string
           description: |
             provider_metadata is a URI-encoded stringified JSON object that can be used to pass additional metadata to the provider. Only available for mbd provider right now. See [here](https://docs.neynar.com/docs/feed-for-you-w-external-providers) on how to use.
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
         "200":
           description: Successful operation.
@@ -6361,6 +6368,7 @@ paths:
           schema:
             type: boolean
             default: false
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
         "200":
           description: Successful operation.
@@ -6422,6 +6430,7 @@ paths:
           description: Pagination cursor.
           schema:
             type: string
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
         "200":
           description: Successful operation.
@@ -6463,6 +6472,7 @@ paths:
           description: Pagination cursor.
           schema:
             type: string
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
         "200":
           description: Successful operation.
@@ -6540,6 +6550,7 @@ paths:
             type: string
           description: |
             provider_metadata is a URI-encoded stringified JSON object that can be used to pass additional metadata to the provider. Only available for mbd provider right now. See [here](https://docs.neynar.com/docs/feed-for-you-w-external-providers) on how to use.
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
         "200":
           description: Successful operation.
@@ -6718,6 +6729,7 @@ paths:
           schema:
             type: string
           description: Channel ID to filter the feed; mutually exclusive with parent_url
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
         "200":
           description: Successful operation.
