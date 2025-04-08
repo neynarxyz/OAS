@@ -36,7 +36,7 @@ components:
       x-is-global-header: true
 
   schemas:
-    Address:
+    EthAddress:
       type: string
       pattern: "^0x[a-fA-F0-9]{40}$"
       description: Ethereum address
@@ -88,7 +88,12 @@ components:
       examples:
         - "desc_chron"
     SearchSortType:
-      $ref: "#/components/schemas/FollowSortType"
+      type: string
+      enum:
+        - desc_chron
+        - algorithmic
+      examples:
+        - "desc_chron"
     CastConversationSortType:
       type: string
       enum:
@@ -941,7 +946,7 @@ components:
           type: string
     CastTextRange:
       type: object
-      require:
+      required:
         - start
         - end
       properties:
@@ -976,18 +981,19 @@ components:
     Frame:
       discriminator:
         propertyName: "version"
+        mapping:
+          # 'vNext' for v1, and 'next' for v2. See specs:
+          # v1: https://docs.farcaster.xyz/developers/frames/spec#constructing-a-frame
+          # v2: https://docs.farcaster.xyz/developers/frames/v2/spec#frame-embed-metatags
+          vNext: "#/components/schemas/FrameV1"
+          next: "#/components/schemas/FrameV2"
+          "1": "#/components/schemas/FrameV2"
+          "0.0.0": "#/components/schemas/FrameV2"
+          "0.0.1": "#/components/schemas/FrameV2"
       oneOf:
         - $ref: "#/components/schemas/FrameV1"
         - $ref: "#/components/schemas/FrameV2"
-      mapping:
-        # 'vNext' for v1, and 'next' for v2. See specs:
-        # v1: https://docs.farcaster.xyz/developers/frames/spec#constructing-a-frame
-        # v2: https://docs.farcaster.xyz/developers/frames/v2/spec#frame-embed-metatags
-        vNext: "#/components/schemas/FrameV1"
-        next: "#/components/schemas/FrameV2"
-        "1": "#/components/schemas/FrameV2"
-        "0.0.0": "#/components/schemas/FrameV2"
-        "0.0.1": "#/components/schemas/FrameV2"
+
 
     FrameBase:
       description: Frame base object used across all versions
@@ -1172,11 +1178,12 @@ components:
         - amount
       properties:
         address:
-          $ref: "#/components/schemas/Address"
+          $ref: "#/components/schemas/EthAddress"
         network:
           $ref: "#/components/schemas/Networks"
         token_contract_address:
-          $ref: "#/components/schemas/Address"
+          type: string
+          pattern: "^0x[a-fA-F0-9]{40}$"
           description: Token contract address for the payment (e.g. 0x833589fcd6edb6e08f4c7c32d4f71b54bda02913 is USDC on Base)
           example: "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913"
         amount:
@@ -1576,7 +1583,7 @@ components:
               type: string
               description: Transaction ID
             address:
-              $ref: "#/components/schemas/Address"
+              $ref: "#/components/schemas/EthAddress"
             castId:
               $ref: "#/components/schemas/CastId"
         trustedData:
@@ -1756,7 +1763,7 @@ components:
         display_name:
           type: string
         custody_address:
-          $ref: "#/components/schemas/Address"
+          $ref: "#/components/schemas/EthAddress"
         pfp_url:
           type: string
           description: The URL of the user's profile picture
@@ -1807,7 +1814,7 @@ components:
         verifications:
           type: array
           items:
-            $ref: "#/components/schemas/Address"
+            $ref: "#/components/schemas/EthAddress"
         verified_addresses:
           type: object
           required:
@@ -1819,7 +1826,7 @@ components:
               type: array
               description: List of verified Ethereum addresses of the user sorted by oldest to most recent.
               items:
-                $ref: "#/components/schemas/Address"
+                $ref: "#/components/schemas/EthAddress"
             sol_addresses:
               type: array
               description: List of verified Solana addresses of the user sorted by oldest to most recent.
@@ -1833,7 +1840,7 @@ components:
               properties:
                 eth_address:
                   oneOf:
-                    - $ref: "#/components/schemas/Address"
+                    - $ref: "#/components/schemas/EthAddress"
                     - type: "null"
                 sol_address:
                   oneOf:
@@ -2337,7 +2344,7 @@ components:
         signer_uuid:
           $ref: "#/components/schemas/SignerUUID"
         address:
-          $ref: "#/components/schemas/Address"
+          $ref: "#/components/schemas/EthAddress"
         block_hash:
           type: string
         eth_signature:
@@ -2357,7 +2364,7 @@ components:
         signer_uuid:
           $ref: "#/components/schemas/SignerUUID"
         address:
-          $ref: "#/components/schemas/Address"
+          $ref: "#/components/schemas/EthAddress"
         block_hash:
           type: string
     UpdateUserReqBody:
@@ -3303,7 +3310,7 @@ components:
         pfp_url:
           type: string
         custody_address:
-          $ref: "#/components/schemas/Address"
+          $ref: "#/components/schemas/EthAddress"
     UserResponse:
       type: object
       required:
@@ -3464,6 +3471,7 @@ components:
           $ref: "#/components/schemas/User"
     FeedType:
       type: string
+      default: following
       enum:
         - following
         - filter
@@ -5992,7 +6000,6 @@ paths:
           required: true
           schema:
             $ref: "#/components/schemas/FeedType"
-            default: following
           example: filter
           description: Defaults to following (requires FID or address). If set to filter (requires filter_type)
         - name: filter_type
@@ -6218,7 +6225,6 @@ paths:
           required: true
           example: 528
           schema:
-            default: 528
             $ref: "#/components/schemas/Fid"
         - name: subscription_provider
           in: query
@@ -6249,7 +6255,6 @@ paths:
           required: true
           example: 3206
           schema:
-            default: 3206
             $ref: "#/components/schemas/Fid"
         - name: viewer_fid
           in: query
@@ -6286,7 +6291,6 @@ paths:
           required: true
           example: 3206
           schema:
-            default: 3206
             $ref: "#/components/schemas/Fid"
         - name: viewer_fid
           in: query
