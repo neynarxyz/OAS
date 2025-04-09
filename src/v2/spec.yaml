@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Farcaster API V2
-  version: "2.26.0"
+  version: "2.26.1"
   description: >
     The Farcaster API allows you to interact with the Farcaster protocol.
     See the [Neynar docs](https://docs.neynar.com/reference) for more details.
@@ -6009,6 +6009,7 @@ paths:
         - name: members_only
           in: query
           description: Used when filter_type=channel_id. Only include casts from members of the channel. True by default.
+          deprecated: true
           schema:
             type: boolean
             default: true
@@ -6328,6 +6329,7 @@ paths:
         - name: members_only
           in: query
           description: Only include casts from members of the channel. True by default.
+          deprecated: true
           schema:
             type: boolean
             default: true
