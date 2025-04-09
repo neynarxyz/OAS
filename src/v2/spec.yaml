@@ -55,6 +55,15 @@ components:
         - 2
         - 194
         - 19960
+    TrendingTimeWindow:
+      type: string
+      enum:
+        - 1h
+        - 6h
+        - 12h
+        - 24h
+        - 7d
+      description: Time window for trending content
     ChannelId:
       type: string
       description: The unique identifier of a farcaster channel
@@ -6507,15 +6516,12 @@ paths:
         - name: time_window
           in: query
           description: Time window for trending casts (7d window for channel feeds only)
+          required: false
           schema:
-            type: string
-            enum:
-              - 1h
-              - 6h
-              - 12h
-              - 24h
-              - 7d
-            default: 24h
+            allOf:
+              - $ref: "#/components/schemas/TrendingTimeWindow"
+              - default: 24h
+          example: 24h
         - name: channel_id
           in: query
           description: Channel ID to filter trending casts. Less active channels might have no casts in the time window selected. Provide either `channel_id` or `parent_url`, not both.
@@ -6859,6 +6865,12 @@ paths:
           required: false
           schema:
             type: string
+        - name: time_window
+          in: query
+          description: Time window to fetch frames for
+          required: false
+          schema:
+            $ref: "#/components/schemas/TrendingTimeWindow"
       responses:
         "200":
           description: Successful response
@@ -9584,3 +9596,4 @@ paths:
   #         $ref: "#/components/responses/400Response"
   #       "404":
   #         $ref: "#/components/responses/404Response"
+
