@@ -6867,7 +6867,7 @@ paths:
             type: string
         - name: time_window
           in: query
-          description: Time window to fetch frames for
+          description: Time window used to calculate the change in trending score for each frame, used to sort frame results
           required: false
           schema:
             $ref: "#/components/schemas/TrendingTimeWindow"
