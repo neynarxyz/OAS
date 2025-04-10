@@ -3136,6 +3136,8 @@ components:
       properties:
         object:
           type: string
+          enum:
+            - notification
         most_recent_timestamp:
           type: string
           format: date-time
