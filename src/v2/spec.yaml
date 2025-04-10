@@ -3153,7 +3153,7 @@ components:
         follows:
           type: array
           items:
-            $ref: "#/components/schemas/Follow"
+            $ref: "#/components/schemas/Follower"
         cast:
           $ref: "#/components/schemas/CastWithInteractions"
         reactions:
@@ -3164,18 +3164,6 @@ components:
           type: integer
           format: int32
           description: The number of notifications of this(follows, likes, recast) type bundled in a single notification.
-    Follow:
-      type: object
-      required:
-        - object
-        - user
-      properties:
-        object:
-          type: string
-          enum:
-            - follow
-        user:
-          $ref: "#/components/schemas/User"
     CastDehydrated:
       type: object
       required:
