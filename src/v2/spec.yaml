@@ -3268,27 +3268,33 @@ components:
         top_relevant_followers_hydrated:
           type: array
           items:
-            $ref: "#/components/schemas/HydratedFollower"
+            $ref: "#/components/schemas/Follower"
         all_relevant_followers_dehydrated:
           type: array
           items:
-            $ref: "#/components/schemas/DehydratedFollower"
-    HydratedFollower:
+            $ref: "#/components/schemas/FollowerDehydrated"
+    Follower:
       type: object
+      required:
+        - object
+        - user
       properties:
         object:
           type: string
           enum:
-            - follow
+            - follower
         user:
           $ref: "#/components/schemas/User"
-    DehydratedFollower:
+    FollowerDehydrated:
       type: object
+      required:
+        - object
+        - user
       properties:
         object:
           type: string
           enum:
-            - follow
+            - follower_dehydrated
         user:
           $ref: "#/components/schemas/UserDehydrated"
     UserDehydrated:
@@ -3460,7 +3466,7 @@ components:
         users:
           type: array
           items:
-            $ref: "#/components/schemas/HydratedFollower"
+            $ref: "#/components/schemas/Follower"
         next:
           $ref: "#/components/schemas/NextCursor"
     BulkUsersByAddressResponse:
