@@ -1123,7 +1123,7 @@ components:
       properties:
         object:
           type: string
-          examples:
+          enum:
             - "subscriber"
         user:
           $ref: "#/components/schemas/User"
@@ -1372,11 +1372,8 @@ components:
     Subscriptions:
       type: object
       required:
-        - object
         - subscriptions_created
       properties:
-        object:
-          type: string
         subscriptions_created:
           type: array
           items:
@@ -1395,7 +1392,7 @@ components:
       properties:
         object:
           type: string
-          examples:
+          enum:
             - "subscription"
         provider_name:
           type: string
@@ -1488,7 +1485,7 @@ components:
       properties:
         object:
           type: string
-          examples:
+          enum:
             - "subscription_dehydrated"
         provider_name:
           type: string
