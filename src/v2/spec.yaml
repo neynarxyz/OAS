@@ -32,7 +32,7 @@ components:
       schema:
         type: boolean
         default: false
-      description: "Enables experimental features"
+      description: "Enables experimental features including filtering based on the Neynar score. See [docs](https://neynar.notion.site/Experimental-Features-1d2655195a8b80eb98b4d4ae7b76ae4a) for more details."
       x-is-global-header: true
 
   schemas:
