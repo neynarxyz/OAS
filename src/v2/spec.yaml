@@ -994,7 +994,6 @@ components:
         - $ref: "#/components/schemas/FrameV1"
         - $ref: "#/components/schemas/FrameV2"
 
-
     FrameBase:
       description: Frame base object used across all versions
       type: object
@@ -2183,17 +2182,23 @@ components:
           $ref: "#/components/schemas/Fid"
     PostCastReqBodyEmbeds:
       type: object
-      properties:
-        cast_id:
-          $ref: "#/components/schemas/PostCastReqBodyEmbedsCastIdProperties"
-        castId:
-          $ref: "#/components/schemas/PostCastReqBodyEmbedsCastIdProperties"
-        url:
-          type: string
       oneOf:
-        - required: ["cast_id"]
-        - required: ["castId"]
-        - required: ["url"]
+        - properties:
+            cast_id:
+              $ref: "#/components/schemas/PostCastReqBodyEmbedsCastIdProperties"
+          required: [cast_id]
+          additionalProperties: false
+        - properties:
+            castId:
+              $ref: "#/components/schemas/PostCastReqBodyEmbedsCastIdProperties"
+          required: [castId]
+          additionalProperties: false
+        - properties:
+            url:
+              type: string
+          required: [url]
+          additionalProperties: false
+      additionalProperties: false
     PostCastReqBody:
       type: object
       required:
