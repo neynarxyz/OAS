@@ -23,6 +23,7 @@ jobs:
           repository: "neynarxyz/docs.git"
           ref: "main"
           path: "docs" # Checkout docs repository into a directory named "docs"
+          token: ${{ secrets.OAS_TO_SDK_FGPAT }}
 
       - name: Copy updated YAML files to docs repository
         run: |
