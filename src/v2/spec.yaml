@@ -94,6 +94,7 @@ components:
       enum:
         - desc_chron
         - algorithmic
+        - affinity_score
       examples:
         - "desc_chron"
     SearchSortType:
@@ -3731,15 +3732,28 @@ components:
             $ref: "#/components/schemas/FrameV2"
         next:
           $ref: "#/components/schemas/NextCursor"
-    SendFrameNotificationsResponse:
+    RelevantFramesResponse:
       type: object
       required:
-        - notification_deliveries
+        - frames
+        - top_relevant_users_hydrated
+        - remaining_relevant_users_dehydrated
+        - next
       properties:
-        notification_deliveries:
+        frames:
           type: array
           items:
-            $ref: "#/components/schemas/NotificationDelivery"
+            $ref: "#/components/schemas/FrameV2"
+        top_relevant_users_hydrated:
+          type: array
+          items:
+            $ref: "#/components/schemas/HydratedFollower"
+        remaining_relevant_users_dehydrated:
+          type: array
+          items:
+            $ref: "#/components/schemas/DehydratedFollower"
+        next:
+          $ref: "#/components/schemas/NextCursor"
     NotificationDelivery:
       type: object
       required:
@@ -6892,7 +6906,46 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/FrameCatalogResponse"
-
+  /farcaster/frame/relevant:
+    get:
+      tags:
+        - Frame
+      summary: Relevant frames
+      description: Fetch a list of frames relevant to the user based on casts by users with strong affinity score for the user
+      operationId: fetch-relevant-frames
+      parameters:
+        - name: viewer_fid
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/Fid"
+          description: FID of the user to fetch relevant frames for\
+        - name: time_window
+          in: query
+          description: Time window used to limit statistics used to calculate frame relevance
+          required: false
+          schema:
+            $ref: "#/components/schemas/TrendingTimeWindow"
+        - name: limit
+          in: query
+          description: Number of results to fetch
+          required: false
+          schema:
+            type: integer
+            default: 100
+        - name: cursor
+          in: query
+          description: Pagination cursor
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RelevantFramesResponse"
   /farcaster/frame/list:
     get:
       tags:
