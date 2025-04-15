@@ -3,7 +3,7 @@ name: Copy OAS specs to Docs Repository
 on:
   push:
     branches:
-      - cory/oas-to-docs-test # Watch only this branch for changes
+      - main
     paths:
       - 'src/hub-rest-api/spec.yaml'
       - 'src/v2/spec.yaml'
@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           path: "OAS" # Checkout OAS repository into a directory named "OAS"
-          ref: "cory/oas-to-docs-test" # Explicitly checkout the branch
+          ref: "main"
 
       - name: Checkout docs repository
         uses: actions/checkout@v3
