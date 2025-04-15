@@ -65,7 +65,7 @@ jobs:
       - name: Create Pull Request via API
         if: env.SKIP_PR != 'true' # Only run this step if changes were committed
         env:
-          OAS_TO_DOCS_FGPAT: ${{ secrets.OAS_TO_DOCS_FGPAT }}
+          OAS_TO_SDK_FGPAT: ${{ secrets.OAS_TO_SDK_FGPAT }}
         run: |
           # Install jq for JSON parsing
           sudo apt-get update && sudo apt-get install -y jq
