@@ -24,6 +24,7 @@ jobs:
           ref: "main"
           path: "docs" # Checkout docs repository into a directory named "docs"
           token: ${{ secrets.OAS_TO_SDK_FGPAT }}
+          persist-credentials: true
 
       - name: Copy updated YAML files to docs repository
         run: |
