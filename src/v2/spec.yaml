@@ -3754,6 +3754,15 @@ components:
             $ref: "#/components/schemas/DehydratedFollower"
         next:
           $ref: "#/components/schemas/NextCursor"
+    SendFrameNotificationsResponse:
+      type: object
+      required:
+        - notification_deliveries
+      properties:
+        notification_deliveries:
+          type: array
+          items:
+            $ref: "#/components/schemas/NotificationDelivery"
     NotificationDelivery:
       type: object
       required:
