@@ -1,4 +1,4 @@
-name: Create Pull Request in Docs Repository
+name: Copy OAS specs to Docs Repository
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
       - 'src/v2/spec.yaml'
 
 jobs:
-  create-pull-request:
+  commit-changes:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout OAS repository
@@ -46,55 +46,10 @@ jobs:
             exit 0
           fi
 
-          # Create a new branch
-          BRANCH_NAME="update-docs-$(date +%Y%m%d%H%M%S)"
-          git checkout -b "$BRANCH_NAME"
-
           # Commit changes
           git add .
-          git commit -m "Update OpenAPI YAML files"
+          git commit -m "Github action: copy OpenAPI YAML files from OAS repository"
 
-          # Push changes
-          git push origin "$BRANCH_NAME"
-
-          # Export branch name for the next step
-          echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
-        shell: bash
-
-      - name: Create Pull Request via API
-        if: env.BRANCH_NAME # Only run this step if BRANCH_NAME exists in the environment
-        env:
-          OAS_TO_SDK_FGPAT: ${{ secrets.OAS_TO_SDK_FGPAT }}
-        run: |
-          # Install jq for JSON parsing
-          sudo apt-get update && sudo apt-get install -y jq
-
-          # Prepare JSON payload for the pull request
-          DATA=$(jq -n \
-            --arg title "Update OpenAPI YAML files" \
-            --arg head "$BRANCH_NAME" \
-            --arg base "main" \
-            --arg body "This pull request updates the OpenAPI YAML files in the docs repository." \
-            '{title: $title, head: $head, base: $base, body: $body}')
-
-          echo "Creating Pull Request with data: $DATA"
-
-          RESPONSE=$(curl -s -w "%{http_code}" -o response.json -X POST \
-            -H "Authorization: token $OAS_TO_SDK_FGPAT" \
-            -H "Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/neynarxyz/docs/pulls \
-            -d "$DATA")
-
-          # Extract HTTP status code
-          HTTP_STATUS=$(tail -n1 <<< "$RESPONSE")
-
-          # Check if the request was successful
-          if [ "$HTTP_STATUS" -eq 201 ]; then
-            echo "Pull request created successfully."
-            cat response.json | jq '.html_url' # Print the URL of the created pull request
-          else
-            echo "Failed to create pull request. HTTP status: $HTTP_STATUS"
-            cat response.json | jq '.message' # Print the error message
-            exit 1
-          fi
+          # Push changes directly to main
+          git push origin main
         shell: bash
