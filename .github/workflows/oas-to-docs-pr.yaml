@@ -48,7 +48,7 @@ jobs:
 
           # Commit changes
           git add .
-          git commit -m "Github action: copy OpenAPI YAML files from OAS repository"
+          git commit -m "GitHub action: copy OpenAPI YAML files from OAS repository"
 
           # Push changes directly to main
           git push origin main
