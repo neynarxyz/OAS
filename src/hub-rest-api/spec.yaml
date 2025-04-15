@@ -1,10 +1,10 @@
 openapi: 3.1.0
 info:
-  title: Farcaster HubbyHubbyHub API
+  title: Farcaster Hub API
   version: "2.21.0"
   description: >
     Perform basic queries of Farcaster state via the REST API of a Farcaster hub.
-    See the [Neynar docs](https://docs.neynar.com/reference) for more details.
+    See the [Neynar docs](https://docs.neynar.com/reference) for more details..
   contact:
     name: Neynar
     url: https://neynar.com/
