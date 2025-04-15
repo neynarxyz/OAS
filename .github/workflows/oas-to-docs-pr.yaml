@@ -81,7 +81,7 @@ jobs:
           echo "Creating Pull Request with data: $DATA"
 
           RESPONSE=$(curl -s -w "%{http_code}" -o response.json -X POST \
-            -H "Authorization: token $OAS_TO_DOCS_FGPAT" \
+            -H "Authorization: token $OAS_TO_SDK_FGPAT" \
             -H "Accept: application/vnd.github.v3+json" \
             https://api.github.com/repos/neynarxyz/docs/pulls \
             -d "$DATA")
