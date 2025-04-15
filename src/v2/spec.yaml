@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Farcaster API V2
-  version: "2.26.1"
+  version: "2.27.1"
   description: >
     The Farcaster API allows you to interact with the Farcaster protocol.
     See the [Neynar docs](https://docs.neynar.com/reference) for more details.
@@ -32,7 +32,7 @@ components:
       schema:
         type: boolean
         default: false
-      description: "Enables experimental features"
+      description: "Enables experimental features including filtering based on the Neynar score. See [docs](https://neynar.notion.site/Experimental-Features-1d2655195a8b80eb98b4d4ae7b76ae4a) for more details."
       x-is-global-header: true
 
   schemas:
@@ -5568,6 +5568,7 @@ paths:
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
         "200":
           description: Successful operation.
@@ -5682,6 +5683,7 @@ paths:
               - recasts
               - replies
               - recent
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
         "200":
           description: Successful operation.
@@ -5782,6 +5784,7 @@ paths:
           description: Pagination cursor
           schema:
             type: string
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
         "200":
           description: Successful operation.
@@ -5914,6 +5917,7 @@ paths:
           description: Pagination cursor.
           schema:
             type: string
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
         "200":
           description: Successful operation.
@@ -6063,6 +6067,7 @@ paths:
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
         "200":
           description: Successful operation.
@@ -6117,6 +6122,7 @@ paths:
           description: Pagination cursor.
           schema:
             type: string
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
         "200":
           description: Successful operation.
@@ -6178,6 +6184,7 @@ paths:
             type: string
           description: |
             provider_metadata is a URI-encoded stringified JSON object that can be used to pass additional metadata to the provider. Only available for mbd provider right now. See [here](https://docs.neynar.com/docs/feed-for-you-w-external-providers) on how to use.
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
         "200":
           description: Successful operation.
@@ -6372,6 +6379,7 @@ paths:
           schema:
             type: boolean
             default: false
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
         "200":
           description: Successful operation.
@@ -6433,6 +6441,7 @@ paths:
           description: Pagination cursor.
           schema:
             type: string
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
         "200":
           description: Successful operation.
@@ -6474,6 +6483,7 @@ paths:
           description: Pagination cursor.
           schema:
             type: string
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
         "200":
           description: Successful operation.
@@ -6548,6 +6558,7 @@ paths:
             type: string
           description: |
             provider_metadata is a URI-encoded stringified JSON object that can be used to pass additional metadata to the provider. Only available for mbd provider right now. See [here](https://docs.neynar.com/docs/feed-for-you-w-external-providers) on how to use.
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
         "200":
           description: Successful operation.
@@ -6726,6 +6737,7 @@ paths:
           schema:
             type: string
           description: Channel ID to filter the feed; mutually exclusive with parent_url
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
         "200":
           description: Successful operation.
