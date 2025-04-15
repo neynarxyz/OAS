@@ -43,7 +43,6 @@ jobs:
           # Check if there are changes
           if git diff --quiet; then
             echo "No changes to commit."
-            echo "SKIP_PR=true" >> $GITHUB_ENV
             exit 0
           fi
 
@@ -63,7 +62,7 @@ jobs:
         shell: bash
 
       - name: Create Pull Request via API
-        if: env.SKIP_PR != 'true' # Only run this step if changes were committed
+        if: env.BRANCH_NAME # Only run this step if BRANCH_NAME exists in the environment
         env:
           OAS_TO_SDK_FGPAT: ${{ secrets.OAS_TO_SDK_FGPAT }}
         run: |
@@ -99,8 +98,3 @@ jobs:
             exit 1
           fi
         shell: bash
-
-      - name: Debug API Response
-        run: |
-          echo "Raw response:"
-          cat response.json
