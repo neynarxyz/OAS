@@ -29,8 +29,8 @@ jobs:
 
       - name: Copy updated YAML files to docs repository
         run: |
-          cp OAS/src/hub-rest-api/spec.yaml docs/openapi/hub-rest-api/spec.yaml
-          cp OAS/src/v2/spec.yaml docs/openapi/v2/spec.yaml
+          cp OAS/src/hub-rest-api/spec.yaml docs/openapi/hub-rest-api/openapi.yaml
+          cp OAS/src/v2/spec.yaml docs/openapi/v2/openapi.yaml
 
       - name: Commit and push changes
         run: |

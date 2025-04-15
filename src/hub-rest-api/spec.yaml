@@ -1,6 +1,6 @@
 openapi: 3.1.0
 info:
-  title: Farcaster HubbyHubby API
+  title: Farcaster HubbyHubbyHub API
   version: "2.21.0"
   description: >
     Perform basic queries of Farcaster state via the REST API of a Farcaster hub.
