@@ -77,7 +77,7 @@ jobs:
 
           # Create the pull request via GitHub API and capture the response
           RESPONSE=$(curl -s -w "%{http_code}" -o response.json -X POST \
-            -H "Authorization: token ${{ secrets.OAS_TO_DOCS_FGPAT }}" \
+            -H "Authorization: token ${{ secrets.OAS_TO_SDK_FGPAT }}" \
             -H "Accept: application/vnd.github.v3+json" \
             https://api.github.com/repos/neynarxyz/docs/pulls \
             -d "$DATA")
