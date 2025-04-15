@@ -16,6 +16,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           path: "OAS" # Checkout OAS repository into a directory named "OAS"
+          ref: "cory/oas-to-docs-test" # Explicitly checkout the branch
 
       - name: Checkout docs repository
         uses: actions/checkout@v3
@@ -42,6 +43,7 @@ jobs:
           # Check if there are changes
           if git diff --quiet; then
             echo "No changes to commit."
+            echo "SKIP_PR=true" >> $GITHUB_ENV
             exit 0
           fi
 
@@ -61,6 +63,9 @@ jobs:
         shell: bash
 
       - name: Create Pull Request via API
+        if: env.SKIP_PR != 'true' # Only run this step if changes were committed
+        env:
+          OAS_TO_DOCS_FGPAT: ${{ secrets.OAS_TO_DOCS_FGPAT }}
         run: |
           # Install jq for JSON parsing
           sudo apt-get update && sudo apt-get install -y jq
@@ -75,9 +80,8 @@ jobs:
 
           echo "Creating Pull Request with data: $DATA"
 
-          # Create the pull request via GitHub API and capture the response
           RESPONSE=$(curl -s -w "%{http_code}" -o response.json -X POST \
-            -H "Authorization: token ${{ secrets.OAS_TO_DOCS_FGPAT }}" \
+            -H "Authorization: token $OAS_TO_DOCS_FGPAT" \
             -H "Accept: application/vnd.github.v3+json" \
             https://api.github.com/repos/neynarxyz/docs/pulls \
             -d "$DATA")
@@ -95,3 +99,8 @@ jobs:
             exit 1
           fi
         shell: bash
+
+      - name: Debug API Response
+        run: |
+          echo "Raw response:"
+          cat response.json
