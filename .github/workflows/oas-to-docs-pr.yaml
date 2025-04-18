@@ -1,0 +1,55 @@
+name: Copy OAS specs to Docs Repository
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/hub-rest-api/spec.yaml'
+      - 'src/v2/spec.yaml'
+
+jobs:
+  commit-changes:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout OAS repository
+        uses: actions/checkout@v3
+        with:
+          path: "OAS" # Checkout OAS repository into a directory named "OAS"
+          ref: "main"
+
+      - name: Checkout docs repository
+        uses: actions/checkout@v3
+        with:
+          repository: "neynarxyz/docs.git"
+          ref: "main"
+          path: "docs" # Checkout docs repository into a directory named "docs"
+          token: ${{ secrets.OAS_TO_SDK_FGPAT }}
+          persist-credentials: true
+
+      - name: Copy updated YAML files to docs repository
+        run: |
+          cp OAS/src/hub-rest-api/spec.yaml docs/openapi/hub-rest-api/openapi.yaml
+          cp OAS/src/v2/spec.yaml docs/openapi/v2/openapi.yaml
+
+      - name: Commit and push changes
+        run: |
+          cd docs
+
+          # Set Git config
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+
+          # Check if there are changes
+          if git diff --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+
+          # Commit changes
+          git add .
+          git commit -m "GitHub action: copy OpenAPI YAML files from OAS repository"
+
+          # Push changes directly to main
+          git push origin main
+        shell: bash
