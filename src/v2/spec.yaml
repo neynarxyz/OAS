@@ -1075,29 +1075,6 @@ components:
               properties:
                 html:
                   $ref: "#/components/schemas/HtmlMetadata"
-    RelevantFrameV2:
-      description: Frame v2 object with relevant users
-      type: object
-      required:
-        - frames
-        - top_relevant_users
-        - remaining_relevant_users
-      properties:
-        frames:
-          type: array
-          description: Array of FrameV2 objects
-          items:
-            $ref: "#/components/schemas/FrameV2"
-        top_relevant_users:
-          type: array
-          description: Array of the most relevant users
-          items:
-            $ref: "#/components/schemas/User"
-        remaining_relevant_users:
-          type: array
-          description: Array of remaining relevant users in dehydrated form
-          items:
-            $ref: "#/components/schemas/UserDehydrated"
     SubscriptionTier:
       type: object
       properties:
@@ -3771,15 +3748,6 @@ components:
             $ref: "#/components/schemas/FrameV2"
         next:
           $ref: "#/components/schemas/NextCursor"
-    RelevantFramesResponse:
-      type: object
-      required:
-        - relevant_frames
-      properties:
-        relevant_frames:
-          type: array
-          items:
-            $ref: "#/components/schemas/RelevantFrameV2"
     SendFrameNotificationsResponse:
       type: object
       required:
@@ -6963,7 +6931,34 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/RelevantFramesResponse"
+                type: object
+                required:
+                  - relevant_frames
+                properties:
+                  relevant_frames:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        - frames
+                        - top_relevant_users
+                        - remaining_relevant_users
+                      properties:
+                        frames:
+                          type: array
+                          description: Array of FrameV2 objects
+                          items:
+                            $ref: "#/components/schemas/FrameV2"
+                        top_relevant_users:
+                          type: array
+                          description: Array of the most relevant users
+                          items:
+                            $ref: "#/components/schemas/User"
+                        remaining_relevant_users:
+                          type: array
+                          description: Array of remaining relevant users in dehydrated form
+                          items:
+                            $ref: "#/components/schemas/UserDehydrated"
   /farcaster/frame/list:
     get:
       tags:
