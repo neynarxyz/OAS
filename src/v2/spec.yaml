@@ -55,6 +55,15 @@ components:
         - 2
         - 194
         - 19960
+    TrendingTimeWindow:
+      type: string
+      enum:
+        - 1h
+        - 6h
+        - 12h
+        - 24h
+        - 7d
+      description: Time window for trending content
     ChannelId:
       type: string
       description: The unique identifier of a farcaster channel
@@ -84,7 +93,7 @@ components:
       type: string
       enum:
         - desc_chron
-        - algorithmic
+        - affinity_score
       examples:
         - "desc_chron"
     SearchSortType:
@@ -1066,7 +1075,6 @@ components:
               properties:
                 html:
                   $ref: "#/components/schemas/HtmlMetadata"
-
     SubscriptionTier:
       type: object
       properties:
@@ -6533,15 +6541,12 @@ paths:
         - name: time_window
           in: query
           description: Time window for trending casts (7d window for channel feeds only)
+          required: false
           schema:
-            type: string
-            enum:
-              - 1h
-              - 6h
-              - 12h
-              - 24h
-              - 7d
-            default: 24h
+            allOf:
+              - $ref: "#/components/schemas/TrendingTimeWindow"
+              - default: 24h
+          example: 24h
         - name: channel_id
           in: query
           description: Channel ID to filter trending casts. Less active channels might have no casts in the time window selected. Provide either `channel_id` or `parent_url`, not both.
@@ -6887,6 +6892,12 @@ paths:
           required: false
           schema:
             type: string
+        - name: time_window
+          in: query
+          description: Time window used to calculate the change in trending score for each frame, used to sort frame results
+          required: false
+          schema:
+            $ref: "#/components/schemas/TrendingTimeWindow"
       responses:
         "200":
           description: Successful response
@@ -6894,7 +6905,60 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/FrameCatalogResponse"
-
+  /farcaster/frame/relevant:
+    get:
+      tags:
+        - Frame
+      summary: Relevant frames
+      description: Fetch a list of frames relevant to the user based on casts by users with strong affinity score for the user
+      operationId: fetch-relevant-frames
+      parameters:
+        - name: viewer_fid
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/Fid"
+          description: FID of the user to fetch relevant frames for\
+        - name: time_window
+          in: query
+          description: Time window used to limit statistics used to calculate frame relevance
+          required: false
+          schema:
+            $ref: "#/components/schemas/TrendingTimeWindow"
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - relevant_frames
+                properties:
+                  relevant_frames:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        - frames
+                        - top_relevant_users
+                        - remaining_relevant_users
+                      properties:
+                        frames:
+                          type: array
+                          description: Array of FrameV2 objects
+                          items:
+                            $ref: "#/components/schemas/FrameV2"
+                        top_relevant_users:
+                          type: array
+                          description: Array of the most relevant users
+                          items:
+                            $ref: "#/components/schemas/User"
+                        remaining_relevant_users:
+                          type: array
+                          description: Array of remaining relevant users in dehydrated form
+                          items:
+                            $ref: "#/components/schemas/UserDehydrated"
   /farcaster/frame/list:
     get:
       tags:
@@ -9612,3 +9676,4 @@ paths:
   #         $ref: "#/components/responses/400Response"
   #       "404":
   #         $ref: "#/components/responses/404Response"
+
