@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Farcaster API V2
-  version: "2.29.0"
+  version: "2.30.0"
   description: >
     The Farcaster API allows you to interact with the Farcaster protocol.
     See the [Neynar docs](https://docs.neynar.com/reference) for more details.
@@ -953,7 +953,7 @@ components:
           $ref: "#/components/schemas/Fid"
         hash:
           type: string
-    CastTextRange:
+    TextRange:
       type: object
       required:
         - start
@@ -1793,7 +1793,7 @@ components:
                     Each index within this list corresponds to the same-numbered index in the mentioned_profiles list.
                   type: array
                   items:
-                    $ref: "#/components/schemas/CastTextRange"
+                    $ref: "#/components/schemas/TextRange"
                 mentioned_channels:
                   type: array
                   items:
@@ -1804,7 +1804,7 @@ components:
                     Each index within this list corresponds to the same-numbered index in the mentioned_channels list.
                   type: array
                   items:
-                    $ref: "#/components/schemas/CastTextRange"
+                    $ref: "#/components/schemas/TextRange"
             location:
               $ref: "#/components/schemas/Location"
         follower_count:
@@ -2524,7 +2524,7 @@ components:
                 Each index within this list corresponds to the same-numbered index in the mentioned_profiles list.
               type: array
               items:
-                $ref: "#/components/schemas/CastTextRange"
+                $ref: "#/components/schemas/TextRange"
             mentioned_channels:
               type: array
               items:
@@ -2535,7 +2535,7 @@ components:
                 Each index within this list corresponds to the same-numbered index in the mentioned_channels list.
               type: array
               items:
-                $ref: "#/components/schemas/CastTextRange"
+                $ref: "#/components/schemas/TextRange"
             channel:
               oneOf:
                 - $ref: "#/components/schemas/ChannelOrChannelDehydrated"
@@ -2759,14 +2759,23 @@ components:
           type: string
         url:
           type: string
-        name:
-          type: string
-        description:
-          type: string
         object:
           type: string
           enum:
             - channel
+        name:
+          type: string
+        description:
+          type: string
+        description_mentioned_profiles:
+          type: array
+          items:
+            $ref: "#/components/schemas/UserDehydrated"
+        description_mentioned_profiles_ranges:
+          description: Positions within the text (inclusive start, exclusive end) where each mention occurs.
+          type: array
+          items:
+            $ref: "#/components/schemas/TextRange"
         created_at:
           description: Epoch timestamp in seconds.
           type: number
@@ -9676,4 +9685,3 @@ paths:
   #         $ref: "#/components/responses/400Response"
   #       "404":
   #         $ref: "#/components/responses/404Response"
-
