@@ -2759,14 +2759,23 @@ components:
           type: string
         url:
           type: string
-        name:
-          type: string
-        description:
-          type: string
         object:
           type: string
           enum:
             - channel
+        name:
+          type: string
+        description:
+          type: string
+        description_mentioned_profiles:
+          type: array
+          items:
+            $ref: "#/components/schemas/UserDehydrated"
+        description_mentioned_profiles_ranges:
+          description: Positions within the text (inclusive start, exclusive end) where each mention occurs.
+          type: array
+          items:
+            $ref: "#/components/schemas/CastTextRange"
         created_at:
           description: Epoch timestamp in seconds.
           type: number
@@ -9676,4 +9685,3 @@ paths:
   #         $ref: "#/components/responses/400Response"
   #       "404":
   #         $ref: "#/components/responses/404Response"
-
