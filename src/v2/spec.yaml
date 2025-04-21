@@ -953,7 +953,7 @@ components:
           $ref: "#/components/schemas/Fid"
         hash:
           type: string
-    CastTextRange:
+    TextRange:
       type: object
       required:
         - start
@@ -1793,7 +1793,7 @@ components:
                     Each index within this list corresponds to the same-numbered index in the mentioned_profiles list.
                   type: array
                   items:
-                    $ref: "#/components/schemas/CastTextRange"
+                    $ref: "#/components/schemas/TextRange"
                 mentioned_channels:
                   type: array
                   items:
@@ -1804,7 +1804,7 @@ components:
                     Each index within this list corresponds to the same-numbered index in the mentioned_channels list.
                   type: array
                   items:
-                    $ref: "#/components/schemas/CastTextRange"
+                    $ref: "#/components/schemas/TextRange"
             location:
               $ref: "#/components/schemas/Location"
         follower_count:
@@ -2524,7 +2524,7 @@ components:
                 Each index within this list corresponds to the same-numbered index in the mentioned_profiles list.
               type: array
               items:
-                $ref: "#/components/schemas/CastTextRange"
+                $ref: "#/components/schemas/TextRange"
             mentioned_channels:
               type: array
               items:
@@ -2535,7 +2535,7 @@ components:
                 Each index within this list corresponds to the same-numbered index in the mentioned_channels list.
               type: array
               items:
-                $ref: "#/components/schemas/CastTextRange"
+                $ref: "#/components/schemas/TextRange"
             channel:
               oneOf:
                 - $ref: "#/components/schemas/ChannelOrChannelDehydrated"
@@ -2775,7 +2775,7 @@ components:
           description: Positions within the text (inclusive start, exclusive end) where each mention occurs.
           type: array
           items:
-            $ref: "#/components/schemas/CastTextRange"
+            $ref: "#/components/schemas/TextRange"
         created_at:
           description: Epoch timestamp in seconds.
           type: number
