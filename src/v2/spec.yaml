@@ -7287,6 +7287,40 @@ paths:
           $ref: "#/components/responses/404Response"
         "500":
           $ref: "#/components/responses/500Response"
+  /farcaster/user/by_x_username:
+    get:
+      tags:
+        - User
+      summary: Lookup user by X (Twitter) username
+      description: Fetches the user who has verified the specified X (Twitter) account
+      externalDocs:
+        url: https://docs.neynar.com/reference/lookup-user-by-x-username
+      operationId: lookup-user-by-x-username
+      parameters:
+        - name: x_username
+          in: query
+          description: X (Twitter) username to search for
+          required: true
+          schema:
+            type: string
+        - name: viewer_fid
+          in: query
+          description: FID of the viewer for contextual information like follows and blocks
+          required: false
+          schema:
+            $ref: "#/components/schemas/Fid"
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
+      responses:
+        '200':
+          description: User found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+        "404":
+          $ref: "#/components/responses/404Response"
+        "500":
+          $ref: "#/components/responses/500Response"
   /farcaster/user/by_location:
     get:
       tags:
