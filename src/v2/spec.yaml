@@ -6933,6 +6933,8 @@ paths:
         - Frame
       summary: Relevant frames
       description: Fetch a list of frames relevant to the user based on casts by users with strong affinity score for the user
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-frame-relevant.mdx
       operationId: fetch-relevant-frames
       parameters:
         - name: viewer_fid
