@@ -1075,6 +1075,30 @@ components:
               properties:
                 html:
                   $ref: "#/components/schemas/HtmlMetadata"
+    FrameV2WithFullAuthor:
+      description: Frame v2 object with full user object
+      # copy of FrameV2 but with the author property being the full User object
+      allOf:
+        - $ref: "#/components/schemas/FrameBase"
+        - type: object
+          required:
+            - name
+            - icon
+          properties:
+            title:
+              type: string
+              description: Button title of a frame
+            manifest:
+              $ref: "#/components/schemas/FarcasterManifest"
+            author:
+              $ref: "#/components/schemas/User"
+            metadata:
+              type: object
+              required:
+                - html
+              properties:
+                html:
+                  $ref: "#/components/schemas/HtmlMetadata"
     SubscriptionTier:
       type: object
       properties:
@@ -3754,7 +3778,7 @@ components:
         frames:
           type: array
           items:
-            $ref: "#/components/schemas/FrameV2"
+            $ref: "#/components/schemas/FrameV2WithFullAuthor"
         next:
           $ref: "#/components/schemas/NextCursor"
     SendFrameNotificationsResponse:
@@ -5732,8 +5756,21 @@ paths:
         - name: q
           in: query
           required: true
-          description: "Query string to search for casts. Include 'before:YYYY-MM-DD' or 'after:YYYY-MM-DD' to search for casts before or after a specific date."
-          example: "star wars"
+          description: |
+            Query string to search for casts. Supported operators:
+
+            | Operator  | Description                                                                                              |
+            | --------- | -------------------------------------------------------------------------------------------------------- |
+            | `+`       | Acts as the AND operator. This is the default operator between terms and can usually be omitted.         |
+            | `\|`      | Acts as the OR operator.                                                                                 |
+            | `*`       | When used at the end of a term, signifies a prefix query.                                                  |
+            | `"`       | Wraps several terms into a phrase (for example, `"star wars"`).                                          |
+            | `(`, `)`  | Wrap a clause for precedence (for example, `star + (wars \| trek)`).                                     |
+            | `~n`      | When used after a term (for example, `satr~3`), sets `fuzziness`. When used after a phrase, sets `slop`. |
+            | `-`       | Negates the term.                                                                                        |
+            | `before:` | Search for casts before a specific date. (e.g. `before:2025-04-20`)                                       |
+            | `after:`  | Search for casts after a specific date. (e.g. `after:2025-04-20`)                                         |
+          example: 'star (wars | trek) "space battle" after:2024-05-04'
           schema:
             type: string
         - name: mode
@@ -6957,7 +6994,7 @@ paths:
                           type: array
                           description: Array of FrameV2 objects
                           items:
-                            $ref: "#/components/schemas/FrameV2"
+                            $ref: "#/components/schemas/FrameV2WithFullAuthor"
                         top_relevant_users:
                           type: array
                           description: Array of the most relevant users
