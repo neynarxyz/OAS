@@ -410,7 +410,6 @@ paths:
           in: query
           schema:
             $ref: "#/components/schemas/ReactionType"
-          required: true
         - $ref: "#/components/parameters/pageSize"
         - $ref: "#/components/parameters/paginationReverse"
         - $ref: "#/components/parameters/pageToken"
@@ -1850,15 +1849,15 @@ components:
       type: string
       description: |-
         Type of interaction a user can have with content on the Farcaster network.
-        - REACTION_TYPE_LIKE: Express appreciation for the target content. Similar to "likes" or "favorites" on other platforms.
-        - REACTION_TYPE_RECAST: Share the target content with the user's followers, similar to a "retweet" or "reblog". Helps increase content visibility.
-      default: REACTION_TYPE_LIKE
+        - Like: Express appreciation for the target content. Similar to "likes" or "favorites" on other platforms.
+        - Recast: Share the target content with the user's followers, similar to a "retweet" or "reblog". Helps increase content visibility.
+      default: Like
       enum:
-        - REACTION_TYPE_LIKE
-        - REACTION_TYPE_RECAST
+        - Like
+        - Recast
       examples:
-        - "REACTION_TYPE_LIKE"
-        - "REACTION_TYPE_RECAST"
+        - "Like"
+        - "Recast"
     RevokeMessageBody:
       type: object
       properties:
