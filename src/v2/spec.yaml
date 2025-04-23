@@ -1075,6 +1075,30 @@ components:
               properties:
                 html:
                   $ref: "#/components/schemas/HtmlMetadata"
+    FrameV2WithFullAuthor:
+      description: Frame v2 object with full user object
+      # copy of FrameV2 but with the author property being the full User object
+      allOf:
+        - $ref: "#/components/schemas/FrameBase"
+        - type: object
+          required:
+            - name
+            - icon
+          properties:
+            title:
+              type: string
+              description: Button title of a frame
+            manifest:
+              $ref: "#/components/schemas/FarcasterManifest"
+            author:
+              $ref: "#/components/schemas/User"
+            metadata:
+              type: object
+              required:
+                - html
+              properties:
+                html:
+                  $ref: "#/components/schemas/HtmlMetadata"
     SubscriptionTier:
       type: object
       properties:
@@ -3754,7 +3778,7 @@ components:
         frames:
           type: array
           items:
-            $ref: "#/components/schemas/FrameV2"
+            $ref: "#/components/schemas/FrameV2WithFullAuthor"
         next:
           $ref: "#/components/schemas/NextCursor"
     SendFrameNotificationsResponse:
@@ -6970,7 +6994,7 @@ paths:
                           type: array
                           description: Array of FrameV2 objects
                           items:
-                            $ref: "#/components/schemas/FrameV2"
+                            $ref: "#/components/schemas/FrameV2WithFullAuthor"
                         top_relevant_users:
                           type: array
                           description: Array of the most relevant users
