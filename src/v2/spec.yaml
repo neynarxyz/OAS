@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Farcaster API V2
-  version: "2.30.0"
+  version: "2.31.0"
   description: >
     The Farcaster API allows you to interact with the Farcaster protocol.
     See the [Neynar docs](https://docs.neynar.com/reference) for more details.
@@ -7318,6 +7318,42 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/UserResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
+        "500":
+          $ref: "#/components/responses/500Response"
+  /farcaster/user/by_x_username:
+    get:
+      tags:
+        - User
+      summary: Lookup users by X (Twitter) username
+      description: Fetches the users who have verified the specified X (Twitter) account
+      externalDocs:
+        url: https://docs.neynar.com/reference/lookup-users-by-x-username
+      operationId: lookup-users-by-x-username
+      parameters:
+        - name: x_username
+          in: query
+          description: X (Twitter) username to search for, without the @ symbol
+          required: true
+          schema:
+            type: string
+        - name: viewer_fid
+          in: query
+          description: FID of the viewer for contextual information like follows and blocks
+          required: false
+          schema:
+            $ref: "#/components/schemas/Fid"
+        - $ref: "#/components/parameters/NeynarExperimentalHeader"
+      responses:
+        '200':
+          description: Users found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BulkUsersResponse"
         "400":
           $ref: "#/components/responses/400Response"
         "404":
