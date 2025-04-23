@@ -7328,8 +7328,8 @@ paths:
     get:
       tags:
         - User
-      summary: Lookup users by X (Twitter) username
-      description: Fetches the users who have verified the specified X (Twitter) account
+      summary: By X username
+      description: Fetches the users who have verified the specified X (Twitter) username
       externalDocs:
         url: https://docs.neynar.com/reference/lookup-users-by-x-username
       operationId: lookup-users-by-x-username
