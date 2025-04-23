@@ -7299,7 +7299,7 @@ paths:
       parameters:
         - name: x_username
           in: query
-          description: X (Twitter) username to search for
+          description: X (Twitter) username to search for, without the @ symbol
           required: true
           schema:
             type: string
