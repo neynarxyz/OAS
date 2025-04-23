@@ -7291,8 +7291,8 @@ paths:
     get:
       tags:
         - User
-      summary: Lookup user by X (Twitter) username
-      description: Fetches the user who has verified the specified X (Twitter) account
+      summary: Lookup users by X (Twitter) username
+      description: Fetches the users who have verified the specified X (Twitter) account
       externalDocs:
         url: https://docs.neynar.com/reference/lookup-user-by-x-username
       operationId: lookup-user-by-x-username
@@ -7312,11 +7312,13 @@ paths:
         - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
         '200':
-          description: User found
+          description: Users found
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UserResponse"
+                $ref: "#/components/schemas/BulkUsersResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
         "404":
           $ref: "#/components/responses/404Response"
         "500":
