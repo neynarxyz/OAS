@@ -6919,7 +6919,7 @@ paths:
     get:
       tags:
         - Frame
-      summary: Miniapps Catalog
+      summary: Miniapps catalog
       description: A curated list of featured miniapps
       operationId: fetch-frame-catalog
       parameters:
