@@ -1004,7 +1004,7 @@ components:
         - $ref: "#/components/schemas/FrameV2"
 
     FrameBase:
-      description: Frame base object used across all versions
+      description: Miniapp base object used across all versions
       type: object
       required:
         - version
@@ -1013,16 +1013,16 @@ components:
       properties:
         version:
           type: string
-          description: Version of the frame, 'next' for v2, 'vNext' for v1
+          description: Version of the miniapp, 'next' for v2, 'vNext' for v1
         image:
           type: string
           description: URL of the image
         frames_url:
           type: string
-          description: Launch URL of the frame
+          description: Launch URL of the miniapp
 
     FrameV1:
-      description: Frame v1 object
+      description: Miniapp v1 object
       allOf:
         - $ref: "#/components/schemas/FrameBase"
         - type: object
@@ -1033,7 +1033,7 @@ components:
                 $ref: "#/components/schemas/FrameActionButton"
             post_url:
               type: string
-              description: Post URL to take an action on this frame
+              description: Post URL to take an action on this miniapp
             title:
               type: string
             image_aspect_ratio:
@@ -1043,15 +1043,15 @@ components:
               properties:
                 text:
                   type: string
-                  description: Input text for the frame
+                  description: Input text for the miniapp
             state:
               type: object
               properties:
                 serialized:
                   type: string
-                  description: State for the frame in a serialized format
+                  description: State for the miniapp in a serialized format
     FrameV2:
-      description: Frame v2 object
+      description: Miniapp v2 object
       allOf:
         - $ref: "#/components/schemas/FrameBase"
         # required properties come from FrameEmbed
@@ -1063,7 +1063,7 @@ components:
           properties:
             title:
               type: string
-              description: Button title of a frame
+              description: Button title of a miniapp
             manifest:
               $ref: "#/components/schemas/FarcasterManifest"
             author:
@@ -1076,7 +1076,7 @@ components:
                 html:
                   $ref: "#/components/schemas/HtmlMetadata"
     FrameV2WithFullAuthor:
-      description: Frame v2 object with full user object
+      description: Miniapp v2 object with full user object
       # copy of FrameV2 but with the author property being the full User object
       allOf:
         - $ref: "#/components/schemas/FrameBase"
@@ -1087,7 +1087,7 @@ components:
           properties:
             title:
               type: string
-              description: Button title of a frame
+              description: Button title of a miniapp
             manifest:
               $ref: "#/components/schemas/FarcasterManifest"
             author:
@@ -1164,7 +1164,7 @@ components:
       type: string
       enum:
         - pay
-      description: Type of transaction frame
+      description: Type of transaction miniapp
 
     TransactionFrameLineItem:
       type: object
@@ -1232,7 +1232,7 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Fid"
-          description: Optional list of FIDs that are allowed to use this transaction frame
+          description: Optional list of FIDs that are allowed to use this transaction miniapp
         line_items:
           type: array
           minItems: 1
@@ -1241,7 +1241,7 @@ components:
           description: List of items included in the transaction
         action:
           $ref: "#/components/schemas/TransactionFrameAction"
-          description: Action button for primary CTA on the transaction frame
+          description: Action button for primary CTA on the transaction miniapp
     TransactionFrameBase:
       type: object
       required:
@@ -1253,11 +1253,11 @@ components:
       properties:
         id:
           type: string
-          description: Unique identifier for the transaction frame
+          description: Unique identifier for the transaction miniapp
         url:
           type: string
           format: uri
-          description: URL that can be used to access the transaction frame
+          description: URL that can be used to access the transaction miniapp
         type:
           $ref: "#/components/schemas/TransactionFrameType"
         config:
@@ -1328,7 +1328,7 @@ components:
         cast_reaction_context:
           default: true
           type: boolean
-          description: Adds viewer_context inside the cast object to indicate whether the interactor reacted to the cast housing the frame.
+          description: Adds viewer_context inside the cast object to indicate whether the interactor reacted to the cast housing the miniapp.
         follow_context:
           default: false
           type: boolean
@@ -1575,7 +1575,7 @@ components:
 
     FrameSignaturePacket:
       type: object
-      description: The Frame Signature Packet (https://docs.farcaster.xyz/developers/frames/spec#frame-signature-packet)
+      description: The Miniapp Signature Packet (https://docs.farcaster.xyz/developers/frames/spec#frame-signature-packet)
       required:
         - untrustedData
         - trustedData
@@ -1588,7 +1588,7 @@ components:
               $ref: "#/components/schemas/Fid"
             url:
               type: string
-              description: URL of the frame
+              description: URL of the miniapp
             messageHash:
               type: string
               description: Message hash
@@ -1646,13 +1646,13 @@ components:
           $ref: "#/components/schemas/FrameAddress"
         frames_url:
           type: string
-          description: URL of the frames
+          description: URL of the miniapps
         post_url:
           type: string
-          description: URL of the post to get the next frame
+          description: URL of the post to get the next miniapp
     FrameButtonActionType:
       type: string
-      description: The action type of a frame button. Action types "mint" & "link" are to be handled on the client side only and so they will produce a no/op for POST /farcaster/frame/action.
+      description: The action type of a miniapp button. Action types "mint" & "link" are to be handled on the client side only and so they will produce a no/op for POST /farcaster/frame/action.
       enum:
         - post
         - post_redirect
@@ -1664,7 +1664,7 @@ components:
       properties:
         text:
           type: string
-          description: Input text for the frame
+          description: Input text for the miniapp
           examples:
             - "Draw a purple ringed planet"
     FrameState:
@@ -1674,7 +1674,7 @@ components:
       properties:
         serialized:
           type: string
-          description: State for the frame in a serialized format
+          description: State for the miniapp in a serialized format
           examples:
             - "%7B%22counter%22%3A1%7D"
     FrameAddress:
@@ -3559,21 +3559,21 @@ components:
         uuid:
           type: string
           format: uuid
-          description: Unique identifier for the frame.
+          description: Unique identifier for the miniapp.
         name:
           type: string
-          description: Name of the frame.
+          description: Name of the miniapp.
         link:
           type: string
           format: uri
-          description: Generated link for the frame's first page.
+          description: Generated link for the miniapp's first page.
         pages:
           type: array
           items:
             $ref: "#/components/schemas/NeynarFramePage"
         valid:
           type: boolean
-          description: Indicates if the frame is valid.
+          description: Indicates if the miniapp is valid.
       required:
         - uuid
         - name
@@ -3700,7 +3700,7 @@ components:
       properties:
         name:
           type: string
-          description: The name of the frame.
+          description: The name of the miniapp.
         pages:
           type: array
           items:
@@ -3714,10 +3714,10 @@ components:
         uuid:
           type: string
           format: uuid
-          description: The UUID of the frame to update.
+          description: The UUID of the miniapp to update.
         name:
           type: string
-          description: The name of the frame.
+          description: The name of the miniapp.
         pages:
           type: array
           items:
@@ -6812,8 +6812,8 @@ paths:
     get:
       tags:
         - Frame
-      summary: Frame by UUID or URL
-      description: Fetch a frame either by UUID or Neynar URL
+      summary: Miniapp by UUID or URL
+      description: Fetch a miniapp either by UUID or Neynar URL
       externalDocs:
         url: https://docs.neynar.com/reference/lookup-neynar-frame
       operationId: lookup-neynar-frame
@@ -6828,15 +6828,15 @@ paths:
           schema:
             type: string
             format: uuid
-          description: UUID of the frame to fetch
+          description: UUID of the miniapp to fetch
         - name: url
           in: query
           schema:
             type: string
-          description: URL of the Neynar frame to fetch
+          description: URL of the Neynar miniapp to fetch
       responses:
         "200":
-          description: A frame object
+          description: A miniapp object
           content:
             application/json:
               schema:
@@ -6846,8 +6846,8 @@ paths:
     post:
       tags:
         - Frame
-      summary: Create frame
-      description: Create a new frame with a list of pages.
+      summary: Create miniapp
+      description: Create a new miniapp with a list of pages.
       externalDocs:
         url: https://docs.neynar.com/reference/publish-neynar-frame
       operationId: publish-neynar-frame
@@ -6859,7 +6859,7 @@ paths:
               $ref: "#/components/schemas/NeynarFrameCreationReqBody"
       responses:
         "200":
-          description: Frame created successfully
+          description: Miniapp created successfully
           content:
             application/json:
               schema:
@@ -6869,8 +6869,8 @@ paths:
     put:
       tags:
         - Frame
-      summary: Update frame
-      description: Update an existing frame with a list of pages, if it was made by the developer (identified by API key)
+      summary: Update miniapp
+      description: Update an existing miniapp with a list of pages, if it was made by the developer (identified by API key)
       externalDocs:
         url: https://docs.neynar.com/reference/update-neynar-frame
       operationId: update-neynar-frame
@@ -6882,7 +6882,7 @@ paths:
               $ref: "#/components/schemas/NeynarFrameUpdateReqBody"
       responses:
         "200":
-          description: Frame updated successfully
+          description: Miniapp updated successfully
           content:
             application/json:
               schema:
@@ -6894,8 +6894,8 @@ paths:
     delete:
       tags:
         - Frame
-      summary: Delete frame
-      description: Delete an existing frame, if it was made by the developer (identified by API key)
+      summary: Delete miniapp
+      description: Delete an existing miniapp, if it was made by the developer (identified by API key)
       externalDocs:
         url: https://docs.neynar.com/reference/delete-neynar-frame
       operationId: delete-neynar-frame
@@ -6907,7 +6907,7 @@ paths:
               $ref: "#/components/schemas/DeleteFrameReqBody"
       responses:
         "200":
-          description: Frame deleted successfully
+          description: Miniapp deleted successfully
           content:
             application/json:
               schema:
@@ -6940,7 +6940,7 @@ paths:
             type: string
         - name: time_window
           in: query
-          description: Time window used to calculate the change in trending score for each frame, used to sort frame results
+          description: Time window used to calculate the change in trending score for each miniapp, used to sort miniapp results
           required: false
           schema:
             $ref: "#/components/schemas/TrendingTimeWindow"
@@ -7030,7 +7030,7 @@ paths:
       tags:
         - Frame
       summary: Meta tags from URL
-      description: Fetches the frame meta tags from the URL
+      description: Fetches the miniapp meta tags from the URL
       externalDocs:
         url: https://docs.neynar.com/reference/fetch-frame-meta-tags-from-url
       operationId: fetch-frame-meta-tags-from-url
@@ -7042,15 +7042,15 @@ paths:
             type: string
             format: uri
           example: https://frames.neynar.com/f/862277df/ff7be6a4
-          description: The frame URL to crawl
+          description: The miniapp URL to crawl
       responses:
         "200":
-          description: The response object containing the frame object
+          description: The response object containing the miniapp object
           content:
             application/json:
               schema:
                 type: object
-                description: The frame object containing the meta tags
+                description: The miniapp object containing the meta tags
                 required:
                   - frame
                 properties:
@@ -7561,7 +7561,7 @@ paths:
         - Frame
       summary: Signature packet
       description: |
-        Post a frame action that has been signed with a developer managed signer
+        Post a miniapp action that has been signed with a developer managed signer
 
         The POST request to the post_url has a timeout of 5 seconds.
       externalDocs:
@@ -7588,9 +7588,9 @@ paths:
     post:
       tags:
         - Frame
-      summary: Post a frame action, cast action or a cast composer action
+      summary: Post a miniapp action, cast action or a cast composer action
       description: |
-        Post frame actions, cast actions or cast composer actions to the server  \
+        Post miniapp actions, cast actions or cast composer actions to the server  \
         (In order to post any of these actions, you need to have an approved `signer_uuid`)
 
         The POST request to the post_url has a timeout of 5 seconds for miniapps.
@@ -7619,9 +7619,9 @@ paths:
       tags:
         - Frame
       summary: |
-        List of frame notification tokens
+        List of miniapp notification tokens
       description: |
-        Returns a list of notifications tokens related for an app
+        Returns a list of notifications tokens related to a miniapp
       externalDocs:
         url: https://docs.neynar.com/reference/fetch-notification-tokens
       operationId: fetch-notification-tokens
@@ -7668,7 +7668,7 @@ paths:
         - Frame
       summary: Send notifications
       description: |
-        Send notifications to interactors of a frame
+        Send notifications to interactors of a miniapp
       externalDocs:
         url: https://docs.neynar.com/reference/publish-frame-notifications
       operationId: publish-frame-notifications
@@ -7706,8 +7706,8 @@ paths:
     post:
       tags:
         - Agents
-      summary: Create transaction pay frame
-      description: Creates a new transaction pay frame that can be used to collect payments through a frame
+      summary: Create transaction pay miniapp
+      description: Creates a new transaction pay miniapp that can be used to collect payments through a miniapp
       operationId: create-transaction-pay-frame
       requestBody:
         required: true
@@ -7717,7 +7717,7 @@ paths:
               $ref: "#/components/schemas/FramePayTransactionRequestBody"
       responses:
         "200":
-          description: Transaction frame successfully created
+          description: Transaction miniapp successfully created
           content:
             application/json:
               schema:
@@ -7731,19 +7731,19 @@ paths:
     get:
       tags:
         - Frame
-      summary: Get transaction pay frame
-      description: Retrieves details about a transaction pay frame by ID
+      summary: Get transaction pay miniapp
+      description: Retrieves details about a transaction pay miniapp by ID
       operationId: get-transaction-pay-frame
       parameters:
         - name: id
           in: query
           required: true
-          description: ID of the transaction frame to retrieve
+          description: ID of the transaction miniapp to retrieve
           schema:
             type: string
       responses:
         "200":
-          description: Transaction frame details
+          description: Transaction miniapp details
           content:
             application/json:
               schema:
@@ -7758,10 +7758,10 @@ paths:
     post:
       tags:
         - Frame
-      summary: Validate frame action
+      summary: Validate miniapp action
       description: |
-        Validates a frame against by an interacting user against a Farcaster Hub \
-        (In order to validate a frame, message bytes from Frame Action must be provided in hex)
+        Validates a miniapp against by an interacting user against a Farcaster Hub \
+        (In order to validate a miniapp, message bytes from Frame Action must be provided in hex)
       externalDocs:
         url: https://docs.neynar.com/reference/validate-frame-action
       operationId: validate-frame-action
@@ -7814,7 +7814,7 @@ paths:
     get:
       tags:
         - Frame
-      summary: Analytics for the frame
+      summary: Analytics for the miniapp
       description: Fetch analytics for total-interactors, interactors, nteractions-per-cast and input-text.
       externalDocs:
         url: https://docs.neynar.com/reference/fetch-validate-frame-analytics
