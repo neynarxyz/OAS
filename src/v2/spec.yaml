@@ -6957,7 +6957,7 @@ paths:
         - Frame
       summary: Relevant miniapps
       description: Fetch a list of miniapps relevant to the user based on casts by users with strong affinity score for the user
-      operationId: fetch-relevant-miniapps
+      operationId: fetch-frame-relevant
       parameters:
         - name: viewer_fid
           in: query
