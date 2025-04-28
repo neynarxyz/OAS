@@ -4932,7 +4932,7 @@ tags:
       description: More info about storage
       url: https://docs.neynar.com/reference/storage-operations
   - name: Frame
-    description: Operations related to frames
+    description: Operations related to miniapps
   - name: Agents
     description: Operations for building AI agents
   - name: fname
@@ -6512,13 +6512,13 @@ paths:
           $ref: "#/components/responses/400Response"
   /farcaster/feed/frames:
     get:
-      summary: Casts with Frames
+      summary: Casts with miniapps
       externalDocs:
         url: https://docs.neynar.com/reference/fetch-frames-only-feed
       operationId: fetch-frames-only-feed
       tags:
         - Feed
-      description: Fetch feed of casts with Frames, reverse chronological order
+      description: Fetch feed of casts with miniapps, reverse chronological order
       parameters:
         - name: limit
           in: query
@@ -6919,8 +6919,8 @@ paths:
     get:
       tags:
         - Frame
-      summary: Frames Catalog
-      description: A curated list of featured frames
+      summary: Miniapps Catalog
+      description: A curated list of featured miniapps
       operationId: fetch-frame-catalog
       parameters:
         - name: limit
@@ -6955,19 +6955,19 @@ paths:
     get:
       tags:
         - Frame
-      summary: Relevant frames
-      description: Fetch a list of frames relevant to the user based on casts by users with strong affinity score for the user
-      operationId: fetch-relevant-frames
+      summary: Relevant miniapps
+      description: Fetch a list of miniapps relevant to the user based on casts by users with strong affinity score for the user
+      operationId: fetch-relevant-miniapps
       parameters:
         - name: viewer_fid
           in: query
           required: true
           schema:
             $ref: "#/components/schemas/Fid"
-          description: FID of the user to fetch relevant frames for\
+          description: FID of the user to fetch relevant miniapps for
         - name: time_window
           in: query
-          description: Time window used to limit statistics used to calculate frame relevance
+          description: Time window used to limit statistics used to calculate miniapp relevance
           required: false
           schema:
             $ref: "#/components/schemas/TrendingTimeWindow"
@@ -7009,14 +7009,14 @@ paths:
     get:
       tags:
         - Frame
-      summary: List of frames
-      description: Fetch a list of frames made by the developer (identified by API key)
+      summary: List of miniapps
+      description: Fetch a list of miniapps made by the developer (identified by API key)
       externalDocs:
         url: https://docs.neynar.com/reference/fetch-neynar-frames
       operationId: fetch-neynar-frames
       responses:
         "200":
-          description: A list of frames
+          description: A list of miniapps
           content:
             application/json:
               schema:
@@ -7593,7 +7593,7 @@ paths:
         Post frame actions, cast actions or cast composer actions to the server  \
         (In order to post any of these actions, you need to have an approved `signer_uuid`)
 
-        The POST request to the post_url has a timeout of 5 seconds for frames.
+        The POST request to the post_url has a timeout of 5 seconds for miniapps.
       externalDocs:
         url: https://docs.neynar.com/reference/post-frame-action
       operationId: post-frame-action
@@ -7792,8 +7792,8 @@ paths:
     get:
       tags:
         - Frame
-      summary: All frames validated by user
-      description: Fetch a list of all the frames validated by a user
+      summary: All miniapps validated by user
+      description: Fetch a list of all the miniapps validated by a user
       externalDocs:
         url: https://docs.neynar.com/reference/fetch-validate-frame-list
       operationId: fetch-validate-frame-list
