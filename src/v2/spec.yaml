@@ -1779,6 +1779,7 @@ components:
         - verified_addresses
         - verified_accounts
         - power_badge
+        - score
       properties:
         object:
           type: string
@@ -1898,6 +1899,10 @@ components:
               type: number
               format: double
               description: Score that represents the probability that the account is not spam.
+        score:
+          type: number
+          format: double
+          description: Score that represents the probability that the account is not spam.
         viewer_context:
           $ref: "#/components/schemas/UserViewerContext"
     TokenBalance:
@@ -7348,7 +7353,7 @@ paths:
             $ref: "#/components/schemas/Fid"
         - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
-        '200':
+        "200":
           description: Users found
           content:
             application/json:
