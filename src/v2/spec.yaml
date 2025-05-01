@@ -4749,15 +4749,10 @@ components:
           description: Name of the token
         metadata[media]:
           type: string
-          description: URI of the media file
-          # oneOf:
-          #   - type: string
-          #     format: binary
-          #     description: |
-          #       Media file associated with the token. 
-          #       Supported formats are image/jpeg, image/gif and image/png
-          #   - type: string
-          #     description: URI of the media file
+          format: binary
+          description: |
+            Media file associated with the token. 
+            Supported formats are image/jpeg, image/gif and image/png
         metadata[description]:
           type: string
           description: Description of the token
