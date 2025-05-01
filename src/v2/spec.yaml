@@ -3508,11 +3508,12 @@ components:
         next:
           $ref: "#/components/schemas/NextCursor"
     BulkUsersByAddressResponse:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          $ref: "#/components/schemas/User"
+      anyOf:
+        - type: object
+          additionalProperties:
+            type: array
+            items:
+              $ref: "#/components/schemas/User"
     FeedType:
       type: string
       default: following
@@ -4710,9 +4711,10 @@ components:
         - "1d"
         - "7d"
     SubscriptionCheckResponse:
-      type: object
-      additionalProperties:
-        $ref: "#/components/schemas/SubscriptionStatus"
+      anyOf:
+        - type: object
+          additionalProperties:
+            $ref: "#/components/schemas/SubscriptionStatus"
       examples:
         - summary: Active subscription example
           value:
