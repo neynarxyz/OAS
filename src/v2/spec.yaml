@@ -4624,11 +4624,6 @@ components:
         - expires_at
         - subscribed_at
         - tier
-    Fids:
-      type: array
-      items:
-        $ref: "#/components/schemas/Fid"
-      description: List of FIDs
     UserPowerLiteResponse:
       type: object
       required:
@@ -4640,7 +4635,10 @@ components:
             - fids
           properties:
             fids:
-              $ref: "#/components/schemas/Fids"
+              type: array
+              items:
+                $ref: "#/components/schemas/Fid"
+              description: List of FIDs
     NotificationType:
       type: string
       enum:
