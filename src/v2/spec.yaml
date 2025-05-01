@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Farcaster API V2
-  version: "2.32.0"
+  version: "2.33.0"
   description: >
     The Farcaster API allows you to interact with the Farcaster protocol.
     See the [Neynar docs](https://docs.neynar.com/reference) for more details.
@@ -6962,7 +6962,9 @@ paths:
         - Frame
       summary: Relevant mini apps
       description: Fetch a list of mini apps relevant to the user based on casts by users with strong affinity score for the user
-      operationId: fetch-frame-relevant
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-frame-relevant
+      operationId: fetch-relevant-frames
       parameters:
         - name: viewer_fid
           in: query
