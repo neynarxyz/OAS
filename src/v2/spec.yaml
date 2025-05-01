@@ -9009,8 +9009,7 @@ paths:
           description: Comma separated list of networks to fetch balances for. Currently, only "base" is supported.
         - name: viewer_fid
           in: query
-          required: true
-          description: The FID of the user to customize this response for. Providing this will also return a list of owners that respects this user's mutes and blocks and includes `viewer_context`.
+          description: If you provide a viewer_fid, the response will include token holders from the user's network, respecting their mutes and blocks and including viewer_context; if not provided, the response will show top token holders across the network—both sets can be combined to generate a longer list if desired.
           schema:
             $ref: "#/components/schemas/Fid"
           example: 194
