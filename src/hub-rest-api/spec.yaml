@@ -1,10 +1,11 @@
-openapi: 3.1.0
+openapi: 3.0.3
 info:
   title: Farcaster Hub API
-  version: "2.34.0"
+  version: 2.35.0
   description: >
-    Perform basic queries of Farcaster state via the REST API of a Farcaster hub.
-    See the [Neynar docs](https://docs.neynar.com/reference) for more details.
+    Perform basic queries of Farcaster state via the REST API of a Farcaster
+    hub. See the [Neynar docs](https://docs.neynar.com/reference) for more
+    details.
   contact:
     name: Neynar
     url: https://neynar.com/
@@ -49,28 +50,29 @@ paths:
       summary: Sync Methods
       description: Retrieve hub information.
       externalDocs:
-        description: "Farcaster Hub API"
+        description: Farcaster Hub API
         url: https://docs.neynar.com/reference/lookup-hub-info
       operationId: lookup-hub-info
       parameters:
         - name: dbstats
           in: query
-          description: "Controls whether the response includes database statistics. When true, the response includes information about the hub's database state, storage usage, and performance metrics."
+          description: >-
+            Controls whether the response includes database statistics. When
+            true, the response includes information about the hub's database
+            state, storage usage, and performance metrics.
           required: true
           schema:
             type: boolean
-            examples:
-              - true  # Include database statistics
-              - false # Exclude database statistics
+            example: true # Include database statistics
       responses:
         '200':
           description: A successful response.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/HubInfoResponse"
+                $ref: '#/components/schemas/HubInfoResponse'
         default:
-          $ref: "#/components/responses/ErrorResponse"
+          $ref: '#/components/responses/ErrorResponse'
   /v1/castById:
     get:
       tags:
@@ -78,35 +80,36 @@ paths:
       summary: By FID and Hash
       description: Lookup a cast by its FID and hash.
       externalDocs:
-        description: "Lookup a cast by its FID and hash"
+        description: Lookup a cast by its FID and hash
         url: https://docs.neynar.com/reference/lookup-cast-by-hash-and-fid
       operationId: lookup-cast-by-hash-and-fid
       parameters:
         - name: fid
           in: query
-          description: "The FID of the cast's creator"
+          description: The FID of the cast's creator
           required: true
           schema:
-            $ref: "#/components/schemas/FidSchema"
+            $ref: '#/components/schemas/FidSchema'
         - name: hash
           in: query
-          description: "The unique hash identifier of the cast. This is a 40-character hexadecimal string prefixed with '0x' that uniquely identifies a specific cast in the Farcaster network."
+          description: >-
+            The unique hash identifier of the cast. This is a 40-character
+            hexadecimal string prefixed with '0x' that uniquely identifies a
+            specific cast in the Farcaster network.
           required: true
           schema:
             pattern: ^0x[0-9a-fA-F]{40}$
             type: string
-            examples:
-              - "0x03aff391a6eb1772b20b4ead9a89f732be75fe27"
-              - "0x7890123456789012345678901234567890123456"
+            example: '0x03aff391a6eb1772b20b4ead9a89f732be75fe27'
       responses:
         '200':
           description: The requested Cast.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CastAdd"
+                $ref: '#/components/schemas/CastAdd'
         default:
-          $ref: "#/components/responses/ErrorResponse"
+          $ref: '#/components/responses/ErrorResponse'
   /v1/castsByFid:
     get:
       tags:
@@ -114,19 +117,19 @@ paths:
       summary: By FID
       description: Fetch user's casts.
       externalDocs:
-        description: "Fetch user's casts"
+        description: Fetch user's casts
         url: https://docs.neynar.com/reference/fetch-users-casts
       operationId: fetch-users-casts
       parameters:
         - name: fid
           in: query
-          description: "The FID of the casts' creator"
+          description: The FID of the casts' creator
           required: true
           schema:
-            $ref: "#/components/schemas/FidSchema"
-        - $ref: "#/components/parameters/pageSize"
-        - $ref: "#/components/parameters/paginationReverse"
-        - $ref: "#/components/parameters/pageToken"
+            $ref: '#/components/schemas/FidSchema'
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/paginationReverse'
+        - $ref: '#/components/parameters/pageToken'
       responses:
         '200':
           description: The requested Casts.
@@ -141,10 +144,10 @@ paths:
                       messages:
                         type: array
                         items:
-                          $ref: "#/components/schemas/CastAdd"
-                  - $ref: "#/components/schemas/PaginationResponse"
+                          $ref: '#/components/schemas/CastAdd'
+                  - $ref: '#/components/schemas/PaginationResponse'
         default:
-          $ref: "#/components/responses/ErrorResponse"
+          $ref: '#/components/responses/ErrorResponse'
   /v1/castsByMention:
     get:
       tags:
@@ -152,7 +155,7 @@ paths:
       summary: Mentioning an FID
       description: Fetch casts mentioning a user.
       externalDocs:
-        description: "Fetch casts mentioning a user"
+        description: Fetch casts mentioning a user
         url: https://docs.neynar.com/reference/fetch-casts-mentioning-user
       operationId: fetch-casts-mentioning-user
       parameters:
@@ -163,9 +166,9 @@ paths:
           schema:
             type: integer
           example: 3
-        - $ref: "#/components/parameters/pageSize"
-        - $ref: "#/components/parameters/paginationReverse"
-        - $ref: "#/components/parameters/pageToken"
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/paginationReverse'
+        - $ref: '#/components/parameters/pageToken'
       responses:
         '200':
           description: The requested Casts.
@@ -180,55 +183,67 @@ paths:
                       messages:
                         type: array
                         items:
-                          $ref: "#/components/schemas/CastAdd"
-                  - $ref: "#/components/schemas/PaginationResponse"
+                          $ref: '#/components/schemas/CastAdd'
+                  - $ref: '#/components/schemas/PaginationResponse'
         default:
-          $ref: "#/components/responses/ErrorResponse"
+          $ref: '#/components/responses/ErrorResponse'
   /v1/castsByParent:
     get:
       tags:
         - Casts
       summary: By parent cast
-      description: "Retrieve all reply casts (responses) to a specific parent cast in the Farcaster network. Parent casts can be identified using either a combination of FID and hash, or by their URL. This endpoint enables traversal of conversation threads and retrieval of all responses to a particular cast."
+      description: >-
+        Retrieve all reply casts (responses) to a specific parent cast in the
+        Farcaster network. Parent casts can be identified using either a
+        combination of FID and hash, or by their URL. This endpoint enables
+        traversal of conversation threads and retrieval of all responses to a
+        particular cast.
       externalDocs:
-        description: "Fetch casts by parent"
+        description: Fetch casts by parent
         url: https://docs.neynar.com/reference/fetch-casts-by-parent
       operationId: fetch-casts-by-parent
       parameters:
         - name: fid
           in: query
-          description: "The Farcaster ID (FID) of the parent cast's creator. This parameter must be used together with the 'hash' parameter to uniquely identify a parent cast. Required only when using hash-based lookup instead of URL-based lookup. The FID is a unique identifier assigned to each Farcaster user."
+          description: >-
+            The Farcaster ID (FID) of the parent cast's creator. This parameter
+            must be used together with the 'hash' parameter to uniquely identify
+            a parent cast. Required only when using hash-based lookup instead of
+            URL-based lookup. The FID is a unique identifier assigned to each
+            Farcaster user.
           schema:
             type: integer
             format: uint64
             minimum: 1
-            examples:
-              - 194  # Example user FID
-              - 3    # Another user FID
-              - 1337 # Popular user FID
+            example: 194
         - name: hash
           in: query
-          description: "The unique hash identifier of the parent cast. Must be used together with the 'fid' parameter when doing hash-based lookup. This is a 40-character hexadecimal string prefixed with '0x' that uniquely identifies the cast within the creator's posts. Not required if using URL-based lookup."
+          description: >-
+            The unique hash identifier of the parent cast. Must be used together
+            with the 'fid' parameter when doing hash-based lookup. This is a
+            40-character hexadecimal string prefixed with '0x' that uniquely
+            identifies the cast within the creator's posts. Not required if
+            using URL-based lookup.
           schema:
             type: string
-            pattern: "^0x[0-9a-fA-F]{40}$"
-            examples: 
-              - "0x776593353e47dc4e7f4df3199a9b04cc8efa30d9"  # Example cast hash
-              - "0x03aff391a6eb1772b20b4ead9a89f732be75fe27"  # Another cast hash
+            pattern: ^0x[0-9a-fA-F]{40}$
+            example: '0x776593353e47dc4e7f4df3199a9b04cc8efa30d9'
         - name: url
           in: query
-          description: "Cast URL starting with 'chain://'"
+          description: Cast URL starting with 'chain://'
           schema:
             type: string
             format: uri
-            examples:
-              - "chain://eip155:1/erc721:0x39d89b649ffa044383333d297e325d42d31329b2"  # NFT reference URL
-        - $ref: "#/components/parameters/pageSize"
-        - $ref: "#/components/parameters/paginationReverse"
-        - $ref: "#/components/parameters/pageToken"
+            example: chain://eip155:1/erc721:0x39d89b649ffa044383333d297e325d42d31329b2
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/paginationReverse'
+        - $ref: '#/components/parameters/pageToken'
       responses:
         '200':
-          description: "A successful response containing all reply casts to the specified parent cast, along with pagination information for traversing large result sets."
+          description: >-
+            A successful response containing all reply casts to the specified
+            parent cast, along with pagination information for traversing large
+            result sets.
           content:
             application/json:
               schema:
@@ -238,13 +253,16 @@ paths:
                       - messages
                     properties:
                       messages:
-                        description: "An array of reply casts to the specified parent cast, ordered by oldest first. Each cast includes its content, timestamp, and other metadata."
+                        description: >-
+                          An array of reply casts to the specified parent cast,
+                          ordered by oldest first. Each cast includes its
+                          content, timestamp, and other metadata.
                         type: array
                         items:
-                          $ref: "#/components/schemas/CastAdd"
-                  - $ref: "#/components/schemas/PaginationResponse"
+                          $ref: '#/components/schemas/CastAdd'
+                  - $ref: '#/components/schemas/PaginationResponse'
         default:
-          $ref: "#/components/responses/ErrorResponse"
+          $ref: '#/components/responses/ErrorResponse'
   /v1/reactionById:
     get:
       tags:
@@ -252,7 +270,7 @@ paths:
       summary: By FID or cast
       description: Lookup a reaction by its FID or cast.
       externalDocs:
-        description: "Lookup a reaction by its FID or cast"
+        description: Lookup a reaction by its FID or cast
         url: https://docs.neynar.com/reference/lookup-reaction-by-id
       operationId: lookup-reaction-by-id
       parameters:
@@ -276,11 +294,11 @@ paths:
           schema:
             type: string
           required: true
-          example: "0xfec8fd3546e1f46cf5ad10a4ff9f5d53a3bbe9be"
+          example: '0xfec8fd3546e1f46cf5ad10a4ff9f5d53a3bbe9be'
         - name: reaction_type
           in: query
           schema:
-            $ref: "#/components/schemas/ReactionType"
+            $ref: '#/components/schemas/ReactionType'
           required: true
       responses:
         '200':
@@ -288,44 +306,53 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Reaction"
+                $ref: '#/components/schemas/Reaction'
         default:
-          $ref: "#/components/responses/ErrorResponse"
+          $ref: '#/components/responses/ErrorResponse'
   /v1/reactionsByCast:
     get:
       tags:
         - Reactions
       summary: On cast
-      description: "Retrieve all reactions (likes or recasts) on a specific cast in the Farcaster network. The cast is identified by its creator's FID and unique hash. This endpoint helps track engagement metrics and user interactions with specific content."
+      description: >-
+        Retrieve all reactions (likes or recasts) on a specific cast in the
+        Farcaster network. The cast is identified by its creator's FID and
+        unique hash. This endpoint helps track engagement metrics and user
+        interactions with specific content.
       externalDocs:
-        description: "Fetch reactions on a cast"
+        description: Fetch reactions on a cast
         url: https://docs.neynar.com/reference/fetch-cast-reactions
       operationId: fetch-cast-reactions
       parameters:
         - name: target_fid
           in: query
-          description: "The FID of the cast's creator. Required to uniquely identify the cast that received the reactions. Must be used in conjunction with target_hash."
+          description: >-
+            The FID of the cast's creator. Required to uniquely identify the
+            cast that received the reactions. Must be used in conjunction with
+            target_hash.
           schema:
-            $ref: "#/components/schemas/FidSchema"
+            $ref: '#/components/schemas/FidSchema'
           required: true
         - name: target_hash
           in: query
-          description: "The unique hash identifier of the cast that received the reactions. This is a 40-character hexadecimal string prefixed with '0x' that uniquely identifies the cast within the creator's posts. Must be used with target_fid."
+          description: >-
+            The unique hash identifier of the cast that received the reactions.
+            This is a 40-character hexadecimal string prefixed with '0x' that
+            uniquely identifies the cast within the creator's posts. Must be
+            used with target_fid.
           schema:
             type: string
-            pattern: "^0x[0-9a-fA-F]{40}$"
-            examples:
-              - "0xfec8fd3546e1f46cf5ad10a4ff9f5d53a3bbe9be"  # Example cast hash
-              - "0x776593353e47dc4e7f4df3199a9b04cc8efa30d9"  # Another cast hash
+            pattern: ^0x[0-9a-fA-F]{40}$
+            example: '0xfec8fd3546e1f46cf5ad10a4ff9f5d53a3bbe9be'
           required: true
         - name: reaction_type
           in: query
           schema:
-            $ref: "#/components/schemas/ReactionType"
+            $ref: '#/components/schemas/ReactionType'
           required: true
-        - $ref: "#/components/parameters/pageSize"
-        - $ref: "#/components/parameters/paginationReverse"
-        - $ref: "#/components/parameters/pageToken"
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/paginationReverse'
+        - $ref: '#/components/parameters/pageToken'
       responses:
         '200':
           description: The requested Reactions.
@@ -340,10 +367,10 @@ paths:
                       messages:
                         type: array
                         items:
-                          $ref: "#/components/schemas/Reaction"
-                  - $ref: "#/components/schemas/PaginationResponse"
+                          $ref: '#/components/schemas/Reaction'
+                  - $ref: '#/components/schemas/PaginationResponse'
         default:
-          $ref: "#/components/responses/ErrorResponse"
+          $ref: '#/components/responses/ErrorResponse'
   /v1/reactionsByFid:
     get:
       tags:
@@ -351,24 +378,24 @@ paths:
       summary: By FID
       description: Fetch reactions by a user.
       externalDocs:
-        description: "Fetch reactions by a user"
+        description: Fetch reactions by a user
         url: https://docs.neynar.com/reference/fetch-user-reactions
       operationId: fetch-user-reactions
       parameters:
         - name: fid
           in: query
-          description: "The FID of the reaction's creator"
+          description: The FID of the reaction's creator
           schema:
-            $ref: "#/components/schemas/FidSchema"
+            $ref: '#/components/schemas/FidSchema'
           required: true
         - name: reaction_type
           in: query
           schema:
-            $ref: "#/components/schemas/ReactionType"
+            $ref: '#/components/schemas/ReactionType'
           required: true
-        - $ref: "#/components/parameters/pageSize"
-        - $ref: "#/components/parameters/paginationReverse"
-        - $ref: "#/components/parameters/pageToken"
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/paginationReverse'
+        - $ref: '#/components/parameters/pageToken'
       responses:
         '200':
           description: The requested Reactions.
@@ -383,36 +410,38 @@ paths:
                       messages:
                         type: array
                         items:
-                          $ref: "#/components/schemas/Reaction"
-                  - $ref: "#/components/schemas/PaginationResponse"
+                          $ref: '#/components/schemas/Reaction'
+                  - $ref: '#/components/schemas/PaginationResponse'
         default:
-          $ref: "#/components/responses/ErrorResponse"
+          $ref: '#/components/responses/ErrorResponse'
   /v1/reactionsByTarget:
     get:
       tags:
         - Reactions
       summary: To a target URL
-      description: "Fetch all reactions of a specific type (like or recast) that target a given URL. This endpoint is useful for tracking engagement with content across the Farcaster network."
+      description: >-
+        Fetch all reactions of a specific type (like or recast) that target a
+        given URL. This endpoint is useful for tracking engagement with content
+        across the Farcaster network.
       externalDocs:
-        description: "Fetch reactions by a target URL"
+        description: Fetch reactions by a target URL
         url: https://docs.neynar.com/reference/fetch-reactions-by-target
       operationId: fetch-reactions-by-target
       parameters:
         - name: url
           in: query
-          description: "Target URL starting with 'chain://'."
+          description: Target URL starting with 'chain://'.
           schema:
             type: string
-            examples:
-              - "chain://eip155:1/erc721:0x39d89b649ffa044383333d297e325d42d31329b2"
+            example: chain://eip155:1/erc721:0x39d89b649ffa044383333d297e325d42d31329b2
           required: true
         - name: reaction_type
           in: query
           schema:
-            $ref: "#/components/schemas/ReactionType"
-        - $ref: "#/components/parameters/pageSize"
-        - $ref: "#/components/parameters/paginationReverse"
-        - $ref: "#/components/parameters/pageToken"
+            $ref: '#/components/schemas/ReactionType'
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/paginationReverse'
+        - $ref: '#/components/parameters/pageToken'
       responses:
         '200':
           description: The requested Reactions.
@@ -427,10 +456,10 @@ paths:
                       messages:
                         type: array
                         items:
-                          $ref: "#/components/schemas/Reaction"
-                  - $ref: "#/components/schemas/PaginationResponse"
+                          $ref: '#/components/schemas/Reaction'
+                  - $ref: '#/components/schemas/PaginationResponse'
         default:
-          $ref: "#/components/responses/ErrorResponse"
+          $ref: '#/components/responses/ErrorResponse'
   /v1/linkById:
     get:
       tags:
@@ -438,36 +467,36 @@ paths:
       summary: By its FID and target FID
       description: Lookup a link by its FID and target FID.
       externalDocs:
-        description: "Lookup a link by its FID and target FID"
+        description: Lookup a link by its FID and target FID
         url: https://docs.neynar.com/reference/lookup-user-relation
       operationId: lookup-user-relation
       parameters:
         - name: fid
           in: query
-          description: "The FID of the link's originator"
+          description: The FID of the link's originator
           required: true
           schema:
-            $ref: "#/components/schemas/FidSchema"
+            $ref: '#/components/schemas/FidSchema'
         - name: target_fid
           in: query
-          description: "The FID of the target user for this link"
+          description: The FID of the target user for this link
           required: true
           schema:
-            $ref: "#/components/schemas/FidSchema"
+            $ref: '#/components/schemas/FidSchema'
         - name: link_type
           in: query
           required: true
           schema:
-            $ref: "#/components/schemas/LinkType"
+            $ref: '#/components/schemas/LinkType'
       responses:
         '200':
           description: The requested Link.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/LinkAdd"
+                $ref: '#/components/schemas/LinkAdd'
         default:
-          $ref: "#/components/responses/ErrorResponse"
+          $ref: '#/components/responses/ErrorResponse'
   /v1/linksByFid:
     get:
       tags:
@@ -475,24 +504,24 @@ paths:
       summary: From source FID
       description: Fetch a list of users that a user is following.
       externalDocs:
-        description: "Fetch a list of users that a user is following"
+        description: Fetch a list of users that a user is following
         url: https://docs.neynar.com/reference/fetch-user-following
       operationId: fetch-user-following
       parameters:
         - name: fid
           in: query
-          description: "The FID of the link's originator"
+          description: The FID of the link's originator
           required: true
           schema:
-            $ref: "#/components/schemas/FidSchema"
+            $ref: '#/components/schemas/FidSchema'
         - name: link_type
           in: query
           schema:
-            $ref: "#/components/schemas/LinkType"
+            $ref: '#/components/schemas/LinkType'
           required: false
-        - $ref: "#/components/parameters/pageSize"
-        - $ref: "#/components/parameters/paginationReverse"
-        - $ref: "#/components/parameters/pageToken"
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/paginationReverse'
+        - $ref: '#/components/parameters/pageToken'
       responses:
         '200':
           description: The requested Links.
@@ -507,10 +536,10 @@ paths:
                       messages:
                         type: array
                         items:
-                          $ref: "#/components/schemas/LinkAdd"
-                  - $ref: "#/components/schemas/PaginationResponse"
+                          $ref: '#/components/schemas/LinkAdd'
+                  - $ref: '#/components/schemas/PaginationResponse'
         default:
-          $ref: "#/components/responses/ErrorResponse"
+          $ref: '#/components/responses/ErrorResponse'
   /v1/linksByTargetFid:
     get:
       tags:
@@ -518,24 +547,24 @@ paths:
       summary: To target FID
       description: Fetch a list of users that are following a user.
       externalDocs:
-        description: "Fetch a list of users that are following a user"
+        description: Fetch a list of users that are following a user
         url: https://docs.neynar.com/reference/fetch-user-followers
       operationId: fetch-user-followers
       parameters:
         - name: target_fid
           in: query
-          description: "The FID of the target user for this link"
+          description: The FID of the target user for this link
           required: true
           schema:
-            $ref: "#/components/schemas/FidSchema"
+            $ref: '#/components/schemas/FidSchema'
         - name: link_type
           in: query
           schema:
-            $ref: "#/components/schemas/LinkType"
+            $ref: '#/components/schemas/LinkType'
           required: false
-        - $ref: "#/components/parameters/pageSize"
-        - $ref: "#/components/parameters/paginationReverse"
-        - $ref: "#/components/parameters/pageToken"
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/paginationReverse'
+        - $ref: '#/components/parameters/pageToken'
       responses:
         '200':
           description: The requested Links.
@@ -550,18 +579,22 @@ paths:
                       messages:
                         type: array
                         items:
-                          $ref: "#/components/schemas/LinkAdd"
-                  - $ref: "#/components/schemas/PaginationResponse"
+                          $ref: '#/components/schemas/LinkAdd'
+                  - $ref: '#/components/schemas/PaginationResponse'
         default:
-          $ref: "#/components/responses/ErrorResponse"
+          $ref: '#/components/responses/ErrorResponse'
   /v1/userDataByFid:
     get:
       tags:
         - UserData
       summary: Fetch UserData for a FID
-      description: "**Note:** one of two different response schemas is returned based on whether the caller provides the `user_data_type` parameter. If included, a single `UserDataAdd` message is returned (or a `not_found` error). If omitted, a paginated list of `UserDataAdd` messages is returned instead."
+      description: >-
+        **Note:** one of two different response schemas is returned based on
+        whether the caller provides the `user_data_type` parameter. If included,
+        a single `UserDataAdd` message is returned (or a `not_found` error). If
+        omitted, a paginated list of `UserDataAdd` messages is returned instead.
       externalDocs:
-        description: "Fetch user data for a user"
+        description: Fetch user data for a user
         url: https://docs.neynar.com/reference/fetch-user-data
       operationId: fetch-user-data
       parameters:
@@ -574,13 +607,15 @@ paths:
           example: 3
         - name: user_data_type
           in: query
-          description: The type of user data, either as a numerical value or type string. If this is omitted, all user data for the FID is returned
+          description: >-
+            The type of user data, either as a numerical value or type string.
+            If this is omitted, all user data for the FID is returned
           schema:
-            $ref: "#/components/schemas/UserDataType"
+            $ref: '#/components/schemas/UserDataType'
           required: false
-        - $ref: "#/components/parameters/pageSize"
-        - $ref: "#/components/parameters/paginationReverse"
-        - $ref: "#/components/parameters/pageToken"
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/paginationReverse'
+        - $ref: '#/components/parameters/pageToken'
       responses:
         '200':
           description: The requested UserData.
@@ -588,7 +623,7 @@ paths:
             application/json:
               schema:
                 oneOf:
-                  - $ref: "#/components/schemas/UserDataAdd"
+                  - $ref: '#/components/schemas/UserDataAdd'
                   - allOf:
                       - type: object
                         required:
@@ -597,10 +632,10 @@ paths:
                           messages:
                             type: array
                             items:
-                              $ref: "#/components/schemas/UserDataAdd"
-                      - $ref: "#/components/schemas/PaginationResponse"
+                              $ref: '#/components/schemas/UserDataAdd'
+                      - $ref: '#/components/schemas/PaginationResponse'
         default:
-          $ref: "#/components/responses/ErrorResponse"
+          $ref: '#/components/responses/ErrorResponse'
   /v1/fids:
     get:
       tags:
@@ -608,7 +643,7 @@ paths:
       summary: Fetch a list of all the FIDs
       description: Fetch a list of all the FIDs.
       externalDocs:
-        description: "Fetch a list of all the FIDs"
+        description: Fetch a list of all the FIDs
         url: https://docs.neynar.com/reference/fetch-fids
       operationId: fetch-fids
       parameters:
@@ -628,9 +663,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/FidsResponse"
+                $ref: '#/components/schemas/FidsResponse'
         default:
-          $ref: "#/components/responses/ErrorResponse"
+          $ref: '#/components/responses/ErrorResponse'
   /v1/storageLimitsByFid:
     get:
       tags:
@@ -638,7 +673,7 @@ paths:
       summary: FID's limits
       description: Fetch a user's storage limits.
       externalDocs:
-        description: "Fetch a user's storage limits"
+        description: Fetch a user's storage limits
         url: https://docs.neynar.com/reference/lookup-user-storage-limit
       operationId: lookup-user-storage-limit
       parameters:
@@ -654,9 +689,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/StorageLimitsResponse"
+                $ref: '#/components/schemas/StorageLimitsResponse'
         default:
-          $ref: "#/components/responses/ErrorResponse"
+          $ref: '#/components/responses/ErrorResponse'
       x-codegen-request-body-name: body
   /v1/userNameProofsByFid:
     get:
@@ -665,7 +700,7 @@ paths:
       summary: Proofs provided by an FID
       description: Fetch proofs provided by a user.
       externalDocs:
-        description: "Fetch proofs provided by a user"
+        description: Fetch proofs provided by a user
         url: https://docs.neynar.com/reference/fetch-username-proofs-by-fid
       operationId: fetch-username-proofs-by-fid
       parameters:
@@ -682,9 +717,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UsernameProofsResponse"
+                $ref: '#/components/schemas/UsernameProofsResponse'
         default:
-          $ref: "#/components/responses/ErrorResponse"
+          $ref: '#/components/responses/ErrorResponse'
   /v1/userNameProofByName:
     get:
       tags:
@@ -692,7 +727,7 @@ paths:
       summary: Proof for a username
       description: Fetch a proof for a username.
       externalDocs:
-        description: "Fetch a proof for a username"
+        description: Fetch a proof for a username
         url: https://docs.neynar.com/reference/fetch-username-proof-by-name
       operationId: fetch-username-proof-by-name
       parameters:
@@ -704,18 +739,18 @@ paths:
           description: The Farcaster username or ENS address
           examples:
             username:
-              value: "rish"
-            "ENS address":
-              value: "dwr.eth"
+              value: rish
+            ENS address:
+              value: dwr.eth
       responses:
         '200':
           description: A successful response.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UserNameProof"
+                $ref: '#/components/schemas/UserNameProof'
         default:
-          $ref: "#/components/responses/ErrorResponse"
+          $ref: '#/components/responses/ErrorResponse'
   /v1/verificationsByFid:
     get:
       tags:
@@ -723,7 +758,7 @@ paths:
       summary: Provided by an FID
       description: Fetch verifications provided by a user.
       externalDocs:
-        description: "Fetch verifications provided by a user"
+        description: Fetch verifications provided by a user
         url: https://docs.neynar.com/reference/fetch-verifications-by-fid
       operationId: fetch-verifications-by-fid
       parameters:
@@ -740,9 +775,9 @@ paths:
           schema:
             type: string
           description: The optional ETH address to filter by
-        - $ref: "#/components/parameters/pageSize"
-        - $ref: "#/components/parameters/paginationReverse"
-        - $ref: "#/components/parameters/pageToken"
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/paginationReverse'
+        - $ref: '#/components/parameters/pageToken'
       responses:
         '200':
           description: The requested Verifications.
@@ -757,13 +792,13 @@ paths:
                   messages:
                     type: array
                     items:
-                      $ref: "#/components/schemas/Verification"
+                      $ref: '#/components/schemas/Verification'
                   nextPageToken:
                     pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
                     type: string
                     format: byte
         default:
-          $ref: "#/components/responses/ErrorResponse"
+          $ref: '#/components/responses/ErrorResponse'
       x-codegen-request-body-name: body
   /v1/onChainIdRegistryEventByAddress:
     get:
@@ -772,8 +807,9 @@ paths:
       summary: Fetch an on-chain ID Registry Event for a given Address
       description: Fetch an on-chain ID Registry Event for a given Address.
       externalDocs:
-        description: "Fetch an on-chain ID Registry Event for a given Address"
-        url: https://docs.neynar.com/reference/lookup-on-chain-id-registry-event-by-address
+        description: Fetch an on-chain ID Registry Event for a given Address
+        url: >-
+          https://docs.neynar.com/reference/lookup-on-chain-id-registry-event-by-address
       operationId: lookup-on-chain-id-registry-event-by-address
       parameters:
         - name: address
@@ -783,16 +819,16 @@ paths:
             type: string
             pattern: ^0x[0-9a-fA-F]{40}$
           description: The ETH address being requested
-          example: "0x6b0bda3f2ffed5efc83fa8c024acff1dd45793f1"
+          example: '0x6b0bda3f2ffed5efc83fa8c024acff1dd45793f1'
       responses:
         '200':
           description: A successful response.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/OnChainEventIdRegister"
+                $ref: '#/components/schemas/OnChainEventIdRegister'
         default:
-          $ref: "#/components/responses/ErrorResponse"
+          $ref: '#/components/responses/ErrorResponse'
   /v1/onChainEventsByFid:
     get:
       tags:
@@ -800,7 +836,7 @@ paths:
       summary: Fetch a list of on-chain events provided by an FID
       description: Fetch on-chain events provided by a user.
       externalDocs:
-        description: "Fetch on-chain events provided by a user"
+        description: Fetch on-chain events provided by a user
         url: https://docs.neynar.com/reference/fetch-user-on-chain-events
       operationId: fetch-user-on-chain-events
       parameters:
@@ -814,7 +850,7 @@ paths:
         - name: event_type
           in: query
           schema:
-            $ref: "#/components/schemas/OnChainEventType"
+            $ref: '#/components/schemas/OnChainEventType'
           description: The numeric or string value of the event type being requested
           required: true
       responses:
@@ -828,19 +864,24 @@ paths:
                   events:
                     type: array
                     items:
-                      $ref: "#/components/schemas/OnChainEvent"
+                      $ref: '#/components/schemas/OnChainEvent'
                 required:
                   - events
         default:
-          $ref: "#/components/responses/ErrorResponse"
+          $ref: '#/components/responses/ErrorResponse'
   /v1/onChainSignersByFid:
     get:
       tags:
         - OnChainEvents
       summary: Fetch a list of signers provided by an FID
-      description: "**Note:** one of two different response schemas is returned based on whether the caller provides the `signer` parameter. If included, a single `OnChainEventSigner` message is returned (or a `not_found` error). If omitted, a non-paginated list of `OnChainEventSigner` messages is returned instead."
+      description: >-
+        **Note:** one of two different response schemas is returned based on
+        whether the caller provides the `signer` parameter. If included, a
+        single `OnChainEventSigner` message is returned (or a `not_found`
+        error). If omitted, a non-paginated list of `OnChainEventSigner`
+        messages is returned instead.
       externalDocs:
-        description: "Fetch on-chain signers provided by a user"
+        description: Fetch on-chain signers provided by a user
         url: https://docs.neynar.com/reference/fetch-user-on-chain-signers
       operationId: fetch-user-on-chain-signers-events
       parameters:
@@ -857,7 +898,7 @@ paths:
             type: string
           description: The optional key of signer
           required: false
-          example: "0x0852c07b5695ff94138b025e3f9b4788e06133f04e254f0ea0eb85a06e999cdd"
+          example: '0x0852c07b5695ff94138b025e3f9b4788e06133f04e254f0ea0eb85a06e999cdd'
       responses:
         '200':
           description: A successful response.
@@ -865,17 +906,17 @@ paths:
             application/json:
               schema:
                 oneOf:
-                  - $ref: "#/components/schemas/OnChainEventSigner"
+                  - $ref: '#/components/schemas/OnChainEventSigner'
                   - type: object
                     properties:
                       events:
                         type: array
                         items:
-                          $ref: "#/components/schemas/OnChainEventSigner"
+                          $ref: '#/components/schemas/OnChainEventSigner'
                     required:
                       - events
         default:
-          $ref: "#/components/responses/ErrorResponse"
+          $ref: '#/components/responses/ErrorResponse'
   /v1/submitMessage:
     post:
       tags:
@@ -883,12 +924,14 @@ paths:
       summary: Submit signed message
       description: Submit a message to the Farcaster network.
       externalDocs:
-        description: "Submit a message to the Farcaster network"
+        description: Submit a message to the Farcaster network
         url: https://docs.neynar.com/reference/submit-signed-message
       operationId: publish-message
       requestBody:
-        description: |
-          A Message is a delta operation on the Farcaster network. The message protobuf is an envelope that wraps a MessageData object and contains a hash and signature which can verify its authenticity.
+        description: >
+          A Message is a delta operation on the Farcaster network. The message
+          protobuf is an envelope that wraps a MessageData object and contains a
+          hash and signature which can verify its authenticity.
         content:
           application/octet-stream:
             schema:
@@ -901,9 +944,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Message"
+                $ref: '#/components/schemas/Message'
         default:
-          $ref: "#/components/responses/ErrorResponse"
+          $ref: '#/components/responses/ErrorResponse'
       x-codegen-request-body-name: body
   /v1/validateMessage:
     post:
@@ -912,12 +955,14 @@ paths:
       summary: Validate signed message
       description: Validate a message on the Farcaster network.
       externalDocs:
-        description: "Validate a message on the Farcaster network"
+        description: Validate a message on the Farcaster network
         url: https://docs.neynar.com/reference/validate-message
       operationId: validate-message
       requestBody:
-        description: |
-          A Message is a delta operation on the Farcaster network. The message protobuf is an envelope that wraps a MessageData object and contains a hash and signature which can verify its authenticity.
+        description: >
+          A Message is a delta operation on the Farcaster network. The message
+          protobuf is an envelope that wraps a MessageData object and contains a
+          hash and signature which can verify its authenticity.
         content:
           application/octet-stream:
             schema:
@@ -930,9 +975,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ValidateMessageResponse"
+                $ref: '#/components/schemas/ValidateMessageResponse'
         default:
-          $ref: "#/components/responses/ErrorResponse"
+          $ref: '#/components/responses/ErrorResponse'
       x-codegen-request-body-name: body
   /v1/events:
     get:
@@ -941,7 +986,7 @@ paths:
       summary: Page of events
       description: Fetch a list of events.
       externalDocs:
-        description: "Fetch a list of events"
+        description: Fetch a list of events
         url: https://docs.neynar.com/reference/fetch-events
       operationId: fetch-events
       parameters:
@@ -969,12 +1014,12 @@ paths:
                   events:
                     type: array
                     items:
-                      $ref: "#/components/schemas/HubEvent"
+                      $ref: '#/components/schemas/HubEvent'
                 required:
                   - nextPageEventId
                   - events
         default:
-          $ref: "#/components/responses/ErrorResponse"
+          $ref: '#/components/responses/ErrorResponse'
   /v1/eventById:
     get:
       tags:
@@ -982,7 +1027,7 @@ paths:
       summary: Event by ID
       description: Lookup an event by its ID.
       externalDocs:
-        description: "Lookup an event by its ID"
+        description: Lookup an event by its ID
         url: https://docs.neynar.com/reference/lookup-event
       operationId: lookup-event
       parameters:
@@ -998,17 +1043,17 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/HubEvent"
+                $ref: '#/components/schemas/HubEvent'
         default:
-          $ref: "#/components/responses/ErrorResponse"
+          $ref: '#/components/responses/ErrorResponse'
 components:
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
       in: header
       name: x-api-key
-      description: "API key to authorize requests"
-      x-default: "NEYNAR_API_DOCS"
+      description: API key to authorize requests
+      x-default: NEYNAR_API_DOCS
   parameters:
     pageSize:
       name: pageSize
@@ -1025,7 +1070,9 @@ components:
     pageToken:
       name: pageToken
       in: query
-      description: The page token returned by the previous query, to fetch the next page. If this parameter is empty, fetch the first page
+      description: >-
+        The page token returned by the previous query, to fetch the next page.
+        If this parameter is empty, fetch the first page
       schema:
         type: string
   schemas:
@@ -1038,28 +1085,30 @@ components:
           type: string
           format: byte
           pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
-          description: "Base64-encoded pagination token for fetching the next page of results. An empty value indicates there are no more pages to return. Used in conjunction with the pageSize parameter to implement pagination across large result sets."
-          examples:
-            - "AuzO1V0DtaItCwwa10X6YsfStlynsGWT"
-            - ""  # Example of no more pages
+          description: >-
+            Base64-encoded pagination token for fetching the next page of
+            results. An empty value indicates there are no more pages to return.
+            Used in conjunction with the pageSize parameter to implement
+            pagination across large result sets.
+          example: AuzO1V0DtaItCwwa10X6YsfStlynsGWT
     CastAdd:
       allOf:
-        - $ref: "#/components/schemas/MessageCommon"
+        - $ref: '#/components/schemas/MessageCommon'
         - type: object
           properties:
             data:
               allOf:
-                - $ref: "#/components/schemas/MessageDataCastAdd"
+                - $ref: '#/components/schemas/MessageDataCastAdd'
                 - type: object
                   properties:
                     type:
-                      $ref: "#/components/schemas/MessageType"
+                      $ref: '#/components/schemas/MessageType'
                   required:
                     - type
           required:
             - data
     CastAddBody:
-      description: "Adds a new Cast"
+      description: Adds a new Cast
       type: object
       properties:
         embedsDeprecated:
@@ -1073,15 +1122,13 @@ components:
           items:
             type: integer
             format: uint64
-            examples:
-              - 2
+            example: 2
         parentCastId:
-          $ref: "#/components/schemas/CastId"
+          $ref: '#/components/schemas/CastId'
         parentUrl:
           title: Parent URL
           type: string
-          examples:
-            - chain://eip155:1/erc721:0x39d89b649ffa044383333d297e325d42d31329b2
+          example: chain://eip155:1/erc721:0x39d89b649ffa044383333d297e325d42d31329b2
         text:
           title: Text of the cast
           type: string
@@ -1095,7 +1142,7 @@ components:
           title: URLs or cast IDs to be embedded in the cast
           type: array
           items:
-            $ref: "#/components/schemas/Embed"
+            $ref: '#/components/schemas/Embed'
       required:
         - embedsDeprecated
         - mentions
@@ -1106,11 +1153,14 @@ components:
       type: object
       properties:
         castId:
-          $ref: "#/components/schemas/CastId"
+          $ref: '#/components/schemas/CastId'
       required:
         - castId
     CastId:
-      description: "A unique identifier for a cast (post) in the Farcaster network, consisting of the creator's FID and a hash of the cast's content. This combination ensures global uniqueness across all casts."
+      description: >-
+        A unique identifier for a cast (post) in the Farcaster network,
+        consisting of the creator's FID and a hash of the cast's content. This
+        combination ensures global uniqueness across all casts.
       required:
         - fid
         - hash
@@ -1118,22 +1168,21 @@ components:
       properties:
         fid:
           title: Fid of the user who created the cast
-          description: "The Farcaster ID (FID) of the user who created the cast. Required to uniquely identify the cast's author in the network."
+          description: >-
+            The Farcaster ID (FID) of the user who created the cast. Required to
+            uniquely identify the cast's author in the network.
           type: integer
           format: uint64
-          examples:
-            - 2
-            - 194
-            - 3
+          example: 2
         hash:
-          $ref: "#/components/schemas/CastHash"
+          $ref: '#/components/schemas/CastHash'
     CastHash:
-      description: "A unique hash that identifies a specific cast within the creator's posts. Generated using HASH_SCHEME_BLAKE3 of the cast's content."
+      description: >-
+        A unique hash that identifies a specific cast within the creator's
+        posts. Generated using HASH_SCHEME_BLAKE3 of the cast's content.
       pattern: ^0x[0-9a-fA-F]{40}$
       type: string
-      examples:
-        - "0x03aff391a6eb1772b20b4ead9a89f732be75fe27"
-        - "0x776593353e47dc4e7f4df3199a9b04cc8efa30d9"
+      example: '0x03aff391a6eb1772b20b4ead9a89f732be75fe27'
     DbStats:
       required:
         - numFidEvents
@@ -1152,8 +1201,8 @@ components:
           format: uint64
     Embed:
       oneOf:
-        - $ref: "#/components/schemas/CastEmbed"
-        - $ref: "#/components/schemas/UrlEmbed"
+        - $ref: '#/components/schemas/CastEmbed'
+        - $ref: '#/components/schemas/UrlEmbed'
     ErrorResponse:
       required:
         - code
@@ -1200,15 +1249,10 @@ components:
       format: uint64
       minimum: 1
       description: >
-        Farcaster ID (FID). A unique identifier assigned to each user in the Farcaster network.
-        This number is permanent and cannot be changed. FIDs are assigned sequentially when
-        users register on the network.
-      examples:
-        - 1    # First user on the network
-        - 194  # Early adopter
-        - 1337 # Regular user
-        - 2    # Another early user
-
+        Farcaster ID (FID). A unique identifier assigned to each user in the
+        Farcaster network. This number is permanent and cannot be changed. FIDs
+        are assigned sequentially when users register on the network.
+      example: 1
     FidsResponse:
       allOf:
         - type: object
@@ -1216,34 +1260,38 @@ components:
             fids:
               type: array
               items:
-                $ref: "#/components/schemas/FidSchema"
+                $ref: '#/components/schemas/FidSchema'
           required:
             - fids
-        - $ref: "#/components/schemas/PaginationResponse"
+        - $ref: '#/components/schemas/PaginationResponse'
     FrameActionBody:
-      description: "Contains the data for a user's interaction with a Farcaster Frame. Frames are interactive elements within casts that can have up to 4 clickable buttons, allowing users to engage with content in predefined ways."
+      description: >-
+        Contains the data for a user's interaction with a Farcaster Frame.
+        Frames are interactive elements within casts that can have up to 4
+        clickable buttons, allowing users to engage with content in predefined
+        ways.
       type: object
       properties:
         url:
-          description: "The URL associated with the frame action. This typically points to the frame's content or the destination that handles the interaction."
+          description: >-
+            The URL associated with the frame action. This typically points to
+            the frame's content or the destination that handles the interaction.
           type: string
           format: uri
-          examples:
-            - "https://frames.farcaster.xyz/frame/123"
-            - "https://app.example.com/frames/vote"
+          example: https://frames.farcaster.xyz/frame/123
         buttonIndex:
-          description: "Identifies which button the user clicked in the frame. Frames can have up to 4 buttons, numbered from 1 to 4."
-          title: "Button Index"
+          description: >-
+            Identifies which button the user clicked in the frame. Frames can
+            have up to 4 buttons, numbered from 1 to 4.
+          title: Button Index
           type: integer
           format: int32
           minimum: 1
           maximum: 4
-          examples:
-            - 1  # Primary action
-            - 2  # Secondary action
+          example: 1 # Primary action
         castId:
           description: "The unique identifier of the cast containing the frame that was interacted with."
-          $ref: "#/components/schemas/CastId"
+          $ref: '#/components/schemas/CastId'
       required:
         - url
         - buttonIndex
@@ -1258,31 +1306,30 @@ components:
         - HASH_SCHEME_BLAKE3
     HubEvent:
       oneOf:
-        - $ref: "#/components/schemas/HubEventMergeMessage"
-        - $ref: "#/components/schemas/HubEventPruneMessage"
-        - $ref: "#/components/schemas/HubEventRevokeMessage"
-        - $ref: "#/components/schemas/HubEventMergeUsernameProof"
-        - $ref: "#/components/schemas/HubEventMergeOnChainEvent"
+        - $ref: '#/components/schemas/HubEventMergeMessage'
+        - $ref: '#/components/schemas/HubEventPruneMessage'
+        - $ref: '#/components/schemas/HubEventRevokeMessage'
+        - $ref: '#/components/schemas/HubEventMergeUsernameProof'
+        - $ref: '#/components/schemas/HubEventMergeOnChainEvent'
       discriminator:
         propertyName: type
         mapping:
-          HUB_EVENT_TYPE_MERGE_MESSAGE: "#/components/schemas/HubEventMergeMessage"
-          HUB_EVENT_TYPE_PRUNE_MESSAGE: "#/components/schemas/HubEventPruneMessage"
-          HUB_EVENT_TYPE_REVOKE_MESSAGE: "#/components/schemas/HubEventRevokeMessage"
-          HUB_EVENT_TYPE_MERGE_USERNAME_PROOF: "#/components/schemas/HubEventMergeUsernameProof"
-          HUB_EVENT_TYPE_MERGE_ON_CHAIN_EVENT: "#/components/schemas/HubEventMergeOnChainEvent"
+          HUB_EVENT_TYPE_MERGE_MESSAGE: '#/components/schemas/HubEventMergeMessage'
+          HUB_EVENT_TYPE_PRUNE_MESSAGE: '#/components/schemas/HubEventPruneMessage'
+          HUB_EVENT_TYPE_REVOKE_MESSAGE: '#/components/schemas/HubEventRevokeMessage'
+          HUB_EVENT_TYPE_MERGE_USERNAME_PROOF: '#/components/schemas/HubEventMergeUsernameProof'
+          HUB_EVENT_TYPE_MERGE_ON_CHAIN_EVENT: '#/components/schemas/HubEventMergeOnChainEvent'
     HubEventMergeMessage:
       type: object
       properties:
         type:
           type: string
-          examples:
-            - HUB_EVENT_TYPE_MERGE_MESSAGE
+          example: HUB_EVENT_TYPE_MERGE_MESSAGE
         id:
           type: integer
           format: uint64
         mergeMessageBody:
-          $ref: "#/components/schemas/MergeMessageBody"
+          $ref: '#/components/schemas/MergeMessageBody'
       required:
         - type
         - id
@@ -1292,13 +1339,12 @@ components:
       properties:
         type:
           type: string
-          examples:
-            - HUB_EVENT_TYPE_MERGE_ON_CHAIN_EVENT
+          example: HUB_EVENT_TYPE_MERGE_ON_CHAIN_EVENT
         id:
           type: integer
           format: uint64
         mergeOnChainEventBody:
-          $ref: "#/components/schemas/MergeOnChainEventBody"
+          $ref: '#/components/schemas/MergeOnChainEventBody'
       required:
         - type
         - id
@@ -1308,13 +1354,12 @@ components:
       properties:
         type:
           type: string
-          examples:
-            - HUB_EVENT_TYPE_MERGE_USERNAME_PROOF
+          example: HUB_EVENT_TYPE_MERGE_USERNAME_PROOF
         id:
           type: integer
           format: uint64
         mergeUsernameProofBody:
-          $ref: "#/components/schemas/MergeUserNameProofBody"
+          $ref: '#/components/schemas/MergeUserNameProofBody'
       required:
         - type
         - id
@@ -1324,13 +1369,12 @@ components:
       properties:
         type:
           type: string
-          examples:
-            - HUB_EVENT_TYPE_PRUNE_MESSAGE
+          example: HUB_EVENT_TYPE_PRUNE_MESSAGE
         id:
           type: integer
           format: uint64
         pruneMessageBody:
-          $ref: "#/components/schemas/PruneMessageBody"
+          $ref: '#/components/schemas/PruneMessageBody'
       required:
         - type
         - id
@@ -1340,13 +1384,12 @@ components:
       properties:
         type:
           type: string
-          examples:
-            - HUB_EVENT_TYPE_REVOKE_MESSAGE
+          example: HUB_EVENT_TYPE_REVOKE_MESSAGE
         id:
           type: integer
           format: uint64
         revokeMessageBody:
-          $ref: "#/components/schemas/RevokeMessageBody"
+          $ref: '#/components/schemas/RevokeMessageBody'
       required:
         - type
         - id
@@ -1371,7 +1414,7 @@ components:
         rootHash:
           type: string
         dbStats:
-          $ref: "#/components/schemas/DbStats"
+          $ref: '#/components/schemas/DbStats'
         peerId:
           type: string
         hubOperatorFid:
@@ -1383,20 +1426,17 @@ components:
         to:
           pattern: ^0x[a-fA-F0-9]*$
           type: string
-          examples:
-            - "0x00000000fcd5a8e45785c8a4b9a718c9348e4f18"
+          example: '0x00000000fcd5a8e45785c8a4b9a718c9348e4f18'
         eventType:
-          $ref: "#/components/schemas/IdRegisterEventType"
+          $ref: '#/components/schemas/IdRegisterEventType'
         from:
           pattern: ^0x[a-fA-F0-9]*$|^$
           type: string
-          examples:
-            - "0x00000000fcd5a8e45785c8a4b9a718c9348e4f18"
+          example: '0x00000000fcd5a8e45785c8a4b9a718c9348e4f18'
         recoveryAddress:
           pattern: ^0x[a-fA-F0-9]*$
           type: string
-          examples:
-            - "0x00000000fcd5a8e45785c8a4b9a718c9348e4f18"
+          example: '0x00000000fcd5a8e45785c8a4b9a718c9348e4f18'
       required:
         - to
         - from
@@ -1411,60 +1451,63 @@ components:
         - ID_REGISTER_EVENT_TYPE_CHANGE_RECOVERY
     LinkAdd:
       allOf:
-        - $ref: "#/components/schemas/MessageCommon"
+        - $ref: '#/components/schemas/MessageCommon'
         - type: object
           properties:
             data:
               allOf:
-                - $ref: "#/components/schemas/MessageDataLink"
+                - $ref: '#/components/schemas/MessageDataLink'
                 - type: object
                   properties:
                     type:
-                      $ref: "#/components/schemas/MessageType"
+                      $ref: '#/components/schemas/MessageType'
                   required:
                     - type
           required:
             - data
     LinkBody:
-      description: "Defines a social connection between users in the Farcaster network. Currently used to establish following relationships, allowing users to curate their content feed."
+      description: >-
+        Defines a social connection between users in the Farcaster network.
+        Currently used to establish following relationships, allowing users to
+        curate their content feed.
       type: object
       properties:
         type:
-          $ref: "#/components/schemas/LinkType"
+          $ref: '#/components/schemas/LinkType'
         displayTimestamp:
-          title: "Original Timestamp"
-          description: "User-defined timestamp that preserves the original creation time when message.data.timestamp needs to be updated for compaction. Useful for maintaining chronological order in user feeds."
+          title: Original Timestamp
+          description: >-
+            User-defined timestamp that preserves the original creation time
+            when message.data.timestamp needs to be updated for compaction.
+            Useful for maintaining chronological order in user feeds.
           type: integer
           format: int64
-          examples:
-            - 48994466
-            - 49012345
+          example: 48994466
         targetFid:
-          title: "Target User FID"
-          description: "The FID of the user being followed. Must be a valid FID of an existing user in the network."
-          $ref: "#/components/schemas/FidSchema"
+          $ref: '#/components/schemas/FidSchema'
       required:
         - type
         - targetFid
     LinkType:
       type: string
-      description: |-
+      description: >-
         Defines the type of social connection between users.
-        - follow: Establishes a following relationship where the user will receive updates from the target user in their feed
+
+        - follow: Establishes a following relationship where the user will
+        receive updates from the target user in their feed
       default: follow
       enum:
         - follow
-      examples:
-        - "follow"
+      example: follow
     MergeMessageBody:
       type: object
       properties:
         message:
-          $ref: "#/components/schemas/Message"
+          $ref: '#/components/schemas/Message'
         deletedMessages:
           type: array
           items:
-            $ref: "#/components/schemas/Message"
+            $ref: '#/components/schemas/Message'
       required:
         - message
         - deletedMessages
@@ -1472,67 +1515,81 @@ components:
       type: object
       properties:
         onChainEvent:
-          $ref: "#/components/schemas/OnChainEvent"
+          $ref: '#/components/schemas/OnChainEvent'
       required:
         - onChainEvent
     MergeUserNameProofBody:
       type: object
       properties:
         usernameProof:
-          $ref: "#/components/schemas/UserNameProof"
+          $ref: '#/components/schemas/UserNameProof'
         deletedUsernameProof:
-          $ref: "#/components/schemas/UserNameProof"
+          $ref: '#/components/schemas/UserNameProof'
         usernameProofMessage:
-          $ref: "#/components/schemas/Message"
+          $ref: '#/components/schemas/Message'
         deletedUsernameProofMessage:
-          $ref: "#/components/schemas/Message"
+          $ref: '#/components/schemas/Message'
     Message:
       allOf:
         - type: object
           properties:
             data:
               oneOf:
-                - $ref: "#/components/schemas/MessageDataCastAdd"
-                - $ref: "#/components/schemas/MessageDataCastRemove"
-                - $ref: "#/components/schemas/MessageDataReaction"
-                - $ref: "#/components/schemas/MessageDataLink"
-                - $ref: "#/components/schemas/MessageDataVerificationAdd"
-                - $ref: "#/components/schemas/MessageDataVerificationRemove"
-                - $ref: "#/components/schemas/MessageDataUserDataAdd"
-                - $ref: "#/components/schemas/MessageDataUsernameProof"
-                - $ref: "#/components/schemas/MessageDataFrameAction"
+                - $ref: '#/components/schemas/MessageDataCastAdd'
+                - $ref: '#/components/schemas/MessageDataCastRemove'
+                - $ref: '#/components/schemas/MessageDataReaction'
+                - $ref: '#/components/schemas/MessageDataLink'
+                - $ref: '#/components/schemas/MessageDataVerificationAdd'
+                - $ref: '#/components/schemas/MessageDataVerificationRemove'
+                - $ref: '#/components/schemas/MessageDataUserDataAdd'
+                - $ref: '#/components/schemas/MessageDataUsernameProof'
+                - $ref: '#/components/schemas/MessageDataFrameAction'
               discriminator:
                 propertyName: type
                 mapping:
-                  MESSAGE_TYPE_CAST_ADD: "#/components/schemas/MessageDataCastAdd"
-                  MESSAGE_TYPE_CAST_REMOVE: "#/components/schemas/MessageDataCastRemove"
-                  MESSAGE_TYPE_REACTION_ADD: "#/components/schemas/MessageDataReaction"
-                  MESSAGE_TYPE_REACTION_REMOVE: "#/components/schemas/MessageDataReaction"
-                  MESSAGE_TYPE_LINK_ADD: "#/components/schemas/MessageDataLink"
-                  MESSAGE_TYPE_LINK_REMOVE: "#/components/schemas/MessageDataLink"
-                  MESSAGE_TYPE_VERIFICATION_ADD_ETH_ADDRESS: "#/components/schemas/MessageDataVerificationAdd"
-                  MESSAGE_TYPE_VERIFICATION_REMOVE: "#/components/schemas/MessageDataVerificationRemove"
-                  MESSAGE_TYPE_USER_DATA_ADD: "#/components/schemas/MessageDataUserDataAdd"
-                  MESSAGE_TYPE_USERNAME_PROOF: "#/components/schemas/MessageDataUsernameProof"
-                  MESSAGE_TYPE_FRAME_ACTION: "#/components/schemas/MessageDataFrameAction"
+                  MESSAGE_TYPE_CAST_ADD: '#/components/schemas/MessageDataCastAdd'
+                  MESSAGE_TYPE_CAST_REMOVE: '#/components/schemas/MessageDataCastRemove'
+                  MESSAGE_TYPE_REACTION_ADD: '#/components/schemas/MessageDataReaction'
+                  MESSAGE_TYPE_REACTION_REMOVE: '#/components/schemas/MessageDataReaction'
+                  MESSAGE_TYPE_LINK_ADD: '#/components/schemas/MessageDataLink'
+                  MESSAGE_TYPE_LINK_REMOVE: '#/components/schemas/MessageDataLink'
+                  MESSAGE_TYPE_VERIFICATION_ADD_ETH_ADDRESS: '#/components/schemas/MessageDataVerificationAdd'
+                  MESSAGE_TYPE_VERIFICATION_REMOVE: '#/components/schemas/MessageDataVerificationRemove'
+                  MESSAGE_TYPE_USER_DATA_ADD: '#/components/schemas/MessageDataUserDataAdd'
+                  MESSAGE_TYPE_USERNAME_PROOF: '#/components/schemas/MessageDataUsernameProof'
+                  MESSAGE_TYPE_FRAME_ACTION: '#/components/schemas/MessageDataFrameAction'
           required:
             - data
-        - $ref: "#/components/schemas/MessageCommon"
-      description: |-
-        A Message is a delta operation on the Farcaster network that represents a state change. Messages are the fundamental unit of data in Farcaster and can represent various actions like:
+        - $ref: '#/components/schemas/MessageCommon'
+      description: >-
+        A Message is a delta operation on the Farcaster network that represents
+        a state change. Messages are the fundamental unit of data in Farcaster
+        and can represent various actions like:
+
         - Creating or removing casts (posts)
+
         - Adding or removing reactions
+
         - Following or unfollowing users
+
         - Updating profile data
+
         - Verifying Ethereum addresses
-        
+
+
         Each message contains:
+
         - A MessageData object with the actual content
+
         - A hash of the content for integrity verification
+
         - A cryptographic signature to prove authenticity
+
         - The signer's public key for verification
-        
-        Messages are immutable once created and form an append-only log of all user actions on the network.
+
+
+        Messages are immutable once created and form an append-only log of all
+        user actions on the network.
     MessageCommon:
       type: object
       properties:
@@ -1540,17 +1597,16 @@ components:
           title: Hash digest of data
           pattern: ^0x[0-9a-fA-F]{40}$
           type: string
-          examples:
-            - "0xd2b1ddc6c88e865a33cb1a565e0058d757042974"
+          example: '0xd2b1ddc6c88e865a33cb1a565e0058d757042974'
         hashScheme:
-          $ref: "#/components/schemas/HashScheme"
+          $ref: '#/components/schemas/HashScheme'
         signature:
           title: Signature of the hash digest
           pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
           type: string
           format: byte
         signatureScheme:
-          $ref: "#/components/schemas/SignatureScheme"
+          $ref: '#/components/schemas/SignatureScheme'
         signer:
           title: Public key or address of the key pair that produced the signature
           pattern: ^0x[0-9a-fA-F]+$
@@ -1562,34 +1618,41 @@ components:
         - signatureScheme
         - signer
     MessageDataCastAdd:
-      description: "Represents a new cast (post) being created in the Farcaster network. A cast can include text content, mentions of other users, embedded URLs, and references to parent posts for replies."
+      description: >-
+        Represents a new cast (post) being created in the Farcaster network. A
+        cast can include text content, mentions of other users, embedded URLs,
+        and references to parent posts for replies.
       allOf:
-        - $ref: "#/components/schemas/MessageDataCommon"
+        - $ref: '#/components/schemas/MessageDataCommon'
         - type: object
           required:
             - castAddBody
           properties:
             castAddBody:
               description: "The content and metadata of the new cast, including the text, mentions, embeds, and any parent references for replies."
-              $ref: "#/components/schemas/CastAddBody"
+              $ref: '#/components/schemas/CastAddBody'
     MessageDataCastRemove:
       description: "Represents a request to remove (delete) a previously created cast. Only the original creator of a cast can remove it."
       allOf:
-        - $ref: "#/components/schemas/MessageDataCommon"
+        - $ref: '#/components/schemas/MessageDataCommon'
         - type: object
           required:
             - targetHash
           properties:
             targetHash:
               title: Hash of the cast to remove
-              description: "The unique hash identifier of the cast to be removed. Must be a cast that was previously created by the same FID specified in the message."
+              description: >-
+                The unique hash identifier of the cast to be removed. Must be a
+                cast that was previously created by the same FID specified in
+                the message.
               pattern: ^0x[0-9a-fA-F]{40}$
               type: string
-              examples:
-                - "0x03aff391a6eb1772b20b4ead9a89f732be75fe27"
-                - "0x776593353e47dc4e7f4df3199a9b04cc8efa30d9"
+              example: '0x03aff391a6eb1772b20b4ead9a89f732be75fe27'
     MessageDataCommon:
-      description: "Common properties shared by all Farcaster message types. These properties provide essential metadata about the message's origin, timing, and network context."
+      description: >-
+        Common properties shared by all Farcaster message types. These
+        properties provide essential metadata about the message's origin,
+        timing, and network context.
       required:
         - fid
         - network
@@ -1598,111 +1661,143 @@ components:
       properties:
         fid:
           title: Farcaster ID of the user producing the message
-          description: "The unique identifier (FID) of the user who created this message. FIDs are assigned sequentially when users register on the network and cannot be changed."
+          description: >-
+            The unique identifier (FID) of the user who created this message.
+            FIDs are assigned sequentially when users register on the network
+            and cannot be changed.
           type: integer
           format: uint64
-          examples:
-            - 2
-            - 194
-            - 3
+          example: 2
         timestamp:
-          description: "Seconds since Farcaster Epoch (2021-01-01T00:00:00Z). Used to order messages chronologically and determine the most recent state. Must be within 10 minutes of the current time when the message is created."
+          description: >-
+            Seconds since Farcaster Epoch (2021-01-01T00:00:00Z). Used to order
+            messages chronologically and determine the most recent state. Must
+            be within 10 minutes of the current time when the message is
+            created.
           type: integer
           format: int64
-          examples:
-            - 48994466
-            - 49012345
+          example: 48994466
         network:
-          $ref: "#/components/schemas/FarcasterNetwork"
+          $ref: '#/components/schemas/FarcasterNetwork'
     MessageDataFrameAction:
-      description: "Represents a user's interaction with a Farcaster Frame, which is an interactive element embedded within a cast. Frames allow users to engage with content through clickable buttons, creating interactive experiences within the Farcaster network."
+      description: >-
+        Represents a user's interaction with a Farcaster Frame, which is an
+        interactive element embedded within a cast. Frames allow users to engage
+        with content through clickable buttons, creating interactive experiences
+        within the Farcaster network.
       allOf:
-        - $ref: "#/components/schemas/MessageDataCommon"
+        - $ref: '#/components/schemas/MessageDataCommon'
         - type: object
           required:
             - frameActionBody
           properties:
             frameActionBody:
               description: "Contains the details of the frame interaction, including which button was pressed and the associated cast and URL."
-              $ref: "#/components/schemas/FrameActionBody"
+              $ref: '#/components/schemas/FrameActionBody'
     MessageDataLink:
-      description: "Represents a social graph connection between users in the Farcaster network. Currently supports following relationships between users."
+      description: >-
+        Represents a social graph connection between users in the Farcaster
+        network. Currently supports following relationships between users.
       allOf:
-        - $ref: "#/components/schemas/MessageDataCommon"
+        - $ref: '#/components/schemas/MessageDataCommon'
         - type: object
           required:
             - linkBody
           properties:
             linkBody:
               description: "Contains the details of the social connection, including the type of relationship and the target user."
-              $ref: "#/components/schemas/LinkBody"
+              $ref: '#/components/schemas/LinkBody'
     MessageDataReaction:
-      description: "Represents a user's reaction to content on the Farcaster network. Reactions can be likes or recasts of casts, allowing users to express appreciation or share content with their followers."
+      description: >-
+        Represents a user's reaction to content on the Farcaster network.
+        Reactions can be likes or recasts of casts, allowing users to express
+        appreciation or share content with their followers.
       allOf:
-        - $ref: "#/components/schemas/MessageDataCommon"
+        - $ref: '#/components/schemas/MessageDataCommon'
         - type: object
           required:
             - reactionBody
           properties:
             reactionBody:
               description: "Contains the type of reaction (like/recast) and the target content being reacted to. The target can be specified either by castId or URL."
-              $ref: "#/components/schemas/ReactionBody"
+              $ref: '#/components/schemas/ReactionBody'
     MessageDataUserDataAdd:
-      description: "Represents a message that updates a user's profile metadata. This can include changes to profile picture, display name, bio, URL, or preferred username. Each update modifies a single profile field."
+      description: >-
+        Represents a message that updates a user's profile metadata. This can
+        include changes to profile picture, display name, bio, URL, or preferred
+        username. Each update modifies a single profile field.
       allOf:
-        - $ref: "#/components/schemas/MessageDataCommon"
+        - $ref: '#/components/schemas/MessageDataCommon'
         - type: object
           required:
             - userDataBody
           properties:
             userDataBody:
               description: "Contains the type of profile metadata being updated and its new value."
-              $ref: "#/components/schemas/UserDataBody"
+              $ref: '#/components/schemas/UserDataBody'
     MessageDataUsernameProof:
       allOf:
-        - $ref: "#/components/schemas/MessageDataCommon"
+        - $ref: '#/components/schemas/MessageDataCommon'
         - type: object
           required:
             - usernameProofBody
           properties:
             usernameProofBody:
-              $ref: "#/components/schemas/UserNameProof"
+              $ref: '#/components/schemas/UserNameProof'
     MessageDataVerificationAdd:
-      description: "Represents a message that adds verification of ownership for an Ethereum or Solana address to a user's profile. This verification proves that the user controls the specified blockchain address."
+      description: >-
+        Represents a message that adds verification of ownership for an Ethereum
+        or Solana address to a user's profile. This verification proves that the
+        user controls the specified blockchain address.
       allOf:
-        - $ref: "#/components/schemas/MessageDataCommon"
+        - $ref: '#/components/schemas/MessageDataCommon'
         - type: object
           required:
             - verificationAddEthAddressBody
           properties:
             verificationAddEthAddressBody:
               description: "Contains the blockchain address being verified, along with cryptographic proof of ownership through a signature."
-              $ref: "#/components/schemas/VerificationAddEthAddressBody"
+              $ref: '#/components/schemas/VerificationAddEthAddressBody'
     MessageDataVerificationRemove:
-      description: "Represents a message that removes an existing blockchain address verification from a user's profile. This allows users to disassociate previously verified addresses from their account."
+      description: >-
+        Represents a message that removes an existing blockchain address
+        verification from a user's profile. This allows users to disassociate
+        previously verified addresses from their account.
       allOf:
-        - $ref: "#/components/schemas/MessageDataCommon"
+        - $ref: '#/components/schemas/MessageDataCommon'
         - type: object
           required:
             - verificationRemoveBody
           properties:
             verificationRemoveBody:
               description: "Contains the blockchain address for which the verification should be removed from the user's profile."
-              $ref: "#/components/schemas/VerificationRemoveBody"
+              $ref: '#/components/schemas/VerificationRemoveBody'
     MessageType:
       type: string
-      description: |-
+      description: >-
         Type of the MessageBody.
+
         - MESSAGE_TYPE_CAST_ADD: Add a new Cast
+
         - MESSAGE_TYPE_CAST_REMOVE: Remove an existing Cast
+
         - MESSAGE_TYPE_REACTION_ADD: Add a Reaction to a Cast
+
         - MESSAGE_TYPE_REACTION_REMOVE: Remove a Reaction from a Cast
+
         - MESSAGE_TYPE_LINK_ADD: Add a new Link
+
         - MESSAGE_TYPE_LINK_REMOVE: Remove an existing Link
-        - MESSAGE_TYPE_VERIFICATION_ADD_ETH_ADDRESS: Add a Verification of an Ethereum Address
+
+        - MESSAGE_TYPE_VERIFICATION_ADD_ETH_ADDRESS: Add a Verification of an
+        Ethereum Address
+
         - MESSAGE_TYPE_VERIFICATION_REMOVE: Remove a Verification
+
         - MESSAGE_TYPE_USER_DATA_ADD: Add metadata about a user
+
         - MESSAGE_TYPE_USERNAME_PROOF: Add or replace a username proof
+
         - MESSAGE_TYPE_FRAME_ACTION: A Farcaster Frame action
       default: MESSAGE_TYPE_CAST_ADD
       enum:
@@ -1719,38 +1814,35 @@ components:
         - MESSAGE_TYPE_FRAME_ACTION
     OnChainEvent:
       oneOf:
-        - $ref: "#/components/schemas/OnChainEventSigner"
-        - $ref: "#/components/schemas/OnChainEventSignerMigrated"
-        - $ref: "#/components/schemas/OnChainEventIdRegister"
-        - $ref: "#/components/schemas/OnChainEventStorageRent"
+        - $ref: '#/components/schemas/OnChainEventSigner'
+        - $ref: '#/components/schemas/OnChainEventSignerMigrated'
+        - $ref: '#/components/schemas/OnChainEventIdRegister'
+        - $ref: '#/components/schemas/OnChainEventStorageRent'
       discriminator:
         propertyName: type
         mapping:
-          EVENT_TYPE_SIGNER: "#/components/schemas/OnChainEventSigner"
-          EVENT_TYPE_SIGNER_MIGRATED: "#/components/schemas/OnChainEventSignerMigrated"
-          EVENT_TYPE_ID_REGISTER: "#/components/schemas/OnChainEventIdRegister"
-          EVENT_TYPE_STORAGE_RENT: "#/components/schemas/OnChainEventStorageRent"
+          EVENT_TYPE_SIGNER: '#/components/schemas/OnChainEventSigner'
+          EVENT_TYPE_SIGNER_MIGRATED: '#/components/schemas/OnChainEventSignerMigrated'
+          EVENT_TYPE_ID_REGISTER: '#/components/schemas/OnChainEventIdRegister'
+          EVENT_TYPE_STORAGE_RENT: '#/components/schemas/OnChainEventStorageRent'
     OnChainEventCommon:
       type: object
       properties:
         type:
           type: string
-          examples:
-            - EVENT_TYPE_SIGNER
+          example: EVENT_TYPE_SIGNER
         chainId:
           type: integer
         blockNumber:
           type: integer
         blockHash:
           type: string
-          examples:
-            - "0x75fbbb8b2a4ede67ac350e1b0503c6a152c0091bd8e3ef4a6927d58e088eae28"
+          example: '0x75fbbb8b2a4ede67ac350e1b0503c6a152c0091bd8e3ef4a6927d58e088eae28'
         blockTimestamp:
           type: integer
         transactionHash:
           type: string
-          examples:
-            - "0x36ef79e6c460e6ae251908be13116ff0065960adb1ae032b4cc65a8352f28952"
+          example: '0x36ef79e6c460e6ae251908be13116ff0065960adb1ae032b4cc65a8352f28952'
         logIndex:
           type: integer
         txIndex:
@@ -1769,38 +1861,38 @@ components:
         - fid
     OnChainEventIdRegister:
       allOf:
-        - $ref: "#/components/schemas/OnChainEventCommon"
+        - $ref: '#/components/schemas/OnChainEventCommon'
         - type: object
           properties:
             idRegisterEventBody:
-              $ref: "#/components/schemas/IdRegisterEventBody"
+              $ref: '#/components/schemas/IdRegisterEventBody'
           required:
             - idRegisterEventBody
     OnChainEventSigner:
       allOf:
-        - $ref: "#/components/schemas/OnChainEventCommon"
+        - $ref: '#/components/schemas/OnChainEventCommon'
         - type: object
           properties:
             signerEventBody:
-              $ref: "#/components/schemas/SignerEventBody"
+              $ref: '#/components/schemas/SignerEventBody'
           required:
             - signerEventBody
     OnChainEventSignerMigrated:
       allOf:
-        - $ref: "#/components/schemas/OnChainEventCommon"
+        - $ref: '#/components/schemas/OnChainEventCommon'
         - type: object
           properties:
             signerMigratedEventBody:
-              $ref: "#/components/schemas/SignerMigratedEventBody"
+              $ref: '#/components/schemas/SignerMigratedEventBody'
           required:
             - signerMigratedEventBody
     OnChainEventStorageRent:
       allOf:
-        - $ref: "#/components/schemas/OnChainEventCommon"
+        - $ref: '#/components/schemas/OnChainEventCommon'
         - type: object
           properties:
             storageRentEventBody:
-              $ref: "#/components/schemas/StorageRentEventBody"
+              $ref: '#/components/schemas/StorageRentEventBody'
           required:
             - storageRentEventBody
     OnChainEventType:
@@ -1815,61 +1907,68 @@ components:
       type: object
       properties:
         message:
-          $ref: "#/components/schemas/Message"
+          $ref: '#/components/schemas/Message'
       required:
         - message
     Reaction:
       allOf:
-        - $ref: "#/components/schemas/MessageCommon"
+        - $ref: '#/components/schemas/MessageCommon'
         - type: object
           properties:
             data:
               allOf:
-                - $ref: "#/components/schemas/MessageDataReaction"
+                - $ref: '#/components/schemas/MessageDataReaction'
                 - type: object
                   properties:
                     type:
-                      $ref: "#/components/schemas/MessageType"
+                      $ref: '#/components/schemas/MessageType'
                   required:
                     - type
           required:
             - data
     ReactionBody:
-      description: "Specifies the details of a reaction to content on Farcaster. A reaction must specify its type (like/recast) and either a target cast ID or URL to react to. Only one target (either castId or URL) should be specified per reaction."
+      description: >-
+        Specifies the details of a reaction to content on Farcaster. A reaction
+        must specify its type (like/recast) and either a target cast ID or URL
+        to react to. Only one target (either castId or URL) should be specified
+        per reaction.
       type: object
       properties:
         type:
-          $ref: "#/components/schemas/ReactionType"
+          $ref: '#/components/schemas/ReactionType'
         targetCastId:
           description: "The unique identifier of the cast being reacted to. Must be a valid CastId containing the creator's FID and the cast's hash."
-          $ref: "#/components/schemas/CastId"
+          $ref: '#/components/schemas/CastId'
         targetUrl:
           title: URL to react to
-          description: "The URL being reacted to. Used when reacting to external content or when the cast ID is not available."
+          description: >-
+            The URL being reacted to. Used when reacting to external content or
+            when the cast ID is not available.
           type: string
-          examples:
-            - "https://www.example.com/article"
-            - "https://farcaster.xyz/posts/123"
+          example: https://www.example.com/article
       required:
         - type
     ReactionType:
       type: string
-      description: |-
-        Type of interaction a user can have with content on the Farcaster network.
-        - Like: Express appreciation for the target content. Similar to "likes" or "favorites" on other platforms.
-        - Recast: Share the target content with the user's followers, similar to a "retweet" or "reblog". Helps increase content visibility.
+      description: >-
+        Type of interaction a user can have with content on the Farcaster
+        network.
+
+        - Like: Express appreciation for the target content. Similar to "likes"
+        or "favorites" on other platforms.
+
+        - Recast: Share the target content with the user's followers, similar to
+        a "retweet" or "reblog". Helps increase content visibility.
       default: Like
       enum:
         - Like
         - Recast
-      examples:
-        - "Like"
-        - "Recast"
+      example: Like
     RevokeMessageBody:
       type: object
       properties:
         message:
-          $ref: "#/components/schemas/Message"
+          $ref: '#/components/schemas/Message'
       required:
         - message
     SignatureScheme:
@@ -1892,7 +1991,7 @@ components:
           type: integer
           format: int64
         eventType:
-          $ref: "#/components/schemas/SignerEventType"
+          $ref: '#/components/schemas/SignerEventType'
         metadata:
           pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
           type: string
@@ -1925,7 +2024,7 @@ components:
       type: object
       properties:
         storeType:
-          $ref: "#/components/schemas/StoreType"
+          $ref: '#/components/schemas/StoreType'
         limit:
           type: integer
           format: uint64
@@ -1938,7 +2037,7 @@ components:
         limits:
           type: array
           items:
-            $ref: "#/components/schemas/StorageLimit"
+            $ref: '#/components/schemas/StorageLimit'
       required:
         - limits
     StorageRentEventBody:
@@ -1978,37 +2077,38 @@ components:
         - url
     UserDataAdd:
       allOf:
-        - $ref: "#/components/schemas/MessageCommon"
+        - $ref: '#/components/schemas/MessageCommon'
         - type: object
           properties:
             data:
               allOf:
-                - $ref: "#/components/schemas/MessageDataUserDataAdd"
+                - $ref: '#/components/schemas/MessageDataUserDataAdd'
                 - type: object
                   properties:
                     type:
-                      $ref: "#/components/schemas/MessageType"
+                      $ref: '#/components/schemas/MessageType'
                   required:
                     - type
           required:
             - data
     UserDataBody:
-      description: "Contains the data for updating a specific field of a user's profile metadata. Each update operation modifies one profile field at a time, allowing granular control over profile information."
+      description: >-
+        Contains the data for updating a specific field of a user's profile
+        metadata. Each update operation modifies one profile field at a time,
+        allowing granular control over profile information.
       type: object
       properties:
         type:
           description: "Specifies which profile field is being updated (e.g., profile picture, display name, bio)."
-          $ref: "#/components/schemas/UserDataType"
+          $ref: '#/components/schemas/UserDataType'
         value:
-          title: "Profile Field Value"
-          description: "The new value for the specified profile field. The format depends on the type: URLs for profile pictures, plain text for display names and bios, etc."
+          title: Profile Field Value
+          description: >-
+            The new value for the specified profile field. The format depends on
+            the type: URLs for profile pictures, plain text for display names
+            and bios, etc.
           type: string
-          examples:
-            - "https://i.imgur.com/123abc.jpg"  # For PFP
-            - "Alice"  # For display name
-            - "Web3 enthusiast | Builder | Coffee lover"  # For bio
-            - "https://alice.xyz"  # For URL
-            - "alice"  # For username
+          example: https://i.imgur.com/123abc.jpg
       required:
         - type
         - value
@@ -2037,8 +2137,7 @@ components:
           format: uint64
         name:
           type: string
-          examples:
-            - "neynar"
+          example: neynar
         owner:
           pattern: ^0x[0-9a-fA-F]{40}$
           type: string
@@ -2048,9 +2147,9 @@ components:
           format: byte
         fid:
           description: "The FID of the user who owns this username proof"
-          $ref: "#/components/schemas/FidSchema"
+          $ref: '#/components/schemas/FidSchema'
         type:
-          $ref: "#/components/schemas/UserNameType"
+          $ref: '#/components/schemas/UserNameType'
       required:
         - timestamp
         - name
@@ -2064,7 +2163,7 @@ components:
         proofs:
           type: array
           items:
-            $ref: "#/components/schemas/UserNameProof"
+            $ref: '#/components/schemas/UserNameProof'
       required:
         - proofs
     UserNameType:
@@ -2079,69 +2178,82 @@ components:
         valid:
           type: boolean
         message:
-          $ref: "#/components/schemas/Message"
+          $ref: '#/components/schemas/Message'
       required:
         - valid
         - message
     Verification:
       allOf:
-        - $ref: "#/components/schemas/MessageCommon"
+        - $ref: '#/components/schemas/MessageCommon'
         - type: object
           properties:
             data:
               allOf:
-                - $ref: "#/components/schemas/MessageDataVerificationAdd"
+                - $ref: '#/components/schemas/MessageDataVerificationAdd'
                 - type: object
                   properties:
                     type:
-                      $ref: "#/components/schemas/MessageType"
+                      $ref: '#/components/schemas/MessageType'
                   required:
                     - type
           required:
             - data
     VerificationAddEthAddressBody:
-      description: "Contains the data required to verify ownership of an Ethereum or Solana address. The verification process requires a cryptographic signature from the blockchain address and includes the block hash at the time of signing for timestamp verification."
+      description: >-
+        Contains the data required to verify ownership of an Ethereum or Solana
+        address. The verification process requires a cryptographic signature
+        from the blockchain address and includes the block hash at the time of
+        signing for timestamp verification.
       type: object
       properties:
         address:
-          title: "Blockchain Address"
-          description: "The Ethereum (0x-prefixed) or Solana address that the user is claiming ownership of. Must match the address that produced the signature."
+          title: Blockchain Address
+          description: >-
+            The Ethereum (0x-prefixed) or Solana address that the user is
+            claiming ownership of. Must match the address that produced the
+            signature.
           pattern: ^(?:0x[a-fA-F0-9]{40}|[1-9A-HJ-NP-Za-km-z]{32,44})$
           type: string
-          examples:
-            - "0x1234567890123456789012345678901234567890"
-            - "9ZfsP8tKehL486SJ8Ves5ukQqN5ViWH6qHrMxpxZAjVF"
+          example: '0x1234567890123456789012345678901234567890'
         ethSignature:
-          title: "Cryptographic Signature"
-          description: "Base64-encoded signature produced by the blockchain address, proving ownership. For Ethereum, this is an ECDSA signature of a specific message format."
+          title: Cryptographic Signature
+          description: >-
+            Base64-encoded signature produced by the blockchain address, proving
+            ownership. For Ethereum, this is an ECDSA signature of a specific
+            message format.
           pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
           type: string
           format: byte
-          examples:
-            - "4mGN6TACFqXUVU9RpwLDGCqgqiV1GidEFk9eKF0L0h6JNqmN3kRM9NMPnjUnkh8oL6+jFeQJ9YVuKX4F9EqGiAE="
+          example: >-
+            4mGN6TACFqXUVU9RpwLDGCqgqiV1GidEFk9eKF0L0h6JNqmN3kRM9NMPnjUnkh8oL6+jFeQJ9YVuKX4F9EqGiAE=
         blockHash:
-          title: "Block Hash"
-          description: "The hash of the most recent block when the signature was created. Used to verify the approximate time of signature creation."
+          title: Block Hash
+          description: >-
+            The hash of the most recent block when the signature was created.
+            Used to verify the approximate time of signature creation.
           pattern: ^(0x[a-fA-F0-9]{64}|[1-9A-HJ-NP-Za-km-z]{44})$
           type: string
-          examples:
-            - "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"
-            - "3Kt6PK8gVgKjGZkHFGhyPQKz6NFcDJAaKbAGrfYmF1Ey"
+          example: '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef'
       required:
         - address
         - ethSignature
         - blockHash
     VerificationRemoveBody:
-      description: "Contains the data required to remove a previously added blockchain address verification from a user's profile. This operation permanently removes the verification until explicitly re-added."
+      description: >-
+        Contains the data required to remove a previously added blockchain
+        address verification from a user's profile. This operation permanently
+        removes the verification until explicitly re-added.
       type: object
       properties:
         address:
-          title: "Blockchain Address"
-          description: "The Ethereum address (0x-prefixed) for which the verification should be removed. Must match a previously verified address in the user's profile."
+          title: Blockchain Address
+          description: >-
+            The Ethereum address (0x-prefixed) for which the verification should
+            be removed. Must match a previously verified address in the user's
+            profile.
           pattern: ^0x[A-Za-z0-9]{40}$
           type: string
-          examples:
-            - "0x1234567890123456789012345678901234567890"
+          example: '0x1234567890123456789012345678901234567890'
       required:
         - address
   responses:
@@ -2150,4 +2262,4 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/ErrorResponse"
+            $ref: '#/components/schemas/ErrorResponse'
