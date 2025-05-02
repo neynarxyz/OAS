@@ -1291,7 +1291,9 @@ components:
           example: 1 # Primary action
         castId:
           description: "The unique identifier of the cast containing the frame that was interacted with."
-          $ref: "#/components/schemas/CastId"
+          # Nesting $ref under allOf is necessary for any sibling fields to be effective
+          allOf: 
+          - $ref: "#/components/schemas/CastId"
       required:
         - url
         - buttonIndex
@@ -1630,7 +1632,9 @@ components:
           properties:
             castAddBody:
               description: "The content and metadata of the new cast, including the text, mentions, embeds, and any parent references for replies."
-              $ref: "#/components/schemas/CastAddBody"
+              # Nesting $ref under allOf is necessary for any sibling fields to be effective
+              allOf:
+              - $ref: "#/components/schemas/CastAddBody"
     MessageDataCastRemove:
       description: "Represents a request to remove (delete) a previously created cast. Only the original creator of a cast can remove it."
       allOf:
@@ -1693,7 +1697,9 @@ components:
           properties:
             frameActionBody:
               description: "Contains the details of the frame interaction, including which button was pressed and the associated cast and URL."
-              $ref: "#/components/schemas/FrameActionBody"
+              # Nesting $ref under allOf is necessary for any sibling fields to be effective
+              allOf:
+              - $ref: "#/components/schemas/FrameActionBody"
     MessageDataLink:
       description: >-
         Represents a social graph connection between users in the Farcaster
@@ -1706,7 +1712,9 @@ components:
           properties:
             linkBody:
               description: "Contains the details of the social connection, including the type of relationship and the target user."
-              $ref: "#/components/schemas/LinkBody"
+              # Nesting $ref under allOf is necessary for any sibling fields to be effective
+              allOf:
+              - $ref: "#/components/schemas/LinkBody"
     MessageDataReaction:
       description: >-
         Represents a user's reaction to content on the Farcaster network.
@@ -1720,7 +1728,9 @@ components:
           properties:
             reactionBody:
               description: "Contains the type of reaction (like/recast) and the target content being reacted to. The target can be specified either by castId or URL."
-              $ref: "#/components/schemas/ReactionBody"
+              # Nesting $ref under allOf is necessary for any sibling fields to be effective
+              allOf:
+              - $ref: "#/components/schemas/ReactionBody"
     MessageDataUserDataAdd:
       description: >-
         Represents a message that updates a user's profile metadata. This can
@@ -1734,7 +1744,9 @@ components:
           properties:
             userDataBody:
               description: "Contains the type of profile metadata being updated and its new value."
-              $ref: "#/components/schemas/UserDataBody"
+              # Nesting $ref under allOf is necessary for any sibling fields to be effective
+              allOf:
+              - $ref: "#/components/schemas/UserDataBody"
     MessageDataUsernameProof:
       allOf:
         - $ref: "#/components/schemas/MessageDataCommon"
@@ -1757,7 +1769,9 @@ components:
           properties:
             verificationAddEthAddressBody:
               description: "Contains the blockchain address being verified, along with cryptographic proof of ownership through a signature."
-              $ref: "#/components/schemas/VerificationAddEthAddressBody"
+              # Nesting $ref under allOf is necessary for any sibling fields to be effective
+              allOf:
+              - $ref: "#/components/schemas/VerificationAddEthAddressBody"
     MessageDataVerificationRemove:
       description: >-
         Represents a message that removes an existing blockchain address
@@ -1771,7 +1785,9 @@ components:
           properties:
             verificationRemoveBody:
               description: "Contains the blockchain address for which the verification should be removed from the user's profile."
-              $ref: "#/components/schemas/VerificationRemoveBody"
+              # Nesting $ref under allOf is necessary for any sibling fields to be effective
+              allOf:
+              - $ref: "#/components/schemas/VerificationRemoveBody"
     MessageType:
       type: string
       description: >-
@@ -1938,7 +1954,9 @@ components:
           $ref: "#/components/schemas/ReactionType"
         targetCastId:
           description: "The unique identifier of the cast being reacted to. Must be a valid CastId containing the creator's FID and the cast's hash."
-          $ref: "#/components/schemas/CastId"
+          # Nesting $ref under allOf is necessary for any sibling fields to be effective
+          allOf:
+          - $ref: "#/components/schemas/CastId"
         targetUrl:
           title: URL to react to
           description: >-
@@ -2100,7 +2118,9 @@ components:
       properties:
         type:
           description: "Specifies which profile field is being updated (e.g., profile picture, display name, bio)."
-          $ref: "#/components/schemas/UserDataType"
+          # Nesting $ref under allOf is necessary for any sibling fields to be effective
+          allOf:
+          - $ref: "#/components/schemas/UserDataType"
         value:
           title: Profile Field Value
           description: >-
@@ -2147,7 +2167,9 @@ components:
           format: byte
         fid:
           description: "The FID of the user who owns this username proof"
-          $ref: "#/components/schemas/FidSchema"
+          # Nesting $ref under allOf is necessary for any sibling fields to be effective
+          allOf:
+          - $ref: "#/components/schemas/FidSchema"
         type:
           $ref: "#/components/schemas/UserNameType"
       required:

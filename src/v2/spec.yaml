@@ -1003,7 +1003,8 @@ components:
         - cast
       properties:
         cast_id:
-          $ref: "#/components/schemas/CastId"
+          allOf:
+            - $ref: "#/components/schemas/CastId"
           deprecated: true
           description: '[DEPRECATED: Use "cast" key instead]'
         cast:
@@ -1014,9 +1015,11 @@ components:
         - cast
       properties:
         cast_id:
-          $ref: "#/components/schemas/CastId"
           deprecated: true
           description: '[DEPRECATED: Use "cast" key instead]'
+          # Nesting $ref under allOf is necessary for any sibling fields to be effective
+          allOf:
+            - $ref: "#/components/schemas/CastId"
         cast:
           $ref: "#/components/schemas/CastDehydrated"
     Frame:
@@ -1265,7 +1268,10 @@ components:
             $ref: "#/components/schemas/TransactionFrameLineItem"
           description: List of items included in the transaction
         action:
-          $ref: "#/components/schemas/TransactionFrameAction"
+          description: Action button for primary CTA on the transaction mini app
+          # Nesting $ref under allOf is necessary for any sibling fields to be effective
+          allOf:
+            - $ref: "#/components/schemas/TransactionFrameAction"
     TransactionFrameBase:
       type: object
       required:
@@ -1903,12 +1909,12 @@ components:
               properties:
                 eth_address:
                   nullable: true
-                  # Nesting $ref under allOf is necessary for nullable to work correctly when generating client SDKs
+                  # Nesting $ref under allOf is necessary for any sibling fields to be effective
                   allOf:
                     - $ref: "#/components/schemas/EthAddress"
                 sol_address:
                   nullable: true
-                  # Nesting $ref under allOf is necessary for nullable to work correctly when generating client SDKs
+                  # Nesting $ref under allOf is necessary for any sibling fields to be effective
                   allOf:
                     - $ref: "#/components/schemas/SolAddress"
         verified_accounts:
@@ -2087,14 +2093,14 @@ components:
           properties:
             fid:
               nullable: true
-              # Nesting $ref under allOf is necessary for nullable to work correctly when generating client SDKs
+              # Nesting $ref under allOf is necessary for any sibling fields to be effective
               allOf:
                 - $ref: "#/components/schemas/Fid"
         author:
           $ref: "#/components/schemas/UserDehydrated"
         app:
           nullable: true
-          # Nesting $ref under allOf is necessary for nullable to work correctly when generating client SDKs
+          # Nesting $ref under allOf is necessary for any sibling fields to be effective
           allOf:
             - $ref: "#/components/schemas/UserDehydrated"
         text:
@@ -2109,7 +2115,7 @@ components:
             $ref: "#/components/schemas/EmbedDeep"
         channel:
           nullable: true
-          # Nesting $ref under allOf is necessary for nullable to work correctly when generating client SDKs
+          # Nesting $ref under allOf is necessary for any sibling fields to be effective
           allOf:
             - $ref: "#/components/schemas/ChannelDehydrated"
     Cast:
@@ -2148,14 +2154,14 @@ components:
           properties:
             fid:
               nullable: true
-              # Nesting $ref under allOf is necessary for nullable to work correctly when generating client SDKs
+              # Nesting $ref under allOf is necessary for any sibling fields to be effective
               allOf:
                 - $ref: "#/components/schemas/Fid"
         author:
           $ref: "#/components/schemas/User"
         app:
           nullable: true
-          # Nesting $ref under allOf is necessary for nullable to work correctly when generating client SDKs
+          # Nesting $ref under allOf is necessary for any sibling fields to be effective
           allOf:
             - $ref: "#/components/schemas/UserDehydrated"
         text:
@@ -2643,7 +2649,7 @@ components:
                 $ref: "#/components/schemas/TextRange"
             channel:
               nullable: true
-              # Nesting $ref under allOf is necessary for nullable to work correctly when generating client SDKs
+              # Nesting $ref under allOf is necessary for any sibling fields to be effective
               allOf:
                 - $ref: "#/components/schemas/ChannelOrChannelDehydrated"
             viewer_context:
@@ -2921,7 +2927,9 @@ components:
         moderator:
           deprecated: true
           description: Use `lead` instead.
-          $ref: "#/components/schemas/User"
+          # Nesting $ref under allOf is necessary for any sibling fields to be effective
+          allOf:
+            - $ref: "#/components/schemas/User"
         pinned_cast_hash:
           $ref: "#/components/schemas/CastHash"
         hosts:
@@ -3316,7 +3324,7 @@ components:
           $ref: "#/components/schemas/UserDehydrated"
         app:
           nullable: true
-          # Nesting $ref under allOf is necessary for nullable to work correctly when generating client SDKs
+          # Nesting $ref under allOf is necessary for any sibling fields to be effective
           allOf:
             - $ref: "#/components/schemas/UserDehydrated"
     ReactionWithUserInfo:
