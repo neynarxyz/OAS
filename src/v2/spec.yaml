@@ -1903,10 +1903,14 @@ components:
               properties:
                 eth_address:
                   nullable: true
-                  $ref: "#/components/schemas/EthAddress"
+                  # Nesting $ref under allOf is necessary for nullable to work correctly when generating client SDKs
+                  allOf:
+                    - $ref: "#/components/schemas/EthAddress"
                 sol_address:
                   nullable: true
-                  $ref: "#/components/schemas/SolAddress"
+                  # Nesting $ref under allOf is necessary for nullable to work correctly when generating client SDKs
+                  allOf:
+                    - $ref: "#/components/schemas/SolAddress"
         verified_accounts:
           type: array
           description: >-
@@ -2083,12 +2087,16 @@ components:
           properties:
             fid:
               nullable: true
-              $ref: "#/components/schemas/Fid"
+              # Nesting $ref under allOf is necessary for nullable to work correctly when generating client SDKs
+              allOf:
+                - $ref: "#/components/schemas/Fid"
         author:
           $ref: "#/components/schemas/UserDehydrated"
         app:
           nullable: true
-          $ref: "#/components/schemas/UserDehydrated"
+          # Nesting $ref under allOf is necessary for nullable to work correctly when generating client SDKs
+          allOf:
+            - $ref: "#/components/schemas/UserDehydrated"
         text:
           type: string
         timestamp:
@@ -2101,7 +2109,9 @@ components:
             $ref: "#/components/schemas/EmbedDeep"
         channel:
           nullable: true
-          $ref: "#/components/schemas/ChannelDehydrated"
+          # Nesting $ref under allOf is necessary for nullable to work correctly when generating client SDKs
+          allOf:
+            - $ref: "#/components/schemas/ChannelDehydrated"
     Cast:
       type: object
       required:
@@ -2138,12 +2148,16 @@ components:
           properties:
             fid:
               nullable: true
-              $ref: "#/components/schemas/Fid"
+              # Nesting $ref under allOf is necessary for nullable to work correctly when generating client SDKs
+              allOf:
+                - $ref: "#/components/schemas/Fid"
         author:
           $ref: "#/components/schemas/User"
         app:
           nullable: true
-          $ref: "#/components/schemas/UserDehydrated"
+          # Nesting $ref under allOf is necessary for nullable to work correctly when generating client SDKs
+          allOf:
+            - $ref: "#/components/schemas/UserDehydrated"
         text:
           type: string
         timestamp:
@@ -2629,7 +2643,9 @@ components:
                 $ref: "#/components/schemas/TextRange"
             channel:
               nullable: true
-              $ref: "#/components/schemas/ChannelOrChannelDehydrated"
+              # Nesting $ref under allOf is necessary for nullable to work correctly when generating client SDKs
+              allOf:
+                - $ref: "#/components/schemas/ChannelOrChannelDehydrated"
             viewer_context:
               $ref: "#/components/schemas/CastViewerContext"
             author_channel_context:
@@ -3300,7 +3316,9 @@ components:
           $ref: "#/components/schemas/UserDehydrated"
         app:
           nullable: true
-          $ref: "#/components/schemas/UserDehydrated"
+          # Nesting $ref under allOf is necessary for nullable to work correctly when generating client SDKs
+          allOf:
+            - $ref: "#/components/schemas/UserDehydrated"
     ReactionWithUserInfo:
       type: object
       required:
@@ -4694,7 +4712,8 @@ components:
           nullable: true
         tier:
           nullable: true
-          $ref: "#/components/schemas/SubscriptionTier"
+          allOf:
+            - $ref: "#/components/schemas/SubscriptionTier"
       required:
         - object
         - status
