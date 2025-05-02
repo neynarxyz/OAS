@@ -56,6 +56,7 @@ components:
       example: 3
     TrendingTimeWindow:
       type: string
+      default: 24h
       enum:
         - 1h
         - 6h
@@ -6822,9 +6823,7 @@ paths:
           description: Time window for trending casts (7d window for channel feeds only)
           required: false
           schema:
-            allOf:
-              - $ref: "#/components/schemas/TrendingTimeWindow"
-              - default: 24h
+              $ref: "#/components/schemas/TrendingTimeWindow"
           example: 24h
         - name: channel_id
           in: query
