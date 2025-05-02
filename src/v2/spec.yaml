@@ -3567,7 +3567,7 @@ components:
         next:
           $ref: '#/components/schemas/NextCursor'
     BulkUsersByAddressResponse:
-      anyOf:
+      anyOf: # This redundant anyOf hack required for additionalProperties to be handled correctly by go-sdk generation
         - type: object
           additionalProperties:
             type: array
@@ -4786,7 +4786,7 @@ components:
         - 1d
         - 7d
     SubscriptionCheckResponse:
-      anyOf:
+      anyOf: # This redundant anyOf hack required for additionalProperties to be handled correctly by go-sdk generation
         - type: object
           additionalProperties:
             $ref: '#/components/schemas/SubscriptionStatus'
