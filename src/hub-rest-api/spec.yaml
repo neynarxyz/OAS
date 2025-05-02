@@ -65,14 +65,14 @@ paths:
             type: boolean
             example: true # Include database statistics
       responses:
-        '200':
+        "200":
           description: A successful response.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HubInfoResponse'
+                $ref: "#/components/schemas/HubInfoResponse"
         default:
-          $ref: '#/components/responses/ErrorResponse'
+          $ref: "#/components/responses/ErrorResponse"
   /v1/castById:
     get:
       tags:
@@ -89,7 +89,7 @@ paths:
           description: The FID of the cast's creator
           required: true
           schema:
-            $ref: '#/components/schemas/FidSchema'
+            $ref: "#/components/schemas/FidSchema"
         - name: hash
           in: query
           description: >-
@@ -100,16 +100,16 @@ paths:
           schema:
             pattern: ^0x[0-9a-fA-F]{40}$
             type: string
-            example: '0x03aff391a6eb1772b20b4ead9a89f732be75fe27'
+            example: "0x03aff391a6eb1772b20b4ead9a89f732be75fe27"
       responses:
-        '200':
+        "200":
           description: The requested Cast.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CastAdd'
+                $ref: "#/components/schemas/CastAdd"
         default:
-          $ref: '#/components/responses/ErrorResponse'
+          $ref: "#/components/responses/ErrorResponse"
   /v1/castsByFid:
     get:
       tags:
@@ -126,12 +126,12 @@ paths:
           description: The FID of the casts' creator
           required: true
           schema:
-            $ref: '#/components/schemas/FidSchema'
-        - $ref: '#/components/parameters/pageSize'
-        - $ref: '#/components/parameters/paginationReverse'
-        - $ref: '#/components/parameters/pageToken'
+            $ref: "#/components/schemas/FidSchema"
+        - $ref: "#/components/parameters/pageSize"
+        - $ref: "#/components/parameters/paginationReverse"
+        - $ref: "#/components/parameters/pageToken"
       responses:
-        '200':
+        "200":
           description: The requested Casts.
           content:
             application/json:
@@ -144,10 +144,10 @@ paths:
                       messages:
                         type: array
                         items:
-                          $ref: '#/components/schemas/CastAdd'
-                  - $ref: '#/components/schemas/PaginationResponse'
+                          $ref: "#/components/schemas/CastAdd"
+                  - $ref: "#/components/schemas/PaginationResponse"
         default:
-          $ref: '#/components/responses/ErrorResponse'
+          $ref: "#/components/responses/ErrorResponse"
   /v1/castsByMention:
     get:
       tags:
@@ -166,11 +166,11 @@ paths:
           schema:
             type: integer
           example: 3
-        - $ref: '#/components/parameters/pageSize'
-        - $ref: '#/components/parameters/paginationReverse'
-        - $ref: '#/components/parameters/pageToken'
+        - $ref: "#/components/parameters/pageSize"
+        - $ref: "#/components/parameters/paginationReverse"
+        - $ref: "#/components/parameters/pageToken"
       responses:
-        '200':
+        "200":
           description: The requested Casts.
           content:
             application/json:
@@ -183,10 +183,10 @@ paths:
                       messages:
                         type: array
                         items:
-                          $ref: '#/components/schemas/CastAdd'
-                  - $ref: '#/components/schemas/PaginationResponse'
+                          $ref: "#/components/schemas/CastAdd"
+                  - $ref: "#/components/schemas/PaginationResponse"
         default:
-          $ref: '#/components/responses/ErrorResponse'
+          $ref: "#/components/responses/ErrorResponse"
   /v1/castsByParent:
     get:
       tags:
@@ -227,7 +227,7 @@ paths:
           schema:
             type: string
             pattern: ^0x[0-9a-fA-F]{40}$
-            example: '0x776593353e47dc4e7f4df3199a9b04cc8efa30d9'
+            example: "0x776593353e47dc4e7f4df3199a9b04cc8efa30d9"
         - name: url
           in: query
           description: Cast URL starting with 'chain://'
@@ -235,11 +235,11 @@ paths:
             type: string
             format: uri
             example: chain://eip155:1/erc721:0x39d89b649ffa044383333d297e325d42d31329b2
-        - $ref: '#/components/parameters/pageSize'
-        - $ref: '#/components/parameters/paginationReverse'
-        - $ref: '#/components/parameters/pageToken'
+        - $ref: "#/components/parameters/pageSize"
+        - $ref: "#/components/parameters/paginationReverse"
+        - $ref: "#/components/parameters/pageToken"
       responses:
-        '200':
+        "200":
           description: >-
             A successful response containing all reply casts to the specified
             parent cast, along with pagination information for traversing large
@@ -259,10 +259,10 @@ paths:
                           content, timestamp, and other metadata.
                         type: array
                         items:
-                          $ref: '#/components/schemas/CastAdd'
-                  - $ref: '#/components/schemas/PaginationResponse'
+                          $ref: "#/components/schemas/CastAdd"
+                  - $ref: "#/components/schemas/PaginationResponse"
         default:
-          $ref: '#/components/responses/ErrorResponse'
+          $ref: "#/components/responses/ErrorResponse"
   /v1/reactionById:
     get:
       tags:
@@ -294,21 +294,21 @@ paths:
           schema:
             type: string
           required: true
-          example: '0xfec8fd3546e1f46cf5ad10a4ff9f5d53a3bbe9be'
+          example: "0xfec8fd3546e1f46cf5ad10a4ff9f5d53a3bbe9be"
         - name: reaction_type
           in: query
           schema:
-            $ref: '#/components/schemas/ReactionType'
+            $ref: "#/components/schemas/ReactionType"
           required: true
       responses:
-        '200':
+        "200":
           description: The requested Reaction.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Reaction'
+                $ref: "#/components/schemas/Reaction"
         default:
-          $ref: '#/components/responses/ErrorResponse'
+          $ref: "#/components/responses/ErrorResponse"
   /v1/reactionsByCast:
     get:
       tags:
@@ -331,7 +331,7 @@ paths:
             cast that received the reactions. Must be used in conjunction with
             target_hash.
           schema:
-            $ref: '#/components/schemas/FidSchema'
+            $ref: "#/components/schemas/FidSchema"
           required: true
         - name: target_hash
           in: query
@@ -343,18 +343,18 @@ paths:
           schema:
             type: string
             pattern: ^0x[0-9a-fA-F]{40}$
-            example: '0xfec8fd3546e1f46cf5ad10a4ff9f5d53a3bbe9be'
+            example: "0xfec8fd3546e1f46cf5ad10a4ff9f5d53a3bbe9be"
           required: true
         - name: reaction_type
           in: query
           schema:
-            $ref: '#/components/schemas/ReactionType'
+            $ref: "#/components/schemas/ReactionType"
           required: true
-        - $ref: '#/components/parameters/pageSize'
-        - $ref: '#/components/parameters/paginationReverse'
-        - $ref: '#/components/parameters/pageToken'
+        - $ref: "#/components/parameters/pageSize"
+        - $ref: "#/components/parameters/paginationReverse"
+        - $ref: "#/components/parameters/pageToken"
       responses:
-        '200':
+        "200":
           description: The requested Reactions.
           content:
             application/json:
@@ -367,10 +367,10 @@ paths:
                       messages:
                         type: array
                         items:
-                          $ref: '#/components/schemas/Reaction'
-                  - $ref: '#/components/schemas/PaginationResponse'
+                          $ref: "#/components/schemas/Reaction"
+                  - $ref: "#/components/schemas/PaginationResponse"
         default:
-          $ref: '#/components/responses/ErrorResponse'
+          $ref: "#/components/responses/ErrorResponse"
   /v1/reactionsByFid:
     get:
       tags:
@@ -386,18 +386,18 @@ paths:
           in: query
           description: The FID of the reaction's creator
           schema:
-            $ref: '#/components/schemas/FidSchema'
+            $ref: "#/components/schemas/FidSchema"
           required: true
         - name: reaction_type
           in: query
           schema:
-            $ref: '#/components/schemas/ReactionType'
+            $ref: "#/components/schemas/ReactionType"
           required: true
-        - $ref: '#/components/parameters/pageSize'
-        - $ref: '#/components/parameters/paginationReverse'
-        - $ref: '#/components/parameters/pageToken'
+        - $ref: "#/components/parameters/pageSize"
+        - $ref: "#/components/parameters/paginationReverse"
+        - $ref: "#/components/parameters/pageToken"
       responses:
-        '200':
+        "200":
           description: The requested Reactions.
           content:
             application/json:
@@ -410,10 +410,10 @@ paths:
                       messages:
                         type: array
                         items:
-                          $ref: '#/components/schemas/Reaction'
-                  - $ref: '#/components/schemas/PaginationResponse'
+                          $ref: "#/components/schemas/Reaction"
+                  - $ref: "#/components/schemas/PaginationResponse"
         default:
-          $ref: '#/components/responses/ErrorResponse'
+          $ref: "#/components/responses/ErrorResponse"
   /v1/reactionsByTarget:
     get:
       tags:
@@ -438,12 +438,12 @@ paths:
         - name: reaction_type
           in: query
           schema:
-            $ref: '#/components/schemas/ReactionType'
-        - $ref: '#/components/parameters/pageSize'
-        - $ref: '#/components/parameters/paginationReverse'
-        - $ref: '#/components/parameters/pageToken'
+            $ref: "#/components/schemas/ReactionType"
+        - $ref: "#/components/parameters/pageSize"
+        - $ref: "#/components/parameters/paginationReverse"
+        - $ref: "#/components/parameters/pageToken"
       responses:
-        '200':
+        "200":
           description: The requested Reactions.
           content:
             application/json:
@@ -456,10 +456,10 @@ paths:
                       messages:
                         type: array
                         items:
-                          $ref: '#/components/schemas/Reaction'
-                  - $ref: '#/components/schemas/PaginationResponse'
+                          $ref: "#/components/schemas/Reaction"
+                  - $ref: "#/components/schemas/PaginationResponse"
         default:
-          $ref: '#/components/responses/ErrorResponse'
+          $ref: "#/components/responses/ErrorResponse"
   /v1/linkById:
     get:
       tags:
@@ -476,27 +476,27 @@ paths:
           description: The FID of the link's originator
           required: true
           schema:
-            $ref: '#/components/schemas/FidSchema'
+            $ref: "#/components/schemas/FidSchema"
         - name: target_fid
           in: query
           description: The FID of the target user for this link
           required: true
           schema:
-            $ref: '#/components/schemas/FidSchema'
+            $ref: "#/components/schemas/FidSchema"
         - name: link_type
           in: query
           required: true
           schema:
-            $ref: '#/components/schemas/LinkType'
+            $ref: "#/components/schemas/LinkType"
       responses:
-        '200':
+        "200":
           description: The requested Link.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LinkAdd'
+                $ref: "#/components/schemas/LinkAdd"
         default:
-          $ref: '#/components/responses/ErrorResponse'
+          $ref: "#/components/responses/ErrorResponse"
   /v1/linksByFid:
     get:
       tags:
@@ -513,17 +513,17 @@ paths:
           description: The FID of the link's originator
           required: true
           schema:
-            $ref: '#/components/schemas/FidSchema'
+            $ref: "#/components/schemas/FidSchema"
         - name: link_type
           in: query
           schema:
-            $ref: '#/components/schemas/LinkType'
+            $ref: "#/components/schemas/LinkType"
           required: false
-        - $ref: '#/components/parameters/pageSize'
-        - $ref: '#/components/parameters/paginationReverse'
-        - $ref: '#/components/parameters/pageToken'
+        - $ref: "#/components/parameters/pageSize"
+        - $ref: "#/components/parameters/paginationReverse"
+        - $ref: "#/components/parameters/pageToken"
       responses:
-        '200':
+        "200":
           description: The requested Links.
           content:
             application/json:
@@ -536,10 +536,10 @@ paths:
                       messages:
                         type: array
                         items:
-                          $ref: '#/components/schemas/LinkAdd'
-                  - $ref: '#/components/schemas/PaginationResponse'
+                          $ref: "#/components/schemas/LinkAdd"
+                  - $ref: "#/components/schemas/PaginationResponse"
         default:
-          $ref: '#/components/responses/ErrorResponse'
+          $ref: "#/components/responses/ErrorResponse"
   /v1/linksByTargetFid:
     get:
       tags:
@@ -556,17 +556,17 @@ paths:
           description: The FID of the target user for this link
           required: true
           schema:
-            $ref: '#/components/schemas/FidSchema'
+            $ref: "#/components/schemas/FidSchema"
         - name: link_type
           in: query
           schema:
-            $ref: '#/components/schemas/LinkType'
+            $ref: "#/components/schemas/LinkType"
           required: false
-        - $ref: '#/components/parameters/pageSize'
-        - $ref: '#/components/parameters/paginationReverse'
-        - $ref: '#/components/parameters/pageToken'
+        - $ref: "#/components/parameters/pageSize"
+        - $ref: "#/components/parameters/paginationReverse"
+        - $ref: "#/components/parameters/pageToken"
       responses:
-        '200':
+        "200":
           description: The requested Links.
           content:
             application/json:
@@ -579,10 +579,10 @@ paths:
                       messages:
                         type: array
                         items:
-                          $ref: '#/components/schemas/LinkAdd'
-                  - $ref: '#/components/schemas/PaginationResponse'
+                          $ref: "#/components/schemas/LinkAdd"
+                  - $ref: "#/components/schemas/PaginationResponse"
         default:
-          $ref: '#/components/responses/ErrorResponse'
+          $ref: "#/components/responses/ErrorResponse"
   /v1/userDataByFid:
     get:
       tags:
@@ -611,19 +611,19 @@ paths:
             The type of user data, either as a numerical value or type string.
             If this is omitted, all user data for the FID is returned
           schema:
-            $ref: '#/components/schemas/UserDataType'
+            $ref: "#/components/schemas/UserDataType"
           required: false
-        - $ref: '#/components/parameters/pageSize'
-        - $ref: '#/components/parameters/paginationReverse'
-        - $ref: '#/components/parameters/pageToken'
+        - $ref: "#/components/parameters/pageSize"
+        - $ref: "#/components/parameters/paginationReverse"
+        - $ref: "#/components/parameters/pageToken"
       responses:
-        '200':
+        "200":
           description: The requested UserData.
           content:
             application/json:
               schema:
                 oneOf:
-                  - $ref: '#/components/schemas/UserDataAdd'
+                  - $ref: "#/components/schemas/UserDataAdd"
                   - allOf:
                       - type: object
                         required:
@@ -632,10 +632,10 @@ paths:
                           messages:
                             type: array
                             items:
-                              $ref: '#/components/schemas/UserDataAdd'
-                      - $ref: '#/components/schemas/PaginationResponse'
+                              $ref: "#/components/schemas/UserDataAdd"
+                      - $ref: "#/components/schemas/PaginationResponse"
         default:
-          $ref: '#/components/responses/ErrorResponse'
+          $ref: "#/components/responses/ErrorResponse"
   /v1/fids:
     get:
       tags:
@@ -658,14 +658,14 @@ paths:
         - $ref: "#/components/parameters/paginationReverse"
         - $ref: "#/components/parameters/pageToken"
       responses:
-        '200':
+        "200":
           description: A successful response.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FidsResponse'
+                $ref: "#/components/schemas/FidsResponse"
         default:
-          $ref: '#/components/responses/ErrorResponse'
+          $ref: "#/components/responses/ErrorResponse"
   /v1/storageLimitsByFid:
     get:
       tags:
@@ -684,14 +684,14 @@ paths:
             type: integer
           example: 3
       responses:
-        '200':
+        "200":
           description: A successful response.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/StorageLimitsResponse'
+                $ref: "#/components/schemas/StorageLimitsResponse"
         default:
-          $ref: '#/components/responses/ErrorResponse'
+          $ref: "#/components/responses/ErrorResponse"
       x-codegen-request-body-name: body
   /v1/userNameProofsByFid:
     get:
@@ -712,14 +712,14 @@ paths:
           description: The FID being requested
           example: 616
       responses:
-        '200':
+        "200":
           description: A successful response.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UsernameProofsResponse'
+                $ref: "#/components/schemas/UsernameProofsResponse"
         default:
-          $ref: '#/components/responses/ErrorResponse'
+          $ref: "#/components/responses/ErrorResponse"
   /v1/userNameProofByName:
     get:
       tags:
@@ -743,14 +743,14 @@ paths:
             ENS address:
               value: dwr.eth
       responses:
-        '200':
+        "200":
           description: A successful response.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserNameProof'
+                $ref: "#/components/schemas/UserNameProof"
         default:
-          $ref: '#/components/responses/ErrorResponse'
+          $ref: "#/components/responses/ErrorResponse"
   /v1/verificationsByFid:
     get:
       tags:
@@ -775,11 +775,11 @@ paths:
           schema:
             type: string
           description: The optional ETH address to filter by
-        - $ref: '#/components/parameters/pageSize'
-        - $ref: '#/components/parameters/paginationReverse'
-        - $ref: '#/components/parameters/pageToken'
+        - $ref: "#/components/parameters/pageSize"
+        - $ref: "#/components/parameters/paginationReverse"
+        - $ref: "#/components/parameters/pageToken"
       responses:
-        '200':
+        "200":
           description: The requested Verifications.
           content:
             application/json:
@@ -792,13 +792,13 @@ paths:
                   messages:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Verification'
+                      $ref: "#/components/schemas/Verification"
                   nextPageToken:
                     pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
                     type: string
                     format: byte
         default:
-          $ref: '#/components/responses/ErrorResponse'
+          $ref: "#/components/responses/ErrorResponse"
       x-codegen-request-body-name: body
   /v1/onChainIdRegistryEventByAddress:
     get:
@@ -819,16 +819,16 @@ paths:
             type: string
             pattern: ^0x[0-9a-fA-F]{40}$
           description: The ETH address being requested
-          example: '0x6b0bda3f2ffed5efc83fa8c024acff1dd45793f1'
+          example: "0x6b0bda3f2ffed5efc83fa8c024acff1dd45793f1"
       responses:
-        '200':
+        "200":
           description: A successful response.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OnChainEventIdRegister'
+                $ref: "#/components/schemas/OnChainEventIdRegister"
         default:
-          $ref: '#/components/responses/ErrorResponse'
+          $ref: "#/components/responses/ErrorResponse"
   /v1/onChainEventsByFid:
     get:
       tags:
@@ -850,11 +850,11 @@ paths:
         - name: event_type
           in: query
           schema:
-            $ref: '#/components/schemas/OnChainEventType'
+            $ref: "#/components/schemas/OnChainEventType"
           description: The numeric or string value of the event type being requested
           required: true
       responses:
-        '200':
+        "200":
           description: A successful response.
           content:
             application/json:
@@ -864,11 +864,11 @@ paths:
                   events:
                     type: array
                     items:
-                      $ref: '#/components/schemas/OnChainEvent'
+                      $ref: "#/components/schemas/OnChainEvent"
                 required:
                   - events
         default:
-          $ref: '#/components/responses/ErrorResponse'
+          $ref: "#/components/responses/ErrorResponse"
   /v1/onChainSignersByFid:
     get:
       tags:
@@ -898,25 +898,25 @@ paths:
             type: string
           description: The optional key of signer
           required: false
-          example: '0x0852c07b5695ff94138b025e3f9b4788e06133f04e254f0ea0eb85a06e999cdd'
+          example: "0x0852c07b5695ff94138b025e3f9b4788e06133f04e254f0ea0eb85a06e999cdd"
       responses:
-        '200':
+        "200":
           description: A successful response.
           content:
             application/json:
               schema:
                 oneOf:
-                  - $ref: '#/components/schemas/OnChainEventSigner'
+                  - $ref: "#/components/schemas/OnChainEventSigner"
                   - type: object
                     properties:
                       events:
                         type: array
                         items:
-                          $ref: '#/components/schemas/OnChainEventSigner'
+                          $ref: "#/components/schemas/OnChainEventSigner"
                     required:
                       - events
         default:
-          $ref: '#/components/responses/ErrorResponse'
+          $ref: "#/components/responses/ErrorResponse"
   /v1/submitMessage:
     post:
       tags:
@@ -939,14 +939,14 @@ paths:
               format: binary
         required: true
       responses:
-        '200':
+        "200":
           description: A successful response.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Message'
+                $ref: "#/components/schemas/Message"
         default:
-          $ref: '#/components/responses/ErrorResponse'
+          $ref: "#/components/responses/ErrorResponse"
       x-codegen-request-body-name: body
   /v1/validateMessage:
     post:
@@ -970,14 +970,14 @@ paths:
               format: binary
         required: true
       responses:
-        '200':
+        "200":
           description: A successful response.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ValidateMessageResponse'
+                $ref: "#/components/schemas/ValidateMessageResponse"
         default:
-          $ref: '#/components/responses/ErrorResponse'
+          $ref: "#/components/responses/ErrorResponse"
       x-codegen-request-body-name: body
   /v1/events:
     get:
@@ -1002,7 +1002,7 @@ paths:
             to start from the first event.
           example: 0
       responses:
-        '200':
+        "200":
           description: A successful response.
           content:
             application/json:
@@ -1014,12 +1014,12 @@ paths:
                   events:
                     type: array
                     items:
-                      $ref: '#/components/schemas/HubEvent'
+                      $ref: "#/components/schemas/HubEvent"
                 required:
                   - nextPageEventId
                   - events
         default:
-          $ref: '#/components/responses/ErrorResponse'
+          $ref: "#/components/responses/ErrorResponse"
   /v1/eventById:
     get:
       tags:
@@ -1038,14 +1038,14 @@ paths:
             type: integer
           description: The Hub Id of the event
       responses:
-        '200':
+        "200":
           description: A successful response.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HubEvent'
+                $ref: "#/components/schemas/HubEvent"
         default:
-          $ref: '#/components/responses/ErrorResponse'
+          $ref: "#/components/responses/ErrorResponse"
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -1093,16 +1093,16 @@ components:
           example: AuzO1V0DtaItCwwa10X6YsfStlynsGWT
     CastAdd:
       allOf:
-        - $ref: '#/components/schemas/MessageCommon'
+        - $ref: "#/components/schemas/MessageCommon"
         - type: object
           properties:
             data:
               allOf:
-                - $ref: '#/components/schemas/MessageDataCastAdd'
+                - $ref: "#/components/schemas/MessageDataCastAdd"
                 - type: object
                   properties:
                     type:
-                      $ref: '#/components/schemas/MessageType'
+                      $ref: "#/components/schemas/MessageType"
                   required:
                     - type
           required:
@@ -1124,7 +1124,7 @@ components:
             format: uint64
             example: 2
         parentCastId:
-          $ref: '#/components/schemas/CastId'
+          $ref: "#/components/schemas/CastId"
         parentUrl:
           title: Parent URL
           type: string
@@ -1142,7 +1142,7 @@ components:
           title: URLs or cast IDs to be embedded in the cast
           type: array
           items:
-            $ref: '#/components/schemas/Embed'
+            $ref: "#/components/schemas/Embed"
       required:
         - embedsDeprecated
         - mentions
@@ -1153,7 +1153,7 @@ components:
       type: object
       properties:
         castId:
-          $ref: '#/components/schemas/CastId'
+          $ref: "#/components/schemas/CastId"
       required:
         - castId
     CastId:
@@ -1175,14 +1175,14 @@ components:
           format: uint64
           example: 2
         hash:
-          $ref: '#/components/schemas/CastHash'
+          $ref: "#/components/schemas/CastHash"
     CastHash:
       description: >-
         A unique hash that identifies a specific cast within the creator's
         posts. Generated using HASH_SCHEME_BLAKE3 of the cast's content.
       pattern: ^0x[0-9a-fA-F]{40}$
       type: string
-      example: '0x03aff391a6eb1772b20b4ead9a89f732be75fe27'
+      example: "0x03aff391a6eb1772b20b4ead9a89f732be75fe27"
     DbStats:
       required:
         - numFidEvents
@@ -1201,8 +1201,8 @@ components:
           format: uint64
     Embed:
       oneOf:
-        - $ref: '#/components/schemas/CastEmbed'
-        - $ref: '#/components/schemas/UrlEmbed'
+        - $ref: "#/components/schemas/CastEmbed"
+        - $ref: "#/components/schemas/UrlEmbed"
     ErrorResponse:
       required:
         - code
@@ -1260,10 +1260,10 @@ components:
             fids:
               type: array
               items:
-                $ref: '#/components/schemas/FidSchema'
+                $ref: "#/components/schemas/FidSchema"
           required:
             - fids
-        - $ref: '#/components/schemas/PaginationResponse'
+        - $ref: "#/components/schemas/PaginationResponse"
     FrameActionBody:
       description: >-
         Contains the data for a user's interaction with a Farcaster Frame.
@@ -1291,7 +1291,7 @@ components:
           example: 1 # Primary action
         castId:
           description: "The unique identifier of the cast containing the frame that was interacted with."
-          $ref: '#/components/schemas/CastId'
+          $ref: "#/components/schemas/CastId"
       required:
         - url
         - buttonIndex
@@ -1306,19 +1306,19 @@ components:
         - HASH_SCHEME_BLAKE3
     HubEvent:
       oneOf:
-        - $ref: '#/components/schemas/HubEventMergeMessage'
-        - $ref: '#/components/schemas/HubEventPruneMessage'
-        - $ref: '#/components/schemas/HubEventRevokeMessage'
-        - $ref: '#/components/schemas/HubEventMergeUsernameProof'
-        - $ref: '#/components/schemas/HubEventMergeOnChainEvent'
+        - $ref: "#/components/schemas/HubEventMergeMessage"
+        - $ref: "#/components/schemas/HubEventPruneMessage"
+        - $ref: "#/components/schemas/HubEventRevokeMessage"
+        - $ref: "#/components/schemas/HubEventMergeUsernameProof"
+        - $ref: "#/components/schemas/HubEventMergeOnChainEvent"
       discriminator:
         propertyName: type
         mapping:
-          HUB_EVENT_TYPE_MERGE_MESSAGE: '#/components/schemas/HubEventMergeMessage'
-          HUB_EVENT_TYPE_PRUNE_MESSAGE: '#/components/schemas/HubEventPruneMessage'
-          HUB_EVENT_TYPE_REVOKE_MESSAGE: '#/components/schemas/HubEventRevokeMessage'
-          HUB_EVENT_TYPE_MERGE_USERNAME_PROOF: '#/components/schemas/HubEventMergeUsernameProof'
-          HUB_EVENT_TYPE_MERGE_ON_CHAIN_EVENT: '#/components/schemas/HubEventMergeOnChainEvent'
+          HUB_EVENT_TYPE_MERGE_MESSAGE: "#/components/schemas/HubEventMergeMessage"
+          HUB_EVENT_TYPE_PRUNE_MESSAGE: "#/components/schemas/HubEventPruneMessage"
+          HUB_EVENT_TYPE_REVOKE_MESSAGE: "#/components/schemas/HubEventRevokeMessage"
+          HUB_EVENT_TYPE_MERGE_USERNAME_PROOF: "#/components/schemas/HubEventMergeUsernameProof"
+          HUB_EVENT_TYPE_MERGE_ON_CHAIN_EVENT: "#/components/schemas/HubEventMergeOnChainEvent"
     HubEventMergeMessage:
       type: object
       properties:
@@ -1329,7 +1329,7 @@ components:
           type: integer
           format: uint64
         mergeMessageBody:
-          $ref: '#/components/schemas/MergeMessageBody'
+          $ref: "#/components/schemas/MergeMessageBody"
       required:
         - type
         - id
@@ -1344,7 +1344,7 @@ components:
           type: integer
           format: uint64
         mergeOnChainEventBody:
-          $ref: '#/components/schemas/MergeOnChainEventBody'
+          $ref: "#/components/schemas/MergeOnChainEventBody"
       required:
         - type
         - id
@@ -1359,7 +1359,7 @@ components:
           type: integer
           format: uint64
         mergeUsernameProofBody:
-          $ref: '#/components/schemas/MergeUserNameProofBody'
+          $ref: "#/components/schemas/MergeUserNameProofBody"
       required:
         - type
         - id
@@ -1374,7 +1374,7 @@ components:
           type: integer
           format: uint64
         pruneMessageBody:
-          $ref: '#/components/schemas/PruneMessageBody'
+          $ref: "#/components/schemas/PruneMessageBody"
       required:
         - type
         - id
@@ -1389,7 +1389,7 @@ components:
           type: integer
           format: uint64
         revokeMessageBody:
-          $ref: '#/components/schemas/RevokeMessageBody'
+          $ref: "#/components/schemas/RevokeMessageBody"
       required:
         - type
         - id
@@ -1414,7 +1414,7 @@ components:
         rootHash:
           type: string
         dbStats:
-          $ref: '#/components/schemas/DbStats'
+          $ref: "#/components/schemas/DbStats"
         peerId:
           type: string
         hubOperatorFid:
@@ -1426,17 +1426,17 @@ components:
         to:
           pattern: ^0x[a-fA-F0-9]*$
           type: string
-          example: '0x00000000fcd5a8e45785c8a4b9a718c9348e4f18'
+          example: "0x00000000fcd5a8e45785c8a4b9a718c9348e4f18"
         eventType:
-          $ref: '#/components/schemas/IdRegisterEventType'
+          $ref: "#/components/schemas/IdRegisterEventType"
         from:
           pattern: ^0x[a-fA-F0-9]*$|^$
           type: string
-          example: '0x00000000fcd5a8e45785c8a4b9a718c9348e4f18'
+          example: "0x00000000fcd5a8e45785c8a4b9a718c9348e4f18"
         recoveryAddress:
           pattern: ^0x[a-fA-F0-9]*$
           type: string
-          example: '0x00000000fcd5a8e45785c8a4b9a718c9348e4f18'
+          example: "0x00000000fcd5a8e45785c8a4b9a718c9348e4f18"
       required:
         - to
         - from
@@ -1451,16 +1451,16 @@ components:
         - ID_REGISTER_EVENT_TYPE_CHANGE_RECOVERY
     LinkAdd:
       allOf:
-        - $ref: '#/components/schemas/MessageCommon'
+        - $ref: "#/components/schemas/MessageCommon"
         - type: object
           properties:
             data:
               allOf:
-                - $ref: '#/components/schemas/MessageDataLink'
+                - $ref: "#/components/schemas/MessageDataLink"
                 - type: object
                   properties:
                     type:
-                      $ref: '#/components/schemas/MessageType'
+                      $ref: "#/components/schemas/MessageType"
                   required:
                     - type
           required:
@@ -1473,7 +1473,7 @@ components:
       type: object
       properties:
         type:
-          $ref: '#/components/schemas/LinkType'
+          $ref: "#/components/schemas/LinkType"
         displayTimestamp:
           title: Original Timestamp
           description: >-
@@ -1484,7 +1484,7 @@ components:
           format: int64
           example: 48994466
         targetFid:
-          $ref: '#/components/schemas/FidSchema'
+          $ref: "#/components/schemas/FidSchema"
       required:
         - type
         - targetFid
@@ -1503,11 +1503,11 @@ components:
       type: object
       properties:
         message:
-          $ref: '#/components/schemas/Message'
+          $ref: "#/components/schemas/Message"
         deletedMessages:
           type: array
           items:
-            $ref: '#/components/schemas/Message'
+            $ref: "#/components/schemas/Message"
       required:
         - message
         - deletedMessages
@@ -1515,52 +1515,52 @@ components:
       type: object
       properties:
         onChainEvent:
-          $ref: '#/components/schemas/OnChainEvent'
+          $ref: "#/components/schemas/OnChainEvent"
       required:
         - onChainEvent
     MergeUserNameProofBody:
       type: object
       properties:
         usernameProof:
-          $ref: '#/components/schemas/UserNameProof'
+          $ref: "#/components/schemas/UserNameProof"
         deletedUsernameProof:
-          $ref: '#/components/schemas/UserNameProof'
+          $ref: "#/components/schemas/UserNameProof"
         usernameProofMessage:
-          $ref: '#/components/schemas/Message'
+          $ref: "#/components/schemas/Message"
         deletedUsernameProofMessage:
-          $ref: '#/components/schemas/Message'
+          $ref: "#/components/schemas/Message"
     Message:
       allOf:
         - type: object
           properties:
             data:
               oneOf:
-                - $ref: '#/components/schemas/MessageDataCastAdd'
-                - $ref: '#/components/schemas/MessageDataCastRemove'
-                - $ref: '#/components/schemas/MessageDataReaction'
-                - $ref: '#/components/schemas/MessageDataLink'
-                - $ref: '#/components/schemas/MessageDataVerificationAdd'
-                - $ref: '#/components/schemas/MessageDataVerificationRemove'
-                - $ref: '#/components/schemas/MessageDataUserDataAdd'
-                - $ref: '#/components/schemas/MessageDataUsernameProof'
-                - $ref: '#/components/schemas/MessageDataFrameAction'
+                - $ref: "#/components/schemas/MessageDataCastAdd"
+                - $ref: "#/components/schemas/MessageDataCastRemove"
+                - $ref: "#/components/schemas/MessageDataReaction"
+                - $ref: "#/components/schemas/MessageDataLink"
+                - $ref: "#/components/schemas/MessageDataVerificationAdd"
+                - $ref: "#/components/schemas/MessageDataVerificationRemove"
+                - $ref: "#/components/schemas/MessageDataUserDataAdd"
+                - $ref: "#/components/schemas/MessageDataUsernameProof"
+                - $ref: "#/components/schemas/MessageDataFrameAction"
               discriminator:
                 propertyName: type
                 mapping:
-                  MESSAGE_TYPE_CAST_ADD: '#/components/schemas/MessageDataCastAdd'
-                  MESSAGE_TYPE_CAST_REMOVE: '#/components/schemas/MessageDataCastRemove'
-                  MESSAGE_TYPE_REACTION_ADD: '#/components/schemas/MessageDataReaction'
-                  MESSAGE_TYPE_REACTION_REMOVE: '#/components/schemas/MessageDataReaction'
-                  MESSAGE_TYPE_LINK_ADD: '#/components/schemas/MessageDataLink'
-                  MESSAGE_TYPE_LINK_REMOVE: '#/components/schemas/MessageDataLink'
-                  MESSAGE_TYPE_VERIFICATION_ADD_ETH_ADDRESS: '#/components/schemas/MessageDataVerificationAdd'
-                  MESSAGE_TYPE_VERIFICATION_REMOVE: '#/components/schemas/MessageDataVerificationRemove'
-                  MESSAGE_TYPE_USER_DATA_ADD: '#/components/schemas/MessageDataUserDataAdd'
-                  MESSAGE_TYPE_USERNAME_PROOF: '#/components/schemas/MessageDataUsernameProof'
-                  MESSAGE_TYPE_FRAME_ACTION: '#/components/schemas/MessageDataFrameAction'
+                  MESSAGE_TYPE_CAST_ADD: "#/components/schemas/MessageDataCastAdd"
+                  MESSAGE_TYPE_CAST_REMOVE: "#/components/schemas/MessageDataCastRemove"
+                  MESSAGE_TYPE_REACTION_ADD: "#/components/schemas/MessageDataReaction"
+                  MESSAGE_TYPE_REACTION_REMOVE: "#/components/schemas/MessageDataReaction"
+                  MESSAGE_TYPE_LINK_ADD: "#/components/schemas/MessageDataLink"
+                  MESSAGE_TYPE_LINK_REMOVE: "#/components/schemas/MessageDataLink"
+                  MESSAGE_TYPE_VERIFICATION_ADD_ETH_ADDRESS: "#/components/schemas/MessageDataVerificationAdd"
+                  MESSAGE_TYPE_VERIFICATION_REMOVE: "#/components/schemas/MessageDataVerificationRemove"
+                  MESSAGE_TYPE_USER_DATA_ADD: "#/components/schemas/MessageDataUserDataAdd"
+                  MESSAGE_TYPE_USERNAME_PROOF: "#/components/schemas/MessageDataUsernameProof"
+                  MESSAGE_TYPE_FRAME_ACTION: "#/components/schemas/MessageDataFrameAction"
           required:
             - data
-        - $ref: '#/components/schemas/MessageCommon'
+        - $ref: "#/components/schemas/MessageCommon"
       description: >-
         A Message is a delta operation on the Farcaster network that represents
         a state change. Messages are the fundamental unit of data in Farcaster
@@ -1597,16 +1597,16 @@ components:
           title: Hash digest of data
           pattern: ^0x[0-9a-fA-F]{40}$
           type: string
-          example: '0xd2b1ddc6c88e865a33cb1a565e0058d757042974'
+          example: "0xd2b1ddc6c88e865a33cb1a565e0058d757042974"
         hashScheme:
-          $ref: '#/components/schemas/HashScheme'
+          $ref: "#/components/schemas/HashScheme"
         signature:
           title: Signature of the hash digest
           pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
           type: string
           format: byte
         signatureScheme:
-          $ref: '#/components/schemas/SignatureScheme'
+          $ref: "#/components/schemas/SignatureScheme"
         signer:
           title: Public key or address of the key pair that produced the signature
           pattern: ^0x[0-9a-fA-F]+$
@@ -1623,18 +1623,18 @@ components:
         cast can include text content, mentions of other users, embedded URLs,
         and references to parent posts for replies.
       allOf:
-        - $ref: '#/components/schemas/MessageDataCommon'
+        - $ref: "#/components/schemas/MessageDataCommon"
         - type: object
           required:
             - castAddBody
           properties:
             castAddBody:
               description: "The content and metadata of the new cast, including the text, mentions, embeds, and any parent references for replies."
-              $ref: '#/components/schemas/CastAddBody'
+              $ref: "#/components/schemas/CastAddBody"
     MessageDataCastRemove:
       description: "Represents a request to remove (delete) a previously created cast. Only the original creator of a cast can remove it."
       allOf:
-        - $ref: '#/components/schemas/MessageDataCommon'
+        - $ref: "#/components/schemas/MessageDataCommon"
         - type: object
           required:
             - targetHash
@@ -1647,7 +1647,7 @@ components:
                 the message.
               pattern: ^0x[0-9a-fA-F]{40}$
               type: string
-              example: '0x03aff391a6eb1772b20b4ead9a89f732be75fe27'
+              example: "0x03aff391a6eb1772b20b4ead9a89f732be75fe27"
     MessageDataCommon:
       description: >-
         Common properties shared by all Farcaster message types. These
@@ -1678,7 +1678,7 @@ components:
           format: int64
           example: 48994466
         network:
-          $ref: '#/components/schemas/FarcasterNetwork'
+          $ref: "#/components/schemas/FarcasterNetwork"
     MessageDataFrameAction:
       description: >-
         Represents a user's interaction with a Farcaster Frame, which is an
@@ -1686,92 +1686,92 @@ components:
         with content through clickable buttons, creating interactive experiences
         within the Farcaster network.
       allOf:
-        - $ref: '#/components/schemas/MessageDataCommon'
+        - $ref: "#/components/schemas/MessageDataCommon"
         - type: object
           required:
             - frameActionBody
           properties:
             frameActionBody:
               description: "Contains the details of the frame interaction, including which button was pressed and the associated cast and URL."
-              $ref: '#/components/schemas/FrameActionBody'
+              $ref: "#/components/schemas/FrameActionBody"
     MessageDataLink:
       description: >-
         Represents a social graph connection between users in the Farcaster
         network. Currently supports following relationships between users.
       allOf:
-        - $ref: '#/components/schemas/MessageDataCommon'
+        - $ref: "#/components/schemas/MessageDataCommon"
         - type: object
           required:
             - linkBody
           properties:
             linkBody:
               description: "Contains the details of the social connection, including the type of relationship and the target user."
-              $ref: '#/components/schemas/LinkBody'
+              $ref: "#/components/schemas/LinkBody"
     MessageDataReaction:
       description: >-
         Represents a user's reaction to content on the Farcaster network.
         Reactions can be likes or recasts of casts, allowing users to express
         appreciation or share content with their followers.
       allOf:
-        - $ref: '#/components/schemas/MessageDataCommon'
+        - $ref: "#/components/schemas/MessageDataCommon"
         - type: object
           required:
             - reactionBody
           properties:
             reactionBody:
               description: "Contains the type of reaction (like/recast) and the target content being reacted to. The target can be specified either by castId or URL."
-              $ref: '#/components/schemas/ReactionBody'
+              $ref: "#/components/schemas/ReactionBody"
     MessageDataUserDataAdd:
       description: >-
         Represents a message that updates a user's profile metadata. This can
         include changes to profile picture, display name, bio, URL, or preferred
         username. Each update modifies a single profile field.
       allOf:
-        - $ref: '#/components/schemas/MessageDataCommon'
+        - $ref: "#/components/schemas/MessageDataCommon"
         - type: object
           required:
             - userDataBody
           properties:
             userDataBody:
               description: "Contains the type of profile metadata being updated and its new value."
-              $ref: '#/components/schemas/UserDataBody'
+              $ref: "#/components/schemas/UserDataBody"
     MessageDataUsernameProof:
       allOf:
-        - $ref: '#/components/schemas/MessageDataCommon'
+        - $ref: "#/components/schemas/MessageDataCommon"
         - type: object
           required:
             - usernameProofBody
           properties:
             usernameProofBody:
-              $ref: '#/components/schemas/UserNameProof'
+              $ref: "#/components/schemas/UserNameProof"
     MessageDataVerificationAdd:
       description: >-
         Represents a message that adds verification of ownership for an Ethereum
         or Solana address to a user's profile. This verification proves that the
         user controls the specified blockchain address.
       allOf:
-        - $ref: '#/components/schemas/MessageDataCommon'
+        - $ref: "#/components/schemas/MessageDataCommon"
         - type: object
           required:
             - verificationAddEthAddressBody
           properties:
             verificationAddEthAddressBody:
               description: "Contains the blockchain address being verified, along with cryptographic proof of ownership through a signature."
-              $ref: '#/components/schemas/VerificationAddEthAddressBody'
+              $ref: "#/components/schemas/VerificationAddEthAddressBody"
     MessageDataVerificationRemove:
       description: >-
         Represents a message that removes an existing blockchain address
         verification from a user's profile. This allows users to disassociate
         previously verified addresses from their account.
       allOf:
-        - $ref: '#/components/schemas/MessageDataCommon'
+        - $ref: "#/components/schemas/MessageDataCommon"
         - type: object
           required:
             - verificationRemoveBody
           properties:
             verificationRemoveBody:
               description: "Contains the blockchain address for which the verification should be removed from the user's profile."
-              $ref: '#/components/schemas/VerificationRemoveBody'
+              $ref: "#/components/schemas/VerificationRemoveBody"
     MessageType:
       type: string
       description: >-
@@ -1814,17 +1814,17 @@ components:
         - MESSAGE_TYPE_FRAME_ACTION
     OnChainEvent:
       oneOf:
-        - $ref: '#/components/schemas/OnChainEventSigner'
-        - $ref: '#/components/schemas/OnChainEventSignerMigrated'
-        - $ref: '#/components/schemas/OnChainEventIdRegister'
-        - $ref: '#/components/schemas/OnChainEventStorageRent'
+        - $ref: "#/components/schemas/OnChainEventSigner"
+        - $ref: "#/components/schemas/OnChainEventSignerMigrated"
+        - $ref: "#/components/schemas/OnChainEventIdRegister"
+        - $ref: "#/components/schemas/OnChainEventStorageRent"
       discriminator:
         propertyName: type
         mapping:
-          EVENT_TYPE_SIGNER: '#/components/schemas/OnChainEventSigner'
-          EVENT_TYPE_SIGNER_MIGRATED: '#/components/schemas/OnChainEventSignerMigrated'
-          EVENT_TYPE_ID_REGISTER: '#/components/schemas/OnChainEventIdRegister'
-          EVENT_TYPE_STORAGE_RENT: '#/components/schemas/OnChainEventStorageRent'
+          EVENT_TYPE_SIGNER: "#/components/schemas/OnChainEventSigner"
+          EVENT_TYPE_SIGNER_MIGRATED: "#/components/schemas/OnChainEventSignerMigrated"
+          EVENT_TYPE_ID_REGISTER: "#/components/schemas/OnChainEventIdRegister"
+          EVENT_TYPE_STORAGE_RENT: "#/components/schemas/OnChainEventStorageRent"
     OnChainEventCommon:
       type: object
       properties:
@@ -1837,12 +1837,12 @@ components:
           type: integer
         blockHash:
           type: string
-          example: '0x75fbbb8b2a4ede67ac350e1b0503c6a152c0091bd8e3ef4a6927d58e088eae28'
+          example: "0x75fbbb8b2a4ede67ac350e1b0503c6a152c0091bd8e3ef4a6927d58e088eae28"
         blockTimestamp:
           type: integer
         transactionHash:
           type: string
-          example: '0x36ef79e6c460e6ae251908be13116ff0065960adb1ae032b4cc65a8352f28952'
+          example: "0x36ef79e6c460e6ae251908be13116ff0065960adb1ae032b4cc65a8352f28952"
         logIndex:
           type: integer
         txIndex:
@@ -1861,38 +1861,38 @@ components:
         - fid
     OnChainEventIdRegister:
       allOf:
-        - $ref: '#/components/schemas/OnChainEventCommon'
+        - $ref: "#/components/schemas/OnChainEventCommon"
         - type: object
           properties:
             idRegisterEventBody:
-              $ref: '#/components/schemas/IdRegisterEventBody'
+              $ref: "#/components/schemas/IdRegisterEventBody"
           required:
             - idRegisterEventBody
     OnChainEventSigner:
       allOf:
-        - $ref: '#/components/schemas/OnChainEventCommon'
+        - $ref: "#/components/schemas/OnChainEventCommon"
         - type: object
           properties:
             signerEventBody:
-              $ref: '#/components/schemas/SignerEventBody'
+              $ref: "#/components/schemas/SignerEventBody"
           required:
             - signerEventBody
     OnChainEventSignerMigrated:
       allOf:
-        - $ref: '#/components/schemas/OnChainEventCommon'
+        - $ref: "#/components/schemas/OnChainEventCommon"
         - type: object
           properties:
             signerMigratedEventBody:
-              $ref: '#/components/schemas/SignerMigratedEventBody'
+              $ref: "#/components/schemas/SignerMigratedEventBody"
           required:
             - signerMigratedEventBody
     OnChainEventStorageRent:
       allOf:
-        - $ref: '#/components/schemas/OnChainEventCommon'
+        - $ref: "#/components/schemas/OnChainEventCommon"
         - type: object
           properties:
             storageRentEventBody:
-              $ref: '#/components/schemas/StorageRentEventBody'
+              $ref: "#/components/schemas/StorageRentEventBody"
           required:
             - storageRentEventBody
     OnChainEventType:
@@ -1907,21 +1907,21 @@ components:
       type: object
       properties:
         message:
-          $ref: '#/components/schemas/Message'
+          $ref: "#/components/schemas/Message"
       required:
         - message
     Reaction:
       allOf:
-        - $ref: '#/components/schemas/MessageCommon'
+        - $ref: "#/components/schemas/MessageCommon"
         - type: object
           properties:
             data:
               allOf:
-                - $ref: '#/components/schemas/MessageDataReaction'
+                - $ref: "#/components/schemas/MessageDataReaction"
                 - type: object
                   properties:
                     type:
-                      $ref: '#/components/schemas/MessageType'
+                      $ref: "#/components/schemas/MessageType"
                   required:
                     - type
           required:
@@ -1935,10 +1935,10 @@ components:
       type: object
       properties:
         type:
-          $ref: '#/components/schemas/ReactionType'
+          $ref: "#/components/schemas/ReactionType"
         targetCastId:
           description: "The unique identifier of the cast being reacted to. Must be a valid CastId containing the creator's FID and the cast's hash."
-          $ref: '#/components/schemas/CastId'
+          $ref: "#/components/schemas/CastId"
         targetUrl:
           title: URL to react to
           description: >-
@@ -1968,7 +1968,7 @@ components:
       type: object
       properties:
         message:
-          $ref: '#/components/schemas/Message'
+          $ref: "#/components/schemas/Message"
       required:
         - message
     SignatureScheme:
@@ -1991,7 +1991,7 @@ components:
           type: integer
           format: int64
         eventType:
-          $ref: '#/components/schemas/SignerEventType'
+          $ref: "#/components/schemas/SignerEventType"
         metadata:
           pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
           type: string
@@ -2024,7 +2024,7 @@ components:
       type: object
       properties:
         storeType:
-          $ref: '#/components/schemas/StoreType'
+          $ref: "#/components/schemas/StoreType"
         limit:
           type: integer
           format: uint64
@@ -2037,7 +2037,7 @@ components:
         limits:
           type: array
           items:
-            $ref: '#/components/schemas/StorageLimit'
+            $ref: "#/components/schemas/StorageLimit"
       required:
         - limits
     StorageRentEventBody:
@@ -2077,16 +2077,16 @@ components:
         - url
     UserDataAdd:
       allOf:
-        - $ref: '#/components/schemas/MessageCommon'
+        - $ref: "#/components/schemas/MessageCommon"
         - type: object
           properties:
             data:
               allOf:
-                - $ref: '#/components/schemas/MessageDataUserDataAdd'
+                - $ref: "#/components/schemas/MessageDataUserDataAdd"
                 - type: object
                   properties:
                     type:
-                      $ref: '#/components/schemas/MessageType'
+                      $ref: "#/components/schemas/MessageType"
                   required:
                     - type
           required:
@@ -2100,7 +2100,7 @@ components:
       properties:
         type:
           description: "Specifies which profile field is being updated (e.g., profile picture, display name, bio)."
-          $ref: '#/components/schemas/UserDataType'
+          $ref: "#/components/schemas/UserDataType"
         value:
           title: Profile Field Value
           description: >-
@@ -2147,9 +2147,9 @@ components:
           format: byte
         fid:
           description: "The FID of the user who owns this username proof"
-          $ref: '#/components/schemas/FidSchema'
+          $ref: "#/components/schemas/FidSchema"
         type:
-          $ref: '#/components/schemas/UserNameType'
+          $ref: "#/components/schemas/UserNameType"
       required:
         - timestamp
         - name
@@ -2163,7 +2163,7 @@ components:
         proofs:
           type: array
           items:
-            $ref: '#/components/schemas/UserNameProof'
+            $ref: "#/components/schemas/UserNameProof"
       required:
         - proofs
     UserNameType:
@@ -2178,22 +2178,22 @@ components:
         valid:
           type: boolean
         message:
-          $ref: '#/components/schemas/Message'
+          $ref: "#/components/schemas/Message"
       required:
         - valid
         - message
     Verification:
       allOf:
-        - $ref: '#/components/schemas/MessageCommon'
+        - $ref: "#/components/schemas/MessageCommon"
         - type: object
           properties:
             data:
               allOf:
-                - $ref: '#/components/schemas/MessageDataVerificationAdd'
+                - $ref: "#/components/schemas/MessageDataVerificationAdd"
                 - type: object
                   properties:
                     type:
-                      $ref: '#/components/schemas/MessageType'
+                      $ref: "#/components/schemas/MessageType"
                   required:
                     - type
           required:
@@ -2214,7 +2214,7 @@ components:
             signature.
           pattern: ^(?:0x[a-fA-F0-9]{40}|[1-9A-HJ-NP-Za-km-z]{32,44})$
           type: string
-          example: '0x1234567890123456789012345678901234567890'
+          example: "0x1234567890123456789012345678901234567890"
         ethSignature:
           title: Cryptographic Signature
           description: >-
@@ -2233,7 +2233,7 @@ components:
             Used to verify the approximate time of signature creation.
           pattern: ^(0x[a-fA-F0-9]{64}|[1-9A-HJ-NP-Za-km-z]{44})$
           type: string
-          example: '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef'
+          example: "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"
       required:
         - address
         - ethSignature
@@ -2253,7 +2253,7 @@ components:
             profile.
           pattern: ^0x[A-Za-z0-9]{40}$
           type: string
-          example: '0x1234567890123456789012345678901234567890'
+          example: "0x1234567890123456789012345678901234567890"
       required:
         - address
   responses:
@@ -2262,4 +2262,4 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ErrorResponse'
+            $ref: "#/components/schemas/ErrorResponse"
