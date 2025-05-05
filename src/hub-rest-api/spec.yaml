@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Farcaster Hub API
-  version: "2.21.0"
+  version: "2.34.0"
   description: >
     Perform basic queries of Farcaster state via the REST API of a Farcaster hub.
     See the [Neynar docs](https://docs.neynar.com/reference) for more details.
@@ -612,6 +612,13 @@ paths:
         url: https://docs.neynar.com/reference/fetch-fids
       operationId: fetch-fids
       parameters:
+        - name: shard_id
+          in: query
+          description: The shard ID to filter by
+          schema:
+            type: integer
+          required: true
+          example: 1
         - $ref: "#/components/parameters/pageSize"
         - $ref: "#/components/parameters/paginationReverse"
         - $ref: "#/components/parameters/pageToken"
