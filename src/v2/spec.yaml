@@ -6816,7 +6816,6 @@ paths:
           $ref: "#/components/responses/500Response"
   /farcaster/frame:
     get:
-      deprecated: true
       tags:
         - Frame
       summary: Mini app by UUID or URL
@@ -6851,7 +6850,6 @@ paths:
         "404":
           $ref: "#/components/responses/404Response"
     post:
-      deprecated: true
       tags:
         - Frame
       summary: Create mini app
@@ -6875,7 +6873,6 @@ paths:
         "400":
           $ref: "#/components/responses/400Response"
     put:
-      deprecated: true
       tags:
         - Frame
       summary: Update mini app
@@ -6901,7 +6898,6 @@ paths:
         "400":
           $ref: "#/components/responses/400Response"
     delete:
-      deprecated: true
       tags:
         - Frame
       summary: Delete mini app
@@ -7018,7 +7014,6 @@ paths:
                           items:
                             $ref: "#/components/schemas/UserDehydrated"
   /farcaster/frame/list:
-    deprecated: true
     get:
       tags:
         - Frame
@@ -7569,7 +7564,6 @@ paths:
         "401":
           $ref: "#/components/responses/401Response"
   /farcaster/frame/developer_managed/action:
-    deprecated: true
     post:
       tags:
         - Frame
@@ -7599,7 +7593,6 @@ paths:
         "500":
           $ref: "#/components/responses/500Response"
   /farcaster/frame/action:
-    deprecated: true
     post:
       tags:
         - Frame
@@ -7770,7 +7763,6 @@ paths:
         "500":
           $ref: "#/components/responses/500Response"
   /farcaster/frame/validate:
-    deprecated: true
     post:
       tags:
         - Frame
@@ -7805,7 +7797,6 @@ paths:
         "500":
           $ref: "#/components/responses/500Response"
   /farcaster/frame/validate/list:
-    deprecated: true
     get:
       tags:
         - Frame
@@ -7828,7 +7819,6 @@ paths:
         "500":
           $ref: "#/components/responses/500Response"
   /farcaster/frame/validate/analytics:
-    deprecated: true
     get:
       tags:
         - Frame
