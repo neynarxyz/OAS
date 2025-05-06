@@ -1658,11 +1658,14 @@ components:
         properties provide essential metadata about the message's origin,
         timing, and network context.
       required:
+        - type
         - fid
         - network
         - timestamp
       type: object
       properties:
+        type:
+          $ref: "#/components/schemas/MessageType"
         fid:
           title: Farcaster ID of the user producing the message
           description: >-
@@ -1977,11 +1980,11 @@ components:
 
         - Recast: Share the target content with the user's followers, similar to
         a "retweet" or "reblog". Helps increase content visibility.
-      default: Like
+      default: REACTION_TYPE_LIKE
       enum:
-        - Like
-        - Recast
-      example: Like
+        - REACTION_TYPE_LIKE
+        - REACTION_TYPE_RECAST
+      example: REACTION_TYPE_LIKE
     RevokeMessageBody:
       type: object
       properties:
