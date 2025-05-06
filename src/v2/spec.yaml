@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Farcaster API V2
-  version: "2.34.0"
+  version: "2.35.0"
   description: >
     The Farcaster API allows you to interact with the Farcaster protocol.
     See the [Neynar docs](https://docs.neynar.com/reference) for more details.
@@ -5580,6 +5580,7 @@ paths:
       operationId: fetch-embedded-url-metadata
       parameters:
         - name: url
+          required: true
           in: query
           schema:
             type: string
