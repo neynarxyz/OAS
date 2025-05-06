@@ -60,33 +60,3 @@ swagger-cli validate src/hub-rest-api/spec.yaml
 ```
 
 This will check for structural errors and report any issues.
-
-### Installing Client Code Generator
-
-We use [OpenAPI Generator](https://openapi-generator.tech/) to generate client code from the OpenAPI specifications.
-
-#### Install OpenAPI Generator
-
-Prerequisite: [Java](https://www.java.com/) must be installed.
-
-Install OpenAPI Generator using Homebrew:
-
-```bash
-brew install openapi-generator
-```
-
-### Generating TypeScript Client Code Using the OAS Definitions
-
-#### v2
-
-```bash
-openapi-generator generate -i src/v2/spec.yaml -g typescript-axios -o src/v2/swagger-tmp
-```
-
-#### hub-rest-api
-
-```bash
-openapi-generator generate -i src/hub-rest-api/spec.yaml -g typescript-axios -o src/hub-rest-api/swagger-tmp
-```
-
-For other languages, replace `<generator>` with a [desired generator](https://openapi-generator.tech/docs/generators).
