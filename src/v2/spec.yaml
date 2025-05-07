@@ -1,10 +1,10 @@
-openapi: 3.1.0
+openapi: 3.0.4
 info:
   title: Farcaster API V2
-  version: "2.36.0"
+  version: 2.36.1
   description: >
-    The Farcaster API allows you to interact with the Farcaster protocol.
-    See the [Neynar docs](https://docs.neynar.com/reference) for more details.
+    The Farcaster API allows you to interact with the Farcaster protocol. See
+    the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
     url: https://neynar.com/
@@ -21,8 +21,8 @@ components:
       type: apiKey
       in: header
       name: x-api-key
-      description: "API key to authorize requests"
-      x-default: "NEYNAR_API_DOCS"
+      description: API key to authorize requests
+      x-default: NEYNAR_API_DOCS
 
   parameters:
     NeynarExperimentalHeader:
@@ -32,31 +32,31 @@ components:
       schema:
         type: boolean
         default: false
-      description: "Enables experimental features including filtering based on the Neynar score. See [docs](https://neynar.notion.site/Experimental-Features-1d2655195a8b80eb98b4d4ae7b76ae4a) for more details."
+      description: >-
+        Enables experimental features including filtering based on the Neynar
+        score. See
+        [docs](https://neynar.notion.site/Experimental-Features-1d2655195a8b80eb98b4d4ae7b76ae4a)
+        for more details.
       x-is-global-header: true
 
   schemas:
     EthAddress:
       type: string
-      pattern: "^0x[a-fA-F0-9]{40}$"
+      pattern: ^0x[a-fA-F0-9]{40}$
       description: Ethereum address
       example: "0x5a927ac639636e534b678e81768ca19e2c6280b7"
     SolAddress:
       type: string
-      pattern: "^[1-9A-HJ-NP-Za-km-z]{32,44}$"
+      pattern: ^[1-9A-HJ-NP-Za-km-z]{32,44}$
       description: Solana address
     Fid:
       type: integer
       format: int32
       description: The unique identifier of a farcaster user (unsigned integer)
-      examples:
-        - 3
-        - 191
-        - 2
-        - 194
-        - 19960
+      example: 3
     TrendingTimeWindow:
       type: string
+      default: 24h
       enum:
         - 1h
         - 6h
@@ -67,15 +67,15 @@ components:
     ChannelId:
       type: string
       description: The unique identifier of a farcaster channel
-      examples:
-        - "neynar"
+      example: neynar
     SignerUUID:
       type: string
-      description: |
+      description: >
         UUID of the signer.
-        `signer_uuid` is paired with API key, can't use a `uuid` made with a different API key.
-      examples:
-        - "19d0c5fd-9b33-4a48-a0e2-bc7b0555baec"
+
+        `signer_uuid` is paired with API key, can't use a `uuid` made with a
+        different API key.
+      example: 19d0c5fd-9b33-4a48-a0e2-bc7b0555baec
     SubscriptionProviders:
       type: string
       enum:
@@ -94,23 +94,20 @@ components:
       enum:
         - desc_chron
         - affinity_score
-      examples:
-        - "desc_chron"
+      example: desc_chron
     SearchSortType:
       type: string
       enum:
         - desc_chron
         - algorithmic
-      examples:
-        - "desc_chron"
+      example: desc_chron
     CastConversationSortType:
       type: string
       enum:
         - chron
         - desc_chron
         - algorithmic
-      examples:
-        - "chron"
+      example: chron
     ForYouProvider:
       type: string
       default: neynar
@@ -147,7 +144,8 @@ components:
         - cursor
       properties:
         cursor:
-          type: [string, "null"]
+          type: string
+          nullable: true
     CastHash:
       type: string
       default: "0xfe90f9de682273e05b201629ad2338bdcd89b6be"
@@ -206,10 +204,9 @@ components:
           type: string
     Ed25519PublicKey:
       type: string
-      pattern: "^0x[a-fA-F0-9]{64}$"
+      pattern: ^0x[a-fA-F0-9]{64}$
       description: Ed25519 public key
-      examples:
-        - "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"
+      example: "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"
     Timestamp:
       type: string
       format: date-time
@@ -222,7 +219,6 @@ components:
           type: string
         metadata:
           $ref: "#/components/schemas/EmbedUrlMetadata"
-
     FarcasterManifest:
       type: object
       properties:
@@ -245,10 +241,10 @@ components:
             version:
               type: string
               enum:
-                - "0.0.0"
-                - "0.0.1"
+                - 0.0.0
+                - 0.0.1
                 - "1"
-                - "next"
+                - next
             name:
               type: string
               maxLength: 32
@@ -285,7 +281,8 @@ components:
                 properties:
                   type:
                     type: string
-                    enum: ["cast"]
+                    enum:
+                      - cast
                   id:
                     type: string
                   url:
@@ -302,7 +299,8 @@ components:
                 properties:
                   type:
                     type: string
-                    enum: ["composer"]
+                    enum:
+                      - composer
                   id:
                     type: string
                   url:
@@ -317,7 +315,6 @@ components:
                   - url
       required:
         - account_association
-
     # TwitterImageObject:
     #   type: object
     #   properties:
@@ -401,7 +398,6 @@ components:
                   video: "#/components/schemas/OembedVideoData"
                   photo: "#/components/schemas/OembedPhotoData"
                   link: "#/components/schemas/OembedLinkData"
-
     OgObject:
       # Adapted from https://github.com/jshemas/openGraphScraper/blob/80b1800c377f5a647e365f07a2262e997a9b897c/lib/types.ts#L118-L347
       type: object
@@ -784,40 +780,55 @@ components:
       properties:
         type:
           type: string
-          # enum:
-          #   - rich
-          #   - video
-          #   - photo
-          #   - link
         version:
-          type: [string, "null"]
+          type: string
+          nullable: true
         title:
-          type: [string, "null"]
+          type: string
           description: A text title, describing the resource.
+          nullable: true
         author_name:
-          type: [string, "null"]
+          type: string
           description: The name of the author/owner of the resource.
+          nullable: true
         author_url:
-          type: [string, "null"]
+          type: string
           description: A URL for the author/owner of the resource.
+          nullable: true
         provider_name:
-          type: [string, "null"]
+          type: string
           description: The name of the resource provider.
+          nullable: true
         provider_url:
-          type: [string, "null"]
+          type: string
           description: The url of the resource provider.
+          nullable: true
         cache_age:
-          type: [string, "null"]
-          description: The suggested cache lifetime for this resource, in seconds. Consumers may choose to use this value or not.
+          type: string
+          description: >-
+            The suggested cache lifetime for this resource, in seconds.
+            Consumers may choose to use this value or not.
+          nullable: true
         thumbnail_url:
-          type: [string, "null"]
-          description: A URL to a thumbnail image representing the resource. The thumbnail must respect any maxwidth and maxheight parameters. If this parameter is present, thumbnail_width and thumbnail_height must also be present.
+          type: string
+          description: >-
+            A URL to a thumbnail image representing the resource. The thumbnail
+            must respect any maxwidth and maxheight parameters. If this
+            parameter is present, thumbnail_width and thumbnail_height must also
+            be present.
+          nullable: true
         thumbnail_width:
-          type: [number, "null"]
-          description: The width of the optional thumbnail. If this parameter is present, thumbnail_url and thumbnail_height must also be present.
+          type: number
+          description: >-
+            The width of the optional thumbnail. If this parameter is present,
+            thumbnail_url and thumbnail_height must also be present.
+          nullable: true
         thumbnail_height:
-          type: [number, "null"]
-          description: The height of the optional thumbnail. If this parameter is present, thumbnail_url and thumbnail_width must also be present.
+          type: number
+          description: >-
+            The height of the optional thumbnail. If this parameter is present,
+            thumbnail_url and thumbnail_width must also be present.
+          nullable: true
     OembedLinkData:
       allOf:
         - $ref: "#/components/schemas/OembedData"
@@ -844,14 +855,22 @@ components:
               enum:
                 - photo
             url:
-              type: [string, "null"]
-              description: The source URL of the image. Consumers should be able to insert this URL into an <img> element. Only HTTP and HTTPS URLs are valid.
+              type: string
+              description: >-
+                The source URL of the image. Consumers should be able to insert
+                this URL into an <img> element. Only HTTP and HTTPS URLs are
+                valid.
+              nullable: true
             width:
-              type: [number, "null"]
+              type: number
               description: The width in pixels of the image specified in the url parameter.
+              nullable: true
             height:
-              type: [number, "null"]
-              description: The height in pixels of the image specified in the url parameter.
+              type: number
+              description: >-
+                The height in pixels of the image specified in the url
+                parameter.
+              nullable: true
     OembedVideoData:
       allOf:
         - $ref: "#/components/schemas/OembedData"
@@ -867,14 +886,20 @@ components:
               enum:
                 - video
             html:
-              type: [string, "null"]
-              description: The HTML required to embed a video player. The HTML should have no padding or margins. Consumers may wish to load the HTML in an off-domain iframe to avoid XSS vulnerabilities.
+              type: string
+              description: >-
+                The HTML required to embed a video player. The HTML should have
+                no padding or margins. Consumers may wish to load the HTML in an
+                off-domain iframe to avoid XSS vulnerabilities.
+              nullable: true
             width:
-              type: [number, "null"]
+              type: number
               description: The width in pixels required to display the HTML.
+              nullable: true
             height:
-              type: [number, "null"]
+              type: number
               description: The height in pixels required to display the HTML.
+              nullable: true
     OembedRichData:
       allOf:
         - $ref: "#/components/schemas/OembedData"
@@ -890,14 +915,21 @@ components:
               enum:
                 - rich
             html:
-              type: [string, "null"]
-              description: The HTML required to display the resource. The HTML should have no padding or margins. Consumers may wish to load the HTML in an off-domain iframe to avoid XSS vulnerabilities. The markup should be valid XHTML 1.0 Basic.
+              type: string
+              description: >-
+                The HTML required to display the resource. The HTML should have
+                no padding or margins. Consumers may wish to load the HTML in an
+                off-domain iframe to avoid XSS vulnerabilities. The markup
+                should be valid XHTML 1.0 Basic.
+              nullable: true
             width:
-              type: [number, "null"]
+              type: number
               description: The width in pixels required to display the HTML.
+              nullable: true
             height:
-              type: [number, "null"]
+              type: number
               description: The height in pixels required to display the HTML.
+              nullable: true
     EmbedUrlMetadata:
       type: object
       required:
@@ -906,9 +938,11 @@ components:
         _status:
           type: string
         content_type:
-          type: [string, "null"]
+          type: string
+          nullable: true
         content_length:
-          type: [integer, "null"]
+          type: integer
+          nullable: true
         image:
           type: object
           properties:
@@ -936,7 +970,6 @@ components:
           $ref: "#/components/schemas/HtmlMetadata"
         frame:
           $ref: "#/components/schemas/Frame"
-
     ChannelMemberRole:
       type: string
       description: The role of a channel member
@@ -971,7 +1004,8 @@ components:
         - cast
       properties:
         cast_id:
-          $ref: "#/components/schemas/CastId"
+          allOf:
+            - $ref: "#/components/schemas/CastId"
           deprecated: true
           description: '[DEPRECATED: Use "cast" key instead]'
         cast:
@@ -982,14 +1016,16 @@ components:
         - cast
       properties:
         cast_id:
-          $ref: "#/components/schemas/CastId"
           deprecated: true
           description: '[DEPRECATED: Use "cast" key instead]'
+          # Nesting $ref under allOf is necessary for any sibling fields to be effective
+          allOf:
+            - $ref: "#/components/schemas/CastId"
         cast:
           $ref: "#/components/schemas/CastDehydrated"
     Frame:
       discriminator:
-        propertyName: "version"
+        propertyName: version
         mapping:
           # 'vNext' for v1, and 'next' for v2. See specs:
           # v1: https://docs.farcaster.xyz/developers/frames/spec#constructing-a-frame
@@ -997,12 +1033,11 @@ components:
           vNext: "#/components/schemas/FrameV1"
           next: "#/components/schemas/FrameV2"
           "1": "#/components/schemas/FrameV2"
-          "0.0.0": "#/components/schemas/FrameV2"
-          "0.0.1": "#/components/schemas/FrameV2"
+          0.0.0: "#/components/schemas/FrameV2"
+          0.0.1: "#/components/schemas/FrameV2"
       oneOf:
         - $ref: "#/components/schemas/FrameV1"
         - $ref: "#/components/schemas/FrameV2"
-
     FrameBase:
       description: Mini app base object used across all versions
       type: object
@@ -1020,7 +1055,6 @@ components:
         frames_url:
           type: string
           description: Launch URL of the mini app
-
     FrameV1:
       description: Mini app v1 object
       allOf:
@@ -1104,23 +1138,19 @@ components:
       properties:
         id:
           type: integer
-          examples:
-            - 1
+          example: 1
         price:
           type: object
           properties:
             period_duration_seconds:
               type: integer
-              examples:
-                - 2592000
+              example: 2592000
             tokens_per_period:
               type: string
-              examples:
-                - "3000000000000000"
+              example: "3000000000000000"
             initial_mint_price:
               type: string
-              examples:
-                - "0"
+              example: "0"
     SubscribedTo:
       allOf:
         - $ref: "#/components/schemas/Subscription"
@@ -1134,13 +1164,11 @@ components:
             expires_at:
               type: string
               format: date-time
-              examples:
-                - "2023-09-13T22:10:22.000Z"
+              example: "2023-09-13T22:10:22.000Z"
             subscribed_at:
               type: string
               format: date-time
-              examples:
-                - "2023-09-13T22:10:22.000Z"
+              example: "2023-09-13T22:10:22.000Z"
             tier:
               $ref: "#/components/schemas/SubscriptionTier"
             creator:
@@ -1155,7 +1183,7 @@ components:
         object:
           type: string
           enum:
-            - "subscriber"
+            - subscriber
         user:
           $ref: "#/components/schemas/User"
         subscribed_to:
@@ -1165,7 +1193,6 @@ components:
       enum:
         - pay
       description: Type of transaction mini app
-
     TransactionFrameLineItem:
       type: object
       required:
@@ -1175,22 +1202,22 @@ components:
         name:
           type: string
           description: Name of the line item in transaction
-          example: "Payment"
+          example: Payment
         description:
           type: string
           description: Description of the line item in transaction
-          example: "Payment for goods"
+          example: Payment for goods
         image:
           type: string
           description: Optional image URL for the line item in transaction
-          example: "https://i.imgur.com/ovGo3sz.png"
+          example: https://i.imgur.com/ovGo3sz.png
     TransactionFrameAction:
       type: object
       properties:
         text:
           type: string
           description: Custom text for action button
-          example: "Pay"
+          example: Pay
         text_color:
           type: string
           description: Custom text color for action button
@@ -1199,7 +1226,6 @@ components:
           type: string
           description: Custom button color for action button
           example: "#000000"
-
     TransactionFrameDestination:
       type: object
       required:
@@ -1214,15 +1240,16 @@ components:
           $ref: "#/components/schemas/Networks"
         token_contract_address:
           type: string
-          pattern: "^0x[a-fA-F0-9]{40}$"
-          description: Token contract address for the payment (e.g. 0x833589fcd6edb6e08f4c7c32d4f71b54bda02913 is USDC on Base)
+          pattern: ^0x[a-fA-F0-9]{40}$
+          description: >-
+            Token contract address for the payment (e.g.
+            0x833589fcd6edb6e08f4c7c32d4f71b54bda02913 is USDC on Base)
           example: "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913"
         amount:
           type: number
-          minimum: 0.00000001
+          minimum: 1.e-8
           description: Amount to send (must be greater than 0)
           example: 0.01
-
     TransactionFrameConfig:
       type: object
       required:
@@ -1232,7 +1259,9 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Fid"
-          description: Optional list of FIDs that are allowed to use this transaction mini app
+          description: >-
+            Optional list of FIDs that are allowed to use this transaction mini
+            app
         line_items:
           type: array
           minItems: 1
@@ -1240,8 +1269,10 @@ components:
             $ref: "#/components/schemas/TransactionFrameLineItem"
           description: List of items included in the transaction
         action:
-          $ref: "#/components/schemas/TransactionFrameAction"
           description: Action button for primary CTA on the transaction mini app
+          # Nesting $ref under allOf is necessary for any sibling fields to be effective
+          allOf:
+            - $ref: "#/components/schemas/TransactionFrameAction"
     TransactionFrameBase:
       type: object
       required:
@@ -1264,7 +1295,6 @@ components:
           $ref: "#/components/schemas/TransactionFrameConfig"
         status:
           $ref: "#/components/schemas/TransactionFrameStatus"
-
     TransactionFramePay:
       allOf:
         - $ref: "#/components/schemas/TransactionFrameBase"
@@ -1279,7 +1309,6 @@ components:
               properties:
                 to:
                   $ref: "#/components/schemas/TransactionFrameDestination"
-
     TransactionFrame:
       discriminator:
         propertyName: type
@@ -1287,7 +1316,6 @@ components:
           pay: "#/components/schemas/TransactionFramePay"
       oneOf:
         - $ref: "#/components/schemas/TransactionFramePay"
-
     TransactionFrameStatus:
       type: string
       enum:
@@ -1328,11 +1356,15 @@ components:
         cast_reaction_context:
           default: true
           type: boolean
-          description: Adds viewer_context inside the cast object to indicate whether the interactor reacted to the cast housing the mini app.
+          description: >-
+            Adds viewer_context inside the cast object to indicate whether the
+            interactor reacted to the cast housing the mini app.
         follow_context:
           default: false
           type: boolean
-          description: Adds viewer_context inside the user (interactor) object to indicate whether the interactor follows or is followed by the cast author.
+          description: >-
+            Adds viewer_context inside the user (interactor) object to indicate
+            whether the interactor follows or is followed by the cast author.
         signer_context:
           default: false
           type: boolean
@@ -1340,7 +1372,9 @@ components:
         channel_follow_context:
           default: false
           type: boolean
-          description: Adds context about the channel that the cast belongs to inside of the cast object.
+          description: >-
+            Adds context about the channel that the cast belongs to inside of
+            the cast object.
     SendFrameNotificationsReqBody:
       type: object
       required:
@@ -1352,8 +1386,14 @@ components:
           items:
             $ref: "#/components/schemas/Fid"
           maxItems: 100
-          description: An array of target FIDs to whom the notifications should be sent. Each FID must be a positive integer, with a maximum of 100 FIDs allowed per call.
-          example: [1, 2, 3]
+          description: >-
+            An array of target FIDs to whom the notifications should be sent.
+            Each FID must be a positive integer, with a maximum of 100 FIDs
+            allowed per call.
+          example:
+            - 1
+            - 2
+            - 3
         notification:
           type: object
           required:
@@ -1365,25 +1405,33 @@ components:
               type: string
               maxLength: 32
               minLength: 1
-              description: The title of the notification. Must be between 1 and 32 characters.
-              example: "New Message"
+              description: >-
+                The title of the notification. Must be between 1 and 32
+                characters.
+              example: New Message
             body:
               type: string
               maxLength: 128
               minLength: 1
-              description: The body of the notification. Must be between 1 and 128 characters.
-              example: "You have received a new message in your inbox."
+              description: >-
+                The body of the notification. Must be between 1 and 128
+                characters.
+              example: You have received a new message in your inbox.
             target_url:
               type: string
               format: uri
               maxLength: 256
-              description: The target URL to open when the user clicks the notification. Must be a valid URL.
-              example: "https://example.com/notifications"
+              description: >-
+                The target URL to open when the user clicks the notification.
+                Must be a valid URL.
+              example: https://example.com/notifications
             uuid:
               type: string
               format: uuid
-              description: An optional UUID for the notification, used as an idempotency key.
-              example: "123e4567-e89b-12d3-a456-426614174000"
+              description: >-
+                An optional UUID for the notification, used as an idempotency
+                key.
+              example: 123e4567-e89b-12d3-a456-426614174000
     RemoveChannelMemberReqBody:
       type: object
       required:
@@ -1424,57 +1472,48 @@ components:
         object:
           type: string
           enum:
-            - "subscription"
+            - subscription
         provider_name:
           type: string
-          examples:
-            - "fabric_stp"
+          example: fabric_stp
         contract_address:
           type: string
-          examples:
-            - "0xff63fc310d47ef80961056ac8df0b3f1a9e3ef58"
+          example: "0xff63fc310d47ef80961056ac8df0b3f1a9e3ef58"
         chain:
           type: integer
-          examples:
-            - 8453
+          example: 8453
         metadata:
           type: object
           properties:
             title:
               type: string
-              examples:
-                - "/memes channel sub"
+              example: /memes channel sub
             symbol:
               type: string
-              examples:
-                - "MMS"
+              example: MMS
             art_url:
               type: string
-              examples:
-                - "https://storage.withfabric.xyz/loom/403fdc10-95f3-4b25-9d77-5aac7ccb9fd1.jpg"
+              example: >-
+                https://storage.withfabric.xyz/loom/403fdc10-95f3-4b25-9d77-5aac7ccb9fd1.jpg
           required:
             - title
             - symbol
             - art_url
         owner_address:
           type: string
-          examples:
-            - "0xb6f6dce6000ca88cc936b450cedb16a5c15f157f"
+          example: "0xb6f6dce6000ca88cc936b450cedb16a5c15f157f"
         price:
           type: object
           properties:
             period_duration_seconds:
               type: integer
-              examples:
-                - 2592000
+              example: 2592000
             tokens_per_period:
               type: string
-              examples:
-                - "350574998400000"
+              example: "350574998400000"
             initial_mint_price:
               type: string
-              examples:
-                - "0"
+              example: "0"
           required:
             - period_duration_seconds
             - tokens_per_period
@@ -1485,27 +1524,23 @@ components:
             $ref: "#/components/schemas/SubscriptionTier"
         protocol_version:
           type: integer
-          examples:
-            - 1
+          example: 1
         token:
           type: object
           properties:
             symbol:
               type: string
-              examples:
-                - "ETH"
+              example: ETH
             address:
-              type: [string, "null"]
-              examples:
-                - null
+              type: string
+              example: null
+              nullable: true
             decimals:
               type: integer
-              examples:
-                - 18
+              example: 18
             erc20:
               type: boolean
-              examples:
-                - false
+              example: false
           required:
             - symbol
             - address
@@ -1517,37 +1552,30 @@ components:
         object:
           type: string
           enum:
-            - "subscription_dehydrated"
+            - subscription_dehydrated
         provider_name:
           type: string
-          examples:
-            - "fabric_stp"
+          example: fabric_stp
         contract_address:
           type: string
-          examples:
-            - "0x325b3e2c19f4900f8f4eb5f6872dc2715e77cbac"
+          example: "0x325b3e2c19f4900f8f4eb5f6872dc2715e77cbac"
         protocol_version:
           type: integer
-          examples:
-            - 1
+          example: 1
         chain:
           type: integer
-          examples:
-            - 8453
+          example: 8453
         expires_at:
           type: string
           format: date-time
-          examples:
-            - "2023-09-13T22:10:22.000Z"
+          example: "2023-09-13T22:10:22.000Z"
         subscribed_at:
           type: string
           format: date-time
-          examples:
-            - "2023-09-13T22:10:22.000Z"
+          example: "2023-09-13T22:10:22.000Z"
         tier_id:
           type: string
-          examples:
-            - "0"
+          example: "0"
       required:
         - object
         - provider_name
@@ -1572,10 +1600,11 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Subscriptions"
-
     FrameSignaturePacket:
       type: object
-      description: The Mini app Signature Packet (https://docs.farcaster.xyz/developers/frames/spec#frame-signature-packet)
+      description: >-
+        The Mini app Signature Packet
+        (https://docs.farcaster.xyz/developers/frames/spec#frame-signature-packet)
       required:
         - untrustedData
         - trustedData
@@ -1652,7 +1681,10 @@ components:
           description: URL of the post to get the next mini app
     FrameButtonActionType:
       type: string
-      description: The action type of a mini app button. Action types "mint" & "link" are to be handled on the client side only and so they will produce a no/op for POST /farcaster/frame/action.
+      description: >-
+        The action type of a mini app button. Action types "mint" & "link" are
+        to be handled on the client side only and so they will produce a no/op
+        for POST /farcaster/frame/action.
       enum:
         - post
         - post_redirect
@@ -1665,8 +1697,7 @@ components:
         text:
           type: string
           description: Input text for the mini app
-          examples:
-            - "Draw a purple ringed planet"
+          example: Draw a purple ringed planet
     FrameState:
       type: object
       required:
@@ -1675,8 +1706,7 @@ components:
         serialized:
           type: string
           description: State for the mini app in a serialized format
-          examples:
-            - "%7B%22counter%22%3A1%7D"
+          example: "%7B%22counter%22%3A1%7D"
     FrameAddress:
       type: string
       description: The connected wallet address of the interacting user.
@@ -1688,8 +1718,7 @@ components:
         hash:
           type: string
           description: Transaction hash
-          examples:
-            - "0xa80de157a3ab4648db1ecfab7e6355b342215bc549f6e37be9e6da527cc024f7"
+          example: "0xa80de157a3ab4648db1ecfab7e6355b342215bc549f6e37be9e6da527cc024f7"
     FrameActionButton:
       type: object
       required:
@@ -1709,7 +1738,9 @@ components:
           description: Target of the button
         post_url:
           type: string
-          description: Used specifically for the tx action type to post a successful transaction hash
+          description: >-
+            Used specifically for the tx action type to post a successful
+            transaction hash
     ReactionLike:
       type: object
       required:
@@ -1813,9 +1844,12 @@ components:
                   items:
                     $ref: "#/components/schemas/UserDehydrated"
                 mentioned_profiles_ranges:
-                  description: |
-                    Positions within the text (inclusive start, exclusive end) where each mention occurs.
-                    Each index within this list corresponds to the same-numbered index in the mentioned_profiles list.
+                  description: >
+                    Positions within the text (inclusive start, exclusive end)
+                    where each mention occurs.
+
+                    Each index within this list corresponds to the same-numbered
+                    index in the mentioned_profiles list.
                   type: array
                   items:
                     $ref: "#/components/schemas/TextRange"
@@ -1824,9 +1858,12 @@ components:
                   items:
                     $ref: "#/components/schemas/ChannelDehydrated"
                 mentioned_channels_ranges:
-                  description: |
-                    Positions within the text (inclusive start, exclusive end) where each mention occurs.
-                    Each index within this list corresponds to the same-numbered index in the mentioned_channels list.
+                  description: >
+                    Positions within the text (inclusive start, exclusive end)
+                    where each mention occurs.
+
+                    Each index within this list corresponds to the same-numbered
+                    index in the mentioned_channels list.
                   type: array
                   items:
                     $ref: "#/components/schemas/TextRange"
@@ -1853,12 +1890,16 @@ components:
           properties:
             eth_addresses:
               type: array
-              description: List of verified Ethereum addresses of the user sorted by oldest to most recent.
+              description: >-
+                List of verified Ethereum addresses of the user sorted by oldest
+                to most recent.
               items:
                 $ref: "#/components/schemas/EthAddress"
             sol_addresses:
               type: array
-              description: List of verified Solana addresses of the user sorted by oldest to most recent.
+              description: >-
+                List of verified Solana addresses of the user sorted by oldest
+                to most recent.
               items:
                 $ref: "#/components/schemas/SolAddress"
             primary:
@@ -1868,16 +1909,20 @@ components:
                 - sol_address
               properties:
                 eth_address:
-                  oneOf:
+                  nullable: true
+                  # Nesting $ref under allOf is necessary for any sibling fields to be effective
+                  allOf:
                     - $ref: "#/components/schemas/EthAddress"
-                    - type: "null"
                 sol_address:
-                  oneOf:
+                  nullable: true
+                  # Nesting $ref under allOf is necessary for any sibling fields to be effective
+                  allOf:
                     - $ref: "#/components/schemas/SolAddress"
-                    - type: "null"
         verified_accounts:
           type: array
-          description: Verified accounts of the user on other platforms, currently only X is supported.
+          description: >-
+            Verified accounts of the user on other platforms, currently only X
+            is supported.
           items:
             type: object
             properties:
@@ -1895,10 +1940,14 @@ components:
           required:
             - neynar_user_score
           properties:
+            deprecation_notice:
+              type: string
             neynar_user_score:
               type: number
               format: double
-              description: Score that represents the probability that the account is not spam.
+              description: >-
+                Score that represents the probability that the account is not
+                spam.
         score:
           type: number
           format: double
@@ -1956,7 +2005,7 @@ components:
       type: string
       description: A blockchain network e.g. "base"
       enum:
-        - "base"
+        - base
     AddressBalance:
       type: object
       description: The token balances associated with a wallet address
@@ -2032,25 +2081,30 @@ components:
         hash:
           type: string
         parent_hash:
-          type: [string, "null"]
+          type: string
+          nullable: true
         parent_url:
-          type: [string, "null"]
+          type: string
+          nullable: true
         root_parent_url:
-          type: [string, "null"]
+          type: string
+          nullable: true
         parent_author:
           type: object
           required:
             - fid
           properties:
             fid:
-              oneOf:
-                - type: "null"
+              nullable: true
+              # Nesting $ref under allOf is necessary for any sibling fields to be effective
+              allOf:
                 - $ref: "#/components/schemas/Fid"
         author:
           $ref: "#/components/schemas/UserDehydrated"
         app:
-          oneOf:
-            - type: "null"
+          nullable: true
+          # Nesting $ref under allOf is necessary for any sibling fields to be effective
+          allOf:
             - $ref: "#/components/schemas/UserDehydrated"
         text:
           type: string
@@ -2063,8 +2117,9 @@ components:
           items:
             $ref: "#/components/schemas/EmbedDeep"
         channel:
-          oneOf:
-            - type: "null"
+          nullable: true
+          # Nesting $ref under allOf is necessary for any sibling fields to be effective
+          allOf:
             - $ref: "#/components/schemas/ChannelDehydrated"
     Cast:
       type: object
@@ -2087,25 +2142,30 @@ components:
         hash:
           type: string
         parent_hash:
-          type: [string, "null"]
+          type: string
+          nullable: true
         parent_url:
-          type: [string, "null"]
+          type: string
+          nullable: true
         root_parent_url:
-          type: [string, "null"]
+          type: string
+          nullable: true
         parent_author:
           type: object
           required:
             - fid
           properties:
             fid:
-              oneOf:
-                - type: "null"
+              nullable: true
+              # Nesting $ref under allOf is necessary for any sibling fields to be effective
+              allOf:
                 - $ref: "#/components/schemas/Fid"
         author:
           $ref: "#/components/schemas/User"
         app:
-          oneOf:
-            - type: "null"
+          nullable: true
+          # Nesting $ref under allOf is necessary for any sibling fields to be effective
+          allOf:
             - $ref: "#/components/schemas/UserDehydrated"
         text:
           type: string
@@ -2138,17 +2198,23 @@ components:
       properties:
         fid:
           $ref: "#/components/schemas/Fid"
-          description: FID of the sponsor
         signature:
           type: string
-          description: Signature generated by the fid of the sponsor and the signature generated from signKeyRequest for the app.
+          description: >-
+            Signature generated by the fid of the sponsor and the signature
+            generated from signKeyRequest for the app.
         sponsored_by_neynar:
           type: boolean
-          description: |
+          description: >
             Neynar will sponsor the signer if set to true.
-            **Note: ** If sponsor.fid and sponsor.signature are provided along with sponsored_by_neynar set to true, 
+
+            **Note: ** If sponsor.fid and sponsor.signature are provided along
+            with sponsored_by_neynar set to true, 
+
             the sponsor.fid and sponsor.signature will be ignored. 
-            Neynar will sponsor the signer on behalf of the user. The developer will get charged in compute units.
+
+            Neynar will sponsor the signer on behalf of the user. The developer
+            will get charged in compute units.
     RegisterSignerKeyReqBody:
       type: object
       required:
@@ -2161,18 +2227,23 @@ components:
           $ref: "#/components/schemas/SignerUUID"
         signature:
           type: string
-          description: Signature generated by the custody address of the app. Signed data includes app_fid, deadline, signer’s public key
+          description: >-
+            Signature generated by the custody address of the app. Signed data
+            includes app_fid, deadline, signer’s public key
         app_fid:
           $ref: "#/components/schemas/Fid"
-          description: Application FID
         deadline:
           type: integer
-          description: unix timestamp in seconds that controls how long the signed key request is valid for. (24 hours from now is recommended)
+          description: >-
+            unix timestamp in seconds that controls how long the signed key
+            request is valid for. (24 hours from now is recommended)
         redirect_url:
           type: string
-          description: |
+          description: >
             Url to redirect to after the signer is approved. 
-            **Note** : This should only be used when requesting a signer from a native mobile application.
+
+            **Note** : This should only be used when requesting a signer from a
+            native mobile application.
         sponsor:
           $ref: "#/components/schemas/SignedKeyRequestSponsor"
     RegisterDeveloperManagedSignedKeyReqBody:
@@ -2185,23 +2256,27 @@ components:
       properties:
         public_key:
           $ref: "#/components/schemas/Ed25519PublicKey"
-          description: Public key of the signer. For better security, private/public keys should not be re-used on the same account or across accounts
         signature:
           type: string
-          description: Signature generated by the custody address of the app. Signed data includes app_fid, deadline, signer’s public key
-          examples:
-            - "0x7867e84cb6a64bf6e1954e52884133f1114eb3fd97f63ff55fa76c77c80beb6434eea9d3736b59caa3130d63121177acc752dc8a2561e9edf700642f390f92d11b"
+          description: >-
+            Signature generated by the custody address of the app. Signed data
+            includes app_fid, deadline, signer’s public key
+          example: >-
+            0x7867e84cb6a64bf6e1954e52884133f1114eb3fd97f63ff55fa76c77c80beb6434eea9d3736b59caa3130d63121177acc752dc8a2561e9edf700642f390f92d11b
         app_fid:
           $ref: "#/components/schemas/Fid"
-          description: Application FID
         deadline:
           type: integer
-          description: unix timestamp in seconds that controls how long the signed key request is valid for. (24 hours from now is recommended)
+          description: >-
+            unix timestamp in seconds that controls how long the signed key
+            request is valid for. (24 hours from now is recommended)
         redirect_url:
           type: string
-          description: |
+          description: >
             Url to redirect to after the signer is approved. 
-            **Note** : This should only be used when requesting a signer from a native mobile application.
+
+            **Note** : This should only be used when requesting a signer from a
+            native mobile application.
         sponsor:
           $ref: "#/components/schemas/SignedKeyRequestSponsor"
     CastParent:
@@ -2223,17 +2298,20 @@ components:
         - properties:
             cast_id:
               $ref: "#/components/schemas/PostCastReqBodyEmbedsCastIdProperties"
-          required: [cast_id]
+          required:
+            - cast_id
           additionalProperties: false
         - properties:
             castId:
               $ref: "#/components/schemas/PostCastReqBodyEmbedsCastIdProperties"
-          required: [castId]
+          required:
+            - castId
           additionalProperties: false
         - properties:
             url:
               type: string
-          required: [url]
+          required:
+            - url
           additionalProperties: false
       additionalProperties: false
     PostCastReqBody:
@@ -2254,9 +2332,10 @@ components:
           $ref: "#/components/schemas/CastParent"
         channel_id:
           type: string
-          description: Channel ID of the channel where the cast is to be posted. e.g. neynar, farcaster, warpcast
-          examples:
-            - "neynar"
+          description: >-
+            Channel ID of the channel where the cast is to be posted. e.g.
+            neynar, farcaster, warpcast
+          example: neynar
         idem:
           $ref: "#/components/schemas/Idem"
         parent_author_fid:
@@ -2305,14 +2384,13 @@ components:
           type: string
         target_author_fid:
           $ref: "#/components/schemas/Fid"
-          description: If the target is a cast hash, this value should indicate the target cast's author's FID (unsigned integer)
         idem:
           $ref: "#/components/schemas/Idem"
     ChannelType:
       type: string
       enum:
-        - "id"
-        - "parent_url"
+        - id
+        - parent_url
     CastEmbedCrawlResponse:
       type: object
       required:
@@ -2372,7 +2450,7 @@ components:
         action:
           $ref: "#/components/schemas/FrameAction"
     AddVerificationReqBody:
-      "x-is-request-body": true
+      x-is-request-body: true
       type: object
       required:
         - signer_uuid
@@ -2542,15 +2620,19 @@ components:
             replies:
               $ref: "#/components/schemas/CastWithInteractionsReplies"
             thread_hash:
-              type: [string, "null"]
+              type: string
+              nullable: true
             mentioned_profiles:
               type: array
               items:
                 $ref: "#/components/schemas/User"
             mentioned_profiles_ranges:
-              description: |
-                Positions within the text (inclusive start, exclusive end) where each mention occurs.
-                Each index within this list corresponds to the same-numbered index in the mentioned_profiles list.
+              description: >
+                Positions within the text (inclusive start, exclusive end) where
+                each mention occurs.
+
+                Each index within this list corresponds to the same-numbered
+                index in the mentioned_profiles list.
               type: array
               items:
                 $ref: "#/components/schemas/TextRange"
@@ -2559,16 +2641,20 @@ components:
               items:
                 $ref: "#/components/schemas/ChannelDehydrated"
             mentioned_channels_ranges:
-              description: |
-                Positions within the text (inclusive start, exclusive end) where each mention occurs.
-                Each index within this list corresponds to the same-numbered index in the mentioned_channels list.
+              description: >
+                Positions within the text (inclusive start, exclusive end) where
+                each mention occurs.
+
+                Each index within this list corresponds to the same-numbered
+                index in the mentioned_channels list.
               type: array
               items:
                 $ref: "#/components/schemas/TextRange"
             channel:
-              oneOf:
+              nullable: true
+              # Nesting $ref under allOf is necessary for any sibling fields to be effective
+              allOf:
                 - $ref: "#/components/schemas/ChannelOrChannelDehydrated"
-                - type: "null"
             viewer_context:
               $ref: "#/components/schemas/CastViewerContext"
             author_channel_context:
@@ -2584,9 +2670,13 @@ components:
               type: array
               items:
                 $ref: "#/components/schemas/CastWithInteractionsAndConversationsRef"
-              description: "note: This is recursive. It contains the direct replies to the cast and their direct replies up to n reply_depth."
+              description: >-
+                note: This is recursive. It contains the direct replies to the
+                cast and their direct replies up to n reply_depth.
     CastWithInteractionsAndConversationsRef:
-      description: Reference to CastWithInteractionsAndConversations to avoid circular reference
+      description: >-
+        Reference to CastWithInteractionsAndConversations to avoid circular
+        reference
       allOf:
         - $ref: "#/components/schemas/CastWithInteractions"
         - type: object
@@ -2597,7 +2687,9 @@ components:
               type: array
               items:
                 type: object
-              description: "note: This is recursive. It contains the direct replies to the cast and their direct replies up to n reply_depth."
+              description: >-
+                note: This is recursive. It contains the direct replies to the
+                cast and their direct replies up to n reply_depth.
     Conversation:
       type: object
       required:
@@ -2801,7 +2893,9 @@ components:
           items:
             $ref: "#/components/schemas/UserDehydrated"
         description_mentioned_profiles_ranges:
-          description: Positions within the text (inclusive start, exclusive end) where each mention occurs.
+          description: >-
+            Positions within the text (inclusive start, exclusive end) where
+            each mention occurs.
           type: array
           items:
             $ref: "#/components/schemas/TextRange"
@@ -2834,12 +2928,13 @@ components:
           type: integer
           format: int32
         moderator:
-          $ref: "#/components/schemas/User"
           deprecated: true
           description: Use `lead` instead.
+          # Nesting $ref under allOf is necessary for any sibling fields to be effective
+          allOf:
+            - $ref: "#/components/schemas/User"
         pinned_cast_hash:
           $ref: "#/components/schemas/CastHash"
-          description: Hash of the pinned cast in the channel.
         hosts:
           type: array
           deprecated: true
@@ -3213,7 +3308,9 @@ components:
         count:
           type: integer
           format: int32
-          description: The number of notifications of this(follows, likes, recast) type bundled in a single notification.
+          description: >-
+            The number of notifications of this(follows, likes, recast) type
+            bundled in a single notification.
     CastDehydrated:
       type: object
       required:
@@ -3229,8 +3326,9 @@ components:
         author:
           $ref: "#/components/schemas/UserDehydrated"
         app:
-          oneOf:
-            - type: "null"
+          nullable: true
+          # Nesting $ref under allOf is necessary for any sibling fields to be effective
+          allOf:
             - $ref: "#/components/schemas/UserDehydrated"
     ReactionWithUserInfo:
       type: object
@@ -3405,8 +3503,7 @@ components:
       properties:
         total_active_units:
           type: integer
-          examples:
-            - 13
+          example: 13
         allocations:
           type: array
           items:
@@ -3416,31 +3513,26 @@ components:
       properties:
         object:
           type: string
-          examples:
-            - "storage_allocation"
+          example: storage_allocation
         user:
           $ref: "#/components/schemas/UserDehydrated"
         units:
           type: integer
-          examples:
-            - 10
+          example: 10
         expiry:
           type: string
           format: date-time
-          examples:
-            - "2024-10-08T22:03:49.000Z"
+          example: "2024-10-08T22:03:49.000Z"
         timestamp:
           type: string
           format: date-time
-          examples:
-            - "2023-10-09T22:03:49.000Z"
+          example: "2023-10-09T22:03:49.000Z"
     StorageUsageResponse:
       type: object
       properties:
         object:
           type: string
-          examples:
-            - "storage_usage"
+          example: storage_usage
         user:
           $ref: "#/components/schemas/UserDehydrated"
         casts:
@@ -3457,23 +3549,19 @@ components:
           $ref: "#/components/schemas/StorageObject"
         total_active_units:
           type: integer
-          examples:
-            - 2
+          example: 2
     StorageObject:
       type: object
       properties:
         object:
           type: string
-          examples:
-            - "storage"
+          example: storage
         used:
           type: integer
-          examples:
-            - 3659
+          example: 3659
         capacity:
           type: integer
-          examples:
-            - 10000
+          example: 10000
     BulkUsersResponse:
       type: object
       required:
@@ -3508,11 +3596,12 @@ components:
         next:
           $ref: "#/components/schemas/NextCursor"
     BulkUsersByAddressResponse:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          $ref: "#/components/schemas/User"
+      anyOf: # This redundant anyOf hack required for additionalProperties to be handled correctly by go-sdk generation
+        - type: object
+          additionalProperties:
+            type: array
+            items:
+              $ref: "#/components/schemas/User"
     FeedType:
       type: string
       default: following
@@ -3593,15 +3682,13 @@ components:
           description: Unique identifier for the page.
         version:
           type: string
-          default: "vNext"
-          examples:
-            - "vNext"
+          default: vNext
           description: The version of the page schema.
+          example: vNext
         title:
           type: string
-          examples:
-            - "Welcome to Neynar"
           description: The title of the page.
+          example: Welcome to Neynar
         image:
           $ref: "#/components/schemas/NeynarPageImage"
         buttons:
@@ -3621,14 +3708,13 @@ components:
         url:
           type: string
           format: uri
-          examples:
-            - "https://i.imgur.com/qo2AzBf.jpeg"
           description: The URL of the page's image.
+          example: https://i.imgur.com/qo2AzBf.jpeg
         aspect_ratio:
           type: string
           description: The aspect ratio of the image.
           enum:
-            - "1.91:1"
+            - 1.91:1
             - "1:1"
       required:
         - url
@@ -3646,10 +3732,10 @@ components:
           type: string
           description: The type of action that the button performs.
           enum:
-            - "post"
-            - "post_redirect"
-            - "mint"
-            - "link"
+            - post
+            - post_redirect
+            - mint
+            - link
         next_page:
           oneOf:
             - $ref: "#/components/schemas/NeynarNextFramePage"
@@ -3823,8 +3909,7 @@ components:
       properties:
         valid:
           type: boolean
-          examples:
-            - true
+          example: true
         action:
           $ref: "#/components/schemas/ValidatedFrameAction"
     DeleteFrameReqBody:
@@ -3946,8 +4031,7 @@ components:
       properties:
         success:
           type: boolean
-          examples:
-            - true
+          example: true
         message:
           type: string
     BlockRecord:
@@ -4013,10 +4097,10 @@ components:
       properties:
         success:
           type: boolean
-          examples:
-            - true
+          example: true
         message:
-          type: [string, "null"]
+          type: string
+          nullable: true
     UsersActiveChannelsResponse:
       type: object
       properties:
@@ -4030,14 +4114,21 @@ components:
       type: integer
       format: int32
       default: 0
-      enum: [0, 1]
+      enum:
+        - 0
+        - 1
       description: Type of verification. 0 = EOA, 1 = contract
     VerificationChainId:
       type: integer
       format: int32
       default: 0
-      enum: [0, 1, 10]
-      description: Chain ID for farcaster verifications. 0 for EOA verifications, 1 or 10 for contract verifications
+      enum:
+        - 0
+        - 1
+        - 10
+      description: >-
+        Chain ID for farcaster verifications. 0 for EOA verifications, 1 or 10
+        for contract verifications
     DeleteFrameResponse:
       type: object
       properties:
@@ -4206,24 +4297,50 @@ components:
             type: integer
         text:
           type: string
-          description: |
+          description: >
             Regex pattern to match the text key of the cast.
+
             **Note:** 
-            1) Regex must be parsed by Go's RE2 engine (Test your expression here: https://www.lddgo.net/en/string/golangregex)
+
+            1) Regex must be parsed by Go's RE2 engine (Test your expression
+            here: https://www.lddgo.net/en/string/golangregex)
+
             2) Use backslashes to escape special characters.
+
             For example: (?i)\\$degen should be written as (?i)\\\\$degen
-          examples:
-            - "(?i)\\$degen"
+          example: (?i)\$degen
         embeds:
           type: string
-          description: |
+          description: >
             Regex pattern to match the embeded_url (key embeds) of the cast.
+
             **Note:** 
-            1) Regex must be parsed by Go's RE2 engine (Test your expression here: https://www.lddgo.net/en/string/golangregex)
+
+            1) Regex must be parsed by Go's RE2 engine (Test your expression
+            here: https://www.lddgo.net/en/string/golangregex)
+
             2) Use backslashes to escape special characters.
-            For example: \\b(farcaster|neynar)\\b should be written as \\\\b(farcaster|neynar)\\\\b
-          examples:
-            - "\b(farcaster|neynar)\b"
+
+            For example: \\b(farcaster|neynar)\\b should be written as
+            \\\\b(farcaster|neynar)\\\\b
+          example: "\b(farcaster|neynar)\b"
+    # WebhookSubscriptionResponse:
+    #   type: object
+    #   required:
+    #   - subscription
+    #   properties:
+    #     subscription:
+    #       $ref: '#/components/schemas/WebhookSubscription'
+    # WebhookUpdateSubscriptionReqBody:
+    #   type: object
+    #   required:
+    #     - webhook_id
+    #     - subscription
+    #   properties:
+    #     webhook_id:
+    #       type: string
+    #     subscription:
+    #       $ref: '#/components/schemas/WebhookSubscriptionFilters'
     WebhookSubscriptionFilters:
       type: object
       properties:
@@ -4313,23 +4430,6 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Webhook"
-    # WebhookSubscriptionResponse:
-    #   type: object
-    #   required:
-    #   - subscription
-    #   properties:
-    #     subscription:
-    #       $ref: '#/components/schemas/WebhookSubscription'
-    # WebhookUpdateSubscriptionReqBody:
-    #   type: object
-    #   required:
-    #     - webhook_id
-    #     - subscription
-    #   properties:
-    #     webhook_id:
-    #       type: string
-    #     subscription:
-    #       $ref: '#/components/schemas/WebhookSubscriptionFilters'
     FrameType:
       type: string
       enum:
@@ -4472,12 +4572,18 @@ components:
           description: Accept or reject the invite
     Idem:
       type: string
-      description: |
+      description: >
         An Idempotency key is a unique identifier for the request.
+
         **Note:** 
-        1) This is used to prevent duplicate requests. Use the same idem key on retry attempts.
+
+        1) This is used to prevent duplicate requests. Use the same idem key on
+        retry attempts.
+
         2) This should be a unique identifier for each request.
-        3) Recommended format is a 16-character string generated by the developer at the time of making this request.
+
+        3) Recommended format is a 16-character string generated by the
+        developer at the time of making this request.
     BuyStorageReqBody:
       type: object
       required:
@@ -4486,16 +4592,16 @@ components:
         fid:
           type: integer
           minimum: 1
-          examples:
-            - 1
+          example: 1
         units:
           type: integer
-          description: |
+          description: >
             Number of storage units to buy.
-            A storage unit lets you store 5000 casts, 2500 reactions and 2500 links.
+
+            A storage unit lets you store 5000 casts, 2500 reactions and 2500
+            links.
           minimum: 1
-          examples:
-            - 1
+          example: 1
         idem:
           $ref: "#/components/schemas/Idem"
     ZodError:
@@ -4507,12 +4613,10 @@ components:
       properties:
         message:
           type: string
-          examples:
-            - "Invalid query parameters"
+          example: Invalid query parameters
         code:
           type: string
-          examples:
-            - "InvalidField"
+          example: InvalidField
         errors:
           type: array
           items:
@@ -4605,18 +4709,21 @@ components:
       properties:
         object:
           type: string
-          enum: ["subscribed_to_dehydrated"]
+          enum:
+            - subscribed_to_dehydrated
         status:
           type: boolean
         expires_at:
-          type: [integer, "null"]
+          type: integer
           format: int64
+          nullable: true
         subscribed_at:
-          type: [integer, "null"]
+          type: integer
           format: int64
+          nullable: true
         tier:
-          oneOf:
-            - type: "null"
+          nullable: true
+          allOf:
             - $ref: "#/components/schemas/SubscriptionTier"
       required:
         - object
@@ -4624,11 +4731,6 @@ components:
         - expires_at
         - subscribed_at
         - tier
-    Fids:
-      type: array
-      items:
-        $ref: "#/components/schemas/Fid"
-      description: List of FIDs
     UserPowerLiteResponse:
       type: object
       required:
@@ -4640,7 +4742,10 @@ components:
             - fids
           properties:
             fids:
-              $ref: "#/components/schemas/Fids"
+              type: array
+              items:
+                $ref: "#/components/schemas/Fid"
+              description: List of FIDs
     NotificationType:
       type: string
       enum:
@@ -4657,8 +4762,9 @@ components:
       properties:
         signer_uuid:
           type: string
-          description: |
-            The UUID of the signer. Signer should have atleast one write permission
+          description: >
+            The UUID of the signer. Signer should have atleast one write
+            permission
         type:
           $ref: "#/components/schemas/NotificationType"
     FarcasterActionReqBody:
@@ -4671,17 +4777,16 @@ components:
         signer_uuid:
           type: string
           format: uuid
-          description: |
-            The signer_uuid of the user on behalf of whom the action is being performed.
-          examples:
-            - "123e4567-e89b-12d3-a456-426614174000"
+          description: >
+            The signer_uuid of the user on behalf of whom the action is being
+            performed.
+          example: 123e4567-e89b-12d3-a456-426614174000
         base_url:
           type: string
           format: uri
           description: |
             The base URL of the app on which the action is being performed.
-          examples:
-            - "https://example.com"
+          example: https://example.com
         action:
           type: object
           required:
@@ -4691,8 +4796,7 @@ components:
               type: string
               description: |
                 The type of action being performed.
-              examples:
-                - "create.user"
+              example: create.user
             payload:
               description: |
                 The payload of the action being performed.
@@ -4700,43 +4804,36 @@ components:
     ValidateFrameAggregateWindow:
       type: string
       enum:
-        - "10s"
-        - "1m"
-        - "2m"
-        - "5m"
-        - "10m"
-        - "20m"
-        - "30m"
-        - "2h"
-        - "12h"
-        - "1d"
-        - "7d"
+        - 10s
+        - 1m
+        - 2m
+        - 5m
+        - 10m
+        - 20m
+        - 30m
+        - 2h
+        - 12h
+        - 1d
+        - 7d
     SubscriptionCheckResponse:
-      type: object
-      additionalProperties:
-        $ref: "#/components/schemas/SubscriptionStatus"
-      examples:
-        - summary: Active subscription example
-          value:
-            "0xedd3783e8c7c52b80cfbd026a63c207edc9cbee7":
-              object: "subscribed_to_dehydrated"
-              status: true
-              expires_at: 1748890497000
-              subscribed_at: 1719256819704
-              tier:
-                id: 1
-                price:
-                  period_duration_seconds: 2592000
-                  tokens_per_period: "3499999997472000"
-                  initial_mint_price: "0"
-        - summary: Inactive subscription example
-          value:
-            "0x5a927ac639636e534b678e81768ca19e2c6280b7":
-              object: "subscribed_to_dehydrated"
-              status: false
-              expires_at: null
-              subscribed_at: null
-              tier: null
+      anyOf: # This redundant anyOf hack required for additionalProperties to be handled correctly by go-sdk generation
+        - type: object
+          additionalProperties:
+            $ref: "#/components/schemas/SubscriptionStatus"
+      example:
+        summary: Active subscription example
+        value:
+          "0xedd3783e8c7c52b80cfbd026a63c207edc9cbee7":
+            object: subscribed_to_dehydrated
+            status: true
+            expires_at: 1748890497000
+            subscribed_at: 1719256819704
+            tier:
+              id: 1
+              price:
+                period_duration_seconds: 2592000
+                tokens_per_period: "3499999997472000"
+                initial_mint_price: "0"
     DeployFungibleReqBody:
       type: object
       properties:
@@ -4750,14 +4847,11 @@ components:
           type: string
           description: Name of the token
         metadata[media]:
-          oneOf:
-            - type: string
-              format: binary
-              description: |
-                Media file associated with the token. 
-                Supported formats are image/jpeg, image/gif and image/png
-            - type: string
-              description: URI of the media file
+          type: string
+          format: binary
+          description: |
+            Media file associated with the token. 
+            Supported formats are image/jpeg, image/gif and image/png
         metadata[description]:
           type: string
           description: Description of the token
@@ -4835,7 +4929,7 @@ components:
         nonce:
           type: string
           description: The nonce value to sign the message
-          examples: ["neynarbMi9zSDuOC1GFqixR"]
+          example: neynarbMi9zSDuOC1GFqixR
     SignerListResponse:
       type: object
       required:
@@ -4845,51 +4939,49 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Signer"
-
   responses:
     401Response:
-      description: "Unauthorized"
+      description: Unauthorized
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/ErrorRes"
     404Response:
-      description: "Resource not found"
+      description: Resource not found
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/ErrorRes"
     400Response:
-      description: "Bad Request"
+      description: Bad Request
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/ErrorRes"
     400ZodResponse:
-      description: "Bad Request"
+      description: Bad Request
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/ZodError"
     403Response:
-      description: "Forbidden"
+      description: Forbidden
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/ErrorRes"
     409Response:
-      description: "Conflict"
+      description: Conflict
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/ConflictErrorRes"
     500Response:
-      description: "Server Error"
+      description: Server Error
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/ErrorRes"
-
 tags:
   - name: User
     description: Operations related to user
@@ -4945,7 +5037,9 @@ tags:
   - name: Webhook
     description: Operations related to a webhook
   - name: Action
-    description: Securely communicate and perform actions on behalf of users across different apps
+    description: >-
+      Securely communicate and perform actions on behalf of users across
+      different apps
     externalDocs:
       description: More info about farcaster actions
       url: https://docs.neynar.com/docs/farcaster-actions-spec
@@ -4963,14 +5057,15 @@ tags:
     description: Operations related to login
   - name: Metrics
     description: Operations related to retrieving metrics
-
 paths:
   /farcaster/user/fid:
     get:
       tags:
         - User
       summary: Fetch fresh FID
-      description: Fetches FID to [assign it to new user](https://docs.neynar.com/reference/register-account)
+      description: >-
+        Fetches FID to [assign it to new
+        user](https://docs.neynar.com/reference/register-account)
       externalDocs:
         url: https://docs.neynar.com/reference/get-fresh-account-fid
       operationId: get-fresh-account-FID
@@ -5015,9 +5110,12 @@ paths:
       tags:
         - Signer
       summary: Register Signed Key
-      description: Registers an signed key and returns the developer managed signer status with an approval url.
+      description: >-
+        Registers an signed key and returns the developer managed signer status
+        with an approval url.
       externalDocs:
-        url: https://docs.neynar.com/reference/register-signed-key-for-developer-managed-signer
+        url: >-
+          https://docs.neynar.com/reference/register-signed-key-for-developer-managed-signer
       operationId: register-signed-key-for-developer-managed-signer
       requestBody:
         required: true
@@ -5028,8 +5126,10 @@ paths:
             example:
               app_fid: 18949
               deadline: 1693627665
-              public_key: "0x3daa8f99c5f760688a3c9f95716ed93dee5ed5d7722d776b7c4deac957755f22"
-              signature: "0xe5d95c391e165dac8efea373efe301d3ea823e1f41713f8943713cbe2850566672e33ff3e17e19abb89703f650a2597f62b4fda0ce28ca15d59eb6d4e971ee531b"
+              public_key: >-
+                0x3daa8f99c5f760688a3c9f95716ed93dee5ed5d7722d776b7c4deac957755f22
+              signature: >-
+                0xe5d95c391e165dac8efea373efe301d3ea823e1f41713f8943713cbe2850566672e33ff3e17e19abb89703f650a2597f62b4fda0ce28ca15d59eb6d4e971ee531b
       responses:
         "200":
           description: Successful operation
@@ -5046,7 +5146,9 @@ paths:
       tags:
         - Signer
       summary: Status
-      description: Gets information status of a signer by passing in a signer_uuid (Use post API to generate a signer)
+      description: >-
+        Gets information status of a signer by passing in a signer_uuid (Use
+        post API to generate a signer)
       externalDocs:
         url: https://docs.neynar.com/reference/lookup-signer
       operationId: lookup-signer
@@ -5066,19 +5168,21 @@ paths:
                 $ref: "#/components/schemas/Signer"
         "400":
           $ref: "#/components/responses/400Response"
-        "404":
-          $ref: "#/components/responses/404Response"
         "403":
           $ref: "#/components/responses/403Response"
+        "404":
+          $ref: "#/components/responses/404Response"
         "500":
           $ref: "#/components/responses/500Response"
     post:
       tags:
         - Signer
       summary: Create signer
-      description: |
+      description: >
         Creates a signer and returns the signer status. \
-        **Note**: While tesing please reuse the signer, it costs money to approve a signer.
+
+        **Note**: While tesing please reuse the signer, it costs money to
+        approve a signer.
       externalDocs:
         url: https://docs.neynar.com/reference/create-signer
       operationId: create-signer
@@ -5104,26 +5208,44 @@ paths:
         - name: message
           in: query
           required: true
-          description: |
-            A Sign-In with Ethereum (SIWE) message that the user's Ethereum wallet signs. This message includes details such as the domain, address, statement, URI, nonce, and other relevant information following the EIP-4361 standard. It should be structured and URL-encoded.
+          description: >
+            A Sign-In with Ethereum (SIWE) message that the user's Ethereum
+            wallet signs. This message includes details such as the domain,
+            address, statement, URI, nonce, and other relevant information
+            following the EIP-4361 standard. It should be structured and
+            URL-encoded.
+
 
             example: 
-            example.com wants you to sign in with your Ethereum account:\\n0x23A...F232\\n\\nSign in to continue.\\n\\nURI: example.com\\nVersion: 1\\nChain ID: 1\\nNonce: xyz123\\nIssued At: 2021-09-01T14:52:07Z
 
-            Note: This is just an example message (So, message is invalid, since we don't want any signers related to NEYNAR_API_DOCS to be exposed). 
+            example.com wants you to sign in with your Ethereum
+            account:\\n0x23A...F232\\n\\nSign in to continue.\\n\\nURI:
+            example.com\\nVersion: 1\\nChain ID: 1\\nNonce: xyz123\\nIssued At:
+            2021-09-01T14:52:07Z
 
-            [Checkout fetch-signers API documentation for more details.](https://docs.neynar.com/docs/fetch-signers-1)
+
+            Note: This is just an example message (So, message is invalid, since
+            we don't want any signers related to NEYNAR_API_DOCS to be
+            exposed). 
+
+
+            [Checkout fetch-signers API documentation for more
+            details.](https://docs.neynar.com/docs/fetch-signers-1)
           schema:
             type: string
-            example: "example.com%20wants%20you%20to%20sign%20in%20with%20your%20Ethereum%20account%3A%5Cn0x23A...F232%5Cn%5CnSign%20in%20to%20continue.%5Cn%5CnURI%3A%20example.com%5CnVersion%3A%201%5CnChain%20ID%3A%201%5CnNonce%3A%20xyz123%5CnIssued%20At%3A%202021-09-01T14%3A52%3A07Z"
+            example: >-
+              example.com%20wants%20you%20to%20sign%20in%20with%20your%20Ethereum%20account%3A%5Cn0x23A...F232%5Cn%5CnSign%20in%20to%20continue.%5Cn%5CnURI%3A%20example.com%5CnVersion%3A%201%5CnChain%20ID%3A%201%5CnNonce%3A%20xyz123%5CnIssued%20At%3A%202021-09-01T14%3A52%3A07Z
         - name: signature
           in: query
-          description: |
-            The digital signature produced by signing the provided SIWE message with the user's Ethereum private key. This signature is used to verify the authenticity of the message and the identity of the signer.
+          description: >
+            The digital signature produced by signing the provided SIWE message
+            with the user's Ethereum private key. This signature is used to
+            verify the authenticity of the message and the identity of the
+            signer.
           required: true
           schema:
             type: string
-            example: "0x25f8...1cf"
+            example: 0x25f8...1cf
       responses:
         "200":
           description: Successful operation.
@@ -5131,10 +5253,10 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/SignerListResponse"
-        "401":
-          $ref: "#/components/responses/401Response"
         "400":
           $ref: "#/components/responses/400Response"
+        "401":
+          $ref: "#/components/responses/401Response"
         "500":
           $ref: "#/components/responses/500Response"
   /farcaster/signer/signed_key:
@@ -5142,7 +5264,9 @@ paths:
       tags:
         - Signer
       summary: Register Signed Key
-      description: Registers an app FID, deadline and a signature. Returns the signer status with an approval url.
+      description: >-
+        Registers an app FID, deadline and a signature. Returns the signer
+        status with an approval url.
       externalDocs:
         url: https://docs.neynar.com/reference/register-signed-key
       operationId: register-signed-key
@@ -5156,7 +5280,8 @@ paths:
               signer_uuid: 19d0c5fd-9b33-4a48-a0e2-bc7b0555baec
               app_fid: 18949
               deadline: 1693627665
-              signature: "0xe5d95c391e165dac8efea373efe301d3ea823e1f41713f8943713cbe2850566672e33ff3e17e19abb89703f650a2597f62b4fda0ce28ca15d59eb6d4e971ee531b"
+              signature: >-
+                0xe5d95c391e165dac8efea373efe301d3ea823e1f41713f8943713cbe2850566672e33ff3e17e19abb89703f650a2597f62b4fda0ce28ca15d59eb6d4e971ee531b
       responses:
         "200":
           description: Successful operation
@@ -5166,10 +5291,10 @@ paths:
                 $ref: "#/components/schemas/Signer"
         "400":
           $ref: "#/components/responses/400Response"
-        "404":
-          $ref: "#/components/responses/404Response"
         "403":
           $ref: "#/components/responses/403Response"
+        "404":
+          $ref: "#/components/responses/404Response"
         "500":
           $ref: "#/components/responses/500Response"
   /farcaster/user/search:
@@ -5191,7 +5316,9 @@ paths:
         - name: viewer_fid
           in: query
           required: false
-          description: Providing this will return search results that respects this user's mutes and blocks and includes `viewer_context`.
+          description: >-
+            Providing this will return search results that respects this user's
+            mutes and blocks and includes `viewer_context`.
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
@@ -5262,7 +5389,9 @@ paths:
       tags:
         - User
       summary: Power users
-      description: Fetches power users based on Warpcast power badges. Information is updated once a day.
+      description: >-
+        Fetches power users based on Warpcast power badges. Information is
+        updated once a day.
       externalDocs:
         url: https://docs.neynar.com/reference/fetch-power-users
       operationId: fetch-power-users
@@ -5305,7 +5434,9 @@ paths:
       tags:
         - User
       summary: Power user FIDs
-      description: Fetches power users and respond in a backwards compatible format to Warpcast's deprecated power badge endpoint.
+      description: >-
+        Fetches power users and respond in a backwards compatible format to
+        Warpcast's deprecated power badge endpoint.
       externalDocs:
         url: https://docs.neynar.com/reference/fetch-power-users-lite
       operationId: fetch-power-users-lite
@@ -5327,32 +5458,44 @@ paths:
       tags:
         - User
       summary: By Eth or Sol addresses
-      description:
+      description: >-
         Fetches all users based on multiple Ethereum or Solana addresses.
 
 
-        Each farcaster user has a custody Ethereum address and optionally verified Ethereum or Solana addresses. This endpoint returns all users that have any of the given addresses as their custody or verified Ethereum or Solana addresses.
+        Each farcaster user has a custody Ethereum address and optionally
+        verified Ethereum or Solana addresses. This endpoint returns all users
+        that have any of the given addresses as their custody or verified
+        Ethereum or Solana addresses.
 
 
-        A custody address can be associated with only 1 farcaster user at a time but a verified address can be associated with multiple users.
+        A custody address can be associated with only 1 farcaster user at a time
+        but a verified address can be associated with multiple users.
 
-        You can pass in Ethereum and Solana addresses, comma separated, in the same request. The response will contain users associated with the given addresses.
+        You can pass in Ethereum and Solana addresses, comma separated, in the
+        same request. The response will contain users associated with the given
+        addresses.
       externalDocs:
-        url: https://docs.neynar.com/reference/fetch-bulk-users-by-eth-or-sol-address
+        url: >-
+          https://docs.neynar.com/reference/fetch-bulk-users-by-eth-or-sol-address
       operationId: fetch-bulk-users-by-eth-or-sol-address
       parameters:
         - name: addresses
           description: Comma separated list of Ethereum addresses, up to 350 at a time
           in: query
           required: true
-          example: "0xa6a8736f18f383f1cc2d938576933e5ea7df01a1,0x7cac817861e5c3384753403fb6c0c556c204b1ce"
+          example: >-
+            0xa6a8736f18f383f1cc2d938576933e5ea7df01a1,0x7cac817861e5c3384753403fb6c0c556c204b1ce
           schema:
             type: string
             x-comma-separated: true
         - name: address_types
           in: query
           description: >
-            Customize which address types the request should search for. This is a comma-separated string that can include the following values: 'custody_address' and 'verified_address'. By default api returns both. To select multiple types, use a comma-separated list of these values.
+            Customize which address types the request should search for. This is
+            a comma-separated string that can include the following values:
+            'custody_address' and 'verified_address'. By default api returns
+            both. To select multiple types, use a comma-separated list of these
+            values.
           required: false
           schema:
             type: array
@@ -5422,7 +5565,9 @@ paths:
       tags:
         - Channel
       summary: Member of
-      description: Returns a list of all channels with their details that an FID is a member of. Data may have a delay of up to 1 hour.
+      description: >-
+        Returns a list of all channels with their details that an FID is a
+        member of. Data may have a delay of up to 1 hour.
       externalDocs:
         url: https://docs.neynar.com/reference/fetch-user-channel-memberships
       operationId: fetch-user-channel-memberships
@@ -5481,10 +5626,10 @@ paths:
               $ref: "#/components/schemas/UpdateUserReqBody"
             example:
               signer_uuid: 19d0c5fd-9b33-4a48-a0e2-bc7b0555baec
-              bio: "Experimenting on Farcaster"
-              pfp_url: "https://i.imgur.com/keIWEYM.jpg"
-              username: "dan"
-              display_name: "Dan Romero"
+              bio: Experimenting on Farcaster
+              pfp_url: https://i.imgur.com/keIWEYM.jpg
+              username: dan
+              display_name: Dan Romero
               latitude: 37.7749
               longitude: -122.4194
       responses:
@@ -5496,20 +5641,23 @@ paths:
                 $ref: "#/components/schemas/OperationResponse"
         "400":
           $ref: "#/components/responses/400Response"
-        "404":
-          $ref: "#/components/responses/404Response"
         "403":
           $ref: "#/components/responses/403Response"
+        "404":
+          $ref: "#/components/responses/404Response"
         "500":
           $ref: "#/components/responses/500Response"
     post:
       tags:
         - User
       summary: Register new account
-      description: |
+      description: >
         Register account on farcaster.
 
-        **Note:** This API must be called within 10 minutes of the fetch FID API call (i.e., /v2/farcaster/user/fid). Otherwise, Neynar will assign this FID to another available user.
+
+        **Note:** This API must be called within 10 minutes of the fetch FID API
+        call (i.e., /v2/farcaster/user/fid). Otherwise, Neynar will assign this
+        FID to another available user.
       externalDocs:
         url: https://docs.neynar.com/reference/register-account
       operationId: register-account
@@ -5520,11 +5668,12 @@ paths:
             schema:
               $ref: "#/components/schemas/RegisterUserReqBody"
             example:
-              signature: "0xe0cd4da80fb30d59e3ce5a10768c35043bc31487362977cf0a3acf15338a730f4aa329568055c943d777dd81fcb60292f15fc0bcf644da1943b6aa0b3ea9bdcf1b"
+              signature: >-
+                0xe0cd4da80fb30d59e3ce5a10768c35043bc31487362977cf0a3acf15338a730f4aa329568055c943d777dd81fcb60292f15fc0bcf644da1943b6aa0b3ea9bdcf1b
               fid: 321518
               requested_user_custody_address: "0x2c57e688154C082955cF205F4A335E852D3e25f1"
               deadline: 1707371935
-              fname: "desired_fname"
+              fname: desired_fname
       responses:
         "200":
           description: Successful operation.
@@ -5547,8 +5696,11 @@ paths:
       tags:
         - Signer
       summary: Publish message
-      description: Publish a message to farcaster.
-        The message must be signed by a signer managed by the developer. Use the @farcaster/core library to construct and sign the message. Use the Message.toJSON method on the signed message and pass the JSON in the body of this POST request.
+      description: >-
+        Publish a message to farcaster. The message must be signed by a signer
+        managed by the developer. Use the @farcaster/core library to construct
+        and sign the message. Use the Message.toJSON method on the signed
+        message and pass the JSON in the body of this POST request.
       externalDocs:
         url: https://docs.neynar.com/reference/publish-message-to-farcaster
       operationId: publish-message-to-farcaster
@@ -5574,7 +5726,9 @@ paths:
       tags:
         - Cast
       summary: Embedded URL metadata
-      description: Crawls the given URL and returns metadata useful when embedding the URL in a cast.
+      description: >-
+        Crawls the given URL and returns metadata useful when embedding the URL
+        in a cast.
       externalDocs:
         url: https://docs.neynar.com/reference/fetch-embedded-url-metadata
       operationId: fetch-embedded-url-metadata
@@ -5599,7 +5753,9 @@ paths:
       tags:
         - Cast
       summary: By hash or URL
-      description: Gets information about an individual cast by passing in a Warpcast web URL or cast hash
+      description: >-
+        Gets information about an individual cast by passing in a Warpcast web
+        URL or cast hash
       externalDocs:
         url: https://docs.neynar.com/reference/lookup-cast-by-hash-or-warpcast-url
       operationId: lookup-cast-by-hash-or-warpcast-url
@@ -5607,7 +5763,7 @@ paths:
         - name: identifier
           required: true
           in: query
-          example: "https://warpcast.com/rish/0x9288c1"
+          example: https://warpcast.com/rish/0x9288c1
           description: Cast identifier (Its either a url or a hash)
           schema:
             type: string
@@ -5620,7 +5776,9 @@ paths:
         - name: viewer_fid
           in: query
           required: false
-          description: adds viewer_context to cast object to show whether viewer has liked or recasted the cast.
+          description: >-
+            adds viewer_context to cast object to show whether viewer has liked
+            or recasted the cast.
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
@@ -5652,7 +5810,7 @@ paths:
               $ref: "#/components/schemas/PostCastReqBody"
             example:
               signer_uuid: 19d0c5fd-9b33-4a48-a0e2-bc7b0555baec
-              text: "Writing to @farcaster via the @neynar APIs 🪐"
+              text: Writing to @farcaster via the @neynar APIs 🪐
       responses:
         "200":
           description: Successful operation.
@@ -5662,10 +5820,10 @@ paths:
                 $ref: "#/components/schemas/PostCastResponse"
         "400":
           $ref: "#/components/responses/400Response"
-        "404":
-          $ref: "#/components/responses/404Response"
         "403":
           $ref: "#/components/responses/403Response"
+        "404":
+          $ref: "#/components/responses/404Response"
         "500":
           $ref: "#/components/responses/500Response"
     delete:
@@ -5696,10 +5854,10 @@ paths:
                 $ref: "#/components/schemas/OperationResponse"
         "400":
           $ref: "#/components/responses/400Response"
-        "404":
-          $ref: "#/components/responses/404Response"
         "403":
           $ref: "#/components/responses/403Response"
+        "404":
+          $ref: "#/components/responses/404Response"
         "500":
           $ref: "#/components/responses/500Response"
   /farcaster/casts:
@@ -5715,22 +5873,25 @@ paths:
         - name: casts
           in: query
           required: true
-          description: "Hashes of the cast to be retrived (Comma separated, no spaces)"
-          example: "0xa896906a5e397b4fec247c3ee0e9e4d4990b8004,0x27ff810f7f718afd8c40be236411f017982e0994"
+          description: Hashes of the cast to be retrived (Comma separated, no spaces)
+          example: >-
+            0xa896906a5e397b4fec247c3ee0e9e4d4990b8004,0x27ff810f7f718afd8c40be236411f017982e0994
           schema:
             type: string
             x-comma-separated: true
         - name: viewer_fid
           in: query
           required: false
-          description: adds viewer_context to cast object to show whether viewer has liked or recasted the cast.
+          description: >-
+            adds viewer_context to cast object to show whether viewer has liked
+            or recasted the cast.
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
         - name: sort_type
           in: query
           required: false
-          description: "Optional parameter to sort the casts based on different criteria"
+          description: Optional parameter to sort the casts based on different criteria
           schema:
             type: string
             enum:
@@ -5787,7 +5948,7 @@ paths:
             - `literal` - Searches for the words in the query string (default)
             - `semantic` - Searches for the meaning of the query string
             - `hybrid` - Combines both literal and semantic results
-          example: "literal"
+          example: literal
           schema:
             type: string
             enum:
@@ -5806,14 +5967,16 @@ paths:
         - name: author_fid
           in: query
           required: false
-          description: "Fid of the user whose casts you want to search"
+          description: Fid of the user whose casts you want to search
           example: 194
           schema:
             $ref: "#/components/schemas/Fid"
         - name: viewer_fid
           in: query
           required: false
-          description: Providing this will return search results that respects this user's mutes and blocks and includes `viewer_context`.
+          description: >-
+            Providing this will return search results that respects this user's
+            mutes and blocks and includes `viewer_context`.
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
@@ -5822,20 +5985,22 @@ paths:
           required: false
           schema:
             type: string
-          description: "Parent URL of the casts you want to search"
+          description: Parent URL of the casts you want to search
         - name: channel_id
           in: query
           required: false
           schema:
             type: string
-          description: "Channel ID of the casts you want to search"
+          description: Channel ID of the casts you want to search
         - name: priority_mode
           in: query
           required: false
           schema:
             type: boolean
             default: false
-          description: When true, only returns search results from power badge users and users that the viewer follows (if viewer_fid is provided).
+          description: >-
+            When true, only returns search results from power badge users and
+            users that the viewer follows (if viewer_fid is provided).
         - name: limit
           in: query
           required: false
@@ -5876,14 +6041,16 @@ paths:
         - name: q
           in: query
           required: true
-          description: "Query string to search for casts"
-          example: "star wars"
+          description: Query string to search for casts
+          example: star wars
           schema:
             type: string
         - name: interval
           in: query
           required: false
-          description: "Interval of time for which to fetch metrics. Choices are `1d`, `7d`, `30d`"
+          description: >-
+            Interval of time for which to fetch metrics. Choices are `1d`, `7d`,
+            `30d`
           schema:
             type: string
             enum:
@@ -5893,7 +6060,7 @@ paths:
         - name: author_fid
           in: query
           required: false
-          description: "Fid of the user whose casts you want to search"
+          description: Fid of the user whose casts you want to search
           example: 194
           schema:
             $ref: "#/components/schemas/Fid"
@@ -5902,7 +6069,7 @@ paths:
           required: false
           schema:
             type: string
-          description: "Channel ID of the casts you want to search"
+          description: Channel ID of the casts you want to search
         - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
         "200":
@@ -5918,7 +6085,11 @@ paths:
       tags:
         - Cast
       summary: Conversation for a cast
-      description: Gets all casts related to a conversation surrounding a cast by passing in a cast hash or Warpcast URL. Includes all the ancestors of a cast up to the root parent in a chronological order. Includes all direct_replies to the cast up to the reply_depth specified in the query parameter.
+      description: >-
+        Gets all casts related to a conversation surrounding a cast by passing
+        in a cast hash or Warpcast URL. Includes all the ancestors of a cast up
+        to the root parent in a chronological order. Includes all direct_replies
+        to the cast up to the reply_depth specified in the query parameter.
       externalDocs:
         url: https://docs.neynar.com/reference/lookup-cast-conversation
       operationId: lookup-cast-conversation
@@ -5926,7 +6097,7 @@ paths:
         - name: identifier
           required: true
           in: query
-          example: "https://warpcast.com/rish/0x9288c1"
+          example: https://warpcast.com/rish/0x9288c1
           description: Cast identifier (Its either a url or a hash)
           schema:
             type: string
@@ -5939,20 +6110,24 @@ paths:
         - name: reply_depth
           in: query
           required: false
-          description: "The depth of replies in the conversation that will be returned (default 2)"
+          description: >-
+            The depth of replies in the conversation that will be returned
+            (default 2)
           schema:
             $ref: "#/components/schemas/ReplyDepth"
         - name: include_chronological_parent_casts
           in: query
           required: false
-          description: "Include all parent casts in chronological order"
+          description: Include all parent casts in chronological order
           schema:
             type: boolean
             default: false
         - name: viewer_fid
           in: query
           required: false
-          description: Providing this will return a conversation that respects this user's mutes and blocks and includes `viewer_context`.
+          description: >-
+            Providing this will return a conversation that respects this user's
+            mutes and blocks and includes `viewer_context`.
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
@@ -5965,7 +6140,10 @@ paths:
         - name: fold
           in: query
           required: false
-          description: Show conversation above or below the fold. Lower quality responses are hidden below the fold. Not passing in a value shows the full conversation without any folding.
+          description: >-
+            Show conversation above or below the fold. Lower quality responses
+            are hidden below the fold. Not passing in a value shows the full
+            conversation without any folding.
           schema:
             type: string
             enum:
@@ -6003,9 +6181,9 @@ paths:
         - Agents
       summary: Cast conversation summary
       description: >
-        Generates a summary of all casts related to a conversation surrounding
-        a cast by passing in a cast hash or Warpcast URL. 
-        Summary is generated by an LLM and is intended to be passed as a context to AI agents.
+        Generates a summary of all casts related to a conversation surrounding a
+        cast by passing in a cast hash or Warpcast URL.  Summary is generated by
+        an LLM and is intended to be passed as a context to AI agents.
       externalDocs:
         url: https://docs.neynar.com/reference/lookup-cast-conversation-summary
       operationId: lookup-cast-conversation-summary
@@ -6019,7 +6197,9 @@ paths:
             type: string
         - name: limit
           in: query
-          description: Number of casts to consider in a summary up to a point of target cast
+          description: >-
+            Number of casts to consider in a summary up to a point of target
+            cast
           required: false
           example: 50
           schema:
@@ -6052,7 +6232,9 @@ paths:
       operationId: fetch-feed
       tags:
         - Feed
-      description: Fetch casts based on filters. Ensure setting the correct parameters based on the feed_type and filter_type.
+      description: >-
+        Fetch casts based on filters. Ensure setting the correct parameters
+        based on the feed_type and filter_type.
       parameters:
         - name: feed_type
           in: query
@@ -6060,37 +6242,52 @@ paths:
           schema:
             $ref: "#/components/schemas/FeedType"
           example: filter
-          description: Defaults to following (requires FID or address). If set to filter (requires filter_type)
+          description: >-
+            Defaults to following (requires FID or address). If set to filter
+            (requires filter_type)
         - name: filter_type
           in: query
           schema:
             $ref: "#/components/schemas/FilterType"
           example: fids
-          description: Used when feed_type=filter. Can be set to FIDs (requires FIDs) or parent_url (requires parent_url) or channel_id (requires channel_id)
+          description: >-
+            Used when feed_type=filter. Can be set to FIDs (requires FIDs) or
+            parent_url (requires parent_url) or channel_id (requires channel_id)
         - name: fid
           in: query
           schema:
             $ref: "#/components/schemas/Fid"
-          description: (Optional) FID of user whose feed you want to create. By default, the API expects this field, except if you pass a filter_type
+          description: >-
+            (Optional) FID of user whose feed you want to create. By default,
+            the API expects this field, except if you pass a filter_type
         - name: fids
           in: query
           schema:
             type: string
           example: 3,2,194
-          description: Used when filter_type=FIDs . Create a feed based on a list of FIDs. Max array size is 100. Requires feed_type and filter_type.
+          description: >-
+            Used when filter_type=FIDs . Create a feed based on a list of FIDs.
+            Max array size is 100. Requires feed_type and filter_type.
         - name: parent_url
           in: query
           schema:
             type: string
-          description: Used when filter_type=parent_url can be used to fetch content under any parent url e.g. FIP-2 channels on Warpcast. Requires feed_type and filter_type.
+          description: >-
+            Used when filter_type=parent_url can be used to fetch content under
+            any parent url e.g. FIP-2 channels on Warpcast. Requires feed_type
+            and filter_type.
         - name: channel_id
           in: query
           schema:
             type: string
-          description: Used when filter_type=channel_id can be used to fetch casts under a channel. Requires feed_type and filter_type.
+          description: >-
+            Used when filter_type=channel_id can be used to fetch casts under a
+            channel. Requires feed_type and filter_type.
         - name: members_only
           in: query
-          description: Used when filter_type=channel_id. Only include casts from members of the channel. True by default.
+          description: >-
+            Used when filter_type=channel_id. Only include casts from members of
+            the channel. True by default.
           deprecated: true
           schema:
             type: boolean
@@ -6099,7 +6296,11 @@ paths:
           in: query
           schema:
             type: string
-          description: Used when filter_type=embed_url. Casts with embedded URLs prefixed by this embed_url param will be returned. We normalize your given URL prefix and prepend 'https://' if no protocol is included. Requires feed_type and filter_type.
+          description: >-
+            Used when filter_type=embed_url. Casts with embedded URLs prefixed
+            by this embed_url param will be returned. We normalize your given
+            URL prefix and prepend 'https://' if no protocol is included.
+            Requires feed_type and filter_type.
         - name: embed_types
           in: query
           schema:
@@ -6107,7 +6308,9 @@ paths:
             items:
               $ref: "#/components/schemas/EmbedType"
           explode: false
-          description: Used when filter_type=embed_types can be used to fetch all casts with matching content types. Requires feed_type and filter_type.
+          description: >-
+            Used when filter_type=embed_types can be used to fetch all casts
+            with matching content types. Requires feed_type and filter_type.
         - name: with_recasts
           in: query
           description: Include recasts in the response, true by default
@@ -6132,7 +6335,9 @@ paths:
         - name: viewer_fid
           in: query
           required: false
-          description: Providing this will return a feed that respects this user's mutes and blocks and includes `viewer_context`.
+          description: >-
+            Providing this will return a feed that respects this user's mutes
+            and blocks and includes `viewer_context`.
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
@@ -6166,7 +6371,9 @@ paths:
         - name: viewer_fid
           in: query
           required: false
-          description: Providing this will return a feed that respects this user's mutes and blocks and includes `viewer_context`.
+          description: >-
+            Providing this will return a feed that respects this user's mutes
+            and blocks and includes `viewer_context`.
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
@@ -6221,7 +6428,9 @@ paths:
         - name: viewer_fid
           in: query
           required: false
-          description: Providing this will return a feed that respects this user's mutes and blocks and includes `viewer_context`.
+          description: >-
+            Providing this will return a feed that respects this user's mutes
+            and blocks and includes `viewer_context`.
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
@@ -6251,8 +6460,12 @@ paths:
           in: query
           schema:
             type: string
-          description: |
-            provider_metadata is a URI-encoded stringified JSON object that can be used to pass additional metadata to the provider. Only available for mbd provider right now. See [here](https://docs.neynar.com/docs/feed-for-you-w-external-providers) on how to use.
+          description: >
+            provider_metadata is a URI-encoded stringified JSON object that can
+            be used to pass additional metadata to the provider. Only available
+            for mbd provider right now. See
+            [here](https://docs.neynar.com/docs/feed-for-you-w-external-providers)
+            on how to use.
         - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
         "200":
@@ -6340,7 +6553,9 @@ paths:
       tags:
         - Subscribers
       summary: Subscribers of a user
-      description: Fetch subscribers for a given FID's contracts. Doesn't return addresses that don't have an FID.
+      description: >-
+        Fetch subscribers for a given FID's contracts. Doesn't return addresses
+        that don't have an FID.
       externalDocs:
         url: https://docs.neynar.com/reference/fetch-subscribers-for-fid
       operationId: fetch-subscribers-for-fid
@@ -6398,7 +6613,9 @@ paths:
         - name: viewer_fid
           in: query
           required: false
-          description: Providing this will return a feed that respects this user's mutes and blocks and includes `viewer_context`.
+          description: >-
+            Providing this will return a feed that respects this user's mutes
+            and blocks and includes `viewer_context`.
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
@@ -6417,7 +6634,9 @@ paths:
             default: true
         - name: fids
           in: query
-          description: Comma separated list of FIDs to filter the feed by, up to 10 at a time
+          description: >-
+            Comma separated list of FIDs to filter the feed by, up to 10 at a
+            time
           required: false
           schema:
             type: string
@@ -6440,7 +6659,9 @@ paths:
             type: string
         - name: should_moderate
           in: query
-          description: If true, only casts that have been liked by the moderator (if one exists) will be returned.
+          description: >-
+            If true, only casts that have been liked by the moderator (if one
+            exists) will be returned.
           deprecated: true
           schema:
             type: boolean
@@ -6468,7 +6689,7 @@ paths:
         - name: parent_urls
           in: query
           required: true
-          example: "chain://eip155:1/erc721:0xd4498134211baad5846ce70ce04e7c4da78931cc"
+          example: chain://eip155:1/erc721:0xd4498134211baad5846ce70ce04e7c4da78931cc
           schema:
             type: string
             x-comma-separated: true
@@ -6482,7 +6703,9 @@ paths:
         - name: viewer_fid
           in: query
           required: false
-          description: Providing this will return a feed that respects this user's mutes and blocks and includes `viewer_context`.
+          description: >-
+            Providing this will return a feed that respects this user's mutes
+            and blocks and includes `viewer_context`.
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
@@ -6540,7 +6763,9 @@ paths:
         - name: viewer_fid
           in: query
           required: false
-          description: Providing this will return a feed that respects this user's mutes and blocks and includes `viewer_context`.
+          description: >-
+            Providing this will return a feed that respects this user's mutes
+            and blocks and includes `viewer_context`.
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
@@ -6567,7 +6792,9 @@ paths:
       operationId: fetch-trending-feed
       tags:
         - Feed
-      description: Fetch trending casts or on the global feed or channels feeds. 7d time window available for channel feeds only.
+      description: >-
+        Fetch trending casts or on the global feed or channels feeds. 7d time
+        window available for channel feeds only.
       parameters:
         - name: limit
           in: query
@@ -6587,7 +6814,9 @@ paths:
         - name: viewer_fid
           in: query
           required: false
-          description: Providing this will return a feed that respects this user's mutes and blocks and includes `viewer_context`.
+          description: >-
+            Providing this will return a feed that respects this user's mutes
+            and blocks and includes `viewer_context`.
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
@@ -6596,22 +6825,26 @@ paths:
           description: Time window for trending casts (7d window for channel feeds only)
           required: false
           schema:
-            allOf:
-              - $ref: "#/components/schemas/TrendingTimeWindow"
-              - default: 24h
+              $ref: "#/components/schemas/TrendingTimeWindow"
           example: 24h
         - name: channel_id
           in: query
-          description: Channel ID to filter trending casts. Less active channels might have no casts in the time window selected. Provide either `channel_id` or `parent_url`, not both.
+          description: >-
+            Channel ID to filter trending casts. Less active channels might have
+            no casts in the time window selected. Provide either `channel_id` or
+            `parent_url`, not both.
           schema:
             type: string
           example: neynar
         - name: parent_url
           in: query
-          description: Parent URL to filter trending casts. Less active channels might have no casts in the time window selected. Provide either `channel_id` or `parent_url`, not both.
+          description: >-
+            Parent URL to filter trending casts. Less active channels might have
+            no casts in the time window selected. Provide either `channel_id` or
+            `parent_url`, not both.
           schema:
             type: string
-          example: "chain://eip155:1/erc721:0xd4498134211baad5846ce70ce04e7c4da78931cc"
+          example: chain://eip155:1/erc721:0xd4498134211baad5846ce70ce04e7c4da78931cc
         - name: provider
           in: query
           description: The provider of the trending casts feed.
@@ -6622,8 +6855,12 @@ paths:
           in: query
           schema:
             type: string
-          description: |
-            provider_metadata is a URI-encoded stringified JSON object that can be used to pass additional metadata to the provider. Only available for mbd provider right now. See [here](https://docs.neynar.com/docs/feed-for-you-w-external-providers) on how to use.
+          description: >
+            provider_metadata is a URI-encoded stringified JSON object that can
+            be used to pass additional metadata to the provider. Only available
+            for mbd provider right now. See
+            [here](https://docs.neynar.com/docs/feed-for-you-w-external-providers)
+            on how to use.
         - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
         "200":
@@ -6652,7 +6889,9 @@ paths:
       operationId: fetch-popular-casts-by-user
       tags:
         - Feed
-      description: Fetch 10 most popular casts for a given user FID; popularity based on replies, likes and recasts; sorted by most popular first
+      description: >-
+        Fetch 10 most popular casts for a given user FID; popularity based on
+        replies, likes and recasts; sorted by most popular first
       parameters:
         - name: fid
           in: query
@@ -6679,7 +6918,9 @@ paths:
   /farcaster/feed/user/replies_and_recasts:
     get:
       summary: Replies and recasts
-      description: Fetch recent replies and recasts for a given user FID; sorted by most recent first
+      description: >-
+        Fetch recent replies and recasts for a given user FID; sorted by most
+        recent first
       externalDocs:
         url: https://docs.neynar.com/reference/fetch-replies-and-recasts-for-user
       operationId: fetch-replies-and-recasts-for-user
@@ -6724,7 +6965,9 @@ paths:
         - name: viewer_fid
           in: query
           required: false
-          description: Providing this will return a feed that respects this user's mutes and blocks and includes `viewer_context`.
+          description: >-
+            Providing this will return a feed that respects this user's mutes
+            and blocks and includes `viewer_context`.
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
@@ -6740,7 +6983,9 @@ paths:
   /farcaster/feed/user/casts:
     get:
       summary: Chronologically
-      description: Fetch casts for a given user FID in reverse chronological order. Also allows filtering by parent_url and channel
+      description: >-
+        Fetch casts for a given user FID in reverse chronological order. Also
+        allows filtering by parent_url and channel
       externalDocs:
         url: https://docs.neynar.com/reference/fetch-casts-for-user
       operationId: fetch-casts-for-user
@@ -6760,7 +7005,9 @@ paths:
           example: 9152
           schema:
             $ref: "#/components/schemas/Fid"
-          description: Optionally filter to casts created via a specific app FID, e.g. 9152 for Warpcast
+          description: >-
+            Optionally filter to casts created via a specific app FID, e.g. 9152
+            for Warpcast
         - name: viewer_fid
           in: query
           required: false
@@ -6877,7 +7124,9 @@ paths:
       tags:
         - Frame
       summary: Update mini app
-      description: Update an existing mini app with a list of pages, if it was made by the developer (identified by API key)
+      description: >-
+        Update an existing mini app with a list of pages, if it was made by the
+        developer (identified by API key)
       externalDocs:
         url: https://docs.neynar.com/reference/update-neynar-frame
       operationId: update-neynar-frame
@@ -6894,15 +7143,17 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/NeynarFrame"
-        "404":
-          $ref: "#/components/responses/404Response"
         "400":
           $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
     delete:
       tags:
         - Frame
       summary: Delete mini app
-      description: Delete an existing mini app, if it was made by the developer (identified by API key)
+      description: >-
+        Delete an existing mini app, if it was made by the developer (identified
+        by API key)
       externalDocs:
         url: https://docs.neynar.com/reference/delete-neynar-frame
       operationId: delete-neynar-frame
@@ -6921,7 +7172,6 @@ paths:
                 $ref: "#/components/schemas/DeleteFrameResponse"
         "404":
           $ref: "#/components/responses/404Response"
-
   /farcaster/frame/catalog:
     get:
       tags:
@@ -6947,7 +7197,9 @@ paths:
             type: string
         - name: time_window
           in: query
-          description: Time window used to calculate the change in trending score for each mini app, used to sort mini app results
+          description: >-
+            Time window used to calculate the change in trending score for each
+            mini app, used to sort mini app results
           required: false
           schema:
             $ref: "#/components/schemas/TrendingTimeWindow"
@@ -6963,7 +7215,9 @@ paths:
       tags:
         - Frame
       summary: Relevant mini apps
-      description: Fetch a list of mini apps relevant to the user based on casts by users with strong affinity score for the user
+      description: >-
+        Fetch a list of mini apps relevant to the user based on casts by users
+        with strong affinity score for the user
       externalDocs:
         url: https://docs.neynar.com/reference/fetch-frame-relevant
       operationId: fetch-relevant-frames
@@ -6976,7 +7230,9 @@ paths:
           description: FID of the user to fetch relevant mini apps for
         - name: time_window
           in: query
-          description: Time window used to limit statistics used to calculate mini app relevance
+          description: >-
+            Time window used to limit statistics used to calculate mini app
+            relevance
           required: false
           schema:
             $ref: "#/components/schemas/TrendingTimeWindow"
@@ -7097,10 +7353,10 @@ paths:
                 $ref: "#/components/schemas/OperationResponse"
         "400":
           $ref: "#/components/responses/400Response"
-        "404":
-          $ref: "#/components/responses/404Response"
         "403":
           $ref: "#/components/responses/403Response"
+        "404":
+          $ref: "#/components/responses/404Response"
         "500":
           $ref: "#/components/responses/500Response"
     delete:
@@ -7132,10 +7388,10 @@ paths:
                 $ref: "#/components/schemas/OperationResponse"
         "400":
           $ref: "#/components/responses/400Response"
-        "404":
-          $ref: "#/components/responses/404Response"
         "403":
           $ref: "#/components/responses/403Response"
+        "404":
+          $ref: "#/components/responses/404Response"
         "500":
           $ref: "#/components/responses/500Response"
   /farcaster/user/verification:
@@ -7158,8 +7414,10 @@ paths:
             example:
               signer_uuid: 19d0c5fd-9b33-4a48-a0e2-bc7b0555baec
               address: "0x1ea99cbed57e4020314ba3fadd7c692d2de34d5f"
-              block_hash: "0x191905a9201170abb55f4c90a4cc968b44c1b71cdf3db2764b775c93e7e22b29"
-              eth_signature: "0x2fc09da1f4dcb723fefb91f77932c249c418c0af00c66ed92ee1f35002c80d6a1145280c9f361d207d28447f8f7463366840d3a9309036cf6954afd1fd331beb1b"
+              block_hash: >-
+                0x191905a9201170abb55f4c90a4cc968b44c1b71cdf3db2764b775c93e7e22b29
+              eth_signature: >-
+                0x2fc09da1f4dcb723fefb91f77932c249c418c0af00c66ed92ee1f35002c80d6a1145280c9f361d207d28447f8f7463366840d3a9309036cf6954afd1fd331beb1b
       responses:
         "200":
           description: Successful operation.
@@ -7186,8 +7444,10 @@ paths:
             example:
               signer_uuid: 19d0c5fd-9b33-4a48-a0e2-bc7b0555baec
               address: "0x1ea99cbed57e4020314ba3fadd7c692d2de34d5f"
-              block_hash: "0x191905a9201170abb55f4c90a4cc968b44c1b71cdf3db2764b775c93e7e22b29"
-              eth_signature: "0x2fc09da1f4dcb723fefb91f77932c249c418c0af00c66ed92ee1f35002c80d6a1145280c9f361d207d28447f8f7463366840d3a9309036cf6954afd1fd331beb1"
+              block_hash: >-
+                0x191905a9201170abb55f4c90a4cc968b44c1b71cdf3db2764b775c93e7e22b29
+              eth_signature: >-
+                0x2fc09da1f4dcb723fefb91f77932c249c418c0af00c66ed92ee1f35002c80d6a1145280c9f361d207d28447f8f7463366840d3a9309036cf6954afd1fd331beb1
       responses:
         "200":
           description: Successful operation.
@@ -7226,10 +7486,10 @@ paths:
                 $ref: "#/components/schemas/BulkFollowResponse"
         "400":
           $ref: "#/components/responses/400Response"
-        "404":
-          $ref: "#/components/responses/404Response"
         "403":
           $ref: "#/components/responses/403Response"
+        "404":
+          $ref: "#/components/responses/404Response"
         "500":
           $ref: "#/components/responses/500Response"
     delete:
@@ -7262,18 +7522,18 @@ paths:
                 $ref: "#/components/schemas/BulkFollowResponse"
         "400":
           $ref: "#/components/responses/400Response"
-        "404":
-          $ref: "#/components/responses/404Response"
         "403":
           $ref: "#/components/responses/403Response"
+        "404":
+          $ref: "#/components/responses/404Response"
         "500":
           $ref: "#/components/responses/500Response"
   /farcaster/user/custody-address:
     get:
       tags:
         - User
-      summary: "By custody-address"
-      description: "Lookup a user by custody-address"
+      summary: By custody-address
+      description: Lookup a user by custody-address
       externalDocs:
         url: https://docs.neynar.com/reference/lookup-user-by-custody-address
       operationId: lookup-user-by-custody-address
@@ -7300,8 +7560,8 @@ paths:
     get:
       tags:
         - User
-      summary: "By username"
-      description: "Fetches a single hydrated user object given a username"
+      summary: By username
+      description: Fetches a single hydrated user object given a username
       externalDocs:
         url: https://docs.neynar.com/reference/lookup-user-by-username
       operationId: lookup-user-by-username
@@ -7311,7 +7571,7 @@ paths:
           required: true
           schema:
             type: string
-          example: "neynar"
+          example: neynar
           description: Username of the user to fetch
         - name: viewer_fid
           in: query
@@ -7373,8 +7633,8 @@ paths:
     get:
       tags:
         - User
-      summary: "By location"
-      description: "Fetches a list of users given a location"
+      summary: By location
+      description: Fetches a list of users given a location
       operationId: fetch-users-by-location
       externalDocs:
         url: https://docs.neynar.com/reference/fetch-users-by-location
@@ -7395,7 +7655,10 @@ paths:
           description: Longitude of the location
         - name: viewer_fid
           in: query
-          description: FID of the user viewing the feed. Providing this will return a list of users that respects this user's mutes and blocks and includes `viewer_context`.
+          description: >-
+            FID of the user viewing the feed. Providing this will return a list
+            of users that respects this user's mutes and blocks and includes
+            `viewer_context`.
           required: false
           example: 3
           schema:
@@ -7435,8 +7698,8 @@ paths:
     get:
       tags:
         - Onchain
-      summary: "Token balance"
-      description: "Fetches the token balances of a user given their FID"
+      summary: Token balance
+      description: Fetches the token balances of a user given their FID
       externalDocs:
         url: https://docs.neynar.com/reference/fetch-user-balance
       operationId: fetch-user-balance
@@ -7456,7 +7719,9 @@ paths:
             items:
               $ref: "#/components/schemas/Networks"
           explode: false
-          description: Comma separated list of networks to fetch balances for. Currently, only "base" is supported.
+          description: >-
+            Comma separated list of networks to fetch balances for. Currently,
+            only "base" is supported.
       responses:
         "200":
           description: Successful operation.
@@ -7537,7 +7802,9 @@ paths:
       tags:
         - Signer
       summary: Fetch authorization url
-      description: Fetch authorization url (Fetched authorized url useful for SIWN login operation)
+      description: >-
+        Fetch authorization url (Fetched authorized url useful for SIWN login
+        operation)
       externalDocs:
         url: https://docs.neynar.com/reference/fetch-authorization-url
       operationId: fetch-authorization-url
@@ -7569,8 +7836,10 @@ paths:
       tags:
         - Frame
       summary: Signature packet
-      description: |
-        Post a mini app action that has been signed with a developer managed signer
+      description: >
+        Post a mini app action that has been signed with a developer managed
+        signer
+
 
         The POST request to the post_url has a timeout of 5 seconds.
       externalDocs:
@@ -7598,11 +7867,16 @@ paths:
       tags:
         - Frame
       summary: Post a mini app action, cast action or a cast composer action
-      description: |
-        Post mini app actions, cast actions or cast composer actions to the server  \
-        (In order to post any of these actions, you need to have an approved `signer_uuid`)
+      description: >
+        Post mini app actions, cast actions or cast composer actions to the
+        server  \
 
-        The POST request to the post_url has a timeout of 5 seconds for mini apps.
+        (In order to post any of these actions, you need to have an approved
+        `signer_uuid`)
+
+
+        The POST request to the post_url has a timeout of 5 seconds for mini
+        apps.
       externalDocs:
         url: https://docs.neynar.com/reference/post-frame-action
       operationId: post-frame-action
@@ -7670,7 +7944,6 @@ paths:
                 $ref: "#/components/schemas/FrameNotificationTokens"
         "400":
           $ref: "#/components/responses/400Response"
-
   /farcaster/frame/notifications:
     post:
       tags:
@@ -7688,12 +7961,15 @@ paths:
             schema:
               $ref: "#/components/schemas/SendFrameNotificationsReqBody"
             example:
-              target_fids: [1, 6131]
+              target_fids:
+                - 1
+                - 6131
               notification:
-                title: "Title for the notification"
-                body: "Body of the notification describing the event for the user"
-                target_url: "https://domain-of-your-frame.com/the-page-on-which-the-user-should-land"
-                uuid: "9cb07cfe-1130-48b3-a245-5dd153ced3a3"
+                title: Title for the notification
+                body: Body of the notification describing the event for the user
+                target_url: >-
+                  https://domain-of-your-frame.com/the-page-on-which-the-user-should-land
+                uuid: 9cb07cfe-1130-48b3-a245-5dd153ced3a3
       responses:
         "200":
           description: Successful operation.
@@ -7716,7 +7992,9 @@ paths:
       tags:
         - Agents
       summary: Create transaction pay mini app
-      description: Creates a new transaction pay mini app that can be used to collect payments through a mini app
+      description: >-
+        Creates a new transaction pay mini app that can be used to collect
+        payments through a mini app
       operationId: create-transaction-pay-frame
       requestBody:
         required: true
@@ -7768,9 +8046,12 @@ paths:
       tags:
         - Frame
       summary: Validate mini app action
-      description: |
-        Validates a mini app against by an interacting user against a Farcaster Hub \
-        (In order to validate a mini app, message bytes from Frame Action must be provided in hex)
+      description: >
+        Validates a mini app against by an interacting user against a Farcaster
+        Hub \
+
+        (In order to validate a mini app, message bytes from Frame Action must
+        be provided in hex)
       externalDocs:
         url: https://docs.neynar.com/reference/validate-frame-action
       operationId: validate-frame-action
@@ -7781,7 +8062,8 @@ paths:
             schema:
               $ref: "#/components/schemas/ValidateFrameActionReqBody"
             example:
-              message_bytes_in_hex: "0a49080d1085940118f6a6a32e20018201390a1a86db69b3ffdf6ab8acb6872b69ccbe7eb6a67af7ab71e95aa69f10021a1908ef011214237025b322fd03a9ddc7ec6c078fb9c56d1a72111214e3d88aeb2d0af356024e0c693f31c11b42c76b721801224043cb2f3fcbfb5dafce110e934b9369267cf3d1aef06f51ce653dc01700fc7b778522eb7873fd60dda4611376200076caf26d40a736d3919ce14e78a684e4d30b280132203a66717c82d728beb3511b05975c6603275c7f6a0600370bf637b9ecd2bd231e"
+              message_bytes_in_hex: >-
+                0a49080d1085940118f6a6a32e20018201390a1a86db69b3ffdf6ab8acb6872b69ccbe7eb6a67af7ab71e95aa69f10021a1908ef011214237025b322fd03a9ddc7ec6c078fb9c56d1a72111214e3d88aeb2d0af356024e0c693f31c11b42c76b721801224043cb2f3fcbfb5dafce110e934b9369267cf3d1aef06f51ce653dc01700fc7b778522eb7873fd60dda4611376200076caf26d40a736d3919ce14e78a684e4d30b280132203a66717c82d728beb3511b05975c6603275c7f6a0600370bf637b9ecd2bd231e
               cast_reaction_context: true
               follow_context: false
               signer_context: false
@@ -7824,7 +8106,9 @@ paths:
       tags:
         - Frame
       summary: Analytics for the mini app
-      description: Fetch analytics for total-interactors, interactors, nteractions-per-cast and input-text.
+      description: >-
+        Fetch analytics for total-interactors, interactors, nteractions-per-cast
+        and input-text.
       externalDocs:
         url: https://docs.neynar.com/reference/fetch-validate-frame-analytics
       operationId: fetch-validate-frame-analytics
@@ -7892,11 +8176,15 @@ paths:
           schema:
             $ref: "#/components/schemas/Fid"
           example: 194
-          description: FID of the user you you want to fetch notifications for. The response will respect this user's mutes and blocks.
+          description: >-
+            FID of the user you you want to fetch notifications for. The
+            response will respect this user's mutes and blocks.
         - name: type
           in: query
           required: false
-          description: Notification type to fetch. Comma separated values of follows, recasts, likes, mentions, replies.
+          description: >-
+            Notification type to fetch. Comma separated values of follows,
+            recasts, likes, mentions, replies.
           schema:
             type: array
             items:
@@ -7908,7 +8196,9 @@ paths:
           schema:
             type: boolean
             default: false
-          description: When true, only returns notifications from power badge users and users that the viewer follows (if viewer_fid is provided).
+          description: >-
+            When true, only returns notifications from power badge users and
+            users that the viewer follows (if viewer_fid is provided).
         - name: limit
           in: query
           description: Number of results to fetch
@@ -7951,22 +8241,28 @@ paths:
           schema:
             $ref: "#/components/schemas/Fid"
           example: 194
-          description: FID of the user you you want to fetch notifications for. The response will respect this user's mutes and blocks.
+          description: >-
+            FID of the user you you want to fetch notifications for. The
+            response will respect this user's mutes and blocks.
         - name: channel_ids
           in: query
           required: true
           schema:
             type: string
             x-comma-separated: true
-          example: "neynar,farcaster"
-          description: Comma separated channel_ids (find list of all channels here - https://docs.neynar.com/reference/list-all-channels)
+          example: neynar,farcaster
+          description: >-
+            Comma separated channel_ids (find list of all channels here -
+            https://docs.neynar.com/reference/list-all-channels)
         - name: priority_mode
           in: query
           required: false
           schema:
             type: boolean
             default: false
-          description: When true, only returns notifications from power badge users and users that the viewer follows (if viewer_fid is provided).
+          description: >-
+            When true, only returns notifications from power badge users and
+            users that the viewer follows (if viewer_fid is provided).
         - name: limit
           in: query
           description: Number of results to fetch
@@ -8000,7 +8296,8 @@ paths:
       summary: For user by parent_urls
       description: Returns a list of notifications for a user in specific parent_urls
       externalDocs:
-        url: https://docs.neynar.com/reference/fetch-notifications-by-parent-url-for-user
+        url: >-
+          https://docs.neynar.com/reference/fetch-notifications-by-parent-url-for-user
       operationId: fetch-notifications-by-parent-url-for-user
       parameters:
         - name: fid
@@ -8009,14 +8306,16 @@ paths:
           schema:
             $ref: "#/components/schemas/Fid"
           example: 194
-          description: FID of the user you you want to fetch notifications for. The response will respect this user's mutes and blocks.
+          description: >-
+            FID of the user you you want to fetch notifications for. The
+            response will respect this user's mutes and blocks.
         - name: parent_urls
           in: query
           required: true
           schema:
             type: string
             x-comma-separated: true
-          example: "chain://eip155:1/erc721:0xd4498134211baad5846ce70ce04e7c4da78931cc"
+          example: chain://eip155:1/erc721:0xd4498134211baad5846ce70ce04e7c4da78931cc
           description: Comma separated parent_urls
         - name: priority_mode
           in: query
@@ -8024,7 +8323,9 @@ paths:
           schema:
             type: boolean
             default: false
-          description: When true, only returns notifications from power badge users and users that the viewer follows (if viewer_fid is provided).
+          description: >-
+            When true, only returns notifications from power badge users and
+            users that the viewer follows (if viewer_fid is provided).
         - name: limit
           in: query
           description: Number of results to fetch
@@ -8068,7 +8369,7 @@ paths:
               $ref: "#/components/schemas/MarkNotificationsAsSeenReqBody"
             example:
               signer_uuid: 19d0c5fd-9b33-4a48-a0e2-bc7b0555baec
-              type: "likes"
+              type: likes
       responses:
         "200":
           description: Successful operation.
@@ -8155,14 +8456,16 @@ paths:
           required: true
           schema:
             $ref: "#/components/schemas/ChannelId"
-          example: "neynar"
+          example: neynar
           description: Channel ID for the channel being queried
         - name: fid
           in: query
           schema:
             $ref: "#/components/schemas/Fid"
           example: 194
-          description: FID of the user being queried. Specify this to check if a user is a member of the channel without paginating through all members.
+          description: >-
+            FID of the user being queried. Specify this to check if a user is a
+            member of the channel without paginating through all members.
         - name: limit
           in: query
           description: Number of results to fetch
@@ -8188,10 +8491,10 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ChannelMemberListResponse"
-        "500":
-          $ref: "#/components/responses/500Response"
         "400":
           $ref: "#/components/responses/400Response"
+        "500":
+          $ref: "#/components/responses/500Response"
   /farcaster/channel/member/invite:
     post:
       tags:
@@ -8248,7 +8551,9 @@ paths:
       tags:
         - Channel
       summary: Open invites
-      description: Fetch a list of invites, either in a channel or for a user. If both are provided, open channel invite for that user is returned.
+      description: >-
+        Fetch a list of invites, either in a channel or for a user. If both are
+        provided, open channel invite for that user is returned.
       externalDocs:
         url: https://docs.neynar.com/reference/fetch-channel-invites
       operationId: fetch-channel-invites
@@ -8257,7 +8562,7 @@ paths:
           in: query
           schema:
             $ref: "#/components/schemas/ChannelId"
-          example: "neynar"
+          example: neynar
           description: Channel ID for the channel being queried
         - name: invited_fid
           in: query
@@ -8289,10 +8594,10 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ChannelMemberInviteListResponse"
-        "500":
-          $ref: "#/components/responses/500Response"
         "400":
           $ref: "#/components/responses/400Response"
+        "500":
+          $ref: "#/components/responses/500Response"
   /farcaster/channel/search:
     get:
       tags:
@@ -8308,7 +8613,7 @@ paths:
           required: true
           schema:
             type: string
-          example: "neynar"
+          example: neynar
           description: Channel ID or name for the channel being queried
         - name: limit
           in: query
@@ -8350,14 +8655,16 @@ paths:
           schema:
             type: string
             x-comma-separated: true
-          example: "neynar,warpcast"
-          description: Comma separated list of channel IDs or parent_urls, up to 100 at a time
+          example: neynar,warpcast
+          description: >-
+            Comma separated list of channel IDs or parent_urls, up to 100 at a
+            time
         - name: type
           in: query
           required: false
           schema:
             $ref: "#/components/schemas/ChannelType"
-          example: "id"
+          example: id
           description: Type of identifier being used to query the channels. Defaults to ID.
         - name: viewer_fid
           in: query
@@ -8390,14 +8697,14 @@ paths:
           required: true
           schema:
             type: string
-          example: "neynar"
+          example: neynar
           description: Channel ID for the channel being queried
         - name: type
           in: query
           required: false
           schema:
             $ref: "#/components/schemas/ChannelType"
-          example: "parent_url"
+          example: parent_url
           description: Type of identifier being used to query the channel. Defaults to ID.
         - name: viewer_fid
           in: query
@@ -8432,7 +8739,7 @@ paths:
               $ref: "#/components/schemas/ChannelFollowReqBody"
             example:
               signer_uuid: 19d0c5fd-9b33-4a48-a0e2-bc7b0555baec
-              channel_id: "neynar"
+              channel_id: neynar
       responses:
         "200":
           description: Successful operation.
@@ -8442,10 +8749,10 @@ paths:
                 $ref: "#/components/schemas/OperationResponse"
         "400":
           $ref: "#/components/responses/400Response"
-        "404":
-          $ref: "#/components/responses/404Response"
         "403":
           $ref: "#/components/responses/403Response"
+        "404":
+          $ref: "#/components/responses/404Response"
         "500":
           $ref: "#/components/responses/500Response"
     delete:
@@ -8464,7 +8771,7 @@ paths:
               $ref: "#/components/schemas/ChannelFollowReqBody"
             example:
               signer_uuid: 19d0c5fd-9b33-4a48-a0e2-bc7b0555baec
-              channel_id: "memes"
+              channel_id: memes
       responses:
         "200":
           description: Successful operation.
@@ -8474,10 +8781,10 @@ paths:
                 $ref: "#/components/schemas/OperationResponse"
         "400":
           $ref: "#/components/responses/400Response"
-        "404":
-          $ref: "#/components/responses/404Response"
         "403":
           $ref: "#/components/responses/403Response"
+        "404":
+          $ref: "#/components/responses/404Response"
         "500":
           $ref: "#/components/responses/500Response"
   /farcaster/channel/followers:
@@ -8485,7 +8792,9 @@ paths:
       tags:
         - Channel
       summary: For channel
-      description: Returns a list of followers for a specific channel. Max limit is 1000. Use cursor for pagination.
+      description: >-
+        Returns a list of followers for a specific channel. Max limit is 1000.
+        Use cursor for pagination.
       externalDocs:
         url: https://docs.neynar.com/reference/fetch-followers-for-a-channel
       operationId: fetch-followers-for-a-channel
@@ -8495,12 +8804,14 @@ paths:
           required: true
           schema:
             type: string
-          example: "founders"
+          example: founders
           description: Channel ID for the channel being queried
         - name: viewer_fid
           in: query
           required: false
-          description: Providing this will return a list of followers that respects this user's mutes and blocks and includes `viewer_context`.
+          description: >-
+            Providing this will return a list of followers that respects this
+            user's mutes and blocks and includes `viewer_context`.
           schema:
             $ref: "#/components/schemas/Fid"
         - name: cursor
@@ -8535,22 +8846,28 @@ paths:
       tags:
         - Channel
       summary: Relevant followers
-      description: Returns a list of relevant channel followers for a specific FID. This usually shows on a channel as "X, Y, Z follow this channel".
+      description: >-
+        Returns a list of relevant channel followers for a specific FID. This
+        usually shows on a channel as "X, Y, Z follow this channel".
       externalDocs:
-        url: https://docs.neynar.com/reference/fetch-relevant-followers-for-a-channel
+        url: >-
+          https://docs.neynar.com/reference/fetch-relevant-followers-for-a-channel
       operationId: fetch-relevant-followers-for-a-channel
       parameters:
         - name: id
           in: query
           required: true
           description: Channel ID being queried
-          example: "neynar"
+          example: neynar
           schema:
             type: string
         - name: viewer_fid
           in: query
           required: true
-          description: The FID of the user to customize this response for. Providing this will also return a list of followers that respects this user's mutes and blocks and includes `viewer_context`.
+          description: >-
+            The FID of the user to customize this response for. Providing this
+            will also return a list of followers that respects this user's mutes
+            and blocks and includes `viewer_context`.
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
@@ -8569,7 +8886,9 @@ paths:
       tags:
         - Channel
       summary: Fetch channels that user is active in
-      description: Fetches all channels that a user has casted in, in reverse chronological order.
+      description: >-
+        Fetches all channels that a user has casted in, in reverse chronological
+        order.
       externalDocs:
         url: https://docs.neynar.com/reference/fetch-users-active-channels
       operationId: fetch-users-active-channels
@@ -8652,10 +8971,10 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/TrendingChannelResponse"
-        "500":
-          $ref: "#/components/responses/500Response"
         "400":
           $ref: "#/components/responses/400Response"
+        "500":
+          $ref: "#/components/responses/500Response"
   /farcaster/followers:
     get:
       tags:
@@ -8675,7 +8994,9 @@ paths:
         - name: viewer_fid
           in: query
           required: false
-          description: Providing this will return a list of followers that respects this user's mutes and blocks and includes `viewer_context`.
+          description: >-
+            Providing this will return a list of followers that respects this
+            user's mutes and blocks and includes `viewer_context`.
           schema:
             $ref: "#/components/schemas/Fid"
         - name: sort_type
@@ -8718,7 +9039,9 @@ paths:
       tags:
         - Follows
       summary: Relevant followers
-      description: Returns a list of relevant followers for a specific FID. This usually shows on a profile as "X, Y and Z follow this user".
+      description: >-
+        Returns a list of relevant followers for a specific FID. This usually
+        shows on a profile as "X, Y and Z follow this user".
       externalDocs:
         url: https://docs.neynar.com/reference/fetch-relevant-followers
       operationId: fetch-relevant-followers
@@ -8732,7 +9055,10 @@ paths:
         - name: viewer_fid
           in: query
           required: true
-          description: The FID of the user to customize this response for. Providing this will also return a list of followers that respects this user's mutes and blocks and includes `viewer_context`.
+          description: >-
+            The FID of the user to customize this response for. Providing this
+            will also return a list of followers that respects this user's mutes
+            and blocks and includes `viewer_context`.
           schema:
             $ref: "#/components/schemas/Fid"
         - $ref: "#/components/parameters/NeynarExperimentalHeader"
@@ -8750,7 +9076,9 @@ paths:
       tags:
         - Follows
       summary: Following
-      description: Fetch a list of users who a given user is following. Can optionally include a viewer_fid and sort_type.
+      description: >-
+        Fetch a list of users who a given user is following. Can optionally
+        include a viewer_fid and sort_type.
       externalDocs:
         url: https://docs.neynar.com/reference/fetch-user-following
       operationId: fetch-user-following
@@ -8768,11 +9096,13 @@ paths:
           schema:
             $ref: "#/components/schemas/Fid"
           example: 3
-          description: Providing this will return a list of users that respects this user's mutes and blocks and includes `viewer_context`.
+          description: >-
+            Providing this will return a list of users that respects this user's
+            mutes and blocks and includes `viewer_context`.
         - name: sort_type
           in: query
           required: false
-          description: "Optional parameter to sort the users based on different criteria."
+          description: Optional parameter to sort the users based on different criteria.
           schema:
             $ref: "#/components/schemas/FollowSortType"
         - name: limit
@@ -8807,7 +9137,9 @@ paths:
       tags:
         - Follows
       summary: Suggest Follows
-      description: Fetch a list of suggested users to follow. Used to help users discover new users to follow
+      description: >-
+        Fetch a list of suggested users to follow. Used to help users discover
+        new users to follow
       externalDocs:
         url: https://docs.neynar.com/reference/fetch-follow-suggestions
       operationId: fetch-follow-suggestions
@@ -8825,7 +9157,9 @@ paths:
           schema:
             $ref: "#/components/schemas/Fid"
           example: 3
-          description: Providing this will return a list of users that respects this user's mutes and blocks and includes `viewer_context`.
+          description: >-
+            Providing this will return a list of users that respects this user's
+            mutes and blocks and includes `viewer_context`.
         - name: limit
           in: query
           description: Number of results to fetch
@@ -8868,7 +9202,9 @@ paths:
         - name: viewer_fid
           in: query
           required: false
-          description: Providing this will return a list of reactions that respects this user's mutes and blocks and includes `viewer_context`.
+          description: >-
+            Providing this will return a list of reactions that respects this
+            user's mutes and blocks and includes `viewer_context`.
           example: 3
           schema:
             $ref: "#/components/schemas/Fid"
@@ -8921,7 +9257,10 @@ paths:
         - name: types
           in: query
           description: >
-            Customize which reaction types the request should search for. This is a comma-separated string that can include the following values: 'likes' and 'recasts'. By default api returns both. To select multiple types, use a comma-separated list of these values.
+            Customize which reaction types the request should search for. This
+            is a comma-separated string that can include the following values:
+            'likes' and 'recasts'. By default api returns both. To select
+            multiple types, use a comma-separated list of these values.
           required: true
           schema:
             type: array
@@ -8931,7 +9270,9 @@ paths:
         - name: viewer_fid
           in: query
           required: false
-          description: Providing this will return a list of reactions that respects this user's mutes and blocks and includes `viewer_context`.
+          description: >-
+            Providing this will return a list of reactions that respects this
+            user's mutes and blocks and includes `viewer_context`.
           schema:
             $ref: "#/components/schemas/Fid"
         - name: limit
@@ -8971,7 +9312,7 @@ paths:
         - name: fname
           in: query
           required: true
-          example: "farcaster"
+          example: farcaster
           schema:
             type: string
       responses:
@@ -8988,7 +9329,10 @@ paths:
       tags:
         - Onchain
       summary: Relevant owners
-      description: Fetch a list of relevant owners for a specific FID. This usually shows on a fungible asset page as "X, Y, Z and N others you know own this asset".
+      description: >-
+        Fetch a list of relevant owners for a specific FID. This usually shows
+        on a fungible asset page as "X, Y, Z and N others you know own this
+        asset".
       operationId: fetch-relevant-fungible-owners
       externalDocs:
         url: https://docs.neynar.com/reference/fetch-relevant-fungible-owners
@@ -9008,10 +9352,17 @@ paths:
             items:
               $ref: "#/components/schemas/Networks"
           explode: false
-          description: Comma separated list of networks to fetch balances for. Currently, only "base" is supported.
+          description: >-
+            Comma separated list of networks to fetch balances for. Currently,
+            only "base" is supported.
         - name: viewer_fid
           in: query
-          description: If you provide a viewer_fid, the response will include token holders from the user's network, respecting their mutes and blocks and including viewer_context; if not provided, the response will show top token holders across the network—both sets can be combined to generate a longer list if desired.
+          description: >-
+            If you provide a viewer_fid, the response will include token holders
+            from the user's network, respecting their mutes and blocks and
+            including viewer_context; if not provided, the response will show
+            top token holders across the network—both sets can be combined to
+            generate a longer list if desired.
           schema:
             $ref: "#/components/schemas/Fid"
           example: 194
@@ -9079,8 +9430,10 @@ paths:
       tags:
         - Storage
       summary: Buy storage
-      description: |
-        This api will help you rent units of storage for an year for a specific FID.
+      description: >
+        This api will help you rent units of storage for an year for a specific
+        FID.
+
         A storage unit lets you store 5000 casts, 2500 reactions and 2500 links.
       externalDocs:
         url: https://docs.neynar.com/reference/buy-storage
@@ -9291,7 +9644,9 @@ paths:
       tags:
         - Mute
       summary: Mute FID
-      description: Adds a mute for a given FID. This is an allowlisted API, reach out if you want access.
+      description: >-
+        Adds a mute for a given FID. This is an allowlisted API, reach out if
+        you want access.
       externalDocs:
         url: https://docs.neynar.com/reference/publish-mute
       operationId: publish-mute
@@ -9318,7 +9673,9 @@ paths:
       tags:
         - Mute
       summary: Unmute FID
-      description: Deletes a mute for a given FID. This is an allowlisted API, reach out if you want access.
+      description: >-
+        Deletes a mute for a given FID. This is an allowlisted API, reach out if
+        you want access.
       externalDocs:
         url: https://docs.neynar.com/reference/delete-mute
       operationId: delete-mute
@@ -9497,7 +9854,9 @@ paths:
       tags:
         - Ban
       summary: Ban FIDs from app
-      description: Bans a list of FIDs from the app associated with your API key. Banned users, their casts and reactions will not appear in feeds.
+      description: >-
+        Bans a list of FIDs from the app associated with your API key. Banned
+        users, their casts and reactions will not appear in feeds.
       externalDocs:
         url: https://docs.neynar.com/reference/publish-bans
       operationId: publish-bans
@@ -9552,7 +9911,9 @@ paths:
       tags:
         - Cast
       summary: Fetch composer actions
-      description: Fetches all composer actions on Warpcast. You can filter by top or featured.
+      description: >-
+        Fetches all composer actions on Warpcast. You can filter by top or
+        featured.
       externalDocs:
         url: https://docs.neynar.com/reference/fetch-composer-actions
       operationId: fetch-composer-actions
@@ -9562,7 +9923,7 @@ paths:
           required: true
           schema:
             $ref: "#/components/schemas/CastComposerType"
-          example: "top"
+          example: top
           description: Type of list to fetch.
         - name: limit
           in: query
@@ -9597,7 +9958,11 @@ paths:
       tags:
         - Action
       summary: User actions across apps
-      description: Securely communicate and perform actions on behalf of users across different apps. It enables an app to send data or trigger actions in another app on behalf of a mutual user by signing messages using the user's Farcaster signer.
+      description: >-
+        Securely communicate and perform actions on behalf of users across
+        different apps. It enables an app to send data or trigger actions in
+        another app on behalf of a mutual user by signing messages using the
+        user's Farcaster signer.
       externalDocs:
         url: https://docs.neynar.com/docs/farcaster-actions-spec
       operationId: publish-farcaster-action
@@ -9615,7 +9980,7 @@ paths:
               schema:
                 type: object
                 additionalProperties: true
-        "default":
+        default:
           description: Any possible response
           content:
             "*/*":
@@ -9627,7 +9992,9 @@ paths:
       tags:
         - Subscribers
       summary: Hypersub subscription check
-      description: Check if a wallet address is subscribed to a given STP (Hypersub) contract.
+      description: >-
+        Check if a wallet address is subscribed to a given STP (Hypersub)
+        contract.
       externalDocs:
         url: https://docs.neynar.com/reference/fetch-subscription-check
       operationId: fetch-subscription-check
@@ -9636,7 +10003,8 @@ paths:
           description: Comma separated list of Ethereum addresses, up to 350 at a time
           in: query
           required: true
-          example: 0xedd3783e8c7c52b80cfbd026a63c207edc9cbee7,0x5a927ac639636e534b678e81768ca19e2c6280b7
+          example: >-
+            0xedd3783e8c7c52b80cfbd026a63c207edc9cbee7,0x5a927ac639636e534b678e81768ca19e2c6280b7
           schema:
             type: string
             x-comma-separated: true
@@ -9691,7 +10059,6 @@ paths:
           $ref: "#/components/responses/400Response"
         "500":
           $ref: "#/components/responses/500Response"
-
   # /farcaster/webhook/subscription:
   #   get:
   #     tags:
