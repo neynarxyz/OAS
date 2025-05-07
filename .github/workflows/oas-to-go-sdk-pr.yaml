@@ -12,25 +12,25 @@ jobs:
       - name: Checkout OAS repository
         uses: actions/checkout@v3
 
-      - name: Checkout rust-sdk repository
+      - name: Checkout go-sdk repository
         uses: actions/checkout@v3
         with:
-          repository: "neynarxyz/rust-sdk.git"
+          repository: "neynarxyz/go-sdk.git"
           ref: "main"
-          path: "rust-sdk"
+          path: "go-sdk"
           token: ${{ secrets.OAS_TO_SDK_FGPAT }}
           submodules: recursive
           persist-credentials: true
 
-      - name: Setup Rust
-        uses: actions-rs/toolchain@v1
+      - name: Setup Go
+        uses: actions/setup-go@v4
         with:
-          toolchain: stable
-          override: true
+          go-version: '1.24'
+          check-latest: true
 
-      - name: Update OAS submodule and package version in rust-sdk
+      - name: Update OAS submodule and package version in go-sdk
         run: |
-          cd rust-sdk
+          cd go-sdk
 
           # Update OAS submodule
           cd src/OAS 
@@ -71,6 +71,10 @@ jobs:
 
           # Commit updated OAS submodule
           git add .
+          if git diff --quiet && git diff --cached --quiet; then
+          echo "No changes to commit. Exiting."
+          exit 0
+          fi
           git commit -m "Update OAS submodule"
 
           # Generate code
@@ -105,6 +109,6 @@ jobs:
           curl -X POST \
             -H "Authorization: token ${{ secrets.OAS_TO_SDK_FGPAT }}" \
             -H "Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/neynarxyz/rust-sdk/pulls \
+            https://api.github.com/repos/neynarxyz/go-sdk/pulls \
             -d "$DATA"
         shell: bash
