@@ -1658,7 +1658,6 @@ components:
         properties provide essential metadata about the message's origin,
         timing, and network context.
       required:
-        - type
         - fid
         - network
         - timestamp
