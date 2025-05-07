@@ -1940,6 +1940,8 @@ components:
           required:
             - neynar_user_score
           properties:
+            deprecation_notice:
+              type: string
             neynar_user_score:
               type: number
               format: double
