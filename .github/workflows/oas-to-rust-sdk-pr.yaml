@@ -2,8 +2,8 @@ name: Create Pull Request in Rust SDK
 
 on:
   push:
-    #branches:
-    #  - main
+    branches:
+      - main
 
 jobs:
   create-pull-request:
@@ -11,10 +11,6 @@ jobs:
     steps:
       - name: Checkout OAS repository
         uses: actions/checkout@v3
-        with:
-          repository: "neynarxyz/OAS.git"
-          ref: "tdb/go-sdk-fixes"
-          fetch-depth: 0
 
       - name: Checkout rust-sdk repository
         uses: actions/checkout@v3
