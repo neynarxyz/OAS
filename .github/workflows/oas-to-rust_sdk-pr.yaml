@@ -14,6 +14,7 @@ jobs:
         with:
           repository: "neynarxyz/OAS.git"
           ref: "tdb/go-sdk-fixes"
+          fetch-depth: 0
 
       - name: Checkout rust-sdk repository
         uses: actions/checkout@v3
@@ -36,7 +37,12 @@ jobs:
           cd rust-sdk
 
           # Update OAS submodule
-          # git submodule update --remote src/OAS
+          cd src/OAS 
+          git branch -a
+          git log -1
+          git fetch origin
+          cd ../..
+          git submodule update --remote src/OAS
           ls -la src/OAS
 
           # Set Git config
@@ -72,7 +78,8 @@ jobs:
           git commit -m "Update OAS submodule"
 
           # Generate code
-          ./generate.sh
+          #./generate.sh
+          cargo test
 
           # Commit generated files
           git add .
