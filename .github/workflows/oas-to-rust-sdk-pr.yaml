@@ -2,8 +2,8 @@ name: Create Pull Request in Rust SDK
 
 on:
   push:
-    #branches:
-    #  - main
+    branches:
+      - main
 
 jobs:
   create-pull-request:
@@ -30,16 +30,12 @@ jobs:
 
       - name: Update OAS submodule and package version in rust-sdk
         run: |
+          # Get the author of the prior commit
+          AUTHOR=$(git log -1 --pretty=format:'%ae')
           cd rust-sdk
 
           # Update OAS submodule
-          cd src/OAS 
-          git branch -a
-          git log -1
-          git fetch origin
-          cd ../..
           git submodule update --remote src/OAS
-          ls -la src/OAS
 
           # Set Git config
           git config user.name "GitHub Actions"
@@ -65,6 +61,7 @@ jobs:
           # Export variables for use in subsequent steps
           echo "SDK_VERSION=$SDK_VERSION" >> $GITHUB_ENV
           echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
+          echo "AUTHOR=$AUTHOR" >> $GITHUB_ENV
 
           # Create and checkout the new branch
           git checkout -b "$BRANCH_NAME"
@@ -102,9 +99,35 @@ jobs:
           echo "Creating Pull Request with data: $DATA"
 
           # Create the pull request via GitHub API
+          RESPONSE=$(curl -X POST \
+          -H "Authorization: token ${{ secrets.OAS_TO_SDK_FGPAT }}" \
+          -H "Accept: application/vnd.github.v3+json" \
+          https://api.github.com/repos/neynarxyz/rust-sdk/pulls \
+          -d "$DATA")
+
+          # Extract the pull request number from the response
+          PR_NUMBER=$(echo "$RESPONSE" | jq -r '.number')
+          echo "Pull Request Number: $PR_NUMBER"
+
+          # Check if PR_NUMBER is valid
+          if [ -z "$PR_NUMBER" ] || [ "$PR_NUMBER" == "null" ]; then
+          echo "Error: Failed to create pull request."
+          echo "Response: $RESPONSE"
+          exit 1
+          fi
+
+          # Prepare JSON payload for the review request
+          REVIEWERS=$(jq -n --arg reviewer "$AUTHOR" '[ $reviewer ]')
+          REVIEW_REQUEST_DATA=$(jq -n \
+          --argjson reviewers "$REVIEWERS" \
+          '{reviewers: $reviewers}')
+
+          echo "Creating Review Request with data: $REVIEW_REQUEST_DATA"
+
+          # Create the review request via GitHub API
           curl -X POST \
-            -H "Authorization: token ${{ secrets.OAS_TO_SDK_FGPAT }}" \
-            -H "Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/neynarxyz/rust-sdk/pulls \
-            -d "$DATA"
+          -H "Authorization: token ${{ secrets.OAS_TO_SDK_FGPAT }}" \
+          -H "Accept: application/vnd.github.v3+json" \
+          https://api.github.com/repos/neynarxyz/rust-sdk/pulls/$PR_NUMBER/requested_reviewers \
+          -d "$REVIEW_REQUEST_DATA"
         shell: bash
