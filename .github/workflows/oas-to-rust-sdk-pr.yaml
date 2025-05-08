@@ -68,15 +68,17 @@ jobs:
 
           # Commit updated OAS submodule
           git add .
-          git commit -m "Update OAS submodule"
+          git commit -m "Update OAS submodule" --allow-empty
 
           # Generate code
           #./generate.sh
 
           # Commit generated files
           git add .
-          git commit -m "Update generated files"
+          git commit -m "Update generated files" --allow-empty
 
+          # Push changes
+          git push origin HEAD:"$BRANCH_NAME"
         shell: bash
 
       - name: Create Pull Request via API

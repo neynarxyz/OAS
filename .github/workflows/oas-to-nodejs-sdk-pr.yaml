@@ -69,10 +69,6 @@ jobs:
 
           # Commit updated OAS submodule
           git add .
-          if git diff --quiet && git diff --cached --quiet; then
-          echo "No changes to commit. Exiting."
-          exit 0
-          fi
           git commit -m "Update OAS submodule"
 
           # Generate code
@@ -80,10 +76,6 @@ jobs:
 
           # Commit generated files
           git add .
-          if git diff --quiet && git diff --cached --quiet; then
-          echo "No changes to commit. Exiting."
-          exit 0
-          fi
           git commit -m "Update generated files"
 
           # Update package.json version
