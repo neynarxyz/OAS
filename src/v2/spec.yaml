@@ -7212,6 +7212,30 @@ paths:
           required: false
           schema:
             $ref: "#/components/schemas/TrendingTimeWindow"
+        - name: categories
+          in: query
+          description: >-
+            Comma separated list of categories to include in the results.  Includes all if left blank.
+          required: false
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - games
+                - social
+                - finance
+                - utility
+                - productivity
+                - health-fitness
+                - news-media
+                - music
+                - shopping
+                - education
+                - developer-tools
+                - entertainment
+                - art-creativity
       responses:
         "200":
           description: Successful response
