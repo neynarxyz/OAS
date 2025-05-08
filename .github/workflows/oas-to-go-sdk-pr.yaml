@@ -31,7 +31,8 @@ jobs:
       - name: Update OAS submodule and package version in go-sdk
         run: |
           # Get the author of the prior commit
-          AUTHOR=$(git log -1 --pretty=format:'%ae')
+          AUTHOR=$(curl -s -H "Authorization: token ${{ secrets.OAS_TO_SDK_FGPAT }}" \
+          https://api.github.com/repos/${{ github.repository }}/commits/${{ github.sha }} | jq -r '.author.login')
           cd go-sdk
 
           # Update OAS submodule
@@ -67,6 +68,11 @@ jobs:
           git checkout -b "$BRANCH_NAME"
 
           # Commit updated OAS submodule
+          if git diff --quiet; then
+            echo "No changes to commit."
+            echo "::set-output name=skip_remaining::true"
+            exit 0
+          fi
           git add .
           git commit -m "Update OAS submodule"
 
@@ -74,6 +80,11 @@ jobs:
           ./generate.sh
 
           # Commit generated files
+          if git diff --quiet; then
+            echo "No changes to commit."
+            echo "::set-output name=skip_remaining::true"
+            exit 0
+          fi
           git add .
           git commit -m "Update generated files"
 
@@ -83,6 +94,11 @@ jobs:
 
       - name: Create Pull Request via API
         run: |
+          # Check if the branch already exists on the remote
+          if ! git ls-remote --heads origin "$BRANCH_NAME" | grep -q "$BRANCH_NAME"; then
+          echo "Branch $BRANCH_NAME does not exist on the remote because there are no changes. Exiting step."
+          exit 0
+          fi
           # Install jq for JSON parsing
           sudo apt-get update && sudo apt-get install -y jq
 
