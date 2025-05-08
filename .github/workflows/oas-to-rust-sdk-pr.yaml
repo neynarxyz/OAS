@@ -2,8 +2,8 @@ name: Create Pull Request in Rust SDK
 
 on:
   push:
-    # branches:
-    #   - main
+    branches:
+      - main
 
 jobs:
   create-pull-request:
@@ -70,7 +70,6 @@ jobs:
           # Commit updated OAS submodule
           if git diff --quiet; then
             echo "No changes to commit."
-            echo "::set-output name=skip_remaining::true"
             exit 0
           fi
           git add .
@@ -82,7 +81,6 @@ jobs:
           # Commit generated files
           if git diff --quiet; then
             echo "No changes to commit."
-            echo "::set-output name=skip_remaining::true"
             exit 0
           fi
           git add .
@@ -97,8 +95,8 @@ jobs:
         run: |
           # Check if the branch already exists on the remote
           if [ -z "$PUSHED_BRANCH" ]; then
-          echo "no push branch xists. Exiting step."
-          exit 0
+            echo "no pushed branch exists. Exiting step."
+            exit 0
           fi
           # Install jq for JSON parsing
           sudo apt-get update && sudo apt-get install -y jq
