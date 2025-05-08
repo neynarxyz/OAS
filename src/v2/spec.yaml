@@ -250,69 +250,78 @@ components:
               maxLength: 32
             home_url:
               type: string
-              maxLength: 512
+              maxLength: 1024
             icon_url:
               type: string
-              maxLength: 512
+              maxLength: 1024
             image_url:
               type: string
-              maxLength: 512
+              maxLength: 1024
             button_title:
               type: string
               maxLength: 32
             splash_image_url:
               type: string
-              maxLength: 512
+              maxLength: 1024
             splash_background_color:
               type: string
             webhook_url:
               type: string
-              maxLength: 512
+              maxLength: 1024
+            subtitle:
+              type: string
+              maxLength: 30
+              description: Short subtitle for the frame
+            description:
+              type: string
+              maxLength: 170
+              description: Detailed description of the frame
+            screenshot_urls:
+              type: array
+              maxItems: 3
+              items:
+                type: string
+                format: uri
+              description: URLs of screenshots showcasing the frame
+            primary_category:
+              type: string
+              description: Primary category the frame belongs to
+            tags:
+              type: array
+              maxItems: 5
+              items:
+                type: string
+              description: Tags associated with the frame
+            hero_image_url:
+              type: string
+              format: uri
+              maxLength: 1024
+              description: URL of the hero image displayed for the frame
+            tagline:
+              type: string
+              maxLength: 30
+              description: Short tagline for the frame
+            og_title:
+              type: string
+              maxLength: 30
+              description: Title used for Open Graph previews
+            og_description:
+              type: string
+              maxLength: 100
+              description: Description used for Open Graph previews
+            og_image_url:
+              type: string
+              maxLength: 1024
+              format: uri
+              description: Image URL used for Open Graph previews
+            noindex:
+              type: boolean
+              description: Whether search engines should not index this frame
           required:
             - version
             - name
             - home_url
             - icon_url
-        triggers:
-          type: array
-          items:
-            oneOf:
-              - type: object
-                properties:
-                  type:
-                    type: string
-                    enum:
-                      - cast
-                  id:
-                    type: string
-                  url:
-                    type: string
-                    maxLength: 512
-                  name:
-                    type: string
-                    maxLength: 32
-                required:
-                  - type
-                  - id
-                  - url
-              - type: object
-                properties:
-                  type:
-                    type: string
-                    enum:
-                      - composer
-                  id:
-                    type: string
-                  url:
-                    type: string
-                    maxLength: 512
-                  name:
-                    type: string
-                    maxLength: 32
-                required:
-                  - type
-                  - id
-                  - url
       required:
         - account_association
     # TwitterImageObject:
