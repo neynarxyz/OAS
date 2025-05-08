@@ -71,7 +71,7 @@ jobs:
           git commit -m "Update OAS submodule" --allow-empty
 
           # Generate code
-          #./generate.sh
+          ./generate.sh
 
           # Commit generated files
           git add .
