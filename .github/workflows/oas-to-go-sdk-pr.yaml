@@ -90,13 +90,14 @@ jobs:
 
           # Push changes
           git push origin HEAD:"$BRANCH_NAME"
+          echo "PUSHED_BRANCH=$BRANCH_NAME" >> $GITHUB_ENV
         shell: bash
 
       - name: Create Pull Request via API
         run: |
           # Check if the branch already exists on the remote
-          if ! git ls-remote --heads origin "$BRANCH_NAME" | grep -q "$BRANCH_NAME"; then
-          echo "Branch $BRANCH_NAME does not exist on the remote because there are no changes. Exiting step."
+          if [ -z "$PUSHED_BRANCH" ]; then
+          echo "no push branch xists. Exiting step."
           exit 0
           fi
           # Install jq for JSON parsing

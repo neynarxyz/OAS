@@ -68,6 +68,11 @@ jobs:
           git checkout -b "$BRANCH_NAME"
 
           # Commit updated OAS submodule
+          if git diff --quiet; then
+            echo "No changes to commit."
+            echo "::set-output name=skip_remaining::true"
+            exit 0
+          fi
           git add .
           git commit -m "Update OAS submodule"
 
@@ -75,15 +80,26 @@ jobs:
           ./generate.sh
 
           # Commit generated files
+          if git diff --quiet; then
+            echo "No changes to commit."
+            echo "::set-output name=skip_remaining::true"
+            exit 0
+          fi
           git add .
           git commit -m "Update generated files"
 
           # Push changes
           git push origin HEAD:"$BRANCH_NAME"
+          echo "PUSHED_BRANCH=$BRANCH_NAME" >> $GITHUB_ENV
         shell: bash
 
       - name: Create Pull Request via API
         run: |
+          # Check if the branch already exists on the remote
+          if [ -z "$PUSHED_BRANCH" ]; then
+          echo "no push branch xists. Exiting step."
+          exit 0
+          fi
           # Install jq for JSON parsing
           sudo apt-get update && sudo apt-get install -y jq
 
