@@ -2,8 +2,8 @@ name: Create Pull Request in Go SDK
 
 on:
   push:
-    branches:
-      - main
+    #branches:
+    #  - main
 
 jobs:
   create-pull-request:
@@ -68,9 +68,11 @@ jobs:
 
           # Commit updated OAS submodule
           git add .
-          if git diff --quiet && git diff --cached --quiet; then
-          echo "No changes to commit. Exiting."
-          exit 0
+          git diff --cached --quiet
+          if [ $? -eq 0 ]; then
+            echo "No changes to commit. Exiting."
+            echo "SHOULD_CONTINUE=false" >> $GITHUB_OUTPUT
+            exit 0
           fi
           git commit -m "Update OAS submodule"
 
@@ -79,9 +81,11 @@ jobs:
 
           # Commit generated files
           git add .
-          if git diff --quiet && git diff --cached --quiet; then
-          echo "No changes to commit. Exiting."
-          exit 0
+          git diff --cached --quiet
+          if [ $? -eq 0 ]; then
+            echo "No changes to commit. Exiting."
+            echo "SHOULD_CONTINUE=false" >> $GITHUB_OUTPUT
+            exit 0
           fi
           git commit -m "Update generated files"
 
