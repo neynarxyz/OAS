@@ -68,12 +68,6 @@ jobs:
 
           # Commit updated OAS submodule
           git add .
-          git diff --cached --quiet
-          if [ $? -eq 0 ]; then
-            echo "No changes to commit. Exiting."
-            echo "SHOULD_CONTINUE=false" >> $GITHUB_OUTPUT
-            exit 0
-          fi
           git commit -m "Update OAS submodule"
 
           # Generate code
@@ -81,12 +75,6 @@ jobs:
 
           # Commit generated files
           git add .
-          git diff --cached --quiet
-          if [ $? -eq 0 ]; then
-            echo "No changes to commit. Exiting."
-            echo "SHOULD_CONTINUE=false" >> $GITHUB_OUTPUT
-            exit 0
-          fi
           git commit -m "Update generated files"
 
         shell: bash
