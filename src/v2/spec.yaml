@@ -5758,7 +5758,7 @@ paths:
     post:
       tags:
         - Onchain
-      summary: Register account onchain
+      summary: Register Farcaster account onchain
       description: >
         Register a new farcaster account onchain. Optionally you can pass in signers along to register
         a new account and create multiple signers in a single transaction
