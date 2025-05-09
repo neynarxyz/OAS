@@ -7315,7 +7315,9 @@ paths:
           description: >-
             Comma separated list of categories to include in the results.  Includes all if left blank.
           required: false
+          example: games,social
           explode: false
+          style: form
           schema:
             type: array
             items:
