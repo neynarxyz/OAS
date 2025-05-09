@@ -29,6 +29,9 @@ jobs:
 
       - name: Update OAS submodule and package version in nodejs-sdk
         run: |
+          # Get the author of the prior commit
+          AUTHOR=$(curl -s -H "Authorization: token ${{ secrets.OAS_TO_SDK_FGPAT }}" \
+          https://api.github.com/repos/${{ github.repository }}/commits/${{ github.sha }} | jq -r '.author.login')
           cd nodejs-sdk
 
           yarn install
@@ -60,11 +63,16 @@ jobs:
           # Export variables for use in subsequent steps
           echo "SDK_VERSION=$SDK_VERSION" >> $GITHUB_ENV
           echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
+          echo "AUTHOR=$AUTHOR" >> $GITHUB_ENV
 
           # Create and checkout the new branch
           git checkout -b "$BRANCH_NAME"
 
           # Commit updated OAS submodule
+          if git diff --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
           git add .
           git commit -m "Update OAS submodule"
 
@@ -72,6 +80,10 @@ jobs:
           yarn generate:all
 
           # Commit generated files
+          if git diff --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
           git add .
           git commit -m "Update generated files"
 
@@ -84,10 +96,17 @@ jobs:
 
           # Push changes
           git push origin HEAD:"$BRANCH_NAME"
+          echo "PUSHED_BRANCH=$BRANCH_NAME" >> $GITHUB_ENV
+
         shell: bash
 
       - name: Create Pull Request via API
         run: |
+          # Check if the branch already exists on the remote
+          if [ -z "$PUSHED_BRANCH" ]; then
+            echo "no pushed branch exists. Exiting step."
+            exit 0
+          fi
           # Install jq for JSON parsing
           sudo apt-get update && sudo apt-get install -y jq
 
@@ -102,9 +121,35 @@ jobs:
           echo "Creating Pull Request with data: $DATA"
 
           # Create the pull request via GitHub API
+          RESPONSE=$(curl -X POST \
+          -H "Authorization: token ${{ secrets.OAS_TO_SDK_FGPAT }}" \
+          -H "Accept: application/vnd.github.v3+json" \
+          https://api.github.com/repos/neynarxyz/nodejs-sdk/pulls \
+          -d "$DATA")
+
+          # Extract the pull request number from the response
+          PR_NUMBER=$(echo "$RESPONSE" | jq -r '.number')
+          echo "Pull Request Number: $PR_NUMBER"
+
+          # Check if PR_NUMBER is valid
+          if [ -z "$PR_NUMBER" ] || [ "$PR_NUMBER" == "null" ]; then
+          echo "Error: Failed to create pull request."
+          echo "Response: $RESPONSE"
+          exit 1
+          fi
+
+          # Prepare JSON payload for the review request
+          REVIEWERS=$(jq -n --arg reviewer "$AUTHOR" '[ $reviewer ]')
+          REVIEW_REQUEST_DATA=$(jq -n \
+          --argjson reviewers "$REVIEWERS" \
+          '{reviewers: $reviewers}')
+
+          echo "Creating Review Request with data: $REVIEW_REQUEST_DATA"
+
+          # Create the review request via GitHub API
           curl -X POST \
-            -H "Authorization: token ${{ secrets.OAS_TO_SDK_FGPAT }}" \
-            -H "Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/neynarxyz/nodejs-sdk/pulls \
-            -d "$DATA"
+          -H "Authorization: token ${{ secrets.OAS_TO_SDK_FGPAT }}" \
+          -H "Accept: application/vnd.github.v3+json" \
+          https://api.github.com/repos/neynarxyz/nodejs-sdk/pulls/$PR_NUMBER/requested_reviewers \
+          -d "$REVIEW_REQUEST_DATA"
         shell: bash

@@ -1,4 +1,4 @@
-name: Create Pull Request in Rust SDK
+name: Create Pull Request in Go SDK
 
 on:
   push:
@@ -12,28 +12,28 @@ jobs:
       - name: Checkout OAS repository
         uses: actions/checkout@v3
 
-      - name: Checkout rust-sdk repository
+      - name: Checkout go-sdk repository
         uses: actions/checkout@v3
         with:
-          repository: "neynarxyz/rust-sdk.git"
+          repository: "neynarxyz/go-sdk.git"
           ref: "main"
-          path: "rust-sdk"
+          path: "go-sdk"
           token: ${{ secrets.OAS_TO_SDK_FGPAT }}
           submodules: recursive
           persist-credentials: true
 
-      - name: Setup Rust
-        uses: actions-rs/toolchain@v1
+      - name: Setup Go
+        uses: actions/setup-go@v4
         with:
-          toolchain: stable
-          override: true
+          go-version: '1.24'
+          check-latest: true
 
-      - name: Update OAS submodule and package version in rust-sdk
+      - name: Update OAS submodule and package version in go-sdk
         run: |
           # Get the author of the prior commit
           AUTHOR=$(curl -s -H "Authorization: token ${{ secrets.OAS_TO_SDK_FGPAT }}" \
           https://api.github.com/repos/${{ github.repository }}/commits/${{ github.sha }} | jq -r '.author.login')
-          cd rust-sdk
+          cd go-sdk
 
           # Update OAS submodule
           git submodule update --remote src/OAS
@@ -115,7 +115,7 @@ jobs:
           RESPONSE=$(curl -X POST \
           -H "Authorization: token ${{ secrets.OAS_TO_SDK_FGPAT }}" \
           -H "Accept: application/vnd.github.v3+json" \
-          https://api.github.com/repos/neynarxyz/rust-sdk/pulls \
+          https://api.github.com/repos/neynarxyz/go-sdk/pulls \
           -d "$DATA")
 
           # Extract the pull request number from the response
@@ -141,6 +141,7 @@ jobs:
           curl -X POST \
           -H "Authorization: token ${{ secrets.OAS_TO_SDK_FGPAT }}" \
           -H "Accept: application/vnd.github.v3+json" \
-          https://api.github.com/repos/neynarxyz/rust-sdk/pulls/$PR_NUMBER/requested_reviewers \
+          https://api.github.com/repos/neynarxyz/go-sdk/pulls/$PR_NUMBER/requested_reviewers \
           -d "$REVIEW_REQUEST_DATA"
+
         shell: bash
