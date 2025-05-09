@@ -5765,13 +5765,13 @@ paths:
     post:
       tags:
         - Onchain
-      summary: Register account on-chain
+      summary: Register account onchain
       description: >
-        Register a new farcaster account on-chain. Optionally you can pass in signers along to register
+        Register a new farcaster account onchain. Optionally you can pass in signers along to register
         a new account and create multiple signers in a single transaction
       externalDocs:
-        url: https://docs.neynar.com/reference/register-account-on-chain
-      operationId: register-account-on-chain
+        url: https://docs.neynar.com/reference/register-account-onchain
+      operationId: register-account-onchain
       requestBody:
         required: true
         content:
