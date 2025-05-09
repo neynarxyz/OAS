@@ -4004,7 +4004,6 @@ components:
       type: object
       required:
         - registration
-        - storage_units
       properties:
         registration:
           type: object
