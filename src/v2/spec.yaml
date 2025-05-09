@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Farcaster API V2
-  version: 2.36.1
+  version: 2.37.0
   description: >
     The Farcaster API allows you to interact with the Farcaster protocol. See
     the [Neynar docs](https://docs.neynar.com/reference) for more details.
@@ -49,6 +49,10 @@ components:
       type: string
       pattern: ^[1-9A-HJ-NP-Za-km-z]{32,44}$
       description: Solana address
+    0xHexSignature:
+      type: string
+      pattern: ^0x[a-fA-F0-9]+$
+      description: Hex encoded signature
     Fid:
       type: integer
       format: int32
@@ -3996,6 +4000,72 @@ components:
           $ref: "#/components/schemas/Signer"
         user:
           $ref: "#/components/schemas/User"
+    RegisterUserOnChainReqBody:
+      type: object
+      required:
+        - registration
+      properties:
+        registration:
+          type: object
+          required:
+            - deadline
+            - signature
+            - custody_address
+            - recovery_address
+          properties:
+            deadline:
+              type: integer
+              minimum: 0
+              example: 1715190000
+            signature:
+              $ref: "#/components/schemas/0xHexSignature"
+            custody_address:
+              $ref: "#/components/schemas/EthAddress"
+            recovery_address:
+              $ref: "#/components/schemas/EthAddress"
+        storage_units:
+          type: integer
+          minimum: 0
+          example: 2
+        signers:
+          type: array
+          items:
+            type: object
+            required:
+              - signature
+              - metadata
+              - public_key
+              - deadline
+            properties:
+              signature:
+                $ref: "#/components/schemas/0xHexSignature"
+              metadata:
+                $ref: "#/components/schemas/0xHexSignature"
+              public_key:
+                $ref: "#/components/schemas/Ed25519PublicKey"
+              key_type:
+                type: integer
+                minimum: 1
+                default: 1
+              metadata_type:
+                type: integer
+                minimum: 1
+                default: 1
+              deadline:
+                type: integer
+                minimum: 0
+                example: 1715190000
+    RegisterUserOnChainResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Account registered successfully
+        transaction_hash:
+          type: string
+          example: 0xabc123...
+        user:
+          $ref: "#/components/schemas/User"
     MuteRecord:
       type: object
       required:
@@ -5691,6 +5761,34 @@ paths:
           $ref: "#/components/responses/409Response"
         "500":
           $ref: "#/components/responses/500Response"
+  /farcaster/user/register:
+    post:
+      tags:
+        - Onchain
+      summary: Register account on-chain
+      description: >
+        Register a new farcaster account on-chain. Optionally you can pass in signers along to register
+        a new account and create multiple signers in a single transaction
+      externalDocs:
+        url: https://docs.neynar.com/reference/register-account-on-chain
+      operationId: register-account-on-chain
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterUserOnChainReqBody"
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RegisterUserOnChainResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "500":
+          $ref: "#/components/responses/500Response"
   /farcaster/message:
     post:
       tags:
@@ -6825,7 +6923,7 @@ paths:
           description: Time window for trending casts (7d window for channel feeds only)
           required: false
           schema:
-              $ref: "#/components/schemas/TrendingTimeWindow"
+            $ref: "#/components/schemas/TrendingTimeWindow"
           example: 24h
         - name: channel_id
           in: query
