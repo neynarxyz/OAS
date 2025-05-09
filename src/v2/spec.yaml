@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Farcaster API V2
-  version: 2.37.0
+  version: 2.38.0
   description: >
     The Farcaster API allows you to interact with the Farcaster protocol. See
     the [Neynar docs](https://docs.neynar.com/reference) for more details.
@@ -251,72 +251,65 @@ components:
                 - next
             name:
               type: string
-              maxLength: 32
             home_url:
               type: string
-              maxLength: 512
             icon_url:
               type: string
-              maxLength: 512
             image_url:
               type: string
-              maxLength: 512
             button_title:
               type: string
-              maxLength: 32
             splash_image_url:
               type: string
-              maxLength: 512
             splash_background_color:
               type: string
             webhook_url:
               type: string
-              maxLength: 512
+            subtitle:
+              type: string
+              description: Short subtitle for the frame
+            description:
+              type: string
+              description: Detailed description of the frame
+            screenshot_urls:
+              type: array
+              items:
+                type: string
+                format: uri
+              description: URLs of screenshots showcasing the frame
+            primary_category:
+              type: string
+              description: Primary category the frame belongs to
+            tags:
+              type: array
+              items:
+                type: string
+              description: Tags associated with the frame
+            hero_image_url:
+              type: string
+              format: uri
+              description: URL of the hero image displayed for the frame
+            tagline:
+              type: string
+              description: Short tagline for the frame
+            og_title:
+              type: string
+              description: Title used for Open Graph previews
+            og_description:
+              type: string
+              description: Description used for Open Graph previews
+            og_image_url:
+              type: string
+              format: uri
+              description: Image URL used for Open Graph previews
+            noindex:
+              type: boolean
+              description: Whether search engines should not index this frame
           required:
             - version
             - name
             - home_url
             - icon_url
-        triggers:
-          type: array
-          items:
-            oneOf:
-              - type: object
-                properties:
-                  type:
-                    type: string
-                    enum:
-                      - cast
-                  id:
-                    type: string
-                  url:
-                    type: string
-                    maxLength: 512
-                  name:
-                    type: string
-                    maxLength: 32
-                required:
-                  - type
-                  - id
-                  - url
-              - type: object
-                properties:
-                  type:
-                    type: string
-                    enum:
-                      - composer
-                  id:
-                    type: string
-                  url:
-                    type: string
-                    maxLength: 512
-                  name:
-                    type: string
-                    maxLength: 32
-                required:
-                  - type
-                  - id
-                  - url
       required:
         - account_association
     # TwitterImageObject:
@@ -7301,6 +7294,35 @@ paths:
           required: false
           schema:
             $ref: "#/components/schemas/TrendingTimeWindow"
+        - name: categories
+          in: query
+          description: >-
+            Comma separated list of categories to include in the results.  Includes all if left blank. 
+            Example: `categories=games,social`
+            OR:
+            `categories=games&categories=social`
+          required: false
+          example: ["games","social"]
+          explode: false
+          style: form
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - games
+                - social
+                - finance
+                - utility
+                - productivity
+                - health-fitness
+                - news-media
+                - music
+                - shopping
+                - education
+                - developer-tools
+                - entertainment
+                - art-creativity
       responses:
         "200":
           description: Successful response
