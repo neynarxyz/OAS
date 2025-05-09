@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Farcaster API V2
-  version: 2.37.0
+  version: 2.38.0
   description: >
     The Farcaster API allows you to interact with the Farcaster protocol. See
     the [Neynar docs](https://docs.neynar.com/reference) for more details.
@@ -251,38 +251,28 @@ components:
                 - next
             name:
               type: string
-              maxLength: 32
             home_url:
               type: string
-              maxLength: 1024
             icon_url:
               type: string
-              maxLength: 1024
             image_url:
               type: string
-              maxLength: 1024
             button_title:
               type: string
-              maxLength: 32
             splash_image_url:
               type: string
-              maxLength: 1024
             splash_background_color:
               type: string
             webhook_url:
               type: string
-              maxLength: 1024
             subtitle:
               type: string
-              maxLength: 30
               description: Short subtitle for the frame
             description:
               type: string
-              maxLength: 170
               description: Detailed description of the frame
             screenshot_urls:
               type: array
-              maxItems: 3
               items:
                 type: string
                 format: uri
@@ -292,30 +282,24 @@ components:
               description: Primary category the frame belongs to
             tags:
               type: array
-              maxItems: 5
               items:
                 type: string
               description: Tags associated with the frame
             hero_image_url:
               type: string
               format: uri
-              maxLength: 1024
               description: URL of the hero image displayed for the frame
             tagline:
               type: string
-              maxLength: 30
               description: Short tagline for the frame
             og_title:
               type: string
-              maxLength: 30
               description: Title used for Open Graph previews
             og_description:
               type: string
-              maxLength: 100
               description: Description used for Open Graph previews
             og_image_url:
               type: string
-              maxLength: 1024
               format: uri
               description: Image URL used for Open Graph previews
             noindex:
