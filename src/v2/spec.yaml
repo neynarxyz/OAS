@@ -7313,9 +7313,12 @@ paths:
         - name: categories
           in: query
           description: >-
-            Comma separated list of categories to include in the results.  Includes all if left blank.
+            Comma separated list of categories to include in the results.  Includes all if left blank. 
+            Example: `categories=games,social`
+            OR:
+            `categories=games&categories=social`
           required: false
-          example: games,social
+          example: ["games","social"]
           explode: false
           style: form
           schema:
