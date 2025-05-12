@@ -7410,6 +7410,44 @@ paths:
                   $ref: "#/components/schemas/NeynarFrame"
         "404":
           $ref: "#/components/responses/404Response"
+  /farcaster/frame/search:
+    get:
+      tags:
+        - Frame
+      summary: Search mini apps
+      description: Search for mini apps based on a query string
+      externalDocs:
+        url: https://docs.neynar.com/reference/search-frames
+      operationId: search-frames
+      parameters:
+        - name: q
+          in: query
+          description: Query string to search for mini apps
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Number of results to fetch
+          required: false
+          schema:
+            type: integer
+            default: 20
+            maximum: 100
+          x-is-limit-param: true
+        - name: cursor
+          in: query
+          description: Pagination cursor
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FrameCatalogResponse"
   /farcaster/frame/crawl:
     get:
       tags:
