@@ -7448,6 +7448,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/FrameCatalogResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
   /farcaster/frame/crawl:
     get:
       tags:
