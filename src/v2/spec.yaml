@@ -1816,7 +1816,7 @@ components:
           minimum: -180
           maximum: 180
         radius:
-          type: number          format: double
+          type: number
           minimum: 0
         address:
           $ref: "#/components/schemas/LocationAddress"
