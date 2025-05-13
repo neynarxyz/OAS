@@ -49,10 +49,10 @@ components:
       type: string
       pattern: ^[1-9A-HJ-NP-Za-km-z]{32,44}$
       description: Solana address
-    0xHexSignature:
+    PrefixedHexString:
       type: string
       pattern: ^0x[a-fA-F0-9]+$
-      description: Hex encoded signature
+      description: Hexadecimal number expressed as string with '0x' prefix
     Fid:
       type: integer
       format: int32
@@ -4011,7 +4011,7 @@ components:
               minimum: 0
               example: 1715190000
             signature:
-              $ref: "#/components/schemas/0xHexSignature"
+              $ref: "#/components/schemas/PrefixedHexString"
             custody_address:
               $ref: "#/components/schemas/EthAddress"
             recovery_address:
@@ -4031,9 +4031,9 @@ components:
               - deadline
             properties:
               signature:
-                $ref: "#/components/schemas/0xHexSignature"
+                $ref: "#/components/schemas/PrefixedHexString"
               metadata:
-                $ref: "#/components/schemas/0xHexSignature"
+                $ref: "#/components/schemas/PrefixedHexString"
               public_key:
                 $ref: "#/components/schemas/Ed25519PublicKey"
               key_type:
