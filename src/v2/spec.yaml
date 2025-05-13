@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Farcaster API V2
-  version: 2.39.1
+  version: 2.39.0
   description: >
     The Farcaster API allows you to interact with the Farcaster protocol. See
     the [Neynar docs](https://docs.neynar.com/reference) for more details.
@@ -97,7 +97,7 @@ components:
       type: string
       enum:
         - desc_chron
-        - affinity_score
+        - algorithmic
       example: desc_chron
     SearchSortType:
       type: string
@@ -4056,7 +4056,7 @@ components:
           example: Account registered successfully
         transaction_hash:
           type: string
-          example: '0x2e276b4d014334797d9951ce2d3b7a11a4a58855cb07b3761de36785c618220a'
+          example: "0x2e276b4d014334797d9951ce2d3b7a11a4a58855cb07b3761de36785c618220a"
         user:
           $ref: "#/components/schemas/User"
     MuteRecord:
@@ -7302,7 +7302,7 @@ paths:
             OR:
             `categories=games&categories=social`
           required: false
-          example: ["games","social"]
+          example: ["games", "social"]
           explode: false
           style: form
           schema:
