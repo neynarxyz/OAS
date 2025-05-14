@@ -1441,7 +1441,10 @@ components:
               description: >-
                 Only send notifications to users who are not in the given FIDs.
             following_fid:
-              $ref: "#/components/schemas/Fid"
+              type: integer
+              format: int32
+              description: Only send notifications to users who follow the given FID.
+              example: 3
             minimum_user_score:
               type: number
               minimum: 0
