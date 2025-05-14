@@ -1442,8 +1442,6 @@ components:
                 Only send notifications to users who are not in the given FIDs.
             following_fid:
               $ref: "#/components/schemas/Fid"
-              description: >-
-                Only send notifications to users following the given FID.
             minimum_user_score:
               type: number
               minimum: 0
@@ -1452,8 +1450,6 @@ components:
                 Only send notifications to users with a score greater than or equal to this value.
             near_location:
               $ref: "#/components/schemas/Location"
-              description: >-
-                Only send notifications to users near the given location.
     RemoveChannelMemberReqBody:
       type: object
       required:
@@ -8167,6 +8163,16 @@ paths:
                 target_url: >-
                   https://domain-of-your-frame.com/the-page-on-which-the-user-should-land
                 uuid: 9cb07cfe-1130-48b3-a245-5dd153ced3a3
+              filters:
+                exclude_fids:
+                  - 2
+                  - 8988
+                following_fid: 3
+                minimum_user_score: 0.5
+                near_location:
+                  latitude: 37.774929
+                  longitude: -122.419418
+                  radius: 1000
       responses:
         "200":
           description: Successful operation.
