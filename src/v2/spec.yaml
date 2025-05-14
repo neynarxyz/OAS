@@ -60,7 +60,6 @@ components:
       example: 3
     TrendingTimeWindow:
       type: string
-      default: 24h
       enum:
         - 1h
         - 6h
@@ -6916,7 +6915,10 @@ paths:
           description: Time window for trending casts (7d window for channel feeds only)
           required: false
           schema:
-            $ref: "#/components/schemas/TrendingTimeWindow"
+            allOf:
+              - $ref: "#/components/schemas/TrendingTimeWindow"
+              - type: string
+                default: 24h
           example: 24h
         - name: channel_id
           in: query
@@ -7293,7 +7295,10 @@ paths:
             mini app, used to sort mini app results
           required: false
           schema:
-            $ref: "#/components/schemas/TrendingTimeWindow"
+            allOf:
+              - $ref: "#/components/schemas/TrendingTimeWindow"
+              - type: string
+                default: 7d
         - name: categories
           in: query
           description: >-
@@ -7355,7 +7360,10 @@ paths:
             relevance
           required: false
           schema:
-            $ref: "#/components/schemas/TrendingTimeWindow"
+            allOf:
+              - $ref: "#/components/schemas/TrendingTimeWindow"
+              - type: string
+                default: 7d
       responses:
         "200":
           description: Successful response
