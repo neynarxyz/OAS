@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Farcaster API V2
-  version: 2.40.0
+  version: 2.41.0
   description: >
     The Farcaster API allows you to interact with the Farcaster protocol. See
     the [Neynar docs](https://docs.neynar.com/reference) for more details.
@@ -1384,8 +1384,8 @@ components:
           maxItems: 100
           description: >-
             An array of target FIDs to whom the notifications should be sent.
-            Each FID must be a positive integer, with a maximum of 100 FIDs
-            allowed per call.
+            Each FID must be a positive integer. Pass an empty array to send
+            notifications to all FIDs with notifications enabled for the mini app.
           example:
             - 1
             - 2
@@ -1428,6 +1428,28 @@ components:
                 An optional UUID for the notification, used as an idempotency
                 key.
               example: 123e4567-e89b-12d3-a456-426614174000
+        filters:
+          type: object
+          description: >-
+            Filters to apply to the target_fids set. All filters are additive,
+            so only users matching all filters will be notified.
+          properties:
+            exclude_fids:
+              type: array
+              items:
+                $ref: "#/components/schemas/Fid"
+              description: >-
+                Only send notifications to users who are not in the given FIDs.
+            following_fid:
+              $ref: "#/components/schemas/Fid"
+            minimum_user_score:
+              type: number
+              minimum: 0
+              maximum: 1
+              description: >-
+                Only send notifications to users with a score greater than or equal to this value.
+            near_location:
+              $ref: "#/components/schemas/Location"
     RemoveChannelMemberReqBody:
       type: object
       required:
@@ -1790,6 +1812,11 @@ components:
           format: double
           minimum: -180
           maximum: 180
+        radius:
+          type: number
+          minimum: 0
+          description: >-
+            The radius in meters for the location search. Any location within this radius will be returned.
         address:
           $ref: "#/components/schemas/LocationAddress"
     User:
@@ -8138,6 +8165,16 @@ paths:
                 target_url: >-
                   https://domain-of-your-frame.com/the-page-on-which-the-user-should-land
                 uuid: 9cb07cfe-1130-48b3-a245-5dd153ced3a3
+              filters:
+                exclude_fids:
+                  - 2
+                  - 8988
+                following_fid: 3
+                minimum_user_score: 0.5
+                near_location:
+                  latitude: 37.774929
+                  longitude: -122.419418
+                  radius: 1000
       responses:
         "200":
           description: Successful operation.
