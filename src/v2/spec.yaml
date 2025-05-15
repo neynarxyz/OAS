@@ -58,7 +58,7 @@ components:
       format: int32
       description: The unique identifier of a farcaster user (unsigned integer)
       example: 3
-    TrendingTimeWindow:
+    MiniAppTimeWindow:
       type: string
       enum:
         - 1h
@@ -66,7 +66,9 @@ components:
         - 12h
         - 24h
         - 7d
-      description: Time window for trending content
+      default: 7d
+      example: 7d
+      description: Time window for mini app analytics
     ChannelId:
       type: string
       description: The unique identifier of a farcaster channel
@@ -6948,11 +6950,16 @@ paths:
           description: Time window for trending casts (7d window for channel feeds only)
           required: false
           schema:
-            allOf:
-              - $ref: "#/components/schemas/TrendingTimeWindow"
-              - type: string
-                default: 24h
-          example: 24h
+            type: string
+            enum:
+              - 1h
+              - 6h
+              - 12h
+              - 24h
+              - 7d
+            default: 24h
+            example: 24h
+            description: Time window for trending content
         - name: channel_id
           in: query
           description: >-
@@ -7328,10 +7335,7 @@ paths:
             mini app, used to sort mini app results
           required: false
           schema:
-            allOf:
-              - $ref: "#/components/schemas/TrendingTimeWindow"
-              - type: string
-                default: 7d
+            $ref: "#/components/schemas/MiniAppTimeWindow"
         - name: categories
           in: query
           description: >-
@@ -7393,10 +7397,7 @@ paths:
             relevance
           required: false
           schema:
-            allOf:
-              - $ref: "#/components/schemas/TrendingTimeWindow"
-              - type: string
-                default: 7d
+            $ref: "#/components/schemas/MiniAppTimeWindow"
       responses:
         "200":
           description: Successful response
