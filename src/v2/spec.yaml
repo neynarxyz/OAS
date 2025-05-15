@@ -1441,7 +1441,10 @@ components:
               description: >-
                 Only send notifications to users who are not in the given FIDs.
             following_fid:
-              $ref: "#/components/schemas/Fid"
+              type: integer
+              format: int32
+              description: Only send notifications to users who follow the given FID.
+              example: 3
             minimum_user_score:
               type: number
               minimum: 0
@@ -1449,7 +1452,10 @@ components:
               description: >-
                 Only send notifications to users with a score greater than or equal to this value.
             near_location:
-              $ref: "#/components/schemas/Location"
+              allOf:
+                - $ref: "#/components/schemas/Location"
+                - description: >-
+                    Only send notifications to users near a given location.
     RemoveChannelMemberReqBody:
       type: object
       required:
