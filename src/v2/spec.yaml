@@ -1452,7 +1452,10 @@ components:
               description: >-
                 Only send notifications to users with a score greater than or equal to this value.
             near_location:
-              $ref: "#/components/schemas/Location"
+              allOf:
+                - $ref: "#/components/schemas/Location"
+                - description: >-
+                    Only send notifications to users near a given location.
     RemoveChannelMemberReqBody:
       type: object
       required:
