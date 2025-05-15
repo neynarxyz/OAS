@@ -8403,7 +8403,7 @@ paths:
             default: false
           description: >-
             When true, only returns notifications from power badge users and
-            users that the viewer follows (if viewer_fid is provided).
+            users that the user follows.
         - name: limit
           in: query
           description: Number of results to fetch
@@ -8467,7 +8467,7 @@ paths:
             default: false
           description: >-
             When true, only returns notifications from power badge users and
-            users that the viewer follows (if viewer_fid is provided).
+            users that the user follows.
         - name: limit
           in: query
           description: Number of results to fetch
@@ -8530,7 +8530,7 @@ paths:
             default: false
           description: >-
             When true, only returns notifications from power badge users and
-            users that the viewer follows (if viewer_fid is provided).
+            users that the user follows.
         - name: limit
           in: query
           description: Number of results to fetch
