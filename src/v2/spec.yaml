@@ -4863,16 +4863,14 @@ components:
         - quotes
     MarkNotificationsAsSeenReqBody:
       type: object
-      required:
-        - signer_uuid
       properties:
         signer_uuid:
           type: string
-          description: >
-            The UUID of the signer. Signer should have atleast one write
-            permission
+          description: The UUID of the signer. Signer should have at least one write permission.  May be omitted if providing a valid Bearer token in the header.
         type:
-          $ref: "#/components/schemas/NotificationType"
+          allOf:
+            - $ref: "#/components/schemas/NotificationType"
+            - description: The type of notification to mark as seen. If not provided, all notifications will be marked as seen.
     FarcasterActionReqBody:
       type: object
       required:
@@ -8578,7 +8576,11 @@ paths:
       tags:
         - Notifications
       summary: Mark as seen
-      description: Mark notifications as seen
+      description: |
+        Mark notifications as seen.  This requires one of two authorization approaches, either:
+          1. Provide a valid signer_uuid in the request body (Most common)
+          2. Provide a valid, signed "Bearer" token in the request's `Authorization` header similar to the
+             approach described [here](https://docs.farcaster.xyz/reference/warpcast/api#authentication)
       externalDocs:
         url: https://docs.neynar.com/reference/mark-notifications-as-seen
       operationId: mark-notifications-as-seen
