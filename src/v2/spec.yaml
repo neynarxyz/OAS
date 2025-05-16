@@ -2412,7 +2412,16 @@ components:
         reaction_type:
           $ref: "#/components/schemas/ReactionType"
         target:
-          type: string
+            description: Target cast hash (hex string starting with 0x) or a valid URL.
+            oneOf:
+            - type: string
+              pattern: '^0x[a-fA-F0-9]{40}$'
+              example: "0x3702ec1b298bb7ac6f00346432d959ad7b05b9a8"
+              description: Cast hash (hex string starting with 0x)
+            - type: string
+              format: uri
+              example: "https://neynar.com"
+              description: URL
         target_author_fid:
           $ref: "#/components/schemas/Fid"
         idem:
