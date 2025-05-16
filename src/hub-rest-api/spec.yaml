@@ -1979,11 +1979,11 @@ components:
 
         - Recast: Share the target content with the user's followers, similar to
         a "retweet" or "reblog". Helps increase content visibility.
-      default: REACTION_TYPE_LIKE
+      default: Like
       enum:
-        - REACTION_TYPE_LIKE
-        - REACTION_TYPE_RECAST
-      example: REACTION_TYPE_LIKE
+        - Like
+        - Recast
+      example: Like
     RevokeMessageBody:
       type: object
       properties:
