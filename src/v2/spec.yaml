@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Farcaster API V2
-  version: 2.42.1
+  version: 2.42.2
   description: >
     The Farcaster API allows you to interact with the Farcaster protocol. See
     the [Neynar docs](https://docs.neynar.com/reference) for more details.
@@ -1235,7 +1235,7 @@ components:
         address:
           $ref: "#/components/schemas/EthAddress"
         network:
-          $ref: "#/components/schemas/Networks"
+          $ref: "#/components/schemas/Network"
         token_contract_address:
           type: string
           pattern: ^0x[a-fA-F0-9]{40}$
@@ -2032,7 +2032,7 @@ components:
             in_usdc:
               type: string
               description: The balance in USDC
-    Networks:
+    Network:
       type: string
       description: A blockchain network e.g. "ethereum", "optimism", "base", "arbitrum" 
       enum:
@@ -2062,7 +2062,7 @@ components:
               type: string
               description: The wallet address
             network:
-              $ref: "#/components/schemas/Networks"
+              $ref: "#/components/schemas/Network"
         token_balances:
           type: array
           items:
@@ -7976,11 +7976,10 @@ paths:
           schema:
             type: array
             items:
-              $ref: "#/components/schemas/Networks"
+              $ref: "#/components/schemas/Network"
           explode: false
           description: >-
-            Comma separated list of networks to fetch balances for. Currently,
-            only "base" is supported.
+            Comma separated list of networks to fetch balances for
       responses:
         "200":
           description: Successful operation.
@@ -9621,11 +9620,10 @@ paths:
           schema:
             type: array
             items:
-              $ref: "#/components/schemas/Networks"
+              $ref: "#/components/schemas/Network"
           explode: false
           description: >-
-            Comma separated list of networks to fetch balances for. Currently,
-            only "base" is supported.
+            Comma separated list of networks to fetch balances for.
         - name: viewer_fid
           in: query
           description: >-
