@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Farcaster API V2
-  version: 2.42.2
+  version: 2.42.3
   description: >
     The Farcaster API allows you to interact with the Farcaster protocol. See
     the [Neynar docs](https://docs.neynar.com/reference) for more details.
@@ -9614,16 +9614,13 @@ paths:
           schema:
             type: string
           example: "0x0db510e79909666d6dec7f5e49370838c16d950f"
-        - name: networks
+        - name: network
           in: query
-          required: true
+          required: true          
           schema:
-            type: array
-            items:
-              $ref: "#/components/schemas/Network"
-          explode: false
+            $ref: "#/components/schemas/Network"
           description: >-
-            Comma separated list of networks to fetch balances for.
+            Network of the fungible asset.
         - name: viewer_fid
           in: query
           description: >-
