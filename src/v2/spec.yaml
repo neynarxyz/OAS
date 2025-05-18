@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Farcaster API V2
-  version: 2.42.0
+  version: 2.42.1
   description: >
     The Farcaster API allows you to interact with the Farcaster protocol. See
     the [Neynar docs](https://docs.neynar.com/reference) for more details.
@@ -2034,9 +2034,12 @@ components:
               description: The balance in USDC
     Networks:
       type: string
-      description: A blockchain network e.g. "base"
+      description: A blockchain network e.g. "ethereum", "optimism", "base", "arbitrum" 
       enum:
+        - ethereum
+        - optimism
         - base
+        - arbitrum
     AddressBalance:
       type: object
       description: The token balances associated with a wallet address
