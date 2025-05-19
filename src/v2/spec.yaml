@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Farcaster API V2
-  version: 2.42.3
+  version: 2.42.4
   description: >
     The Farcaster API allows you to interact with the Farcaster protocol. See
     the [Neynar docs](https://docs.neynar.com/reference) for more details.
@@ -38,6 +38,15 @@ components:
         [docs](https://neynar.notion.site/Experimental-Features-1d2655195a8b80eb98b4d4ae7b76ae4a)
         for more details.
       x-is-global-header: true
+    AuthorizationHeader:
+      name: Authorization
+      in: header
+      description: >
+        Optional Bearer token for certain endpoints. The token format is described [here](https://docs.farcaster.xyz/reference/warpcast/api#authentication).
+      required: false
+      schema:
+        type: string
+        example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 
   schemas:
     EthAddress:
@@ -4103,8 +4112,9 @@ components:
               - data
             properties:
               target:
-                $ref: "#/components/schemas/EthAddress"
-                description: Must be on the allowed contract allowlist. Contact support for more details.
+                allOf:
+                  - $ref: "#/components/schemas/EthAddress"
+                  - description: Must be on the allowed contract allowlist. Contact support for more details.
               value:
                 type: integer
                 description: >-
@@ -4114,8 +4124,9 @@ components:
                 minimum: 0
                 default: 0
               data:
-                $ref: "#/components/schemas/PrefixedHexString"
-                description: Call data payload (hex-encoded)
+                allOf:
+                  - $ref: "#/components/schemas/PrefixedHexString"
+                  - description: Call data payload (hex-encoded)
               allow_failure:
                 type: boolean
                 description: >-
@@ -4911,16 +4922,14 @@ components:
         - quotes
     MarkNotificationsAsSeenReqBody:
       type: object
-      required:
-        - signer_uuid
       properties:
         signer_uuid:
           type: string
-          description: >
-            The UUID of the signer. Signer should have atleast one write
-            permission
+          description: The UUID of a signer with at least one write permission.  Required unless a valid Authorization Bearer token is provided in the header.
         type:
-          $ref: "#/components/schemas/NotificationType"
+          allOf:
+            - $ref: "#/components/schemas/NotificationType"
+            - description: The type of notification to mark as seen. If not provided, all notifications will be marked as seen.
     FarcasterActionReqBody:
       type: object
       required:
@@ -8627,10 +8636,17 @@ paths:
       tags:
         - Notifications
       summary: Mark as seen
-      description: Mark notifications as seen
+      description: |
+        Mark notifications as seen.
+        You can choose one of two authorization methods, either:
+          1. Provide a valid signer_uuid in the request body (Most common)
+          2. Provide a valid, signed "Bearer" token in the request's `Authorization` header similar to the
+             approach described [here](https://docs.farcaster.xyz/reference/warpcast/api#authentication)
       externalDocs:
         url: https://docs.neynar.com/reference/mark-notifications-as-seen
       operationId: mark-notifications-as-seen
+      parameters:
+        - $ref: "#/components/parameters/AuthorizationHeader"
       requestBody:
         required: true
         content:
