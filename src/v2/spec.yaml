@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Farcaster API V2
-  version: 2.42.0
+  version: 2.43.0
   description: >
     The Farcaster API allows you to interact with the Farcaster protocol. See
     the [Neynar docs](https://docs.neynar.com/reference) for more details.
@@ -38,7 +38,22 @@ components:
         [docs](https://neynar.notion.site/Experimental-Features-1d2655195a8b80eb98b4d4ae7b76ae4a)
         for more details.
       x-is-global-header: true
-
+    AuthorizationHeader:
+      name: Authorization
+      in: header
+      description: >
+        Optional Bearer token for certain endpoints. The token format is described [here](https://docs.farcaster.xyz/reference/warpcast/api#authentication).
+      required: false
+      schema:
+        type: string
+        example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+    WalletIdHeader:
+      name: x-wallet-id
+      in: header
+      required: true
+      schema:
+        type: string
+      description: Wallet ID to use for transactions
   schemas:
     EthAddress:
       type: string
@@ -1235,7 +1250,7 @@ components:
         address:
           $ref: "#/components/schemas/EthAddress"
         network:
-          $ref: "#/components/schemas/Networks"
+          $ref: "#/components/schemas/Network"
         token_contract_address:
           type: string
           pattern: ^0x[a-fA-F0-9]{40}$
@@ -1293,6 +1308,99 @@ components:
           $ref: "#/components/schemas/TransactionFrameConfig"
         status:
           $ref: "#/components/schemas/TransactionFrameStatus"
+    TransactionSendFungiblesRecipient:
+      type: object
+      required:
+        - fid
+        - amount
+      properties:
+        fid:
+          $ref: "#/components/schemas/Fid"
+        amount:
+          type: number
+          minimum: 0.00000001
+          description: Amount to send (must be greater than 0)
+    TransactionSendFungiblesRequest:
+      type: object
+      required:
+        - network
+        - recipients
+      properties:
+        network:
+          type: string
+          enum:
+            - base
+            - optimism
+            - base-sepolia
+        fungible_contract_address:
+          type: string
+          pattern: ^0x[a-fA-F0-9]{40}$
+          example: "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913"
+          description: >-
+            Contract address of the fungible token to send. If not provided, the
+            default is the native token of the network.
+        recipients:
+          type: array
+          minItems: 1
+          maxItems: 200
+          items:
+            $ref: "#/components/schemas/TransactionSendFungiblesRecipient"
+    TransactionSendFungiblesReceipt:
+      type: object
+      required:
+        - fid
+        - amount
+        - status
+      properties:
+        fid:
+          $ref: "#/components/schemas/Fid"
+        amount:
+          type: number
+        status:
+          type: string
+          enum: [sent, failed]
+        reason:
+          type: string
+          description: Reason for failure (if status is failed)
+    TransactionSendTxInfo:
+      type: object
+      required:
+        - network
+        - transaction_hash
+        - gas_used
+        - approval_hash
+      properties:
+        network:
+          type: string
+          enum:
+            - base
+            - optimism
+            - base-sepolia
+        transaction_hash:
+          type: string
+        gas_used:
+          type: string
+          description: >-
+            Gas used for the transaction.
+        approval_hash:
+          type: string
+          description: >-
+            Hash of the transaction that approved the transfer. This is only
+            present if the fungible token is not native token of the network.
+    TransactionSendFungiblesResponse:
+      type: object
+      required:
+        - send_receipts
+        - transactions
+      properties:
+        send_receipts:
+          type: array
+          items:
+            $ref: "#/components/schemas/TransactionSendFungiblesReceipt"
+        transactions:
+          type: array
+          items:
+            $ref: "#/components/schemas/TransactionSendTxInfo"
     TransactionFramePay:
       allOf:
         - $ref: "#/components/schemas/TransactionFrameBase"
@@ -2032,11 +2140,14 @@ components:
             in_usdc:
               type: string
               description: The balance in USDC
-    Networks:
+    Network:
       type: string
-      description: A blockchain network e.g. "base"
+      description: A blockchain network e.g. "ethereum", "optimism", "base", "arbitrum" 
       enum:
+        - ethereum
+        - optimism
         - base
+        - arbitrum
     AddressBalance:
       type: object
       description: The token balances associated with a wallet address
@@ -2059,7 +2170,7 @@ components:
               type: string
               description: The wallet address
             network:
-              $ref: "#/components/schemas/Networks"
+              $ref: "#/components/schemas/Network"
         token_balances:
           type: array
           items:
@@ -4100,8 +4211,9 @@ components:
               - data
             properties:
               target:
-                $ref: "#/components/schemas/EthAddress"
-                description: Must be on the allowed contract allowlist. Contact support for more details.
+                allOf:
+                  - $ref: "#/components/schemas/EthAddress"
+                  - description: Must be on the allowed contract allowlist. Contact support for more details.
               value:
                 type: integer
                 description: >-
@@ -4111,8 +4223,9 @@ components:
                 minimum: 0
                 default: 0
               data:
-                $ref: "#/components/schemas/PrefixedHexString"
-                description: Call data payload (hex-encoded)
+                allOf:
+                  - $ref: "#/components/schemas/PrefixedHexString"
+                  - description: Call data payload (hex-encoded)
               allow_failure:
                 type: boolean
                 description: >-
@@ -4908,16 +5021,14 @@ components:
         - quotes
     MarkNotificationsAsSeenReqBody:
       type: object
-      required:
-        - signer_uuid
       properties:
         signer_uuid:
           type: string
-          description: >
-            The UUID of the signer. Signer should have atleast one write
-            permission
+          description: The UUID of a signer with at least one write permission.  Required unless a valid Authorization Bearer token is provided in the header.
         type:
-          $ref: "#/components/schemas/NotificationType"
+          allOf:
+            - $ref: "#/components/schemas/NotificationType"
+            - description: The type of notification to mark as seen. If not provided, all notifications will be marked as seen.
     FarcasterActionReqBody:
       type: object
       required:
@@ -7950,6 +8061,36 @@ paths:
           $ref: "#/components/responses/404Response"
         "500":
           $ref: "#/components/responses/500Response"
+  /farcaster/fungible/send:
+    post:
+      tags:
+        - Onchain
+      summary: Send fungibles
+      description: >-
+        Send fungibles in bulk to several farcaster users. A funded wallet is to required use this API.
+        React out to us on the Neynar channel on farcaster to get your wallet address.
+      externalDocs:
+        url: https://docs.neynar.com/reference/send-fungibles-to-users
+      operationId: send-fungibles-to-users
+      parameters:
+        - $ref: "#/components/parameters/WalletIdHeader"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TransactionSendFungiblesRequest"
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TransactionSendFungiblesResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "500":
+          $ref: "#/components/responses/500Response"
   /farcaster/user/balance:
     get:
       tags:
@@ -7973,11 +8114,10 @@ paths:
           schema:
             type: array
             items:
-              $ref: "#/components/schemas/Networks"
+              $ref: "#/components/schemas/Network"
           explode: false
           description: >-
-            Comma separated list of networks to fetch balances for. Currently,
-            only "base" is supported.
+            Comma separated list of networks to fetch balances for
       responses:
         "200":
           description: Successful operation.
@@ -8177,8 +8317,9 @@ paths:
             maximum: 100
           x-is-limit-param: true
         - name: fids
-          description: Comma separated list of FIDs, up to 100 at a time. If you pass in FIDs, you will get
-            back all the notification tokens for those FIDs. If you don't pass in FIDs, you will get back all the notification tokens for the mini app.
+          description: Comma separated list of FIDs, up to 100 at a time. 
+            If you pass in FIDs, you will get back the notification tokens for those FIDs. 
+            If you don't pass in FIDs, you will get back all the notification tokens for the mini app.
           in: query
           required: false
           example: 194, 191, 6131
@@ -8465,7 +8606,7 @@ paths:
             default: false
           description: >-
             When true, only returns notifications from power badge users and
-            users that the viewer follows (if viewer_fid is provided).
+            users that the user follows.
         - name: limit
           in: query
           description: Number of results to fetch
@@ -8529,7 +8670,7 @@ paths:
             default: false
           description: >-
             When true, only returns notifications from power badge users and
-            users that the viewer follows (if viewer_fid is provided).
+            users that the user follows.
         - name: limit
           in: query
           description: Number of results to fetch
@@ -8592,7 +8733,7 @@ paths:
             default: false
           description: >-
             When true, only returns notifications from power badge users and
-            users that the viewer follows (if viewer_fid is provided).
+            users that the user follows.
         - name: limit
           in: query
           description: Number of results to fetch
@@ -8624,10 +8765,17 @@ paths:
       tags:
         - Notifications
       summary: Mark as seen
-      description: Mark notifications as seen
+      description: |
+        Mark notifications as seen.
+        You can choose one of two authorization methods, either:
+          1. Provide a valid signer_uuid in the request body (Most common)
+          2. Provide a valid, signed "Bearer" token in the request's `Authorization` header similar to the
+             approach described [here](https://docs.farcaster.xyz/reference/warpcast/api#authentication)
       externalDocs:
         url: https://docs.neynar.com/reference/mark-notifications-as-seen
       operationId: mark-notifications-as-seen
+      parameters:
+        - $ref: "#/components/parameters/AuthorizationHeader"
       requestBody:
         required: true
         content:
@@ -9611,17 +9759,13 @@ paths:
           schema:
             type: string
           example: "0x0db510e79909666d6dec7f5e49370838c16d950f"
-        - name: networks
+        - name: network
           in: query
-          required: true
+          required: true          
           schema:
-            type: array
-            items:
-              $ref: "#/components/schemas/Networks"
-          explode: false
+            $ref: "#/components/schemas/Network"
           description: >-
-            Comma separated list of networks to fetch balances for. Currently,
-            only "base" is supported.
+            Network of the fungible asset.
         - name: viewer_fid
           in: query
           description: >-
