@@ -2523,16 +2523,11 @@ components:
         reaction_type:
           $ref: "#/components/schemas/ReactionType"
         target:
-          description: Target cast hash (hex string starting with 0x) or a valid URL.
-          oneOf:
-            - type: string
-              pattern: "^0x[a-fA-F0-9]{40}$"
-              example: "0x3702ec1b298bb7ac6f00346432d959ad7b05b9a8"
-              description: Cast hash (hex string starting with 0x)
-            - type: string
-              format: uri
-              example: "https://neynar.com"
-              description: URL
+          type: string
+          description: Target cast hash (hex string starting with 0x) OR a valid URL.
+          example: >-
+            0x3702ec1b298bb7ac6f00346432d959ad7b05b9a8
+            -OR- http://neynar.com/
         target_author_fid:
           $ref: "#/components/schemas/Fid"
         idem:
@@ -7707,10 +7702,25 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/ReactionReqBody"
-            example:
-              signer_uuid: 19d0c5fd-9b33-4a48-a0e2-bc7b0555baec
-              target: "0x1ea99cbed57e4020314ba3fadd7c692d2de34d5f"
-              reaction_type: like
+            examples:
+              "Like Cast Example":
+                summary: Example like with cast hash
+                value:
+                  signer_uuid: "19d0c5fd-9b33-4a48-a0e2-bc7b0555baec"
+                  reaction_type: "like"
+                  target: "0x3702ec1b298bb7ac6f00346432d959ad7b05b9a8"
+              "Recast Example":
+                summary: Example recast with cast hash
+                value:
+                  signer_uuid: "19d0c5fd-9b33-4a48-a0e2-bc7b0555baec"
+                  reaction_type: "recast"
+                  target: "0x3702ec1b298bb7ac6f00346432d959ad7b05b9a8"
+              "Like URL Example":
+                summary: Example like with URL
+                value:
+                  signer_uuid: "19d0c5fd-9b33-4a48-a0e2-bc7b0555baec"
+                  reaction_type: "like"
+                  target: "https://example.com/123"
       responses:
         "200":
           description: Successful operation.
