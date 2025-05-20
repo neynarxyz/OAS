@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Farcaster API V2
-  version: 2.42.4
+  version: 2.43.0
   description: >
     The Farcaster API allows you to interact with the Farcaster protocol. See
     the [Neynar docs](https://docs.neynar.com/reference) for more details.
@@ -47,7 +47,13 @@ components:
       schema:
         type: string
         example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-
+    WalletIdHeader:
+      name: x-wallet-id
+      in: header
+      required: true
+      schema:
+        type: string
+      description: Wallet ID to use for transactions
   schemas:
     EthAddress:
       type: string
@@ -1302,6 +1308,97 @@ components:
           $ref: "#/components/schemas/TransactionFrameConfig"
         status:
           $ref: "#/components/schemas/TransactionFrameStatus"
+    TransactionSendFungiblesRecipient:
+      type: object
+      required:
+        - fid
+        - amount
+      properties:
+        fid:
+          $ref: "#/components/schemas/Fid"
+        amount:
+          type: number
+          minimum: 0.00000001
+          description: Amount to send (must be greater than 0)
+    TransactionSendFungiblesRequest:
+      type: object
+      required:
+        - network
+        - recipients
+      properties:
+        network:
+          type: string
+          enum:
+            - base
+            - optimism
+            - base-sepolia
+        fungible_contract_address:
+          $ref: "#/components/schemas/EthAddress"
+          description: >-
+            Contract address of the fungible token to send. If not provided, the
+            default is the native token of the network.
+        recipients:
+          type: array
+          minItems: 1
+          maxItems: 200
+          items:
+            $ref: "#/components/schemas/TransactionSendFungiblesRecipient"
+    TransactionSendFungiblesReceipt:
+      type: object
+      required:
+        - fid
+        - amount
+        - status
+      properties:
+        fid:
+          $ref: "#/components/schemas/Fid"
+        amount:
+          type: number
+        status:
+          type: string
+          enum: [sent, failed]
+        reason:
+          type: string
+          description: Reason for failure (if status is failed)
+    TransactionSendTxInfo:
+      type: object
+      required:
+        - network
+        - transaction_hash
+        - gas_used
+        - approval_hash
+      properties:
+        network:
+          type: string
+          enum:
+            - base
+            - optimism
+            - base-sepolia
+        transaction_hash:
+          type: string
+        gas_used:
+          type: string
+          description: >-
+            Gas used for the transaction.
+        approval_hash:
+          type: string
+          description: >-
+            Hash of the transaction that approved the transfer. This is only
+            present if the fungible token is not native token of the network.
+    TransactionSendFungiblesResponse:
+      type: object
+      required:
+        - send_receipts
+        - transactions
+      properties:
+        send_receipts:
+          type: array
+          items:
+            $ref: "#/components/schemas/TransactionSendFungiblesReceipt"
+        transactions:
+          type: array
+          items:
+            $ref: "#/components/schemas/TransactionSendTxInfo"
     TransactionFramePay:
       allOf:
         - $ref: "#/components/schemas/TransactionFrameBase"
@@ -7960,6 +8057,36 @@ paths:
           $ref: "#/components/responses/400Response"
         "404":
           $ref: "#/components/responses/404Response"
+        "500":
+          $ref: "#/components/responses/500Response"
+  /farcaster/fungible/send:
+    post:
+      tags:
+        - Onchain
+      summary: Send fungibles
+      description: >-
+        Send fungibles in bulk to several farcaster users. A funded wallet is to required use this API.
+        React out to us on the Neynar channel on farcaster to get your wallet address.
+      externalDocs:
+        url: https://docs.neynar.com/reference/send-fungibles-to-users
+      operationId: send-fungibles-to-users
+      parameters:
+        - $ref: "#/components/parameters/WalletIdHeader"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TransactionSendFungiblesRequest"
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TransactionSendFungiblesResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
         "500":
           $ref: "#/components/responses/500Response"
   /farcaster/user/balance:
