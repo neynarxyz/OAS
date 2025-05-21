@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Farcaster API V2
-  version: 2.43.2
+  version: 2.44.0
   description: >
     The Farcaster API allows you to interact with the Farcaster protocol. See
     the [Neynar docs](https://docs.neynar.com/reference) for more details.
@@ -2140,6 +2140,15 @@ components:
             in_usdc:
               type: string
               description: The balance in USDC
+    FungibleOwnerRelevantNetwork:
+      type: string
+      description: A blockchain network supported for fungible owner relevance queries
+      enum:
+        - ethereum
+        - optimism
+        - base
+        - arbitrum
+        - solana
     Network:
       type: string
       description: A blockchain network e.g. "ethereum", "optimism", "base", "arbitrum" 
@@ -9768,12 +9777,18 @@ paths:
           description: Contract address of the fungible asset
           schema:
             type: string
-          example: "0x0db510e79909666d6dec7f5e49370838c16d950f"
+          examples:
+            ethereum:
+              summary: Ethereum contract address
+              value: "0x0db510e79909666d6dec7f5e49370838c16d950f"
+            solana:
+              summary: Solana token mint address
+              value: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"
         - name: network
           in: query
           required: true          
           schema:
-            $ref: "#/components/schemas/Network"
+            $ref: "#/components/schemas/FungibleOwnerRelevantNetwork"
           description: >-
             Network of the fungible asset.
         - name: viewer_fid
