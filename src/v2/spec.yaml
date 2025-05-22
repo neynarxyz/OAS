@@ -2605,7 +2605,6 @@ components:
         action:
           $ref: "#/components/schemas/FrameAction"
     AddVerificationReqBody:
-      x-is-request-body: true
       type: object
       required:
         - signer_uuid
