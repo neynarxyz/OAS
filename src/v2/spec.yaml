@@ -3645,11 +3645,11 @@ components:
         - top_relevant_fungible_owners_hydrated
         - all_relevant_fungible_owners_dehydrated
       properties:
-        top_relevant_owners_hydrated:
+        top_relevant_fungible_owners_hydrated:
           type: array
           items:
             $ref: "#/components/schemas/User"
-        all_relevant_owners_dehydrated:
+        all_relevant_fungible_owners_dehydrated:
           type: array
           items:
             $ref: "#/components/schemas/User"
