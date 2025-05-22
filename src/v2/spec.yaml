@@ -2151,7 +2151,7 @@ components:
         - solana
     Network:
       type: string
-      description: A blockchain network e.g. "ethereum", "optimism", "base", "arbitrum" 
+      description: A blockchain network e.g. "ethereum", "optimism", "base", "arbitrum"
       enum:
         - ethereum
         - optimism
@@ -6343,14 +6343,15 @@ paths:
           in: query
           required: false
           description: >-
-            Interval of time for which to fetch metrics. Choices are `1d`, `7d`,
-            `30d`
+            Interval of time for which to fetch metrics. Default is 30d.
           schema:
             type: string
             enum:
               - 1d
               - 7d
               - 30d
+              - 90d
+              - 180d
         - name: author_fid
           in: query
           required: false
@@ -8336,8 +8337,8 @@ paths:
             maximum: 100
           x-is-limit-param: true
         - name: fids
-          description: Comma separated list of FIDs, up to 100 at a time. 
-            If you pass in FIDs, you will get back the notification tokens for those FIDs. 
+          description: Comma separated list of FIDs, up to 100 at a time.
+            If you pass in FIDs, you will get back the notification tokens for those FIDs.
             If you don't pass in FIDs, you will get back all the notification tokens for the mini app.
           in: query
           required: false
@@ -9786,7 +9787,7 @@ paths:
               value: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"
         - name: network
           in: query
-          required: true          
+          required: true
           schema:
             $ref: "#/components/schemas/FungibleOwnerRelevantNetwork"
           description: >-
