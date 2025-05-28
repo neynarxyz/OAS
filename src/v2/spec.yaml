@@ -122,24 +122,6 @@ components:
         - desc_chron
         - algorithmic
       example: desc_chron
-    ForYouProvider:
-      type: string
-      default: neynar
-      enum:
-        - neynar
-        - openrank
-        - mbd
-      description: |
-        The provider of the For You feed.
-    FeedTrendingProvider:
-      type: string
-      enum:
-        - neynar
-        - openrank
-        - mbd
-      default: neynar
-      description: |
-        The provider of the trending casts feed.
     ReactionType:
       type: string
       enum:
@@ -3747,22 +3729,6 @@ components:
             type: array
             items:
               $ref: "#/components/schemas/User"
-    FeedType:
-      type: string
-      default: following
-      enum:
-        - following
-        - filter
-    FilterType:
-      type: string
-      description: The type of filter to apply to the feed.
-      enum:
-        - fids
-        - parent_url
-        - channel_id
-        - embed_url
-        - embed_types
-        - global_trending
     EmbedType:
       type: string
       description: The content type of the embedded file
@@ -6634,7 +6600,11 @@ paths:
           in: query
           required: true
           schema:
-            $ref: "#/components/schemas/FeedType"
+            type: string
+            default: following
+            enum:
+              - following
+              - filter
           example: filter
           description: >-
             Defaults to following (requires FID or address). If set to filter
@@ -6642,7 +6612,15 @@ paths:
         - name: filter_type
           in: query
           schema:
-            $ref: "#/components/schemas/FilterType"
+            type: string
+            description: The type of filter to apply to the feed.
+            enum:
+              - fids
+              - parent_url
+              - channel_id
+              - embed_url
+              - embed_types
+              - global_trending
           example: fids
           description: >-
             Used when feed_type=filter. Can be set to FIDs (requires FIDs) or
@@ -6832,7 +6810,14 @@ paths:
           in: query
           required: false
           schema:
-            $ref: "#/components/schemas/ForYouProvider"
+            type: string
+            default: neynar
+            enum:
+              - neynar
+              - openrank
+              - mbd
+            description: |
+              The provider of the For You feed.
         - name: limit
           in: query
           required: false
@@ -7251,7 +7236,14 @@ paths:
           in: query
           description: The provider of the trending casts feed.
           schema:
-            $ref: "#/components/schemas/FeedTrendingProvider"
+            type: string
+            enum:
+              - neynar
+              - openrank
+              - mbd
+            default: neynar
+            description: |
+              The provider of the trending casts feed.
           example: neynar
         - name: provider_metadata
           in: query
