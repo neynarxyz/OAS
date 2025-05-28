@@ -4309,7 +4309,6 @@ components:
       type: object
       required:
         - object
-        - timestamp
         - blocked_at
       properties:
         object:
@@ -4338,7 +4337,6 @@ components:
       type: object
       required:
         - object
-        - timestamp
         - banned_at
       properties:
         object:
