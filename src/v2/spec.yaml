@@ -41,8 +41,7 @@ components:
     AuthorizationHeader:
       name: Authorization
       in: header
-      description: >
-        Optional Bearer token for certain endpoints. The token format is described [here](https://docs.farcaster.xyz/reference/warpcast/api#authentication).
+      description: Optional Bearer token for certain endpoints. The token format is described [here](https://docs.farcaster.xyz/reference/warpcast/api#authentication).
       required: false
       schema:
         type: string
