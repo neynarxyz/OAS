@@ -47,6 +47,7 @@ components:
       schema:
         type: string
         example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+      x-is-global-header: true
     WalletIdHeader:
       name: x-wallet-id
       in: header
@@ -54,6 +55,7 @@ components:
       schema:
         type: string
       description: Wallet ID to use for transactions
+      x-is-global-header: true
   schemas:
     EthAddress:
       type: string
