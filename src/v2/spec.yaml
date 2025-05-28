@@ -2219,7 +2219,6 @@ components:
         - author
         - text
         - timestamp
-        - type
         - embeds
         - channel
       properties:
@@ -2255,8 +2254,6 @@ components:
           type: string
         timestamp:
           $ref: "#/components/schemas/Timestamp"
-        type:
-          $ref: "#/components/schemas/CastNotificationType"
         embeds:
           type: array
           items:
