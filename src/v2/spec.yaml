@@ -4813,11 +4813,6 @@ components:
         authorization_url:
           type: string
           format: uri
-    BulkUserAddressType:
-      type: string
-      enum:
-        - custody_address
-        - verified_address
     RespondChannelInviteReqBody:
       type: object
       required:
@@ -5878,7 +5873,10 @@ paths:
           schema:
             type: array
             items:
-              $ref: "#/components/schemas/BulkUserAddressType"
+              type: string
+              enum:
+                - custody_address
+                - verified_address
           explode: false
         - name: viewer_fid
           in: query
