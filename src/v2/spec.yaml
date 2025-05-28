@@ -122,13 +122,6 @@ components:
         - desc_chron
         - algorithmic
       example: desc_chron
-    CastConversationSortType:
-      type: string
-      enum:
-        - chron
-        - desc_chron
-        - algorithmic
-      example: chron
     ForYouProvider:
       type: string
       default: neynar
@@ -4899,11 +4892,6 @@ components:
                   type: string
               message:
                 type: string
-    CastComposerType:
-      type: string
-      enum:
-        - top
-        - featured
     CastComposerActionsListResponse:
       type: object
       properties:
@@ -6540,7 +6528,12 @@ paths:
           required: false
           description: Sort type for the ordering of descendants. Default is `chron`
           schema:
-            $ref: "#/components/schemas/CastConversationSortType"
+            type: string
+            enum:
+              - chron
+              - desc_chron
+              - algorithmic
+            example: chron
         - name: fold
           in: query
           required: false
@@ -10574,7 +10567,10 @@ paths:
           in: query
           required: true
           schema:
-            $ref: "#/components/schemas/CastComposerType"
+            type: string
+            enum:
+              - top
+              - featured
           example: top
           description: Type of list to fetch.
         - name: limit
