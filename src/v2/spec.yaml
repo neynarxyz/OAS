@@ -4815,10 +4815,6 @@ components:
         authorization_url:
           type: string
           format: uri
-    AuthorizationUrlResponseType:
-      type: string
-      enum:
-        - code
     BulkUserAddressType:
       type: string
       enum:
@@ -8353,7 +8349,9 @@ paths:
           in: query
           required: true
           schema:
-            $ref: "#/components/schemas/AuthorizationUrlResponseType"
+            type: string
+            enum:
+              - code
       responses:
         "200":
           description: Successful operation.
