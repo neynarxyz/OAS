@@ -4227,7 +4227,6 @@ components:
       required:
         - object
         - muted
-        - timestamp
         - muted_at
       properties:
         object:
