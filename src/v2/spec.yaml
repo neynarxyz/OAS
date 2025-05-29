@@ -10472,7 +10472,6 @@ paths:
       summary: Deploy fungible
       description: |
         Creates a new token.
-        This is an allowlisted API, reach out if you want access.
       operationId: deploy-fungible
       externalDocs:
         url: https://docs.neynar.com/reference/deploy-fungible
