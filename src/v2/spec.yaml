@@ -5380,7 +5380,7 @@ tags:
   - name: App Host
     description: Operations related to app host notifications
 paths:
-  /farcaster/user/fid:
+  /farcaster/user/fid/:
     get:
       tags:
         - User
@@ -5402,7 +5402,7 @@ paths:
                 $ref: "#/components/schemas/UserFIDResponse"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/signer/developer_managed:
+  /farcaster/signer/developer_managed/:
     get:
       tags:
         - Signer
@@ -5427,7 +5427,7 @@ paths:
                 $ref: "#/components/schemas/DeveloperManagedSigner"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/signer/developer_managed/signed_key:
+  /farcaster/signer/developer_managed/signed_key/:
     post:
       tags:
         - Signer
@@ -5463,7 +5463,7 @@ paths:
           $ref: "#/components/responses/400Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/signer:
+  /farcaster/signer/:
     get:
       tags:
         - Signer
@@ -5517,7 +5517,7 @@ paths:
                 $ref: "#/components/schemas/Signer"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/signer/list:
+  /farcaster/signer/list/:
     get:
       tags:
         - Signer
@@ -5581,7 +5581,7 @@ paths:
           $ref: "#/components/responses/401Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/signer/signed_key:
+  /farcaster/signer/signed_key/:
     post:
       tags:
         - Signer
@@ -5619,7 +5619,7 @@ paths:
           $ref: "#/components/responses/404Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/user/search:
+  /farcaster/user/search/:
     get:
       tags:
         - User
@@ -5671,7 +5671,7 @@ paths:
                 $ref: "#/components/schemas/UserSearchResponse"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/user/bulk:
+  /farcaster/user/bulk/:
     get:
       tags:
         - User
@@ -5706,7 +5706,7 @@ paths:
                 $ref: "#/components/schemas/BulkUsersResponse"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/user/power:
+  /farcaster/user/power/:
     get:
       tags:
         - User
@@ -5751,7 +5751,7 @@ paths:
                 $ref: "#/components/schemas/UsersResponse"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/user/power_lite:
+  /farcaster/user/power_lite/:
     get:
       tags:
         - User
@@ -5775,7 +5775,7 @@ paths:
           $ref: "#/components/responses/400Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/user/bulk-by-address:
+  /farcaster/user/bulk-by-address/:
     get:
       tags:
         - User
@@ -5845,7 +5845,7 @@ paths:
           $ref: "#/components/responses/400Response"
         "404":
           $ref: "#/components/responses/404Response"
-  /farcaster/user/channels:
+  /farcaster/user/channels/:
     get:
       tags:
         - Channel
@@ -5885,7 +5885,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ChannelListResponse"
-  /farcaster/user/memberships/list:
+  /farcaster/user/memberships/list/:
     get:
       tags:
         - Channel
@@ -5932,7 +5932,7 @@ paths:
           $ref: "#/components/responses/400Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/user:
+  /farcaster/user/:
     patch:
       tags:
         - User
@@ -6016,7 +6016,7 @@ paths:
           $ref: "#/components/responses/409Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/user/register:
+  /farcaster/user/register/:
     post:
       tags:
         - Onchain
@@ -6044,7 +6044,7 @@ paths:
           $ref: "#/components/responses/400Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/message:
+  /farcaster/message/:
     post:
       tags:
         - Signer
@@ -6074,7 +6074,7 @@ paths:
           $ref: "#/components/responses/400Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/cast/embed/crawl:
+  /farcaster/cast/embed/crawl/:
     get:
       tags:
         - Cast
@@ -6101,7 +6101,7 @@ paths:
                 $ref: "#/components/schemas/CastEmbedCrawlResponse"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/cast:
+  /farcaster/cast/:
     get:
       tags:
         - Cast
@@ -6213,7 +6213,7 @@ paths:
           $ref: "#/components/responses/404Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/casts:
+  /farcaster/casts/:
     get:
       tags:
         - Cast
@@ -6263,7 +6263,7 @@ paths:
                 $ref: "#/components/schemas/CastsResponse"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/cast/search:
+  /farcaster/cast/search/:
     get:
       tags:
         - Cast
@@ -6381,7 +6381,7 @@ paths:
                 $ref: "#/components/schemas/CastsSearchResponse"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/cast/metrics:
+  /farcaster/cast/metrics/:
     get:
       tags:
         - Metrics
@@ -6434,7 +6434,7 @@ paths:
                 $ref: "#/components/schemas/CastsMetricsResponse"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/cast/conversation:
+  /farcaster/cast/conversation/:
     get:
       tags:
         - Cast
@@ -6534,7 +6534,7 @@ paths:
                 $ref: "#/components/schemas/Conversation"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/cast/conversation/summary:
+  /farcaster/cast/conversation/summary/:
     get:
       tags:
         - Agents
@@ -6583,7 +6583,7 @@ paths:
                 $ref: "#/components/schemas/ConversationSummary"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/feed:
+  /farcaster/feed/:
     get:
       summary: By filters
       externalDocs:
@@ -6722,7 +6722,7 @@ paths:
                 $ref: "#/components/schemas/FeedResponse"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/feed/following:
+  /farcaster/feed/following/:
     get:
       summary: Following
       externalDocs:
@@ -6779,7 +6779,7 @@ paths:
                 $ref: "#/components/schemas/FeedResponse"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/feed/for_you:
+  /farcaster/feed/for_you/:
     get:
       summary: For you
       externalDocs:
@@ -6860,7 +6860,7 @@ paths:
                 oneOf:
                   - $ref: "#/components/schemas/ZodError"
                   - $ref: "#/components/schemas/ErrorRes"
-  /farcaster/user/subscriptions_created:
+  /farcaster/user/subscriptions_created/:
     get:
       tags:
         - Subscribers
@@ -6890,7 +6890,7 @@ paths:
                 $ref: "#/components/schemas/SubscriptionsResponse"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/user/subscribed_to:
+  /farcaster/user/subscribed_to/:
     get:
       tags:
         - Subscribers
@@ -6926,7 +6926,7 @@ paths:
                 $ref: "#/components/schemas/SubscribedToResponse"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/user/subscribers:
+  /farcaster/user/subscribers/:
     get:
       tags:
         - Subscribers
@@ -6964,7 +6964,7 @@ paths:
                 $ref: "#/components/schemas/SubscribersResponse"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/feed/channels:
+  /farcaster/feed/channels/:
     get:
       summary: By channel IDs
       externalDocs:
@@ -7054,7 +7054,7 @@ paths:
                 $ref: "#/components/schemas/FeedResponse"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/feed/parent_urls:
+  /farcaster/feed/parent_urls/:
     get:
       summary: By parent URLs
       externalDocs:
@@ -7118,7 +7118,7 @@ paths:
                 $ref: "#/components/schemas/FeedResponse"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/feed/frames:
+  /farcaster/feed/frames/:
     get:
       summary: Casts with mini apps
       externalDocs:
@@ -7162,7 +7162,7 @@ paths:
                 $ref: "#/components/schemas/FeedResponse"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/feed/trending:
+  /farcaster/feed/trending/:
     get:
       summary: Trending feeds
       externalDocs:
@@ -7274,7 +7274,7 @@ paths:
           $ref: "#/components/responses/404Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/feed/user/popular:
+  /farcaster/feed/user/popular/:
     get:
       summary: 10 most popular casts
       externalDocs:
@@ -7308,7 +7308,7 @@ paths:
                 $ref: "#/components/schemas/BulkCastsResponse"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/feed/user/replies_and_recasts:
+  /farcaster/feed/user/replies_and_recasts/:
     get:
       summary: Replies and recasts
       description: >-
@@ -7373,7 +7373,7 @@ paths:
                 $ref: "#/components/schemas/FeedResponse"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/feed/user/casts:
+  /farcaster/feed/user/casts/:
     get:
       summary: Chronologically
       description: >-
@@ -7455,7 +7455,7 @@ paths:
           $ref: "#/components/responses/400Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/frame:
+  /farcaster/frame/:
     get:
       tags:
         - Frame
@@ -7565,7 +7565,7 @@ paths:
                 $ref: "#/components/schemas/DeleteFrameResponse"
         "404":
           $ref: "#/components/responses/404Response"
-  /farcaster/frame/catalog:
+  /farcaster/frame/catalog/:
     get:
       tags:
         - Frame
@@ -7632,7 +7632,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/FrameCatalogResponse"
-  /farcaster/frame/relevant:
+  /farcaster/frame/relevant/:
     get:
       tags:
         - Frame
@@ -7692,7 +7692,7 @@ paths:
                           description: Array of remaining relevant users in dehydrated form
                           items:
                             $ref: "#/components/schemas/UserDehydrated"
-  /farcaster/frame/list:
+  /farcaster/frame/list/:
     get:
       tags:
         - Frame
@@ -7712,7 +7712,7 @@ paths:
                   $ref: "#/components/schemas/NeynarFrame"
         "404":
           $ref: "#/components/responses/404Response"
-  /farcaster/frame/search:
+  /farcaster/frame/search/:
     get:
       tags:
         - Frame
@@ -7752,7 +7752,7 @@ paths:
                 $ref: "#/components/schemas/FrameCatalogResponse"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/frame/crawl:
+  /farcaster/frame/crawl/:
     get:
       tags:
         - Frame
@@ -7785,7 +7785,7 @@ paths:
                     $ref: "#/components/schemas/Frame"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/reaction:
+  /farcaster/reaction/:
     post:
       tags:
         - Reaction
@@ -7871,7 +7871,7 @@ paths:
           $ref: "#/components/responses/404Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/user/verification:
+  /farcaster/user/verification/:
     post:
       tags:
         - User
@@ -7932,7 +7932,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/OperationResponse"
-  /farcaster/user/follow:
+  /farcaster/user/follow/:
     post:
       tags:
         - User
@@ -8033,7 +8033,7 @@ paths:
           $ref: "#/components/responses/400Response"
         "404":
           $ref: "#/components/responses/404Response"
-  /farcaster/user/by_username:
+  /farcaster/user/by_username/:
     get:
       tags:
         - User
@@ -8070,7 +8070,7 @@ paths:
           $ref: "#/components/responses/404Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/user/by_x_username:
+  /farcaster/user/by_x_username/:
     get:
       tags:
         - User
@@ -8106,7 +8106,7 @@ paths:
           $ref: "#/components/responses/404Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/user/by_location:
+  /farcaster/user/by_location/:
     get:
       tags:
         - User
@@ -8171,7 +8171,7 @@ paths:
           $ref: "#/components/responses/404Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/fungible/send:
+  /farcaster/fungible/send/:
     post:
       tags:
         - Onchain
@@ -8201,7 +8201,7 @@ paths:
           $ref: "#/components/responses/400Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/user/balance:
+  /farcaster/user/balance/:
     get:
       tags:
         - Onchain
@@ -8241,7 +8241,7 @@ paths:
           $ref: "#/components/responses/404Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/user/interactions:
+  /farcaster/user/interactions/:
     get:
       tags:
         - Agents
@@ -8283,7 +8283,7 @@ paths:
                       $ref: "#/components/schemas/Notification"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/login/nonce:
+  /farcaster/login/nonce/:
     get:
       tags:
         - Login
@@ -8303,7 +8303,7 @@ paths:
           $ref: "#/components/responses/401Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/login/authorize:
+  /farcaster/login/authorize/:
     get:
       tags:
         - Signer
@@ -8339,7 +8339,7 @@ paths:
           $ref: "#/components/responses/400Response"
         "401":
           $ref: "#/components/responses/401Response"
-  /farcaster/frame/developer_managed/action:
+  /farcaster/frame/developer_managed/action/:
     post:
       tags:
         - Frame
@@ -8370,7 +8370,7 @@ paths:
           $ref: "#/components/responses/400Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/frame/action:
+  /farcaster/frame/action/:
     post:
       tags:
         - Frame
@@ -8405,7 +8405,7 @@ paths:
           $ref: "#/components/responses/400Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/frame/notification_tokens:
+  /farcaster/frame/notification_tokens/:
     get:
       tags:
         - Frame
@@ -8454,7 +8454,7 @@ paths:
                 $ref: "#/components/schemas/FrameNotificationTokens"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/frame/notifications:
+  /farcaster/frame/notifications/:
     post:
       tags:
         - Frame
@@ -8611,7 +8611,7 @@ paths:
           $ref: "#/components/responses/400Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/frame/transaction/pay:
+  /farcaster/frame/transaction/pay/:
     post:
       tags:
         - Agents
@@ -8665,7 +8665,7 @@ paths:
           $ref: "#/components/responses/404Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/frame/validate:
+  /farcaster/frame/validate/:
     post:
       tags:
         - Frame
@@ -8703,7 +8703,7 @@ paths:
           $ref: "#/components/responses/400Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/frame/validate/list:
+  /farcaster/frame/validate/list/:
     get:
       tags:
         - Frame
@@ -8725,7 +8725,7 @@ paths:
           $ref: "#/components/responses/403Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/frame/validate/analytics:
+  /farcaster/frame/validate/analytics/:
     get:
       tags:
         - Frame
@@ -8784,7 +8784,7 @@ paths:
           $ref: "#/components/responses/403Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/notifications:
+  /farcaster/notifications/:
     get:
       tags:
         - Notifications
@@ -8849,7 +8849,7 @@ paths:
                 $ref: "#/components/schemas/NotificationsResponse"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/notifications/channel:
+  /farcaster/notifications/channel/:
     get:
       tags:
         - Notifications
@@ -8913,7 +8913,7 @@ paths:
                 $ref: "#/components/schemas/NotificationsResponse"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/notifications/parent_url:
+  /farcaster/notifications/parent_url/:
     get:
       tags:
         - Notifications
@@ -8976,7 +8976,7 @@ paths:
                 $ref: "#/components/schemas/NotificationsResponse"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/notifications/seen:
+  /farcaster/notifications/seen/:
     post:
       tags:
         - Notifications
@@ -9012,7 +9012,7 @@ paths:
           $ref: "#/components/responses/400Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/channel/list:
+  /farcaster/channel/list/:
     get:
       tags:
         - Channel
@@ -9046,7 +9046,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ChannelListResponse"
-  /farcaster/channel/member:
+  /farcaster/channel/member/:
     delete:
       tags:
         - Channel
@@ -9072,7 +9072,7 @@ paths:
           $ref: "#/components/responses/400Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/channel/member/list:
+  /farcaster/channel/member/list/:
     get:
       tags:
         - Channel
@@ -9126,7 +9126,7 @@ paths:
           $ref: "#/components/responses/400Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/channel/member/invite:
+  /farcaster/channel/member/invite/:
     post:
       tags:
         - Channel
@@ -9177,7 +9177,7 @@ paths:
           $ref: "#/components/responses/400Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/channel/member/invite/list:
+  /farcaster/channel/member/invite/list/:
     get:
       tags:
         - Channel
@@ -9229,7 +9229,7 @@ paths:
           $ref: "#/components/responses/400Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/channel/search:
+  /farcaster/channel/search/:
     get:
       tags:
         - Channel
@@ -9270,7 +9270,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ChannelSearchResponse"
-  /farcaster/channel/bulk:
+  /farcaster/channel/bulk/:
     get:
       tags:
         - Channel
@@ -9313,7 +9313,7 @@ paths:
                 $ref: "#/components/schemas/ChannelResponseBulk"
         "404":
           $ref: "#/components/responses/404Response"
-  /farcaster/channel:
+  /farcaster/channel/:
     get:
       tags:
         - Channel
@@ -9353,7 +9353,7 @@ paths:
                 $ref: "#/components/schemas/ChannelResponse"
         "404":
           $ref: "#/components/responses/404Response"
-  /farcaster/channel/follow:
+  /farcaster/channel/follow/:
     post:
       tags:
         - Channel
@@ -9418,7 +9418,7 @@ paths:
           $ref: "#/components/responses/404Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/channel/followers:
+  /farcaster/channel/followers/:
     get:
       tags:
         - Channel
@@ -9472,7 +9472,7 @@ paths:
                 $ref: "#/components/schemas/UsersResponse"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/channel/followers/relevant:
+  /farcaster/channel/followers/relevant/:
     get:
       tags:
         - Channel
@@ -9512,7 +9512,7 @@ paths:
                 $ref: "#/components/schemas/RelevantFollowersResponse"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/channel/user:
+  /farcaster/channel/user/:
     get:
       tags:
         - Channel
@@ -9559,7 +9559,7 @@ paths:
           $ref: "#/components/responses/400Response"
         "404":
           $ref: "#/components/responses/400Response"
-  /farcaster/channel/trending:
+  /farcaster/channel/trending/:
     get:
       tags:
         - Channel
@@ -9606,7 +9606,7 @@ paths:
           $ref: "#/components/responses/400Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/followers:
+  /farcaster/followers/:
     get:
       tags:
         - Follows
@@ -9665,7 +9665,7 @@ paths:
           $ref: "#/components/responses/400Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/followers/relevant:
+  /farcaster/followers/relevant/:
     get:
       tags:
         - Follows
@@ -9702,7 +9702,7 @@ paths:
                 $ref: "#/components/schemas/RelevantFollowersResponse"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/following:
+  /farcaster/following/:
     get:
       tags:
         - Follows
@@ -9763,7 +9763,7 @@ paths:
           $ref: "#/components/responses/400Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/following/suggested:
+  /farcaster/following/suggested/:
     get:
       tags:
         - Follows
@@ -9814,7 +9814,7 @@ paths:
           $ref: "#/components/responses/400Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/reactions/user:
+  /farcaster/reactions/user/:
     get:
       tags:
         - Reaction
@@ -9870,7 +9870,7 @@ paths:
                 $ref: "#/components/schemas/ReactionsResponse"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/reactions/cast:
+  /farcaster/reactions/cast/:
     get:
       tags:
         - Reaction
@@ -9930,7 +9930,7 @@ paths:
                 $ref: "#/components/schemas/ReactionsCastResponse"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/fname/availability:
+  /farcaster/fname/availability/:
     get:
       tags:
         - fname
@@ -9955,7 +9955,7 @@ paths:
                 $ref: "#/components/schemas/FnameAvailabilityResponse"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/fungible/owner/relevant:
+  /farcaster/fungible/owner/relevant/:
     get:
       tags:
         - Onchain
@@ -10008,7 +10008,7 @@ paths:
                 $ref: "#/components/schemas/RelevantFungibleOwnersResponse"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/storage/allocations:
+  /farcaster/storage/allocations/:
     get:
       tags:
         - Storage
@@ -10033,7 +10033,7 @@ paths:
                 $ref: "#/components/schemas/StorageAllocationsResponse"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/storage/usage:
+  /farcaster/storage/usage/:
     get:
       tags:
         - Storage
@@ -10058,7 +10058,7 @@ paths:
                 $ref: "#/components/schemas/StorageUsageResponse"
         "400":
           $ref: "#/components/responses/400Response"
-  /farcaster/storage/buy:
+  /farcaster/storage/buy/:
     post:
       tags:
         - Storage
@@ -10090,7 +10090,7 @@ paths:
           $ref: "#/components/responses/409Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/webhook:
+  /farcaster/webhook/:
     get:
       tags:
         - Webhook
@@ -10208,7 +10208,7 @@ paths:
                 $ref: "#/components/schemas/WebhookResponse"
         "404":
           $ref: "#/components/responses/404Response"
-  /farcaster/webhook/list:
+  /farcaster/webhook/list/:
     get:
       tags:
         - Webhook
@@ -10224,7 +10224,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/WebhookListResponse"
-  /farcaster/mute/list:
+  /farcaster/mute/list/:
     get:
       tags:
         - Mute
@@ -10272,7 +10272,7 @@ paths:
           $ref: "#/components/responses/404Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/mute:
+  /farcaster/mute/:
     post:
       tags:
         - Mute
@@ -10331,7 +10331,7 @@ paths:
           $ref: "#/components/responses/404Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/block/list:
+  /farcaster/block/list/:
     get:
       tags:
         - Block
@@ -10386,7 +10386,7 @@ paths:
           $ref: "#/components/responses/404Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/block:
+  /farcaster/block/:
     post:
       tags:
         - Block
@@ -10441,7 +10441,7 @@ paths:
           $ref: "#/components/responses/404Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/ban/list:
+  /farcaster/ban/list/:
     get:
       tags:
         - Ban
@@ -10482,7 +10482,7 @@ paths:
           $ref: "#/components/responses/404Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/ban:
+  /farcaster/ban/:
     post:
       tags:
         - Ban
@@ -10539,7 +10539,7 @@ paths:
           $ref: "#/components/responses/404Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/cast/composer_actions/list:
+  /farcaster/cast/composer_actions/list/:
     get:
       tags:
         - Cast
@@ -10589,7 +10589,7 @@ paths:
           $ref: "#/components/responses/400Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/action:
+  /farcaster/action/:
     post:
       tags:
         - Action
@@ -10623,7 +10623,7 @@ paths:
               schema:
                 type: object
                 additionalProperties: true
-  /stp/subscription_check:
+  /stp/subscription_check/:
     get:
       tags:
         - Subscribers
@@ -10667,7 +10667,7 @@ paths:
                 $ref: "#/components/schemas/SubscriptionCheckResponse"
         "400":
           $ref: "#/components/responses/400Response"
-  /fungible:
+  /fungible/:
     post:
       summary: Deploy fungible
       description: |
