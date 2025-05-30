@@ -202,7 +202,7 @@ components:
       type: string
       pattern: ^0x[a-fA-F0-9]{64}$
       description: Ed25519 public key
-      example: "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"
+      example: "0x3daa8f99c5f760688a3c9f95716ed93dee5ed5d7722d776b7c4deac957755f22"
     Timestamp:
       type: string
       format: date-time
@@ -2519,6 +2519,7 @@ components:
       enum:
         - id
         - parent_url
+      example: id
     CastEmbedCrawlResponse:
       type: object
       required:
@@ -5415,7 +5416,6 @@ paths:
         - name: public_key
           required: true
           in: query
-          example: "0x3daa8f99c5f760688a3c9f95716ed93dee5ed5d7722d776b7c4deac957755f22"
           schema:
             $ref: "#/components/schemas/Ed25519PublicKey"
       responses:
@@ -6635,7 +6635,7 @@ paths:
           in: query
           schema:
             type: string
-          example: 3,2,194
+            example: 3,2,194
           description: >-
             Used when filter_type=FIDs . Create a feed based on a list of FIDs.
             Max array size is 100. Requires feed_type and filter_type.
@@ -7221,7 +7221,7 @@ paths:
             `parent_url`, not both.
           schema:
             type: string
-          example: neynar
+            example: neynar
         - name: parent_url
           in: query
           description: >-
@@ -7230,7 +7230,7 @@ paths:
             `parent_url`, not both.
           schema:
             type: string
-          example: chain://eip155:1/erc721:0xd4498134211baad5846ce70ce04e7c4da78931cc
+            example: chain://eip155:1/erc721:0xd4498134211baad5846ce70ce04e7c4da78931cc
         - name: provider
           in: query
           description: The provider of the trending casts feed.
@@ -8020,7 +8020,7 @@ paths:
           required: true
           schema:
             type: string
-          example: "0xd1b702203b1b3b641a699997746bd4a12d157909"
+            example: "0xd1b702203b1b3b641a699997746bd4a12d157909"
           description: Custody Address associated with mnemonic
       responses:
         "200":
@@ -8048,7 +8048,7 @@ paths:
           required: true
           schema:
             type: string
-          example: neynar
+            example: neynar
           description: Username of the user to fetch
         - name: viewer_fid
           in: query
@@ -8143,7 +8143,6 @@ paths:
         - name: limit
           in: query
           required: false
-          example: 30
           schema:
             type: integer
             example: 10
@@ -8216,7 +8215,6 @@ paths:
           required: true
           schema:
             $ref: "#/components/schemas/Fid"
-          example: 3
           description: FID of the user to fetch
         - name: networks
           in: query
@@ -8799,7 +8797,6 @@ paths:
           required: true
           schema:
             $ref: "#/components/schemas/Fid"
-          example: 194
           description: >-
             FID of the user you you want to fetch notifications for. The
             response will respect this user's mutes and blocks.
@@ -8864,7 +8861,6 @@ paths:
           required: true
           schema:
             $ref: "#/components/schemas/Fid"
-          example: 194
           description: >-
             FID of the user you you want to fetch notifications for. The
             response will respect this user's mutes and blocks.
@@ -8929,7 +8925,6 @@ paths:
           required: true
           schema:
             $ref: "#/components/schemas/Fid"
-          example: 194
           description: >-
             FID of the user you you want to fetch notifications for. The
             response will respect this user's mutes and blocks.
@@ -9087,13 +9082,11 @@ paths:
           required: true
           schema:
             $ref: "#/components/schemas/ChannelId"
-          example: neynar
           description: Channel ID for the channel being queried
         - name: fid
           in: query
           schema:
             $ref: "#/components/schemas/Fid"
-          example: 194
           description: >-
             FID of the user being queried. Specify this to check if a user is a
             member of the channel without paginating through all members.
@@ -9193,13 +9186,11 @@ paths:
           in: query
           schema:
             $ref: "#/components/schemas/ChannelId"
-          example: neynar
           description: Channel ID for the channel being queried
         - name: invited_fid
           in: query
           schema:
             $ref: "#/components/schemas/Fid"
-          example: 194
           description: FID of the user being invited
         - name: limit
           in: query
@@ -9244,7 +9235,7 @@ paths:
           required: true
           schema:
             type: string
-          example: neynar
+            example: neynar
           description: Channel ID or name for the channel being queried
         - name: limit
           in: query
@@ -9295,14 +9286,12 @@ paths:
           required: false
           schema:
             $ref: "#/components/schemas/ChannelType"
-          example: id
           description: Type of identifier being used to query the channels. Defaults to ID.
         - name: viewer_fid
           in: query
           required: false
           schema:
             $ref: "#/components/schemas/Fid"
-          example: 194
           description: FID of the user viewing the channels.
       responses:
         "200":
@@ -9328,21 +9317,19 @@ paths:
           required: true
           schema:
             type: string
-          example: neynar
+            example: neynar
           description: Channel ID for the channel being queried
         - name: type
           in: query
           required: false
           schema:
             $ref: "#/components/schemas/ChannelType"
-          example: parent_url
           description: Type of identifier being used to query the channel. Defaults to ID.
         - name: viewer_fid
           in: query
           required: false
           schema:
             $ref: "#/components/schemas/Fid"
-          example: 194
           description: FID of the user viewing the channel.
       responses:
         "200":
@@ -9435,7 +9422,7 @@ paths:
           required: true
           schema:
             type: string
-          example: founders
+            example: founders
           description: Channel ID for the channel being queried
         - name: viewer_fid
           in: query
@@ -9719,14 +9706,12 @@ paths:
           required: true
           schema:
             $ref: "#/components/schemas/Fid"
-          example: 2
           description: FID of the user whose following you want to fetch.
         - name: viewer_fid
           in: query
           required: false
           schema:
             $ref: "#/components/schemas/Fid"
-          example: 3
           description: >-
             Providing this will return a list of users that respects this user's
             mutes and blocks and includes `viewer_context`.
@@ -9780,14 +9765,12 @@ paths:
           required: true
           schema:
             $ref: "#/components/schemas/Fid"
-          example: 2
           description: FID of the user whose following you want to fetch.
         - name: viewer_fid
           in: query
           required: false
           schema:
             $ref: "#/components/schemas/Fid"
-          example: 3
           description: >-
             Providing this will return a list of users that respects this user's
             mutes and blocks and includes `viewer_context`.
@@ -9998,7 +9981,6 @@ paths:
             generate a longer list if desired.
           schema:
             $ref: "#/components/schemas/Fid"
-          example: 194
       responses:
         "200":
           description: Success
