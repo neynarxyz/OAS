@@ -102,13 +102,13 @@ components:
       enum:
         - fabric_stp
         - paragraph
-      description: |
+      description: |-
         The provider of the subscription.
     SubscriptionProvider:
       type: string
       enum:
         - fabric_stp
-      description: |
+      description: |-
         The provider of the subscription.
     FollowSortType:
       type: string
@@ -151,7 +151,7 @@ components:
       enum:
         - cast-mention
         - cast-reply
-      description: |
+      description: |-
         The notification type of a cast.
     CastParamType:
       type: string
@@ -159,13 +159,13 @@ components:
         - url
         - hash
       example: url
-      description: |
+      description: |-
         The query param accepted by the API. Sent along with identifier param.
         url - Cast identifier is a url
         hash - Cast identifier is a hash
     ReplyDepth:
       type: integer
-      description: |
+      description: |-
         Depth of replies to fetch in the conversation.
       default: 2
       minimum: 0
@@ -4488,7 +4488,7 @@ components:
       type: object
       properties:
         exclude_author_fids:
-          description: |
+          description: |-
             Exclude casts that matches these authors.
             **Note:**
             This is applied as an AND operation against rest of the filters.
@@ -4993,7 +4993,7 @@ components:
         base_url:
           type: string
           format: uri
-          description: |
+          description: |-
             The base URL of the app on which the action is being performed.
           example: https://example.com
         action:
@@ -5003,11 +5003,11 @@ components:
           properties:
             type:
               type: string
-              description: |
+              description: |-
                 The type of action being performed.
               example: create.user
             payload:
-              description: |
+              description: |-
                 The payload of the action being performed.
               type: object
     ValidateFrameAggregateWindow:
@@ -5058,7 +5058,7 @@ components:
         metadata[media]:
           type: string
           format: binary
-          description: |
+          description: |-
             Media file associated with the token. 
             Supported formats are image/jpeg, image/gif and image/png
         metadata[description]:
@@ -5069,7 +5069,7 @@ components:
           enum:
             - "true"
             - "false"
-          description: |
+          description: |-
             Indicates if the token is NSFW (Not Safe For Work).
         metadata[website_link]:
           type: string
@@ -5095,7 +5095,7 @@ components:
           enum:
             - wow
             - clanker
-          description: |
+          description: |-
             Factory name
             - wow -> [wow.xyz](https://wow.xyz)
             - clanker -> [clanker.world](https://www.clanker.world)
@@ -5932,7 +5932,7 @@ paths:
       tags:
         - User
       summary: Update user profile
-      description: |
+      description: |-
         Update user profile \
         (In order to update user's profile `signer_uuid` must be approved)
       externalDocs:
@@ -6142,7 +6142,7 @@ paths:
       tags:
         - Cast
       summary: Post a cast
-      description: |
+      description: |-
         Posts a cast or cast reply. Works with mentions and embeds.  
         (In order to post a cast `signer_uuid` must be approved)
       externalDocs:
@@ -6176,7 +6176,7 @@ paths:
       tags:
         - Cast
       summary: Delete a cast
-      description: |
+      description: |-
         Delete an existing cast. \
         (In order to delete a cast `signer_uuid` must be approved)
       externalDocs:
@@ -6268,7 +6268,7 @@ paths:
         - name: q
           in: query
           required: true
-          description: |
+          description: |-
             Query string to search for casts. Supported operators:
 
             | Operator  | Description                                                                                              |
@@ -6288,7 +6288,7 @@ paths:
         - name: mode
           in: query
           required: false
-          description: |
+          description: |-
             Choices are:
             - `literal` - Searches for the words in the query string (default)
             - `semantic` - Searches for the meaning of the query string
@@ -6303,7 +6303,7 @@ paths:
         - name: sort_type
           in: query
           required: false
-          description: |
+          description: |-
             Choices are:
             - `desc_chron` - All casts sorted by time (default)
             - `algorithmic` - Casts sorted by engagement and time
@@ -6797,7 +6797,7 @@ paths:
               - neynar
               - openrank
               - mbd
-            description: |
+            description: |-
               The provider of the For You feed.
         - name: limit
           in: query
@@ -7214,7 +7214,7 @@ paths:
               - openrank
               - mbd
             default: neynar
-            description: |
+            description: |-
               The provider of the trending casts feed.
           example: neynar
         - name: provider_metadata
@@ -7755,7 +7755,7 @@ paths:
       tags:
         - Reaction
       summary: Post a reaction
-      description: |
+      description: |-
         Post a reaction (like or recast) to a given cast \
         (In order to post a reaction `signer_uuid` must be approved)
       externalDocs:
@@ -7805,7 +7805,7 @@ paths:
       tags:
         - Reaction
       summary: Delete reaction
-      description: |
+      description: |-
         Delete a reaction (like or recast) to a cast \
         (In order to delete a reaction `signer_uuid` must be approved)
       externalDocs:
@@ -7841,7 +7841,7 @@ paths:
       tags:
         - User
       summary: Add verification
-      description: |
+      description: |-
         Adds verification for an eth address or contract for the user \
         (In order to add verification `signer_uuid` must be approved)
       externalDocs:
@@ -7871,7 +7871,7 @@ paths:
       tags:
         - User
       summary: Delete verification
-      description: |
+      description: |-
         Removes verification for an eth address for the user \
         (In order to delete verification `signer_uuid` must be approved)
       externalDocs:
@@ -7902,7 +7902,7 @@ paths:
       tags:
         - User
       summary: Follow user
-      description: |
+      description: |-
         Follow a user \
         (In order to follow a user `signer_uuid` must be approved)
       externalDocs:
@@ -7938,7 +7938,7 @@ paths:
       tags:
         - User
       summary: Unfollow user
-      description: |
+      description: |-
         Unfollow a user \
         (In order to unfollow a user `signer_uuid` must be approved)
       externalDocs:
@@ -8372,7 +8372,7 @@ paths:
         - Frame
       summary: |
         List of mini app notification tokens
-      description: |
+      description: |-
         Returns a list of notifications tokens related to a mini app
       externalDocs:
         url: https://docs.neynar.com/reference/fetch-notification-tokens
@@ -8420,7 +8420,7 @@ paths:
       tags:
         - Frame
       summary: Send notifications
-      description: |
+      description: |-
         Send notifications to interactors of a mini app
       externalDocs:
         url: https://docs.neynar.com/reference/publish-frame-notifications
@@ -8939,7 +8939,7 @@ paths:
       tags:
         - Notifications
       summary: Mark as seen
-      description: |
+      description: |-
         Mark notifications as seen.
         You can choose one of two authorization methods, either:
           1. Provide a valid signer_uuid in the request body (Most common)
@@ -10608,7 +10608,7 @@ paths:
   /fungible/:
     post:
       summary: Deploy fungible
-      description: |
+      description: |-
         Creates a new token.
       operationId: deploy-fungible
       externalDocs:
