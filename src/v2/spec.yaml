@@ -158,6 +158,7 @@ components:
       enum:
         - url
         - hash
+      example: url
       description: |
         The query param accepted by the API. Sent along with identifier param.
         url - Cast identifier is a url
@@ -5478,7 +5479,6 @@ paths:
         - name: signer_uuid
           required: true
           in: query
-          example: 19d0c5fd-9b33-4a48-a0e2-bc7b0555baec
           schema:
             $ref: "#/components/schemas/SignerUUID"
       responses:
@@ -5632,29 +5632,28 @@ paths:
         - name: q
           in: query
           required: true
-          example: r
           schema:
             type: string
+            example: r
         - name: viewer_fid
           in: query
           required: false
           description: >-
             Providing this will return search results that respects this user's
             mutes and blocks and includes `viewer_context`.
-          example: 3
           schema:
             $ref: "#/components/schemas/Fid"
         - name: limit
           in: query
           required: false
           description: Number of users to fetch
-          example: 10
           schema:
             type: integer
             format: int32
             default: 5
             minimum: 1
             maximum: 10
+            example: 10
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -5685,15 +5684,14 @@ paths:
           description: Comma separated list of FIDs, up to 100 at a time
           in: query
           required: true
-          example: 194, 191, 6131
           schema:
             type: string
             x-comma-separated: true
             x-accept-as: integer
+            example: 194, 191, 6131
         - name: viewer_fid
           in: query
           required: false
-          example: 3
           schema:
             $ref: "#/components/schemas/Fid"
         - $ref: "#/components/parameters/NeynarExperimentalHeader"
@@ -5721,20 +5719,19 @@ paths:
         - name: viewer_fid
           in: query
           required: false
-          example: 3
           schema:
             $ref: "#/components/schemas/Fid"
         - name: limit
           in: query
           required: false
           description: Number of power users to fetch
-          example: 10
           schema:
             type: integer
             format: int32
             default: 25
             maximum: 100
             minimum: 1
+            example: 10
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -5805,11 +5802,11 @@ paths:
           description: Comma separated list of Ethereum addresses, up to 350 at a time
           in: query
           required: true
-          example: >-
-            0xa6a8736f18f383f1cc2d938576933e5ea7df01a1,0x7cac817861e5c3384753403fb6c0c556c204b1ce
           schema:
             type: string
             x-comma-separated: true
+            example: >-
+              0xa6a8736f18f383f1cc2d938576933e5ea7df01a1,0x7cac817861e5c3384753403fb6c0c556c204b1ce
         - name: address_types
           in: query
           description: >
@@ -5830,7 +5827,6 @@ paths:
         - name: viewer_fid
           in: query
           required: false
-          example: 3
           schema:
             $ref: "#/components/schemas/Fid"
         - $ref: "#/components/parameters/NeynarExperimentalHeader"
@@ -5865,12 +5861,12 @@ paths:
           in: query
           description: Number of results to fetch
           required: false
-          example: 30
           schema:
             type: integer
             default: 25
             minimum: 1
             maximum: 100
+            example: 30
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -5901,19 +5897,18 @@ paths:
           in: query
           required: true
           description: The FID of the user.
-          example: 3
           schema:
             $ref: "#/components/schemas/Fid"
         - name: limit
           in: query
           description: Number of results to fetch
           required: false
-          example: 30
           schema:
             type: integer
             default: 20
             minimum: 1
             maximum: 100
+            example: 30
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -6116,14 +6111,13 @@ paths:
         - name: identifier
           required: true
           in: query
-          example: https://farcaster.xyz/v/0xeb000a9f
           description: Cast identifier (Its either a url or a hash)
           schema:
             type: string
+            example: https://farcaster.xyz/v/0xeb000a9f
         - name: type
           required: true
           in: query
-          example: url
           schema:
             $ref: "#/components/schemas/CastParamType"
         - name: viewer_fid
@@ -6132,7 +6126,6 @@ paths:
           description: >-
             adds viewer_context to cast object to show whether viewer has liked
             or recasted the cast.
-          example: 3
           schema:
             $ref: "#/components/schemas/Fid"
         - $ref: "#/components/parameters/NeynarExperimentalHeader"
@@ -6227,18 +6220,17 @@ paths:
           in: query
           required: true
           description: Hashes of the cast to be retrived (Comma separated, no spaces)
-          example: >-
-            0xa896906a5e397b4fec247c3ee0e9e4d4990b8004,0x27ff810f7f718afd8c40be236411f017982e0994
           schema:
             type: string
             x-comma-separated: true
+            example: >-
+              0xa896906a5e397b4fec247c3ee0e9e4d4990b8004,0x27ff810f7f718afd8c40be236411f017982e0994
         - name: viewer_fid
           in: query
           required: false
           description: >-
             adds viewer_context to cast object to show whether viewer has liked
             or recasted the cast.
-          example: 3
           schema:
             $ref: "#/components/schemas/Fid"
         - name: sort_type
@@ -6290,9 +6282,9 @@ paths:
             | `-`       | Negates the term.                                                                                        |
             | `before:` | Search for casts before a specific date. (e.g. `before:2025-04-20`)                                       |
             | `after:`  | Search for casts after a specific date. (e.g. `after:2025-04-20`)                                         |
-          example: 'star (wars | trek) "space battle" after:2024-05-04'
           schema:
             type: string
+            example: 'star (wars | trek) "space battle" after:2024-05-04'
         - name: mode
           in: query
           required: false
@@ -6301,13 +6293,13 @@ paths:
             - `literal` - Searches for the words in the query string (default)
             - `semantic` - Searches for the meaning of the query string
             - `hybrid` - Combines both literal and semantic results
-          example: literal
           schema:
             type: string
             enum:
               - literal
               - semantic
               - hybrid
+            example: literal
         - name: sort_type
           in: query
           required: false
@@ -6321,7 +6313,6 @@ paths:
           in: query
           required: false
           description: Fid of the user whose casts you want to search
-          example: 194
           schema:
             $ref: "#/components/schemas/Fid"
         - name: viewer_fid
@@ -6330,7 +6321,6 @@ paths:
           description: >-
             Providing this will return search results that respects this user's
             mutes and blocks and includes `viewer_context`.
-          example: 3
           schema:
             $ref: "#/components/schemas/Fid"
         - name: parent_url
@@ -6357,7 +6347,6 @@ paths:
         - name: limit
           in: query
           required: false
-          example: 25
           description: Number of results to fetch
           schema:
             type: integer
@@ -6365,6 +6354,7 @@ paths:
             default: 25
             maximum: 100
             minimum: 1
+            example: 25
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -6395,9 +6385,9 @@ paths:
           in: query
           required: true
           description: Query string to search for casts
-          example: star wars
           schema:
             type: string
+            example: star wars
         - name: interval
           in: query
           required: false
@@ -6415,7 +6405,6 @@ paths:
           in: query
           required: false
           description: Fid of the user whose casts you want to search
-          example: 194
           schema:
             $ref: "#/components/schemas/Fid"
         - name: channel_id
@@ -6451,14 +6440,13 @@ paths:
         - name: identifier
           required: true
           in: query
-          example: https://warpcast.com/rish/0x9288c1
           description: Cast identifier (Its either a url or a hash)
           schema:
             type: string
+            example: https://warpcast.com/rish/0x9288c1
         - name: type
           required: true
           in: query
-          example: url
           schema:
             $ref: "#/components/schemas/CastParamType"
         - name: reply_depth
@@ -6482,7 +6470,6 @@ paths:
           description: >-
             Providing this will return a conversation that respects this user's
             mutes and blocks and includes `viewer_context`.
-          example: 3
           schema:
             $ref: "#/components/schemas/Fid"
         - name: sort_type
@@ -6512,12 +6499,12 @@ paths:
           in: query
           description: Number of results to fetch
           required: false
-          example: 30
           schema:
             type: integer
             default: 20
             minimum: 1
             maximum: 50
+            example: 30
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -6550,30 +6537,30 @@ paths:
         - name: identifier
           required: true
           in: query
-          example: "0x9288c1e862aa72bd69d0e383a28b9a76b63cbdb4"
           description: Cast identifier (Its either a url or a hash)
           schema:
             type: string
+            example: "0x9288c1e862aa72bd69d0e383a28b9a76b63cbdb4"
         - name: limit
           in: query
           description: >-
             Number of casts to consider in a summary up to a point of target
             cast
           required: false
-          example: 50
           schema:
             type: integer
             default: 20
             minimum: 1
             maximum: 50
+            example: 50
           x-is-limit-param: true
         - name: prompt
           required: false
           in: query
-          example: be unreasonably dramatic
           description: Additional prompt used to generate a summary
           schema:
             type: string
+            example: be unreasonably dramatic
       responses:
         "200":
           description: Success
@@ -6691,12 +6678,12 @@ paths:
         - name: limit
           in: query
           description: Number of results to fetch
-          example: 30
           schema:
             type: integer
             default: 25
             minimum: 1
             maximum: 100
+            example: 30
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -6709,7 +6696,6 @@ paths:
           description: >-
             Providing this will return a feed that respects this user's mutes
             and blocks and includes `viewer_context`.
-          example: 3
           schema:
             $ref: "#/components/schemas/Fid"
         - $ref: "#/components/parameters/NeynarExperimentalHeader"
@@ -6735,7 +6721,6 @@ paths:
         - name: fid
           in: query
           required: true
-          example: 3
           schema:
             $ref: "#/components/schemas/Fid"
           description: FID of user whose feed you want to create
@@ -6745,7 +6730,6 @@ paths:
           description: >-
             Providing this will return a feed that respects this user's mutes
             and blocks and includes `viewer_context`.
-          example: 3
           schema:
             $ref: "#/components/schemas/Fid"
         - name: with_recasts
@@ -6757,12 +6741,12 @@ paths:
         - name: limit
           in: query
           description: Number of results to fetch
-          example: 30
           schema:
             type: integer
             default: 25
             minimum: 1
             maximum: 100
+            example: 30
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -6792,7 +6776,6 @@ paths:
         - name: fid
           in: query
           required: true
-          example: 194
           schema:
             $ref: "#/components/schemas/Fid"
           description: FID of user whose feed you want to create
@@ -6873,7 +6856,6 @@ paths:
         - name: fid
           in: query
           required: true
-          example: 528
           schema:
             $ref: "#/components/schemas/Fid"
         - name: subscription_provider
@@ -6903,13 +6885,11 @@ paths:
         - name: fid
           in: query
           required: true
-          example: 3206
           schema:
             $ref: "#/components/schemas/Fid"
         - name: viewer_fid
           in: query
           required: false
-          example: 3
           schema:
             $ref: "#/components/schemas/Fid"
         - name: subscription_provider
@@ -6941,13 +6921,11 @@ paths:
         - name: fid
           in: query
           required: true
-          example: 3206
           schema:
             $ref: "#/components/schemas/Fid"
         - name: viewer_fid
           in: query
           required: false
-          example: 3
           schema:
             $ref: "#/components/schemas/Fid"
         - name: subscription_provider
@@ -6977,10 +6955,10 @@ paths:
         - name: channel_ids
           in: query
           required: true
-          example: neynar,farcaster
           schema:
             type: string
             x-comma-separated: true
+            example: neynar,farcaster
           description: Comma separated list of up to 10 channel IDs e.g. neynar,farcaster
         - name: with_recasts
           in: query
@@ -7023,12 +7001,12 @@ paths:
         - name: limit
           in: query
           description: Number of results to fetch
-          example: 30
           schema:
             type: integer
             default: 25
             minimum: 1
             maximum: 100
+            example: 30
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -7067,10 +7045,10 @@ paths:
         - name: parent_urls
           in: query
           required: true
-          example: chain://eip155:1/erc721:0xd4498134211baad5846ce70ce04e7c4da78931cc
           schema:
             type: string
             x-comma-separated: true
+            example: chain://eip155:1/erc721:0xd4498134211baad5846ce70ce04e7c4da78931cc
           description: Comma separated list of parent_urls
         - name: with_recasts
           in: query
@@ -7096,12 +7074,12 @@ paths:
         - name: limit
           in: query
           description: Number of results to fetch
-          example: 30
           schema:
             type: integer
             default: 25
             minimum: 1
             maximum: 100
+            example: 30
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -7131,12 +7109,12 @@ paths:
         - name: limit
           in: query
           description: Number of results to fetch
-          example: 30
           schema:
             type: integer
             default: 25
             minimum: 1
             maximum: 100
+            example: 30
           x-is-limit-param: true
         - name: viewer_fid
           in: query
@@ -7177,12 +7155,12 @@ paths:
         - name: limit
           in: query
           description: Number of results to fetch
-          example: 10
           schema:
             type: integer
             default: 10
             minimum: 1
             maximum: 10
+            example: 10
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -7283,20 +7261,18 @@ paths:
       tags:
         - Feed
       description: >-
-        Fetch 10 most popular casts for a given user FID; popularity based on
+        Fetch 10 most popular casts for a given user FID;        popularity based on
         replies, likes and recasts; sorted by most popular first
       parameters:
         - name: fid
           in: query
           required: true
-          example: 194
           schema:
             $ref: "#/components/schemas/Fid"
           description: FID of user whose feed you want to create
         - name: viewer_fid
           in: query
           required: false
-          example: 3
           schema:
             $ref: "#/components/schemas/Fid"
       responses:
@@ -7323,14 +7299,12 @@ paths:
         - name: fid
           in: query
           required: true
-          example: 194
           schema:
             $ref: "#/components/schemas/Fid"
           description: FID of user whose replies and recasts you want to fetch
         - name: filter
           in: query
           required: false
-          example: replies
           schema:
             type: string
             default: all
@@ -7338,17 +7312,17 @@ paths:
               - replies
               - recasts
               - all
+            example: replies
           description: filter to fetch only replies or recasts
         - name: limit
           in: query
           description: Number of results to fetch
-          example: 30
           schema:
             type: integer
             default: 25
             minimum: 1
             maximum: 50
-            example: 25
+            example: 30
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -7388,14 +7362,12 @@ paths:
         - name: fid
           in: query
           required: true
-          example: 194
           schema:
             $ref: "#/components/schemas/Fid"
           description: FID of user whose recent casts you want to fetch
         - name: app_fid
           in: query
           required: false
-          example: 9152
           schema:
             $ref: "#/components/schemas/Fid"
           description: >-
@@ -7404,7 +7376,6 @@ paths:
         - name: viewer_fid
           in: query
           required: false
-          example: 3
           schema:
             $ref: "#/components/schemas/Fid"
           description: FID of the user viewing the feed
@@ -8053,7 +8024,6 @@ paths:
         - name: viewer_fid
           in: query
           required: false
-          example: 3
           schema:
             $ref: "#/components/schemas/Fid"
         - $ref: "#/components/parameters/NeynarExperimentalHeader"
@@ -9777,13 +9747,12 @@ paths:
         - name: limit
           in: query
           description: Number of results to fetch
-          example: 30
           schema:
             type: integer
             default: 25
             minimum: 1
             maximum: 100
-            example: 25
+            example: 30
           x-is-limit-param: true
         - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
@@ -9810,7 +9779,6 @@ paths:
         - name: fid
           in: query
           required: true
-          example: 3
           schema:
             $ref: "#/components/schemas/Fid"
         - name: viewer_fid
@@ -9819,7 +9787,6 @@ paths:
           description: >-
             Providing this will return a list of reactions that respects this
             user's mutes and blocks and includes `viewer_context`.
-          example: 3
           schema:
             $ref: "#/components/schemas/Fid"
         - name: type
@@ -9832,12 +9799,12 @@ paths:
         - name: limit
           in: query
           description: Number of results to fetch
-          example: 30
           schema:
             type: integer
             default: 25
             minimum: 1
             maximum: 100
+            example: 30
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -9892,12 +9859,12 @@ paths:
         - name: limit
           in: query
           description: Number of results to fetch
-          example: 30
           schema:
             type: integer
             default: 25
             minimum: 1
             maximum: 100
+            example: 30
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -9926,9 +9893,9 @@ paths:
         - name: fname
           in: query
           required: true
-          example: farcaster
           schema:
             type: string
+            example: farcaster
       responses:
         "200":
           description: Success
@@ -10003,7 +9970,6 @@ paths:
         - name: fid
           in: query
           required: true
-          example: 3
           schema:
             $ref: "#/components/schemas/Fid"
       responses:
@@ -10028,7 +9994,6 @@ paths:
         - name: fid
           in: query
           required: true
-          example: 3
           schema:
             $ref: "#/components/schemas/Fid"
       responses:
