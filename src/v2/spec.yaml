@@ -7512,6 +7512,8 @@ paths:
       summary: Mini apps catalog
       description: A curated list of featured mini apps
       operationId: fetch-frame-catalog
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-frame-catalog
       parameters:
         - name: limit
           in: query
@@ -7581,7 +7583,7 @@ paths:
         Fetch a list of mini apps relevant to the user based on casts by users
         with strong affinity score for the user
       externalDocs:
-        url: https://docs.neynar.com/reference/fetch-frame-relevant
+        url: https://docs.neynar.com/reference/fetch-relevant-frames
       operationId: fetch-relevant-frames
       parameters:
         - name: viewer_fid
@@ -8268,7 +8270,7 @@ paths:
       summary: Post a mini app action, cast action or a cast composer action
       description: >
         Post mini app actions, cast actions or cast composer actions to the
-        server  \
+        server
 
         (In order to post any of these actions, you need to have an approved
         `signer_uuid`)
@@ -8491,6 +8493,8 @@ paths:
         Creates a new transaction pay mini app that can be used to collect
         payments through a mini app
       operationId: create-transaction-pay-frame
+      externalDocs:
+        url: https://docs.neynar.com/reference/create-transaction-pay-frame
       requestBody:
         required: true
         content:
@@ -8516,6 +8520,8 @@ paths:
       summary: Get transaction pay mini app
       description: Retrieves details about a transaction pay mini app by ID
       operationId: get-transaction-pay-frame
+      externalDocs:
+        url: https://docs.neynar.com/reference/get-transaction-pay-frame
       parameters:
         - name: id
           in: query
