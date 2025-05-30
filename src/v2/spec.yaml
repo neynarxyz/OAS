@@ -10538,7 +10538,7 @@ paths:
         another app on behalf of a mutual user by signing messages using the
         user's Farcaster signer.
       externalDocs:
-        url: https://docs.neynar.com/docs/farcaster-actions-spec
+        url: https://docs.neynar.com/reference/publish-farcaster-action
       operationId: publish-farcaster-action
       requestBody:
         required: true
