@@ -8557,6 +8557,8 @@ paths:
               schema:
                 type: string
                 example: OK
+        "400":
+          $ref: "#/components/responses/400Response"
         "500":
           $ref: "#/components/responses/500Response"
   /farcaster/frame/transaction/pay:
