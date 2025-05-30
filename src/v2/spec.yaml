@@ -7231,7 +7231,7 @@ paths:
       tags:
         - Feed
       description: >-
-        Fetch 10 most popular casts for a given user FID;        popularity based on
+        Fetch 10 most popular casts for a given user FID; popularity based on
         replies, likes and recasts; sorted by most popular first
       parameters:
         - name: fid
@@ -8302,8 +8302,7 @@ paths:
     get:
       tags:
         - Frame
-      summary: |
-        List of mini app notification tokens
+      summary: List of mini app notification tokens
       description: |-
         Returns a list of notifications tokens related to a mini app
       externalDocs:
