@@ -7878,7 +7878,7 @@ paths:
         - User
       summary: Follow user
       description: |-
-        Follow a user \
+        Follow a user 
         (In order to follow a user `signer_uuid` must be approved)
       externalDocs:
         url: https://docs.neynar.com/reference/follow-user
@@ -7909,7 +7909,7 @@ paths:
         - User
       summary: Unfollow user
       description: |-
-        Unfollow a user \
+        Unfollow a user 
         (In order to unfollow a user `signer_uuid` must be approved)
       externalDocs:
         url: https://docs.neynar.com/reference/unfollow-user
@@ -7935,7 +7935,7 @@ paths:
           $ref: "#/components/responses/404Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/user/custody-address:
+  /farcaster/user/custody-address/:
     get:
       tags:
         - User
