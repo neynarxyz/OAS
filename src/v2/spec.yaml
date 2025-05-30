@@ -6017,7 +6017,7 @@ paths:
         - Onchain
       summary: Register Farcaster account onchain
       description: >
-        Register a new farcaster account onchain. Optionally you can pass in signers along to register
+        Register a new farcaster account onchain. Optionally you can pass in signers to register
         a new account and create multiple signers in a single transaction
       externalDocs:
         url: https://docs.neynar.com/reference/register-account-onchain
@@ -7842,7 +7842,7 @@ paths:
         - User
       summary: Add verification
       description: |-
-        Adds verification for an eth address or contract for the user \
+        Adds verification for an eth address or contract for the user 
         (In order to add verification `signer_uuid` must be approved)
       externalDocs:
         url: https://docs.neynar.com/reference/publish-verification
@@ -7872,7 +7872,7 @@ paths:
         - User
       summary: Delete verification
       description: |-
-        Removes verification for an eth address for the user \
+        Removes verification for an eth address for the user 
         (In order to delete verification `signer_uuid` must be approved)
       externalDocs:
         url: https://docs.neynar.com/reference/delete-verification
