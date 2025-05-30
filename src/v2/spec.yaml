@@ -5502,8 +5502,8 @@ paths:
       tags:
         - Signer
       summary: Create signer
-      description: >
-        Creates a signer and returns the signer status. \
+      description: |-
+        Creates a signer and returns the signer status.
 
         **Note**: While tesing please reuse the signer, it costs money to
         approve a signer.
@@ -5929,7 +5929,7 @@ paths:
         - User
       summary: Update user profile
       description: |-
-        Update user profile \
+        Update user profile 
         (In order to update user's profile `signer_uuid` must be approved)
       externalDocs:
         url: https://docs.neynar.com/reference/update-user
@@ -8174,6 +8174,8 @@ paths:
       summary: User interactions
       description: Returns a list of interactions between two users
       operationId: fetch-user-interactions
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-user-interactions
       parameters:
         - name: fids
           description: Comma separated list of two FIDs
