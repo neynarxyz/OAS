@@ -7764,7 +7764,7 @@ paths:
         - Reaction
       summary: Delete reaction
       description: |-
-        Delete a reaction (like or recast) to a cast \
+        Delete a reaction (like or recast) to a cast
         (In order to delete a reaction `signer_uuid` must be approved)
       externalDocs:
         url: https://docs.neynar.com/reference/delete-reaction
@@ -8548,8 +8548,7 @@ paths:
         - Frame
       summary: Validate mini app action
       description: >
-        Validates a mini app against by an interacting user against a Farcaster
-        Hub \
+        Validates a mini app against by an interacting user against a Farcaster Hub
 
         (In order to validate a mini app, message bytes from Frame Action must
         be provided in hex)
