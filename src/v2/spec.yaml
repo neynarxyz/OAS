@@ -6785,7 +6785,6 @@ paths:
           description: >-
             Providing this will return a feed that respects this user's mutes
             and blocks and includes `viewer_context`.
-          example: 3
           schema:
             $ref: "#/components/schemas/Fid"
         - name: provider
@@ -6804,12 +6803,12 @@ paths:
           in: query
           required: false
           description: Number of results to fetch
-          example: 30
           schema:
             type: integer
             default: 25
             minimum: 1
             maximum: 50
+            example: 30
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -6972,7 +6971,6 @@ paths:
           description: >-
             Providing this will return a feed that respects this user's mutes
             and blocks and includes `viewer_context`.
-          example: 3
           schema:
             $ref: "#/components/schemas/Fid"
         - name: with_replies
@@ -7062,7 +7060,6 @@ paths:
           description: >-
             Providing this will return a feed that respects this user's mutes
             and blocks and includes `viewer_context`.
-          example: 3
           schema:
             $ref: "#/components/schemas/Fid"
         - name: with_replies
@@ -7122,7 +7119,6 @@ paths:
           description: >-
             Providing this will return a feed that respects this user's mutes
             and blocks and includes `viewer_context`.
-          example: 3
           schema:
             $ref: "#/components/schemas/Fid"
         - name: cursor
@@ -7173,7 +7169,6 @@ paths:
           description: >-
             Providing this will return a feed that respects this user's mutes
             and blocks and includes `viewer_context`.
-          example: 3
           schema:
             $ref: "#/components/schemas/Fid"
         - name: time_window
@@ -7335,7 +7330,6 @@ paths:
           description: >-
             Providing this will return a feed that respects this user's mutes
             and blocks and includes `viewer_context`.
-          example: 3
           schema:
             $ref: "#/components/schemas/Fid"
       responses:
@@ -7383,12 +7377,12 @@ paths:
           in: query
           required: false
           description: Number of results to fetch
-          example: 30
           schema:
             type: integer
             default: 25
             minimum: 1
             maximum: 150
+            example: 30
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -7575,7 +7569,6 @@ paths:
             OR:
             `categories=games&categories=social`
           required: false
-          example: ["games", "social"]
           explode: false
           style: form
           schema:
@@ -7596,6 +7589,7 @@ paths:
                 - developer-tools
                 - entertainment
                 - art-creativity
+            example: ["games", "social"]
       responses:
         "200":
           description: Success
@@ -8107,7 +8101,6 @@ paths:
             of users that respects this user's mutes and blocks and includes
             `viewer_context`.
           required: false
-          example: 3
           schema:
             $ref: "#/components/schemas/Fid"
         - name: limit
@@ -8221,11 +8214,11 @@ paths:
           description: Comma separated list of two FIDs
           in: query
           required: true
-          example: 194, 191
           schema:
             type: string
             x-comma-separated: true
             x-accept-as: integer
+            example: 194, 191
         - name: type
           in: query
           required: false
@@ -8389,12 +8382,12 @@ paths:
           in: query
           description: Number of results to fetch
           required: false
-          example: 30
           schema:
             type: integer
             default: 20
             minimum: 1
             maximum: 100
+            example: 30
           x-is-limit-param: true
         - name: fids
           description: Comma separated list of FIDs, up to 100 at a time.
@@ -8402,11 +8395,11 @@ paths:
             If you don't pass in FIDs, you will get back all the notification tokens for the mini app.
           in: query
           required: false
-          example: 194, 191, 6131
           schema:
             type: string
             x-comma-separated: true
             x-accept-as: integer
+            example: 194, 191, 6131
         - name: cursor
           in: query
           required: false
@@ -8794,12 +8787,12 @@ paths:
           in: query
           description: Number of results to fetch
           required: false
-          example: 15
           schema:
             type: integer
             default: 15
             minimum: 1
             maximum: 25
+            example: 15
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -8857,12 +8850,12 @@ paths:
           in: query
           description: Number of results to fetch
           required: false
-          example: 15
           schema:
             type: integer
             default: 15
             minimum: 1
             maximum: 25
+            example: 15
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -8919,12 +8912,12 @@ paths:
           in: query
           description: Number of results to fetch
           required: false
-          example: 15
           schema:
             type: integer
             default: 15
             minimum: 1
             maximum: 25
+            example: 15
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -8991,12 +8984,12 @@ paths:
           in: query
           description: Number of results to fetch
           required: false
-          example: 30
           schema:
             type: integer
             default: 20
             minimum: 1
             maximum: 200
+            example: 30
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -9064,12 +9057,12 @@ paths:
           in: query
           description: Number of results to fetch
           required: false
-          example: 30
           schema:
             type: integer
             default: 20
             minimum: 1
             maximum: 100
+            example: 30
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -9166,12 +9159,12 @@ paths:
           in: query
           description: Number of results to fetch
           required: false
-          example: 30
           schema:
             type: integer
             default: 20
             minimum: 1
             maximum: 100
+            example: 30
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -9211,12 +9204,12 @@ paths:
           in: query
           description: Number of results to fetch
           required: false
-          example: 30
           schema:
             type: integer
             default: 20
             minimum: 1
             maximum: 200
+            example: 30
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -9412,12 +9405,12 @@ paths:
           in: query
           description: Number of followers to fetch
           required: false
-          example: 30
           schema:
             type: integer
             default: 25
             minimum: 1
             maximum: 1000
+            example: 30
           x-is-limit-param: true
         - $ref: "#/components/parameters/NeynarExperimentalHeader"
       responses:
@@ -9446,9 +9439,9 @@ paths:
           in: query
           required: true
           description: Channel ID being queried
-          example: neynar
           schema:
             type: string
+            example: neynar
         - name: viewer_fid
           in: query
           required: true
@@ -9456,7 +9449,6 @@ paths:
             The FID of the user to customize this response for. Providing this
             will also return a list of followers that respects this user's mutes
             and blocks and includes `viewer_context`.
-          example: 3
           schema:
             $ref: "#/components/schemas/Fid"
         - $ref: "#/components/parameters/NeynarExperimentalHeader"
@@ -9597,12 +9589,12 @@ paths:
           in: query
           required: false
           description: Number of results to fetch
-          example: 30
           schema:
             type: integer
             default: 20
             minimum: 1
             maximum: 100
+            example: 30
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -9793,7 +9785,6 @@ paths:
           in: query
           required: true
           description: Type of reaction to fetch (likes or recasts or all)
-          example: all
           schema:
             $ref: "#/components/schemas/ReactionsType"
         - name: limit
@@ -10586,25 +10577,25 @@ paths:
           description: Comma separated list of Ethereum addresses, up to 350 at a time
           in: query
           required: true
-          example: >-
-            0xedd3783e8c7c52b80cfbd026a63c207edc9cbee7,0x5a927ac639636e534b678e81768ca19e2c6280b7
           schema:
             type: string
             x-comma-separated: true
+            example: >-
+              0xedd3783e8c7c52b80cfbd026a63c207edc9cbee7,0x5a927ac639636e534b678e81768ca19e2c6280b7
         - name: contract_address
           description: Ethereum address of the STP contract
           in: query
           required: true
-          example: "0x76ad4cb9ac51c09f4d9c2cadcea75c9fa9074e5b"
           schema:
             type: string
+            example: "0x76ad4cb9ac51c09f4d9c2cadcea75c9fa9074e5b"
         - name: chain_id
           description: Chain ID of the STP contract
           in: query
           required: true
-          example: "8453"
           schema:
             type: string
+            example: "8453"
       responses:
         "200":
           description: Success
