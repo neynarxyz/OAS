@@ -5940,14 +5940,6 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/UpdateUserReqBody"
-            example:
-              signer_uuid: 19d0c5fd-9b33-4a48-a0e2-bc7b0555baec
-              bio: Experimenting on Farcaster
-              pfp_url: https://i.imgur.com/keIWEYM.jpg
-              username: dan
-              display_name: Dan Romero
-              latitude: 37.7749
-              longitude: -122.4194
       responses:
         "200":
           description: Success
@@ -5983,13 +5975,6 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/RegisterUserReqBody"
-            example:
-              signature: >-
-                0xe0cd4da80fb30d59e3ce5a10768c35043bc31487362977cf0a3acf15338a730f4aa329568055c943d777dd81fcb60292f15fc0bcf644da1943b6aa0b3ea9bdcf1b
-              fid: 321518
-              requested_user_custody_address: "0x2c57e688154C082955cF205F4A335E852D3e25f1"
-              deadline: 1707371935
-              fname: desired_fname
       responses:
         "200":
           description: Success
@@ -6150,9 +6135,6 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/PostCastReqBody"
-            example:
-              signer_uuid: 19d0c5fd-9b33-4a48-a0e2-bc7b0555baec
-              text: Writing to @farcaster via the @neynar APIs 🪐
       responses:
         "200":
           description: Success
@@ -7760,25 +7742,6 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/ReactionReqBody"
-            examples:
-              "Like Cast Example":
-                summary: Example like with cast hash
-                value:
-                  signer_uuid: "19d0c5fd-9b33-4a48-a0e2-bc7b0555baec"
-                  reaction_type: "like"
-                  target: "0x3702ec1b298bb7ac6f00346432d959ad7b05b9a8"
-              "Recast Example":
-                summary: Example recast with cast hash
-                value:
-                  signer_uuid: "19d0c5fd-9b33-4a48-a0e2-bc7b0555baec"
-                  reaction_type: "recast"
-                  target: "0x3702ec1b298bb7ac6f00346432d959ad7b05b9a8"
-              "Like URL Example":
-                summary: Example like with URL
-                value:
-                  signer_uuid: "19d0c5fd-9b33-4a48-a0e2-bc7b0555baec"
-                  reaction_type: "like"
-                  target: "https://example.com/123"
       responses:
         "200":
           description: Success
@@ -8593,13 +8556,6 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/ValidateFrameActionReqBody"
-            example:
-              message_bytes_in_hex: >-
-                0a49080d1085940118f6a6a32e20018201390a1a86db69b3ffdf6ab8acb6872b69ccbe7eb6a67af7ab71e95aa69f10021a1908ef011214237025b322fd03a9ddc7ec6c078fb9c56d1a72111214e3d88aeb2d0af356024e0c693f31c11b42c76b721801224043cb2f3fcbfb5dafce110e934b9369267cf3d1aef06f51ce653dc01700fc7b778522eb7873fd60dda4611376200076caf26d40a736d3919ce14e78a684e4d30b280132203a66717c82d728beb3511b05975c6603275c7f6a0600370bf637b9ecd2bd231e
-              cast_reaction_context: true
-              follow_context: false
-              signer_context: false
-              channel_follow_context: true
       responses:
         "200":
           description: Success
@@ -8903,9 +8859,6 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/MarkNotificationsAsSeenReqBody"
-            example:
-              signer_uuid: 19d0c5fd-9b33-4a48-a0e2-bc7b0555baec
-              type: likes
       responses:
         "200":
           description: Success
