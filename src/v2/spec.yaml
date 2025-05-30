@@ -2555,6 +2555,9 @@ components:
           items:
             $ref: "#/components/schemas/Fid"
           maxItems: 100
+          example:
+            - 3
+            - 194
     FrameDeveloperManagedActionReqBody:
       type: object
       required:
@@ -2593,8 +2596,10 @@ components:
           $ref: "#/components/schemas/EthAddress"
         block_hash:
           type: string
+          example: "0x191905a9201170abb55f4c90a4cc968b44c1b71cdf3db2764b775c93e7e22b29"
         eth_signature:
           type: string
+          example: "0x2fc09da1f4dcb723fefb91f77932c249c418c0af00c66ed92ee1f35002c80d6a1145280c9f361d207d28447f8f7463366840d3a9309036cf6954afd1fd331beb1b"
         verification_type:
           $ref: "#/components/schemas/VerificationType"
         chain_id:
@@ -2613,6 +2618,10 @@ components:
           $ref: "#/components/schemas/EthAddress"
         block_hash:
           type: string
+          example: "0x191905a9201170abb55f4c90a4cc968b44c1b71cdf3db2764b775c93e7e22b29"
+        eth_signature:
+          type: string
+          example: "0x2fc09da1f4dcb723fefb91f77932c249c418c0af00c66ed92ee1f35002c80d6a1145280c9f361d207d28447f8f7463366840d3a9309036cf6954afd1fd331beb1b"
     UpdateUserReqBody:
       type: object
       required:
@@ -7817,10 +7826,6 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/ReactionReqBody"
-            example:
-              signer_uuid: 19d0c5fd-9b33-4a48-a0e2-bc7b0555baec
-              target: "0x1ea99cbed57e4020314ba3fadd7c692d2de34d5f"
-              reaction_type: like
       responses:
         "200":
           description: Success
@@ -7853,13 +7858,6 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/AddVerificationReqBody"
-            example:
-              signer_uuid: 19d0c5fd-9b33-4a48-a0e2-bc7b0555baec
-              address: "0x1ea99cbed57e4020314ba3fadd7c692d2de34d5f"
-              block_hash: >-
-                0x191905a9201170abb55f4c90a4cc968b44c1b71cdf3db2764b775c93e7e22b29
-              eth_signature: >-
-                0x2fc09da1f4dcb723fefb91f77932c249c418c0af00c66ed92ee1f35002c80d6a1145280c9f361d207d28447f8f7463366840d3a9309036cf6954afd1fd331beb1b
       responses:
         "200":
           description: Success
@@ -7883,13 +7881,6 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/RemoveVerificationReqBody"
-            example:
-              signer_uuid: 19d0c5fd-9b33-4a48-a0e2-bc7b0555baec
-              address: "0x1ea99cbed57e4020314ba3fadd7c692d2de34d5f"
-              block_hash: >-
-                0x191905a9201170abb55f4c90a4cc968b44c1b71cdf3db2764b775c93e7e22b29
-              eth_signature: >-
-                0x2fc09da1f4dcb723fefb91f77932c249c418c0af00c66ed92ee1f35002c80d6a1145280c9f361d207d28447f8f7463366840d3a9309036cf6954afd1fd331beb1
       responses:
         "200":
           description: Success
@@ -7914,11 +7905,6 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/FollowReqBody"
-            example:
-              signer_uuid: 19d0c5fd-9b33-4a48-a0e2-bc7b0555baec
-              target_fids:
-                - 3
-                - 194
       responses:
         "200":
           description: Success
@@ -7950,11 +7936,6 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/FollowReqBody"
-            example:
-              signer_uuid: 19d0c5fd-9b33-4a48-a0e2-bc7b0555baec
-              target_fids:
-                - 3
-                - 194
       responses:
         "200":
           description: Success
