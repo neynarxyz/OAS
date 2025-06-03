@@ -3868,8 +3868,6 @@ components:
             placeholder:
               type: string
               description: The placeholder text for the input.
-          required:
-            - enabled
     NeynarNextFramePage:
       type: object
       properties:
