@@ -2252,10 +2252,6 @@ components:
           properties:
             url:
               type: string
-    SearchedUser:
-      anyOf:
-        - $ref: "#/components/schemas/User"
-        - $ref: "#/components/schemas/ProfileUrl"
     SignedKeyRequestSponsor:
       type: object
       properties:
@@ -3208,7 +3204,7 @@ components:
             users:
               type: array
               items:
-                $ref: "#/components/schemas/SearchedUser"
+                $ref: "#/components/schemas/User"
             next:
               $ref: "#/components/schemas/NextCursor"
     ChannelActivity:
