@@ -2240,62 +2240,6 @@ components:
           # Nesting $ref under allOf is necessary for any sibling fields to be effective
           allOf:
             - $ref: "#/components/schemas/ChannelDehydrated"
-    Cast:
-      type: object
-      required:
-        - object
-        - hash
-        - parent_hash
-        - parent_url
-        - root_parent_url
-        - parent_author
-        - author
-        - text
-        - timestamp
-        - embeds
-      properties:
-        object:
-          type: string
-          enum:
-            - cast
-        hash:
-          type: string
-        parent_hash:
-          type: string
-          nullable: true
-        parent_url:
-          type: string
-          nullable: true
-        root_parent_url:
-          type: string
-          nullable: true
-        parent_author:
-          type: object
-          required:
-            - fid
-          properties:
-            fid:
-              nullable: true
-              # Nesting $ref under allOf is necessary for any sibling fields to be effective
-              allOf:
-                - $ref: "#/components/schemas/Fid"
-        author:
-          $ref: "#/components/schemas/User"
-        app:
-          nullable: true
-          # Nesting $ref under allOf is necessary for any sibling fields to be effective
-          allOf:
-            - $ref: "#/components/schemas/UserDehydrated"
-        text:
-          type: string
-        timestamp:
-          $ref: "#/components/schemas/Timestamp"
-        embeds:
-          type: array
-          items:
-            $ref: "#/components/schemas/Embed"
-        type:
-          $ref: "#/components/schemas/CastNotificationType"
     ProfileUrl:
       type: object
       required:
@@ -2726,67 +2670,117 @@ components:
           channel: "#/components/schemas/Channel"
           channel_dehydrated: "#/components/schemas/ChannelDehydrated"
     CastWithInteractions:
-      allOf:
-        - $ref: "#/components/schemas/Cast"
-        - type: object
+      type: object
+      required:
+        - object
+        - hash
+        - parent_hash
+        - parent_url
+        - root_parent_url
+        - parent_author
+        - author
+        - text
+        - timestamp
+        - embeds
+        - reactions
+        - replies
+        - thread_hash
+        - mentioned_profiles
+        - mentioned_profiles_ranges
+        - mentioned_channels
+        - mentioned_channels_ranges
+        - channel
+      properties:
+        object:
+          type: string
+          enum:
+            - cast
+        hash:
+          type: string
+        parent_hash:
+          type: string
+          nullable: true
+        parent_url:
+          type: string
+          nullable: true
+        root_parent_url:
+          type: string
+          nullable: true
+        parent_author:
+          type: object
           required:
-            - reactions
-            - replies
-            - thread_hash
-            - mentioned_profiles
-            - mentioned_profiles_ranges
-            - mentioned_channels
-            - mentioned_channels_ranges
-            - channel
+            - fid
           properties:
-            frames:
-              type: array
-              items:
-                $ref: "#/components/schemas/Frame"
-            reactions:
-              $ref: "#/components/schemas/CastWithInteractionsReactions"
-            replies:
-              $ref: "#/components/schemas/CastWithInteractionsReplies"
-            thread_hash:
-              type: string
-              nullable: true
-            mentioned_profiles:
-              type: array
-              items:
-                $ref: "#/components/schemas/User"
-            mentioned_profiles_ranges:
-              description: >-
-                Positions within the text (inclusive start, exclusive end) where
-                each mention occurs.
-
-                Each index within this list corresponds to the same-numbered
-                index in the mentioned_profiles list.
-              type: array
-              items:
-                $ref: "#/components/schemas/TextRange"
-            mentioned_channels:
-              type: array
-              items:
-                $ref: "#/components/schemas/ChannelDehydrated"
-            mentioned_channels_ranges:
-              description: >-
-                Positions within the text (inclusive start, exclusive end) where
-                each mention occurs.
-
-                Each index within this list corresponds to the same-numbered
-                index in the mentioned_channels list.
-              type: array
-              items:
-                $ref: "#/components/schemas/TextRange"
-            channel:
+            fid:
               nullable: true
               # Nesting $ref under allOf is necessary for any sibling fields to be effective
               allOf:
-                - $ref: "#/components/schemas/ChannelOrChannelDehydrated"
-            viewer_context:
-              $ref: "#/components/schemas/CastViewerContext"
-            author_channel_context:
-              $ref: "#/components/schemas/ChannelUserContext"
+                - $ref: "#/components/schemas/Fid"
+        author:
+          $ref: "#/components/schemas/User"
+        app:
+          nullable: true
+          # Nesting $ref under allOf is necessary for any sibling fields to be effective
+          allOf:
+            - $ref: "#/components/schemas/UserDehydrated"
+        text:
+          type: string
+        timestamp:
+          $ref: "#/components/schemas/Timestamp"
+        embeds:
+          type: array
+          items:
+            $ref: "#/components/schemas/Embed"
+        type:
+          $ref: "#/components/schemas/CastNotificationType"
+        frames:
+          type: array
+          items:
+            $ref: "#/components/schemas/Frame"
+        reactions:
+          $ref: "#/components/schemas/CastWithInteractionsReactions"
+        replies:
+          $ref: "#/components/schemas/CastWithInteractionsReplies"
+        thread_hash:
+          type: string
+          nullable: true
+        mentioned_profiles:
+          type: array
+          items:
+            $ref: "#/components/schemas/User"
+        mentioned_profiles_ranges:
+          description: >-
+            Positions within the text (inclusive start, exclusive end) where
+            each mention occurs.
+
+            Each index within this list corresponds to the same-numbered
+            index in the mentioned_profiles list.
+          type: array
+          items:
+            $ref: "#/components/schemas/TextRange"
+        mentioned_channels:
+          type: array
+          items:
+            $ref: "#/components/schemas/ChannelDehydrated"
+        mentioned_channels_ranges:
+          description: >-
+            Positions within the text (inclusive start, exclusive end) where
+            each mention occurs.
+
+            Each index within this list corresponds to the same-numbered
+            index in the mentioned_channels list.
+          type: array
+          items:
+            $ref: "#/components/schemas/TextRange"
+        channel:
+          nullable: true
+          # Nesting $ref under allOf is necessary for any sibling fields to be effective
+          allOf:
+            - $ref: "#/components/schemas/ChannelOrChannelDehydrated"
+        viewer_context:
+          $ref: "#/components/schemas/CastViewerContext"
+        author_channel_context:
+          $ref: "#/components/schemas/ChannelUserContext"
     CastWithInteractionsAndConversations:
       allOf:
         - $ref: "#/components/schemas/CastWithInteractions"
