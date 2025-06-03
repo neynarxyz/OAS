@@ -3138,8 +3138,8 @@ components:
           $ref: "#/components/schemas/ChannelMemberRole"
         user:
           oneOf:
-            - $ref: "#/components/schemas/UserDehydrated"
             - $ref: "#/components/schemas/User"
+            - $ref: "#/components/schemas/UserDehydrated"
         channel:
           oneOf:
             - $ref: "#/components/schemas/Channel"
