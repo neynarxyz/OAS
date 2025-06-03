@@ -4060,7 +4060,7 @@ components:
             - token_not_found
             - token_disabled
             - failed
-        appFid:
+        app_fid:
           $ref: "#/components/schemas/AppFid"
     ValidateFrameActionResponse:
       type: object
@@ -8424,9 +8424,9 @@ paths:
     get:
       tags:
         - Frame
-      summary: Get notification stats
+      summary: Get notification campaign stats
       description: Retrieve notification delivery and opened stats for notification campaigns
-      operationId: get-notification-stats
+      operationId: get-notification-campaign-stats
       parameters:
         - name: campaign_id
           in: query
@@ -8467,48 +8467,58 @@ paths:
                           type: string
                           format: ulid
                           description: The unique identifier for the notification campaign.
-                        appUuid:
-                          type: string
-                          format: uuid
-                          description: The UUID of the application associated with the campaign.
-                        intendedRecipientNotificationTokenCount:
-                          type: integer
-                          format: int32
-                          description: The total number of notification tokens for intended recipients.
-                        intendedRecipientAppFids:
-                          type: array
-                          items:
-                            type: integer
-                            format: int32
-                          description: An array of Farcaster FIDs of intended recipient applications.
                         title:
                           type: string
                           description: The title of the notification campaign.
                         body:
                           type: string
                           description: The body text of the notification.
-                        createdAt:
+                        created_at:
                           type: string
                           format: date-time
-                          description: The timestamp when the campaign was created.
-                        successfulSends:
-                          type: integer
-                          format: int32
-                          description: The number of notifications successfully sent.
-                        totalOpens:
-                          type: integer
-                          format: int32
-                          description: The total number of times notifications from this campaign have been opened.
-                        totalOpensByAppFid:
+                        stats:
                           type: object
-                          additionalProperties:
-                            type: integer
-                            format: int32
-                          description: A record mapping app FIDs (as strings) to the number of opens for that app.
-                        uniqueOpens:
-                          type: integer
-                          format: int32
-                          description: The number of unique recipients who opened a notification from this campaign.
+                          properties:
+                            intended_recipient_notification_token_count:
+                              type: integer
+                              format: int32
+                              description: The total number of notification tokens for intended recipients.
+                            intended_recipient_app_fids:
+                              type: array
+                              items:
+                                type: integer
+                                format: int32
+                              description: An array of Farcaster FIDs of intended recipient applications.
+                            successful_sends:
+                              type: integer
+                              format: int32
+                              description: The number of notifications successfully sent.
+                            successful_sends_by_app_fid:
+                              type: object
+                              additionalProperties:
+                                type: integer
+                                format: int32
+                              description: A record mapping app FIDs (as strings) to the number of successful sends for that app.
+                            total_opens:
+                              type: integer
+                              format: int32
+                              description: The total number of times notifications from this campaign have been opened.
+                            total_opens_by_app_fid:
+                              type: object
+                              additionalProperties:
+                                type: integer
+                                format: int32
+                              description: A record mapping app FIDs (as strings) to the number of opens for that app.
+                            unique_opens:
+                              type: integer
+                              format: int32
+                              description: The number of unique recipients who opened a notification from this campaign.
+                            unique_opens_by_app_fid:
+                              type: object
+                              additionalProperties:
+                                type: integer
+                                format: int32
+                              description: A record mapping app FIDs (as strings) to the number of unique opens for that app.
                   next:
                     $ref: "#/components/schemas/NextCursor"
         "400":
