@@ -8135,7 +8135,7 @@ paths:
         - name: type
           in: query
           required: false
-          description: Comma seperated list of Interaction type to fetch
+          description: Comma separated list of Interaction type to fetch
           schema:
             type: array
             items:
