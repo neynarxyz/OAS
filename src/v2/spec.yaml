@@ -1104,9 +1104,6 @@ components:
       allOf:
         - $ref: "#/components/schemas/FrameBase"
         - type: object
-          required:
-            - name
-            - icon
           properties:
             title:
               type: string
