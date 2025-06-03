@@ -1082,12 +1082,7 @@ components:
       description: Mini app v2 object
       allOf:
         - $ref: "#/components/schemas/FrameBase"
-        # required properties come from FrameEmbed
-        # See: https://docs.farcaster.xyz/developers/frames/v2/spec#frame-embed-metatags
         - type: object
-          required:
-            - name
-            - icon
           properties:
             title:
               type: string
