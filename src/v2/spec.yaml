@@ -9793,13 +9793,7 @@ paths:
           description: Contract address of the fungible asset
           schema:
             type: string
-          examples:
-            ethereum:
-              summary: Ethereum contract address
-              value: "0x0db510e79909666d6dec7f5e49370838c16d950f"
-            solana:
-              summary: Solana token mint address
-              value: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"
+            example: 0x0db510e79909666d6dec7f5e49370838c16d950f (eth) --OR-- EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v (solana)
         - name: network
           in: query
           required: true
