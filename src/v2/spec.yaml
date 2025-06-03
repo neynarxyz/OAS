@@ -3810,7 +3810,6 @@ components:
       required:
         - uuid
         - title
-        - version
         - image
     NeynarPageImage:
       type: object
