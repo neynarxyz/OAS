@@ -823,6 +823,7 @@ components:
       allOf:
         - $ref: "#/components/schemas/OembedData"
         - type: object
+          description: Link OEmbed data
           required:
             - type
           properties:
@@ -834,6 +835,7 @@ components:
       allOf:
         - $ref: "#/components/schemas/OembedData"
         - type: object
+          description: Photo OEmbed data
           required:
             - type
             - url
@@ -865,6 +867,7 @@ components:
       allOf:
         - $ref: "#/components/schemas/OembedData"
         - type: object
+          description: Video OEmbed data
           required:
             - type
             - html
@@ -894,6 +897,7 @@ components:
       allOf:
         - $ref: "#/components/schemas/OembedData"
         - type: object
+          description: Rich OEmbed data
           required:
             - type
             - html
