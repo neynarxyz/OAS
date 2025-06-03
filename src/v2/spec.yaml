@@ -8525,52 +8525,6 @@ paths:
           $ref: "#/components/responses/400Response"
         "500":
           $ref: "#/components/responses/500Response"
-  /farcaster/frame/notifications/open:
-    post:
-      tags:
-        - Frame
-      summary: Mark notification as opened
-      description: |
-        Records an event indicating that a specific notification has been opened
-        by a recipient for a given application. This increments the open count
-        and updates timestamps for the notification campaign.
-      operationId: mark-notification-opened
-      requestBody:
-        description: Notification open event details
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - campaign_id
-                - fid
-                - app_fid
-              properties:
-                campaign_id:
-                  type: string
-                  format: ulid
-                  description: The ULID of the notification campaign that was opened.
-                fid:
-                  type: integer
-                  format: int32
-                  description: The Farcaster ID (FID) of the recipient who opened the notification.
-                app_fid:
-                  type: integer
-                  format: int32
-                  description: The ID of the Farcaster client application through which the notification was opened.
-      responses:
-        "200":
-          description: Notification successfully marked as opened.
-          content:
-            text/plain:
-              schema:
-                type: string
-                example: OK
-        "400":
-          $ref: "#/components/responses/400Response"
-        "500":
-          $ref: "#/components/responses/500Response"
   /farcaster/frame/transaction/pay:
     post:
       tags:
