@@ -6540,7 +6540,6 @@ paths:
       parameters:
         - name: feed_type
           in: query
-          required: true
           schema:
             type: string
             default: following
@@ -6579,6 +6578,8 @@ paths:
           schema:
             type: string
             example: 3,2,194
+            x-accept-as: integer
+            x-comma-separated: true
           description: >-
             Used when filter_type=FIDs . Create a feed based on a list of FIDs.
             Max array size is 100. Requires feed_type and filter_type.
@@ -9385,7 +9386,7 @@ paths:
         "400":
           $ref: "#/components/responses/400Response"
         "404":
-          $ref: "#/components/responses/400Response"
+          $ref: "#/components/responses/404Response"
   /farcaster/channel/trending/:
     get:
       tags:
