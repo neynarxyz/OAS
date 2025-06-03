@@ -5206,6 +5206,234 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Signer"
+
+    AppHostEventType:
+      type: string
+      enum:
+        - app_added
+        - app_removed
+        - notifications_enabled
+        - notifications_disabled
+      description: >-
+        Types of events that can occur between a user and an app host:
+        - app_added: User adds a mini app to their account
+        - app_removed: User removes a mini app from their account
+        - notifications_enabled: User enables notifications for a mini app
+        - notifications_disabled: User disables notifications for a mini app
+    AppHostGetEventResponse:
+      type: object
+      required:
+        - event
+      properties:
+        event:
+          type: string
+          description: >-
+            Legacy event type corresponding to the requested event type:
+            - frame_added: User adds a mini app to their account
+            - frame_removed: User removes a mini app from their account
+            - notifications_enabled: User enables notifications for a mini app
+            - notifications_disabled: User disables notifications for a mini app
+        notificationDetails:
+          type: object
+          description: >-
+            Details for notification setup, only present when event is notifications_enabled
+          properties:
+            url:
+              type: string
+              description: URL endpoint for sending notifications
+            token:
+              type: string
+              description: Token to use when sending notifications to this user
+          required:
+            - url
+            - token
+    AppHostPostEventBody:
+      type: object
+      description: >-
+        Request body for app host events. Can either provide a signed_message
+        or a signer_uuid with event details.
+      oneOf:
+        - type: object
+          required:
+            - signed_message
+            - app_domain
+          properties:
+            signed_message:
+              type: string
+              description: >-
+                JFS-signed message containing the event payload. The message
+                must be properly signed and contain valid event information.
+            app_domain:
+              type: string
+              description: Domain of the mini app
+              example: "demo.neynar.com"
+        - type: object
+          required:
+            - signer_uuid
+            - app_domain
+            - fid
+            - event
+          properties:
+            signer_uuid:
+              $ref: "#/components/schemas/SignerUUID"
+            app_domain:
+              type: string
+              description: Domain of the mini app
+            fid:
+              $ref: "#/components/schemas/Fid"
+            event:
+              $ref: "#/components/schemas/AppHostEventType"
+    AppHostPostEventResponse:
+      type: object
+      required:
+        - success
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "Successfully processed event"
+    AppHostUserStateResponse:
+      type: object
+      required:
+        - notifications_enabled
+      properties:
+        notifications_enabled:
+          type: array
+          description: List of domains for which notifications are enabled for this user
+          items:
+            type: object
+            required:
+              - domain
+              - status
+              - updated_at
+            properties:
+              domain:
+                type: string
+                description: Domain of the mini app
+              status:
+                type: string
+                description: Status of notifications for this domain (usually 'valid')
+              updated_at:
+                type: string
+                format: date-time
+                description: When the notification preference was last updated
+    AppHostNotificationItem:
+      type: object
+      required:
+        - created_at
+        - domain
+        - payload
+        - app_notification_id
+      properties:
+        created_at:
+          $ref: "#/components/schemas/Timestamp"
+        domain:
+          type: string
+          description: Domain that sent the notification
+        app:
+          type: object
+          properties:
+            name:
+              type: string
+              nullable: true
+              description: Name of the mini app
+            icon_url:
+              type: string
+              nullable: true
+              description: URL to the mini app's icon
+        payload:
+          type: object
+          required:
+            - body
+            - title
+            - target_url
+          properties:
+            body:
+              type: string
+              description: Body text of the notification
+            title:
+              type: string
+              description: Title of the notification
+            target_url:
+              type: string
+              description: URL to navigate to when notification is tapped
+        app_notification_id:
+          type: string
+          description: ID of the notification provided by the app
+    AppHostUserNotificationsResponse:
+      type: object
+      required:
+        - notifications
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: "#/components/schemas/AppHostNotificationItem"
+    AppHostPostNotificationResponse:
+      type: object
+      required:
+        - result
+      properties:
+        result:
+          type: object
+          required:
+            - successfulTokens
+            - invalidTokens
+            - rateLimitedTokens
+          properties:
+            successfulTokens:
+              type: array
+              description: List of tokens that were successfully processed
+              items:
+                type: string
+              example: ["abc123"]
+            invalidTokens:
+              type: array
+              description: List of tokens that were invalid or not found
+              items:
+                type: string
+              example: ["invalid456"]
+            rateLimitedTokens:
+              type: array
+              description: List of tokens that were rate limited
+              items:
+                type: string
+              example: []
+    AppHostPostNotificationBody:
+      type: object
+      required:
+        - notificationId
+        - title
+        - body
+        - targetUrl
+        - tokens
+      properties:
+        notificationId:
+          type: string
+          maxLength: 128
+          example: "notification_12345"
+          description: Unique identifier for this notification
+        title:
+          type: string
+          maxLength: 32
+          description: Title of the notification
+        body:
+          type: string
+          maxLength: 128
+          description: Body text of the notification
+        targetUrl:
+          type: string
+          maxLength: 1024
+          example: "https://app.example.com/message/123"
+          description: URL to open when the notification is tapped
+        tokens:
+          type: array
+          items:
+            type: string
+          maxItems: 100
+          description: Array of notification tokens to deliver to
   responses:
     401Response:
       description: Unauthorized
@@ -5324,6 +5552,11 @@ tags:
     description: Operations related to login
   - name: Metrics
     description: Operations related to retrieving metrics
+  - name: App Host
+    description: Operations related to app host notifications
+    externalDocs:
+      description: Documentation for app host notifications
+      url: https://docs.neynar.com/reference/app-host-notificationsFIXME
 paths:
   /farcaster/user/fid:
     get:
@@ -10596,6 +10829,165 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/DeployFungibleResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "500":
+          $ref: "#/components/responses/500Response"
+  /farcaster/app_host/user/event:
+    get:
+      tags:
+        - App Host
+      summary: Get app host event
+      description: >-
+        Returns event object for app host events. Used if the app host intends to sign the event message instead of using Neynar-hosted signers.
+      operationId: app-host-get-event
+      parameters:
+        - name: app_domain
+          in: query
+          required: true
+          schema:
+            type: string
+          description: The domain of the mini app
+          example: "demo.neynar.com"
+        - name: fid
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/Fid"
+          description: The FID of the user who initiated the event
+        - name: event
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/AppHostEventType"
+          description: The type of event
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AppHostGetEventResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
+        "500":
+          $ref: "#/components/responses/500Response"
+    post:
+      tags:
+        - App Host
+      summary: Process app host event
+      description: >-
+        Post an app_host event to the domain's webhook. Events such as enabling or disabling
+        notifications for a user. Provide either a signed message or the signer UUID of an authorized neynar-hosted signers.
+      operationId: app-host-post-event
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AppHostPostEventBody"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AppHostPostEventResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
+        "500":
+          $ref: "#/components/responses/500Response"
+  /farcaster/app_host/user/state:
+    get:
+      tags:
+        - App Host
+      summary: Get the user's notification subscriptions
+      description: >-
+        Returns the current notification state for a specific user across all mini app domains
+        in this app host. Shows which domains have notifications enabled.
+      operationId: app-host-get-user-state
+      parameters:
+        - name: fid
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/Fid"
+          description: The FID of the user
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AppHostUserStateResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
+        "500":
+          $ref: "#/components/responses/500Response"
+  /farcaster/app_host/user/notifications:
+    get:
+      tags:
+        - App Host
+      summary: Get user notifications
+      description: >-
+        Returns a list of notifications for a specific user in an app host.
+        The app host is identfied via the API key used to authenticate the request.
+      operationId: app-host-get-user-notifications
+      parameters:
+        - name: fid
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/Fid"
+          description: The FID of the user whose notifications to retrieve
+        - name: app_domain
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Optional domain to filter notifications by
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AppHostUserNotificationsResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
+        "500":
+          $ref: "#/components/responses/500Response"
+  /f/app_host/notify:
+    post:
+      tags:
+        - App Host
+      summary: Deliver notifications to users on app hosts
+      description: >-
+        Deliver notification to app-hosts users represented by the provided token(s).
+        This webhook endpoint receives notifications and delivers them to the appropriate
+        app hosts. Authentication is handled via the token IDs in the request body.
+      operationId: app-host-post-notification
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AppHostPostNotificationBody"
+      responses:
+        "200":
+          description: Notification processed successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AppHostPostNotificationResponse"
         "400":
           $ref: "#/components/responses/400Response"
         "500":
