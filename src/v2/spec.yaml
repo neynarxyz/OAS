@@ -4531,7 +4531,7 @@ components:
             type: integer
         text:
           type: string
-          description: >
+          description: >-
             Regex pattern to match the text key of the cast.
 
             **Note:** 
@@ -4545,7 +4545,7 @@ components:
           example: (?i)\$degen
         embeds:
           type: string
-          description: >
+          description: >-
             Regex pattern to match the embeded_url (key embeds) of the cast.
 
             **Note:** 
