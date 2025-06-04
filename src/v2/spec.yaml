@@ -60,6 +60,35 @@ components:
       pattern: ^0x[a-fA-F0-9]{40}$
       description: Ethereum address
       example: "0x5a927ac639636e534b678e81768ca19e2c6280b7"
+    MintNftRequest:
+      type: object
+      description: Request body for NFT minting operation.
+      required:
+        - network
+        - nft_contract_address
+        - recipients
+      properties:
+        network:
+          type: string
+          enum:
+            - base
+            - optimism
+            - base-sepolia
+          description: Network to mint on.
+        nft_contract_address:
+          type: string
+          pattern: ^0x[a-fA-F0-9]{40}$
+          description: NFT contract address to mint from.
+        recipients:
+          type: array
+          minItems: 1
+          maxItems: 200
+          items:
+            $ref: "#/components/schemas/NftMintRecipient"
+          description: List of recipients to mint to (1-200 recipients allowed).
+        async:
+          type: boolean
+          description: If true, returns immediately after sending the transaction.
     SolAddress:
       type: string
       pattern: ^[1-9A-HJ-NP-Za-km-z]{32,44}$
@@ -70,10 +99,15 @@ components:
       properties:
         address:
           type: string
+          pattern: ^0x[a-fA-F0-9]{40}$
           description: ETH address to mint to.
         fid:
           type: integer
           description: Farcaster FID (will be resolved to ETH address if provided).
+        quantity:
+          type: integer
+          minimum: 1
+          description: Quantity to mint (must be at least 1).
       oneOf:
         - required: [address]
         - required: [fid]
@@ -5538,26 +5572,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              required:
-                - recipients
-                - nft_contract_address
-                - network
-              properties:
-                recipients:
-                  type: array
-                  items:
-                    $ref: "#/components/schemas/NftMintRecipient"
-                  description: List of recipients to mint to.
-                nft_contract_address:
-                  type: string
-                  description: NFT contract address to mint from.
-                network:
-                  type: string
-                  description: Network to mint on (e.g., ethereum, base, optimism).
-                async:
-                  type: boolean
-                  description: If true, returns immediately after sending the transaction.
+              $ref: "#/components/schemas/MintNftRequest"
       responses:
         "200":
           description: Mint transaction sent successfully.
@@ -5614,13 +5629,18 @@ paths:
           required: true
           schema:
             type: string
+            pattern: ^0x[a-fA-F0-9]{40}$
           description: NFT contract address to mint from.
         - name: network
           in: query
           required: true
           schema:
             type: string
-          description: Network to mint on (e.g., ethereum, base, optimism).
+            enum:
+              - base
+              - optimism
+              - base-sepolia
+          description: Network to mint on.
       responses:
         "200":
           description: Calldata simulation successful.
