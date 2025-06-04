@@ -86,6 +86,10 @@ components:
           items:
             $ref: "#/components/schemas/NftMintRecipient"
           description: List of recipients to mint to (1-200 recipients allowed).
+        edition:
+          type: integer
+          minimum: 1
+          description: Optional edition number to mint.
         async:
           type: boolean
           description: If true, returns immediately after sending the transaction.
@@ -5641,6 +5645,13 @@ paths:
               - optimism
               - base-sepolia
           description: Network to mint on.
+        - name: edition
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+          description: Optional edition number to include in the simulation.
       responses:
         "200":
           description: Calldata simulation successful.
