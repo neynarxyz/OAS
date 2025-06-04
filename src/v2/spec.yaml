@@ -5440,6 +5440,124 @@ tags:
   - name: App Host
     description: Operations related to app host notifications
 paths:
+  /farcaster/nft/mint:
+    post:
+      tags:
+        - Onchain
+      summary: Mint NFT(s)
+      description: >
+        Mints an NFT to one or more recipients on a specified network and contract, using a configured server wallet. Contact us to set up your wallet configuration if you don't have one.
+      operationId: mint-nft
+      parameters:
+        - name: x-wallet-id
+          in: header
+          required: true
+          schema:
+            type: string
+          description: The wallet ID to use for minting.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - recipients
+                - nft_contract_address
+                - network
+              properties:
+                recipients:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/NftMintRecipient"
+                  description: List of recipients to mint to.
+                nft_contract_address:
+                  type: string
+                  description: NFT contract address to mint from.
+                network:
+                  type: string
+                  description: Network to mint on (e.g., ethereum, base, optimism).
+                async:
+                  type: boolean
+                  description: If true, returns immediately after sending the transaction.
+      responses:
+        "200":
+          description: Mint transaction sent successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NftMintResponse"
+        "400":
+          description: Missing required header or wallet config not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NftMintError"
+        "401":
+          description: Missing app authentication.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NftMintError"
+        "402":
+          description: Insufficient funds in the wallet.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NftMintError"
+        "404":
+          description: Unsupported contract or no supported mint project detected.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NftMintError"
+        "500":
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NftMintError"
+    get:
+      tags:
+        - Onchain
+      summary: Simulate NFT mint calldata
+      description: >
+        Simulates mint calldata for the given recipients, contract, and network. Useful for previewing calldata and ABI before minting.
+      operationId: simulate-nft-mint
+      parameters:
+        - name: recipients
+          in: query
+          required: true
+          schema:
+            type: string
+          description: JSON array of recipients (same structure as POST).
+        - name: nft_contract_address
+          in: query
+          required: true
+          schema:
+            type: string
+          description: NFT contract address to mint from.
+        - name: network
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Network to mint on (e.g., ethereum, base, optimism).
+      responses:
+        "200":
+          description: Calldata simulation successful.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/NftMintCalldataResponse"
+        "500":
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NftMintError"
   /farcaster/user/fid:
     get:
       tags:
