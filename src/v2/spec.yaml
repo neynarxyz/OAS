@@ -64,6 +64,84 @@ components:
       type: string
       pattern: ^[1-9A-HJ-NP-Za-km-z]{32,44}$
       description: Solana address
+    NftMintRecipient:
+      type: object
+      description: NFT mint recipient.
+      properties:
+        address:
+          type: string
+          description: ETH address to mint to.
+        fid:
+          type: integer
+          description: Farcaster FID (will be resolved to ETH address if provided).
+      oneOf:
+        - required: [address]
+        - required: [fid]
+    NftMintResponse:
+      type: object
+      description: Response for NFT minting operation.
+      properties:
+        transactions:
+          type: array
+          items:
+            type: object
+            properties:
+              recipient:
+                $ref: '#/components/schemas/NftMintRecipient'
+              transaction_hash:
+                type: string
+                description: Transaction hash of the mint.
+              receipt:
+                type: object
+                description: Transaction receipt (if async is false).
+                nullable: true
+                properties:
+                  status:
+                    type: string
+                  gas_used:
+                    type: string
+                  block_number:
+                    type: string
+                required: [status, gas_used, block_number]
+            required: [recipient, transaction_hash]
+      required: [transactions]
+    NftMintCalldataResponse:
+      type: array
+      description: Calldata simulation for NFT minting.
+      items:
+        type: object
+        properties:
+          recipient:
+            $ref: '#/components/schemas/NftMintRecipient'
+          function_name:
+            type: string
+          args:
+            type: array
+            items: {}
+          to:
+            type: string
+          data:
+            type: string
+          value:
+            type: string
+          network:
+            type: string
+          calldata:
+            type: string
+            description: Calldata for the mint transaction.
+        required: [recipient, function_name, args, to, data, value, network, calldata]
+    NftMintError:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code.
+        message:
+          type: string
+          description: Error message.
+      required:
+        - code
+        - message
     PrefixedHexString:
       type: string
       pattern: ^0x[a-fA-F0-9]+$
