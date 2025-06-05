@@ -5439,9 +5439,6 @@ tags:
     description: Operations related to retrieving metrics
   - name: App Host
     description: Operations related to app host notifications
-    externalDocs:
-      description: Documentation for app host notifications
-      url: https://docs.neynar.com/reference/app-host-notificationsFIXME
 paths:
   /farcaster/user/fid:
     get:
