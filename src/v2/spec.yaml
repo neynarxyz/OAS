@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Farcaster API V2
-  version: 2.45.0
+  version: 2.46.0
   description: >
     The Farcaster API allows you to interact with the Farcaster protocol. See
     the [Neynar docs](https://docs.neynar.com/reference) for more details.
@@ -5206,6 +5206,119 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Signer"
+
+    AppHostEventType:
+      type: string
+      enum:
+        - frame_added
+        - frame_removed
+        - notifications_enabled
+        - notifications_disabled
+      description: >-
+        Types of events that can occur between a user and an app host:
+        - frame_added: User adds a mini app to their account
+        - frame_removed: User removes a mini app from their account
+        - notifications_enabled: User enables notifications for a mini app
+        - notifications_disabled: User disables notifications for a mini app
+    AppHostGetEventResponse:
+      type: object
+      required:
+        - event
+      properties:
+        event:
+          type: string
+          description: >-
+            Legacy event type corresponding to the requested event type:
+            - frame_added: User adds a mini app to their account
+            - frame_removed: User removes a mini app from their account
+            - notifications_enabled: User enables notifications for a mini app
+            - notifications_disabled: User disables notifications for a mini app
+        notificationDetails:
+          type: object
+          description: >-
+            Details for notification setup, only present when event is notifications_enabled
+          properties:
+            url:
+              type: string
+              description: URL endpoint for sending notifications
+            token:
+              type: string
+              description: Token to use when sending notifications to this user
+          required:
+            - url
+            - token
+    AppHostPostEventBody:
+      type: object
+      description: >-
+        Request body for app host events. Can either provide a signed_message
+        or a signer_uuid with event details.
+      oneOf:
+        - type: object
+          required:
+            - signed_message
+            - app_domain
+          properties:
+            signed_message:
+              type: string
+              description: >-
+                JFS-signed message containing the event payload. The message
+                must be properly signed and contain valid event information.
+            app_domain:
+              type: string
+              description: Domain of the mini app
+              example: "demo.neynar.com"
+        - type: object
+          required:
+            - signer_uuid
+            - app_domain
+            - fid
+            - event
+          properties:
+            signer_uuid:
+              $ref: "#/components/schemas/SignerUUID"
+            app_domain:
+              type: string
+              description: Domain of the mini app
+            fid:
+              $ref: "#/components/schemas/Fid"
+            event:
+              $ref: "#/components/schemas/AppHostEventType"
+    AppHostPostEventResponse:
+      type: object
+      required:
+        - success
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "Successfully processed event"
+    AppHostUserStateResponse:
+      type: object
+      required:
+        - notifications_enabled
+      properties:
+        notifications_enabled:
+          type: array
+          description: List of domains for which notifications are enabled for this user
+          items:
+            type: object
+            required:
+              - domain
+              - status
+              - updated_at
+            properties:
+              domain:
+                type: string
+                description: Domain of the mini app
+              status:
+                type: string
+                description: Status of notifications for this domain (usually 'valid')
+              updated_at:
+                type: string
+                format: date-time
+                description: When the notification preference was last updated
   responses:
     401Response:
       description: Unauthorized
@@ -5324,6 +5437,8 @@ tags:
     description: Operations related to login
   - name: Metrics
     description: Operations related to retrieving metrics
+  - name: App Host
+    description: Operations related to app host notifications
 paths:
   /farcaster/user/fid:
     get:
@@ -10598,6 +10713,103 @@ paths:
                 $ref: "#/components/schemas/DeployFungibleResponse"
         "400":
           $ref: "#/components/responses/400Response"
+        "500":
+          $ref: "#/components/responses/500Response"
+  /farcaster/app_host/user/event:
+    get:
+      tags:
+        - App Host
+      summary: Get app host event
+      description: >-
+        Returns event object for app host events. Used if the app host intends to sign the event message instead of using Neynar-hosted signers.
+      operationId: app-host-get-event
+      parameters:
+        - name: app_domain
+          in: query
+          required: true
+          schema:
+            type: string
+          description: The domain of the mini app
+          example: "demo.neynar.com"
+        - name: fid
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/Fid"
+          description: The FID of the user who initiated the event
+        - name: event
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/AppHostEventType"
+          description: The type of event
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AppHostGetEventResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
+        "500":
+          $ref: "#/components/responses/500Response"
+    post:
+      tags:
+        - App Host
+      summary: Process app host event
+      description: >-
+        Post an app_host event to the domain's webhook. Events such as enabling or disabling
+        notifications for a user. Provide either a signed message or the signer UUID of an authorized neynar-hosted signers.
+      operationId: app-host-post-event
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AppHostPostEventBody"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AppHostPostEventResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
+        "500":
+          $ref: "#/components/responses/500Response"
+  /farcaster/app_host/user/state:
+    get:
+      tags:
+        - App Host
+      summary: Get the user's notification subscriptions
+      description: >-
+        Returns the current notification state for a specific user across all mini app domains
+        in this app host. Shows which domains have notifications enabled.
+      operationId: app-host-get-user-state
+      parameters:
+        - name: fid
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/Fid"
+          description: The FID of the user
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AppHostUserStateResponse"
+        "400":
+          $ref: "#/components/responses/400Response"
+        "404":
+          $ref: "#/components/responses/404Response"
         "500":
           $ref: "#/components/responses/500Response"
   # /farcaster/webhook/subscription:
