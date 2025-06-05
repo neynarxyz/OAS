@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Farcaster API V2
-  version: 2.44.0
+  version: 2.45.0
   description: >
     The Farcaster API allows you to interact with the Farcaster protocol. See
     the [Neynar docs](https://docs.neynar.com/reference) for more details.
@@ -71,7 +71,7 @@ components:
     Fid:
       type: integer
       format: int32
-      description: The unique identifier of a farcaster user (unsigned integer)
+      description: The unique identifier of a farcaster user or app (unsigned integer)
       example: 3
     MiniAppTimeWindow:
       type: string
@@ -4055,6 +4055,8 @@ components:
             - token_not_found
             - token_disabled
             - failed
+        app_fid:
+          $ref: "#/components/schemas/Fid"
     ValidateFrameActionResponse:
       type: object
       required:
@@ -8412,6 +8414,110 @@ paths:
                 oneOf:
                   - $ref: "#/components/schemas/ZodError"
                   - $ref: "#/components/schemas/ErrorRes"
+        "500":
+          $ref: "#/components/responses/500Response"
+    get:
+      tags:
+        - Frame
+      summary: Get notification campaign stats
+      description: Retrieve notification delivery and opened stats for notification campaigns
+      operationId: get-notification-campaign-stats
+      parameters:
+        - name: campaign_id
+          in: query
+          required: false
+          description: An ID of a specific notification campaign to query
+          schema:
+            type: string
+            format: ulid
+        - name: limit
+          in: query
+          required: false
+          description: The number of results to return
+          schema:
+            type: integer
+            default: 100
+            minimum: 1
+          x-is-limit-param: true
+        - name: cursor
+          in: query
+          required: false
+          description: Pagination cursor
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  notificationCampaigns:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          format: ulid
+                          description: The unique identifier for the notification campaign.
+                        title:
+                          type: string
+                          description: The title of the notification campaign.
+                        body:
+                          type: string
+                          description: The body text of the notification.
+                        created_at:
+                          type: string
+                          format: date-time
+                        stats:
+                          type: object
+                          properties:
+                            intended_recipient_notification_token_count:
+                              type: integer
+                              format: int32
+                              description: The total number of notification tokens for intended recipients.
+                            intended_recipient_app_fids:
+                              type: array
+                              items:
+                                type: integer
+                                format: int32
+                              description: An array of Farcaster FIDs of intended recipient applications.
+                            successful_sends:
+                              type: integer
+                              format: int32
+                              description: The number of notifications successfully sent.
+                            successful_sends_by_app_fid:
+                              type: object
+                              additionalProperties:
+                                type: integer
+                                format: int32
+                              description: A record mapping app FIDs (as strings) to the number of successful sends for that app.
+                            total_opens:
+                              type: integer
+                              format: int32
+                              description: The total number of times notifications from this campaign have been opened.
+                            total_opens_by_app_fid:
+                              type: object
+                              additionalProperties:
+                                type: integer
+                                format: int32
+                              description: A record mapping app FIDs (as strings) to the number of opens for that app.
+                            unique_opens:
+                              type: integer
+                              format: int32
+                              description: The number of unique recipients who opened a notification from this campaign.
+                            unique_opens_by_app_fid:
+                              type: object
+                              additionalProperties:
+                                type: integer
+                                format: int32
+                              description: A record mapping app FIDs (as strings) to the number of unique opens for that app.
+                  next:
+                    $ref: "#/components/schemas/NextCursor"
+        "400":
+          $ref: "#/components/responses/400Response"
         "500":
           $ref: "#/components/responses/500Response"
   /farcaster/frame/transaction/pay:
