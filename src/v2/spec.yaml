@@ -5210,14 +5210,14 @@ components:
     AppHostEventType:
       type: string
       enum:
-        - app_added
-        - app_removed
+        - frame_added
+        - frame_removed
         - notifications_enabled
         - notifications_disabled
       description: >-
         Types of events that can occur between a user and an app host:
-        - app_added: User adds a mini app to their account
-        - app_removed: User removes a mini app from their account
+        - frame_added: User adds a mini app to their account
+        - frame_removed: User removes a mini app from their account
         - notifications_enabled: User enables notifications for a mini app
         - notifications_disabled: User disables notifications for a mini app
     AppHostGetEventResponse:
@@ -5322,13 +5322,24 @@ components:
     AppHostNotificationItem:
       type: object
       required:
-        - created_at
+        - most_recent_timestamp
         - domain
         - payload
         - app_notification_id
       properties:
-        created_at:
+        object:
+          type: string
+          enum:
+            - notification
+        type:
+          type: string
+          enum:
+            - mini_app
+        most_recent_timestamp:
           $ref: "#/components/schemas/Timestamp"
+        seen:
+          type: boolean
+          description: Whether the notification has been seen by the user
         domain:
           type: string
           description: Domain that sent the notification
