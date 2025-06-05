@@ -1,20 +1,19 @@
-# Contribution Guide for Writing OAS v3.0
+# Contribution Guide
 
 This document outlines important guidelines and gotchas to consider when contributing to the OAS v3.0 for the SDK.
 
-## Gotchas While Writing OAS v3.0
 
-### 1. Bump up `version` in `src/v2/spec.yaml`
+## 1. Bump up `version` in `src/api/spec.yaml`
 
 - This will be the version of the sdk that will get published.
 
-### 2. Use `kebab-case` for `operationId`
+## 2. Use `kebab-case` for `operationId`
 
 - Always use `kebab-case` for `operationId`.
   - This ensures the `operationId` is SEO-friendly when appended to the API URL in the README (e.g., `user-bulk-by-address`).
   - The generator script uses `operationId` to generate method names by converting `kebab-case` to `camelCase`.
 
-### 3. Handle Comma-Separated Values with `x-comma-separated`
+## 3. Handle Comma-Separated Values with `x-comma-separated`
 
 - If the API expects comma-separated values, use the `x-comma-separated` vendor extension.
   ```yaml
@@ -29,7 +28,7 @@ This document outlines important guidelines and gotchas to consider when contrib
         x-comma-separated: true
   ```
 
-### 4. Use `x-accept-as` for Type Conversion
+## 4. Use `x-accept-as` for Type Conversion
 
 - To accept a parameter as a different type from what the API expects, use the `x-accept-as` vendor extension.
   ```yaml
@@ -45,7 +44,7 @@ This document outlines important guidelines and gotchas to consider when contrib
         x-accept-as: integer
   ```
 
-### 5. Use `x-is-limit-param` for Limit Parameters
+## 5. Use `x-is-limit-param` for Limit Parameters
 
 - For limit parameters, use `x-is-limit-param: true` so the SDK can pick up defaults and maximums from the OAS.
   ```yaml
@@ -64,12 +63,12 @@ This document outlines important guidelines and gotchas to consider when contrib
       x-is-limit-param: true
   ```
 
-### 6. Naming Request Body Schemas
+## 6. Naming Request Body Schemas
 
 - End schema names for request bodies with `ReqBody`.
 - Avoid using `allOf` or `oneOf` in request body schemas.
 
-### 7. Global Headers
+## 7. Global Headers
 
 - Always use `kebab-case` for global headers.
 - Add `x-is-global-header`for a global header.
@@ -86,7 +85,7 @@ This document outlines important guidelines and gotchas to consider when contrib
       x-is-global-header: true
   ```
 
-### 8. Use `PascalCase` for Tags
+## 8. Use `PascalCase` for Tags
 
 - Ensure tags are written in `PascalCase`.
   ```yaml
@@ -94,6 +93,6 @@ This document outlines important guidelines and gotchas to consider when contrib
     - HubEvents
   ```
 
-### 9. Use `snake_case` for Top-Level Keys in `reqBody`
+## 9. Use `snake_case` for Top-Level Keys in `reqBody`
 
 - Ensure all top-level keys in `reqBody` are in `snake_case`.
