@@ -71,13 +71,8 @@ components:
     Fid:
       type: integer
       format: int32
-      description: The unique identifier of a farcaster user (unsigned integer)
+      description: The unique identifier of a farcaster user or app (unsigned integer)
       example: 3
-    AppFid:
-      type: integer
-      format: int32
-      description: The unique identifier of a farcaster client app
-      example: 9152
     MiniAppTimeWindow:
       type: string
       enum:
@@ -4061,7 +4056,7 @@ components:
             - token_disabled
             - failed
         app_fid:
-          $ref: "#/components/schemas/AppFid"
+          $ref: "#/components/schemas/Fid"
     ValidateFrameActionResponse:
       type: object
       required:
