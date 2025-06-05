@@ -5,8 +5,8 @@ on:
     branches:
       - main
     paths:
-      - 'src/hub-rest-api/spec.yaml'
-      - 'src/v2/spec.yaml'
+      - 'src/hub-api/spec.yaml'
+      - 'src/api/spec.yaml'
 
 jobs:
   commit-changes:
@@ -31,9 +31,6 @@ jobs:
         run: |
           cp OAS/src/hub-api/spec.yaml docs/openapi/hub-api/openapi.yaml
           cp OAS/src/api/spec.yaml docs/openapi/api/openapi.yaml
-          # Remove old files if they exist
-          rm -f docs/openapi/hub-rest-api/openapi.yaml
-          rm -f docs/openapi/v2/openapi.yaml
 
       - name: Commit and push changes
         run: |

@@ -25,13 +25,13 @@ To validate an OpenAPI specification file using Spectral, run:
 #### v2
 
 ```bash
-spectral lint src/v2/spec.yaml
+spectral lint src/api/spec.yaml
 ```
 
-#### hub-rest-api
+#### hub-api
 
 ```bash
-spectral lint src/hub-rest-api/spec.yaml
+spectral lint src/hub-api/spec.yaml
 ```
 
 Spectral will output any errors or warnings found in the specification files.
@@ -49,14 +49,14 @@ yarn global add swagger-cli
 #### Validate OpenAPI Specifications with Swagger CLI
 To validate an OpenAPI specification file using Swagger CLI, run:
 
-v2
+api
 ```bash
-swagger-cli validate src/v2/spec.yaml
+swagger-cli validate src/api/spec.yaml
 ```
 
-hub-rest-api
+hub-api
 ```bash
-swagger-cli validate src/hub-rest-api/spec.yaml
+swagger-cli validate src/hub-api/spec.yaml
 ```
 
 This will check for structural errors and report any issues.
