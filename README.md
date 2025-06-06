@@ -22,7 +22,7 @@ yarn global add @stoplight/spectral-cli
 
 To validate an OpenAPI specification file using Spectral, run:
 
-#### v2
+#### api
 
 ```bash
 spectral lint src/api/spec.yaml
