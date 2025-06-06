@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.0.1
+  version: 3.0.3
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -151,7 +151,7 @@ paths:
                 $ref: '#/components/schemas/ErrorRes'
       externalDocs:
         url: https://docs.neynar.com/reference/app-host-get-user-state
-  /v2/farcaster/app_host/user/event:
+  /v2/farcaster/app_host/user/event/:
     get:
       description: Returns event object for app host events. Used if the app host intends to sign the event message instead of using Neynar-hosted signers.
       summary: Get app host event
@@ -3153,8 +3153,8 @@ paths:
                       properties:
                         id:
                           type: string
-                          description: The unique identifier for the notification campaign.
                           format: uuid
+                          description: The unique identifier for the notification campaign.
                         title:
                           type: string
                           description: The title of the notification campaign.
