@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.0.3
+  version: 3.1.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -220,7 +220,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AppHostPostEventBody'
+              $ref: '#/components/schemas/AppHostPostEventReqBody'
         required: true
       responses:
         '200':
@@ -3254,7 +3254,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/FramePayTransactionRequestBody'
+              $ref: '#/components/schemas/FramePayTransactionReqBody'
         required: true
       responses:
         '200':
@@ -3786,7 +3786,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TransactionSendFungiblesRequest'
+              $ref: '#/components/schemas/TransactionSendFungiblesReqBody'
         required: true
       responses:
         '200':
@@ -6299,7 +6299,7 @@ components:
         - frame_removed: User removes a mini app from their account
         - notifications_enabled: User enables notifications for a mini app
         - notifications_disabled: User disables notifications for a mini app
-    AppHostPostEventBody:
+    AppHostPostEventReqBody:
       oneOf:
         - type: object
           properties:
@@ -6329,7 +6329,7 @@ components:
             - app_domain
             - fid
             - event
-      title: AppHostPostEventBody
+      title: AppHostPostEventReqBody
       description: Request body for app host events. Can either provide a signed_message or a signer_uuid with event details.
     AppHostPostEventResponse:
       type: object
@@ -9227,7 +9227,7 @@ components:
       required:
         - line_items
       title: TransactionFrameConfig
-    FramePayTransactionRequestBody:
+    FramePayTransactionReqBody:
       type: object
       properties:
         transaction:
@@ -9244,7 +9244,7 @@ components:
       required:
         - transaction
         - config
-      title: FramePayTransactionRequestBody
+      title: FramePayTransactionReqBody
     TransactionFrameType:
       type: string
       enum:
@@ -9561,7 +9561,7 @@ components:
         - fid
         - amount
       title: TransactionSendFungiblesRecipient
-    TransactionSendFungiblesRequest:
+    TransactionSendFungiblesReqBody:
       type: object
       properties:
         network:
@@ -9584,7 +9584,7 @@ components:
       required:
         - network
         - recipients
-      title: TransactionSendFungiblesRequest
+      title: TransactionSendFungiblesReqBody
     TransactionSendFungiblesReceipt:
       type: object
       properties:
