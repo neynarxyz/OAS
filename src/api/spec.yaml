@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.3.1
+  version: 3.3.2
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -252,10 +252,10 @@ paths:
   /v2/farcaster/auth_address/developer_managed/signed_key/:
     post:
       description: Allow apps to register an Ethereum addresses as authorized "auth addresses" for a user's Farcaster account, enabling seamless Sign-In With Farcaster (SIWF) across applications without repeated custody wallet authorizations.
-      summary: Register Auth Address (Developer Managed)
+      summary: Register Signed Key
       tags:
         - AuthAddress
-      operationId: register-auth-address-developer-managed
+      operationId: register-signed-key-for-developer-managed-auth-address
       requestBody:
         content:
           application/json:
@@ -347,7 +347,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorRes'
       externalDocs:
-        url: https://docs.neynar.com/reference/register-auth-address-developer-managed
+        url: https://docs.neynar.com/reference/register-signed-key-for-developer-managed-auth-address
   /v2/farcaster/ban/list/:
     get:
       description: Fetches all FIDs that your app has banned.
