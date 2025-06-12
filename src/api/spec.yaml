@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.3.0
+  version: 3.3.1
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -3818,7 +3818,7 @@ paths:
         url: https://docs.neynar.com/reference/delete-neynar-frame
   /v2/farcaster/fungible/owner/relevant/:
     get:
-      description: Fetch a list of relevant owners for a specific FID. This usually shows on a fungible asset page as "X, Y, Z and N others you know own this asset".
+      description: Fetch a list of relevant owners for a on chain asset. If a viewer is provided, only relevant holders will be shown. This usually shows on a fungible asset page as "X, Y, Z and N others you know own this asset".
       summary: Relevant owners
       tags:
         - Onchain
