@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.2.0
+  version: 3.3.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -907,12 +907,6 @@ paths:
           description: Channel ID of the casts you want to search
           schema:
             type: string
-        - name: priority_mode
-          in: query
-          description: When true, only returns search results from power badge users and users that the viewer follows (if viewer_fid is provided).
-          schema:
-            default: false
-            type: boolean
         - name: limit
           in: query
           description: Number of results to fetch
@@ -4157,6 +4151,7 @@ paths:
       tags:
         - Notifications
       parameters:
+        - $ref: '#/components/parameters/NeynarExperimentalHeader'
         - name: fid
           in: query
           description: FID of the user you you want to fetch notifications for. The response will respect this user's mutes and blocks.
@@ -4171,12 +4166,6 @@ paths:
             type: string
             x-comma-separated: true
             example: neynar,farcaster
-        - name: priority_mode
-          in: query
-          description: When true, only returns notifications from power badge users and users that the user follows.
-          schema:
-            default: false
-            type: boolean
         - name: limit
           in: query
           description: Number of results to fetch
@@ -4216,6 +4205,7 @@ paths:
       tags:
         - Notifications
       parameters:
+        - $ref: '#/components/parameters/NeynarExperimentalHeader'
         - name: fid
           in: query
           description: FID of the user you you want to fetch notifications for. The response will respect this user's mutes and blocks.
@@ -4230,12 +4220,6 @@ paths:
             type: string
             x-comma-separated: true
             example: chain://eip155:1/erc721:0xd4498134211baad5846ce70ce04e7c4da78931cc
-        - name: priority_mode
-          in: query
-          description: When true, only returns notifications from power badge users and users that the user follows.
-          schema:
-            default: false
-            type: boolean
         - name: limit
           in: query
           description: Number of results to fetch
@@ -4316,6 +4300,7 @@ paths:
       tags:
         - Notifications
       parameters:
+        - $ref: '#/components/parameters/NeynarExperimentalHeader'
         - name: fid
           in: query
           description: FID of the user you you want to fetch notifications for. The response will respect this user's mutes and blocks.
@@ -4337,13 +4322,6 @@ paths:
                 - replies
                 - quotes
               title: NotificationType
-        - name: priority_mode
-          in: query
-          description: When true, only returns notifications from power badge users and users that the user follows.
-          schema:
-            default: false
-            type: boolean
-            example: false
         - name: limit
           in: query
           description: Number of results to fetch
@@ -5310,84 +5288,6 @@ paths:
                 $ref: '#/components/schemas/ErrorRes'
       externalDocs:
         url: https://docs.neynar.com/reference/fetch-bulk-users
-  /v2/farcaster/user/power/:
-    get:
-      description: Fetches power users based on Warpcast power badges. Information is updated once a day.
-      summary: Power users
-      tags:
-        - User
-      parameters:
-        - $ref: '#/components/parameters/NeynarExperimentalHeader'
-        - name: viewer_fid
-          in: query
-          description: The unique identifier of a farcaster user or app (unsigned integer)
-          schema:
-            type: integer
-            example: 3
-            title: Fid
-            format: int32
-        - name: limit
-          in: query
-          description: Number of power users to fetch
-          schema:
-            default: 25
-            type: integer
-            minimum: 1
-            maximum: 100
-            format: int32
-            example: 10
-          x-is-limit-param: true
-        - name: cursor
-          in: query
-          description: Pagination cursor.
-          schema:
-            type: string
-      operationId: fetch-power-users
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UsersResponse'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorRes'
-      externalDocs:
-        url: https://docs.neynar.com/reference/fetch-power-users
-  /v2/farcaster/user/power_lite/:
-    get:
-      description: Fetches power users and respond in a backwards compatible format to Warpcast's deprecated power badge endpoint.
-      summary: Power user FIDs
-      tags:
-        - User
-      parameters:
-        - $ref: '#/components/parameters/NeynarExperimentalHeader'
-      operationId: fetch-power-users-lite
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserPowerLiteResponse'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorRes'
-        '500':
-          description: Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorRes'
-      externalDocs:
-        url: https://docs.neynar.com/reference/fetch-power-users-lite
   /v2/farcaster/user/bulk-by-address/:
     get:
       description: |-
