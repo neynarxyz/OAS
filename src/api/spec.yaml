@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.3.2
+  version: 3.4.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -4144,6 +4144,257 @@ paths:
                 $ref: '#/components/schemas/ErrorRes'
       externalDocs:
         url: https://docs.neynar.com/reference/delete-mute
+  /v2/farcaster/nft/mint/:
+    post:
+      description: Mints an NFT to one or more recipients on a specified network and contract, using a configured server wallet. Contact us to set up your wallet configuration if you don't have one.
+      summary: Mint NFT(s)
+      tags:
+        - Onchain
+      parameters:
+        - $ref: '#/components/parameters/WalletIdHeader'
+      operationId: mint-nft
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                network:
+                  type: string
+                  enum:
+                    - base
+                    - optimism
+                    - base-sepolia
+                  description: Network to mint on.
+                  example: base
+                contract_address:
+                  type: string
+                  pattern: ^0x[a-fA-F0-9]{40}$
+                  example: '0x5a927ac639636e534b678e81768ca19e2c6280b7'
+                  description: Ethereum address
+                  title: EthAddress
+                recipients:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      address:
+                        type: string
+                        pattern: ^0x[a-fA-F0-9]{40}$
+                        example: '0x5a927ac639636e534b678e81768ca19e2c6280b7'
+                        description: Ethereum address
+                        title: EthAddress
+                      fid:
+                        type: integer
+                        description: The unique identifier of a farcaster user or app (unsigned integer)
+                        example: 3
+                        title: Fid
+                        format: int32
+                      quantity:
+                        type: integer
+                        minimum: 1
+                        description: Quantity to mint (must be at least 1).
+                        example: 1
+                    description: NFT mint recipient. Exactly one of "address" or "fid" must be set.
+                  minItems: 1
+                  maxItems: 200
+                  description: List of recipients to mint to (1-200 recipients allowed).
+                async:
+                  type: boolean
+                  description: If true, returns immediately after sending the transaction.
+                  example: false
+              required:
+                - network
+                - contract_address
+                - recipients
+              description: Request body for NFT minting operation.
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  transactions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        recipient:
+                          type: object
+                          properties:
+                            address:
+                              $ref: '#/components/schemas/EthAddress'
+                            fid:
+                              $ref: '#/components/schemas/Fid'
+                            quantity:
+                              type: integer
+                              minimum: 1
+                              description: Quantity to mint (must be at least 1).
+                              example: 1
+                          description: NFT mint recipient. Exactly one of "address" or "fid" must be set.
+                        transaction_hash:
+                          $ref: '#/components/schemas/PrefixedHexString'
+                        receipt:
+                          type: object
+                          properties:
+                            status:
+                              type: string
+                            gas_used:
+                              type: string
+                            block_number:
+                              type: string
+                          required:
+                            - status
+                            - gas_used
+                            - block_number
+                          nullable: true
+                          description: Transaction receipt (if async is false).
+                      required:
+                        - recipient
+                        - transaction_hash
+                    description: Array of mint transaction results.
+                required:
+                  - transactions
+                description: Response for NFT minting operation.
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ZodError'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '402':
+          description: '402'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      externalDocs:
+        url: https://docs.neynar.com/reference/mint-nft
+    get:
+      description: Simulates mint calldata for the given recipients, contract, and network. Useful for previewing calldata and ABI before minting.
+      summary: Simulate NFT mint calldata
+      tags:
+        - Onchain
+      parameters:
+        - name: recipients
+          in: query
+          description: JSON array of recipients (same structure as POST).
+          required: true
+          schema:
+            type: string
+        - name: nft_contract_address
+          in: query
+          description: Ethereum address
+          required: true
+          schema:
+            type: string
+            pattern: ^0x[a-fA-F0-9]{40}$
+            example: '0x5a927ac639636e534b678e81768ca19e2c6280b7'
+            title: EthAddress
+        - name: network
+          in: query
+          description: Network to mint on.
+          required: true
+          schema:
+            type: string
+            enum:
+              - base
+              - optimism
+              - base-sepolia
+      operationId: simulate-nft-mint
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    recipient:
+                      type: object
+                      properties:
+                        address:
+                          $ref: '#/components/schemas/EthAddress'
+                        fid:
+                          $ref: '#/components/schemas/Fid'
+                        quantity:
+                          type: integer
+                          minimum: 1
+                          description: Quantity to mint (must be at least 1).
+                          example: 1
+                      description: NFT mint recipient. Exactly one of "address" or "fid" must be set.
+                    function_name:
+                      type: string
+                      example: mintTo
+                    args:
+                      type: array
+                      items:
+                        nullable: true
+                    to:
+                      $ref: '#/components/schemas/EthAddress'
+                    data:
+                      type: string
+                      example: '0x1234abcd'
+                    value:
+                      type: string
+                      example: '0'
+                    network:
+                      type: string
+                      example: base
+                    calldata:
+                      type: string
+                      description: Calldata for the mint transaction.
+                      example: '0xabcdef'
+                    abi:
+                      nullable: true
+                      description: ABI for the mint function.
+                  required:
+                    - recipient
+                    - function_name
+                    - args
+                    - to
+                    - data
+                    - value
+                    - network
+                    - calldata
+                  description: Calldata simulation for NFT minting.
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ZodError'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      externalDocs:
+        url: https://docs.neynar.com/reference/simulate-nft-mint
   /v2/farcaster/notifications/channel/:
     get:
       description: Returns a list of notifications for a user in specific channels
@@ -9733,6 +9984,11 @@ components:
       required:
         - success
       title: MuteResponse
+    PrefixedHexString:
+      type: string
+      pattern: ^0x[a-fA-F0-9]+$
+      description: Hexadecimal number expressed as string with '0x' prefix
+      title: PrefixedHexString
     ReactionWithUserInfo:
       type: object
       properties:
@@ -10216,11 +10472,6 @@ components:
       required:
         - fid
       title: UserFIDResponse
-    PrefixedHexString:
-      type: string
-      pattern: ^0x[a-fA-F0-9]+$
-      description: Hexadecimal number expressed as string with '0x' prefix
-      title: PrefixedHexString
     RegisterUserOnChainReqBody:
       type: object
       properties:
