@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.6.0
+  version: 3.7.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -5167,6 +5167,57 @@ paths:
                 $ref: '#/components/schemas/ErrorRes'
       externalDocs:
         url: https://docs.neynar.com/reference/buy-storage
+  /v2/farcaster/user/best_friends/:
+    get:
+      description: Returns the best friends of a user ranked by mutual affinity score based on interactions with each other.
+      summary: Best friends
+      tags:
+        - User
+      parameters:
+        - name: fid
+          in: query
+          description: The FID of the user
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+        - name: limit
+          in: query
+          description: Number of results to fetch
+          schema:
+            default: 3
+            type: integer
+            minimum: 1
+            maximum: 100
+            example: 5
+          x-is-limit-param: true
+        - name: cursor
+          in: query
+          description: Pagination cursor
+          schema:
+            type: string
+      operationId: get-user-best-friends
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BestFriendsResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ZodError'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      externalDocs:
+        url: https://docs.neynar.com/reference/get-user-best-friends
   /v2/farcaster/user/custody-address/:
     get:
       description: Lookup a user by custody-address
@@ -10452,6 +10503,29 @@ components:
         - message
       description: Details for the conflict error response
       title: ConflictErrorRes
+    BestFriendsResponse:
+      type: object
+      properties:
+        users:
+          type: array
+          items:
+            type: object
+            properties:
+              fid:
+                type: integer
+              mutual_affinity_score:
+                type: number
+              username:
+                type: string
+            required:
+              - fid
+              - mutual_affinity_score
+              - username
+        next:
+          $ref: '#/components/schemas/NextCursor'
+      required:
+        - users
+      title: BestFriendsResponse
     UserResponse:
       type: object
       properties:
