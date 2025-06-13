@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.6.0
+  version: 3.5.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -7777,9 +7777,39 @@ components:
         - cast-reply
       description: The notification type of a cast.
       title: CastNotificationType
+    ReactionLike:
+      type: object
+      properties:
+        fid:
+          $ref: '#/components/schemas/Fid'
+        fname:
+          type: string
+      required:
+        - fid
+        - fname
+      title: ReactionLike
+    ReactionRecast:
+      type: object
+      properties:
+        fid:
+          $ref: '#/components/schemas/Fid'
+        fname:
+          type: string
+      required:
+        - fid
+        - fname
+      title: ReactionRecast
     CastWithInteractionsReactions:
       type: object
       properties:
+        likes:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReactionLike'
+        recasts:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReactionRecast'
         likes_count:
           type: integer
           format: int32
@@ -7787,6 +7817,8 @@ components:
           type: integer
           format: int32
       required:
+        - likes
+        - recasts
         - likes_count
         - recasts_count
       title: CastWithInteractionsReactions
