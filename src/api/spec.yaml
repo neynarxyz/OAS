@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.7.0
+  version: 3.8.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -1074,9 +1074,7 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/lookup-cast-by-hash-or-warpcast-url
     post:
-      description: |-
-        Posts a cast or cast reply. Works with mentions and embeds.  
-        (In order to post a cast `signer_uuid` must be approved)
+      description: "Posts a cast or cast reply. Works with mentions and embeds.  \n(In order to post a cast `signer_uuid` must be approved)"
       summary: Post a cast
       tags:
         - Cast
@@ -1121,9 +1119,7 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/publish-cast
     delete:
-      description: |-
-        Delete an existing cast. 
-        (In order to delete a cast `signer_uuid` must be approved)
+      description: "Delete an existing cast. \n(In order to delete a cast `signer_uuid` must be approved)"
       summary: Delete a cast
       tags:
         - Cast
@@ -4602,9 +4598,7 @@ paths:
         url: https://docs.neynar.com/reference/fetch-all-notifications
   /v2/farcaster/reaction/:
     post:
-      description: |-
-        Post a reaction (like or recast) to a given cast 
-        (In order to post a reaction `signer_uuid` must be approved)
+      description: "Post a reaction (like or recast) to a given cast \n(In order to post a reaction `signer_uuid` must be approved)"
       summary: Post a reaction
       tags:
         - Reaction
@@ -4649,9 +4643,7 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/publish-reaction
     delete:
-      description: |-
-        Delete a reaction (like or recast) to a cast 
-        (In order to delete a reaction `signer_uuid` must be approved)
+      description: "Delete a reaction (like or recast) to a cast \n(In order to delete a reaction `signer_uuid` must be approved)"
       summary: Delete reaction
       tags:
         - Reaction
@@ -5038,10 +5030,7 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/lookup-signer
     post:
-      description: |-
-        Creates a signer and returns the signer status. 
-
-        **Note**: While tesing please reuse the signer, it costs money to approve a signer.
+      description: "Creates a signer and returns the signer status. \n\n**Note**: While tesing please reuse the signer, it costs money to approve a signer."
       summary: Create signer
       tags:
         - Signer
@@ -5727,9 +5716,7 @@ paths:
         url: https://docs.neynar.com/reference/fetch-user-channel-memberships
   /v2/farcaster/user/verification/:
     post:
-      description: |-
-        Adds verification for an eth address or contract for the user 
-        (In order to add verification `signer_uuid` must be approved)
+      description: "Adds verification for an eth address or contract for the user \n(In order to add verification `signer_uuid` must be approved)"
       summary: Add verification
       tags:
         - User
@@ -5750,9 +5737,7 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/publish-verification
     delete:
-      description: |-
-        Removes verification for an eth address for the user 
-        (In order to delete verification `signer_uuid` must be approved)
+      description: "Removes verification for an eth address for the user \n(In order to delete verification `signer_uuid` must be approved)"
       summary: Delete verification
       tags:
         - User
@@ -5774,9 +5759,7 @@ paths:
         url: https://docs.neynar.com/reference/delete-verification
   /v2/farcaster/user/follow/:
     post:
-      description: |-
-        Follow a user 
-        (In order to follow a user `signer_uuid` must be approved)
+      description: "Follow a user \n(In order to follow a user `signer_uuid` must be approved)"
       summary: Follow user
       tags:
         - User
@@ -5821,9 +5804,7 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/follow-user
     delete:
-      description: |-
-        Unfollow a user 
-        (In order to unfollow a user `signer_uuid` must be approved)
+      description: "Unfollow a user \n(In order to unfollow a user `signer_uuid` must be approved)"
       summary: Unfollow user
       tags:
         - User
@@ -6110,9 +6091,7 @@ paths:
         url: https://docs.neynar.com/reference/fetch-subscribers-for-fid
   /v2/farcaster/user/:
     patch:
-      description: |-
-        Update user profile 
-        (In order to update user's profile `signer_uuid` must be approved)
+      description: "Update user profile \n(In order to update user's profile `signer_uuid` must be approved)"
       summary: Update user profile
       tags:
         - User
@@ -6157,10 +6136,7 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/update-user
     post:
-      description: |-
-        Register account on farcaster. 
-
-        **Note:** This API must be called within 10 minutes of the fetch FID API call (i.e., /v2/farcaster/user/fid). Otherwise, Neynar will assign this FID to another available user.
+      description: "Register account on farcaster. \n\n**Note:** This API must be called within 10 minutes of the fetch FID API call (i.e., /v2/farcaster/user/fid). Otherwise, Neynar will assign this FID to another available user."
       summary: Register new account
       tags:
         - User
@@ -8542,12 +8518,7 @@ components:
     Idem:
       type: string
       title: Idem
-      description: |-
-        An Idempotency key is a unique identifier for the request.
-        **Note:** 
-        1) This is used to prevent duplicate requests. Use the same idem key on retry attempts.
-        2) This should be a unique identifier for each request.
-        3) Recommended format is a 16-character string generated by the developer at the time of making this request.
+      description: "An Idempotency key is a unique identifier for the request.\n**Note:** \n1) This is used to prevent duplicate requests. Use the same idem key on retry attempts.\n2) This should be a unique identifier for each request.\n3) Recommended format is a 16-character string generated by the developer at the time of making this request."
     PostCastReqBody:
       type: object
       properties:
@@ -10479,12 +10450,7 @@ components:
           example: 1
         idem:
           type: string
-          description: |-
-            An Idempotency key is a unique identifier for the request.
-            **Note:** 
-            1) This is used to prevent duplicate requests. Use the same idem key on retry attempts.
-            2) This should be a unique identifier for each request.
-            3) Recommended format is a 16-character string generated by the developer at the time of making this request.
+          description: "An Idempotency key is a unique identifier for the request.\n**Note:** \n1) This is used to prevent duplicate requests. Use the same idem key on retry attempts.\n2) This should be a unique identifier for each request.\n3) Recommended format is a 16-character string generated by the developer at the time of making this request."
       required:
         - fid
       title: BuyStorageReqBody
@@ -10557,13 +10523,7 @@ components:
       properties:
         idem:
           type: string
-          description: |-
-            An Idempotency key is a unique identifier for the request.
-            **Note:** 
-            1) Pre-registration calls must be idempotent when using idempotency keys.
-            2) This is used to prevent duplicate requests. Use the same idem key on retry attempts.
-            3) This should be a unique identifier for each request.
-            4) Recommended format is a 16-character string generated by the developer at the time of making this request.
+          description: "An Idempotency key is a unique identifier for the request.\n**Note:** \n1) Pre-registration calls must be idempotent when using idempotency keys.\n2) This is used to prevent duplicate requests. Use the same idem key on retry attempts.\n3) This should be a unique identifier for each request.\n4) Recommended format is a 16-character string generated by the developer at the time of making this request."
         pre_registration_calls:
           type: array
           items:
@@ -11370,21 +11330,11 @@ components:
             type: integer
         text:
           type: string
-          description: |-
-            Regex pattern to match the text key of the cast.
-            **Note:** 
-            1) Regex must be parsed by Go's RE2 engine (Test your expression here: https://www.lddgo.net/en/string/golangregex)
-            2) Use backslashes to escape special characters.
-            For example: (?i)\\$degen should be written as (?i)\\\\$degen
+          description: "Regex pattern to match the text key of the cast.\n**Note:** \n1) Regex must be parsed by Go's RE2 engine (Test your expression here: https://www.lddgo.net/en/string/golangregex)\n2) Use backslashes to escape special characters.\nFor example: (?i)\\\\$degen should be written as (?i)\\\\\\\\$degen"
           example: (?i)\$degen
         embeds:
           type: string
-          description: |-
-            Regex pattern to match the embeded_url (key embeds) of the cast.
-            **Note:** 
-            1) Regex must be parsed by Go's RE2 engine (Test your expression here: https://www.lddgo.net/en/string/golangregex)
-            2) Use backslashes to escape special characters.
-            For example: \\b(farcaster|neynar)\\b should be written as \\\\b(farcaster|neynar)\\\\b
+          description: "Regex pattern to match the embeded_url (key embeds) of the cast.\n**Note:** \n1) Regex must be parsed by Go's RE2 engine (Test your expression here: https://www.lddgo.net/en/string/golangregex)\n2) Use backslashes to escape special characters.\nFor example: \\\\b(farcaster|neynar)\\\\b should be written as \\\\\\\\b(farcaster|neynar)\\\\\\\\b"
           example: "\b(farcaster|neynar)\b"
       title: WebhookSubscriptionFiltersCast
     WebhookSubscriptionFiltersFollow:
@@ -11602,9 +11552,7 @@ components:
           description: Name of the token
         metadata[media]:
           nullable: true
-          description: |-
-            Media file associated with the token. 
-            Supported formats are image/jpeg, image/gif and image/png
+          description: "Media file associated with the token. \nSupported formats are image/jpeg, image/gif and image/png"
           format: binary
           type: string
         metadata[description]:
