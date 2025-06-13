@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.8.0
+  version: 3.9.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -6427,6 +6427,69 @@ paths:
         url: https://docs.neynar.com/reference/fetch-subscription-check
 components:
   schemas:
+    Fid:
+      type: integer
+      description: The unique identifier of a farcaster user or app (unsigned integer)
+      example: 3
+      title: Fid
+      format: int32
+    Timestamp:
+      type: string
+      format: date-time
+      title: Timestamp
+    ZodError:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Invalid query parameters
+        code:
+          type: string
+          example: InvalidField
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+              expected:
+                type: string
+              received:
+                type: string
+              path:
+                type: array
+                items:
+                  type: string
+              message:
+                type: string
+            required:
+              - code
+              - expected
+              - received
+              - path
+              - message
+      required:
+        - message
+        - code
+        - errors
+      title: ZodError
+    ErrorRes:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        property:
+          type: string
+        status:
+          type: integer
+          format: int32
+      required:
+        - message
+      title: ErrorRes
+      description: Details for the error response
     FarcasterActionReqBody:
       type: object
       properties:
@@ -6484,22 +6547,6 @@ components:
       required:
         - notifications_enabled
       title: AppHostUserStateResponse
-    ErrorRes:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-        property:
-          type: string
-        status:
-          type: integer
-          format: int32
-      required:
-        - message
-      title: ErrorRes
-      description: Details for the error response
     AppHostGetEventResponse:
       type: object
       properties:
@@ -6534,12 +6581,6 @@ components:
       description: |-
         UUID of the signer.
         `signer_uuid` is paired with API key, can't use a `uuid` made with a different API key.
-    Fid:
-      type: integer
-      description: The unique identifier of a farcaster user or app (unsigned integer)
-      example: 3
-      title: Fid
-      format: int32
     AppHostEventType:
       type: string
       enum:
@@ -6945,10 +6986,6 @@ components:
         - power_badge
         - score
       title: User
-    Timestamp:
-      type: string
-      format: date-time
-      title: Timestamp
     BanRecord:
       type: object
       properties:
@@ -8885,43 +8922,6 @@ components:
         - casts
         - next
       title: FeedResponse
-    ZodError:
-      type: object
-      properties:
-        message:
-          type: string
-          example: Invalid query parameters
-        code:
-          type: string
-          example: InvalidField
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              code:
-                type: string
-              expected:
-                type: string
-              received:
-                type: string
-              path:
-                type: array
-                items:
-                  type: string
-              message:
-                type: string
-            required:
-              - code
-              - expected
-              - received
-              - path
-              - message
-      required:
-        - message
-        - code
-        - errors
-      title: ZodError
     BulkCastsResponse:
       type: object
       properties:
