@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.11.0
+  version: 3.12.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -6858,6 +6858,23 @@ components:
           type: string
         custody_address:
           $ref: '#/components/schemas/EthAddress'
+        pro:
+          type: object
+          properties:
+            status:
+              type: string
+              enum:
+                - subscribed
+                - unsubscribed
+              description: The subscription status of the user
+            subscribed_at:
+              $ref: '#/components/schemas/Timestamp'
+            expires_at:
+              $ref: '#/components/schemas/Timestamp'
+          required:
+            - status
+            - subscribed_at
+            - expires_at
         pfp_url:
           type: string
           description: The URL of the user's profile picture
