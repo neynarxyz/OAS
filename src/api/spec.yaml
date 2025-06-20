@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.14.0
+  version: 3.15.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -11481,6 +11481,12 @@ components:
           type: array
           items:
             type: integer
+        target_cast_hashes:
+          type: array
+          items:
+            type: string
+            pattern: ^(0x)?[a-fA-F0-9]{40}$
+            example: '0x71d5225f77e0164388b1d4c120825f3a2c1f131c'
       title: WebhookSubscriptionFiltersReaction
     WebhookSubscriptionFilters:
       type: object
