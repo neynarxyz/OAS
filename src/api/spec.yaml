@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.12.0
+  version: 3.13.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -1023,6 +1023,92 @@ paths:
                 $ref: '#/components/schemas/ErrorRes'
       externalDocs:
         url: https://docs.neynar.com/reference/fetch-embedded-url-metadata
+  /v2/farcaster/cast/quotes/:
+    get:
+      description: Fetch casts that quote a given cast
+      summary: Cast Quotes
+      tags:
+        - Cast
+      parameters:
+        - $ref: '#/components/parameters/NeynarExperimentalHeader'
+        - name: identifier
+          in: query
+          description: Cast identifier (It's either a URL or a hash)
+          required: true
+          schema:
+            oneOf:
+              - type: string
+                pattern: ^(0x)?[a-fA-F0-9]{40}$
+                example: '0x71d5225f77e0164388b1d4c120825f3a2c1f131c'
+              - type: string
+                format: uri
+                example: https://farcaster.xyz/rish/0xafa59bb7
+        - name: type
+          in: query
+          description: |-
+            The query param accepted by the API. Sent along with identifier param.
+            url - Cast identifier is a url
+            hash - Cast identifier is a hash
+          required: true
+          schema:
+            type: string
+            enum:
+              - url
+              - hash
+            example: url
+        - name: viewer_fid
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+        - name: limit
+          in: query
+          description: Number of results to fetch
+          schema:
+            default: 25
+            type: integer
+            minimum: 1
+            maximum: 100
+            example: 30
+            format: int32
+          x-is-limit-param: true
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          schema:
+            type: string
+      operationId: fetch-cast-quotes
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  casts:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CastWithInteractions'
+                  next:
+                    $ref: '#/components/schemas/NextCursor'
+                required:
+                  - casts
+                  - next
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-cast-quotes
   /v2/farcaster/cast/:
     get:
       description: Gets information about an individual cast by passing in a Farcaster web URL or cast hash
@@ -1033,11 +1119,16 @@ paths:
         - $ref: '#/components/parameters/NeynarExperimentalHeader'
         - name: identifier
           in: query
-          description: Cast identifier (Its either a url or a hash)
+          description: Cast identifier (It's either a URL or a hash)
           required: true
           schema:
-            type: string
-            example: https://farcaster.xyz/v/0xeb000a9f
+            oneOf:
+              - type: string
+                pattern: ^(0x)?[a-fA-F0-9]{40}$
+                example: '0x71d5225f77e0164388b1d4c120825f3a2c1f131c'
+              - type: string
+                format: uri
+                example: https://farcaster.xyz/rish/0xafa59bb7
         - name: type
           in: query
           description: |-
@@ -4696,12 +4787,11 @@ paths:
       parameters:
         - name: hash
           in: query
-          description: Cast Hash
           required: true
           schema:
             type: string
-            title: CastHash
-            default: '0xfe90f9de682273e05b201629ad2338bdcd89b6be'
+            pattern: ^(0x)?[a-fA-F0-9]{40}$
+            example: '0x71d5225f77e0164388b1d4c120825f3a2c1f131c'
         - name: types
           in: query
           description: "Customize which reaction types the request should search for. This is a comma-separated string that can include the following values: 'likes' and 'recasts'. By default api returns both. To select multiple types, use a comma-separated list of these values."
@@ -6741,6 +6831,7 @@ components:
       enum:
         - member
         - moderator
+        - owner
       description: The role of a channel member
       title: ChannelMemberRole
     ChannelUserContext:
@@ -7004,7 +7095,6 @@ components:
         - verified_addresses
         - verified_accounts
         - power_badge
-        - score
       title: User
     BanRecord:
       type: object
@@ -7966,11 +8056,6 @@ components:
       required:
         - count
       title: CastWithInteractionsReplies
-    CastHash:
-      type: string
-      description: Cast Hash
-      title: CastHash
-      default: '0xfe90f9de682273e05b201629ad2338bdcd89b6be'
     Channel:
       type: object
       properties:
@@ -8020,7 +8105,9 @@ components:
           allOf:
             - $ref: '#/components/schemas/User'
         pinned_cast_hash:
-          $ref: '#/components/schemas/CastHash'
+          type: string
+          pattern: ^(0x)?[a-fA-F0-9]{40}$
+          example: '0x71d5225f77e0164388b1d4c120825f3a2c1f131c'
         hosts:
           type: array
           items:
@@ -8610,7 +8697,9 @@ components:
           type: object
           properties:
             hash:
-              $ref: '#/components/schemas/CastHash'
+              type: string
+              pattern: ^(0x)?[a-fA-F0-9]{40}$
+              example: '0x71d5225f77e0164388b1d4c120825f3a2c1f131c'
             author:
               type: object
               properties:
@@ -8634,7 +8723,9 @@ components:
         signer_uuid:
           $ref: '#/components/schemas/SignerUUID'
         target_hash:
-          $ref: '#/components/schemas/CastHash'
+          type: string
+          pattern: ^(0x)?[a-fA-F0-9]{40}$
+          example: '0x71d5225f77e0164388b1d4c120825f3a2c1f131c'
       required:
         - signer_uuid
         - target_hash
@@ -9288,7 +9379,9 @@ components:
       type: object
       properties:
         cast_hash:
-          $ref: '#/components/schemas/CastHash'
+          type: string
+          pattern: ^(0x)?[a-fA-F0-9]{40}$
+          example: '0x71d5225f77e0164388b1d4c120825f3a2c1f131c'
         action:
           $ref: '#/components/schemas/FrameAction'
         signature_packet:
@@ -9303,7 +9396,9 @@ components:
         signer_uuid:
           $ref: '#/components/schemas/SignerUUID'
         cast_hash:
-          $ref: '#/components/schemas/CastHash'
+          type: string
+          pattern: ^(0x)?[a-fA-F0-9]{40}$
+          example: '0x71d5225f77e0164388b1d4c120825f3a2c1f131c'
         action:
           $ref: '#/components/schemas/FrameAction'
       required:
