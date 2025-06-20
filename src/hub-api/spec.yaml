@@ -1292,8 +1292,8 @@ components:
         castId:
           description: "The unique identifier of the cast containing the frame that was interacted with."
           # Nesting $ref under allOf is necessary for any sibling fields to be effective
-          allOf: 
-          - $ref: "#/components/schemas/CastId"
+          allOf:
+            - $ref: "#/components/schemas/CastId"
       required:
         - url
         - buttonIndex
@@ -1634,7 +1634,7 @@ components:
               description: "The content and metadata of the new cast, including the text, mentions, embeds, and any parent references for replies."
               # Nesting $ref under allOf is necessary for any sibling fields to be effective
               allOf:
-              - $ref: "#/components/schemas/CastAddBody"
+                - $ref: "#/components/schemas/CastAddBody"
     MessageDataCastRemove:
       description: "Represents a request to remove (delete) a previously created cast. Only the original creator of a cast can remove it."
       allOf:
@@ -1701,7 +1701,7 @@ components:
               description: "Contains the details of the frame interaction, including which button was pressed and the associated cast and URL."
               # Nesting $ref under allOf is necessary for any sibling fields to be effective
               allOf:
-              - $ref: "#/components/schemas/FrameActionBody"
+                - $ref: "#/components/schemas/FrameActionBody"
     MessageDataLink:
       description: >-
         Represents a social graph connection between users in the Farcaster
@@ -1716,7 +1716,7 @@ components:
               description: "Contains the details of the social connection, including the type of relationship and the target user."
               # Nesting $ref under allOf is necessary for any sibling fields to be effective
               allOf:
-              - $ref: "#/components/schemas/LinkBody"
+                - $ref: "#/components/schemas/LinkBody"
     MessageDataReaction:
       description: >-
         Represents a user's reaction to content on the Farcaster network.
@@ -1732,7 +1732,7 @@ components:
               description: "Contains the type of reaction (like/recast) and the target content being reacted to. The target can be specified either by castId or URL."
               # Nesting $ref under allOf is necessary for any sibling fields to be effective
               allOf:
-              - $ref: "#/components/schemas/ReactionBody"
+                - $ref: "#/components/schemas/ReactionBody"
     MessageDataUserDataAdd:
       description: >-
         Represents a message that updates a user's profile metadata. This can
@@ -1748,7 +1748,7 @@ components:
               description: "Contains the type of profile metadata being updated and its new value."
               # Nesting $ref under allOf is necessary for any sibling fields to be effective
               allOf:
-              - $ref: "#/components/schemas/UserDataBody"
+                - $ref: "#/components/schemas/UserDataBody"
     MessageDataUsernameProof:
       allOf:
         - $ref: "#/components/schemas/MessageDataCommon"
@@ -1773,7 +1773,7 @@ components:
               description: "Contains the blockchain address being verified, along with cryptographic proof of ownership through a signature."
               # Nesting $ref under allOf is necessary for any sibling fields to be effective
               allOf:
-              - $ref: "#/components/schemas/VerificationAddEthAddressBody"
+                - $ref: "#/components/schemas/VerificationAddEthAddressBody"
     MessageDataVerificationRemove:
       description: >-
         Represents a message that removes an existing blockchain address
@@ -1789,7 +1789,7 @@ components:
               description: "Contains the blockchain address for which the verification should be removed from the user's profile."
               # Nesting $ref under allOf is necessary for any sibling fields to be effective
               allOf:
-              - $ref: "#/components/schemas/VerificationRemoveBody"
+                - $ref: "#/components/schemas/VerificationRemoveBody"
     MessageType:
       type: string
       description: >-
@@ -1958,7 +1958,7 @@ components:
           description: "The unique identifier of the cast being reacted to. Must be a valid CastId containing the creator's FID and the cast's hash."
           # Nesting $ref under allOf is necessary for any sibling fields to be effective
           allOf:
-          - $ref: "#/components/schemas/CastId"
+            - $ref: "#/components/schemas/CastId"
         targetUrl:
           title: URL to react to
           description: >-
@@ -2058,8 +2058,27 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/StorageLimit"
+        units:
+          type: integer
+          format: uint64
+          description: Total storage units bought by the user.
+          example: 1
+        unitDetails:
+          type: object
+          properties:
+            unitType:
+              type: string
+              enum:
+                - UnitTypeLegacy
+                - UnitType2024
+            unitSize:
+              type: integer
+              format: uint64
+              example: 1
       required:
         - limits
+        - units
+        - unitDetails
     StorageRentEventBody:
       type: object
       properties:
@@ -2122,7 +2141,7 @@ components:
           description: "Specifies which profile field is being updated (e.g., profile picture, display name, bio)."
           # Nesting $ref under allOf is necessary for any sibling fields to be effective
           allOf:
-          - $ref: "#/components/schemas/UserDataType"
+            - $ref: "#/components/schemas/UserDataType"
         value:
           title: Profile Field Value
           description: >-
@@ -2171,7 +2190,7 @@ components:
           description: "The FID of the user who owns this username proof"
           # Nesting $ref under allOf is necessary for any sibling fields to be effective
           allOf:
-          - $ref: "#/components/schemas/FidSchema"
+            - $ref: "#/components/schemas/FidSchema"
         type:
           $ref: "#/components/schemas/UserNameType"
       required:
