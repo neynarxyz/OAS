@@ -2075,6 +2075,23 @@ components:
               type: integer
               format: uint64
               example: 1
+        tier_subscriptions:
+          type: array
+          description: >-
+            List of subscription tiers for the user. Each entry describes a subscription tier and its expiration.
+          items:
+            type: object
+            properties:
+              tier_type:
+                type: string
+                description: The name of the subscription tier
+                enum:
+                  - Pro
+              expires_at:
+                type: integer
+                format: int64
+                description: Expiration time of the subscription tier as a Unix timestamp (seconds since epoch).
+                example: 1749611663
       required:
         - limits
         - units
