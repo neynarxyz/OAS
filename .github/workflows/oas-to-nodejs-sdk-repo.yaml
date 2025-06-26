@@ -81,6 +81,6 @@ jobs:
           git commit -m "GitHub action: sync OAS v$SDK_VERSION"
 
           # Push directly to main using the bot credentials
-          git push --ff-only origin main
+          git push origin main
 
         shell: bash

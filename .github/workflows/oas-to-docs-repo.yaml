@@ -64,5 +64,5 @@ jobs:
           git commit -m "GitHub action: copy OpenAPI YAML files from OAS repository"
 
           # Push changes directly to main
-          git push --ff-only origin main
+          git push origin main
         shell: bash
