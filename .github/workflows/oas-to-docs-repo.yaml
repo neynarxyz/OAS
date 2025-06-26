@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - 'src/hub-api/spec.yaml'
-      - 'src/api/spec.yaml'
 
 jobs:
   update-docs:
@@ -55,13 +52,11 @@ jobs:
           git config user.name "$AUTHOR_NAME (via Neynar CI Bot)"
           git config user.email "$AUTHOR_EMAIL"
 
-          # Check if there are changes
+          # Stage and commit any changes
           if git diff --quiet; then
             echo "No changes to commit."
             exit 0
           fi
-
-          # Commit changes
           git add .
           git commit -m "GitHub action: copy OpenAPI YAML files from OAS repository"
 
