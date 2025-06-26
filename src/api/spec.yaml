@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.15.0
+  version: 3.16.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -245,6 +245,12 @@ paths:
                 $ref: '#/components/schemas/ErrorRes'
         '500':
           description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '502':
+          description: '502'
           content:
             application/json:
               schema:
@@ -2054,8 +2060,6 @@ paths:
             type: string
             enum:
               - neynar
-              - openrank
-              - mbd
         - name: limit
           in: query
           description: Number of results to fetch
@@ -2070,11 +2074,6 @@ paths:
         - name: cursor
           in: query
           description: Pagination cursor.
-          schema:
-            type: string
-        - name: provider_metadata
-          in: query
-          description: provider_metadata is a URI-encoded stringified JSON object that can be used to pass additional metadata to the provider. Only available for mbd provider right now. See [here](https://docs.neynar.com/docs/feed-for-you-w-external-providers) on how to use.
           schema:
             type: string
       operationId: fetch-feed-for-you
@@ -11457,6 +11456,10 @@ components:
           type: string
           description: "Regex pattern to match the embeded_url (key embeds) of the cast.\n**Note:** \n1) Regex must be parsed by Go's RE2 engine (Test your expression here: https://www.lddgo.net/en/string/golangregex)\n2) Use backslashes to escape special characters.\nFor example: \\\\b(farcaster|neynar)\\\\b should be written as \\\\\\\\b(farcaster|neynar)\\\\\\\\b"
           example: "\b(farcaster|neynar)\b"
+        minimum_author_score:
+          type: number
+          minimum: 0
+          maximum: 1
       title: WebhookSubscriptionFiltersCast
     WebhookSubscriptionFiltersFollow:
       type: object
