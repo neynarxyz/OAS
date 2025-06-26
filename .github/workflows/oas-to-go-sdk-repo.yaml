@@ -49,7 +49,7 @@ jobs:
           # Update OAS submodule
           git submodule update --remote src/OAS
 
-          # Set Git config using OAS commit author
+          # Set Git config
           git config user.name "Neynar CI Bot"
           git config user.email "team@neynar.com"
 
