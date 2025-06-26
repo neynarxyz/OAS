@@ -44,14 +44,18 @@ jobs:
 
       - name: Update OAS submodule and package version in go-sdk
         run: |
+          # Get the author information from the OAS commit
+          AUTHOR_NAME=$(git log -1 --format='%an')
+          AUTHOR_EMAIL=$(git log -1 --format='%ae')
+
           cd go-sdk
 
           # Update OAS submodule
           git submodule update --remote src/OAS
 
-          # Set Git config
-          git config user.name "Neynar CI Bot"
-          git config user.email "team@neynar.com"
+          # Set Git config using OAS commit author
+          git config user.name "$AUTHOR_NAME (via Neynar CI Bot)"
+          git config user.email "$AUTHOR_EMAIL"
 
           # Parse version from OAS
           # Install yq for YAML parsing
