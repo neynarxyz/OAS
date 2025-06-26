@@ -11,6 +11,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Dump GitHub context # Makes it much easier to retrospectively debug all sorts of workflow issues. Does NOT expose secrets.
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+        
       - name: Checkout Repository
         uses: actions/checkout@v3
 
