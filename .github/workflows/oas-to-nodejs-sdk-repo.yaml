@@ -75,7 +75,7 @@ jobs:
           yarn build
 
           # Update package.json version
-          npm version --no-git-tag-version "$SDK_VERSION"
+          npm version --no-git-tag-version "$SDK_VERSION" || true
 
           # Stage and commit any changes
           if git diff --quiet; then
