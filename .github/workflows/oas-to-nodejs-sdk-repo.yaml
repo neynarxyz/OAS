@@ -43,10 +43,6 @@ jobs:
 
       - name: Update OAS submodule and package version in nodejs-sdk
         run: |
-          # Get the author information from the OAS commit
-          AUTHOR_NAME=$(git log -1 --format='%an')
-          AUTHOR_EMAIL=$(git log -1 --format='%ae')
-
           cd nodejs-sdk
 
           yarn install
@@ -55,8 +51,8 @@ jobs:
           git submodule update --remote oas
 
           # Set Git config using OAS commit author
-          git config user.name "$AUTHOR_NAME (via Neynar CI Bot)"
-          git config user.email "$AUTHOR_EMAIL"
+          git config user.name "Neynar CI Bot"
+          git config user.email "team@neynar.com"
 
           # Parse version from OAS
           # Install yq for YAML parsing
