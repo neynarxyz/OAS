@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.17.0
+  version: 3.18.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -4407,58 +4407,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    recipient:
-                      type: object
-                      properties:
-                        address:
-                          $ref: '#/components/schemas/EthAddress'
-                        fid:
-                          $ref: '#/components/schemas/Fid'
-                        quantity:
-                          type: integer
-                          minimum: 1
-                          description: Quantity to mint (must be at least 1).
-                          example: 1
-                      description: NFT mint recipient. Exactly one of "address" or "fid" must be set.
-                    function_name:
-                      type: string
-                      example: mintTo
-                    args:
-                      type: array
-                      items:
-                        nullable: true
-                    to:
-                      $ref: '#/components/schemas/EthAddress'
-                    data:
-                      type: string
-                      example: '0x1234abcd'
-                    value:
-                      type: string
-                      example: '0'
-                    network:
-                      type: string
-                      example: base
-                    calldata:
-                      type: string
-                      description: Calldata for the mint transaction.
-                      example: '0xabcdef'
-                    abi:
-                      nullable: true
-                      description: ABI for the mint function.
-                  required:
-                    - recipient
-                    - function_name
-                    - args
-                    - to
-                    - data
-                    - value
-                    - network
-                    - calldata
-                  description: Calldata simulation for NFT minting.
+                $ref: '#/components/schemas/SimulateNftMintResponse'
         '400':
           description: Bad Request
           content:
@@ -10151,6 +10100,60 @@ components:
       pattern: ^0x[a-fA-F0-9]+$
       description: Hexadecimal number expressed as string with '0x' prefix
       title: PrefixedHexString
+    SimulateNftMintResponse:
+      type: array
+      items:
+        type: object
+        properties:
+          recipient:
+            type: object
+            properties:
+              address:
+                $ref: '#/components/schemas/EthAddress'
+              fid:
+                $ref: '#/components/schemas/Fid'
+              quantity:
+                type: integer
+                minimum: 1
+                description: Quantity to mint (must be at least 1).
+                example: 1
+            description: NFT mint recipient. Exactly one of "address" or "fid" must be set.
+          function_name:
+            type: string
+            example: mintTo
+          args:
+            type: array
+            items:
+              nullable: true
+          to:
+            $ref: '#/components/schemas/EthAddress'
+          data:
+            type: string
+            example: '0x1234abcd'
+          value:
+            type: string
+            example: '0'
+          network:
+            type: string
+            example: base
+          calldata:
+            type: string
+            description: Calldata for the mint transaction.
+            example: '0xabcdef'
+          abi:
+            nullable: true
+            description: ABI for the mint function.
+        required:
+          - recipient
+          - function_name
+          - args
+          - to
+          - data
+          - value
+          - network
+          - calldata
+        description: Calldata simulation for NFT minting.
+      title: SimulateNftMintResponse
     ReactionWithUserInfo:
       type: object
       properties:
