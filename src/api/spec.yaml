@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.16.0
+  version: 3.17.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -1095,7 +1095,7 @@ paths:
                   casts:
                     type: array
                     items:
-                      $ref: '#/components/schemas/CastWithInteractions'
+                      $ref: '#/components/schemas/Cast'
                   next:
                     $ref: '#/components/schemas/NextCursor'
                 required:
@@ -8027,7 +8027,7 @@ components:
         - fid
         - fname
       title: ReactionRecast
-    CastWithInteractionsReactions:
+    CastReactions:
       type: object
       properties:
         likes:
@@ -8049,8 +8049,8 @@ components:
         - recasts
         - likes_count
         - recasts_count
-      title: CastWithInteractionsReactions
-    CastWithInteractionsReplies:
+      title: CastReactions
+    CastReplies:
       type: object
       properties:
         count:
@@ -8058,7 +8058,7 @@ components:
           format: int32
       required:
         - count
-      title: CastWithInteractionsReplies
+      title: CastReplies
     Channel:
       type: object
       properties:
@@ -8156,7 +8156,7 @@ components:
         - recasted
       description: Adds context on interactions the viewer has made with the cast.
       title: CastViewerContext
-    CastWithInteractionsAndConversationsRef:
+    CastAndConversationsRef:
       type: object
       properties:
         object:
@@ -8204,9 +8204,9 @@ components:
           items:
             $ref: '#/components/schemas/Frame'
         reactions:
-          $ref: '#/components/schemas/CastWithInteractionsReactions'
+          $ref: '#/components/schemas/CastReactions'
         replies:
-          $ref: '#/components/schemas/CastWithInteractionsReplies'
+          $ref: '#/components/schemas/CastReplies'
         thread_hash:
           type: string
           nullable: true
@@ -8266,9 +8266,9 @@ components:
         - mentioned_channels_ranges
         - channel
         - direct_replies
-      title: CastWithInteractionsAndConversationsRef
-      description: Reference to CastWithInteractionsAndConversations to avoid circular reference
-    CastWithInteractionsAndConversations:
+      title: CastAndConversationsRef
+      description: Reference to CastAndConversations to avoid circular reference
+    CastAndConversations:
       type: object
       properties:
         object:
@@ -8316,9 +8316,9 @@ components:
           items:
             $ref: '#/components/schemas/Frame'
         reactions:
-          $ref: '#/components/schemas/CastWithInteractionsReactions'
+          $ref: '#/components/schemas/CastReactions'
         replies:
-          $ref: '#/components/schemas/CastWithInteractionsReplies'
+          $ref: '#/components/schemas/CastReplies'
         thread_hash:
           type: string
           nullable: true
@@ -8355,7 +8355,7 @@ components:
         direct_replies:
           type: array
           items:
-            $ref: '#/components/schemas/CastWithInteractionsAndConversationsRef'
+            $ref: '#/components/schemas/CastAndConversationsRef'
           description: 'note: This is recursive. It contains the direct replies to the cast and their direct replies up to n reply_depth.'
       required:
         - object
@@ -8377,8 +8377,8 @@ components:
         - mentioned_channels_ranges
         - channel
         - direct_replies
-      title: CastWithInteractionsAndConversations
-    CastWithInteractions:
+      title: CastAndConversations
+    Cast:
       type: object
       properties:
         object:
@@ -8426,9 +8426,9 @@ components:
           items:
             $ref: '#/components/schemas/Frame'
         reactions:
-          $ref: '#/components/schemas/CastWithInteractionsReactions'
+          $ref: '#/components/schemas/CastReactions'
         replies:
-          $ref: '#/components/schemas/CastWithInteractionsReplies'
+          $ref: '#/components/schemas/CastReplies'
         thread_hash:
           type: string
           nullable: true
@@ -8481,7 +8481,7 @@ components:
         - mentioned_channels
         - mentioned_channels_ranges
         - channel
-      title: CastWithInteractions
+      title: Cast
     Conversation:
       type: object
       properties:
@@ -8489,11 +8489,11 @@ components:
           type: object
           properties:
             cast:
-              $ref: '#/components/schemas/CastWithInteractionsAndConversations'
+              $ref: '#/components/schemas/CastAndConversations'
             chronological_parent_casts:
               type: array
               items:
-                $ref: '#/components/schemas/CastWithInteractions'
+                $ref: '#/components/schemas/Cast'
           required:
             - cast
         next:
@@ -8537,7 +8537,7 @@ components:
             casts:
               type: array
               items:
-                $ref: '#/components/schemas/CastWithInteractions'
+                $ref: '#/components/schemas/Cast'
             next:
               $ref: '#/components/schemas/NextCursor'
           required:
@@ -8618,7 +8618,7 @@ components:
       type: object
       properties:
         cast:
-          $ref: '#/components/schemas/CastWithInteractions'
+          $ref: '#/components/schemas/Cast'
       required:
         - cast
       title: CastResponse
@@ -8742,7 +8742,7 @@ components:
             casts:
               type: array
               items:
-                $ref: '#/components/schemas/CastWithInteractions'
+                $ref: '#/components/schemas/Cast'
           required:
             - casts
       required:
@@ -9029,7 +9029,7 @@ components:
         casts:
           type: array
           items:
-            $ref: '#/components/schemas/CastWithInteractions'
+            $ref: '#/components/schemas/Cast'
         next:
           $ref: '#/components/schemas/NextCursor'
       required:
@@ -9042,7 +9042,7 @@ components:
         casts:
           type: array
           items:
-            $ref: '#/components/schemas/CastWithInteractions'
+            $ref: '#/components/schemas/Cast'
       required:
         - casts
       title: BulkCastsResponse
@@ -9877,7 +9877,7 @@ components:
         state:
           $ref: '#/components/schemas/FrameState'
         cast:
-          $ref: '#/components/schemas/CastWithInteractions'
+          $ref: '#/components/schemas/Cast'
         timestamp:
           $ref: '#/components/schemas/Timestamp'
         signer:
@@ -10194,7 +10194,7 @@ components:
           items:
             $ref: '#/components/schemas/Follower'
         cast:
-          $ref: '#/components/schemas/CastWithInteractions'
+          $ref: '#/components/schemas/Cast'
         reactions:
           type: array
           items:
@@ -10315,7 +10315,7 @@ components:
             - like
             - recast
         cast:
-          $ref: '#/components/schemas/CastWithInteractions'
+          $ref: '#/components/schemas/Cast'
         reaction_timestamp:
           type: string
           format: date-time
