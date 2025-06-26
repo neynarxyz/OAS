@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.18.0
+  version: 3.19.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -10152,8 +10152,8 @@ components:
           - value
           - network
           - calldata
-        description: Calldata simulation for NFT minting.
       title: SimulateNftMintResponse
+      description: Calldata simulations for NFT minting.
     ReactionWithUserInfo:
       type: object
       properties:
