@@ -1,0 +1,86 @@
+name: Update NodeJS SDK
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  update-sdk:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate Neynar CI Bot token
+        id: generate-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.NEYNAR_CI_BOT_APP_ID }}
+          private-key: ${{ secrets.NEYNAR_CI_BOT_PRIVATE_KEY }}
+          owner: "neynarxyz"
+          repositories: "nodejs-sdk"
+
+      - name: Checkout OAS repository
+        uses: actions/checkout@v3
+
+      - name: Checkout nodejs-sdk repository
+        uses: actions/checkout@v3
+        with:
+          repository: "neynarxyz/nodejs-sdk.git"
+          ref: "main"
+          path: "nodejs-sdk"
+          token: ${{ steps.generate-token.outputs.token }}
+          submodules: recursive
+          persist-credentials: true
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ">=19.9.0"
+
+      - name: Update OAS submodule and package version in nodejs-sdk
+        run: |
+          # Get the author information from the OAS commit
+          AUTHOR_NAME=$(git log -1 --format='%an')
+          AUTHOR_EMAIL=$(git log -1 --format='%ae')
+
+          cd nodejs-sdk
+
+          yarn install
+
+          # Update OAS submodule
+          git submodule update --remote oas
+
+          # Set Git config using OAS commit author
+          git config user.name "$AUTHOR_NAME (via Neynar CI Bot)"
+          git config user.email "$AUTHOR_EMAIL"
+
+          # Parse version from OAS
+          # Install yq for YAML parsing
+          sudo wget -O /usr/bin/yq https://github.com/mikefarah/yq/releases/download/v4.24.5/yq_linux_amd64
+          sudo chmod +x /usr/bin/yq
+          SDK_VERSION=$(yq e '.info."version"' oas/src/api/spec.yaml)
+          echo "SDK Version: $SDK_VERSION"
+
+          # Check if SDK_VERSION is empty
+          if [ -z "$SDK_VERSION" ]; then
+            echo "Error: version not found in OAS file."
+            exit 1
+          fi
+
+          # Generate code
+          yarn generate:all
+
+          # Update package.json version
+          npm version --no-git-tag-version "$SDK_VERSION"
+
+          # Stage and commit any changes
+          if git diff --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git add .
+          git commit -m "GitHub action: sync OAS v$SDK_VERSION"
+
+          # Push directly to main using the bot credentials
+          git push --ff-only origin main
+
+        shell: bash
