@@ -38,9 +38,10 @@ jobs:
 
       - name: Update OAS submodule and package version in nodejs-sdk
         run: |
-          # Get the author of the prior commit
-          AUTHOR=$(curl -s -H "Authorization: token ${{ steps.generate-token.outputs.token }}" \
-          https://api.github.com/repos/${{ github.repository }}/commits/${{ github.sha }} | jq -r '.author.login')
+          # Get the author information from the OAS commit
+          AUTHOR_NAME=$(git log -1 --format='%an')
+          AUTHOR_EMAIL=$(git log -1 --format='%ae')
+
           cd nodejs-sdk
 
           yarn install
@@ -48,9 +49,9 @@ jobs:
           # Update OAS submodule
           git submodule update --remote oas
 
-          # Set Git config
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
+          # Set Git config using OAS commit author
+          git config user.name "$AUTHOR_NAME (via Neynar CI Bot)"
+          git config user.email "$AUTHOR_EMAIL"
 
           # Parse version from OAS
           # Install yq for YAML parsing
@@ -65,19 +66,11 @@ jobs:
             exit 1
           fi
 
-          # Export variables for use in subsequent steps
-          echo "SDK_VERSION=$SDK_VERSION" >> $GITHUB_ENV
-          echo "AUTHOR=$AUTHOR" >> $GITHUB_ENV
-
           # Generate code
           yarn generate:all
 
           # Update package.json version
           npm version --no-git-tag-version "$SDK_VERSION"
-
-          # Set Git config
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
 
           # Stage and commit any changes
           if git diff --quiet; then

@@ -43,11 +43,15 @@ jobs:
 
       - name: Commit and push changes
         run: |
+          # Get the author information from the OAS commit
+          AUTHOR_NAME=$(git log -1 --format='%an')
+          AUTHOR_EMAIL=$(git log -1 --format='%ae')
+
           cd docs
 
-          # Set Git config
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
+          # Set Git config using OAS commit author
+          git config user.name "$AUTHOR_NAME (via Neynar CI Bot)"
+          git config user.email "$AUTHOR_EMAIL"
 
           # Check if there are changes
           if git diff --quiet; then
