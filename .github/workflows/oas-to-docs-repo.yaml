@@ -58,7 +58,7 @@ jobs:
             exit 0
           fi
           git add .
-          git commit -m "GitHub action: copy OpenAPI YAML files from OAS repository"
+          git commit -m "[GitHub Actions] Copy OpenAPI specs from OAS repo"
 
           # Push changes directly to main
           git push origin main

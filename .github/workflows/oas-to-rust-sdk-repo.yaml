@@ -80,7 +80,7 @@ jobs:
             exit 0
           fi
           git add .
-          git commit -m "GitHub action: sync OAS v$SDK_VERSION"
+          git commit -m "[GitHub Actions] Generate Rust SDK v$SDK_VERSION from OAS repo"
 
           # Push directly to main using the bot credentials
           git push origin main
