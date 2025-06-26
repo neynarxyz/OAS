@@ -9,6 +9,11 @@ jobs:
   update-sdk:
     runs-on: ubuntu-latest
     steps:
+      - name: Dump GitHub context # Makes it much easier to retrospectively debug all sorts of workflow issues. Does NOT expose secrets.
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+        
       - name: Generate Neynar CI Bot token
         id: generate-token
         uses: actions/create-github-app-token@v2
@@ -17,6 +22,7 @@ jobs:
           private-key: ${{ secrets.NEYNAR_CI_BOT_PRIVATE_KEY }}
           owner: 'neynarxyz'
           repositories: 'go-sdk'
+
       - name: Checkout OAS repository
         uses: actions/checkout@v3
 

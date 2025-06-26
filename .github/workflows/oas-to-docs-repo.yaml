@@ -1,4 +1,4 @@
-name: Copy OAS specs to Docs Repository
+name: Update Docs Repository
 
 on:
   push:
@@ -9,9 +9,14 @@ on:
       - 'src/api/spec.yaml'
 
 jobs:
-  commit-changes:
+  update-docs:
     runs-on: ubuntu-latest
     steps:
+      - name: Dump GitHub context # Makes it much easier to retrospectively debug all sorts of workflow issues. Does NOT expose secrets.
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+        
       - name: Generate Neynar CI Bot token
         id: generate-token
         uses: actions/create-github-app-token@v2
@@ -23,9 +28,6 @@ jobs:
 
       - name: Checkout OAS repository
         uses: actions/checkout@v3
-        with:
-          path: "OAS"
-          ref: "main"
 
       - name: Checkout docs repository
         uses: actions/checkout@v3
@@ -38,8 +40,8 @@ jobs:
 
       - name: Copy updated YAML files to docs repository
         run: |
-          cp OAS/src/hub-api/spec.yaml docs/openapi/hub-api/openapi.yaml
-          cp OAS/src/api/spec.yaml docs/openapi/api/openapi.yaml
+          cp src/hub-api/spec.yaml ../docs/openapi/hub-api/openapi.yaml
+          cp src/api/spec.yaml ../docs/openapi/api/openapi.yaml
 
       - name: Commit and push changes
         run: |
