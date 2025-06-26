@@ -12,10 +12,19 @@ jobs:
   commit-changes:
     runs-on: ubuntu-latest
     steps:
+      - name: Generate Neynar CI Bot token
+        id: generate-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.NEYNAR_CI_BOT_APP_ID }}
+          private-key: ${{ secrets.NEYNAR_CI_BOT_PRIVATE_KEY }}
+          owner: 'neynarxyz'
+          repositories: 'docs'
+
       - name: Checkout OAS repository
         uses: actions/checkout@v3
         with:
-          path: "OAS" # Checkout OAS repository into a directory named "OAS"
+          path: "OAS"
           ref: "main"
 
       - name: Checkout docs repository
@@ -23,8 +32,8 @@ jobs:
         with:
           repository: "neynarxyz/docs.git"
           ref: "main"
-          path: "docs" # Checkout docs repository into a directory named "docs"
-          token: ${{ secrets.OAS_TO_SDK_FGPAT }}
+          path: "docs"
+          token: ${{ steps.generate-token.outputs.token }}
           persist-credentials: true
 
       - name: Copy updated YAML files to docs repository
