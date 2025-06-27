@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.19.0
+  version: 3.20.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -11460,6 +11460,7 @@ components:
           description: "Regex pattern to match the embeded_url (key embeds) of the cast.\n**Note:** \n1) Regex must be parsed by Go's RE2 engine (Test your expression here: https://www.lddgo.net/en/string/golangregex)\n2) Use backslashes to escape special characters.\nFor example: \\\\b(farcaster|neynar)\\\\b should be written as \\\\\\\\b(farcaster|neynar)\\\\\\\\b"
           example: "\b(farcaster|neynar)\b"
         minimum_author_score:
+          default: 0
           type: number
           minimum: 0
           maximum: 1
