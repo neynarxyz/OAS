@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.20.0
+  version: 3.21.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -8872,6 +8872,8 @@ components:
           type: string
           enum:
             - follower
+        app:
+          $ref: '#/components/schemas/UserDehydrated'
         user:
           $ref: '#/components/schemas/User'
       required:
@@ -10280,6 +10282,8 @@ components:
       properties:
         reaction_type:
           $ref: '#/components/schemas/ReactionType'
+        app:
+          $ref: '#/components/schemas/UserDehydrated'
         reaction_timestamp:
           type: string
           format: date-time
@@ -10317,6 +10321,8 @@ components:
           enum:
             - like
             - recast
+        app:
+          $ref: '#/components/schemas/UserDehydrated'
         cast:
           $ref: '#/components/schemas/Cast'
         reaction_timestamp:
