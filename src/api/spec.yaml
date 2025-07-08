@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.21.1
+  version: 3.22.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -1144,7 +1144,7 @@ paths:
           schema:
             type: integer
             minimum: 1
-      operationId: lookup-cast-by-hash-or-warpcast-url
+      operationId: lookup-cast-by-hash-or-url
       responses:
         '200':
           description: Success
@@ -1159,7 +1159,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorRes'
       externalDocs:
-        url: https://docs.neynar.com/reference/lookup-cast-by-hash-or-warpcast-url
+        url: https://docs.neynar.com/reference/lookup-cast-by-hash-or-url
     post:
       description: "Posts a cast or cast reply. Works with mentions and embeds.  \n(In order to post a cast `signer_uuid` must be approved)"
       summary: Post a cast
