@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.21.0
+  version: 3.21.1
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -1042,13 +1042,8 @@ paths:
           description: Cast identifier (It's either a URL or a hash)
           required: true
           schema:
-            oneOf:
-              - type: string
-                pattern: ^(0x)?[a-fA-F0-9]{40}$
-                example: '0x71d5225f77e0164388b1d4c120825f3a2c1f131c'
-              - type: string
-                format: uri
-                example: https://farcaster.xyz/rish/0xafa59bb7
+            type: string
+            example: https://farcaster.xyz/rish/0xafa59bb7
         - name: type
           in: query
           description: |-
@@ -1128,13 +1123,8 @@ paths:
           description: Cast identifier (It's either a URL or a hash)
           required: true
           schema:
-            oneOf:
-              - type: string
-                pattern: ^(0x)?[a-fA-F0-9]{40}$
-                example: '0x71d5225f77e0164388b1d4c120825f3a2c1f131c'
-              - type: string
-                format: uri
-                example: https://farcaster.xyz/rish/0xafa59bb7
+            type: string
+            example: https://farcaster.xyz/rish/0xafa59bb7
         - name: type
           in: query
           description: |-
