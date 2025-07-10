@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.22.0
+  version: 3.23.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -3368,6 +3368,22 @@ paths:
                                 type: integer
                                 format: int32
                               description: A record mapping app FIDs (as strings) to the number of unique opens for that app.
+                            error_breakdown:
+                              type: object
+                              properties:
+                                delivery_errors:
+                                  type: object
+                                  additionalProperties:
+                                    type: integer
+                                    format: int32
+                                  description: A record mapping delivery error types to their occurrence counts.
+                                http_errors:
+                                  type: object
+                                  additionalProperties:
+                                    type: integer
+                                    format: int32
+                                  description: A record mapping HTTP status codes to their occurrence counts.
+                              description: Detailed breakdown of errors encountered during notification delivery.
                           required:
                             - intended_recipient_notification_token_count
                             - intended_recipient_app_fids
@@ -3377,6 +3393,7 @@ paths:
                             - total_opens_by_app_fid
                             - unique_opens
                             - unique_opens_by_app_fid
+                            - error_breakdown
                       required:
                         - id
                         - title
