@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.23.0
+  version: 3.24.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -6619,6 +6619,21 @@ components:
       required:
         - event
       title: AppHostGetEventResponse
+    EncodedJsonFarcasterSignature:
+      type: object
+      properties:
+        header:
+          type: string
+        payload:
+          type: string
+        signature:
+          type: string
+      required:
+        - header
+        - payload
+        - signature
+      title: EncodedJsonFarcasterSignature
+      description: Encoded JSON Farcaster signature
     SignerUUID:
       type: string
       example: 19d0c5fd-9b33-4a48-a0e2-bc7b0555baec
@@ -6647,18 +6662,7 @@ components:
             signed_message:
               oneOf:
                 - type: string
-                - type: object
-                  properties:
-                    header:
-                      type: string
-                    payload:
-                      type: string
-                    signature:
-                      type: string
-                  required:
-                    - header
-                    - payload
-                    - signature
+                - $ref: '#/components/schemas/EncodedJsonFarcasterSignature'
               description: JFS-signed message containing the event payload. The message must be properly signed and contain valid event information.  Can be provided as a single string or json object.
             app_domain:
               type: string
@@ -7696,18 +7700,7 @@ components:
       type: object
       properties:
         account_association:
-          type: object
-          properties:
-            header:
-              type: string
-            payload:
-              type: string
-            signature:
-              type: string
-          required:
-            - header
-            - payload
-            - signature
+          $ref: '#/components/schemas/EncodedJsonFarcasterSignature'
         frame:
           type: object
           properties:
@@ -7736,31 +7729,31 @@ components:
               type: string
             subtitle:
               type: string
-              description: Short subtitle for the frame
+              description: Short subtitle for the configuration
             description:
               type: string
-              description: Detailed description of the frame
+              description: Detailed description of the configuration
             screenshot_urls:
               type: array
               items:
                 type: string
                 format: uri
-              description: URLs of screenshots showcasing the frame
+              description: URLs of screenshots showcasing the configuration
             primary_category:
               type: string
-              description: Primary category the frame belongs to
+              description: Primary category the configuration belongs to
             tags:
               type: array
               items:
                 type: string
-              description: Tags associated with the frame
+              description: Tags associated with the configuration
             hero_image_url:
               type: string
               format: uri
-              description: URL of the hero image displayed for the frame
+              description: URL of the hero image displayed for the configuration
             tagline:
               type: string
-              description: Short tagline for the frame
+              description: Short tagline for the configuration
             og_title:
               type: string
               description: Title used for Open Graph previews
@@ -7773,7 +7766,78 @@ components:
               description: Image URL used for Open Graph previews
             noindex:
               type: boolean
-              description: Whether search engines should not index this frame
+              description: Whether search engines should not index this configuration
+          required:
+            - version
+            - name
+            - home_url
+            - icon_url
+        miniapp:
+          type: object
+          properties:
+            version:
+              type: string
+              enum:
+                - 0.0.0
+                - 0.0.1
+                - '1'
+                - next
+            name:
+              type: string
+            home_url:
+              type: string
+            icon_url:
+              type: string
+            image_url:
+              type: string
+            button_title:
+              type: string
+            splash_image_url:
+              type: string
+            splash_background_color:
+              type: string
+            webhook_url:
+              type: string
+            subtitle:
+              type: string
+              description: Short subtitle for the configuration
+            description:
+              type: string
+              description: Detailed description of the configuration
+            screenshot_urls:
+              type: array
+              items:
+                type: string
+                format: uri
+              description: URLs of screenshots showcasing the configuration
+            primary_category:
+              type: string
+              description: Primary category the configuration belongs to
+            tags:
+              type: array
+              items:
+                type: string
+              description: Tags associated with the configuration
+            hero_image_url:
+              type: string
+              format: uri
+              description: URL of the hero image displayed for the configuration
+            tagline:
+              type: string
+              description: Short tagline for the configuration
+            og_title:
+              type: string
+              description: Title used for Open Graph previews
+            og_description:
+              type: string
+              description: Description used for Open Graph previews
+            og_image_url:
+              type: string
+              format: uri
+              description: Image URL used for Open Graph previews
+            noindex:
+              type: boolean
+              description: Whether search engines should not index this configuration
           required:
             - version
             - name
