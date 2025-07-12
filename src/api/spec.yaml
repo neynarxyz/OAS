@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.24.0
+  version: 3.25.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -9990,7 +9990,7 @@ components:
         all_relevant_fungible_owners_dehydrated:
           type: array
           items:
-            $ref: '#/components/schemas/User'
+            $ref: '#/components/schemas/UserDehydrated'
       required:
         - top_relevant_fungible_owners_hydrated
         - all_relevant_fungible_owners_dehydrated
