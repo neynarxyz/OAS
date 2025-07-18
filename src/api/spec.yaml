@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.26.0
+  version: 3.27.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -3045,6 +3045,37 @@ paths:
             example:
               - games
               - social
+        - name: networks
+          in: query
+          description: List of blockchain networks by which to filter results.  Mini apps included in the results will specify at least one of the supplied networks or specify none. The list can be provided as comma-separated string or array.
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - ethereum
+                - base
+                - arbitrum
+                - arbitrum-sepolia
+                - base-sepolia
+                - degen
+                - gnosis
+                - optimism
+                - optimism-sepolia
+                - polygon
+                - ethereum-sepolia
+                - zora
+                - unichain
+                - monad-testnet
+                - celo
+                - solana
+              description: Networks supported by mini apps
+              example: base
+            title: MiniappNetworksSchema
+            example:
+              - ethereum
+              - base
+              - solana
       operationId: fetch-frame-catalog
       responses:
         '200':
@@ -3695,6 +3726,37 @@ paths:
               - 12h
               - 24h
               - 7d
+        - name: networks
+          in: query
+          description: List of blockchain networks by which to filter results.  Mini apps included in the results will specify at least one of the supplied networks or specify none. The list can be provided as comma-separated string or array.
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - ethereum
+                - base
+                - arbitrum
+                - arbitrum-sepolia
+                - base-sepolia
+                - degen
+                - gnosis
+                - optimism
+                - optimism-sepolia
+                - polygon
+                - ethereum-sepolia
+                - zora
+                - unichain
+                - monad-testnet
+                - celo
+                - solana
+              description: Networks supported by mini apps
+              example: base
+            title: MiniappNetworksSchema
+            example:
+              - ethereum
+              - base
+              - solana
       operationId: fetch-relevant-frames
       responses:
         '200':
@@ -3761,6 +3823,37 @@ paths:
           description: Pagination cursor
           schema:
             type: string
+        - name: networks
+          in: query
+          description: List of blockchain networks by which to filter results.  Mini apps included in the results will specify at least one of the supplied networks or specify none. The list can be provided as comma-separated string or array.
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - ethereum
+                - base
+                - arbitrum
+                - arbitrum-sepolia
+                - base-sepolia
+                - degen
+                - gnosis
+                - optimism
+                - optimism-sepolia
+                - polygon
+                - ethereum-sepolia
+                - zora
+                - unichain
+                - monad-testnet
+                - celo
+                - solana
+              description: Networks supported by mini apps
+              example: base
+            title: MiniappNetworksSchema
+            example:
+              - ethereum
+              - base
+              - solana
       operationId: search-frames
       responses:
         '200':
