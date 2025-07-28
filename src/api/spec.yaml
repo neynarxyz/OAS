@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.27.0
+  version: 3.28.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -3771,11 +3771,37 @@ paths:
                     items:
                       type: object
                       properties:
-                        frames:
-                          type: array
-                          items:
-                            $ref: '#/components/schemas/FrameV2WithFullAuthor'
-                          description: Array of FrameV2 objects
+                        frame:
+                          type: object
+                          properties:
+                            version:
+                              type: string
+                              description: Version of the mini app, 'next' for v2, 'vNext' for v1
+                            image:
+                              type: string
+                              description: URL of the image
+                            frames_url:
+                              type: string
+                              description: Launch URL of the mini app
+                            title:
+                              type: string
+                              description: Button title of a mini app
+                            manifest:
+                              $ref: '#/components/schemas/FarcasterManifest'
+                            author:
+                              $ref: '#/components/schemas/User'
+                            metadata:
+                              type: object
+                              properties:
+                                html:
+                                  $ref: '#/components/schemas/HtmlMetadata'
+                              required:
+                                - html
+                          required:
+                            - version
+                            - image
+                            - frames_url
+                          description: FrameV2 object
                         top_relevant_users:
                           type: array
                           items:
@@ -3787,7 +3813,7 @@ paths:
                             $ref: '#/components/schemas/UserDehydrated'
                           description: Array of remaining relevant users in dehydrated form
                       required:
-                        - frames
+                        - frame
                         - top_relevant_users
                         - remaining_relevant_users
                 required:
