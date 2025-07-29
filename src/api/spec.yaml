@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.28.0
+  version: 3.29.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -3833,6 +3833,7 @@ paths:
           required: true
           schema:
             type: string
+            maxLength: 32
         - name: limit
           in: query
           description: Number of results to fetch
