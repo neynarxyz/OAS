@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.30.0
+  version: 3.31.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -8293,8 +8293,7 @@ components:
           enum:
             - channel
         created_at:
-          type: number
-          description: Epoch timestamp in seconds.
+          $ref: '#/components/schemas/Timestamp'
         follower_count:
           type: number
           description: Number of followers the channel has.
@@ -8349,6 +8348,7 @@ components:
         - id
         - url
         - object
+        - created_at
       title: Channel
     ChannelOrChannelDehydrated:
       discriminator:
