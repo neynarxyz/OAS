@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.31.0
+  version: 3.32.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -884,12 +884,14 @@ paths:
           in: query
           description: |-
             Choices are:
-            - `desc_chron` - All casts sorted by time (default)
+            - `desc_chron` - All casts sorted by time in a descending order (default)
+            - `chron` - All casts sorted by time in ascending order
             - `algorithmic` - Casts sorted by engagement and time
           schema:
             type: string
             enum:
               - desc_chron
+              - chron
               - algorithmic
             example: desc_chron
         - name: author_fid
