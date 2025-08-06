@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.32.0
+  version: 3.33.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -7183,6 +7183,18 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/EthAddress'
+        auth_addresses:
+          type: array
+          items:
+            type: object
+            properties:
+              address:
+                $ref: '#/components/schemas/EthAddress'
+              app:
+                $ref: '#/components/schemas/UserDehydrated'
+            required:
+              - address
+              - app
         verified_addresses:
           type: object
           properties:
@@ -7255,6 +7267,7 @@ components:
         - follower_count
         - following_count
         - verifications
+        - auth_addresses
         - verified_addresses
         - verified_accounts
         - power_badge
