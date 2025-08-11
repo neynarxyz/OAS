@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.35.0
+  version: 3.36.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -2256,8 +2256,8 @@ paths:
         url: https://docs.neynar.com/reference/fetch-feed-by-parent-urls
   /v2/farcaster/feed/frames/:
     get:
-      description: Fetch feed of casts with mini apps, reverse chronological order
-      summary: Casts with mini apps
+      description: (Deprecated) Fetch feed of casts with v1 frames, reverse chronological order
+      summary: Casts with v1 frames
       tags:
         - Feed
       parameters:
