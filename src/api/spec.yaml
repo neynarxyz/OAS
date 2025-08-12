@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.36.0
+  version: 3.37.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -6692,6 +6692,22 @@ paths:
         url: https://docs.neynar.com/reference/fetch-subscription-check
 components:
   schemas:
+    ErrorRes:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        property:
+          type: string
+        status:
+          type: integer
+          format: int32
+      required:
+        - message
+      title: ErrorRes
+      description: Details for the error response
     Fid:
       type: integer
       minimum: 0
@@ -6740,22 +6756,6 @@ components:
         - code
         - errors
       title: ZodError
-    ErrorRes:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-        property:
-          type: string
-        status:
-          type: integer
-          format: int32
-      required:
-        - message
-      title: ErrorRes
-      description: Details for the error response
     FarcasterActionReqBody:
       type: object
       properties:
