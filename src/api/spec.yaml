@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.37.0
+  version: 3.37.1
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -85,7 +85,10 @@ tags:
   - name: Metrics
     description: Operations related to retrieving metrics
   - name: App Host
-    description: Operations related to app host notifications
+    description: Operations related to mini app host notifications
+    externalDocs:
+      description: More info about mini app host notifications
+      url: https://docs.neynar.com/docs/app-host-notifications
 paths:
   /v2/farcaster/action/:
     post:
@@ -6855,6 +6858,22 @@ components:
         - signature
       title: EncodedJsonFarcasterSignature
       description: Encoded JSON Farcaster signature
+    SignedMessageBody:
+      type: object
+      properties:
+        signed_message:
+          oneOf:
+            - type: string
+            - $ref: '#/components/schemas/EncodedJsonFarcasterSignature'
+          description: JFS-signed message containing the event payload. The message must be properly signed and contain valid event information.  Can be provided as a single string or json object.
+        app_domain:
+          type: string
+          description: Domain of the mini app
+          example: demo.neynar.com
+      required:
+        - signed_message
+        - app_domain
+      title: SignedMessageBody
     SignerUUID:
       type: string
       example: 19d0c5fd-9b33-4a48-a0e2-bc7b0555baec
@@ -6876,40 +6895,30 @@ components:
         - frame_removed: User removes a mini app from their account
         - notifications_enabled: User enables notifications for a mini app
         - notifications_disabled: User disables notifications for a mini app
+    SignerUuidBody:
+      type: object
+      properties:
+        signer_uuid:
+          $ref: '#/components/schemas/SignerUUID'
+        app_domain:
+          type: string
+          description: Domain of the mini app
+        fid:
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/Fid'
+        event:
+          $ref: '#/components/schemas/AppHostEventType'
+      required:
+        - signer_uuid
+        - app_domain
+        - fid
+        - event
+      title: SignerUuidBody
     AppHostPostEventReqBody:
       oneOf:
-        - type: object
-          properties:
-            signed_message:
-              oneOf:
-                - type: string
-                - $ref: '#/components/schemas/EncodedJsonFarcasterSignature'
-              description: JFS-signed message containing the event payload. The message must be properly signed and contain valid event information.  Can be provided as a single string or json object.
-            app_domain:
-              type: string
-              description: Domain of the mini app
-              example: demo.neynar.com
-          required:
-            - signed_message
-            - app_domain
-        - type: object
-          properties:
-            signer_uuid:
-              $ref: '#/components/schemas/SignerUUID'
-            app_domain:
-              type: string
-              description: Domain of the mini app
-            fid:
-              nullable: true
-              allOf:
-                - $ref: '#/components/schemas/Fid'
-            event:
-              $ref: '#/components/schemas/AppHostEventType'
-          required:
-            - signer_uuid
-            - app_domain
-            - fid
-            - event
+        - $ref: '#/components/schemas/SignedMessageBody'
+        - $ref: '#/components/schemas/SignerUuidBody'
       title: AppHostPostEventReqBody
       description: Request body for app host events. Can either provide a signed_message or a signer_uuid with event details.
     AppHostPostEventResponse:
