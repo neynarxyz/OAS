@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.37.1
+  version: 3.38.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -6711,6 +6711,10 @@ components:
         - message
       title: ErrorRes
       description: Details for the error response
+    Timestamp:
+      type: string
+      format: date-time
+      title: Timestamp
     Fid:
       type: integer
       minimum: 0
@@ -6718,10 +6722,6 @@ components:
       example: 3
       title: Fid
       format: int32
-    Timestamp:
-      type: string
-      format: date-time
-      title: Timestamp
     ZodError:
       type: object
       properties:
