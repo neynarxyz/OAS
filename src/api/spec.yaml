@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.39.0
+  version: 3.40.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -3424,100 +3424,7 @@ paths:
                   notificationCampaigns:
                     type: array
                     items:
-                      type: object
-                      properties:
-                        id:
-                          type: string
-                          format: uuid
-                          description: The unique identifier for the notification campaign.
-                        title:
-                          type: string
-                          description: The title of the notification campaign.
-                        body:
-                          type: string
-                          description: The body text of the notification.
-                        created_at:
-                          type: string
-                          format: date-time
-                        stats:
-                          type: object
-                          properties:
-                            intended_recipient_notification_token_count:
-                              type: integer
-                              description: The total number of notification tokens for intended recipients.
-                              nullable: true
-                              format: int32
-                            intended_recipient_app_fids:
-                              type: array
-                              items:
-                                type: integer
-                                format: int32
-                              description: An array of Farcaster FIDs of intended recipient applications.
-                            successful_sends:
-                              type: integer
-                              description: The number of notifications successfully sent.
-                              nullable: true
-                              format: int32
-                            successful_sends_by_app_fid:
-                              type: object
-                              additionalProperties:
-                                type: integer
-                                format: int32
-                              description: A record mapping app FIDs (as strings) to the number of successful sends for that app.
-                            total_opens:
-                              type: integer
-                              description: The total number of times notifications from this campaign have been opened.
-                              nullable: true
-                              format: int32
-                            total_opens_by_app_fid:
-                              type: object
-                              additionalProperties:
-                                type: integer
-                                format: int32
-                              description: A record mapping app FIDs (as strings) to the number of opens for that app.
-                            unique_opens:
-                              type: integer
-                              description: The number of unique recipients who opened a notification from this campaign.
-                              nullable: true
-                              format: int32
-                            unique_opens_by_app_fid:
-                              type: object
-                              additionalProperties:
-                                type: integer
-                                format: int32
-                              description: A record mapping app FIDs (as strings) to the number of unique opens for that app.
-                            error_breakdown:
-                              type: object
-                              properties:
-                                delivery_errors:
-                                  type: object
-                                  additionalProperties:
-                                    type: integer
-                                    format: int32
-                                  description: A record mapping delivery error types to their occurrence counts.
-                                http_errors:
-                                  type: object
-                                  additionalProperties:
-                                    type: integer
-                                    format: int32
-                                  description: A record mapping HTTP status codes to their occurrence counts.
-                              description: Detailed breakdown of errors encountered during notification delivery.
-                          required:
-                            - intended_recipient_notification_token_count
-                            - intended_recipient_app_fids
-                            - successful_sends
-                            - successful_sends_by_app_fid
-                            - total_opens
-                            - total_opens_by_app_fid
-                            - unique_opens
-                            - unique_opens_by_app_fid
-                            - error_breakdown
-                      required:
-                        - id
-                        - title
-                        - body
-                        - created_at
-                        - stats
+                      $ref: '#/components/schemas/NotificationCampaign'
                   next:
                     $ref: '#/components/schemas/NextCursor'
                 required:
@@ -9872,9 +9779,13 @@ components:
           type: string
           enum:
             - success
+            - failed
+            - invalid_token
+            - rate_limited
             - token_not_found
             - token_disabled
-            - failed
+            - http_error
+            - invalid_target_url
         app_fid:
           nullable: true
           allOf:
@@ -9894,6 +9805,105 @@ components:
       required:
         - notification_deliveries
       title: SendFrameNotificationsResponse
+    NotificationCampaignStats:
+      type: object
+      properties:
+        intended_recipient_notification_token_count:
+          type: integer
+          description: The total number of notification tokens for intended recipients.
+          nullable: true
+          format: int32
+        intended_recipient_app_fids:
+          type: array
+          items:
+            type: integer
+            format: int32
+          description: An array of Farcaster FIDs of intended recipient applications.
+        successful_sends:
+          type: integer
+          description: The number of notifications successfully sent.
+          nullable: true
+          format: int32
+        successful_sends_by_app_fid:
+          type: object
+          additionalProperties:
+            type: integer
+            format: int32
+          description: A record mapping app FIDs (as strings) to the number of successful sends for that app.
+        total_opens:
+          type: integer
+          description: The total number of times notifications from this campaign have been opened.
+          nullable: true
+          format: int32
+        total_opens_by_app_fid:
+          type: object
+          additionalProperties:
+            type: integer
+            format: int32
+          description: A record mapping app FIDs (as strings) to the number of opens for that app.
+        unique_opens:
+          type: integer
+          description: The number of unique recipients who opened a notification from this campaign.
+          nullable: true
+          format: int32
+        unique_opens_by_app_fid:
+          type: object
+          additionalProperties:
+            type: integer
+            format: int32
+          description: A record mapping app FIDs (as strings) to the number of unique opens for that app.
+        error_breakdown:
+          type: object
+          properties:
+            delivery_errors:
+              type: object
+              additionalProperties:
+                type: integer
+                format: int32
+              description: A record mapping delivery error types to their occurrence counts.
+            http_errors:
+              type: object
+              additionalProperties:
+                type: integer
+                format: int32
+              description: A record mapping HTTP status codes to their occurrence counts.
+          description: Detailed breakdown of errors encountered during notification delivery.
+      required:
+        - intended_recipient_notification_token_count
+        - intended_recipient_app_fids
+        - successful_sends
+        - successful_sends_by_app_fid
+        - total_opens
+        - total_opens_by_app_fid
+        - unique_opens
+        - unique_opens_by_app_fid
+        - error_breakdown
+      title: NotificationCampaignStats
+    NotificationCampaign:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The unique identifier for the notification campaign.
+        title:
+          type: string
+          description: The title of the notification campaign.
+        body:
+          type: string
+          description: The body text of the notification.
+        created_at:
+          type: string
+          format: date-time
+        stats:
+          $ref: '#/components/schemas/NotificationCampaignStats'
+      required:
+        - id
+        - title
+        - body
+        - created_at
+        - stats
+      title: NotificationCampaign
     Network:
       type: string
       enum:
