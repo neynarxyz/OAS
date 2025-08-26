@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.40.0
+  version: 3.41.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -2257,53 +2257,6 @@ paths:
                 $ref: '#/components/schemas/ErrorRes'
       externalDocs:
         url: https://docs.neynar.com/reference/fetch-feed-by-parent-urls
-  /v2/farcaster/feed/frames/:
-    get:
-      description: (Deprecated) Fetch feed of casts with v1 frames, reverse chronological order
-      summary: Casts with v1 frames
-      tags:
-        - Feed
-      parameters:
-        - $ref: '#/components/parameters/NeynarExperimentalHeader'
-        - name: limit
-          in: query
-          description: Number of results to fetch
-          schema:
-            default: 25
-            type: integer
-            minimum: 1
-            maximum: 100
-            format: int32
-            example: 25
-          x-is-limit-param: true
-        - name: viewer_fid
-          in: query
-          description: Providing this will return a feed that respects this user's mutes and blocks and includes `viewer_context`.
-          schema:
-            type: integer
-            minimum: 1
-            example: 3
-        - name: cursor
-          in: query
-          description: Pagination cursor.
-          schema:
-            type: string
-      operationId: fetch-frames-only-feed
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/FeedResponse'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorRes'
-      externalDocs:
-        url: https://docs.neynar.com/reference/fetch-frames-only-feed
   /v2/farcaster/feed/trending/:
     get:
       description: Fetch trending casts or on the global feed or channels feeds. 7d time window available for channel feeds only.
