@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.44.0
+  version: 3.45.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -11782,12 +11782,46 @@ components:
           type: string
         signer:
           $ref: '#/components/schemas/Signer'
+        signers:
+          type: array
+          items:
+            type: object
+            properties:
+              object:
+                type: string
+                enum:
+                  - signer
+              public_key:
+                $ref: '#/components/schemas/Ed25519PublicKey'
+              status:
+                type: string
+                enum:
+                  - generated
+                  - pending_approval
+                  - approved
+                  - revoked
+              signer_approval_url:
+                type: string
+              fid:
+                nullable: true
+                allOf:
+                  - $ref: '#/components/schemas/Fid'
+              permissions:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SharedSignerPermission'
+              uuid:
+                $ref: '#/components/schemas/SignerUUID'
+            required:
+              - public_key
+              - status
+              - uuid
         user:
           $ref: '#/components/schemas/User'
       required:
         - success
         - message
-        - signer
+        - signers
       title: RegisterUserResponse
     WebhookSecret:
       type: object
