@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.42.0
+  version: 3.43.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -11710,7 +11710,7 @@ components:
             uuid:
               type: string
               format: uuid
-            signed_key_request_signature:
+            signed_key_request_metadata_signature:
               type: string
             app_fid:
               type: number
@@ -11718,7 +11718,7 @@ components:
               type: number
           required:
             - uuid
-            - signed_key_request_signature
+            - signed_key_request_metadata_signature
             - app_fid
             - deadline
         signature:
