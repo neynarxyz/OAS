@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.46.0
+  version: 3.47.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -867,8 +867,8 @@ paths:
             | `(`, `)`  | Wrap a clause for precedence (for example, `star + (wars \| trek)`).                                     |
             | `~n`      | When used after a term (for example, `satr~3`), sets `fuzziness`. When used after a phrase, sets `slop`. |
             | `-`       | Negates the term.                                                                                        |
-            | `before:` | Search for casts before a specific date. (e.g. `before:2025-04-20`)                                       |
-            | `after:`  | Search for casts after a specific date. (e.g. `after:2025-04-20`)                                         |
+            | `before:` | Search for casts before a specific date. (e.g. `before:2025-04-20` or `before:2025-04-20T23:59:59`)      |
+            | `after:`  | Search for casts after a specific date. (e.g. `after:2025-04-20` or `after:2025-04-20T00:00:00`)         |
           required: true
           schema:
             type: string
