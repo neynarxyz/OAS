@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.47.1
+  version: 3.48.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -8346,10 +8346,6 @@ components:
             $ref: '#/components/schemas/Embed'
         type:
           $ref: '#/components/schemas/CastNotificationType'
-        frames:
-          type: array
-          items:
-            $ref: '#/components/schemas/Frame'
         reactions:
           $ref: '#/components/schemas/CastReactions'
         replies:
@@ -8458,10 +8454,6 @@ components:
             $ref: '#/components/schemas/Embed'
         type:
           $ref: '#/components/schemas/CastNotificationType'
-        frames:
-          type: array
-          items:
-            $ref: '#/components/schemas/Frame'
         reactions:
           $ref: '#/components/schemas/CastReactions'
         replies:
@@ -8568,10 +8560,6 @@ components:
             $ref: '#/components/schemas/Embed'
         type:
           $ref: '#/components/schemas/CastNotificationType'
-        frames:
-          type: array
-          items:
-            $ref: '#/components/schemas/Frame'
         reactions:
           $ref: '#/components/schemas/CastReactions'
         replies:
