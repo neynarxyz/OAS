@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.47.0
+  version: 3.47.1
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -8175,10 +8175,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ReactionLike'
+          description: This has been deprecated and will always be an empty array. The property will be removed in the future
+          deprecated: true
         recasts:
           type: array
           items:
             $ref: '#/components/schemas/ReactionRecast'
+          description: This has been deprecated and will always be an empty array. The property will be removed in the future
+          deprecated: true
         likes_count:
           type: integer
           format: int32
