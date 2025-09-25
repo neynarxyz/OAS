@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.48.0
+  version: 3.49.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -6551,6 +6551,656 @@ paths:
                 $ref: '#/components/schemas/ErrorRes'
       externalDocs:
         url: https://docs.neynar.com/reference/fetch-subscription-check
+  /v2/studio/deployment/:
+    post:
+      description: Creates and deploys a deployment for a user. Requires authentication via API key in the request header.
+      summary: Create and deploy a user deployment
+      tags:
+        - v2
+        - studio
+        - deployments
+      operationId: create-deployment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fid:
+                  type: integer
+                  minimum: 0
+                  description: Farcaster ID of the user
+                  nullable: true
+                env:
+                  type: object
+                  additionalProperties:
+                    type: string
+                  description: Environment variables for the deployment
+                github_url:
+                  type: string
+                  format: uri
+                  description: GitHub repository URL
+                display_name:
+                  type: string
+                  description: Display name for the project
+              required:
+                - fid
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: Deployment ID
+                  status:
+                    type: string
+                    description: Deployment status
+                  display_name:
+                    type: string
+                    description: Display name for the project
+                  url:
+                    type: string
+                    format: uri
+                    description: Public URL for the deployment
+                  github_url:
+                    type: string
+                    format: uri
+                    description: GitHub repository URL
+                  created_at:
+                    type: string
+                    format: date-time
+                    description: Creation timestamp
+                  namespace:
+                    type: string
+                    description: Kubernetes namespace
+                  name:
+                    type: string
+                    description: Kubernetes deployment name
+                  isReady:
+                    type: boolean
+                    description: Deployment is ready to serve template and accept prompts
+                required:
+                  - id
+                  - created_at
+                  - namespace
+                  - name
+                  - isReady
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+      security:
+        - ApiKeyAuth: []
+      externalDocs:
+        url: https://docs.neynar.com/reference/create-deployment
+    get:
+      description: List all deployments for a user. Requires API key authentication.
+      summary: List deployments for a user
+      tags:
+        - v2
+        - studio
+        - deployments
+      parameters:
+        - name: fid
+          in: query
+          description: Farcaster ID of the user
+          required: true
+          schema:
+            type: integer
+            minimum: 0
+            nullable: true
+      operationId: list-deployments
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      description: Deployment ID
+                    status:
+                      type: string
+                      description: Deployment status
+                    display_name:
+                      type: string
+                      description: Display name for the project
+                    url:
+                      type: string
+                      format: uri
+                      description: Public URL for the deployment
+                    github_url:
+                      type: string
+                      format: uri
+                      description: GitHub repository URL
+                    created_at:
+                      type: string
+                      format: date-time
+                      description: Creation timestamp
+                    namespace:
+                      type: string
+                      description: Kubernetes namespace
+                    name:
+                      type: string
+                      description: Kubernetes deployment name
+                    isReady:
+                      type: boolean
+                      description: Deployment is ready to serve template and accept prompts
+                  required:
+                    - id
+                    - created_at
+                    - namespace
+                    - name
+                    - isReady
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+      security:
+        - ApiKeyAuth: []
+      externalDocs:
+        url: https://docs.neynar.com/reference/list-deployments
+    delete:
+      description: Delete a specific deployment or all deployments for a FID. If name is provided, deletes single deployment. If only FID is provided, deletes all deployments for that FID. Requires API key authentication.
+      summary: Delete deployment(s)
+      tags:
+        - v2
+        - studio
+        - deployments
+      operationId: delete-deployment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fid:
+                  type: integer
+                  minimum: 0
+                  description: Farcaster ID of the user
+                  nullable: true
+                name:
+                  type: string
+                  description: Kubernetes deployment name. If not provided, all deployments for the FID will be deleted
+              required:
+                - fid
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  deletedCount:
+                    type: number
+                required:
+                  - success
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+      security:
+        - ApiKeyAuth: []
+      externalDocs:
+        url: https://docs.neynar.com/reference/delete-deployment
+  /v2/studio/deployment/prompt:
+    post:
+      description: Sends a prompt to a specific deployment. Requires authentication via API key in the request header.
+      summary: Send a prompt to a deployment
+      tags:
+        - v2
+        - studio
+        - deployments
+      operationId: prompt-deployment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fid:
+                  type: integer
+                  minimum: 0
+                  description: Farcaster ID of the user
+                  nullable: true
+                deployment_name:
+                  type: string
+                  description: Kubernetes deployment name
+                prompt:
+                  type: string
+                  description: Prompt string to send to the deployment
+                action:
+                  default: code-create
+                  type: string
+                  enum:
+                    - code-create
+                    - code-edit
+                    - debug
+                    - info
+                    - logs
+                  description: Action type for prompt-based operations
+                options:
+                  type: object
+                  additionalProperties:
+                    nullable: true
+                  description: Additional options for the prompt
+              required:
+                - fid
+                - deployment_name
+                - prompt
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                description: Response from the deployment
+                nullable: true
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+      security:
+        - ApiKeyAuth: []
+      externalDocs:
+        url: https://docs.neynar.com/reference/prompt-deployment
+  /v2/studio/deployment/prompt/stream:
+    post:
+      description: 'Streams a prompt to a specific deployment using Server-Sent Events. The response is a continuous stream of Server-Sent Events, not a single JSON payload. Each event is prefixed with "data: " and contains a JSON object with type, message, and optional timestamp fields. Requires authentication via API key in the request header.'
+      summary: Stream a prompt to a deployment using Server-Sent Events
+      tags:
+        - v2
+        - studio
+        - deployments
+      operationId: prompt-deployment-stream
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fid:
+                  type: integer
+                  minimum: 0
+                  description: Farcaster ID of the user
+                  nullable: true
+                deployment_name:
+                  type: string
+                  description: Kubernetes deployment name
+                prompt:
+                  type: string
+                  description: Prompt string to send to the deployment
+                action:
+                  default: code-create
+                  type: string
+                  enum:
+                    - code-create
+                    - code-edit
+                    - debug
+                    - info
+                    - logs
+                  description: Action type for prompt-based operations
+                options:
+                  type: object
+                  additionalProperties:
+                    nullable: true
+                  description: Additional options for the prompt
+              required:
+                - fid
+                - deployment_name
+                - prompt
+        required: true
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+      security:
+        - ApiKeyAuth: []
+      externalDocs:
+        url: https://docs.neynar.com/reference/prompt-deployment-stream
+  /v2/studio/deployment/by-name-and-fid:
+    get:
+      description: Fetch a deployment by its name and creator's Farcaster ID. Requires API key authentication.
+      summary: Get deployment by name and fid
+      tags:
+        - v2
+        - studio
+        - deployments
+      parameters:
+        - name: fid
+          in: query
+          description: Farcaster ID of the user
+          required: true
+          schema:
+            type: integer
+            minimum: 0
+            nullable: true
+        - name: name
+          in: query
+          description: Kubernetes deployment name
+          required: true
+          schema:
+            type: string
+      operationId: get-deployment
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: Deployment ID
+                  status:
+                    type: string
+                    description: Deployment status
+                  display_name:
+                    type: string
+                    description: Display name for the project
+                  url:
+                    type: string
+                    format: uri
+                    description: Public URL for the deployment
+                  github_url:
+                    type: string
+                    format: uri
+                    description: GitHub repository URL
+                  created_at:
+                    type: string
+                    format: date-time
+                    description: Creation timestamp
+                  namespace:
+                    type: string
+                    description: Kubernetes namespace
+                  name:
+                    type: string
+                    description: Kubernetes deployment name
+                  isReady:
+                    type: boolean
+                    description: Deployment is ready to serve template and accept prompts
+                required:
+                  - id
+                  - created_at
+                  - namespace
+                  - name
+                  - isReady
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+      security:
+        - ApiKeyAuth: []
+      externalDocs:
+        url: https://docs.neynar.com/reference/get-deployment
+  /v2/studio/deployment/account-association:
+    post:
+      description: Associates a deployment with a Farcaster account using a JFS-signed domain association. Requires API key authentication.
+      summary: Set the account association for a deployed miniapp
+      tags:
+        - v2
+        - studio
+        - deployments
+      operationId: associate-deployment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fid:
+                  type: integer
+                  minimum: 0
+                  description: Farcaster ID of the user
+                  nullable: true
+                deployment_name:
+                  type: string
+                  description: Kubernetes deployment name
+                account_association:
+                  type: object
+                  properties:
+                    header:
+                      type: string
+                      description: Base64URL encoded JFS signature
+                    payload:
+                      type: string
+                      description: Base64URL encoded payload signature
+                    signature:
+                      type: string
+                      description: Base64URL encoded signature
+                  required:
+                    - header
+                    - payload
+                    - signature
+                  description: Signed domain association linking this deployment to a Farcaster account
+              required:
+                - fid
+                - deployment_name
+                - account_association
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                    description: Status message from the miniapp generator
+                required:
+                  - success
+                  - message
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+      security:
+        - ApiKeyAuth: []
+      externalDocs:
+        url: https://docs.neynar.com/reference/associate-deployment
 components:
   schemas:
     ErrorRes:
