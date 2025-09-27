@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.49.0
+  version: 3.50.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -6553,8 +6553,8 @@ paths:
         url: https://docs.neynar.com/reference/fetch-subscription-check
   /v2/studio/deployment/:
     post:
-      description: Creates and deploys a deployment for a user. Requires authentication via API key in the request header.
-      summary: Create and deploy a user deployment
+      description: Creates and deploys an instance of the miniapp generator for a user. Requires authentication via API key in the request header.
+      summary: Create a miniapp generator deployment
       tags:
         - v2
         - studio
@@ -6576,13 +6576,9 @@ paths:
                   additionalProperties:
                     type: string
                   description: Environment variables for the deployment
-                github_url:
-                  type: string
-                  format: uri
-                  description: GitHub repository URL
                 display_name:
                   type: string
-                  description: Display name for the project
+                  description: Display name for the deployment
               required:
                 - fid
         required: true
@@ -6594,12 +6590,9 @@ paths:
               schema:
                 type: object
                 properties:
-                  id:
-                    type: string
-                    description: Deployment ID
                   status:
                     type: string
-                    description: Deployment status
+                    description: Kubernetes deployment status
                   display_name:
                     type: string
                     description: Display name for the project
@@ -6623,9 +6616,8 @@ paths:
                     description: Kubernetes deployment name
                   isReady:
                     type: boolean
-                    description: Deployment is ready to serve template and accept prompts
+                    description: Deployment is ready to serve app and accept prompts
                 required:
-                  - id
                   - created_at
                   - namespace
                   - name
@@ -6657,8 +6649,8 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/create-deployment
     get:
-      description: List all deployments for a user. Requires API key authentication.
-      summary: List deployments for a user
+      description: Lists all miniapp generator deployments for a user. Requires API key authentication.
+      summary: List deployments
       tags:
         - v2
         - studio
@@ -6683,12 +6675,9 @@ paths:
                 items:
                   type: object
                   properties:
-                    id:
-                      type: string
-                      description: Deployment ID
                     status:
                       type: string
-                      description: Deployment status
+                      description: Kubernetes deployment status
                     display_name:
                       type: string
                       description: Display name for the project
@@ -6712,9 +6701,8 @@ paths:
                       description: Kubernetes deployment name
                     isReady:
                       type: boolean
-                      description: Deployment is ready to serve template and accept prompts
+                      description: Deployment is ready to serve app and accept prompts
                   required:
-                    - id
                     - created_at
                     - namespace
                     - name
@@ -6746,7 +6734,7 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/list-deployments
     delete:
-      description: Delete a specific deployment or all deployments for a FID. If name is provided, deletes single deployment. If only FID is provided, deletes all deployments for that FID. Requires API key authentication.
+      description: Deletes a specific miniapp generator deployment or all deployments for a FID. If name is provided, deletes single deployment. If only FID is provided, deletes all deployments for that FID. Requires API key authentication.
       summary: Delete deployment(s)
       tags:
         - v2
@@ -6823,8 +6811,8 @@ paths:
         url: https://docs.neynar.com/reference/delete-deployment
   /v2/studio/deployment/prompt:
     post:
-      description: Sends a prompt to a specific deployment. Requires authentication via API key in the request header.
-      summary: Send a prompt to a deployment
+      description: Sends a prompt to a specific miniapp generator deployment. Requires authentication via API key in the request header.
+      summary: Prompt a deployment
       tags:
         - v2
         - studio
@@ -6841,7 +6829,7 @@ paths:
                   minimum: 0
                   description: Farcaster ID of the user
                   nullable: true
-                deployment_name:
+                name:
                   type: string
                   description: Kubernetes deployment name
                 prompt:
@@ -6864,7 +6852,7 @@ paths:
                   description: Additional options for the prompt
               required:
                 - fid
-                - deployment_name
+                - name
                 - prompt
         required: true
       responses:
@@ -6914,8 +6902,8 @@ paths:
         url: https://docs.neynar.com/reference/prompt-deployment
   /v2/studio/deployment/prompt/stream:
     post:
-      description: 'Streams a prompt to a specific deployment using Server-Sent Events. The response is a continuous stream of Server-Sent Events, not a single JSON payload. Each event is prefixed with "data: " and contains a JSON object with type, message, and optional timestamp fields. Requires authentication via API key in the request header.'
-      summary: Stream a prompt to a deployment using Server-Sent Events
+      description: Sends a prompt to a specific miniapp generator deployment and returns a streaming response using Server-Sent Events. The response is a continuous stream of Server-Sent Events, not a single JSON payload. Each event contains a JSON object with type, message, and other fields specific to the message type. Requires authentication via API key in the request header.
+      summary: Prompt a deployment with streaming response
       tags:
         - v2
         - studio
@@ -6932,7 +6920,7 @@ paths:
                   minimum: 0
                   description: Farcaster ID of the user
                   nullable: true
-                deployment_name:
+                name:
                   type: string
                   description: Kubernetes deployment name
                 prompt:
@@ -6955,7 +6943,7 @@ paths:
                   description: Additional options for the prompt
               required:
                 - fid
-                - deployment_name
+                - name
                 - prompt
         required: true
       responses:
@@ -7000,8 +6988,8 @@ paths:
         url: https://docs.neynar.com/reference/prompt-deployment-stream
   /v2/studio/deployment/by-name-and-fid:
     get:
-      description: Fetch a deployment by its name and creator's Farcaster ID. Requires API key authentication.
-      summary: Get deployment by name and fid
+      description: Fetches info about a miniapp generator deployment by its name and creator's Farcaster ID. Requires API key authentication.
+      summary: Get deployment info
       tags:
         - v2
         - studio
@@ -7030,12 +7018,9 @@ paths:
               schema:
                 type: object
                 properties:
-                  id:
-                    type: string
-                    description: Deployment ID
                   status:
                     type: string
-                    description: Deployment status
+                    description: Kubernetes deployment status
                   display_name:
                     type: string
                     description: Display name for the project
@@ -7059,9 +7044,8 @@ paths:
                     description: Kubernetes deployment name
                   isReady:
                     type: boolean
-                    description: Deployment is ready to serve template and accept prompts
+                    description: Deployment is ready to serve app and accept prompts
                 required:
-                  - id
                   - created_at
                   - namespace
                   - name
@@ -7105,8 +7089,8 @@ paths:
         url: https://docs.neynar.com/reference/get-deployment
   /v2/studio/deployment/account-association:
     post:
-      description: Associates a deployment with a Farcaster account using a JFS-signed domain association. Requires API key authentication.
-      summary: Set the account association for a deployed miniapp
+      description: Associates a generated miniapp with a Farcaster account using a JFS-signed domain association. Requires API key authentication.
+      summary: Set account association
       tags:
         - v2
         - studio
@@ -7123,7 +7107,7 @@ paths:
                   minimum: 0
                   description: Farcaster ID of the user
                   nullable: true
-                deployment_name:
+                name:
                   type: string
                   description: Kubernetes deployment name
                 account_association:
@@ -7131,13 +7115,13 @@ paths:
                   properties:
                     header:
                       type: string
-                      description: Base64URL encoded JFS signature
+                      description: Base64URL encoded JFS header
                     payload:
                       type: string
-                      description: Base64URL encoded payload signature
+                      description: Base64URL encoded JFS payload
                     signature:
                       type: string
-                      description: Base64URL encoded signature
+                      description: Base64URL encoded JFS signature
                   required:
                     - header
                     - payload
@@ -7145,7 +7129,7 @@ paths:
                   description: Signed domain association linking this deployment to a Farcaster account
               required:
                 - fid
-                - deployment_name
+                - name
                 - account_association
         required: true
       responses:
