@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.53.0
+  version: 3.54.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -12631,6 +12631,18 @@ components:
             pattern: ^(0x)?[a-fA-F0-9]{40}$
             example: '0x71d5225f77e0164388b1d4c120825f3a2c1f131c'
       title: WebhookSubscriptionFiltersReaction
+    WebhookSubscriptionFiltersTrade:
+      type: object
+      properties:
+        fids:
+          type: array
+          items:
+            type: integer
+        minimum_trader_neynar_score:
+          type: number
+        minimum_token_amount_usdc:
+          type: number
+      title: WebhookSubscriptionFiltersTrade
     WebhookSubscriptionFilters:
       type: object
       properties:
@@ -12656,6 +12668,8 @@ components:
           $ref: '#/components/schemas/WebhookSubscriptionFiltersReaction'
         reaction.deleted:
           $ref: '#/components/schemas/WebhookSubscriptionFiltersReaction'
+        trade.created:
+          $ref: '#/components/schemas/WebhookSubscriptionFiltersTrade'
       title: WebhookSubscriptionFilters
     WebhookSubscription:
       type: object
