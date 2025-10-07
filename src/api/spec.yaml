@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.54.0
+  version: 3.55.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -12640,8 +12640,11 @@ components:
             type: integer
         minimum_trader_neynar_score:
           type: number
+          minimum: 0
+          maximum: 1
         minimum_token_amount_usdc:
           type: number
+          minimum: 0
       title: WebhookSubscriptionFiltersTrade
     WebhookSubscriptionFilters:
       type: object
