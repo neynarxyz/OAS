@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.56.0
+  version: 3.57.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -12476,6 +12476,10 @@ components:
             - longitude
         banner:
           type: string
+        primary_eth_address:
+          $ref: '#/components/schemas/EthAddress'
+        primary_sol_address:
+          $ref: '#/components/schemas/SolAddress'
         verified_accounts:
           type: object
           properties:
