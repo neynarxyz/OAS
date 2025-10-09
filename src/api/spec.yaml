@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.55.0
+  version: 3.56.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -7254,6 +7254,98 @@ paths:
         - ApiKeyAuth: []
       externalDocs:
         url: https://docs.neynar.com/reference/upload-image
+  /v2/studio/deployment/upload-image-url:
+    post:
+      description: Downloads an image from the provided URL and saves it to the generated miniapp public folder. The image will be accessible as a static asset on the deployed miniapp. Requires API key authentication.
+      summary: Upload image from URL to deployment
+      tags:
+        - v2
+        - studio
+        - deployments
+      operationId: upload-image-url
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fid:
+                  type: integer
+                  minimum: 0
+                  description: Farcaster ID of the user
+                  nullable: true
+                name:
+                  type: string
+                  description: Kubernetes deployment name
+                url:
+                  type: string
+                  format: uri
+                  description: URL of the image to download
+              required:
+                - fid
+                - name
+                - url
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Whether the upload was successful
+                  message:
+                    type: string
+                    description: Status message
+                  filename:
+                    type: string
+                    description: Uploaded filename
+                  url:
+                    type: string
+                    description: URL path to access the image
+                required:
+                  - success
+                  - message
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+      security:
+        - ApiKeyAuth: []
+      externalDocs:
+        url: https://docs.neynar.com/reference/upload-image-url
 components:
   schemas:
     ErrorRes:
