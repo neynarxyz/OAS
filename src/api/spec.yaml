@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.57.0
+  version: 3.58.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -6835,16 +6835,6 @@ paths:
                 prompt:
                   type: string
                   description: Prompt string to send to the deployment
-                action:
-                  default: code-create
-                  type: string
-                  enum:
-                    - code-create
-                    - code-edit
-                    - debug
-                    - info
-                    - logs
-                  description: Action type for prompt-based operations
                 options:
                   type: object
                   additionalProperties:
@@ -6926,16 +6916,6 @@ paths:
                 prompt:
                   type: string
                   description: Prompt string to send to the deployment
-                action:
-                  default: code-create
-                  type: string
-                  enum:
-                    - code-create
-                    - code-edit
-                    - debug
-                    - info
-                    - logs
-                  description: Action type for prompt-based operations
                 options:
                   type: object
                   additionalProperties:
