@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.60.0
+  version: 3.61.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -955,60 +955,6 @@ paths:
                 $ref: '#/components/schemas/ErrorRes'
       externalDocs:
         url: https://docs.neynar.com/reference/search-casts
-  /v2/farcaster/cast/composer_actions/list/:
-    get:
-      description: Fetches all composer actions on Warpcast. You can filter by top or featured.
-      summary: Fetch composer actions
-      tags:
-        - Cast
-      parameters:
-        - name: list
-          in: query
-          description: Type of list to fetch.
-          required: true
-          schema:
-            type: string
-            enum:
-              - top
-              - featured
-            example: top
-        - name: limit
-          in: query
-          description: Number of results to fetch
-          schema:
-            default: 25
-            type: integer
-            minimum: 1
-            maximum: 25
-            example: 25
-          x-is-limit-param: true
-        - name: cursor
-          in: query
-          description: Pagination cursor.
-          schema:
-            type: string
-      operationId: fetch-composer-actions
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CastComposerActionsListResponse'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorRes'
-        '500':
-          description: Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorRes'
-      externalDocs:
-        url: https://docs.neynar.com/reference/fetch-composer-actions
   /v2/farcaster/cast/embed/crawl/:
     get:
       description: Crawls the given URL and returns metadata useful when embedding the URL in a cast.
@@ -9456,66 +9402,6 @@ components:
       required:
         - result
       title: CastsSearchResponse
-    CastComposerActionsListResponse:
-      type: object
-      properties:
-        actions:
-          type: array
-          items:
-            type: object
-            properties:
-              name:
-                type: string
-                description: The name of the action.
-              icon:
-                type: string
-                description: The icon representing the action.
-              description:
-                type: string
-                description: A brief description of the action.
-              about_url:
-                type: string
-                format: uri
-                description: URL to learn more about the action.
-              image_url:
-                type: string
-                format: uri
-                description: URL of the action's image.
-              action_url:
-                type: string
-                format: uri
-                description: URL to perform the action.
-              action:
-                type: object
-                properties:
-                  action_type:
-                    type: string
-                    description: Type of the action (e.g., post).
-                  post_url:
-                    type: string
-                    format: uri
-                    description: URL to post the action.
-              octicon:
-                type: string
-                description: Icon name for the action.
-              added_count:
-                type: integer
-                description: Number of times the action has been added.
-              app_name:
-                type: string
-                description: Name of the application providing the action.
-              author_fid:
-                type: integer
-                description: Author's Farcaster ID.
-              category:
-                type: string
-                description: Category of the action.
-              object:
-                type: string
-                description: Object type, which is "composer_action".
-        next:
-          $ref: '#/components/schemas/NextCursor'
-      title: CastComposerActionsListResponse
     CastEmbedCrawlResponse:
       type: object
       properties:
@@ -10394,9 +10280,8 @@ components:
         target_fids:
           type: array
           items:
-            nullable: true
-            allOf:
-              - $ref: '#/components/schemas/Fid'
+            type: integer
+            minimum: 1
           maxItems: 100
           description: An array of target FIDs to whom the notifications should be sent. Each FID must be a positive integer. Pass an empty array to send notifications to all FIDs with notifications enabled for the mini app.
           example:
@@ -10480,7 +10365,6 @@ components:
             - body
             - target_url
       required:
-        - target_fids
         - notification
       title: SendFrameNotificationsReqBody
     NotificationDelivery:
@@ -11989,9 +11873,8 @@ components:
         target_fids:
           type: array
           items:
-            nullable: true
-            allOf:
-              - $ref: '#/components/schemas/Fid'
+            type: integer
+            minimum: 1
           maxItems: 100
           example:
             - 194
