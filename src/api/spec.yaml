@@ -10319,7 +10319,7 @@ components:
         - untrustedData
         - trustedData
       title: FrameSignaturePacket
-      description: The Mini app Signature Packet (https://docs.farcaster.xyz/developers/frames/spec#frame-signature-packet)
+      description: The Mini app Signature Packet (https://miniapps.farcaster.xyz/)
     FrameDeveloperManagedActionReqBody:
       type: object
       properties:
