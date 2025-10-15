@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.62.0
+  version: 3.63.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -6523,9 +6523,7 @@ paths:
       description: Creates and deploys an instance of the miniapp generator for a user. Requires authentication via API key in the request header.
       summary: Create a miniapp generator deployment
       tags:
-        - v2
         - studio
-        - deployments
       operationId: create-deployment
       requestBody:
         content:
@@ -6619,9 +6617,7 @@ paths:
       description: Lists all miniapp generator deployments for a user. Requires API key authentication.
       summary: List deployments
       tags:
-        - v2
         - studio
-        - deployments
       parameters:
         - name: fid
           in: query
@@ -6704,9 +6700,7 @@ paths:
       description: Deletes a specific miniapp generator deployment or all deployments for a FID. If name is provided, deletes single deployment. If only FID is provided, deletes all deployments for that FID. Requires API key authentication.
       summary: Delete deployment(s)
       tags:
-        - v2
         - studio
-        - deployments
       operationId: delete-deployment
       requestBody:
         content:
@@ -6781,9 +6775,7 @@ paths:
       description: Sends a prompt to a specific miniapp generator deployment. Requires authentication via API key in the request header.
       summary: Prompt a deployment
       tags:
-        - v2
         - studio
-        - deployments
       operationId: prompt-deployment
       requestBody:
         content:
@@ -6862,9 +6854,7 @@ paths:
       description: Sends a prompt to a specific miniapp generator deployment and returns a streaming response using Server-Sent Events. The response is a continuous stream of Server-Sent Events, not a single JSON payload. Each event contains a JSON object with type, message, and other fields specific to the message type. Requires authentication via API key in the request header.
       summary: Prompt a deployment with streaming response
       tags:
-        - v2
         - studio
-        - deployments
       operationId: prompt-deployment-stream
       requestBody:
         content:
@@ -6938,9 +6928,7 @@ paths:
       description: Fetches info about a miniapp generator deployment by its name and creator's Farcaster ID. Requires API key authentication.
       summary: Get deployment info
       tags:
-        - v2
         - studio
-        - deployments
       parameters:
         - name: fid
           in: query
@@ -7039,9 +7027,7 @@ paths:
       description: Associates a generated miniapp with a Farcaster account using a JFS-signed domain association. Requires API key authentication.
       summary: Set account association
       tags:
-        - v2
         - studio
-        - deployments
       operationId: associate-deployment
       requestBody:
         content:
@@ -7137,9 +7123,7 @@ paths:
       description: Uploads an image file to the generated miniapp public folder. The image will be accessible as a static asset on the deployed miniapp. Requires API key authentication.
       summary: Upload image to deployment
       tags:
-        - v2
         - studio
-        - deployments
       operationId: upload-image
       responses:
         '200':
@@ -7206,9 +7190,7 @@ paths:
       description: Downloads an image from the provided URL and saves it to the generated miniapp public folder. The image will be accessible as a static asset on the deployed miniapp. Requires API key authentication.
       summary: Upload image from URL to deployment
       tags:
-        - v2
         - studio
-        - deployments
       operationId: upload-image-url
       requestBody:
         content:
