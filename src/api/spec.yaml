@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.64.0
+  version: 3.65.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -6370,6 +6370,10 @@ paths:
                   additionalProperties:
                     nullable: true
                   description: Additional options for the prompt
+                conversation_id:
+                  type: string
+                  format: uuid
+                  description: Optional conversation ID to continue an existing chat. If not provided, a new conversation will be created.
               required:
                 - fid
                 - name
@@ -6381,8 +6385,17 @@ paths:
           content:
             application/json:
               schema:
-                description: Response from the deployment
-                nullable: true
+                type: object
+                properties:
+                  conversation_id:
+                    type: string
+                    format: uuid
+                    description: The conversation ID for this chat session
+                  response:
+                    description: Response from the deployment
+                    nullable: true
+                required:
+                  - conversation_id
         '400':
           description: Bad Request
           content:
@@ -6396,6 +6409,17 @@ paths:
                   - error
         '404':
           description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '413':
+          description: '413'
           content:
             application/json:
               schema:
@@ -6449,6 +6473,10 @@ paths:
                   additionalProperties:
                     nullable: true
                   description: Additional options for the prompt
+                conversation_id:
+                  type: string
+                  format: uuid
+                  description: Optional conversation ID to continue an existing chat. If not provided, a new conversation will be created.
               required:
                 - fid
                 - name
@@ -6470,6 +6498,17 @@ paths:
                   - error
         '404':
           description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '413':
+          description: '413'
           content:
             application/json:
               schema:
@@ -6846,6 +6885,206 @@ paths:
         - ApiKeyAuth: []
       externalDocs:
         url: https://docs.neynar.com/reference/upload-image-url
+  /v2/studio/deployment/conversations:
+    get:
+      description: Lists all conversations for a specific deployment. Requires API key authentication.
+      summary: List conversations for a deployment
+      tags:
+        - studio
+      parameters:
+        - name: fid
+          in: query
+          description: Farcaster ID of the user
+          required: true
+          schema:
+            type: integer
+            minimum: 0
+            nullable: true
+        - name: name
+          in: query
+          description: Kubernetes deployment name
+          required: true
+          schema:
+            type: string
+      operationId: list-conversations
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      format: uuid
+                      description: Conversation ID
+                    created_at:
+                      type: string
+                      format: date-time
+                      description: Creation timestamp
+                    updated_at:
+                      type: string
+                      format: date-time
+                      description: Last update timestamp
+                    deployment_id:
+                      type: string
+                      format: uuid
+                      description: Deployment ID
+                  required:
+                    - id
+                    - created_at
+                    - updated_at
+                    - deployment_id
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+      security:
+        - ApiKeyAuth: []
+      externalDocs:
+        url: https://docs.neynar.com/reference/list-conversations
+  /v2/studio/deployment/conversations/messages:
+    get:
+      description: Retrieves all messages in a specific conversation. Requires API key authentication.
+      summary: Get messages in a conversation
+      tags:
+        - studio
+      parameters:
+        - name: fid
+          in: query
+          description: Farcaster ID of the user
+          required: true
+          schema:
+            type: integer
+            minimum: 0
+            nullable: true
+        - name: name
+          in: query
+          description: Kubernetes deployment name
+          required: true
+          schema:
+            type: string
+        - name: conversation_id
+          in: query
+          description: Conversation ID
+          required: true
+          schema:
+            type: string
+            format: uuid
+      operationId: get-conversation-messages
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      format: uuid
+                      description: Message ID
+                    created_at:
+                      type: string
+                      format: date-time
+                      description: Creation timestamp
+                    conversation_id:
+                      type: string
+                      format: uuid
+                      description: Conversation ID
+                    message:
+                      type: string
+                      description: Message content
+                    origin:
+                      type: string
+                      enum:
+                        - user
+                        - system
+                        - admin
+                      description: Message origin
+                    type:
+                      type: string
+                      description: Message type
+                    subtype:
+                      type: string
+                      description: Message subtype
+                  required:
+                    - id
+                    - created_at
+                    - conversation_id
+                    - message
+                    - origin
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+      security:
+        - ApiKeyAuth: []
+      externalDocs:
+        url: https://docs.neynar.com/reference/get-conversation-messages
 components:
   schemas:
     ErrorRes:
