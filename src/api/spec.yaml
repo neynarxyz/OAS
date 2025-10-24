@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.65.0
+  version: 3.66.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -6192,12 +6192,14 @@ paths:
       parameters:
         - name: fid
           in: query
-          description: Farcaster ID of the user
-          required: true
+          description: Farcaster ID of the user. Required for non-admin users. Studio admins can omit to query all deployments.
           schema:
             type: integer
             minimum: 0
             nullable: true
+            example: 3
+            title: Fid
+            format: int32
       operationId: list-deployments
       responses:
         '200':
@@ -6894,16 +6896,17 @@ paths:
       parameters:
         - name: fid
           in: query
-          description: Farcaster ID of the user
-          required: true
+          description: Farcaster ID of the user. Required for non-admin users. Studio admins can omit to query all conversations.
           schema:
             type: integer
             minimum: 0
             nullable: true
+            example: 3
+            title: Fid
+            format: int32
         - name: name
           in: query
-          description: Kubernetes deployment name
-          required: true
+          description: Kubernetes deployment name. If provided, filters conversations to this deployment only.
           schema:
             type: string
       operationId: list-conversations
@@ -7059,6 +7062,17 @@ paths:
                     type: string
                 required:
                   - error
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
         '404':
           description: Resource not found
           content:
@@ -7085,6 +7099,286 @@ paths:
         - ApiKeyAuth: []
       externalDocs:
         url: https://docs.neynar.com/reference/get-conversation-messages
+  /v2/studio/deployment/logs:
+    get:
+      description: Retrieves the server.log file from a miniapp-generator deployment. Requires Studio admin authentication.
+      summary: Get deployment logs
+      tags:
+        - studio
+      parameters:
+        - name: fid
+          in: query
+          description: Farcaster ID of the user
+          required: true
+          schema:
+            type: integer
+            minimum: 0
+            nullable: true
+        - name: name
+          in: query
+          description: Kubernetes deployment name
+          required: true
+          schema:
+            type: string
+      operationId: get-deployment-logs
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  logs:
+                    type: string
+                    description: Contents of the server.log file
+                required:
+                  - logs
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+      security:
+        - ApiKeyAuth: []
+      externalDocs:
+        url: https://docs.neynar.com/reference/get-deployment-logs
+  /v2/studio/deployment/files:
+    get:
+      description: Lists files in a directory of the generated app. Requires Studio admin authentication.
+      summary: List deployment files
+      tags:
+        - studio
+      parameters:
+        - name: fid
+          in: query
+          description: Farcaster ID of the user
+          required: true
+          schema:
+            type: integer
+            minimum: 0
+            nullable: true
+        - name: name
+          in: query
+          description: Kubernetes deployment name
+          required: true
+          schema:
+            type: string
+        - name: directory
+          in: query
+          description: Directory path relative to gen/ (defaults to root)
+          schema:
+            type: string
+      operationId: list-deployment-files
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  files:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: File or directory name
+                        path:
+                          type: string
+                          description: Full path relative to gen/
+                        is_directory:
+                          type: boolean
+                          description: Whether this is a directory
+                      required:
+                        - name
+                        - path
+                        - is_directory
+                    description: List of files and directories
+                required:
+                  - files
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+      security:
+        - ApiKeyAuth: []
+      externalDocs:
+        url: https://docs.neynar.com/reference/list-deployment-files
+  /v2/studio/deployment/file:
+    get:
+      description: Retrieves the contents of a specific file from the generated app. Requires Studio admin authentication.
+      summary: Get deployment file contents
+      tags:
+        - studio
+      parameters:
+        - name: fid
+          in: query
+          description: Farcaster ID of the user
+          required: true
+          schema:
+            type: integer
+            minimum: 0
+            nullable: true
+        - name: name
+          in: query
+          description: Kubernetes deployment name
+          required: true
+          schema:
+            type: string
+        - name: file_path
+          in: query
+          description: File path relative to gen/
+          required: true
+          schema:
+            type: string
+      operationId: get-deployment-file
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  content:
+                    type: string
+                    description: File contents
+                  path:
+                    type: string
+                    description: File path relative to gen/
+                required:
+                  - content
+                  - path
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+      security:
+        - ApiKeyAuth: []
+      externalDocs:
+        url: https://docs.neynar.com/reference/get-deployment-file
 components:
   schemas:
     ErrorRes:
