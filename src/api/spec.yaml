@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.66.0
+  version: 3.67.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -6936,11 +6936,15 @@ paths:
                       type: string
                       format: uuid
                       description: Deployment ID
+                    admin:
+                      type: boolean
+                      description: Whether the conversation is an admin conversation
                   required:
                     - id
                     - created_at
                     - updated_at
                     - deployment_id
+                    - admin
         '400':
           description: Bad Request
           content:
