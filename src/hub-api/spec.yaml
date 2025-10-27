@@ -11,7 +11,7 @@ info:
     url: https://neynar.com/
     email: team@neynar.com
 servers:
-  - url: https://hub-api.neynar.com
+  - url: https://snapchain-api.neynar.com
 
 security:
   - ApiKeyAuth: []
