@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.69.0
+  version: 3.70.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -7463,33 +7463,6 @@ paths:
         url: https://docs.neynar.com/reference/get-deployment-file
 components:
   schemas:
-    ErrorRes:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-        property:
-          type: string
-        status:
-          type: integer
-          format: int32
-      required:
-        - message
-      title: ErrorRes
-      description: Details for the error response
-    Timestamp:
-      type: string
-      format: date-time
-      title: Timestamp
-    Fid:
-      type: integer
-      minimum: 0
-      description: The unique identifier of a farcaster user or app (unsigned integer)
-      example: 3
-      title: Fid
-      format: int32
     ZodError:
       type: object
       properties:
@@ -7527,6 +7500,129 @@ components:
         - code
         - errors
       title: ZodError
+    ErrorRes:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        property:
+          type: string
+        status:
+          type: integer
+          format: int32
+      required:
+        - message
+      title: ErrorRes
+      description: Details for the error response
+    Fid:
+      type: integer
+      minimum: 0
+      description: The unique identifier of a farcaster user or app (unsigned integer)
+      example: 3
+      title: Fid
+      format: int32
+    EthAddress:
+      type: string
+      pattern: ^0x[a-fA-F0-9]{40}$
+      example: '0x5a927ac639636e534b678e81768ca19e2c6280b7'
+      description: Ethereum address
+      title: EthAddress
+    UserDehydrated:
+      type: object
+      properties:
+        object:
+          type: string
+          enum:
+            - user_dehydrated
+        fid:
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/Fid'
+        username:
+          type: string
+        display_name:
+          type: string
+        pfp_url:
+          type: string
+        custody_address:
+          $ref: '#/components/schemas/EthAddress'
+        score:
+          type: number
+      required:
+        - object
+        - fid
+      title: UserDehydrated
+    SignerUUID:
+      type: string
+      example: 19d0c5fd-9b33-4a48-a0e2-bc7b0555baec
+      title: SignerUUID
+      description: |-
+        UUID of the signer.
+        `signer_uuid` is paired with API key, can't use a `uuid` made with a different API key.
+    Ed25519PublicKey:
+      type: string
+      pattern: ^0x[a-fA-F0-9]{64}$
+      example: '0x3daa8f99c5f760688a3c9f95716ed93dee5ed5d7722d776b7c4deac957755f22'
+      description: Ed25519 public key
+      title: Ed25519PublicKey
+    SharedSignerPermission:
+      type: string
+      enum:
+        - WRITE_ALL
+        - READ_ONLY
+        - NONE
+        - PUBLISH_CAST
+        - DELETE_CAST
+        - PUBLISH_REACTION
+        - DELETE_REACTION
+        - UPDATE_PROFILE
+        - FOLLOW_USER
+        - UNFOLLOW_USER
+        - FOLLOW_CHANNEL
+        - UNFOLLOW_CHANNEL
+        - ADD_VERIFICATION
+        - REMOVE_VERIFICATION
+        - WRITE_FRAME_ACTION
+      title: SharedSignerPermission
+    Signer:
+      type: object
+      properties:
+        object:
+          type: string
+          enum:
+            - signer
+        signer_uuid:
+          $ref: '#/components/schemas/SignerUUID'
+        public_key:
+          $ref: '#/components/schemas/Ed25519PublicKey'
+        status:
+          type: string
+          enum:
+            - generated
+            - pending_approval
+            - approved
+            - revoked
+        signer_approval_url:
+          type: string
+        fid:
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/Fid'
+        permissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/SharedSignerPermission'
+      required:
+        - signer_uuid
+        - public_key
+        - status
+      title: Signer
+    Timestamp:
+      type: string
+      format: date-time
+      title: Timestamp
     FarcasterActionReqBody:
       type: object
       properties:
@@ -7642,13 +7738,6 @@ components:
         - signed_message
         - app_domain
       title: SignedMessageBody
-    SignerUUID:
-      type: string
-      example: 19d0c5fd-9b33-4a48-a0e2-bc7b0555baec
-      title: SignerUUID
-      description: |-
-        UUID of the signer.
-        `signer_uuid` is paired with API key, can't use a `uuid` made with a different API key.
     AppHostEventType:
       type: string
       enum:
@@ -7701,12 +7790,6 @@ components:
       required:
         - success
       title: AppHostPostEventResponse
-    EthAddress:
-      type: string
-      pattern: ^0x[a-fA-F0-9]{40}$
-      example: '0x5a927ac639636e534b678e81768ca19e2c6280b7'
-      description: Ethereum address
-      title: EthAddress
     SignedKeyRequestSponsor:
       type: object
       properties:
@@ -7755,31 +7838,6 @@ components:
         - deadline
         - signature
       title: RegisterAuthAddressDeveloperManagedSignedKeyReqBody
-    UserDehydrated:
-      type: object
-      properties:
-        object:
-          type: string
-          enum:
-            - user_dehydrated
-        fid:
-          nullable: true
-          allOf:
-            - $ref: '#/components/schemas/Fid'
-        username:
-          type: string
-        display_name:
-          type: string
-        pfp_url:
-          type: string
-        custody_address:
-          $ref: '#/components/schemas/EthAddress'
-        score:
-          type: number
-      required:
-        - object
-        - fid
-      title: UserDehydrated
     TextRange:
       type: object
       properties:
@@ -11038,12 +11096,6 @@ components:
         - reactions
         - next
       title: ReactionsResponse
-    Ed25519PublicKey:
-      type: string
-      pattern: ^0x[a-fA-F0-9]{64}$
-      example: '0x3daa8f99c5f760688a3c9f95716ed93dee5ed5d7722d776b7c4deac957755f22'
-      description: Ed25519 public key
-      title: Ed25519PublicKey
     RegisterDeveloperManagedSignedKeyReqBody:
       type: object
       properties:
@@ -11094,58 +11146,6 @@ components:
         - public_key
         - status
       title: DeveloperManagedSigner
-    SharedSignerPermission:
-      type: string
-      enum:
-        - WRITE_ALL
-        - READ_ONLY
-        - NONE
-        - PUBLISH_CAST
-        - DELETE_CAST
-        - PUBLISH_REACTION
-        - DELETE_REACTION
-        - UPDATE_PROFILE
-        - FOLLOW_USER
-        - UNFOLLOW_USER
-        - FOLLOW_CHANNEL
-        - UNFOLLOW_CHANNEL
-        - ADD_VERIFICATION
-        - REMOVE_VERIFICATION
-        - WRITE_FRAME_ACTION
-      title: SharedSignerPermission
-    Signer:
-      type: object
-      properties:
-        object:
-          type: string
-          enum:
-            - signer
-        signer_uuid:
-          $ref: '#/components/schemas/SignerUUID'
-        public_key:
-          $ref: '#/components/schemas/Ed25519PublicKey'
-        status:
-          type: string
-          enum:
-            - generated
-            - pending_approval
-            - approved
-            - revoked
-        signer_approval_url:
-          type: string
-        fid:
-          nullable: true
-          allOf:
-            - $ref: '#/components/schemas/Fid'
-        permissions:
-          type: array
-          items:
-            $ref: '#/components/schemas/SharedSignerPermission'
-      required:
-        - signer_uuid
-        - public_key
-        - status
-      title: Signer
     SignerListResponse:
       type: object
       properties:
