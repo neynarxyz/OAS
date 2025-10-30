@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.68.0
+  version: 3.69.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -6140,6 +6140,11 @@ paths:
                     type: string
                     format: uri
                     description: GitHub repository URL
+                  deleted_at:
+                    type: string
+                    format: date-time
+                    description: Deletion timestamp
+                    nullable: true
                   created_at:
                     type: string
                     format: date-time
@@ -6154,6 +6159,7 @@ paths:
                     type: boolean
                     description: Deployment is ready to serve app and accept prompts
                 required:
+                  - deleted_at
                   - created_at
                   - namespace
                   - name
@@ -6217,6 +6223,13 @@ paths:
             type: integer
             minimum: 0
             nullable: true
+        - name: include_deleted
+          in: query
+          description: Include deleted deployments in the response. Defaults to false.
+          schema:
+            default: false
+            type: boolean
+            nullable: true
       operationId: list-deployments
       responses:
         '200':
@@ -6242,6 +6255,11 @@ paths:
                       type: string
                       format: uri
                       description: GitHub repository URL
+                    deleted_at:
+                      type: string
+                      format: date-time
+                      description: Deletion timestamp
+                      nullable: true
                     created_at:
                       type: string
                       format: date-time
@@ -6256,12 +6274,24 @@ paths:
                       type: boolean
                       description: Deployment is ready to serve app and accept prompts
                   required:
+                    - deleted_at
                     - created_at
                     - namespace
                     - name
                     - isReady
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '403':
+          description: Forbidden
           content:
             application/json:
               schema:
@@ -6596,6 +6626,11 @@ paths:
                     type: string
                     format: uri
                     description: GitHub repository URL
+                  deleted_at:
+                    type: string
+                    format: date-time
+                    description: Deletion timestamp
+                    nullable: true
                   created_at:
                     type: string
                     format: date-time
@@ -6610,6 +6645,7 @@ paths:
                     type: boolean
                     description: Deployment is ready to serve app and accept prompts
                 required:
+                  - deleted_at
                   - created_at
                   - namespace
                   - name
@@ -6926,6 +6962,13 @@ paths:
           description: Kubernetes deployment name. If provided, filters conversations to this deployment only.
           schema:
             type: string
+        - name: include_deleted
+          in: query
+          description: Include deleted conversations in the response. Defaults to false.
+          schema:
+            default: false
+            type: boolean
+            nullable: true
       operationId: list-conversations
       responses:
         '200':
@@ -6964,6 +7007,17 @@ paths:
                     - admin
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '403':
+          description: Forbidden
           content:
             application/json:
               schema:
@@ -7027,6 +7081,13 @@ paths:
           schema:
             type: string
             format: uuid
+        - name: include_deleted
+          in: query
+          description: Include deleted messages in the response. Defaults to false.
+          schema:
+            default: false
+            type: boolean
+            nullable: true
       operationId: get-conversation-messages
       responses:
         '200':
