@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.74.0
+  version: 3.75.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -3619,24 +3619,30 @@ paths:
                               type: string
                               enum:
                                 - fungible
+                            name:
+                              type: string
+                              description: The token name e.g. "Ethereum"
+                            symbol:
+                              type: string
+                              description: The token symbol e.g. "ETH"
+                            address:
+                              type: string
+                              description: The contract address of the token
+                            decimals:
+                              type: integer
+                              description: The number of decimals the token uses
+                            total_supply:
+                              type: string
+                              nullable: true
+                              description: The total supply of the token
+                            logo:
+                              type: string
+                              nullable: true
+                              description: The logo URL of the token
                             network:
                               type: string
                               enum:
                                 - base
-                            address:
-                              type: string
-                            name:
-                              type: string
-                            symbol:
-                              type: string
-                            decimals:
-                              type: integer
-                            total_supply:
-                              type: string
-                              nullable: true
-                            logo:
-                              type: string
-                              nullable: true
                             price:
                               type: object
                               properties:
@@ -3646,14 +3652,12 @@ paths:
                                 - in_usd
                           required:
                             - object
-                            - network
-                            - address
                             - name
                             - symbol
+                            - address
                             - decimals
                             - total_supply
                             - logo
-                            - price
                       required:
                         - object
                         - fungible
@@ -3673,6 +3677,42 @@ paths:
                 $ref: '#/components/schemas/ErrorRes'
       externalDocs:
         url: https://docs.neynar.com/reference/fetch-trending-fungibles
+  /v2/farcaster/fungibles/:
+    get:
+      description: Fetch details for fungible assets identified by fungible identifiers.
+      summary: Fetch fungibles
+      tags:
+        - Onchain
+      parameters:
+        - name: fungibles
+          in: query
+          description: Comma-separated fungible identifiers
+          required: true
+          schema:
+            type: string
+            example: eip155:8453/erc20:0x833589fcd6edb6e08f4c7c32d4f71b54bda02913,eip155:8453/erc20:0x2f6c17fa9f9bc3600346ab4e48c0701e1d5962ae
+      operationId: fetch-fungibles
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FungiblesResponseSchema'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-fungibles
   /v2/farcaster/login/nonce/:
     get:
       description: Nonce to sign a message
@@ -10857,6 +10897,70 @@ components:
         - send_receipts
         - transactions
       title: TransactionSendFungiblesResponse
+    Fungible:
+      type: object
+      properties:
+        object:
+          type: string
+          enum:
+            - fungible
+        name:
+          type: string
+          description: The token name e.g. "Ethereum"
+        symbol:
+          type: string
+          description: The token symbol e.g. "ETH"
+        address:
+          type: string
+          description: The contract address of the token
+        decimals:
+          type: integer
+          description: The number of decimals the token uses
+        total_supply:
+          type: string
+          nullable: true
+          description: The total supply of the token
+        logo:
+          type: string
+          nullable: true
+          description: The logo URL of the token
+      required:
+        - object
+        - name
+        - symbol
+        - address
+        - decimals
+        - total_supply
+        - logo
+      title: Fungible
+    FarcasterFungible:
+      type: object
+      properties:
+        object:
+          type: string
+          enum:
+            - farcaster_fungible
+        fungible:
+          $ref: '#/components/schemas/Fungible'
+        cast_count:
+          type: integer
+          description: The total number of comments on the token
+      required:
+        - object
+        - fungible
+        - cast_count
+      title: FarcasterFungible
+    FungiblesResponseSchema:
+      type: object
+      properties:
+        fungibles:
+          type: array
+          items:
+            $ref: '#/components/schemas/FarcasterFungible'
+      required:
+        - fungibles
+      title: FungiblesResponseSchema
+      description: Response containing fungible details
     NonceResponse:
       type: object
       properties:
