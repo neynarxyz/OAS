@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.77.0
+  version: 3.78.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -6332,6 +6332,7 @@ paths:
           schema:
             type: integer
             minimum: 0
+            nullable: true
             example: 3
             title: Fid
             format: int32
@@ -7076,6 +7077,7 @@ paths:
           schema:
             type: integer
             minimum: 0
+            nullable: true
             example: 3
             title: Fid
             format: int32
@@ -7195,6 +7197,7 @@ paths:
           schema:
             type: integer
             minimum: 0
+            nullable: true
         - name: name
           in: query
           description: Kubernetes deployment name
@@ -7328,6 +7331,7 @@ paths:
           schema:
             type: integer
             minimum: 0
+            nullable: true
         - name: name
           in: query
           description: Kubernetes deployment name
@@ -7410,6 +7414,7 @@ paths:
           schema:
             type: integer
             minimum: 0
+            nullable: true
         - name: name
           in: query
           description: Kubernetes deployment name
@@ -7513,6 +7518,7 @@ paths:
           schema:
             type: integer
             minimum: 0
+            nullable: true
         - name: name
           in: query
           description: Kubernetes deployment name
@@ -7591,6 +7597,193 @@ paths:
         - ApiKeyAuth: []
       externalDocs:
         url: https://docs.neynar.com/reference/get-deployment-file
+  /v2/studio/deployment/start:
+    post:
+      description: Starts the Next.js development server for the generated miniapp. Requires Studio admin authentication.
+      summary: Start generated miniapp
+      tags:
+        - studio
+      operationId: start-app
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fid:
+                  type: integer
+                  minimum: 0
+                  description: Farcaster ID of the user
+                name:
+                  type: string
+                  description: Kubernetes deployment name
+              required:
+                - fid
+                - name
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                    description: Status message
+                required:
+                  - success
+                  - message
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '408':
+          description: '408'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+      security:
+        - ApiKeyAuth: []
+      externalDocs:
+        url: https://docs.neynar.com/reference/start-app
+  /v2/studio/deployment/stop:
+    post:
+      description: Stops the Next.js development server for the generated miniapp. Requires Studio admin authentication.
+      summary: Stop generated miniapp
+      tags:
+        - studio
+      operationId: stop-app
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fid:
+                  type: integer
+                  minimum: 0
+                  description: Farcaster ID of the user
+                name:
+                  type: string
+                  description: Kubernetes deployment name
+              required:
+                - fid
+                - name
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                    description: Status message
+                required:
+                  - success
+                  - message
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+      security:
+        - ApiKeyAuth: []
+      externalDocs:
+        url: https://docs.neynar.com/reference/stop-app
 components:
   schemas:
     ZodError:
