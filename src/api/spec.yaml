@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.76.0
+  version: 3.77.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -293,9 +293,7 @@ paths:
                     type: string
                     format: uri
                   fid:
-                    nullable: true
-                    allOf:
-                      - $ref: '#/components/schemas/Fid'
+                    $ref: '#/components/schemas/Fid'
                 required:
                   - address
                   - status
@@ -350,9 +348,7 @@ paths:
                     type: string
                     format: uri
                   fid:
-                    nullable: true
-                    allOf:
-                      - $ref: '#/components/schemas/Fid'
+                    $ref: '#/components/schemas/Fid'
                 required:
                   - address
                   - status
@@ -3998,7 +3994,6 @@ paths:
                       fid:
                         type: integer
                         minimum: 0
-                        nullable: true
                         description: The unique identifier of a farcaster user or app (unsigned integer)
                         example: 3
                         title: Fid
@@ -4041,9 +4036,7 @@ paths:
                             address:
                               $ref: '#/components/schemas/EthAddress'
                             fid:
-                              nullable: true
-                              allOf:
-                                - $ref: '#/components/schemas/Fid'
+                              $ref: '#/components/schemas/Fid'
                             quantity:
                               type: integer
                               minimum: 1
@@ -4542,7 +4535,6 @@ paths:
           schema:
             type: integer
             minimum: 0
-            nullable: true
             example: 3
             title: Fid
             format: int32
@@ -4841,7 +4833,6 @@ paths:
           schema:
             type: integer
             minimum: 0
-            nullable: true
             example: 3
             title: Fid
             format: int32
@@ -4875,7 +4866,6 @@ paths:
           schema:
             type: integer
             minimum: 0
-            nullable: true
             example: 3
             title: Fid
             format: int32
@@ -5753,7 +5743,6 @@ paths:
           schema:
             type: integer
             minimum: 0
-            nullable: true
             example: 3
             title: Fid
             format: int32
@@ -5795,7 +5784,6 @@ paths:
           schema:
             type: integer
             minimum: 0
-            nullable: true
             example: 3
             title: Fid
             format: int32
@@ -5842,7 +5830,6 @@ paths:
           schema:
             type: integer
             minimum: 0
-            nullable: true
             example: 3
             title: Fid
             format: int32
@@ -6250,7 +6237,6 @@ paths:
                   type: integer
                   minimum: 0
                   description: Farcaster ID of the user
-                  nullable: true
                 env:
                   type: object
                   additionalProperties:
@@ -6346,7 +6332,6 @@ paths:
           schema:
             type: integer
             minimum: 0
-            nullable: true
             example: 3
             title: Fid
             format: int32
@@ -6476,7 +6461,6 @@ paths:
                   type: integer
                   minimum: 0
                   description: Farcaster ID of the user
-                  nullable: true
                 name:
                   type: string
                   description: Kubernetes deployment name. If not provided, all deployments for the FID will be deleted
@@ -6551,7 +6535,6 @@ paths:
                   type: integer
                   minimum: 0
                   description: Farcaster ID of the user
-                  nullable: true
                 name:
                   type: string
                   description: Kubernetes deployment name
@@ -6654,7 +6637,6 @@ paths:
                   type: integer
                   minimum: 0
                   description: Farcaster ID of the user
-                  nullable: true
                 name:
                   type: string
                   description: Kubernetes deployment name
@@ -6740,7 +6722,6 @@ paths:
           schema:
             type: integer
             minimum: 0
-            nullable: true
         - name: name
           in: query
           description: Kubernetes deployment name
@@ -6848,7 +6829,6 @@ paths:
                   type: integer
                   minimum: 0
                   description: Farcaster ID of the user
-                  nullable: true
                 name:
                   type: string
                   description: Kubernetes deployment name
@@ -7011,7 +6991,6 @@ paths:
                   type: integer
                   minimum: 0
                   description: Farcaster ID of the user
-                  nullable: true
                 name:
                   type: string
                   description: Kubernetes deployment name
@@ -7097,7 +7076,6 @@ paths:
           schema:
             type: integer
             minimum: 0
-            nullable: true
             example: 3
             title: Fid
             format: int32
@@ -7120,35 +7098,41 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      type: string
-                      format: uuid
-                      description: Conversation ID
-                    created_at:
-                      type: string
-                      format: date-time
-                      description: Creation timestamp
-                    updated_at:
-                      type: string
-                      format: date-time
-                      description: Last update timestamp
-                    deployment_id:
-                      type: string
-                      format: uuid
-                      description: Deployment ID
-                    admin:
-                      type: boolean
-                      description: Whether the conversation is an admin conversation
-                  required:
-                    - id
-                    - created_at
-                    - updated_at
-                    - deployment_id
-                    - admin
+                type: object
+                properties:
+                  conversations:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                          description: Conversation ID
+                        created_at:
+                          type: string
+                          format: date-time
+                          description: Creation timestamp
+                        updated_at:
+                          type: string
+                          format: date-time
+                          description: Last update timestamp
+                        deployment_id:
+                          type: string
+                          format: uuid
+                          description: Deployment ID
+                        admin:
+                          type: boolean
+                          description: Whether the conversation is an admin conversation
+                      required:
+                        - id
+                        - created_at
+                        - updated_at
+                        - deployment_id
+                        - admin
+                    description: List of conversations
+                required:
+                  - conversations
         '400':
           description: Bad Request
           content:
@@ -7211,7 +7195,6 @@ paths:
           schema:
             type: integer
             minimum: 0
-            nullable: true
         - name: name
           in: query
           description: Kubernetes deployment name
@@ -7239,44 +7222,50 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      type: string
-                      format: uuid
-                      description: Message ID
-                    created_at:
-                      type: string
-                      format: date-time
-                      description: Creation timestamp
-                    conversation_id:
-                      type: string
-                      format: uuid
-                      description: Conversation ID
-                    message:
-                      type: string
-                      description: Message content
-                    origin:
-                      type: string
-                      enum:
-                        - user
-                        - system
-                        - admin
-                      description: Message origin
-                    type:
-                      type: string
-                      description: Message type
-                    subtype:
-                      type: string
-                      description: Message subtype
-                  required:
-                    - id
-                    - created_at
-                    - conversation_id
-                    - message
-                    - origin
+                type: object
+                properties:
+                  messages:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                          description: Message ID
+                        created_at:
+                          type: string
+                          format: date-time
+                          description: Creation timestamp
+                        conversation_id:
+                          type: string
+                          format: uuid
+                          description: Conversation ID
+                        message:
+                          type: string
+                          description: Message content
+                        origin:
+                          type: string
+                          enum:
+                            - user
+                            - system
+                            - admin
+                          description: Message origin
+                        type:
+                          type: string
+                          description: Message type
+                        subtype:
+                          type: string
+                          description: Message subtype
+                      required:
+                        - id
+                        - created_at
+                        - conversation_id
+                        - message
+                        - origin
+                    description: List of messages
+                required:
+                  - messages
         '400':
           description: Bad Request
           content:
@@ -7339,7 +7328,6 @@ paths:
           schema:
             type: integer
             minimum: 0
-            nullable: true
         - name: name
           in: query
           description: Kubernetes deployment name
@@ -7422,7 +7410,6 @@ paths:
           schema:
             type: integer
             minimum: 0
-            nullable: true
         - name: name
           in: query
           description: Kubernetes deployment name
@@ -7526,7 +7513,6 @@ paths:
           schema:
             type: integer
             minimum: 0
-            nullable: true
         - name: name
           in: query
           description: Kubernetes deployment name
@@ -7681,9 +7667,7 @@ components:
           enum:
             - user_dehydrated
         fid:
-          nullable: true
-          allOf:
-            - $ref: '#/components/schemas/Fid'
+          $ref: '#/components/schemas/Fid'
         username:
           type: string
         display_name:
@@ -7751,9 +7735,7 @@ components:
         signer_approval_url:
           type: string
         fid:
-          nullable: true
-          allOf:
-            - $ref: '#/components/schemas/Fid'
+          $ref: '#/components/schemas/Fid'
         permissions:
           type: array
           items:
@@ -7905,9 +7887,7 @@ components:
           type: string
           description: Domain of the mini app
         fid:
-          nullable: true
-          allOf:
-            - $ref: '#/components/schemas/Fid'
+          $ref: '#/components/schemas/Fid'
         event:
           $ref: '#/components/schemas/AppHostEventType'
       required:
@@ -7938,9 +7918,7 @@ components:
       type: object
       properties:
         fid:
-          nullable: true
-          allOf:
-            - $ref: '#/components/schemas/Fid'
+          $ref: '#/components/schemas/Fid'
         signature:
           type: string
           description: Signature generated by the fid of the sponsor and the signature generated from signKeyRequest for the app.
@@ -7958,9 +7936,7 @@ components:
         address:
           $ref: '#/components/schemas/EthAddress'
         app_fid:
-          nullable: true
-          allOf:
-            - $ref: '#/components/schemas/Fid'
+          $ref: '#/components/schemas/Fid'
         deadline:
           type: integer
           description: unix timestamp in seconds that controls how long the signed key request is valid for. (24 hours from now is recommended)
@@ -8111,9 +8087,7 @@ components:
           enum:
             - user
         fid:
-          nullable: true
-          allOf:
-            - $ref: '#/components/schemas/Fid'
+          $ref: '#/components/schemas/Fid'
         username:
           type: string
         display_name:
@@ -8328,9 +8302,7 @@ components:
         fids:
           type: array
           items:
-            nullable: true
-            allOf:
-              - $ref: '#/components/schemas/Fid'
+            $ref: '#/components/schemas/Fid'
       required:
         - fids
       title: BanReqBody
@@ -8382,9 +8354,7 @@ components:
         signer_uuid:
           $ref: '#/components/schemas/SignerUUID'
         blocked_fid:
-          nullable: true
-          allOf:
-            - $ref: '#/components/schemas/Fid'
+          $ref: '#/components/schemas/Fid'
       required:
         - signer_uuid
         - blocked_fid
@@ -8449,9 +8419,7 @@ components:
           type: object
           properties:
             fid:
-              nullable: true
-              allOf:
-                - $ref: '#/components/schemas/Fid'
+              $ref: '#/components/schemas/Fid'
             hash:
               type: string
           required:
@@ -9245,9 +9213,7 @@ components:
           type: object
           properties:
             fid:
-              nullable: true
-              allOf:
-                - $ref: '#/components/schemas/Fid'
+              $ref: '#/components/schemas/Fid'
             hash:
               type: string
           required:
@@ -9276,9 +9242,7 @@ components:
       type: object
       properties:
         fid:
-          nullable: true
-          allOf:
-            - $ref: '#/components/schemas/Fid'
+          $ref: '#/components/schemas/Fid'
         fname:
           type: string
       required:
@@ -9289,9 +9253,7 @@ components:
       type: object
       properties:
         fid:
-          nullable: true
-          allOf:
-            - $ref: '#/components/schemas/Fid'
+          $ref: '#/components/schemas/Fid'
         fname:
           type: string
       required:
@@ -9372,9 +9334,7 @@ components:
         moderator_fids:
           type: array
           items:
-            nullable: true
-            allOf:
-              - $ref: '#/components/schemas/Fid'
+            $ref: '#/components/schemas/Fid'
         member_count:
           type: integer
           format: int32
@@ -9833,9 +9793,7 @@ components:
         hash:
           type: string
         fid:
-          nullable: true
-          allOf:
-            - $ref: '#/components/schemas/Fid'
+          $ref: '#/components/schemas/Fid'
       required:
         - hash
         - fid
@@ -9894,9 +9852,7 @@ components:
         idem:
           $ref: '#/components/schemas/Idem'
         parent_author_fid:
-          nullable: true
-          allOf:
-            - $ref: '#/components/schemas/Fid'
+          $ref: '#/components/schemas/Fid'
       required:
         - signer_uuid
       title: PostCastReqBody
@@ -9916,9 +9872,7 @@ components:
               type: object
               properties:
                 fid:
-                  nullable: true
-                  allOf:
-                    - $ref: '#/components/schemas/Fid'
+                  $ref: '#/components/schemas/Fid'
               required:
                 - fid
             text:
@@ -10049,9 +10003,7 @@ components:
         channel_id:
           $ref: '#/components/schemas/ChannelId'
         fid:
-          nullable: true
-          allOf:
-            - $ref: '#/components/schemas/Fid'
+          $ref: '#/components/schemas/Fid'
         role:
           $ref: '#/components/schemas/ChannelMemberRole'
       required:
@@ -10086,9 +10038,7 @@ components:
         channel_id:
           $ref: '#/components/schemas/ChannelId'
         fid:
-          nullable: true
-          allOf:
-            - $ref: '#/components/schemas/Fid'
+          $ref: '#/components/schemas/Fid'
         role:
           $ref: '#/components/schemas/ChannelMemberRole'
       required:
@@ -10368,9 +10318,7 @@ components:
                   - disabled
                   - invalid
               fid:
-                nullable: true
-                allOf:
-                  - $ref: '#/components/schemas/Fid'
+                $ref: '#/components/schemas/Fid'
               created_at:
                 type: string
                 format: date-time
@@ -10403,15 +10351,12 @@ components:
             exclude_fids:
               type: array
               items:
-                nullable: true
-                allOf:
-                  - $ref: '#/components/schemas/Fid'
+                $ref: '#/components/schemas/Fid'
               description: Only send notifications to users who are not in the given FIDs.
             following_fid:
               type: integer
               minimum: 0
               description: Only send notifications to users who follow the given FID.
-              nullable: true
               example: 3
               format: int32
             minimum_user_score:
@@ -10484,9 +10429,7 @@ components:
           enum:
             - notification_delivery
         fid:
-          nullable: true
-          allOf:
-            - $ref: '#/components/schemas/Fid'
+          $ref: '#/components/schemas/Fid'
         status:
           type: string
           enum:
@@ -10499,9 +10442,7 @@ components:
             - http_error
             - invalid_target_url
         app_fid:
-          nullable: true
-          allOf:
-            - $ref: '#/components/schemas/Fid'
+          $ref: '#/components/schemas/Fid'
       required:
         - object
         - fid
@@ -10690,9 +10631,7 @@ components:
         allowlist_fids:
           type: array
           items:
-            nullable: true
-            allOf:
-              - $ref: '#/components/schemas/Fid'
+            $ref: '#/components/schemas/Fid'
           description: Optional list of FIDs that are allowed to use this transaction mini app
         line_items:
           type: array
@@ -10801,9 +10740,7 @@ components:
       type: object
       properties:
         fid:
-          nullable: true
-          allOf:
-            - $ref: '#/components/schemas/Fid'
+          $ref: '#/components/schemas/Fid'
         amount:
           type: number
           minimum: 1.e-8
@@ -10840,9 +10777,7 @@ components:
       type: object
       properties:
         fid:
-          nullable: true
-          allOf:
-            - $ref: '#/components/schemas/Fid'
+          $ref: '#/components/schemas/Fid'
         amount:
           type: number
         status:
@@ -11023,13 +10958,9 @@ components:
       type: object
       properties:
         fid:
-          nullable: true
-          allOf:
-            - $ref: '#/components/schemas/Fid'
+          $ref: '#/components/schemas/Fid'
         muted_fid:
-          nullable: true
-          allOf:
-            - $ref: '#/components/schemas/Fid'
+          $ref: '#/components/schemas/Fid'
       required:
         - fid
         - muted_fid
@@ -11061,9 +10992,7 @@ components:
               address:
                 $ref: '#/components/schemas/EthAddress'
               fid:
-                nullable: true
-                allOf:
-                  - $ref: '#/components/schemas/Fid'
+                $ref: '#/components/schemas/Fid'
               quantity:
                 type: integer
                 minimum: 1
@@ -11219,9 +11148,7 @@ components:
           description: Target cast hash (hex string starting with 0x) OR a valid URL.
           example: 0x3702ec1b298bb7ac6f00346432d959ad7b05b9a8 -OR- http://neynar.com/
         target_author_fid:
-          nullable: true
-          allOf:
-            - $ref: '#/components/schemas/Fid'
+          $ref: '#/components/schemas/Fid'
         idem:
           $ref: '#/components/schemas/Idem'
       required:
@@ -11317,9 +11244,7 @@ components:
           description: Signature generated by the custody address of the app. Signed data includes app_fid, deadline, signer's public key
           example: '0x7867e84cb6a64bf6e1954e52884133f1114eb3fd97f63ff55fa76c77c80beb6434eea9d3736b59caa3130d63121177acc752dc8a2561e9edf700642f390f92d11b'
         app_fid:
-          nullable: true
-          allOf:
-            - $ref: '#/components/schemas/Fid'
+          $ref: '#/components/schemas/Fid'
         deadline:
           type: integer
           description: unix timestamp in seconds that controls how long the signed key request is valid for. (24 hours from now is recommended)
@@ -11350,9 +11275,7 @@ components:
         signer_approval_url:
           type: string
         fid:
-          nullable: true
-          allOf:
-            - $ref: '#/components/schemas/Fid'
+          $ref: '#/components/schemas/Fid'
       required:
         - public_key
         - status
@@ -11376,9 +11299,7 @@ components:
           type: string
           description: Signature generated by the custody address of the app. Signed data includes app_fid, deadline, signer's public key
         app_fid:
-          nullable: true
-          allOf:
-            - $ref: '#/components/schemas/Fid'
+          $ref: '#/components/schemas/Fid'
         deadline:
           type: integer
           description: unix timestamp in seconds that controls how long the signed key request is valid for. (24 hours from now is recommended)
@@ -11543,9 +11464,7 @@ components:
       type: object
       properties:
         fid:
-          nullable: true
-          allOf:
-            - $ref: '#/components/schemas/Fid'
+          $ref: '#/components/schemas/Fid'
       required:
         - fid
       title: UserFIDResponse
@@ -11672,9 +11591,7 @@ components:
             fids:
               type: array
               items:
-                nullable: true
-                allOf:
-                  - $ref: '#/components/schemas/Fid'
+                $ref: '#/components/schemas/Fid'
               description: List of FIDs
           required:
             - fids
@@ -11774,9 +11691,7 @@ components:
         success:
           type: boolean
         target_fid:
-          nullable: true
-          allOf:
-            - $ref: '#/components/schemas/Fid'
+          $ref: '#/components/schemas/Fid'
         hash:
           type: string
       required:
@@ -12347,9 +12262,7 @@ components:
               signer_approval_url:
                 type: string
               fid:
-                nullable: true
-                allOf:
-                  - $ref: '#/components/schemas/Fid'
+                $ref: '#/components/schemas/Fid'
               permissions:
                 type: array
                 items:
