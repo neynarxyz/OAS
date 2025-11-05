@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.78.0
+  version: 3.79.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -3686,6 +3686,12 @@ paths:
           schema:
             type: string
             example: eip155:8453/erc20:0x833589fcd6edb6e08f4c7c32d4f71b54bda02913,eip155:8453/erc20:0x2f6c17fa9f9bc3600346ab4e48c0701e1d5962ae
+        - name: viewer_fid
+          in: query
+          description: Optional FID of the viewer to personalize cast count filtering
+          schema:
+            type: number
+            nullable: true
       operationId: fetch-fungibles
       responses:
         '200':
