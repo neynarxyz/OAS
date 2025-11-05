@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.79.0
+  version: 3.80.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -6729,6 +6729,7 @@ paths:
           schema:
             type: integer
             minimum: 0
+            nullable: true
         - name: name
           in: query
           description: Kubernetes deployment name
