@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.81.0
+  version: 3.82.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -6282,6 +6282,11 @@ paths:
                     format: date-time
                     description: Deletion timestamp
                     nullable: true
+                  updated_at:
+                    type: string
+                    format: date-time
+                    description: Last update timestamp
+                    nullable: true
                   created_at:
                     type: string
                     format: date-time
@@ -6297,6 +6302,7 @@ paths:
                     description: Deployment is ready to serve app and accept prompts
                 required:
                   - deleted_at
+                  - updated_at
                   - created_at
                   - namespace
                   - name
@@ -6397,6 +6403,11 @@ paths:
                       format: date-time
                       description: Deletion timestamp
                       nullable: true
+                    updated_at:
+                      type: string
+                      format: date-time
+                      description: Last update timestamp
+                      nullable: true
                     created_at:
                       type: string
                       format: date-time
@@ -6412,6 +6423,7 @@ paths:
                       description: Deployment is ready to serve app and accept prompts
                   required:
                     - deleted_at
+                    - updated_at
                     - created_at
                     - namespace
                     - name
@@ -6765,6 +6777,11 @@ paths:
                     format: date-time
                     description: Deletion timestamp
                     nullable: true
+                  updated_at:
+                    type: string
+                    format: date-time
+                    description: Last update timestamp
+                    nullable: true
                   created_at:
                     type: string
                     format: date-time
@@ -6780,6 +6797,7 @@ paths:
                     description: Deployment is ready to serve app and accept prompts
                 required:
                   - deleted_at
+                  - updated_at
                   - created_at
                   - namespace
                   - name
