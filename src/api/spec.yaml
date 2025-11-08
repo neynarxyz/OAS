@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.82.0
+  version: 3.83.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -6263,9 +6263,6 @@ paths:
               schema:
                 type: object
                 properties:
-                  status:
-                    type: string
-                    description: Kubernetes deployment status
                   display_name:
                     type: string
                     description: Display name for the project
@@ -6297,16 +6294,23 @@ paths:
                   name:
                     type: string
                     description: Kubernetes deployment name
-                  isReady:
+                  is_ready:
                     type: boolean
                     description: Deployment is ready to serve app and accept prompts
+                  vercel_project_id:
+                    type: string
+                    description: Vercel project ID
+                  vercel_deployment_url:
+                    type: string
+                    format: uri
+                    description: Vercel deployment URL
                 required:
                   - deleted_at
                   - updated_at
                   - created_at
                   - namespace
                   - name
-                  - isReady
+                  - is_ready
         '400':
           description: Bad Request
           content:
@@ -6384,9 +6388,6 @@ paths:
                 items:
                   type: object
                   properties:
-                    status:
-                      type: string
-                      description: Kubernetes deployment status
                     display_name:
                       type: string
                       description: Display name for the project
@@ -6418,16 +6419,23 @@ paths:
                     name:
                       type: string
                       description: Kubernetes deployment name
-                    isReady:
+                    is_ready:
                       type: boolean
                       description: Deployment is ready to serve app and accept prompts
+                    vercel_project_id:
+                      type: string
+                      description: Vercel project ID
+                    vercel_deployment_url:
+                      type: string
+                      format: uri
+                      description: Vercel deployment URL
                   required:
                     - deleted_at
                     - updated_at
                     - created_at
                     - namespace
                     - name
-                    - isReady
+                    - is_ready
         '400':
           description: Bad Request
           content:
@@ -6758,9 +6766,6 @@ paths:
               schema:
                 type: object
                 properties:
-                  status:
-                    type: string
-                    description: Kubernetes deployment status
                   display_name:
                     type: string
                     description: Display name for the project
@@ -6792,16 +6797,23 @@ paths:
                   name:
                     type: string
                     description: Kubernetes deployment name
-                  isReady:
+                  is_ready:
                     type: boolean
                     description: Deployment is ready to serve app and accept prompts
+                  vercel_project_id:
+                    type: string
+                    description: Vercel project ID
+                  vercel_deployment_url:
+                    type: string
+                    format: uri
+                    description: Vercel deployment URL
                 required:
                   - deleted_at
                   - updated_at
                   - created_at
                   - namespace
                   - name
-                  - isReady
+                  - is_ready
         '400':
           description: Bad Request
           content:
@@ -7810,6 +7822,342 @@ paths:
         - ApiKeyAuth: []
       externalDocs:
         url: https://docs.neynar.com/reference/stop-app
+  /v2/studio/vercel/:
+    post:
+      description: Publishes the generated miniapp to Vercel via GitHub. Creates a GitHub repository, pushes code, creates a Vercel project linked to GitHub, and triggers deployment. Requires API key authentication.
+      summary: Deploy miniapp to Vercel
+      tags:
+        - studio
+      operationId: deploy-to-vercel
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fid:
+                  type: integer
+                  minimum: 0
+                  description: Farcaster ID of the user
+                name:
+                  type: string
+                  description: Deployment name (used for both GitHub repo and Vercel project)
+                env:
+                  type: object
+                  additionalProperties:
+                    type: string
+                  description: Environment variables for the Vercel deployment
+              required:
+                - fid
+                - name
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Whether the deployment succeeded
+                  deployment_url:
+                    type: string
+                    description: URL of the deployed Vercel app
+                  project_id:
+                    type: string
+                    description: Vercel project ID
+                required:
+                  - success
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    enum:
+                      - false
+                  error:
+                    type: string
+                required:
+                  - success
+                  - error
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    enum:
+                      - false
+                  error:
+                    type: string
+                required:
+                  - success
+                  - error
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    enum:
+                      - false
+                  error:
+                    type: string
+                required:
+                  - success
+                  - error
+      security:
+        - ApiKeyAuth: []
+      externalDocs:
+        url: https://docs.neynar.com/reference/deploy-to-vercel
+  /v2/studio/vercel/status:
+    get:
+      description: Retrieves the status of a Vercel deployment for a miniapp. Looks up the Vercel project ID from the deployment and queries Vercel API for deployment status. Requires API key authentication.
+      summary: Get Vercel deployment status
+      tags:
+        - studio
+      parameters:
+        - name: fid
+          in: query
+          description: Farcaster ID of the user
+          required: true
+          schema:
+            type: integer
+            minimum: 0
+            nullable: true
+        - name: name
+          in: query
+          description: Deployment name used to identify the Vercel project
+          required: true
+          schema:
+            type: string
+      operationId: vercel-deployment-status
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Whether the request succeeded
+                  project_id:
+                    type: string
+                    description: Vercel project ID
+                  deployment_url:
+                    type: string
+                    description: URL of the deployed Vercel app
+                  deployment_state:
+                    type: string
+                    description: Current state of the deployment
+                  created_at:
+                    type: number
+                    description: Timestamp when deployment was created
+                  target:
+                    type: string
+                    description: Deployment target environment
+                required:
+                  - success
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    enum:
+                      - false
+                  error:
+                    type: string
+                required:
+                  - success
+                  - error
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    enum:
+                      - false
+                  error:
+                    type: string
+                required:
+                  - success
+                  - error
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    enum:
+                      - false
+                  error:
+                    type: string
+                required:
+                  - success
+                  - error
+      security:
+        - ApiKeyAuth: []
+      externalDocs:
+        url: https://docs.neynar.com/reference/vercel-deployment-status
+  /v2/studio/vercel/logs:
+    get:
+      description: Retrieves the build logs for a Vercel deployment. Useful for debugging failed deployments. Requires Studio admin authentication.
+      summary: Get Vercel deployment build logs
+      tags:
+        - studio
+      parameters:
+        - name: fid
+          in: query
+          description: Farcaster ID of the user
+          required: true
+          schema:
+            type: integer
+            minimum: 0
+            nullable: true
+        - name: name
+          in: query
+          description: Deployment name used to identify the Vercel project
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Maximum number of log events to return. Defaults to 100.
+          schema:
+            default: 100
+            type: integer
+            minimum: 0
+            exclusiveMinimum: 0
+      operationId: vercel-deployment-logs
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Whether the request succeeded
+                  logs:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                          description: Event type (stdout, stderr, etc.)
+                        text:
+                          type: string
+                          description: Log text content
+                        created:
+                          type: number
+                          description: Timestamp of the log event
+                        date:
+                          type: number
+                          description: Date of the log event
+                      required:
+                        - type
+                        - created
+                        - date
+                    description: Array of log events
+                required:
+                  - success
+                  - logs
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    enum:
+                      - false
+                  error:
+                    type: string
+                required:
+                  - success
+                  - error
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    enum:
+                      - false
+                  error:
+                    type: string
+                required:
+                  - success
+                  - error
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    enum:
+                      - false
+                  error:
+                    type: string
+                required:
+                  - success
+                  - error
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    enum:
+                      - false
+                  error:
+                    type: string
+                required:
+                  - success
+                  - error
+      security:
+        - ApiKeyAuth: []
+      externalDocs:
+        url: https://docs.neynar.com/reference/vercel-deployment-logs
 components:
   schemas:
     ZodError:
