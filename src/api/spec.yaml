@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.84.0
+  version: 3.85.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -3564,6 +3564,141 @@ paths:
                 $ref: '#/components/schemas/ErrorRes'
       externalDocs:
         url: https://docs.neynar.com/reference/send-fungibles-to-users
+  /v2/farcaster/fungible/trades/:
+    get:
+      description: Get recent trades for a specific fungible within a timeframe. Returns trades ordered by timestamp (most recent first).
+      summary: Get fungible trades
+      tags:
+        - Onchain
+      parameters:
+        - name: network
+          in: query
+          required: true
+          schema:
+            type: string
+            enum:
+              - base
+        - name: address
+          in: query
+          description: Contract address
+          required: true
+          schema:
+            type: string
+        - name: time_window
+          in: query
+          description: Time window for trades e.g. "1h", "6h", "12h", "24h", "7d"
+          schema:
+            default: 24h
+            type: string
+            enum:
+              - 1h
+              - 6h
+              - 12h
+              - 24h
+              - 7d
+        - name: min_amount_usd
+          in: query
+          description: Minimum USD amount to filter trades
+          schema:
+            type: number
+            nullable: true
+      operationId: fetch-fungible-trades
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  object:
+                    type: string
+                    enum:
+                      - fungible_trades
+                  trades:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        object:
+                          type: string
+                          enum:
+                            - trade
+                        trader:
+                          $ref: '#/components/schemas/UserDehydrated'
+                        pool:
+                          type: object
+                          properties:
+                            object:
+                              type: string
+                              enum:
+                                - pool
+                            address:
+                              type: string
+                            protocol_family:
+                              type: string
+                            protocol_version:
+                              type: string
+                          required:
+                            - object
+                            - address
+                        transaction:
+                          type: object
+                          properties:
+                            hash:
+                              type: string
+                            network:
+                              type: object
+                              properties:
+                                object:
+                                  type: string
+                                  enum:
+                                    - network
+                                name:
+                                  type: string
+                              required:
+                                - object
+                                - name
+                            net_transfer:
+                              type: object
+                              properties:
+                                object:
+                                  type: string
+                                  enum:
+                                    - net_transfer
+                                receiving_fungible:
+                                  $ref: '#/components/schemas/FungibleBalance'
+                                sending_fungible:
+                                  $ref: '#/components/schemas/FungibleBalance'
+                              required:
+                                - object
+                                - receiving_fungible
+                                - sending_fungible
+                          required:
+                            - hash
+                            - network
+                            - net_transfer
+                      required:
+                        - object
+                        - trader
+                        - transaction
+                required:
+                  - object
+                  - trades
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-fungible-trades
   /v2/farcaster/fungible/trending/:
     get:
       description: Fetch trending fungibles based on buy activity from watched addresses. Returns fungibles ranked by USD buy volume and buy count within the specified time window.
@@ -11089,6 +11224,31 @@ components:
         - total_supply
         - logo
       title: Fungible
+    FungibleBalance:
+      type: object
+      properties:
+        object:
+          type: string
+          enum:
+            - fungible_balance
+        token:
+          $ref: '#/components/schemas/Fungible'
+        balance:
+          type: object
+          properties:
+            in_usd:
+              type: number
+              nullable: true
+            in_token:
+              type: string
+          required:
+            - in_usd
+            - in_token
+      required:
+        - object
+        - token
+        - balance
+      title: FungibleBalance
     FarcasterFungible:
       type: object
       properties:
