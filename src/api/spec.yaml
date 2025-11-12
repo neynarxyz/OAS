@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.86.0
+  version: 3.87.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -6681,108 +6681,6 @@ paths:
         - ApiKeyAuth: []
       externalDocs:
         url: https://docs.neynar.com/reference/delete-deployment
-  /v2/studio/deployment/prompt:
-    post:
-      description: Sends a prompt to a specific miniapp generator deployment. Requires authentication via API key in the request header.
-      summary: Prompt a deployment
-      tags:
-        - studio
-      operationId: prompt-deployment
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                fid:
-                  type: integer
-                  minimum: 0
-                  description: Farcaster ID of the user
-                name:
-                  type: string
-                  description: Kubernetes deployment name
-                prompt:
-                  type: string
-                  description: Prompt string to send to the deployment
-                options:
-                  type: object
-                  additionalProperties:
-                    nullable: true
-                  description: Additional options for the prompt
-                conversation_id:
-                  type: string
-                  format: uuid
-                  description: Optional conversation ID to continue an existing chat. If not provided, a new conversation will be created.
-              required:
-                - fid
-                - name
-                - prompt
-        required: true
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  conversation_id:
-                    type: string
-                    format: uuid
-                    description: The conversation ID for this chat session
-                  response:
-                    description: Response from the deployment
-                    nullable: true
-                required:
-                  - conversation_id
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                required:
-                  - error
-        '404':
-          description: Resource not found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                required:
-                  - error
-        '413':
-          description: '413'
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                required:
-                  - error
-        '500':
-          description: Server Error
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                required:
-                  - error
-      security:
-        - ApiKeyAuth: []
-      externalDocs:
-        url: https://docs.neynar.com/reference/prompt-deployment
   /v2/studio/deployment/prompt/stream:
     post:
       description: Sends a prompt to a specific miniapp generator deployment and returns a streaming response using Server-Sent Events. The response is a continuous stream of Server-Sent Events, not a single JSON payload. Each event contains a JSON object with type, message, and other fields specific to the message type. Requires authentication via API key in the request header.
@@ -6806,15 +6704,13 @@ paths:
                 prompt:
                   type: string
                   description: Prompt string to send to the deployment
-                options:
-                  type: object
-                  additionalProperties:
-                    nullable: true
-                  description: Additional options for the prompt
                 conversation_id:
                   type: string
                   format: uuid
                   description: Optional conversation ID to continue an existing chat. If not provided, a new conversation will be created.
+                session_id:
+                  type: string
+                  description: Optional Claude SDK session ID to resume an existing Claude Code session. Enables session-based conversation continuity.
               required:
                 - fid
                 - name
