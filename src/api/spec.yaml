@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.87.0
+  version: 3.88.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -1613,6 +1613,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorRes'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
         '403':
           description: Forbidden
           content:
@@ -1654,6 +1660,12 @@ paths:
                 $ref: '#/components/schemas/OperationResponse'
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '401':
+          description: Unauthorized
           content:
             application/json:
               schema:
