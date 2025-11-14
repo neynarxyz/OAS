@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.88.0
+  version: 3.89.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -2275,11 +2275,6 @@ paths:
             enum:
               - neynar
             example: neynar
-        - name: provider_metadata
-          in: query
-          description: provider_metadata is a URI-encoded stringified JSON object that can be used to pass additional metadata to the provider. Only available for mbd provider right now. See [here](https://docs.neynar.com/docs/feed-for-you-w-external-providers) on how to use.
-          schema:
-            type: string
       operationId: fetch-trending-feed
       responses:
         '200':
