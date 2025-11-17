@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.92.0
+  version: 3.93.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -2211,6 +2211,73 @@ paths:
                 $ref: '#/components/schemas/ErrorRes'
       externalDocs:
         url: https://docs.neynar.com/reference/fetch-feed-by-parent-urls
+  /v2/farcaster/feed/topic/:
+    get:
+      description: Fetch feed based on a topic slug.
+      summary: By topic
+      tags:
+        - Feed
+      parameters:
+        - $ref: '#/components/parameters/NeynarExperimentalHeader'
+        - name: slug
+          in: query
+          description: Topic slug to filter casts by. Must be lowercase and contain only alphanumeric characters and underscores.
+          required: true
+          schema:
+            type: string
+            example: ai_agents
+        - name: with_recasts
+          in: query
+          description: Include recasts in the response, true by default.
+          schema:
+            default: true
+            type: boolean
+            nullable: true
+        - name: viewer_fid
+          in: query
+          description: Providing this will return a feed that respects this user's mutes and blocks and includes `viewer_context`.
+          schema:
+            type: integer
+            minimum: 1
+            example: 3
+        - name: limit
+          in: query
+          description: Number of results to fetch.
+          schema:
+            default: 25
+            type: integer
+            minimum: 1
+            maximum: 100
+            example: 30
+            format: int32
+          x-is-limit-param: true
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          schema:
+            type: string
+      operationId: fetch-feed-by-topic
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeedResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-feed-by-topic
   /v2/farcaster/feed/trending/:
     get:
       description: Fetch trending casts or on the global feed or channels feeds. 7d time window available for channel feeds only.
@@ -2510,7 +2577,7 @@ paths:
             example: filter
         - name: filter_type
           in: query
-          description: Used when feed_type=filter. Can be set to FIDs (requires FIDs) or parent_url (requires parent_url) or channel_id (requires channel_id)
+          description: Used when feed_type=filter. Options include fids (requires fids), parent_url (requires parent_url), channel_id (requires channel_id), embed_url (requires embed_url), embed_types (requires embed_types), or global_trending.
           schema:
             type: string
             enum:
@@ -5076,6 +5143,51 @@ paths:
                 $ref: '#/components/schemas/ErrorRes'
       externalDocs:
         url: https://docs.neynar.com/reference/buy-storage
+  /v2/farcaster/topic/trending/:
+    get:
+      description: Returns a list of trending topics for casts.
+      summary: Fetch trending topics
+      tags:
+        - Topic
+      parameters:
+        - name: limit
+          in: query
+          description: Number of topics to fetch.
+          schema:
+            default: 10
+            type: integer
+            minimum: 1
+            maximum: 25
+            example: 10
+            format: int32
+          x-is-limit-param: true
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          schema:
+            type: string
+      operationId: list-trending-topics
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrendingTopicsResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      externalDocs:
+        url: https://docs.neynar.com/reference/list-trending-topics
   /v2/farcaster/user/best_friends/:
     get:
       description: Returns the best friends of a user ranked by mutual affinity score based on interactions with each other.
@@ -12092,6 +12204,63 @@ components:
         - message
       description: Details for the conflict error response
       title: ConflictErrorRes
+    TrendingTopic:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The display name of the topic
+        slug:
+          type: string
+          description: A URL-friendly unique identifier for the topic
+        top_level_topic:
+          type: string
+          enum:
+            - arts_culture
+            - business_entrepreneurs
+            - celebrity_pop_culture
+            - diaries_daily_life
+            - family
+            - fashion_style
+            - film_tv_video
+            - fitness_health
+            - food_dining
+            - gaming
+            - learning_educational
+            - music
+            - news_social_concern
+            - other_hobbies
+            - relationships
+            - science_technology
+            - sports
+            - travel_adventure
+            - youth_student_life
+          description: The top-level category the topic belongs to
+        authors:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserDehydrated'
+          maxItems: 5
+          description: Up to five recent Farcaster users who posted about the topic
+      required:
+        - name
+        - slug
+        - top_level_topic
+        - authors
+      title: TrendingTopic
+    TrendingTopicsResponse:
+      type: object
+      properties:
+        topics:
+          type: array
+          items:
+            $ref: '#/components/schemas/TrendingTopic'
+        next:
+          $ref: '#/components/schemas/NextCursor'
+      required:
+        - topics
+        - next
+      title: TrendingTopicsResponse
     BestFriendsResponse:
       type: object
       properties:
