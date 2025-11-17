@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.89.0
+  version: 3.90.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -5677,6 +5677,50 @@ paths:
                 $ref: '#/components/schemas/OperationResponse'
       externalDocs:
         url: https://docs.neynar.com/reference/delete-verification
+  /v2/farcaster/user/verifications/:
+    get:
+      description: Fetch all verifications for a given FID
+      summary: Fetch verifications
+      tags:
+        - User
+      parameters:
+        - name: fid
+          in: query
+          description: FID of the user whose verifications to fetch
+          required: true
+          schema:
+            type: integer
+            minimum: 0
+            nullable: true
+      operationId: fetch-verifications
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  verifications:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Verification'
+                required:
+                  - verifications
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-verifications
   /v2/farcaster/user/follow/:
     post:
       description: "Follow a user \n(In order to follow a user `signer_uuid` must be approved)"
@@ -12297,6 +12341,40 @@ components:
         - block_hash
         - eth_signature
       title: RemoveVerificationReqBody
+    Protocol:
+      type: string
+      enum:
+        - evm
+        - solana
+      description: Protocol
+      example: evm
+      title: Protocol
+    Verification:
+      type: object
+      properties:
+        object:
+          type: string
+          enum:
+            - verification
+        address:
+          type: string
+          description: Address string (hex for ethereum, base58 for solana)
+          example: '0x5a927ac639636e534b678e81768ca19e2c6280b7'
+        protocol:
+          $ref: '#/components/schemas/Protocol'
+        verified_at:
+          type: string
+          description: ISO timestamp when the verification was created
+          example: '2024-01-01T00:00:00.000Z'
+        app:
+          $ref: '#/components/schemas/UserDehydrated'
+      required:
+        - object
+        - address
+        - protocol
+        - verified_at
+      title: Verification
+      description: Verification details of an address
     FollowReqBody:
       type: object
       properties:
