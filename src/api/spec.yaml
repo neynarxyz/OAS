@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.93.0
+  version: 3.94.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -12236,6 +12236,10 @@ components:
             - travel_adventure
             - youth_student_life
           description: The top-level category the topic belongs to
+        summary:
+          type: string
+          description: Short summary of the topic if available
+          nullable: true
         authors:
           type: array
           items:
@@ -12246,6 +12250,7 @@ components:
         - name
         - slug
         - top_level_topic
+        - summary
         - authors
       title: TrendingTopic
     TrendingTopicsResponse:
