@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.94.0
+  version: 3.95.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -8985,8 +8985,6 @@ components:
               username:
                 type: string
             description: Verified accounts of the user on other platforms, currently only X is supported.
-        power_badge:
-          type: boolean
         experimental:
           type: object
           properties:
@@ -9016,7 +9014,6 @@ components:
         - auth_addresses
         - verified_addresses
         - verified_accounts
-        - power_badge
       title: User
     BanRecord:
       type: object
