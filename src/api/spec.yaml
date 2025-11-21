@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.96.0
+  version: 3.97.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -6806,6 +6806,9 @@ paths:
                 name:
                   type: string
                   description: Kubernetes deployment name. If not provided, all deployments for the FID will be deleted
+                namespace:
+                  type: string
+                  description: Optional Kubernetes namespace. If not provided, will query for the active namespace for the given FID.
               required:
                 - fid
         required: true
@@ -6880,6 +6883,9 @@ paths:
                 name:
                   type: string
                   description: Kubernetes deployment name
+                namespace:
+                  type: string
+                  description: Optional Kubernetes namespace. If not provided, will query for the active namespace for the given FID.
                 prompt:
                   type: string
                   description: Prompt string to send to the deployment
@@ -6955,16 +6961,23 @@ paths:
       parameters:
         - name: fid
           in: query
-          description: Farcaster ID of the user
-          required: true
+          description: Farcaster ID of the user; if not provided, namespace must be provided
           schema:
             type: integer
             minimum: 0
             nullable: true
+            example: 3
+            title: Fid
+            format: int32
         - name: name
           in: query
           description: Kubernetes deployment name
           required: true
+          schema:
+            type: string
+        - name: namespace
+          in: query
+          description: Optional Kubernetes namespace. If not provided, will query for the active namespace for the given FID.
           schema:
             type: string
       operationId: get-deployment
@@ -7085,10 +7098,16 @@ paths:
                 fid:
                   type: integer
                   minimum: 0
-                  description: Farcaster ID of the user
+                  description: Farcaster ID of the user; if not provided, namespace must be provided
+                  example: 3
+                  title: Fid
+                  format: int32
                 name:
                   type: string
                   description: Kubernetes deployment name
+                namespace:
+                  type: string
+                  description: Optional Kubernetes namespace. If not provided, will query for the active namespace for the given FID.
                 account_association:
                   type: object
                   properties:
@@ -7107,7 +7126,6 @@ paths:
                     - signature
                   description: Signed domain association linking this deployment to a Farcaster account
               required:
-                - fid
                 - name
                 - account_association
         required: true
@@ -7247,16 +7265,21 @@ paths:
                 fid:
                   type: integer
                   minimum: 0
-                  description: Farcaster ID of the user
+                  description: Farcaster ID of the user; if not provided, namespace must be provided
+                  example: 3
+                  title: Fid
+                  format: int32
                 name:
                   type: string
                   description: Kubernetes deployment name
+                namespace:
+                  type: string
+                  description: Optional Kubernetes namespace. If not provided, will query for the active namespace for the given FID.
                 url:
                   type: string
                   format: uri
                   description: URL of the image to download
               required:
-                - fid
                 - name
                 - url
         required: true
@@ -7448,16 +7471,23 @@ paths:
       parameters:
         - name: fid
           in: query
-          description: Farcaster ID of the user
-          required: true
+          description: Farcaster ID of the user; if not provided, namespace must be provided
           schema:
             type: integer
             minimum: 0
             nullable: true
+            example: 3
+            title: Fid
+            format: int32
         - name: name
           in: query
           description: Kubernetes deployment name
           required: true
+          schema:
+            type: string
+        - name: namespace
+          in: query
+          description: Optional Kubernetes namespace. If not provided, will query for the active namespace for the given FID.
           schema:
             type: string
         - name: conversation_id
@@ -7582,16 +7612,23 @@ paths:
       parameters:
         - name: fid
           in: query
-          description: Farcaster ID of the user
-          required: true
+          description: Farcaster ID of the user; if not provided, namespace must be provided
           schema:
             type: integer
             minimum: 0
             nullable: true
+            example: 3
+            title: Fid
+            format: int32
         - name: name
           in: query
           description: Kubernetes deployment name
           required: true
+          schema:
+            type: string
+        - name: namespace
+          in: query
+          description: Optional Kubernetes namespace. If not provided, will query for the active namespace for the given FID.
           schema:
             type: string
       operationId: get-deployment-logs
@@ -7665,16 +7702,23 @@ paths:
       parameters:
         - name: fid
           in: query
-          description: Farcaster ID of the user
-          required: true
+          description: Farcaster ID of the user; if not provided, namespace must be provided
           schema:
             type: integer
             minimum: 0
             nullable: true
+            example: 3
+            title: Fid
+            format: int32
         - name: name
           in: query
           description: Kubernetes deployment name
           required: true
+          schema:
+            type: string
+        - name: namespace
+          in: query
+          description: Optional Kubernetes namespace. If not provided, will query for the active namespace for the given FID.
           schema:
             type: string
         - name: directory
@@ -7769,16 +7813,23 @@ paths:
       parameters:
         - name: fid
           in: query
-          description: Farcaster ID of the user
-          required: true
+          description: Farcaster ID of the user; if not provided, namespace must be provided
           schema:
             type: integer
             minimum: 0
             nullable: true
+            example: 3
+            title: Fid
+            format: int32
         - name: name
           in: query
           description: Kubernetes deployment name
           required: true
+          schema:
+            type: string
+        - name: namespace
+          in: query
+          description: Optional Kubernetes namespace. If not provided, will query for the active namespace for the given FID.
           schema:
             type: string
         - name: file_path
@@ -7869,12 +7920,17 @@ paths:
                 fid:
                   type: integer
                   minimum: 0
-                  description: Farcaster ID of the user
+                  description: Farcaster ID of the user; if not provided, namespace must be provided
+                  example: 3
+                  title: Fid
+                  format: int32
                 name:
                   type: string
                   description: Kubernetes deployment name
+                namespace:
+                  type: string
+                  description: Optional Kubernetes namespace. If not provided, will query for the active namespace for the given FID.
               required:
-                - fid
                 - name
         required: true
       responses:
@@ -7968,12 +8024,17 @@ paths:
                 fid:
                   type: integer
                   minimum: 0
-                  description: Farcaster ID of the user
+                  description: Farcaster ID of the user; if not provided, namespace must be provided
+                  example: 3
+                  title: Fid
+                  format: int32
                 name:
                   type: string
                   description: Kubernetes deployment name
+                namespace:
+                  type: string
+                  description: Optional Kubernetes namespace. If not provided, will query for the active namespace for the given FID.
               required:
-                - fid
                 - name
         required: true
       responses:
@@ -8056,17 +8117,22 @@ paths:
                 fid:
                   type: integer
                   minimum: 0
-                  description: Farcaster ID of the user
+                  description: Farcaster ID of the user; if not provided, namespace must be provided
+                  example: 3
+                  title: Fid
+                  format: int32
                 name:
                   type: string
                   description: Deployment name (used for both GitHub repo and Vercel project)
+                namespace:
+                  type: string
+                  description: Kubernetes namespace name
                 env:
                   type: object
                   additionalProperties:
                     type: string
                   description: Environment variables for the Vercel deployment
               required:
-                - fid
                 - name
         required: true
       responses:
@@ -8149,12 +8215,16 @@ paths:
       parameters:
         - name: fid
           in: query
-          description: Farcaster ID of the user
-          required: true
+          description: Farcaster ID of the user; if not provided, namespace must be provided
           schema:
             type: integer
             minimum: 0
             nullable: true
+        - name: namespace
+          in: query
+          description: K8s Namespace name
+          schema:
+            type: string
         - name: name
           in: query
           description: Deployment name used to identify the Vercel project
@@ -8252,11 +8322,15 @@ paths:
         - name: fid
           in: query
           description: Farcaster ID of the user
-          required: true
           schema:
             type: integer
             minimum: 0
             nullable: true
+        - name: namespace
+          in: query
+          description: K8s Namespace name
+          schema:
+            type: string
         - name: name
           in: query
           description: Deployment name used to identify the Vercel project
