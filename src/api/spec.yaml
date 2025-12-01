@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.97.0
+  version: 3.98.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -6896,6 +6896,13 @@ paths:
                 session_id:
                   type: string
                   description: Optional Claude SDK session ID to resume an existing Claude Code session. Enables session-based conversation continuity.
+                system_prompt_variant:
+                  type: string
+                  enum:
+                    - canary
+                    - beta
+                    - stable
+                  description: System prompt variant to use. Defaults to stable if not provided.
               required:
                 - fid
                 - name
