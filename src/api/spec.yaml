@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.98.0
+  version: 3.99.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -6570,8 +6570,7 @@ paths:
                     description: Public URL for the deployment
                   github_url:
                     type: string
-                    format: uri
-                    description: GitHub repository URL
+                    description: GitHub repository SSH URL
                   deleted_at:
                     type: string
                     format: date-time
@@ -6703,8 +6702,7 @@ paths:
                       description: Public URL for the deployment
                     github_url:
                       type: string
-                      format: uri
-                      description: GitHub repository URL
+                      description: GitHub repository SSH URL
                     deleted_at:
                       type: string
                       format: date-time
@@ -7005,8 +7003,7 @@ paths:
                     description: Public URL for the deployment
                   github_url:
                     type: string
-                    format: uri
-                    description: GitHub repository URL
+                    description: GitHub repository SSH URL
                   deleted_at:
                     type: string
                     format: date-time
