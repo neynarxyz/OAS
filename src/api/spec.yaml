@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.99.0
+  version: 3.100.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -6600,13 +6600,30 @@ paths:
                   generated_app_serving:
                     type: boolean
                     description: Whether the generated app is currently serving
-                  vercel_project_id:
-                    type: string
-                    description: Vercel project ID
-                  vercel_deployment_url:
-                    type: string
-                    format: uri
-                    description: Vercel deployment URL
+                  production_app_status:
+                    type: object
+                    properties:
+                      project_id:
+                        type: string
+                        description: Vercel project ID
+                      deployment_url:
+                        type: string
+                        description: Vercel deployment URL
+                      deployment_state:
+                        type: string
+                        description: Deployment state (e.g., READY, BUILDING, ERROR)
+                      created_at:
+                        type: number
+                        description: Deployment creation timestamp (Unix ms)
+                      target:
+                        type: string
+                        description: Deployment target (e.g., production, preview)
+                    required:
+                      - project_id
+                      - deployment_url
+                      - deployment_state
+                      - created_at
+                    description: Production app deployment status from Vercel
                 required:
                   - deleted_at
                   - updated_at
@@ -6732,13 +6749,30 @@ paths:
                     generated_app_serving:
                       type: boolean
                       description: Whether the generated app is currently serving
-                    vercel_project_id:
-                      type: string
-                      description: Vercel project ID
-                    vercel_deployment_url:
-                      type: string
-                      format: uri
-                      description: Vercel deployment URL
+                    production_app_status:
+                      type: object
+                      properties:
+                        project_id:
+                          type: string
+                          description: Vercel project ID
+                        deployment_url:
+                          type: string
+                          description: Vercel deployment URL
+                        deployment_state:
+                          type: string
+                          description: Deployment state (e.g., READY, BUILDING, ERROR)
+                        created_at:
+                          type: number
+                          description: Deployment creation timestamp (Unix ms)
+                        target:
+                          type: string
+                          description: Deployment target (e.g., production, preview)
+                      required:
+                        - project_id
+                        - deployment_url
+                        - deployment_state
+                        - created_at
+                      description: Production app deployment status from Vercel
                   required:
                     - deleted_at
                     - updated_at
@@ -7033,13 +7067,30 @@ paths:
                   generated_app_serving:
                     type: boolean
                     description: Whether the generated app is currently serving
-                  vercel_project_id:
-                    type: string
-                    description: Vercel project ID
-                  vercel_deployment_url:
-                    type: string
-                    format: uri
-                    description: Vercel deployment URL
+                  production_app_status:
+                    type: object
+                    properties:
+                      project_id:
+                        type: string
+                        description: Vercel project ID
+                      deployment_url:
+                        type: string
+                        description: Vercel deployment URL
+                      deployment_state:
+                        type: string
+                        description: Deployment state (e.g., READY, BUILDING, ERROR)
+                      created_at:
+                        type: number
+                        description: Deployment creation timestamp (Unix ms)
+                      target:
+                        type: string
+                        description: Deployment target (e.g., production, preview)
+                    required:
+                      - project_id
+                      - deployment_url
+                      - deployment_state
+                      - created_at
+                    description: Production app deployment status from Vercel
                 required:
                   - deleted_at
                   - updated_at
