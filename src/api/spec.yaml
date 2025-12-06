@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.100.0
+  version: 3.101.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -8207,6 +8207,9 @@ paths:
                   project_id:
                     type: string
                     description: Vercel project ID
+                  production_url:
+                    type: string
+                    description: Production URL under neynar.app domain
                 required:
                   - success
         '400':
