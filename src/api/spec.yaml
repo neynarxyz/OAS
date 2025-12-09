@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.105.0
+  version: 3.105.1
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -12133,6 +12133,56 @@ components:
         - frames
         - next
       title: FrameCatalogResponse
+    MiniappDomainResponse:
+      type: object
+      properties:
+        domain:
+          type: string
+          description: Domain name
+        fid:
+          type: integer
+          minimum: 0
+          description: FID associated with the domain
+        manifest:
+          $ref: '#/components/schemas/FarcasterManifest'
+        home_url_metadata:
+          type: object
+          additionalProperties:
+            nullable: true
+          nullable: true
+          description: Home URL metadata if available
+        created_at:
+          type: string
+          format: date-time
+          description: Creation timestamp
+        updated_at:
+          type: string
+          format: date-time
+          description: Last update timestamp
+        was_found:
+          type: boolean
+          description: Whether the domain was found in the table before processing
+        was_refreshed:
+          type: boolean
+          description: Whether the domain was refreshed/updated during this request
+        validation_errors:
+          type: array
+          items:
+            type: string
+          description: Validation errors from processing, if any
+        error_message:
+          type: string
+          description: High-level error message if processing failed
+      required:
+        - domain
+        - fid
+        - manifest
+        - created_at
+        - updated_at
+        - was_found
+        - was_refreshed
+      title: MiniappDomainResponse
+      description: Response containing domain information, metadata, and validation errors if any
     FrameNotificationTokens:
       type: object
       properties:
