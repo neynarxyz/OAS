@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.104.0
+  version: 3.105.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -880,6 +880,60 @@ paths:
                 $ref: '#/components/schemas/ErrorRes'
       externalDocs:
         url: https://docs.neynar.com/reference/portal-oauth-interactions-consent
+  /portal/oauth/interaction/reject:
+    post:
+      summary: Reject an OAuth interaction
+      tags:
+        - portal
+        - oauth
+        - interactions
+      operationId: portal-oauth-interactions-reject
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                interaction_signature:
+                  type: string
+              required:
+                - id
+                - interaction_signature
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  redirect_url:
+                    type: string
+                required:
+                  - redirect_url
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      externalDocs:
+        url: https://docs.neynar.com/reference/portal-oauth-interactions-reject
   /portal/oauth/interaction:
     get:
       summary: Get OAuth interaction details including scopes and previously authorized resources
@@ -902,6 +956,9 @@ paths:
               schema:
                 type: object
                 properties:
+                  client_name:
+                    type: string
+                    nullable: true
                   requested_scopes:
                     type: array
                     items:
@@ -928,6 +985,7 @@ paths:
                       - signer_uuid
                     nullable: true
                 required:
+                  - client_name
                   - requested_scopes
                   - missing_scopes
                   - previously_authorized_resources
