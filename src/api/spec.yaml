@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.103.0
+  version: 3.104.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -90,6 +90,873 @@ tags:
       description: More info about mini app host notifications
       url: https://docs.neynar.com/docs/app-host-notifications
 paths:
+  /portal/oauth/clients:
+    get:
+      summary: List all OAuth clients
+      tags:
+        - portal
+        - oauth
+        - clients
+      operationId: portal-oauth-clients-list
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  clients:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        uuid:
+                          type: string
+                        app_uuid:
+                          type: string
+                        created_at:
+                          type: string
+                        updated_at:
+                          type: string
+                        client_secret:
+                          type: string
+                        redirect_uris:
+                          type: array
+                          items:
+                            type: string
+                          minItems: 1
+                        grant_types:
+                          type: array
+                          items:
+                            type: string
+                          minItems: 1
+                        response_types:
+                          type: array
+                          items:
+                            type: string
+                            enum:
+                              - code
+                              - id_token
+                              - code id_token
+                              - id_token token
+                              - code token
+                              - code id_token token
+                              - none
+                          minItems: 1
+                        token_endpoint_auth_method:
+                          type: string
+                          enum:
+                            - client_secret_basic
+                            - client_secret_post
+                            - client_secret_jwt
+                            - private_key_jwt
+                            - tls_client_auth
+                            - self_signed_tls_client_auth
+                            - none
+                          nullable: true
+                        scope:
+                          type: string
+                          minLength: 1
+                        client_name:
+                          type: string
+                          minLength: 1
+                        application_type:
+                          type: string
+                          enum:
+                            - web
+                            - native
+                      required:
+                        - uuid
+                        - app_uuid
+                        - created_at
+                        - updated_at
+                        - client_secret
+                        - redirect_uris
+                        - grant_types
+                        - response_types
+                        - token_endpoint_auth_method
+                        - scope
+                        - client_name
+                        - application_type
+                required:
+                  - clients
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      externalDocs:
+        url: https://docs.neynar.com/reference/portal-oauth-clients-list
+    post:
+      summary: Create a new OAuth client
+      tags:
+        - portal
+        - oauth
+        - clients
+      operationId: portal-oauth-clients-create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                redirect_uris:
+                  type: array
+                  items:
+                    type: string
+                  minItems: 1
+                grant_types:
+                  type: array
+                  items:
+                    type: string
+                  minItems: 1
+                response_types:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                      - code
+                      - id_token
+                      - code id_token
+                      - id_token token
+                      - code token
+                      - code id_token token
+                      - none
+                  minItems: 1
+                token_endpoint_auth_method:
+                  type: string
+                  enum:
+                    - client_secret_basic
+                    - client_secret_post
+                    - client_secret_jwt
+                    - private_key_jwt
+                    - tls_client_auth
+                    - self_signed_tls_client_auth
+                    - none
+                  nullable: true
+                scope:
+                  type: string
+                  minLength: 1
+                client_name:
+                  type: string
+                  minLength: 1
+                application_type:
+                  type: string
+                  enum:
+                    - web
+                    - native
+              required:
+                - redirect_uris
+                - grant_types
+                - response_types
+                - token_endpoint_auth_method
+                - scope
+                - client_name
+                - application_type
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  uuid:
+                    type: string
+                  app_uuid:
+                    type: string
+                  created_at:
+                    type: string
+                  updated_at:
+                    type: string
+                  client_secret:
+                    type: string
+                  redirect_uris:
+                    type: array
+                    items:
+                      type: string
+                    minItems: 1
+                  grant_types:
+                    type: array
+                    items:
+                      type: string
+                    minItems: 1
+                  response_types:
+                    type: array
+                    items:
+                      type: string
+                      enum:
+                        - code
+                        - id_token
+                        - code id_token
+                        - id_token token
+                        - code token
+                        - code id_token token
+                        - none
+                    minItems: 1
+                  token_endpoint_auth_method:
+                    type: string
+                    enum:
+                      - client_secret_basic
+                      - client_secret_post
+                      - client_secret_jwt
+                      - private_key_jwt
+                      - tls_client_auth
+                      - self_signed_tls_client_auth
+                      - none
+                    nullable: true
+                  scope:
+                    type: string
+                    minLength: 1
+                  client_name:
+                    type: string
+                    minLength: 1
+                  application_type:
+                    type: string
+                    enum:
+                      - web
+                      - native
+                required:
+                  - uuid
+                  - app_uuid
+                  - created_at
+                  - updated_at
+                  - client_secret
+                  - redirect_uris
+                  - grant_types
+                  - response_types
+                  - token_endpoint_auth_method
+                  - scope
+                  - client_name
+                  - application_type
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ZodError'
+                  - $ref: '#/components/schemas/ErrorRes'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      externalDocs:
+        url: https://docs.neynar.com/reference/portal-oauth-clients-create
+  /portal/oauth/clients/{clientId}:
+    get:
+      summary: Get OAuth client details
+      tags:
+        - portal
+        - oauth
+        - clients
+      parameters:
+        - name: clientId
+          in: path
+          required: true
+          schema:
+            type: string
+      operationId: portal-oauth-clients-get
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  uuid:
+                    type: string
+                  app_uuid:
+                    type: string
+                  created_at:
+                    type: string
+                  updated_at:
+                    type: string
+                  client_secret:
+                    type: string
+                  redirect_uris:
+                    type: array
+                    items:
+                      type: string
+                    minItems: 1
+                  grant_types:
+                    type: array
+                    items:
+                      type: string
+                    minItems: 1
+                  response_types:
+                    type: array
+                    items:
+                      type: string
+                      enum:
+                        - code
+                        - id_token
+                        - code id_token
+                        - id_token token
+                        - code token
+                        - code id_token token
+                        - none
+                    minItems: 1
+                  token_endpoint_auth_method:
+                    type: string
+                    enum:
+                      - client_secret_basic
+                      - client_secret_post
+                      - client_secret_jwt
+                      - private_key_jwt
+                      - tls_client_auth
+                      - self_signed_tls_client_auth
+                      - none
+                    nullable: true
+                  scope:
+                    type: string
+                    minLength: 1
+                  client_name:
+                    type: string
+                    minLength: 1
+                  application_type:
+                    type: string
+                    enum:
+                      - web
+                      - native
+                required:
+                  - uuid
+                  - app_uuid
+                  - created_at
+                  - updated_at
+                  - client_secret
+                  - redirect_uris
+                  - grant_types
+                  - response_types
+                  - token_endpoint_auth_method
+                  - scope
+                  - client_name
+                  - application_type
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ZodError'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      externalDocs:
+        url: https://docs.neynar.com/reference/portal-oauth-clients-get
+    put:
+      summary: Update an OAuth client
+      tags:
+        - portal
+        - oauth
+        - clients
+      parameters:
+        - name: clientId
+          in: path
+          required: true
+          schema:
+            type: string
+      operationId: portal-oauth-clients-update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                redirect_uris:
+                  type: array
+                  items:
+                    type: string
+                  minItems: 1
+                grant_types:
+                  type: array
+                  items:
+                    type: string
+                  minItems: 1
+                response_types:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                      - code
+                      - id_token
+                      - code id_token
+                      - id_token token
+                      - code token
+                      - code id_token token
+                      - none
+                  minItems: 1
+                token_endpoint_auth_method:
+                  type: string
+                  enum:
+                    - client_secret_basic
+                    - client_secret_post
+                    - client_secret_jwt
+                    - private_key_jwt
+                    - tls_client_auth
+                    - self_signed_tls_client_auth
+                    - none
+                  nullable: true
+                scope:
+                  type: string
+                  minLength: 1
+                client_name:
+                  type: string
+                  minLength: 1
+                application_type:
+                  type: string
+                  enum:
+                    - web
+                    - native
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  uuid:
+                    type: string
+                  app_uuid:
+                    type: string
+                  created_at:
+                    type: string
+                  updated_at:
+                    type: string
+                  client_secret:
+                    type: string
+                  redirect_uris:
+                    type: array
+                    items:
+                      type: string
+                    minItems: 1
+                  grant_types:
+                    type: array
+                    items:
+                      type: string
+                    minItems: 1
+                  response_types:
+                    type: array
+                    items:
+                      type: string
+                      enum:
+                        - code
+                        - id_token
+                        - code id_token
+                        - id_token token
+                        - code token
+                        - code id_token token
+                        - none
+                    minItems: 1
+                  token_endpoint_auth_method:
+                    type: string
+                    enum:
+                      - client_secret_basic
+                      - client_secret_post
+                      - client_secret_jwt
+                      - private_key_jwt
+                      - tls_client_auth
+                      - self_signed_tls_client_auth
+                      - none
+                    nullable: true
+                  scope:
+                    type: string
+                    minLength: 1
+                  client_name:
+                    type: string
+                    minLength: 1
+                  application_type:
+                    type: string
+                    enum:
+                      - web
+                      - native
+                required:
+                  - uuid
+                  - app_uuid
+                  - created_at
+                  - updated_at
+                  - client_secret
+                  - redirect_uris
+                  - grant_types
+                  - response_types
+                  - token_endpoint_auth_method
+                  - scope
+                  - client_name
+                  - application_type
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ZodError'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      externalDocs:
+        url: https://docs.neynar.com/reference/portal-oauth-clients-update
+    delete:
+      summary: Delete an OAuth client
+      tags:
+        - portal
+        - oauth
+        - clients
+      parameters:
+        - name: clientId
+          in: path
+          required: true
+          schema:
+            type: string
+      operationId: portal-oauth-clients-delete
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                required:
+                  - success
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ZodError'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      externalDocs:
+        url: https://docs.neynar.com/reference/portal-oauth-clients-delete
+  /portal/oauth/resources:
+    get:
+      summary: List all OAuth clients
+      tags:
+        - portal
+        - oauth
+        - resources
+      operationId: portal-oauth-resources-list
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  apps:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        app_uuid:
+                          type: string
+                        name:
+                          type: string
+                        signers:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              signer_uuid:
+                                type: string
+                              user:
+                                $ref: '#/components/schemas/UserDehydrated'
+                            required:
+                              - signer_uuid
+                              - user
+                      required:
+                        - app_uuid
+                        - name
+                        - signers
+                  wallets:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        wallet_id:
+                          type: string
+                        address:
+                          type: string
+                      required:
+                        - wallet_id
+                        - address
+                required:
+                  - apps
+                  - wallets
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      externalDocs:
+        url: https://docs.neynar.com/reference/portal-oauth-resources-list
+  /portal/oauth/interaction/login:
+    post:
+      summary: Login to an OAuth interaction
+      tags:
+        - portal
+        - oauth
+        - interactions
+      operationId: portal-oauth-interactions-login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                interaction_signature:
+                  type: string
+              required:
+                - id
+                - interaction_signature
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  redirect_url:
+                    type: string
+                required:
+                  - redirect_url
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      externalDocs:
+        url: https://docs.neynar.com/reference/portal-oauth-interactions-login
+  /portal/oauth/interaction/consent:
+    post:
+      summary: Consent to an OAuth interaction
+      tags:
+        - portal
+        - oauth
+        - interactions
+      operationId: portal-oauth-interactions-consent
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                interaction_signature:
+                  type: string
+                app_uuid:
+                  type: string
+                signer_uuid:
+                  type: string
+                wallet_id:
+                  type: string
+              required:
+                - id
+                - interaction_signature
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  redirect_url:
+                    type: string
+                required:
+                  - redirect_url
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ZodError'
+                  - $ref: '#/components/schemas/ErrorRes'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      externalDocs:
+        url: https://docs.neynar.com/reference/portal-oauth-interactions-consent
+  /portal/oauth/interaction:
+    get:
+      summary: Get OAuth interaction details including scopes and previously authorized resources
+      tags:
+        - portal
+        - oauth
+        - interactions
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: string
+      operationId: portal-oauth-interactions-details
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  requested_scopes:
+                    type: array
+                    items:
+                      type: string
+                  missing_scopes:
+                    type: array
+                    items:
+                      type: string
+                  previously_authorized_resources:
+                    type: object
+                    properties:
+                      app_uuid:
+                        type: string
+                        nullable: true
+                      wallet_id:
+                        type: string
+                        nullable: true
+                      signer_uuid:
+                        type: string
+                        nullable: true
+                    required:
+                      - app_uuid
+                      - wallet_id
+                      - signer_uuid
+                    nullable: true
+                required:
+                  - requested_scopes
+                  - missing_scopes
+                  - previously_authorized_resources
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ZodError'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      externalDocs:
+        url: https://docs.neynar.com/reference/portal-oauth-interactions-details
   /v2/farcaster/action/:
     post:
       description: Securely communicate and perform actions on behalf of users across different apps. It enables an app to send data or trigger actions in another app on behalf of a mutual user by signing messages using the user's Farcaster signer.
