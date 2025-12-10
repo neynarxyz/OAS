@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.106.0
+  version: 3.107.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -97,6 +97,15 @@ paths:
         - portal
         - oauth
         - clients
+      parameters:
+        - name: uuid
+          in: query
+          schema:
+            type: string
+        - name: app_uuid
+          in: query
+          schema:
+            type: string
       operationId: portal-oauth-clients-list
       responses:
         '200':
@@ -181,8 +190,22 @@ paths:
                         - application_type
                 required:
                   - clients
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ZodError'
+                  - $ref: '#/components/schemas/ErrorRes'
         '401':
           description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '404':
+          description: Resource not found
           content:
             application/json:
               schema:
@@ -208,6 +231,8 @@ paths:
             schema:
               type: object
               properties:
+                app_uuid:
+                  type: string
                 redirect_uris:
                   type: array
                   items:
@@ -254,6 +279,7 @@ paths:
                     - web
                     - native
               required:
+                - app_uuid
                 - redirect_uris
                 - grant_types
                 - response_types
@@ -360,134 +386,12 @@ paths:
                 $ref: '#/components/schemas/ErrorRes'
       externalDocs:
         url: https://docs.neynar.com/reference/portal-oauth-clients-create
-  /portal/oauth/clients/{clientId}:
-    get:
-      summary: Get OAuth client details
-      tags:
-        - portal
-        - oauth
-        - clients
-      parameters:
-        - name: clientId
-          in: path
-          required: true
-          schema:
-            type: string
-      operationId: portal-oauth-clients-get
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  uuid:
-                    type: string
-                  app_uuid:
-                    type: string
-                  created_at:
-                    type: string
-                  updated_at:
-                    type: string
-                  client_secret:
-                    type: string
-                  redirect_uris:
-                    type: array
-                    items:
-                      type: string
-                    minItems: 1
-                  grant_types:
-                    type: array
-                    items:
-                      type: string
-                    minItems: 1
-                  response_types:
-                    type: array
-                    items:
-                      type: string
-                      enum:
-                        - code
-                        - id_token
-                        - code id_token
-                        - id_token token
-                        - code token
-                        - code id_token token
-                        - none
-                    minItems: 1
-                  token_endpoint_auth_method:
-                    type: string
-                    enum:
-                      - client_secret_basic
-                      - client_secret_post
-                      - client_secret_jwt
-                      - private_key_jwt
-                      - tls_client_auth
-                      - self_signed_tls_client_auth
-                      - none
-                    nullable: true
-                  scope:
-                    type: string
-                    minLength: 1
-                  client_name:
-                    type: string
-                    minLength: 1
-                  application_type:
-                    type: string
-                    enum:
-                      - web
-                      - native
-                required:
-                  - uuid
-                  - app_uuid
-                  - created_at
-                  - updated_at
-                  - client_secret
-                  - redirect_uris
-                  - grant_types
-                  - response_types
-                  - token_endpoint_auth_method
-                  - scope
-                  - client_name
-                  - application_type
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ZodError'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorRes'
-        '404':
-          description: Resource not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorRes'
-        '500':
-          description: Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorRes'
-      externalDocs:
-        url: https://docs.neynar.com/reference/portal-oauth-clients-get
     put:
       summary: Update an OAuth client
       tags:
         - portal
         - oauth
         - clients
-      parameters:
-        - name: clientId
-          in: path
-          required: true
-          schema:
-            type: string
       operationId: portal-oauth-clients-update
       requestBody:
         content:
@@ -540,6 +444,10 @@ paths:
                   enum:
                     - web
                     - native
+                uuid:
+                  type: string
+              required:
+                - uuid
         required: true
       responses:
         '200':
@@ -649,13 +557,18 @@ paths:
         - portal
         - oauth
         - clients
-      parameters:
-        - name: clientId
-          in: path
-          required: true
-          schema:
-            type: string
       operationId: portal-oauth-clients-delete
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                uuid:
+                  type: string
+              required:
+                - uuid
+        required: true
       responses:
         '200':
           description: Success
@@ -764,60 +677,6 @@ paths:
                 $ref: '#/components/schemas/ErrorRes'
       externalDocs:
         url: https://docs.neynar.com/reference/portal-oauth-resources-list
-  /portal/oauth/interaction/login:
-    post:
-      summary: Login to an OAuth interaction
-      tags:
-        - portal
-        - oauth
-        - interactions
-      operationId: portal-oauth-interactions-login
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id:
-                  type: string
-                interaction_signature:
-                  type: string
-              required:
-                - id
-                - interaction_signature
-        required: true
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  redirect_url:
-                    type: string
-                required:
-                  - redirect_url
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorRes'
-        '404':
-          description: Resource not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorRes'
-        '500':
-          description: Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorRes'
-      externalDocs:
-        url: https://docs.neynar.com/reference/portal-oauth-interactions-login
   /portal/oauth/interaction/consent:
     post:
       summary: Consent to an OAuth interaction
