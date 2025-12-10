@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.108.0
+  version: 3.109.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -6480,6 +6480,181 @@ paths:
                 $ref: '#/components/schemas/ErrorRes'
       externalDocs:
         url: https://docs.neynar.com/reference/deploy-fungible
+  /v2/signature/x402/:
+    post:
+      description: Create a signature for a given x402 resource using the specified wallet.
+      summary: Create x402 signature
+      tags:
+        - Signature
+        - x402
+      parameters:
+        - $ref: '#/components/parameters/WalletIdHeader'
+        - name: x-api-key
+          in: header
+          required: true
+          schema:
+            type: string
+      operationId: create-x402-signature
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                payment_requirements:
+                  type: object
+                  properties:
+                    x402Version:
+                      type: number
+                      enum:
+                        - 1
+                    accepts:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          scheme:
+                            type: string
+                            enum:
+                              - exact
+                          network:
+                            type: string
+                            enum:
+                              - base
+                              - base-sepolia
+                          maxAmountRequired:
+                            type: string
+                          asset:
+                            type: string
+                            pattern: ^0x[a-fA-F0-9]{40}$
+                            example: '0x5a927ac639636e534b678e81768ca19e2c6280b7'
+                            description: Ethereum address
+                            title: EthAddress
+                          payTo:
+                            type: string
+                            pattern: ^0x[a-fA-F0-9]{40}$
+                            example: '0x5a927ac639636e534b678e81768ca19e2c6280b7'
+                            description: Ethereum address
+                            title: EthAddress
+                          resource:
+                            type: string
+                            format: uri
+                          description:
+                            type: string
+                          mimeType:
+                            type: string
+                          outputSchema:
+                            type: object
+                            additionalProperties:
+                              nullable: true
+                            nullable: true
+                          maxTimeoutSeconds:
+                            type: number
+                          extra:
+                            type: object
+                            additionalProperties:
+                              nullable: true
+                            nullable: true
+                        required:
+                          - scheme
+                          - network
+                          - maxAmountRequired
+                          - asset
+                          - payTo
+                          - resource
+                          - description
+                          - maxTimeoutSeconds
+                      minItems: 1
+                  required:
+                    - x402Version
+                    - accepts
+              required:
+                - payment_requirements
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  x402Version:
+                    type: number
+                    enum:
+                      - 1
+                  scheme:
+                    type: string
+                    enum:
+                      - exact
+                  network:
+                    type: string
+                    enum:
+                      - base
+                      - base-sepolia
+                  payload:
+                    type: object
+                    properties:
+                      signature:
+                        type: string
+                        pattern: ^0x[a-fA-F0-9]{130}$
+                      authorization:
+                        type: object
+                        properties:
+                          from:
+                            $ref: '#/components/schemas/EthAddress'
+                          to:
+                            $ref: '#/components/schemas/EthAddress'
+                          value:
+                            type: string
+                          validAfter:
+                            type: string
+                          validBefore:
+                            type: string
+                          nonce:
+                            type: string
+                            pattern: ^0x[a-fA-F0-9]{64}$
+                        required:
+                          - from
+                          - to
+                          - value
+                          - validAfter
+                          - validBefore
+                          - nonce
+                    required:
+                      - signature
+                      - authorization
+                required:
+                  - x402Version
+                  - scheme
+                  - network
+                  - payload
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      externalDocs:
+        url: https://docs.neynar.com/reference/create-x402-signature
   /v2/stp/subscription_check/:
     get:
       description: Check if a wallet address is subscribed to a given STP (Hypersub) contract.
