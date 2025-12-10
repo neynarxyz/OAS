@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.105.1
+  version: 3.106.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -6716,7 +6716,7 @@ paths:
         url: https://docs.neynar.com/reference/delete-verification
   /v2/farcaster/user/verifications/:
     get:
-      description: Fetch all Ethereum and Solana verified addresses for a farcaster user
+      description: Fetch all Ethereum and Solana verified addresses for a Farcaster user. Use this endpoint to identify which wallets are associated with which Farcaster applications for the specified user.
       summary: Fetch verifications
       tags:
         - User
