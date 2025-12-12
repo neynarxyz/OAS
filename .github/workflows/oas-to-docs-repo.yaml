@@ -40,6 +40,16 @@ jobs:
           cp src/hub-api/spec.yaml docs/openapi/hub-api/openapi.yaml
           cp src/api/spec.yaml docs/openapi/api/openapi.yaml
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Generate Node.js SDK docs
+        run: |
+          cd docs
+          node scripts/generate-nodejs-sdk-docs.js
+
       - name: Commit and push changes
         run: |
           # Get the author information from the OAS commit
