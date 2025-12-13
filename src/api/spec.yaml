@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.109.0
+  version: 3.110.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -6485,8 +6485,7 @@ paths:
       description: Create a signature for a given x402 resource using the specified wallet.
       summary: Create x402 signature
       tags:
-        - Signature
-        - x402
+        - Onchain
       parameters:
         - $ref: '#/components/parameters/WalletIdHeader'
         - name: x-api-key
