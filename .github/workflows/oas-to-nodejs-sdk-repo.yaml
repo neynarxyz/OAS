@@ -13,7 +13,6 @@ jobs:
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
-        
       - name: Generate Neynar CI Bot token
         id: generate-token
         uses: actions/create-github-app-token@v2
@@ -60,8 +59,7 @@ jobs:
           # Install yq for YAML parsing
           sudo wget -O /usr/bin/yq https://github.com/mikefarah/yq/releases/download/v4.24.5/yq_linux_amd64
           sudo chmod +x /usr/bin/yq
-          SDK_VERSION=$(yq e '.info."version"' oas/src/api/spec.yaml)
-          echo "SDK Version: $SDK_VERSION"
+          SDK_VERSION=$(yq e '.info.version' oas/src/api/spec.yaml)
 
           # Check if SDK_VERSION is empty
           if [ -z "$SDK_VERSION" ]; then

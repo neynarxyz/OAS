@@ -1,12 +1,15 @@
 name: Update Docs (Mintlify)
 
 on:
-  push:
-    branches:
-      - main
+  workflow_run:
+    workflows:
+      - Update NodeJS SDK
+    types:
+      - completed
 
 jobs:
   update-docs:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
       - name: Dump GitHub context # Makes it much easier to retrospectively debug all sorts of workflow issues. Does NOT expose secrets.
