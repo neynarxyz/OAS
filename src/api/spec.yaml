@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.111.0
+  version: 3.112.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -5105,10 +5105,12 @@ paths:
     post:
       description: |-
         This api will help you rent units of storage for an year for a specific FID.
-        A storage unit lets you store 5000 casts, 2500 reactions and 2500 links.
+        A storage unit lets you store 5000 casts, 2500 reactions and 2500 links. Requires x-wallet-id header.
       summary: Buy storage
       tags:
         - Storage
+      parameters:
+        - $ref: '#/components/parameters/WalletIdHeader'
       operationId: buy-storage
       requestBody:
         content:
@@ -5472,10 +5474,12 @@ paths:
         url: https://docs.neynar.com/reference/get-fresh-account-fid
   /v2/farcaster/user/register/:
     post:
-      description: Register a new farcaster account onchain. Optionally you can pass in signers to register a new account and create multiple signers in a single transaction
+      description: Register a new farcaster account onchain. Optionally you can pass in signers to register a new account and create multiple signers in a single transaction. Requires x-wallet-id header.
       summary: Register Farcaster account onchain
       tags:
         - Onchain
+      parameters:
+        - $ref: '#/components/parameters/WalletIdHeader'
       operationId: register-account-onchain
       requestBody:
         content:
