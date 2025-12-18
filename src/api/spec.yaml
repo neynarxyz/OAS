@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.110.0
+  version: 3.111.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -8330,6 +8330,102 @@ paths:
         - ApiKeyAuth: []
       externalDocs:
         url: https://docs.neynar.com/reference/stop-app
+  /v2/studio/deployment/dev-status:
+    get:
+      description: Retrieves the dev-status.json file from a miniapp deployment, which tracks the progress of app development phases. Requires API key authentication.
+      summary: Get dev status of a miniapp
+      tags:
+        - studio
+      parameters:
+        - name: namespace
+          in: query
+          description: Kubernetes namespace name
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: query
+          description: Kubernetes deployment name
+          required: true
+          schema:
+            type: string
+      operationId: get-dev-status
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    enum:
+                      - true
+                  dev_status:
+                    type: object
+                    properties:
+                      started:
+                        type: string
+                        nullable: true
+                      last_updated:
+                        type: string
+                        nullable: true
+                      completed:
+                        type: string
+                        nullable: true
+                      phases:
+                        type: object
+                        additionalProperties:
+                          type: object
+                          properties: {}
+                          additionalProperties: true
+                    required:
+                      - started
+                      - last_updated
+                      - completed
+                      - phases
+                    additionalProperties: true
+                required:
+                  - success
+                  - dev_status
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+      security:
+        - ApiKeyAuth: []
+      externalDocs:
+        url: https://docs.neynar.com/reference/get-dev-status
   /v2/studio/vercel/:
     post:
       description: Publishes the generated miniapp to Vercel via GitHub. Creates a GitHub repository, pushes code, creates a Vercel project linked to GitHub, and triggers deployment. Requires API key authentication.
