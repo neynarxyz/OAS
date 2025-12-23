@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.112.0
+  version: 3.113.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -5450,12 +5450,13 @@ paths:
         url: https://docs.neynar.com/reference/fetch-users-by-location
   /v2/farcaster/user/fid/:
     get:
-      description: Fetches FID to [assign it to new user](https://docs.neynar.com/reference/register-account)
+      description: Fetches FID to [assign it to new user](https://docs.neynar.com/reference/register-account).
       summary: Fetch fresh FID
       tags:
         - User
       parameters:
         - $ref: '#/components/parameters/NeynarExperimentalHeader'
+        - $ref: '#/components/parameters/WalletIdHeader'
       operationId: get-fresh-account-FID
       responses:
         '200':
@@ -6240,10 +6241,12 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/update-user
     post:
-      description: "Register account on farcaster. \n\n**Note:** This API must be called within 10 minutes of the fetch FID API call (i.e., /v2/farcaster/user/fid). Otherwise, Neynar will assign this FID to another available user."
+      description: "Register account on farcaster. Optionally provide x-wallet-id header to use your own wallet. \n\n**Note:** This API must be called within 10 minutes of the fetch FID API call (i.e., /v2/farcaster/user/fid). Otherwise, Neynar will assign this FID to another available user."
       summary: Register new account
       tags:
         - User
+      parameters:
+        - $ref: '#/components/parameters/WalletIdHeader'
       operationId: register-account
       requestBody:
         content:
