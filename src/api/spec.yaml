@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.113.0
+  version: 3.114.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -8363,22 +8363,37 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  success:
-                    type: boolean
-                    enum:
-                      - true
-                  dev_status:
-                    type: object
+                discriminator:
+                  propertyName: schema_version
+                oneOf:
+                  - type: object
                     properties:
-                      started:
+                      schema_version:
+                        type: number
+                        enum:
+                          - 0
+                      ready_to_publish:
+                        type: boolean
+                    required:
+                      - schema_version
+                      - ready_to_publish
+                  - type: object
+                    properties:
+                      schema_version:
+                        type: number
+                        enum:
+                          - 1
+                      ready_to_publish:
+                        type: boolean
+                      current_phase:
+                        type: number
+                      started_at:
                         type: string
                         nullable: true
-                      last_updated:
+                      last_updated_at:
                         type: string
                         nullable: true
-                      completed:
+                      completed_at:
                         type: string
                         nullable: true
                       phases:
@@ -8387,15 +8402,20 @@ paths:
                           type: object
                           properties: {}
                           additionalProperties: true
+                      metadata:
+                        type: object
+                        additionalProperties:
+                          nullable: true
                     required:
-                      - started
-                      - last_updated
-                      - completed
+                      - schema_version
+                      - ready_to_publish
+                      - current_phase
+                      - started_at
+                      - last_updated_at
+                      - completed_at
                       - phases
+                      - metadata
                     additionalProperties: true
-                required:
-                  - success
-                  - dev_status
         '400':
           description: Bad Request
           content:
@@ -8433,6 +8453,69 @@ paths:
         - ApiKeyAuth: []
       externalDocs:
         url: https://docs.neynar.com/reference/get-dev-status
+  /v2/studio/deployment/build:
+    post:
+      description: Runs Next.js build process for the generated app. If build fails, automatically calls a build-fixer agent to resolve errors. Streams build output and agent responses via Server-Sent Events. Requires API key authentication.
+      summary: Build generated app with automatic error fixing
+      tags:
+        - studio
+      operationId: build
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Kubernetes deployment name
+                namespace:
+                  type: string
+                  description: Kubernetes namespace
+              required:
+                - name
+                - namespace
+        required: true
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+      security:
+        - ApiKeyAuth: []
+      externalDocs:
+        url: https://docs.neynar.com/reference/build
   /v2/studio/vercel/:
     post:
       description: Publishes the generated miniapp to Vercel via GitHub. Creates a GitHub repository, pushes code, creates a Vercel project linked to GitHub, and triggers deployment. Requires API key authentication.
