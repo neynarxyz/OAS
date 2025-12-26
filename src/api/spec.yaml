@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.114.0
+  version: 3.115.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -7839,96 +7839,6 @@ paths:
         - ApiKeyAuth: []
       externalDocs:
         url: https://docs.neynar.com/reference/get-conversation-messages
-  /v2/studio/deployment/logs:
-    get:
-      description: Retrieves the server.log file from a miniapp-generator deployment. Requires Studio admin authentication.
-      summary: Get deployment logs
-      tags:
-        - studio
-      parameters:
-        - name: fid
-          in: query
-          description: Farcaster ID of the user; if not provided, namespace must be provided
-          schema:
-            type: integer
-            minimum: 0
-            nullable: true
-            example: 3
-            title: Fid
-            format: int32
-        - name: name
-          in: query
-          description: Kubernetes deployment name
-          required: true
-          schema:
-            type: string
-        - name: namespace
-          in: query
-          description: Optional Kubernetes namespace. If not provided, will query for the active namespace for the given FID.
-          schema:
-            type: string
-      operationId: get-deployment-logs
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  logs:
-                    type: string
-                    description: Contents of the server.log file
-                required:
-                  - logs
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                required:
-                  - error
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                required:
-                  - error
-        '404':
-          description: Resource not found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                required:
-                  - error
-        '500':
-          description: Server Error
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                required:
-                  - error
-      security:
-        - ApiKeyAuth: []
-      externalDocs:
-        url: https://docs.neynar.com/reference/get-deployment-logs
   /v2/studio/deployment/files:
     get:
       description: Lists files in a directory of the generated app. Requires Studio admin authentication.
