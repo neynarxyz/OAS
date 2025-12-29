@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.115.0
+  version: 3.116.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -11654,42 +11654,33 @@ components:
       required:
         - notification
       title: SendFrameNotificationsReqBody
-    NotificationDelivery:
-      type: object
-      properties:
-        object:
-          type: string
-          enum:
-            - notification_delivery
-        fid:
-          $ref: '#/components/schemas/Fid'
-        status:
-          type: string
-          enum:
-            - success
-            - failed
-            - invalid_token
-            - rate_limited
-            - token_not_found
-            - token_disabled
-            - http_error
-            - invalid_target_url
-        app_fid:
-          $ref: '#/components/schemas/Fid'
-      required:
-        - object
-        - fid
-        - status
-      title: NotificationDelivery
     SendFrameNotificationsResponse:
       type: object
       properties:
-        notification_deliveries:
-          type: array
-          items:
-            $ref: '#/components/schemas/NotificationDelivery'
+        campaign_id:
+          type: string
+          format: uuid
+          description: The unique identifier for the notification campaign.
+        success_count:
+          type: integer
+          description: The number of notifications successfully delivered.
+          nullable: true
+          format: int32
+        failure_count:
+          type: integer
+          description: The number of notifications that failed to deliver.
+          nullable: true
+          format: int32
+        not_attempted_count:
+          type: integer
+          description: The number of notifications not attempted (e.g., disabled tokens, invalid tokens).
+          nullable: true
+          format: int32
       required:
-        - notification_deliveries
+        - campaign_id
+        - success_count
+        - failure_count
+        - not_attempted_count
       title: SendFrameNotificationsResponse
     NotificationCampaignStats:
       type: object
