@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.116.0
+  version: 3.117.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -11676,6 +11676,11 @@ components:
           description: The number of notifications not attempted (e.g., disabled tokens, invalid tokens).
           nullable: true
           format: int32
+        retryable_fids:
+          type: array
+          items:
+            $ref: '#/components/schemas/Fid'
+          description: List of FIDs that failed due to retryable errors (rate_limited, failed, http_error). Can be used to retry sending notifications to these users.
       required:
         - campaign_id
         - success_count
