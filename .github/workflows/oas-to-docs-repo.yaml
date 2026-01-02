@@ -43,10 +43,19 @@ jobs:
           cp src/hub-api/spec.yaml docs/openapi/hub-api/openapi.yaml
           cp src/api/spec.yaml docs/openapi/api/openapi.yaml
 
-      - name: Node.js SDK docs: moved
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Generate Node.js SDK docs
         run: |
-          echo "Node.js SDK docs generation moved to .github/workflows/generate-nodejs-sdk-docs.yaml"
-        # 'Generate Node.js SDK docs' step removed from this workflow
+          cd docs
+          node scripts/generate-nodejs-sdk-docs.js
+
+      - name: Commit and push changes
+        run: |
+          # Get the author information from the OAS commit
           AUTHOR_NAME=$(git log -1 --format='%an')
           AUTHOR_EMAIL=$(git log -1 --format='%ae')
 
