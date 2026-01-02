@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.110.0
+  version: 3.118.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -5105,10 +5105,12 @@ paths:
     post:
       description: |-
         This api will help you rent units of storage for an year for a specific FID.
-        A storage unit lets you store 5000 casts, 2500 reactions and 2500 links.
+        A storage unit lets you store 5000 casts, 2500 reactions and 2500 links. Requires x-wallet-id header.
       summary: Buy storage
       tags:
         - Storage
+      parameters:
+        - $ref: '#/components/parameters/WalletIdHeader'
       operationId: buy-storage
       requestBody:
         content:
@@ -5448,12 +5450,13 @@ paths:
         url: https://docs.neynar.com/reference/fetch-users-by-location
   /v2/farcaster/user/fid/:
     get:
-      description: Fetches FID to [assign it to new user](https://docs.neynar.com/reference/register-account)
+      description: Fetches FID to [assign it to new user](https://docs.neynar.com/reference/register-account).
       summary: Fetch fresh FID
       tags:
         - User
       parameters:
         - $ref: '#/components/parameters/NeynarExperimentalHeader'
+        - $ref: '#/components/parameters/WalletIdHeader'
       operationId: get-fresh-account-FID
       responses:
         '200':
@@ -5472,10 +5475,12 @@ paths:
         url: https://docs.neynar.com/reference/get-fresh-account-fid
   /v2/farcaster/user/register/:
     post:
-      description: Register a new farcaster account onchain. Optionally you can pass in signers to register a new account and create multiple signers in a single transaction
+      description: Register a new farcaster account onchain. Optionally you can pass in signers to register a new account and create multiple signers in a single transaction. Requires x-wallet-id header.
       summary: Register Farcaster account onchain
       tags:
         - Onchain
+      parameters:
+        - $ref: '#/components/parameters/WalletIdHeader'
       operationId: register-account-onchain
       requestBody:
         content:
@@ -6236,10 +6241,12 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/update-user
     post:
-      description: "Register account on farcaster. \n\n**Note:** This API must be called within 10 minutes of the fetch FID API call (i.e., /v2/farcaster/user/fid). Otherwise, Neynar will assign this FID to another available user."
+      description: "Register account on farcaster. Optionally provide x-wallet-id header to use your own wallet. \n\n**Note:** This API must be called within 10 minutes of the fetch FID API call (i.e., /v2/farcaster/user/fid). Otherwise, Neynar will assign this FID to another available user."
       summary: Register new account
       tags:
         - User
+      parameters:
+        - $ref: '#/components/parameters/WalletIdHeader'
       operationId: register-account
       requestBody:
         content:
@@ -6735,6 +6742,9 @@ paths:
               schema:
                 type: object
                 properties:
+                  id:
+                    type: string
+                    description: Deployment ID
                   display_name:
                     type: string
                     description: Display name for the project
@@ -6799,6 +6809,7 @@ paths:
                       - created_at
                     description: Production app deployment status from Vercel
                 required:
+                  - id
                   - deleted_at
                   - updated_at
                   - created_at
@@ -6884,6 +6895,9 @@ paths:
                 items:
                   type: object
                   properties:
+                    id:
+                      type: string
+                      description: Deployment ID
                     display_name:
                       type: string
                       description: Display name for the project
@@ -6948,6 +6962,7 @@ paths:
                         - created_at
                       description: Production app deployment status from Vercel
                   required:
+                    - id
                     - deleted_at
                     - updated_at
                     - created_at
@@ -6994,7 +7009,7 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/list-deployments
     delete:
-      description: Deletes a specific miniapp generator deployment or all deployments for a FID. If name is provided, deletes single deployment. If only FID is provided, deletes all deployments for that FID. Requires API key authentication.
+      description: Deletes a specific miniapp generator deployment or all deployments for a FID. If deployment_id or name is provided, deletes single deployment. If only FID is provided, deletes all deployments for that FID. Requires API key authentication.
       summary: Delete deployment(s)
       tags:
         - studio
@@ -7005,13 +7020,17 @@ paths:
             schema:
               type: object
               properties:
+                deployment_id:
+                  type: string
+                  format: uuid
+                  description: Deployment ID (UUID). If provided, deletes this specific deployment.
                 fid:
                   type: integer
                   minimum: 0
                   description: Farcaster ID of the user
                 name:
                   type: string
-                  description: Kubernetes deployment name. If not provided, all deployments for the FID will be deleted
+                  description: Kubernetes deployment name. If not provided and deployment_id not provided, all deployments for the FID will be deleted
                 namespace:
                   type: string
                   description: Optional Kubernetes namespace. If not provided, will query for the active namespace for the given FID.
@@ -7082,13 +7101,17 @@ paths:
             schema:
               type: object
               properties:
+                deployment_id:
+                  type: string
+                  format: uuid
+                  description: Deployment ID (UUID). Required if name not provided.
                 fid:
                   type: integer
                   minimum: 0
                   description: Farcaster ID of the user
                 name:
                   type: string
-                  description: Kubernetes deployment name
+                  description: Kubernetes deployment name. Required if deployment_id not provided.
                 namespace:
                   type: string
                   description: Optional Kubernetes namespace. If not provided, will query for the active namespace for the given FID.
@@ -7111,7 +7134,6 @@ paths:
                   description: System prompt variant to use. Defaults to stable if not provided.
               required:
                 - fid
-                - name
                 - prompt
         required: true
       responses:
@@ -7167,11 +7189,17 @@ paths:
         url: https://docs.neynar.com/reference/prompt-deployment-stream
   /v2/studio/deployment/by-name-and-fid:
     get:
-      description: Fetches info about a miniapp generator deployment by its name and creator's Farcaster ID. Requires API key authentication.
+      description: Fetches info about a miniapp generator deployment by its deployment_id or name and creator's Farcaster ID. Requires API key authentication.
       summary: Get deployment info
       tags:
         - studio
       parameters:
+        - name: deployment_id
+          in: query
+          description: Deployment ID (UUID). Required if name not provided.
+          schema:
+            type: string
+            format: uuid
         - name: fid
           in: query
           description: Farcaster ID of the user; if not provided, namespace must be provided
@@ -7184,8 +7212,7 @@ paths:
             format: int32
         - name: name
           in: query
-          description: Kubernetes deployment name
-          required: true
+          description: Kubernetes deployment name. Required if deployment_id not provided.
           schema:
             type: string
         - name: namespace
@@ -7202,6 +7229,9 @@ paths:
               schema:
                 type: object
                 properties:
+                  id:
+                    type: string
+                    description: Deployment ID
                   display_name:
                     type: string
                     description: Display name for the project
@@ -7266,6 +7296,7 @@ paths:
                       - created_at
                     description: Production app deployment status from Vercel
                 required:
+                  - id
                   - deleted_at
                   - updated_at
                   - created_at
@@ -7324,6 +7355,10 @@ paths:
             schema:
               type: object
               properties:
+                deployment_id:
+                  type: string
+                  format: uuid
+                  description: Deployment ID (UUID). Required if name not provided.
                 fid:
                   type: integer
                   minimum: 0
@@ -7333,7 +7368,7 @@ paths:
                   format: int32
                 name:
                   type: string
-                  description: Kubernetes deployment name
+                  description: Kubernetes deployment name. Required if deployment_id not provided.
                 namespace:
                   type: string
                   description: Optional Kubernetes namespace. If not provided, will query for the active namespace for the given FID.
@@ -7355,7 +7390,6 @@ paths:
                     - signature
                   description: Signed domain association linking this deployment to a Farcaster account
               required:
-                - name
                 - account_association
         required: true
       responses:
@@ -7491,6 +7525,10 @@ paths:
             schema:
               type: object
               properties:
+                deployment_id:
+                  type: string
+                  format: uuid
+                  description: Deployment ID (UUID). Required if name not provided.
                 fid:
                   type: integer
                   minimum: 0
@@ -7500,7 +7538,7 @@ paths:
                   format: int32
                 name:
                   type: string
-                  description: Kubernetes deployment name
+                  description: Kubernetes deployment name. Required if deployment_id not provided.
                 namespace:
                   type: string
                   description: Optional Kubernetes namespace. If not provided, will query for the active namespace for the given FID.
@@ -7509,7 +7547,6 @@ paths:
                   format: uri
                   description: URL of the image to download
               required:
-                - name
                 - url
         required: true
       responses:
@@ -7579,6 +7616,12 @@ paths:
       tags:
         - studio
       parameters:
+        - name: deployment_id
+          in: query
+          description: Deployment ID (UUID). If provided, filters conversations to this deployment only.
+          schema:
+            type: string
+            format: uuid
         - name: fid
           in: query
           description: Farcaster ID of the user. Required for non-admin users. Studio admins can omit to query all conversations.
@@ -7698,6 +7741,12 @@ paths:
       tags:
         - studio
       parameters:
+        - name: deployment_id
+          in: query
+          description: Deployment ID (UUID). Required if name not provided.
+          schema:
+            type: string
+            format: uuid
         - name: fid
           in: query
           description: Farcaster ID of the user; if not provided, namespace must be provided
@@ -7710,8 +7759,7 @@ paths:
             format: int32
         - name: name
           in: query
-          description: Kubernetes deployment name
-          required: true
+          description: Kubernetes deployment name. Required if deployment_id not provided.
           schema:
             type: string
         - name: namespace
@@ -7832,96 +7880,6 @@ paths:
         - ApiKeyAuth: []
       externalDocs:
         url: https://docs.neynar.com/reference/get-conversation-messages
-  /v2/studio/deployment/logs:
-    get:
-      description: Retrieves the server.log file from a miniapp-generator deployment. Requires Studio admin authentication.
-      summary: Get deployment logs
-      tags:
-        - studio
-      parameters:
-        - name: fid
-          in: query
-          description: Farcaster ID of the user; if not provided, namespace must be provided
-          schema:
-            type: integer
-            minimum: 0
-            nullable: true
-            example: 3
-            title: Fid
-            format: int32
-        - name: name
-          in: query
-          description: Kubernetes deployment name
-          required: true
-          schema:
-            type: string
-        - name: namespace
-          in: query
-          description: Optional Kubernetes namespace. If not provided, will query for the active namespace for the given FID.
-          schema:
-            type: string
-      operationId: get-deployment-logs
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  logs:
-                    type: string
-                    description: Contents of the server.log file
-                required:
-                  - logs
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                required:
-                  - error
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                required:
-                  - error
-        '404':
-          description: Resource not found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                required:
-                  - error
-        '500':
-          description: Server Error
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                required:
-                  - error
-      security:
-        - ApiKeyAuth: []
-      externalDocs:
-        url: https://docs.neynar.com/reference/get-deployment-logs
   /v2/studio/deployment/files:
     get:
       description: Lists files in a directory of the generated app. Requires Studio admin authentication.
@@ -7929,6 +7887,12 @@ paths:
       tags:
         - studio
       parameters:
+        - name: deployment_id
+          in: query
+          description: Deployment ID (UUID). Required if name not provided.
+          schema:
+            type: string
+            format: uuid
         - name: fid
           in: query
           description: Farcaster ID of the user; if not provided, namespace must be provided
@@ -7941,8 +7905,7 @@ paths:
             format: int32
         - name: name
           in: query
-          description: Kubernetes deployment name
-          required: true
+          description: Kubernetes deployment name. Required if deployment_id not provided.
           schema:
             type: string
         - name: namespace
@@ -8040,6 +8003,12 @@ paths:
       tags:
         - studio
       parameters:
+        - name: deployment_id
+          in: query
+          description: Deployment ID (UUID). Required if name not provided.
+          schema:
+            type: string
+            format: uuid
         - name: fid
           in: query
           description: Farcaster ID of the user; if not provided, namespace must be provided
@@ -8052,8 +8021,7 @@ paths:
             format: int32
         - name: name
           in: query
-          description: Kubernetes deployment name
-          required: true
+          description: Kubernetes deployment name. Required if deployment_id not provided.
           schema:
             type: string
         - name: namespace
@@ -8146,6 +8114,10 @@ paths:
             schema:
               type: object
               properties:
+                deployment_id:
+                  type: string
+                  format: uuid
+                  description: Deployment ID (UUID). Required if name not provided.
                 fid:
                   type: integer
                   minimum: 0
@@ -8155,12 +8127,10 @@ paths:
                   format: int32
                 name:
                   type: string
-                  description: Kubernetes deployment name
+                  description: Kubernetes deployment name. Required if deployment_id not provided.
                 namespace:
                   type: string
                   description: Optional Kubernetes namespace. If not provided, will query for the active namespace for the given FID.
-              required:
-                - name
         required: true
       responses:
         '200':
@@ -8250,6 +8220,10 @@ paths:
             schema:
               type: object
               properties:
+                deployment_id:
+                  type: string
+                  format: uuid
+                  description: Deployment ID (UUID). Required if name not provided.
                 fid:
                   type: integer
                   minimum: 0
@@ -8259,12 +8233,10 @@ paths:
                   format: int32
                 name:
                   type: string
-                  description: Kubernetes deployment name
+                  description: Kubernetes deployment name. Required if deployment_id not provided.
                 namespace:
                   type: string
                   description: Optional Kubernetes namespace. If not provided, will query for the active namespace for the given FID.
-              required:
-                - name
         required: true
       responses:
         '200':
@@ -8330,6 +8302,190 @@ paths:
         - ApiKeyAuth: []
       externalDocs:
         url: https://docs.neynar.com/reference/stop-app
+  /v2/studio/deployment/dev-status:
+    get:
+      description: Retrieves the dev-status.json file from a miniapp deployment, which tracks the progress of app development phases. Requires API key authentication.
+      summary: Get dev status of a miniapp
+      tags:
+        - studio
+      parameters:
+        - name: deployment_id
+          in: query
+          description: Deployment ID
+          schema:
+            type: string
+            format: uuid
+        - name: namespace
+          in: query
+          description: Kubernetes namespace name
+          schema:
+            type: string
+        - name: name
+          in: query
+          description: Kubernetes deployment name
+          schema:
+            type: string
+      operationId: get-dev-status
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                discriminator:
+                  propertyName: schema_version
+                oneOf:
+                  - type: object
+                    properties:
+                      schema_version:
+                        type: number
+                        enum:
+                          - 0
+                      ready_to_publish:
+                        type: boolean
+                    required:
+                      - schema_version
+                      - ready_to_publish
+                  - type: object
+                    properties:
+                      schema_version:
+                        type: number
+                        enum:
+                          - 1
+                      ready_to_publish:
+                        type: boolean
+                      current_phase:
+                        type: number
+                      started_at:
+                        type: string
+                        nullable: true
+                      last_updated_at:
+                        type: string
+                        nullable: true
+                      completed_at:
+                        type: string
+                        nullable: true
+                      phases:
+                        type: object
+                        additionalProperties:
+                          type: object
+                          properties: {}
+                          additionalProperties: true
+                      metadata:
+                        type: object
+                        additionalProperties:
+                          nullable: true
+                    required:
+                      - schema_version
+                      - ready_to_publish
+                      - current_phase
+                      - started_at
+                      - last_updated_at
+                      - completed_at
+                      - phases
+                      - metadata
+                    additionalProperties: true
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+      security:
+        - ApiKeyAuth: []
+      externalDocs:
+        url: https://docs.neynar.com/reference/get-dev-status
+  /v2/studio/deployment/build:
+    post:
+      description: Runs Next.js build process for the generated app. If build fails, automatically calls a build-fixer agent to resolve errors. Streams build output and agent responses via Server-Sent Events. Requires API key authentication.
+      summary: Build generated app with automatic error fixing
+      tags:
+        - studio
+      operationId: build
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                deployment_id:
+                  type: string
+                  format: uuid
+                  description: Deployment ID
+                name:
+                  type: string
+                  description: Kubernetes deployment name
+                namespace:
+                  type: string
+                  description: Kubernetes namespace
+        required: true
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+      security:
+        - ApiKeyAuth: []
+      externalDocs:
+        url: https://docs.neynar.com/reference/build
   /v2/studio/vercel/:
     post:
       description: Publishes the generated miniapp to Vercel via GitHub. Creates a GitHub repository, pushes code, creates a Vercel project linked to GitHub, and triggers deployment. Requires API key authentication.
@@ -8343,6 +8499,10 @@ paths:
             schema:
               type: object
               properties:
+                deployment_id:
+                  type: string
+                  format: uuid
+                  description: Deployment ID (UUID). Required if name not provided.
                 fid:
                   type: integer
                   minimum: 0
@@ -8352,7 +8512,7 @@ paths:
                   format: int32
                 name:
                   type: string
-                  description: Deployment name (used for both GitHub repo and Vercel project)
+                  description: Deployment name (used for both GitHub repo and Vercel project). Required if deployment_id not provided.
                 namespace:
                   type: string
                   description: Kubernetes namespace name
@@ -8361,8 +8521,6 @@ paths:
                   additionalProperties:
                     type: string
                   description: Environment variables for the Vercel deployment
-              required:
-                - name
         required: true
       responses:
         '200':
@@ -8445,6 +8603,12 @@ paths:
       tags:
         - studio
       parameters:
+        - name: deployment_id
+          in: query
+          description: Deployment ID (UUID). Required if name not provided.
+          schema:
+            type: string
+            format: uuid
         - name: fid
           in: query
           description: Farcaster ID of the user; if not provided, namespace must be provided
@@ -8459,8 +8623,7 @@ paths:
             type: string
         - name: name
           in: query
-          description: Deployment name used to identify the Vercel project
-          required: true
+          description: Deployment name used to identify the Vercel project. Required if deployment_id not provided.
           schema:
             type: string
       operationId: vercel-deployment-status
@@ -8551,6 +8714,12 @@ paths:
       tags:
         - studio
       parameters:
+        - name: deployment_id
+          in: query
+          description: Deployment ID (UUID). Required if name not provided.
+          schema:
+            type: string
+            format: uuid
         - name: fid
           in: query
           description: Farcaster ID of the user
@@ -8565,8 +8734,7 @@ paths:
             type: string
         - name: name
           in: query
-          description: Deployment name used to identify the Vercel project
-          required: true
+          description: Deployment name used to identify the Vercel project. Required if deployment_id not provided.
           schema:
             type: string
         - name: limit
@@ -11558,42 +11726,38 @@ components:
       required:
         - notification
       title: SendFrameNotificationsReqBody
-    NotificationDelivery:
-      type: object
-      properties:
-        object:
-          type: string
-          enum:
-            - notification_delivery
-        fid:
-          $ref: '#/components/schemas/Fid'
-        status:
-          type: string
-          enum:
-            - success
-            - failed
-            - invalid_token
-            - rate_limited
-            - token_not_found
-            - token_disabled
-            - http_error
-            - invalid_target_url
-        app_fid:
-          $ref: '#/components/schemas/Fid'
-      required:
-        - object
-        - fid
-        - status
-      title: NotificationDelivery
     SendFrameNotificationsResponse:
       type: object
       properties:
-        notification_deliveries:
+        campaign_id:
+          type: string
+          format: uuid
+          description: The unique identifier for the notification campaign.
+        success_count:
+          type: integer
+          description: The number of notifications successfully delivered.
+          nullable: true
+          format: int32
+        failure_count:
+          type: integer
+          description: The number of notifications that failed to deliver.
+          nullable: true
+          format: int32
+        not_attempted_count:
+          type: integer
+          description: The number of notifications not attempted (e.g., disabled tokens, invalid tokens).
+          nullable: true
+          format: int32
+        retryable_fids:
           type: array
           items:
-            $ref: '#/components/schemas/NotificationDelivery'
+            $ref: '#/components/schemas/Fid'
+          description: List of FIDs that failed due to retryable errors (rate_limited, failed, http_error). Can be used to retry sending notifications to these users.
       required:
-        - notification_deliveries
+        - campaign_id
+        - success_count
+        - failure_count
+        - not_attempted_count
       title: SendFrameNotificationsResponse
     NotificationCampaignStats:
       type: object
