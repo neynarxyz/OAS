@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.117.0
+  version: 3.118.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -6742,6 +6742,9 @@ paths:
               schema:
                 type: object
                 properties:
+                  id:
+                    type: string
+                    description: Deployment ID
                   display_name:
                     type: string
                     description: Display name for the project
@@ -6806,6 +6809,7 @@ paths:
                       - created_at
                     description: Production app deployment status from Vercel
                 required:
+                  - id
                   - deleted_at
                   - updated_at
                   - created_at
@@ -6891,6 +6895,9 @@ paths:
                 items:
                   type: object
                   properties:
+                    id:
+                      type: string
+                      description: Deployment ID
                     display_name:
                       type: string
                       description: Display name for the project
@@ -6955,6 +6962,7 @@ paths:
                         - created_at
                       description: Production app deployment status from Vercel
                   required:
+                    - id
                     - deleted_at
                     - updated_at
                     - created_at
@@ -7001,7 +7009,7 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/list-deployments
     delete:
-      description: Deletes a specific miniapp generator deployment or all deployments for a FID. If name is provided, deletes single deployment. If only FID is provided, deletes all deployments for that FID. Requires API key authentication.
+      description: Deletes a specific miniapp generator deployment or all deployments for a FID. If deployment_id or name is provided, deletes single deployment. If only FID is provided, deletes all deployments for that FID. Requires API key authentication.
       summary: Delete deployment(s)
       tags:
         - studio
@@ -7012,13 +7020,17 @@ paths:
             schema:
               type: object
               properties:
+                deployment_id:
+                  type: string
+                  format: uuid
+                  description: Deployment ID (UUID). If provided, deletes this specific deployment.
                 fid:
                   type: integer
                   minimum: 0
                   description: Farcaster ID of the user
                 name:
                   type: string
-                  description: Kubernetes deployment name. If not provided, all deployments for the FID will be deleted
+                  description: Kubernetes deployment name. If not provided and deployment_id not provided, all deployments for the FID will be deleted
                 namespace:
                   type: string
                   description: Optional Kubernetes namespace. If not provided, will query for the active namespace for the given FID.
@@ -7089,13 +7101,17 @@ paths:
             schema:
               type: object
               properties:
+                deployment_id:
+                  type: string
+                  format: uuid
+                  description: Deployment ID (UUID). Required if name not provided.
                 fid:
                   type: integer
                   minimum: 0
                   description: Farcaster ID of the user
                 name:
                   type: string
-                  description: Kubernetes deployment name
+                  description: Kubernetes deployment name. Required if deployment_id not provided.
                 namespace:
                   type: string
                   description: Optional Kubernetes namespace. If not provided, will query for the active namespace for the given FID.
@@ -7118,7 +7134,6 @@ paths:
                   description: System prompt variant to use. Defaults to stable if not provided.
               required:
                 - fid
-                - name
                 - prompt
         required: true
       responses:
@@ -7174,11 +7189,17 @@ paths:
         url: https://docs.neynar.com/reference/prompt-deployment-stream
   /v2/studio/deployment/by-name-and-fid:
     get:
-      description: Fetches info about a miniapp generator deployment by its name and creator's Farcaster ID. Requires API key authentication.
+      description: Fetches info about a miniapp generator deployment by its deployment_id or name and creator's Farcaster ID. Requires API key authentication.
       summary: Get deployment info
       tags:
         - studio
       parameters:
+        - name: deployment_id
+          in: query
+          description: Deployment ID (UUID). Required if name not provided.
+          schema:
+            type: string
+            format: uuid
         - name: fid
           in: query
           description: Farcaster ID of the user; if not provided, namespace must be provided
@@ -7191,8 +7212,7 @@ paths:
             format: int32
         - name: name
           in: query
-          description: Kubernetes deployment name
-          required: true
+          description: Kubernetes deployment name. Required if deployment_id not provided.
           schema:
             type: string
         - name: namespace
@@ -7209,6 +7229,9 @@ paths:
               schema:
                 type: object
                 properties:
+                  id:
+                    type: string
+                    description: Deployment ID
                   display_name:
                     type: string
                     description: Display name for the project
@@ -7273,6 +7296,7 @@ paths:
                       - created_at
                     description: Production app deployment status from Vercel
                 required:
+                  - id
                   - deleted_at
                   - updated_at
                   - created_at
@@ -7331,6 +7355,10 @@ paths:
             schema:
               type: object
               properties:
+                deployment_id:
+                  type: string
+                  format: uuid
+                  description: Deployment ID (UUID). Required if name not provided.
                 fid:
                   type: integer
                   minimum: 0
@@ -7340,7 +7368,7 @@ paths:
                   format: int32
                 name:
                   type: string
-                  description: Kubernetes deployment name
+                  description: Kubernetes deployment name. Required if deployment_id not provided.
                 namespace:
                   type: string
                   description: Optional Kubernetes namespace. If not provided, will query for the active namespace for the given FID.
@@ -7362,7 +7390,6 @@ paths:
                     - signature
                   description: Signed domain association linking this deployment to a Farcaster account
               required:
-                - name
                 - account_association
         required: true
       responses:
@@ -7498,6 +7525,10 @@ paths:
             schema:
               type: object
               properties:
+                deployment_id:
+                  type: string
+                  format: uuid
+                  description: Deployment ID (UUID). Required if name not provided.
                 fid:
                   type: integer
                   minimum: 0
@@ -7507,7 +7538,7 @@ paths:
                   format: int32
                 name:
                   type: string
-                  description: Kubernetes deployment name
+                  description: Kubernetes deployment name. Required if deployment_id not provided.
                 namespace:
                   type: string
                   description: Optional Kubernetes namespace. If not provided, will query for the active namespace for the given FID.
@@ -7516,7 +7547,6 @@ paths:
                   format: uri
                   description: URL of the image to download
               required:
-                - name
                 - url
         required: true
       responses:
@@ -7586,6 +7616,12 @@ paths:
       tags:
         - studio
       parameters:
+        - name: deployment_id
+          in: query
+          description: Deployment ID (UUID). If provided, filters conversations to this deployment only.
+          schema:
+            type: string
+            format: uuid
         - name: fid
           in: query
           description: Farcaster ID of the user. Required for non-admin users. Studio admins can omit to query all conversations.
@@ -7705,6 +7741,12 @@ paths:
       tags:
         - studio
       parameters:
+        - name: deployment_id
+          in: query
+          description: Deployment ID (UUID). Required if name not provided.
+          schema:
+            type: string
+            format: uuid
         - name: fid
           in: query
           description: Farcaster ID of the user; if not provided, namespace must be provided
@@ -7717,8 +7759,7 @@ paths:
             format: int32
         - name: name
           in: query
-          description: Kubernetes deployment name
-          required: true
+          description: Kubernetes deployment name. Required if deployment_id not provided.
           schema:
             type: string
         - name: namespace
@@ -7846,6 +7887,12 @@ paths:
       tags:
         - studio
       parameters:
+        - name: deployment_id
+          in: query
+          description: Deployment ID (UUID). Required if name not provided.
+          schema:
+            type: string
+            format: uuid
         - name: fid
           in: query
           description: Farcaster ID of the user; if not provided, namespace must be provided
@@ -7858,8 +7905,7 @@ paths:
             format: int32
         - name: name
           in: query
-          description: Kubernetes deployment name
-          required: true
+          description: Kubernetes deployment name. Required if deployment_id not provided.
           schema:
             type: string
         - name: namespace
@@ -7957,6 +8003,12 @@ paths:
       tags:
         - studio
       parameters:
+        - name: deployment_id
+          in: query
+          description: Deployment ID (UUID). Required if name not provided.
+          schema:
+            type: string
+            format: uuid
         - name: fid
           in: query
           description: Farcaster ID of the user; if not provided, namespace must be provided
@@ -7969,8 +8021,7 @@ paths:
             format: int32
         - name: name
           in: query
-          description: Kubernetes deployment name
-          required: true
+          description: Kubernetes deployment name. Required if deployment_id not provided.
           schema:
             type: string
         - name: namespace
@@ -8063,6 +8114,10 @@ paths:
             schema:
               type: object
               properties:
+                deployment_id:
+                  type: string
+                  format: uuid
+                  description: Deployment ID (UUID). Required if name not provided.
                 fid:
                   type: integer
                   minimum: 0
@@ -8072,12 +8127,10 @@ paths:
                   format: int32
                 name:
                   type: string
-                  description: Kubernetes deployment name
+                  description: Kubernetes deployment name. Required if deployment_id not provided.
                 namespace:
                   type: string
                   description: Optional Kubernetes namespace. If not provided, will query for the active namespace for the given FID.
-              required:
-                - name
         required: true
       responses:
         '200':
@@ -8167,6 +8220,10 @@ paths:
             schema:
               type: object
               properties:
+                deployment_id:
+                  type: string
+                  format: uuid
+                  description: Deployment ID (UUID). Required if name not provided.
                 fid:
                   type: integer
                   minimum: 0
@@ -8176,12 +8233,10 @@ paths:
                   format: int32
                 name:
                   type: string
-                  description: Kubernetes deployment name
+                  description: Kubernetes deployment name. Required if deployment_id not provided.
                 namespace:
                   type: string
                   description: Optional Kubernetes namespace. If not provided, will query for the active namespace for the given FID.
-              required:
-                - name
         required: true
       responses:
         '200':
@@ -8254,16 +8309,20 @@ paths:
       tags:
         - studio
       parameters:
+        - name: deployment_id
+          in: query
+          description: Deployment ID
+          schema:
+            type: string
+            format: uuid
         - name: namespace
           in: query
           description: Kubernetes namespace name
-          required: true
           schema:
             type: string
         - name: name
           in: query
           description: Kubernetes deployment name
-          required: true
           schema:
             type: string
       operationId: get-dev-status
@@ -8376,15 +8435,16 @@ paths:
             schema:
               type: object
               properties:
+                deployment_id:
+                  type: string
+                  format: uuid
+                  description: Deployment ID
                 name:
                   type: string
                   description: Kubernetes deployment name
                 namespace:
                   type: string
                   description: Kubernetes namespace
-              required:
-                - name
-                - namespace
         required: true
       responses:
         '200':
@@ -8439,6 +8499,10 @@ paths:
             schema:
               type: object
               properties:
+                deployment_id:
+                  type: string
+                  format: uuid
+                  description: Deployment ID (UUID). Required if name not provided.
                 fid:
                   type: integer
                   minimum: 0
@@ -8448,7 +8512,7 @@ paths:
                   format: int32
                 name:
                   type: string
-                  description: Deployment name (used for both GitHub repo and Vercel project)
+                  description: Deployment name (used for both GitHub repo and Vercel project). Required if deployment_id not provided.
                 namespace:
                   type: string
                   description: Kubernetes namespace name
@@ -8457,8 +8521,6 @@ paths:
                   additionalProperties:
                     type: string
                   description: Environment variables for the Vercel deployment
-              required:
-                - name
         required: true
       responses:
         '200':
@@ -8541,6 +8603,12 @@ paths:
       tags:
         - studio
       parameters:
+        - name: deployment_id
+          in: query
+          description: Deployment ID (UUID). Required if name not provided.
+          schema:
+            type: string
+            format: uuid
         - name: fid
           in: query
           description: Farcaster ID of the user; if not provided, namespace must be provided
@@ -8555,8 +8623,7 @@ paths:
             type: string
         - name: name
           in: query
-          description: Deployment name used to identify the Vercel project
-          required: true
+          description: Deployment name used to identify the Vercel project. Required if deployment_id not provided.
           schema:
             type: string
       operationId: vercel-deployment-status
@@ -8647,6 +8714,12 @@ paths:
       tags:
         - studio
       parameters:
+        - name: deployment_id
+          in: query
+          description: Deployment ID (UUID). Required if name not provided.
+          schema:
+            type: string
+            format: uuid
         - name: fid
           in: query
           description: Farcaster ID of the user
@@ -8661,8 +8734,7 @@ paths:
             type: string
         - name: name
           in: query
-          description: Deployment name used to identify the Vercel project
-          required: true
+          description: Deployment name used to identify the Vercel project. Required if deployment_id not provided.
           schema:
             type: string
         - name: limit
