@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.118.0
+  version: 3.119.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -7108,7 +7108,10 @@ paths:
                 fid:
                   type: integer
                   minimum: 0
-                  description: Farcaster ID of the user
+                  description: Farcaster ID of the user; if not provided, namespace must be provided
+                  example: 3
+                  title: Fid
+                  format: int32
                 name:
                   type: string
                   description: Kubernetes deployment name. Required if deployment_id not provided.
@@ -7133,7 +7136,6 @@ paths:
                     - stable
                   description: System prompt variant to use. Defaults to stable if not provided.
               required:
-                - fid
                 - prompt
         required: true
       responses:
