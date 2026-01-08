@@ -7,6 +7,7 @@ on:
 
 jobs:
   update-sdk:
+    if: false # Workflow disabled
     runs-on: ubuntu-latest
     steps:
       - name: Dump GitHub context # Makes it much easier to retrospectively debug all sorts of workflow issues. Does NOT expose secrets.
