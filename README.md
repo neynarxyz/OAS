@@ -1,5 +1,7 @@
 # OAS
 [![Validate and Lint OpenAPI Specs](https://github.com/neynarxyz/OAS/actions/workflows/validate-oas.yml/badge.svg)](https://github.com/neynarxyz/OAS/actions/workflows/validate-oas.yml)
+[![Update Docs (Mintlify)](https://github.com/neynarxyz/OAS/actions/workflows/oas-to-docs-repo.yaml/badge.svg)](https://github.com/neynarxyz/OAS/actions/workflows/oas-to-docs-repo.yaml)
+[![Update NodeJS SDK](https://github.com/neynarxyz/OAS/actions/workflows/oas-to-nodejs-sdk-repo.yaml/badge.svg)](https://github.com/neynarxyz/OAS/actions/workflows/oas-to-nodejs-sdk-repo.yaml)
 
 ### Overview
 
