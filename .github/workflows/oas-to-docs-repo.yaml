@@ -1,13 +1,18 @@
 name: Update Docs (Mintlify)
 
 on:
-  push:
+  workflow_run:
+    workflows: ["Update NodeJS SDK"]
+    types:
+      - completed
     branches:
       - main
 
 jobs:
   update-docs:
     runs-on: ubuntu-latest
+    # Only run if the NodeJS SDK workflow completed successfully
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - name: Dump GitHub context # Makes it much easier to retrospectively debug all sorts of workflow issues. Does NOT expose secrets.
         env:
@@ -25,6 +30,8 @@ jobs:
 
       - name: Checkout OAS repository
         uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
 
       - name: Checkout docs repository
         uses: actions/checkout@v3
