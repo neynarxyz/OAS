@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.119.0
+  version: 3.119.1
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -1637,6 +1637,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorRes'
+        '502':
+          description: '502'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
       externalDocs:
         url: https://docs.neynar.com/reference/follow-channel
     delete:
@@ -1684,6 +1690,12 @@ paths:
                 $ref: '#/components/schemas/ErrorRes'
         '500':
           description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '502':
+          description: '502'
           content:
             application/json:
               schema:
