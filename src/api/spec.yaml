@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.119.1
+  version: 3.120.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -6718,6 +6718,242 @@ paths:
                 $ref: '#/components/schemas/ErrorRes'
       externalDocs:
         url: https://docs.neynar.com/reference/fetch-subscription-check
+  /v2/studio/deployment/secrets/:
+    post:
+      description: Upsert secrets for a deployment.
+      summary: Upsert deployment secrets
+      tags:
+        - studio
+      operationId: upsert-secrets
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                deployment_id:
+                  type: string
+                  format: uuid
+                  description: Deployment ID to add secrets to
+                secrets:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      key:
+                        type: string
+                        description: Environment variable name
+                      value:
+                        type: string
+                        description: Environment variable value
+                      environments:
+                        type: array
+                        items:
+                          type: string
+                          enum:
+                            - development
+                            - preview
+                            - production
+                        minItems: 1
+                        description: Environments where this secret is set
+                    required:
+                      - key
+                      - value
+                      - environments
+                  minItems: 1
+                  description: Secrets to create
+              required:
+                - deployment_id
+                - secrets
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    enum:
+                      - true
+                required:
+                  - success
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      security:
+        - ApiKeyAuth: []
+      externalDocs:
+        url: https://docs.neynar.com/reference/upsert-secrets
+    get:
+      description: Retrieves all secrets for a deployment.
+      summary: List deployment secrets
+      tags:
+        - studio
+      parameters:
+        - name: deployment_id
+          in: query
+          description: Deployment ID to list secrets for
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: key
+          in: query
+          description: Optional filter by environment variable name
+          schema:
+            type: string
+        - name: environment
+          in: query
+          description: Optional filter by target environment
+          schema:
+            type: string
+            enum:
+              - development
+              - preview
+              - production
+      operationId: list-secrets
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    enum:
+                      - true
+                  secrets:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        key:
+                          type: string
+                          description: Environment variable name
+                        environments:
+                          type: array
+                          items:
+                            type: string
+                            enum:
+                              - development
+                              - preview
+                              - production
+                          minItems: 1
+                          description: Environments where this secret is set
+                        id:
+                          type: string
+                          description: Environment variable ID
+                      required:
+                        - key
+                        - environments
+                        - id
+                required:
+                  - success
+                  - secrets
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      security:
+        - ApiKeyAuth: []
+      externalDocs:
+        url: https://docs.neynar.com/reference/list-secrets
+    delete:
+      description: Deletes environment variables (secrets) from a deployment.
+      summary: Delete deployment secrets
+      tags:
+        - studio
+      operationId: delete-secrets
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                deployment_id:
+                  type: string
+                  format: uuid
+                  description: Deployment ID to delete secrets from
+                ids:
+                  type: array
+                  items:
+                    type: string
+                  minItems: 1
+                  description: Secret IDs to delete
+              required:
+                - deployment_id
+                - ids
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    enum:
+                      - true
+                required:
+                  - success
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      security:
+        - ApiKeyAuth: []
+      externalDocs:
+        url: https://docs.neynar.com/reference/delete-secrets
   /v2/studio/deployment/:
     post:
       description: Creates and deploys an instance of the miniapp generator for a user. Requires authentication via API key in the request header.
