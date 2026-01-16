@@ -11,8 +11,8 @@ on:
 jobs:
   update-docs:
     runs-on: ubuntu-latest
-    # Only run if the NodeJS SDK workflow completed successfully
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    # Run regardless of NodeJS SDK workflow outcome (success or failure)
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event.workflow_run.conclusion != 'failure' }}
     steps:
       - name: Dump GitHub context # Makes it much easier to retrospectively debug all sorts of workflow issues. Does NOT expose secrets.
         env:
@@ -79,4 +79,6 @@ jobs:
 
           # Push changes directly to main
           git push origin main
+          
+          echo "Successfully pushed documentation updates to docs repository"
         shell: bash
