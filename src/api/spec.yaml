@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.122.0
+  version: 3.123.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -8542,7 +8542,7 @@ paths:
         url: https://docs.neynar.com/reference/stop-app
   /v2/studio/deployment/dev-status:
     get:
-      description: Retrieves the dev-status.json file from a miniapp deployment, which tracks the progress of app development phases. Requires Studio admin authentication or FID ownership validation.
+      description: Retrieves the dev-status.json file from a miniapp deployment, which tracks the progress of app development phases. Requires API key authentication.
       summary: Get dev status of a miniapp
       tags:
         - studio
@@ -8553,16 +8553,6 @@ paths:
           schema:
             type: string
             format: uuid
-        - name: fid
-          in: query
-          description: Farcaster ID of the user. Required for non-admin users to verify ownership.
-          schema:
-            type: integer
-            minimum: 0
-            nullable: true
-            example: 3
-            title: Fid
-            format: int32
         - name: namespace
           in: query
           description: Kubernetes namespace name
@@ -8635,17 +8625,6 @@ paths:
                     additionalProperties: true
         '400':
           description: Bad Request
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                required:
-                  - error
-        '403':
-          description: Forbidden
           content:
             application/json:
               schema:
