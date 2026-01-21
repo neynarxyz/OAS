@@ -4,6 +4,14 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: 'Reason for manual trigger'
+        required: false
+        default: 'Manual trigger'
+  repository_dispatch:
+    types: [oas-updated]
 
 jobs:
   update-sdk:
