@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.123.0
+  version: 3.124.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -7683,6 +7683,87 @@ paths:
         - ApiKeyAuth: []
       externalDocs:
         url: https://docs.neynar.com/reference/associate-deployment
+    get:
+      description: Retrieves the account-association.json file from a miniapp deployment, which contains the JFS-signed domain association. Requires API key authentication.
+      summary: Get account association of a miniapp
+      tags:
+        - studio
+      parameters:
+        - name: deployment_id
+          in: query
+          description: Deployment ID
+          schema:
+            type: string
+            format: uuid
+        - name: namespace
+          in: query
+          description: Kubernetes namespace name
+          schema:
+            type: string
+        - name: name
+          in: query
+          description: Kubernetes deployment name
+          schema:
+            type: string
+      operationId: get-account-association
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  header:
+                    type: string
+                    description: Base64URL encoded JFS header
+                  payload:
+                    type: string
+                    description: Base64URL encoded JFS payload
+                  signature:
+                    type: string
+                    description: Base64URL encoded JFS signature
+                required:
+                  - header
+                  - payload
+                  - signature
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+      security:
+        - ApiKeyAuth: []
+      externalDocs:
+        url: https://docs.neynar.com/reference/get-account-association
   /v2/studio/deployment/upload-image:
     post:
       description: Uploads an image file to the generated miniapp public folder. The image will be accessible as a static asset on the deployed miniapp. Requires API key authentication.
