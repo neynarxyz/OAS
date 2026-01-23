@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.124.0
+  version: 3.125.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -7996,12 +7996,22 @@ paths:
                         admin:
                           type: boolean
                           description: Whether the conversation is an admin conversation
+                        title:
+                          type: string
+                          description: AI-generated title summarizing the conversation topic
+                          nullable: true
+                        last_message_preview:
+                          type: string
+                          description: Preview of the last user message (truncated to ~80 chars)
+                          nullable: true
                       required:
                         - id
                         - created_at
                         - updated_at
                         - deployment_id
                         - admin
+                        - title
+                        - last_message_preview
                     description: List of conversations
                 required:
                   - conversations
