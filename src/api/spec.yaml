@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.127.0
+  version: 3.128.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -6746,20 +6746,9 @@ paths:
                       value:
                         type: string
                         description: Environment variable value
-                      environments:
-                        type: array
-                        items:
-                          type: string
-                          enum:
-                            - development
-                            - preview
-                            - production
-                        minItems: 1
-                        description: Environments where this secret is set
                     required:
                       - key
                       - value
-                      - environments
                   minItems: 1
                   description: Secrets to create
               required:
@@ -6780,6 +6769,12 @@ paths:
                       - true
                 required:
                   - success
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
         '404':
           description: Resource not found
           content:
@@ -6814,15 +6809,6 @@ paths:
           description: Optional filter by environment variable name
           schema:
             type: string
-        - name: environment
-          in: query
-          description: Optional filter by target environment
-          schema:
-            type: string
-            enum:
-              - development
-              - preview
-              - production
       operationId: list-secrets
       responses:
         '200':
@@ -6844,22 +6830,11 @@ paths:
                         key:
                           type: string
                           description: Environment variable name
-                        environments:
-                          type: array
-                          items:
-                            type: string
-                            enum:
-                              - development
-                              - preview
-                              - production
-                          minItems: 1
-                          description: Environments where this secret is set
                         id:
                           type: string
                           description: Environment variable ID
                       required:
                         - key
-                        - environments
                         - id
                 required:
                   - success
