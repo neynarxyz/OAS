@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.129.0
+  version: 3.130.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -6718,6 +6718,952 @@ paths:
                 $ref: '#/components/schemas/ErrorRes'
       externalDocs:
         url: https://docs.neynar.com/reference/fetch-subscription-check
+  /v2/studio/deployment/database/tables:
+    get:
+      description: Lists all tables and views in the deployment database, excluding system tables.
+      summary: List all tables in deployment database
+      tags:
+        - studio
+      parameters:
+        - name: deployment_id
+          in: query
+          description: Deployment ID (UUID)
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: fid
+          in: query
+          description: Farcaster ID of the user. Required for non-admin users.
+          schema:
+            type: integer
+            minimum: 0
+            nullable: true
+            example: 3
+            title: Fid
+            format: int32
+      operationId: list-tables
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tables:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: Table name
+                        schema:
+                          type: string
+                          description: Schema name
+                        type:
+                          type: string
+                          enum:
+                            - BASE TABLE
+                            - VIEW
+                          description: Table type
+                        rowCountEstimate:
+                          type: number
+                          description: Estimated row count from statistics
+                          nullable: true
+                      required:
+                        - name
+                        - schema
+                        - type
+                        - rowCountEstimate
+                    description: List of tables
+                required:
+                  - tables
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  code:
+                    type: string
+                required:
+                  - error
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  code:
+                    type: string
+                required:
+                  - error
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  code:
+                    type: string
+                required:
+                  - error
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  code:
+                    type: string
+                required:
+                  - error
+      security:
+        - ApiKeyAuth: []
+      externalDocs:
+        url: https://docs.neynar.com/reference/list-tables
+  /v2/studio/deployment/database/tables/{table_name}/schema:
+    get:
+      description: Retrieves the complete schema for a table including columns, indexes, and foreign keys.
+      summary: Get table schema
+      tags:
+        - studio
+      parameters:
+        - name: table_name
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: deployment_id
+          in: query
+          description: Deployment ID (UUID)
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: fid
+          in: query
+          description: Farcaster ID of the user. Required for non-admin users.
+          schema:
+            type: integer
+            minimum: 0
+            nullable: true
+            example: 3
+            title: Fid
+            format: int32
+      operationId: get-table-schema
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tableName:
+                    type: string
+                    description: Table name
+                  columns:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: Column name
+                        type:
+                          type: string
+                          description: Column data type
+                        nullable:
+                          type: boolean
+                          description: Whether the column allows NULL values
+                        defaultValue:
+                          type: string
+                          description: Default value expression
+                          nullable: true
+                        isPrimaryKey:
+                          type: boolean
+                          description: Whether the column is part of primary key
+                        position:
+                          type: number
+                          description: Ordinal position in table
+                      required:
+                        - name
+                        - type
+                        - nullable
+                        - defaultValue
+                        - isPrimaryKey
+                        - position
+                    description: Table columns
+                  indexes:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: Index name
+                        columns:
+                          type: array
+                          items:
+                            type: string
+                          description: Columns in the index
+                        isUnique:
+                          type: boolean
+                          description: Whether the index enforces uniqueness
+                        isPrimary:
+                          type: boolean
+                          description: Whether this is the primary key index
+                      required:
+                        - name
+                        - columns
+                        - isUnique
+                        - isPrimary
+                    description: Table indexes
+                  foreignKeys:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        constraintName:
+                          type: string
+                          description: Constraint name
+                        columnName:
+                          type: string
+                          description: Local column name
+                        referencedTable:
+                          type: string
+                          description: Referenced table name
+                        referencedColumn:
+                          type: string
+                          description: Referenced column name
+                      required:
+                        - constraintName
+                        - columnName
+                        - referencedTable
+                        - referencedColumn
+                    description: Foreign key relationships
+                  primaryKeyColumns:
+                    type: array
+                    items:
+                      type: string
+                    description: Primary key column names
+                required:
+                  - tableName
+                  - columns
+                  - indexes
+                  - foreignKeys
+                  - primaryKeyColumns
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  code:
+                    type: string
+                required:
+                  - error
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  code:
+                    type: string
+                required:
+                  - error
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  code:
+                    type: string
+                required:
+                  - error
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  code:
+                    type: string
+                required:
+                  - error
+      security:
+        - ApiKeyAuth: []
+      externalDocs:
+        url: https://docs.neynar.com/reference/get-table-schema
+  /v2/studio/deployment/database/query:
+    post:
+      description: Query data from a table with pagination and sorting.
+      summary: Query table data
+      tags:
+        - studio
+      operationId: query-table
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                deployment_id:
+                  type: string
+                  format: uuid
+                  description: Deployment ID (UUID)
+                fid:
+                  type: integer
+                  minimum: 0
+                  description: Farcaster ID of the user. Required for non-admin users.
+                  example: 3
+                  title: Fid
+                  format: int32
+                table:
+                  type: string
+                  minLength: 1
+                  description: Table name to query
+                columns:
+                  type: array
+                  items:
+                    type: string
+                  description: Columns to select (defaults to all)
+                limit:
+                  type: number
+                  minimum: 1
+                  maximum: 1000
+                  description: 'Maximum rows to return (default: 100, max: 1000)'
+                offset:
+                  type: number
+                  minimum: 0
+                  description: Number of rows to skip
+                orderBy:
+                  type: string
+                  description: Column to sort by
+                orderDirection:
+                  type: string
+                  enum:
+                    - asc
+                    - desc
+                  description: Sort direction
+              required:
+                - deployment_id
+                - table
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  columns:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: Column name
+                        type:
+                          type: string
+                          description: Column data type
+                      required:
+                        - name
+                        - type
+                    description: Column metadata
+                  rows:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties:
+                        nullable: true
+                    description: Query result rows
+                  totalCount:
+                    type: number
+                    description: Total number of rows in table
+                  limit:
+                    type: number
+                    description: Applied limit
+                  offset:
+                    type: number
+                    description: Applied offset
+                  hasMore:
+                    type: boolean
+                    description: Whether more rows are available
+                required:
+                  - columns
+                  - rows
+                  - totalCount
+                  - limit
+                  - offset
+                  - hasMore
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  code:
+                    type: string
+                required:
+                  - error
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  code:
+                    type: string
+                required:
+                  - error
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  code:
+                    type: string
+                required:
+                  - error
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  code:
+                    type: string
+                required:
+                  - error
+      security:
+        - ApiKeyAuth: []
+      externalDocs:
+        url: https://docs.neynar.com/reference/query-table
+  /v2/studio/deployment/database/sql:
+    post:
+      description: Executes a raw SQL query against the deployment database. Only SELECT, WITH, and EXPLAIN queries are allowed. Admin access required.
+      summary: Execute raw SQL query (admin only)
+      tags:
+        - studio
+      operationId: execute-sql
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                deployment_id:
+                  type: string
+                  format: uuid
+                  description: Deployment ID (UUID)
+                fid:
+                  type: integer
+                  minimum: 0
+                  description: Farcaster ID (optional for admins)
+                  example: 3
+                  title: Fid
+                  format: int32
+                sql:
+                  type: string
+                  minLength: 1
+                  maxLength: 10000
+                  description: SQL query to execute
+              required:
+                - deployment_id
+                - sql
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  columns:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: Column name
+                        type:
+                          type: string
+                          description: Column data type
+                      required:
+                        - name
+                        - type
+                    description: Column metadata
+                  rows:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties:
+                        nullable: true
+                    description: Query result rows
+                  rowCount:
+                    type: number
+                    description: Number of rows returned
+                  executionTimeMs:
+                    type: number
+                    description: Query execution time in milliseconds
+                required:
+                  - columns
+                  - rows
+                  - rowCount
+                  - executionTimeMs
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  code:
+                    type: string
+                required:
+                  - error
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  code:
+                    type: string
+                required:
+                  - error
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  code:
+                    type: string
+                required:
+                  - error
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  code:
+                    type: string
+                required:
+                  - error
+      security:
+        - ApiKeyAuth: []
+      externalDocs:
+        url: https://docs.neynar.com/reference/execute-sql
+  /v2/studio/deployment/database/tables/{table_name}/rows:
+    post:
+      description: Inserts one or more rows into the specified table. Returns the inserted rows with generated values.
+      summary: Insert rows into table
+      tags:
+        - studio
+      parameters:
+        - name: table_name
+          in: path
+          required: true
+          schema:
+            type: string
+      operationId: insert-rows
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                deployment_id:
+                  type: string
+                  format: uuid
+                  description: Deployment ID (UUID)
+                fid:
+                  type: integer
+                  minimum: 0
+                  description: Farcaster ID of the user. Required for non-admin users.
+                  example: 3
+                  title: Fid
+                  format: int32
+                rows:
+                  type: array
+                  items:
+                    type: object
+                    additionalProperties:
+                      nullable: true
+                  minItems: 1
+                  maxItems: 100
+                  description: Rows to insert (max 100)
+              required:
+                - deployment_id
+                - rows
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  insertedCount:
+                    type: number
+                    description: Number of rows inserted
+                  rows:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties:
+                        nullable: true
+                    description: Inserted rows with generated values
+                required:
+                  - insertedCount
+                  - rows
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  code:
+                    type: string
+                required:
+                  - error
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  code:
+                    type: string
+                required:
+                  - error
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  code:
+                    type: string
+                required:
+                  - error
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  code:
+                    type: string
+                required:
+                  - error
+      security:
+        - ApiKeyAuth: []
+      externalDocs:
+        url: https://docs.neynar.com/reference/insert-rows
+    patch:
+      description: Updates rows matching the WHERE conditions. WHERE clause is required to prevent accidental bulk updates.
+      summary: Update rows in table
+      tags:
+        - studio
+      parameters:
+        - name: table_name
+          in: path
+          required: true
+          schema:
+            type: string
+      operationId: update-rows
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                deployment_id:
+                  type: string
+                  format: uuid
+                  description: Deployment ID (UUID)
+                fid:
+                  type: integer
+                  minimum: 0
+                  description: Farcaster ID of the user. Required for non-admin users.
+                  example: 3
+                  title: Fid
+                  format: int32
+                set:
+                  type: object
+                  additionalProperties:
+                    nullable: true
+                  description: Column values to update
+                where:
+                  type: object
+                  additionalProperties:
+                    nullable: true
+                  description: WHERE conditions (equality only, required)
+                limit:
+                  type: number
+                  minimum: 1
+                  maximum: 1000
+                  description: 'Maximum rows to update (default: 1000)'
+              required:
+                - deployment_id
+                - set
+                - where
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  updatedCount:
+                    type: number
+                    description: Number of rows updated
+                required:
+                  - updatedCount
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  code:
+                    type: string
+                required:
+                  - error
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  code:
+                    type: string
+                required:
+                  - error
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  code:
+                    type: string
+                required:
+                  - error
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  code:
+                    type: string
+                required:
+                  - error
+      security:
+        - ApiKeyAuth: []
+      externalDocs:
+        url: https://docs.neynar.com/reference/update-rows
+    delete:
+      description: Deletes rows matching the WHERE conditions. WHERE clause is required to prevent accidental bulk deletes.
+      summary: Delete rows from table
+      tags:
+        - studio
+      parameters:
+        - name: table_name
+          in: path
+          required: true
+          schema:
+            type: string
+      operationId: delete-rows
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                deployment_id:
+                  type: string
+                  format: uuid
+                  description: Deployment ID (UUID)
+                fid:
+                  type: integer
+                  minimum: 0
+                  description: Farcaster ID of the user. Required for non-admin users.
+                  example: 3
+                  title: Fid
+                  format: int32
+                where:
+                  type: object
+                  additionalProperties:
+                    nullable: true
+                  description: WHERE conditions (equality only, required)
+                limit:
+                  type: number
+                  minimum: 1
+                  maximum: 1000
+                  description: 'Maximum rows to delete (default: 1000)'
+              required:
+                - deployment_id
+                - where
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deletedCount:
+                    type: number
+                    description: Number of rows deleted
+                required:
+                  - deletedCount
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  code:
+                    type: string
+                required:
+                  - error
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  code:
+                    type: string
+                required:
+                  - error
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  code:
+                    type: string
+                required:
+                  - error
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  code:
+                    type: string
+                required:
+                  - error
+      security:
+        - ApiKeyAuth: []
+      externalDocs:
+        url: https://docs.neynar.com/reference/delete-rows
   /v2/studio/deployment/secrets/:
     post:
       description: Upsert secrets for a deployment.
