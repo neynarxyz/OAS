@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.130.0
+  version: 3.131.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -7865,7 +7865,7 @@ paths:
         url: https://docs.neynar.com/reference/delete-secrets
   /v2/studio/deployment/:
     post:
-      description: Creates and deploys an instance of the miniapp generator for a user. Requires authentication via API key in the request header.
+      description: 'Creates and deploys an instance of the miniapp generator for a user. Requires authentication via API key in the request header. Note: Studio CU is tracked based on LLM token usage, not per API call.'
       summary: Create a miniapp generator deployment
       tags:
         - studio
@@ -8002,7 +8002,7 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/create-deployment
     get:
-      description: Lists all miniapp generator deployments for a user. Requires API key authentication.
+      description: 'Lists all miniapp generator deployments for a user. Requires API key authentication. Note: Studio CU is tracked based on LLM token usage, not per API call.'
       summary: List deployments
       tags:
         - studio
@@ -8166,7 +8166,7 @@ paths:
       externalDocs:
         url: https://docs.neynar.com/reference/list-deployments
     delete:
-      description: Deletes a specific miniapp generator deployment or all deployments for a FID. If deployment_id or name is provided, deletes single deployment. If only FID is provided, deletes all deployments for that FID. Requires API key authentication.
+      description: 'Deletes a specific miniapp generator deployment or all deployments for a FID. If deployment_id or name is provided, deletes single deployment. If only FID is provided, deletes all deployments for that FID. Requires API key authentication. Note: Studio CU is tracked based on LLM token usage, not per API call.'
       summary: Delete deployment(s)
       tags:
         - studio
@@ -8247,7 +8247,7 @@ paths:
         url: https://docs.neynar.com/reference/delete-deployment
   /v2/studio/deployment/prompt/stream:
     post:
-      description: Sends a prompt to a specific miniapp generator deployment and returns a streaming response using Server-Sent Events. The response is a continuous stream of Server-Sent Events, not a single JSON payload. Each event contains a JSON object with type, message, and other fields specific to the message type. Requires authentication via API key in the request header.
+      description: 'Sends a prompt to a specific miniapp generator deployment and returns a streaming response using Server-Sent Events. The response is a continuous stream of Server-Sent Events, not a single JSON payload. Each event contains a JSON object with type, message, and other fields specific to the message type. Requires authentication via API key in the request header. Note: Studio CU is tracked based on LLM token usage, not per API call.'
       summary: Prompt a deployment with streaming response
       tags:
         - studio
@@ -8348,7 +8348,7 @@ paths:
         url: https://docs.neynar.com/reference/prompt-deployment-stream
   /v2/studio/deployment/by-name-and-fid:
     get:
-      description: Fetches info about a miniapp generator deployment by its deployment_id or name and creator's Farcaster ID. Requires API key authentication.
+      description: "Fetches info about a miniapp generator deployment by its deployment_id or name and creator's Farcaster ID. Requires API key authentication. Note: Studio CU is tracked based on LLM token usage, not per API call."
       summary: Get deployment info
       tags:
         - studio
@@ -8503,7 +8503,7 @@ paths:
         url: https://docs.neynar.com/reference/get-deployment
   /v2/studio/deployment/account-association:
     post:
-      description: Associates a generated miniapp with a Farcaster account using a JFS-signed domain association. Requires API key authentication.
+      description: 'Associates a generated miniapp with a Farcaster account using a JFS-signed domain association. Requires API key authentication. Note: Studio CU is tracked based on LLM token usage, not per API call.'
       summary: Set account association
       tags:
         - studio
@@ -8687,7 +8687,7 @@ paths:
         url: https://docs.neynar.com/reference/get-account-association
   /v2/studio/deployment/upload-image:
     post:
-      description: Uploads an image file to the generated miniapp public folder. The image will be accessible as a static asset on the deployed miniapp. Requires API key authentication.
+      description: 'Uploads an image file to the generated miniapp public folder. The image will be accessible as a static asset on the deployed miniapp. Requires API key authentication. Note: Studio CU is tracked based on LLM token usage, not per API call.'
       summary: Upload image to deployment
       tags:
         - studio
@@ -8754,7 +8754,7 @@ paths:
         url: https://docs.neynar.com/reference/upload-image
   /v2/studio/deployment/upload-image-url:
     post:
-      description: Downloads an image from the provided URL and saves it to the generated miniapp public folder. The image will be accessible as a static asset on the deployed miniapp. Requires API key authentication.
+      description: 'Downloads an image from the provided URL and saves it to the generated miniapp public folder. The image will be accessible as a static asset on the deployed miniapp. Requires API key authentication. Note: Studio CU is tracked based on LLM token usage, not per API call.'
       summary: Upload image from URL to deployment
       tags:
         - studio
@@ -8851,7 +8851,7 @@ paths:
         url: https://docs.neynar.com/reference/upload-image-url
   /v2/studio/deployment/conversations:
     get:
-      description: Lists all conversations for a specific deployment. Requires API key authentication.
+      description: 'Lists all conversations for a specific deployment. Requires API key authentication. Note: Studio CU is tracked based on LLM token usage, not per API call.'
       summary: List conversations for a deployment
       tags:
         - studio
@@ -8986,7 +8986,7 @@ paths:
         url: https://docs.neynar.com/reference/list-conversations
   /v2/studio/deployment/conversations/messages:
     get:
-      description: Retrieves all messages in a specific conversation. Requires API key authentication.
+      description: 'Retrieves all messages in a specific conversation. Requires API key authentication. Note: Studio CU is tracked based on LLM token usage, not per API call.'
       summary: Get messages in a conversation
       tags:
         - studio
@@ -9132,7 +9132,7 @@ paths:
         url: https://docs.neynar.com/reference/get-conversation-messages
   /v2/studio/deployment/files:
     get:
-      description: Lists files in a directory of the generated app. Requires Studio admin authentication or FID ownership validation.
+      description: 'Lists files in a directory of the generated app. Requires Studio admin authentication or FID ownership validation. Note: Studio CU is tracked based on LLM token usage, not per API call.'
       summary: List deployment files
       tags:
         - studio
@@ -9248,7 +9248,7 @@ paths:
         url: https://docs.neynar.com/reference/list-deployment-files
   /v2/studio/deployment/file:
     get:
-      description: Retrieves the contents of a specific file from the generated app. Requires Studio admin authentication or FID ownership validation.
+      description: 'Retrieves the contents of a specific file from the generated app. Requires Studio admin authentication or FID ownership validation. Note: Studio CU is tracked based on LLM token usage, not per API call.'
       summary: Get deployment file contents
       tags:
         - studio
@@ -9353,7 +9353,7 @@ paths:
         url: https://docs.neynar.com/reference/get-deployment-file
   /v2/studio/deployment/start:
     post:
-      description: Starts the Next.js development server for the generated miniapp. Requires Studio admin authentication.
+      description: 'Starts the Next.js development server for the generated miniapp. Requires Studio admin authentication. Note: Studio CU is tracked based on LLM token usage, not per API call.'
       summary: Start generated miniapp
       tags:
         - studio
@@ -9459,7 +9459,7 @@ paths:
         url: https://docs.neynar.com/reference/start-app
   /v2/studio/deployment/stop:
     post:
-      description: Stops the Next.js development server for the generated miniapp. Requires Studio admin authentication.
+      description: 'Stops the Next.js development server for the generated miniapp. Requires Studio admin authentication. Note: Studio CU is tracked based on LLM token usage, not per API call.'
       summary: Stop generated miniapp
       tags:
         - studio
@@ -9554,7 +9554,7 @@ paths:
         url: https://docs.neynar.com/reference/stop-app
   /v2/studio/deployment/dev-status:
     get:
-      description: Retrieves the dev-status.json file from a miniapp deployment, which tracks the progress of app development phases. Requires API key authentication.
+      description: 'Retrieves the dev-status.json file from a miniapp deployment, which tracks the progress of app development phases. Requires API key authentication. Note: Studio CU is tracked based on LLM token usage, not per API call.'
       summary: Get dev status of a miniapp
       tags:
         - studio
@@ -9674,7 +9674,7 @@ paths:
         url: https://docs.neynar.com/reference/get-dev-status
   /v2/studio/deployment/build:
     post:
-      description: Runs Next.js build process for the generated app. If build fails, automatically calls a build-fixer agent to resolve errors. Streams build output and agent responses via Server-Sent Events. Requires API key authentication.
+      description: 'Runs Next.js build process for the generated app. If build fails, automatically calls a build-fixer agent to resolve errors. Streams build output and agent responses via Server-Sent Events. Requires API key authentication. Note: Studio CU is tracked based on LLM token usage, not per API call.'
       summary: Build generated app with automatic error fixing
       tags:
         - studio
@@ -9738,7 +9738,7 @@ paths:
         url: https://docs.neynar.com/reference/build
   /v2/studio/vercel/:
     post:
-      description: Publishes the generated miniapp to Vercel via GitHub. Creates a GitHub repository, pushes code, creates a Vercel project linked to GitHub, and triggers deployment. Requires API key authentication.
+      description: 'Publishes the generated miniapp to Vercel via GitHub. Creates a GitHub repository, pushes code, creates a Vercel project linked to GitHub, and triggers deployment. Requires API key authentication. Note: Studio CU is tracked based on LLM token usage, not per API call.'
       summary: Deploy miniapp to Vercel
       tags:
         - studio
@@ -9848,7 +9848,7 @@ paths:
         url: https://docs.neynar.com/reference/deploy-to-vercel
   /v2/studio/vercel/status:
     get:
-      description: Retrieves the status of a Vercel deployment for a miniapp. Looks up the Vercel project ID from the deployment and queries Vercel API for deployment status. Requires API key authentication.
+      description: 'Retrieves the status of a Vercel deployment for a miniapp. Looks up the Vercel project ID from the deployment and queries Vercel API for deployment status. Requires API key authentication. Note: Studio CU is tracked based on LLM token usage, not per API call.'
       summary: Get Vercel deployment status
       tags:
         - studio
@@ -9959,7 +9959,7 @@ paths:
         url: https://docs.neynar.com/reference/vercel-deployment-status
   /v2/studio/vercel/logs:
     get:
-      description: Retrieves the build logs for a Vercel deployment. Useful for debugging failed deployments. Requires Studio admin authentication.
+      description: 'Retrieves the build logs for a Vercel deployment. Useful for debugging failed deployments. Requires Studio admin authentication. Note: Studio CU is tracked based on LLM token usage, not per API call.'
       summary: Get Vercel deployment build logs
       tags:
         - studio
