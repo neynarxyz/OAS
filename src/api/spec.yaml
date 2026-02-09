@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.132.0
+  version: 3.133.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -4378,26 +4378,42 @@ paths:
                 recipients:
                   type: array
                   items:
-                    type: object
-                    properties:
-                      address:
-                        type: string
-                        pattern: ^0x[a-fA-F0-9]{40}$
-                        example: '0x5a927ac639636e534b678e81768ca19e2c6280b7'
-                        description: Ethereum address
-                        title: EthAddress
-                      fid:
-                        type: integer
-                        minimum: 0
-                        description: The unique identifier of a farcaster user or app (unsigned integer)
-                        example: 3
-                        title: Fid
-                        format: int32
-                      quantity:
-                        type: integer
-                        minimum: 1
-                        description: Quantity to mint (must be at least 1).
-                        example: 1
+                    oneOf:
+                      - type: object
+                        properties:
+                          address:
+                            type: string
+                            pattern: ^0x[a-fA-F0-9]{40}$
+                            example: '0x5a927ac639636e534b678e81768ca19e2c6280b7'
+                            description: Ethereum address
+                            title: EthAddress
+                          fid: {}
+                          quantity:
+                            default: 1
+                            type: integer
+                            minimum: 1
+                            description: Quantity to mint (must be at least 1). Defaults to 1.
+                            example: 1
+                        required:
+                          - address
+                      - type: object
+                        properties:
+                          address: {}
+                          fid:
+                            type: integer
+                            minimum: 0
+                            description: The unique identifier of a farcaster user or app (unsigned integer)
+                            example: 3
+                            title: Fid
+                            format: int32
+                          quantity:
+                            default: 1
+                            type: integer
+                            minimum: 1
+                            description: Quantity to mint (must be at least 1). Defaults to 1.
+                            example: 1
+                        required:
+                          - fid
                     description: NFT mint recipient. Exactly one of "address" or "fid" must be set.
                   minItems: 1
                   maxItems: 200
@@ -4423,42 +4439,68 @@ paths:
                   transactions:
                     type: array
                     items:
-                      type: object
-                      properties:
-                        recipient:
-                          type: object
+                      oneOf:
+                        - type: object
                           properties:
-                            address:
-                              $ref: '#/components/schemas/EthAddress'
-                            fid:
-                              $ref: '#/components/schemas/Fid'
-                            quantity:
-                              type: integer
-                              minimum: 1
-                              description: Quantity to mint (must be at least 1).
-                              example: 1
-                          description: NFT mint recipient. Exactly one of "address" or "fid" must be set.
-                        transaction_hash:
-                          $ref: '#/components/schemas/PrefixedHexString'
-                        receipt:
-                          type: object
-                          properties:
-                            status:
-                              type: string
-                            gas_used:
-                              type: string
-                            block_number:
-                              type: string
+                            recipient:
+                              type: object
+                              properties:
+                                address:
+                                  $ref: '#/components/schemas/EthAddress'
+                                quantity:
+                                  type: integer
+                                  minimum: 1
+                                fid:
+                                  $ref: '#/components/schemas/Fid'
+                              required:
+                                - address
+                                - quantity
+                              description: Resolved mint recipient.
+                            transaction_hash:
+                              $ref: '#/components/schemas/PrefixedHexString'
+                            receipt:
+                              type: object
+                              properties:
+                                status:
+                                  type: string
+                                gas_used:
+                                  type: string
+                                block_number:
+                                  type: string
+                              required:
+                                - status
+                                - gas_used
+                                - block_number
+                              nullable: true
+                              description: Transaction receipt (if async is false).
                           required:
-                            - status
-                            - gas_used
-                            - block_number
-                          nullable: true
-                          description: Transaction receipt (if async is false).
-                      required:
-                        - recipient
-                        - transaction_hash
-                    description: Array of mint transaction results.
+                            - recipient
+                            - transaction_hash
+                          description: Successful mint transaction.
+                        - type: object
+                          properties:
+                            recipient:
+                              type: object
+                              properties:
+                                address:
+                                  $ref: '#/components/schemas/EthAddress'
+                                quantity:
+                                  type: integer
+                                  minimum: 1
+                                fid:
+                                  $ref: '#/components/schemas/Fid'
+                              required:
+                                - quantity
+                              description: Mint recipient that failed.
+                            error:
+                              type: string
+                              description: Error message for this recipient.
+                              example: No supported mint project detected
+                          required:
+                            - recipient
+                            - error
+                          description: Failed mint for a single recipient.
+                    description: Array of per-recipient mint results (success or error).
                 required:
                   - transactions
                 description: Response for NFT minting operation.
@@ -4539,6 +4581,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ZodError'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
         '500':
           description: Server Error
           content:
@@ -13480,9 +13528,9 @@ components:
             - optimism
             - base-sepolia
         fungible_contract_address:
+          description: Contract address of the fungible token to send. If not provided, the default is the native token of the network.
           type: string
           pattern: ^0x[a-fA-F0-9]{40}$
-          description: Contract address of the fungible token to send. If not provided, the default is the native token of the network.
           example: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913'
         recipients:
           type: array
@@ -13733,17 +13781,33 @@ components:
         type: object
         properties:
           recipient:
-            type: object
-            properties:
-              address:
-                $ref: '#/components/schemas/EthAddress'
-              fid:
-                $ref: '#/components/schemas/Fid'
-              quantity:
-                type: integer
-                minimum: 1
-                description: Quantity to mint (must be at least 1).
-                example: 1
+            oneOf:
+              - type: object
+                properties:
+                  address:
+                    $ref: '#/components/schemas/EthAddress'
+                  fid: {}
+                  quantity:
+                    default: 1
+                    type: integer
+                    minimum: 1
+                    description: Quantity to mint (must be at least 1). Defaults to 1.
+                    example: 1
+                required:
+                  - address
+              - type: object
+                properties:
+                  address: {}
+                  fid:
+                    $ref: '#/components/schemas/Fid'
+                  quantity:
+                    default: 1
+                    type: integer
+                    minimum: 1
+                    description: Quantity to mint (must be at least 1). Defaults to 1.
+                    example: 1
+                required:
+                  - fid
             description: NFT mint recipient. Exactly one of "address" or "fid" must be set.
           function_name:
             type: string
@@ -14296,9 +14360,9 @@ components:
                 pattern: ^0x[a-fA-F0-9]+$
                 description: Call data payload (hex-encoded)
               target:
+                description: Must be on the allowed contract allowlist. Contact support for more details.
                 type: string
                 pattern: ^0x[a-fA-F0-9]{40}$
-                description: Must be on the allowed contract allowlist. Contact support for more details.
                 example: '0x5a927ac639636e534b678e81768ca19e2c6280b7'
               value:
                 default: 0
@@ -14983,9 +15047,9 @@ components:
           type: string
           description: Requires pro subscription.
         primary_eth_address:
+          description: Must be one of the verified addresses.
           type: string
           pattern: ^0x[a-fA-F0-9]{40}$
-          description: Must be one of the verified addresses.
         primary_sol_address:
           type: string
           pattern: ^[1-9A-HJ-NP-Za-km-z]{32,44}$
