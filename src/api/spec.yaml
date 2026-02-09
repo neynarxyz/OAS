@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.131.0
+  version: 3.132.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -4179,6 +4179,173 @@ paths:
                 $ref: '#/components/schemas/ErrorRes'
       externalDocs:
         url: https://docs.neynar.com/reference/delete-mute
+  /v2/farcaster/nft/deploy/erc721/:
+    post:
+      description: Deploy a new ERC-721A (series) NFT collection.
+      summary: Deploy ERC-721 collection
+      tags:
+        - Onchain
+      parameters:
+        - $ref: '#/components/parameters/WalletIdHeader'
+      operationId: deploy-erc721
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                network:
+                  type: string
+                  enum:
+                    - base
+                    - optimism
+                    - base-sepolia
+                  description: Network to mint on.
+                  example: base
+                name:
+                  type: string
+                  minLength: 1
+                  maxLength: 255
+                symbol:
+                  type: string
+                  minLength: 1
+                  maxLength: 32
+                base_uri:
+                  type: string
+                  minLength: 1
+                  description: Base URI for token metadata
+                mint_config:
+                  type: object
+                  properties:
+                    price_per_token:
+                      default: '0'
+                      type: string
+                      pattern: ^\d{1,57}$
+                      description: Price per token in wei (0 = free mint)
+                    max_per_wallet:
+                      default: 0
+                      type: integer
+                      minimum: 0
+                      maximum: 281474976710655
+                      description: Max tokens per wallet (0 = unlimited)
+                    max_per_tx:
+                      default: 0
+                      type: integer
+                      minimum: 0
+                      maximum: 281474976710655
+                      description: Max tokens per transaction (0 = unlimited)
+                    start_timestamp:
+                      type: integer
+                      minimum: 0
+                      maximum: 281474976710655
+                      description: Unix timestamp (defaults to current time)
+                    end_timestamp:
+                      type: integer
+                      minimum: 0
+                      maximum: 281474976710655
+                      description: Unix timestamp (defaults to no end date)
+                collection_config:
+                  type: object
+                  properties:
+                    contract_uri:
+                      type: string
+                      minLength: 1
+                    max_supply:
+                      default: 0
+                      type: integer
+                      minimum: 0
+                      maximum: 281474976710655
+                      description: Max supply (0 = unlimited)
+                    royalty_bps:
+                      default: 0
+                      type: integer
+                      minimum: 0
+                      maximum: 2500
+                      description: Royalty in basis points (500 = 5%, max 2500 = 25%)
+                    royalty_recipient:
+                      type: string
+                      pattern: ^0x[a-fA-F0-9]{40}$
+                      example: '0x5a927ac639636e534b678e81768ca19e2c6280b7'
+                      description: Defaults to creator wallet
+                      title: EthAddress
+              required:
+                - network
+                - name
+                - symbol
+                - base_uri
+        required: true
+      responses:
+        '201':
+          description: '201'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  object:
+                    type: string
+                    enum:
+                      - nft_collection
+                  collection:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        enum:
+                          - ERC721
+                      network:
+                        type: string
+                        enum:
+                          - base
+                          - optimism
+                          - base-sepolia
+                        description: Network to mint on.
+                        example: base
+                      address:
+                        $ref: '#/components/schemas/EthAddress'
+                      name:
+                        type: string
+                      symbol:
+                        type: string
+                      transaction_hash:
+                        type: string
+                        pattern: ^0x[a-fA-F0-9]{64}$
+                    required:
+                      - type
+                      - network
+                      - address
+                      - name
+                      - symbol
+                      - transaction_hash
+                required:
+                  - object
+                  - collection
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      externalDocs:
+        url: https://docs.neynar.com/reference/deploy-erc721
   /v2/farcaster/nft/mint/:
     post:
       description: Mints an NFT to one or more recipients on a specified network and contract, using a configured server wallet. Contact us to set up your wallet configuration if you don't have one.
