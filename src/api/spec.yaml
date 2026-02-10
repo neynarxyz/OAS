@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.133.0
+  version: 3.134.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -3575,7 +3575,7 @@ paths:
       parameters:
         - name: contract_address
           in: query
-          description: Contract address of the fungible asset
+          description: Contract address of the fungible asset (Ethereum or Solana)
           required: true
           schema:
             type: string
@@ -5843,7 +5843,7 @@ paths:
         - $ref: '#/components/parameters/NeynarExperimentalHeader'
         - name: addresses
           in: query
-          description: Comma separated list of Ethereum addresses, up to 350 at a time
+          description: Comma separated list of Ethereum or Solana addresses, up to 350 at a time
           required: true
           schema:
             type: string
@@ -6714,6 +6714,465 @@ paths:
                 $ref: '#/components/schemas/ErrorRes'
       externalDocs:
         url: https://docs.neynar.com/reference/deploy-fungible
+  /v2/onchain/token/metadata:
+    get:
+      description: Fetch metadata for a specific token including price, market data, and basic information. Data is fetched from onchain-indexer with fallback to third-party providers.
+      summary: Get token metadata
+      tags:
+        - Onchain
+      parameters:
+        - name: network
+          in: query
+          description: A blockchain network e.g. "ethereum", "optimism", "base", "arbitrum"
+          required: true
+          schema:
+            type: string
+            enum:
+              - ethereum
+              - optimism
+              - base
+              - arbitrum
+            title: Network
+        - name: address
+          in: query
+          description: Ethereum address
+          required: true
+          schema:
+            type: string
+            pattern: ^0x[a-fA-F0-9]{40}$
+            example: '0x5a927ac639636e534b678e81768ca19e2c6280b7'
+            title: EthAddress
+      operationId: get-token-metadata
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: object
+                    properties:
+                      network:
+                        $ref: '#/components/schemas/Network'
+                      address:
+                        $ref: '#/components/schemas/EthAddress'
+                      name:
+                        type: string
+                        description: Token name
+                        example: USD Coin
+                      symbol:
+                        type: string
+                        description: Token symbol
+                        example: USDC
+                      decimals:
+                        type: integer
+                        description: Token decimals
+                        example: 6
+                      total_supply:
+                        type: string
+                        nullable: true
+                        description: Total token supply
+                        example: '1000000000000'
+                      image_url:
+                        type: string
+                        nullable: true
+                        description: Token logo URL
+                        example: https://example.com/token.png
+                      price_usd:
+                        type: string
+                        nullable: true
+                        description: Token price in USD
+                        example: '1.00'
+                      market_cap:
+                        type: string
+                        nullable: true
+                        description: Market capitalization in USD
+                        example: '25000000000'
+                      fdv:
+                        type: string
+                        nullable: true
+                        description: Fully diluted valuation in USD
+                        example: '25000000000'
+                      liquidity:
+                        type: string
+                        nullable: true
+                        description: Total liquidity in USD
+                        example: '500000000'
+                      volume_6h:
+                        type: string
+                        nullable: true
+                        description: 6-hour trading volume in USD
+                        example: '50000000'
+                      volume_24h:
+                        type: string
+                        nullable: true
+                        description: 24-hour trading volume in USD
+                        example: '150000000'
+                      price_change_6h_pct:
+                        type: number
+                        nullable: true
+                        description: 6-hour price change percentage
+                        example: 0.5
+                      price_change_24h_pct:
+                        type: number
+                        nullable: true
+                        description: 24-hour price change percentage
+                        example: -1.2
+                      holder_count:
+                        type: integer
+                        nullable: true
+                        description: Number of token holders
+                        example: 1500000
+                      description:
+                        type: string
+                        nullable: true
+                        description: Token description
+                        example: USDC is a fully collateralized US dollar stablecoin
+                      price_updated_at:
+                        type: integer
+                        nullable: true
+                        description: Timestamp when price data was last updated (milliseconds)
+                        example: 1707177600000
+                      price_source:
+                        type: string
+                        enum:
+                          - onchain
+                          - coingecko
+                        nullable: true
+                        description: Source of price data
+                        example: onchain
+                    required:
+                      - network
+                      - address
+                      - name
+                      - symbol
+                      - decimals
+                      - total_supply
+                      - image_url
+                      - price_usd
+                      - market_cap
+                      - fdv
+                      - liquidity
+                      - volume_6h
+                      - volume_24h
+                      - price_change_6h_pct
+                      - price_change_24h_pct
+                      - holder_count
+                      - description
+                      - price_updated_at
+                      - price_source
+                required:
+                  - token
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      externalDocs:
+        url: https://docs.neynar.com/reference/get-token-metadata
+  /v2/onchain/token/metadata/batch:
+    get:
+      description: Fetch metadata for multiple tokens in a single request. Provide comma-separated networks and addresses in the same order. Maximum 100 tokens per request.
+      summary: Batch get token metadata
+      tags:
+        - Onchain
+      parameters:
+        - name: networks
+          in: query
+          description: Comma-separated list of blockchain networks. Each value must be a valid network (ethereum, optimism, base, arbitrum).
+          required: true
+          schema:
+            example: base
+            x-comma-separated: true
+            type: string
+        - name: addresses
+          in: query
+          description: Comma-separated list of token contract addresses corresponding to each network
+          required: true
+          schema:
+            example: 0x833589fcd6edb6e08f4c7c32d4f71b54bda02913,0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48
+            x-comma-separated: true
+            type: string
+      operationId: batch-get-token-metadata
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tokens:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        network:
+                          $ref: '#/components/schemas/Network'
+                        address:
+                          $ref: '#/components/schemas/EthAddress'
+                        name:
+                          type: string
+                          description: Token name
+                          example: USD Coin
+                        symbol:
+                          type: string
+                          description: Token symbol
+                          example: USDC
+                        decimals:
+                          type: integer
+                          description: Token decimals
+                          example: 6
+                        total_supply:
+                          type: string
+                          nullable: true
+                          description: Total token supply
+                          example: '1000000000000'
+                        image_url:
+                          type: string
+                          nullable: true
+                          description: Token logo URL
+                          example: https://example.com/token.png
+                        price_usd:
+                          type: string
+                          nullable: true
+                          description: Token price in USD
+                          example: '1.00'
+                        market_cap:
+                          type: string
+                          nullable: true
+                          description: Market capitalization in USD
+                          example: '25000000000'
+                        fdv:
+                          type: string
+                          nullable: true
+                          description: Fully diluted valuation in USD
+                          example: '25000000000'
+                        liquidity:
+                          type: string
+                          nullable: true
+                          description: Total liquidity in USD
+                          example: '500000000'
+                        volume_6h:
+                          type: string
+                          nullable: true
+                          description: 6-hour trading volume in USD
+                          example: '50000000'
+                        volume_24h:
+                          type: string
+                          nullable: true
+                          description: 24-hour trading volume in USD
+                          example: '150000000'
+                        price_change_6h_pct:
+                          type: number
+                          nullable: true
+                          description: 6-hour price change percentage
+                          example: 0.5
+                        price_change_24h_pct:
+                          type: number
+                          nullable: true
+                          description: 24-hour price change percentage
+                          example: -1.2
+                        holder_count:
+                          type: integer
+                          nullable: true
+                          description: Number of token holders
+                          example: 1500000
+                        description:
+                          type: string
+                          nullable: true
+                          description: Token description
+                          example: USDC is a fully collateralized US dollar stablecoin
+                        price_updated_at:
+                          type: integer
+                          nullable: true
+                          description: Timestamp when price data was last updated (milliseconds)
+                          example: 1707177600000
+                        price_source:
+                          type: string
+                          enum:
+                            - onchain
+                            - coingecko
+                          nullable: true
+                          description: Source of price data
+                          example: onchain
+                      required:
+                        - network
+                        - address
+                        - name
+                        - symbol
+                        - decimals
+                        - total_supply
+                        - image_url
+                        - price_usd
+                        - market_cap
+                        - fdv
+                        - liquidity
+                        - volume_6h
+                        - volume_24h
+                        - price_change_6h_pct
+                        - price_change_24h_pct
+                        - holder_count
+                        - description
+                        - price_updated_at
+                        - price_source
+                      nullable: true
+                required:
+                  - tokens
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      externalDocs:
+        url: https://docs.neynar.com/reference/batch-get-token-metadata
+  /v2/onchain/token/balances:
+    get:
+      description: Fetch all token balances for a wallet address across multiple networks. Results are paginated.
+      summary: Get wallet token balances
+      tags:
+        - Onchain
+      parameters:
+        - name: networks
+          in: query
+          description: Comma-separated list of networks to query. Each value must be a valid network (ethereum, optimism, base, arbitrum).
+          required: true
+          schema:
+            example: base
+            x-comma-separated: true
+            type: string
+        - name: address
+          in: query
+          description: Ethereum address
+          required: true
+          schema:
+            type: string
+            pattern: ^0x[a-fA-F0-9]{40}$
+            example: '0x5a927ac639636e534b678e81768ca19e2c6280b7'
+            title: EthAddress
+        - name: limit
+          in: query
+          description: Number of results to return (max 100)
+          schema:
+            default: 50
+            type: integer
+            minimum: 1
+            maximum: 100
+            example: 50
+            format: int32
+          x-is-limit-param: true
+        - name: cursor
+          in: query
+          description: Pagination cursor.
+          schema:
+            type: string
+      operationId: get-wallet-balances
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  balances:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        network:
+                          $ref: '#/components/schemas/Network'
+                        address:
+                          $ref: '#/components/schemas/EthAddress'
+                        name:
+                          type: string
+                          description: Token name
+                          example: USD Coin
+                        symbol:
+                          type: string
+                          description: Token symbol
+                          example: USDC
+                        decimals:
+                          type: integer
+                          description: Token decimals
+                          example: 6
+                        balance:
+                          type: string
+                          description: Raw token balance
+                          example: '1000000000'
+                        balance_usd:
+                          type: string
+                          nullable: true
+                          description: Balance value in USD
+                          example: '1000.50'
+                        price_usd:
+                          type: string
+                          nullable: true
+                          description: Token price in USD
+                          example: '1.00'
+                        image_url:
+                          type: string
+                          nullable: true
+                          description: Token logo URL
+                          example: https://example.com/token.png
+                      required:
+                        - network
+                        - address
+                        - name
+                        - symbol
+                        - decimals
+                        - balance
+                        - balance_usd
+                        - price_usd
+                        - image_url
+                  next:
+                    type: object
+                    properties:
+                      cursor:
+                        type: string
+                        nullable: true
+                        description: Pagination cursor for next page, null if no more results
+                    required:
+                      - cursor
+                required:
+                  - balances
+                  - next
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      externalDocs:
+        url: https://docs.neynar.com/reference/get-wallet-balances
   /v2/signature/x402/:
     post:
       description: Create a signature for a given x402 resource using the specified wallet.
