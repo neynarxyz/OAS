@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.134.0
+  version: 3.135.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -10369,6 +10369,13 @@ paths:
                 namespace:
                   type: string
                   description: Kubernetes namespace
+                build_type:
+                  default: vercel
+                  type: string
+                  enum:
+                    - npm
+                    - vercel
+                  description: Build tool to use. "vercel" runs vercel build for production deployment. "npm" runs npm run build for dev server recovery.
         required: true
       responses:
         '200':
