@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.135.0
+  version: 3.136.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -10131,6 +10131,112 @@ paths:
         - ApiKeyAuth: []
       externalDocs:
         url: https://docs.neynar.com/reference/start-app
+  /v2/studio/deployment/restart:
+    post:
+      description: 'Restarts the Next.js development server for the generated miniapp (stops then starts without restarting the pod). Requires Studio admin authentication. Note: Studio CU is tracked based on LLM token usage, not per API call.'
+      summary: Restart generated miniapp dev server
+      tags:
+        - studio
+      operationId: restart-app
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                deployment_id:
+                  type: string
+                  format: uuid
+                  description: Deployment ID (UUID). Required if name not provided.
+                fid:
+                  type: integer
+                  minimum: 0
+                  description: Farcaster ID of the user; if not provided, namespace must be provided
+                  example: 3
+                  title: Fid
+                  format: int32
+                name:
+                  type: string
+                  description: Kubernetes deployment name. Required if deployment_id not provided.
+                namespace:
+                  type: string
+                  description: Optional Kubernetes namespace. If not provided, will query for the active namespace for the given FID.
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                    description: Status message
+                required:
+                  - success
+                  - message
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '408':
+          description: '408'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+      security:
+        - ApiKeyAuth: []
+      externalDocs:
+        url: https://docs.neynar.com/reference/restart-app
   /v2/studio/deployment/stop:
     post:
       description: 'Stops the Next.js development server for the generated miniapp. Requires Studio admin authentication. Note: Studio CU is tracked based on LLM token usage, not per API call.'
