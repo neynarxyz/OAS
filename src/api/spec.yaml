@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.137.0
+  version: 3.138.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -90,6 +90,397 @@ tags:
       description: More info about mini app host notifications
       url: https://docs.neynar.com/docs/app-host-notifications
 paths:
+  /portal/organization/billing:
+    get:
+      summary: Get billing information for the current organization
+      tags:
+        - portal
+        - organization
+      operationId: billing
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  workos_organization_id:
+                    type: string
+                  organization_name:
+                    type: string
+                  stripe_customer_id:
+                    type: string
+                    nullable: true
+                  organization_status:
+                    type: string
+                    nullable: true
+                  stripe_subscription_id:
+                    type: string
+                    nullable: true
+                  subscription_status:
+                    type: string
+                    nullable: true
+                  product_name:
+                    type: string
+                    nullable: true
+                  stripe_product_id:
+                    type: string
+                    nullable: true
+                  plan_tier:
+                    type: string
+                    nullable: true
+                  product_category:
+                    type: string
+                    nullable: true
+                  subscription_start:
+                    type: string
+                    format: date-time
+                    nullable: true
+                  subscription_end:
+                    type: string
+                    format: date-time
+                    nullable: true
+                  has_active_subscription:
+                    type: boolean
+                  is_trialing:
+                    type: boolean
+                  effective_plan:
+                    type: string
+                required:
+                  - workos_organization_id
+                  - organization_name
+                  - stripe_customer_id
+                  - organization_status
+                  - stripe_subscription_id
+                  - subscription_status
+                  - product_name
+                  - stripe_product_id
+                  - plan_tier
+                  - product_category
+                  - subscription_start
+                  - subscription_end
+                  - has_active_subscription
+                  - is_trialing
+                  - effective_plan
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - code
+                  - message
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - code
+                  - message
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - code
+                  - message
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - code
+                  - message
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - code
+                  - message
+      externalDocs:
+        url: https://docs.neynar.com/reference/billing
+  /portal/subscription/upgrade/preview:
+    get:
+      summary: Get upgrade preview with credit calculation
+      tags:
+        - portal
+        - subscription
+      parameters:
+        - name: newPlan
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: productCategory
+          in: query
+          schema:
+            type: string
+            enum:
+              - API
+              - STUDIO
+      operationId: upgrade-preview
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  currentPlan:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      price:
+                        type: number
+                      computeUnitsLimit:
+                        type: number
+                      computeUnitsUsed:
+                        type: number
+                    required:
+                      - name
+                      - price
+                      - computeUnitsLimit
+                      - computeUnitsUsed
+                  newPlan:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      price:
+                        type: number
+                      computeUnitsLimit:
+                        type: number
+                    required:
+                      - name
+                      - price
+                      - computeUnitsLimit
+                  credit:
+                    type: object
+                    properties:
+                      unusedUnits:
+                        type: number
+                      unitRate:
+                        type: number
+                      creditAmount:
+                        type: number
+                    required:
+                      - unusedUnits
+                      - unitRate
+                      - creditAmount
+                  chargeAmount:
+                    type: number
+                  billingDateUnchanged:
+                    type: boolean
+                  usageCarriesOver:
+                    type: boolean
+                required:
+                  - currentPlan
+                  - newPlan
+                  - credit
+                  - chargeAmount
+                  - billingDateUnchanged
+                  - usageCarriesOver
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - code
+                  - message
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - code
+                  - message
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - code
+                  - message
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - code
+                  - message
+      externalDocs:
+        url: https://docs.neynar.com/reference/upgrade-preview
+  /portal/subscription/upgrade:
+    post:
+      summary: Process subscription upgrade with credit
+      tags:
+        - portal
+        - subscription
+      operationId: upgrade
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                newPlan:
+                  type: string
+                productCategory:
+                  type: string
+                  enum:
+                    - API
+                    - STUDIO
+              required:
+                - newPlan
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  newPlan:
+                    type: string
+                  creditApplied:
+                    type: number
+                  chargeAmount:
+                    type: number
+                  effectiveImmediately:
+                    type: boolean
+                required:
+                  - success
+                  - newPlan
+                  - creditApplied
+                  - chargeAmount
+                  - effectiveImmediately
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - code
+                  - message
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - code
+                  - message
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - code
+                  - message
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - code
+                  - message
+      externalDocs:
+        url: https://docs.neynar.com/reference/upgrade
   /v2/farcaster/action/:
     post:
       description: Securely communicate and perform actions on behalf of users across different apps. It enables an app to send data or trigger actions in another app on behalf of a mutual user by signing messages using the user's Farcaster signer.
