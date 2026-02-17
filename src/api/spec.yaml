@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.138.0
+  version: 3.139.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -4601,10 +4601,30 @@ paths:
                   type: string
                   minLength: 1
                   maxLength: 32
-                base_uri:
+                description:
                   type: string
-                  minLength: 1
-                  description: Base URI for token metadata
+                image:
+                  type: string
+                external_link:
+                  type: string
+                max_supply:
+                  default: 0
+                  type: integer
+                  minimum: 0
+                  maximum: 281474976710655
+                  description: Max supply (0 = unlimited)
+                royalty_bps:
+                  default: 0
+                  type: integer
+                  minimum: 0
+                  maximum: 2500
+                  description: Royalty in basis points (500 = 5%, max 2500 = 25%)
+                royalty_recipient:
+                  type: string
+                  pattern: ^0x[a-fA-F0-9]{40}$
+                  example: '0x5a927ac639636e534b678e81768ca19e2c6280b7'
+                  description: Defaults to creator wallet
+                  title: EthAddress
                 mint_config:
                   type: object
                   properties:
@@ -4635,35 +4655,10 @@ paths:
                       minimum: 0
                       maximum: 281474976710655
                       description: Unix timestamp (defaults to no end date)
-                collection_config:
-                  type: object
-                  properties:
-                    contract_uri:
-                      type: string
-                      minLength: 1
-                    max_supply:
-                      default: 0
-                      type: integer
-                      minimum: 0
-                      maximum: 281474976710655
-                      description: Max supply (0 = unlimited)
-                    royalty_bps:
-                      default: 0
-                      type: integer
-                      minimum: 0
-                      maximum: 2500
-                      description: Royalty in basis points (500 = 5%, max 2500 = 25%)
-                    royalty_recipient:
-                      type: string
-                      pattern: ^0x[a-fA-F0-9]{40}$
-                      example: '0x5a927ac639636e534b678e81768ca19e2c6280b7'
-                      description: Defaults to creator wallet
-                      title: EthAddress
               required:
                 - network
                 - name
                 - symbol
-                - base_uri
         required: true
       responses:
         '201':
@@ -4737,6 +4732,154 @@ paths:
                 $ref: '#/components/schemas/ErrorRes'
       externalDocs:
         url: https://docs.neynar.com/reference/deploy-erc721
+  /v2/farcaster/nft/metadata/token:
+    post:
+      description: Uploads metadata JSON to S3 for one or more tokens on a deployed contract. Requires contract ownership via the wallet header.
+      summary: Upload NFT token metadata
+      tags:
+        - Onchain
+      parameters:
+        - $ref: '#/components/parameters/WalletIdHeader'
+      operationId: upload-token-metadata
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                network:
+                  type: string
+                  enum:
+                    - base
+                    - optimism
+                    - base-sepolia
+                  description: Network to mint on.
+                  example: base
+                contract_address:
+                  type: string
+                  pattern: ^0x[a-fA-F0-9]{40}$
+                  example: '0x5a927ac639636e534b678e81768ca19e2c6280b7'
+                  description: Ethereum address
+                  title: EthAddress
+                tokens:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      token_id:
+                        type: string
+                      metadata:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          description:
+                            type: string
+                          image:
+                            type: string
+                          external_url:
+                            type: string
+                          animation_url:
+                            type: string
+                          background_color:
+                            type: string
+                            pattern: ^[0-9a-fA-F]{6}$
+                          youtube_url:
+                            type: string
+                          attributes:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                trait_type:
+                                  type: string
+                                value:
+                                  oneOf:
+                                    - type: string
+                                    - type: number
+                                display_type:
+                                  type: string
+                                  enum:
+                                    - number
+                                    - boost_number
+                                    - boost_percentage
+                                    - date
+                                max_value:
+                                  type: number
+                              required:
+                                - trait_type
+                                - value
+                        required:
+                          - name
+                          - image
+                    required:
+                      - token_id
+                      - metadata
+                  minItems: 1
+                  maxItems: 200
+              required:
+                - network
+                - contract_address
+                - tokens
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tokens:
+                    type: array
+                    items:
+                      oneOf:
+                        - type: object
+                          properties:
+                            token_id:
+                              type: string
+                            uri:
+                              type: string
+                          required:
+                            - token_id
+                            - uri
+                        - type: object
+                          properties:
+                            token_id:
+                              type: string
+                            error:
+                              type: string
+                          required:
+                            - token_id
+                            - error
+                required:
+                  - tokens
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ZodError'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      externalDocs:
+        url: https://docs.neynar.com/reference/upload-token-metadata
   /v2/farcaster/nft/mint/:
     post:
       description: Mints an NFT to one or more recipients on a specified network and contract, using a configured server wallet. Contact us to set up your wallet configuration if you don't have one.
@@ -4843,6 +4986,16 @@ paths:
                                   minimum: 1
                                 fid:
                                   $ref: '#/components/schemas/Fid'
+                                tokens:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      token_id:
+                                        type: string
+                                    required:
+                                      - token_id
+                                  description: Minted token IDs parsed from Transfer events (sync mode only).
                               required:
                                 - address
                                 - quantity
