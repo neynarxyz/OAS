@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.140.0
+  version: 3.141.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -4860,6 +4860,98 @@ paths:
                 $ref: '#/components/schemas/ErrorRes'
       externalDocs:
         url: https://docs.neynar.com/reference/deploy-erc721
+  /v2/farcaster/nft/image/:
+    post:
+      description: Generate a new image or edit existing images using AI. Returns a publicly accessible URL to the generated image.
+      summary: Generate an NFT image
+      tags:
+        - Onchain
+      parameters:
+        - $ref: '#/components/parameters/WalletIdHeader'
+      operationId: generate-image
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                prompt:
+                  type: string
+                  minLength: 1
+                  description: Text prompt describing the image to generate
+                source_image_urls:
+                  type: array
+                  items:
+                    type: string
+                    format: uri
+                  maxItems: 5
+                  description: Optional array of source image URLs to edit or use as reference (max 5)
+                width:
+                  default: 1024
+                  type: integer
+                  minimum: 1
+                  maximum: 4096
+                  description: 'Output image width in pixels (default: 1024)'
+                height:
+                  default: 1024
+                  type: integer
+                  minimum: 1
+                  maximum: 4096
+                  description: 'Output image height in pixels (default: 1024)'
+                format:
+                  default: png
+                  type: string
+                  enum:
+                    - png
+                    - jpeg
+                    - webp
+                  description: 'Output image format (default: png)'
+                high_fidelity:
+                  default: false
+                  type: boolean
+                  description: 'Use the high-fidelity model (slower but more detailed). Default: false.'
+              required:
+                - prompt
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  image_url:
+                    type: string
+                    format: uri
+                required:
+                  - image_url
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      externalDocs:
+        url: https://docs.neynar.com/reference/generate-image
   /v2/farcaster/nft/metadata/token:
     post:
       description: Uploads metadata JSON to S3 for one or more tokens on a deployed contract. Requires contract ownership via the wallet header.
