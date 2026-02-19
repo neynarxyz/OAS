@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.139.0
+  version: 3.140.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -329,6 +329,16 @@ paths:
                     type: string
                   message:
                     type: string
+                  paymentMethod:
+                    type: object
+                    properties:
+                      brand:
+                        type: string
+                      last4:
+                        type: string
+                    required:
+                      - brand
+                      - last4
                 required:
                   - code
                   - message
@@ -343,6 +353,40 @@ paths:
                     type: string
                   message:
                     type: string
+                  paymentMethod:
+                    type: object
+                    properties:
+                      brand:
+                        type: string
+                      last4:
+                        type: string
+                    required:
+                      - brand
+                      - last4
+                required:
+                  - code
+                  - message
+        '402':
+          description: '402'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string
+                  paymentMethod:
+                    type: object
+                    properties:
+                      brand:
+                        type: string
+                      last4:
+                        type: string
+                    required:
+                      - brand
+                      - last4
                 required:
                   - code
                   - message
@@ -357,6 +401,16 @@ paths:
                     type: string
                   message:
                     type: string
+                  paymentMethod:
+                    type: object
+                    properties:
+                      brand:
+                        type: string
+                      last4:
+                        type: string
+                    required:
+                      - brand
+                      - last4
                 required:
                   - code
                   - message
@@ -371,6 +425,16 @@ paths:
                     type: string
                   message:
                     type: string
+                  paymentMethod:
+                    type: object
+                    properties:
+                      brand:
+                        type: string
+                      last4:
+                        type: string
+                    required:
+                      - brand
+                      - last4
                 required:
                   - code
                   - message
@@ -434,6 +498,16 @@ paths:
                     type: string
                   message:
                     type: string
+                  paymentMethod:
+                    type: object
+                    properties:
+                      brand:
+                        type: string
+                      last4:
+                        type: string
+                    required:
+                      - brand
+                      - last4
                 required:
                   - code
                   - message
@@ -448,6 +522,40 @@ paths:
                     type: string
                   message:
                     type: string
+                  paymentMethod:
+                    type: object
+                    properties:
+                      brand:
+                        type: string
+                      last4:
+                        type: string
+                    required:
+                      - brand
+                      - last4
+                required:
+                  - code
+                  - message
+        '402':
+          description: '402'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string
+                  paymentMethod:
+                    type: object
+                    properties:
+                      brand:
+                        type: string
+                      last4:
+                        type: string
+                    required:
+                      - brand
+                      - last4
                 required:
                   - code
                   - message
@@ -462,6 +570,16 @@ paths:
                     type: string
                   message:
                     type: string
+                  paymentMethod:
+                    type: object
+                    properties:
+                      brand:
+                        type: string
+                      last4:
+                        type: string
+                    required:
+                      - brand
+                      - last4
                 required:
                   - code
                   - message
@@ -476,6 +594,16 @@ paths:
                     type: string
                   message:
                     type: string
+                  paymentMethod:
+                    type: object
+                    properties:
+                      brand:
+                        type: string
+                      last4:
+                        type: string
+                    required:
+                      - brand
+                      - last4
                 required:
                   - code
                   - message
