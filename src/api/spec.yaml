@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.142.0
+  version: 3.143.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -9479,6 +9479,20 @@ paths:
             type: integer
             minimum: 0
             nullable: true
+        - name: query
+          in: query
+          description: Search string to filter deployments by name, display name, or FID.
+          schema:
+            type: string
+        - name: sort_by
+          in: query
+          description: Field to sort deployments by. Defaults to updated_at (most recently updated first).
+          schema:
+            default: updated_at
+            type: string
+            enum:
+              - created_at
+              - updated_at
         - name: include_deleted
           in: query
           description: Include deleted deployments in the response. Defaults to false.
