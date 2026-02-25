@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.145.0
+  version: 3.146.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -15139,6 +15139,10 @@ components:
           value:
             type: string
             example: '0'
+          estimated_total_cost_wei:
+            type: string
+            description: Estimated total cost in wei (value + gas). Use this for price display.
+            example: '100000000000000'
           network:
             type: string
             example: base
@@ -15156,6 +15160,7 @@ components:
           - to
           - data
           - value
+          - estimated_total_cost_wei
           - network
           - calldata
       title: SimulateNftMintResponse
