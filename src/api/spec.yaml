@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.146.0
+  version: 3.147.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -9757,6 +9757,29 @@ paths:
       responses:
         '200':
           description: Success
+        '202':
+          description: '202'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  queued:
+                    type: boolean
+                    enum:
+                      - true
+                    description: Indicates the message was queued to the active session
+                  session_id:
+                    type: string
+                    description: The session ID the message was queued to
+                  conversation_id:
+                    type: string
+                    format: uuid
+                    description: The conversation ID
+                required:
+                  - queued
+                  - session_id
+                  - conversation_id
         '400':
           description: Bad Request
           content:
