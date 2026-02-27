@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.148.0
+  version: 3.149.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -141,6 +141,9 @@ paths:
                     type: string
                     format: date-time
                     nullable: true
+                  billing_email:
+                    type: string
+                    nullable: true
                   has_active_subscription:
                     type: boolean
                   is_trialing:
@@ -160,6 +163,7 @@ paths:
                   - product_category
                   - subscription_start
                   - subscription_end
+                  - billing_email
                   - has_active_subscription
                   - is_trialing
                   - effective_plan
