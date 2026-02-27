@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.147.0
+  version: 3.148.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -9751,6 +9751,21 @@ paths:
                     - beta
                     - stable
                   description: System prompt variant to use. Defaults to stable if not provided.
+                images:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      mediaType:
+                        type: string
+                        description: MIME type of the image, e.g. image/png
+                      data:
+                        type: string
+                        description: Base64-encoded image data or data URL (data:image/png;base64,...)
+                    required:
+                      - mediaType
+                      - data
+                  description: Optional images for multimodal messages. Each image is base64-encoded.
               required:
                 - prompt
         required: true
