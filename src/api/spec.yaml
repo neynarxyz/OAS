@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.149.0
+  version: 3.150.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -8160,6 +8160,185 @@ paths:
                 $ref: '#/components/schemas/ErrorRes'
       externalDocs:
         url: https://docs.neynar.com/reference/fetch-subscription-check
+  /v2/studio/credit-drops/:
+    get:
+      description: Returns the most recent credit drop for the authenticated user. Returns the drop regardless of claimed/expired status.
+      summary: Get most recent credit drop
+      tags:
+        - studio
+      parameters:
+        - name: fid
+          in: query
+          description: Farcaster ID of the user
+          required: true
+          schema:
+            type: integer
+            minimum: 0
+            nullable: true
+      operationId: get-credit-drop
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  created_at:
+                    type: string
+                    format: date-time
+                    description: When the credit drop was generated
+                  raw_score:
+                    type: number
+                    minimum: 0
+                    maximum: 1
+                    description: Raw quality score from 0 to 1
+                    nullable: true
+                  percentile_score:
+                    type: number
+                    minimum: 0
+                    maximum: 1
+                    description: Percentile rank within 7-day global distribution
+                    nullable: true
+                  reward_amount:
+                    type: number
+                    description: Credit reward amount
+                    nullable: true
+                  claimed:
+                    type: boolean
+                    description: Whether the credit drop has been claimed
+                  expired:
+                    type: boolean
+                    description: Whether the credit drop has expired (>24h old and unclaimed)
+                required:
+                  - created_at
+                  - raw_score
+                  - percentile_score
+                  - reward_amount
+                  - claimed
+                  - expired
+        '402':
+          description: '402'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  code:
+                    type: string
+                required:
+                  - message
+                  - code
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                required:
+                  - message
+      security:
+        - ApiKeyAuth: []
+      externalDocs:
+        url: https://docs.neynar.com/reference/get-credit-drop
+  /v2/studio/credit-drops/claim:
+    post:
+      description: Claims the most recent credit drop for the authenticated user, adding the reward credits to developer_usage.extra_credits. Only drops created within the past 24 hours can be claimed.
+      summary: Claim credit drop
+      tags:
+        - studio
+      operationId: claim-credit-drop
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fid:
+                  type: integer
+                  minimum: 0
+                  description: Farcaster ID of the user
+              required:
+                - fid
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  claimed:
+                    type: boolean
+                    enum:
+                      - true
+                  reward_amount:
+                    type: number
+                    description: Amount of credits added
+                  new_extra_credits:
+                    type: number
+                    description: New total extra credits balance
+                required:
+                  - claimed
+                  - reward_amount
+                  - new_extra_credits
+        '402':
+          description: '402'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  code:
+                    type: string
+                required:
+                  - message
+                  - code
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                required:
+                  - message
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                required:
+                  - message
+        '410':
+          description: '410'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                required:
+                  - message
+      security:
+        - ApiKeyAuth: []
+      externalDocs:
+        url: https://docs.neynar.com/reference/claim-credit-drop
   /v2/studio/deployment/database/tables:
     get:
       description: Lists all tables and views in the deployment database, excluding system tables.
