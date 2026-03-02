@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.150.0
+  version: 3.151.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -10026,6 +10026,93 @@ paths:
         - ApiKeyAuth: []
       externalDocs:
         url: https://docs.neynar.com/reference/prompt-deployment-stream
+  /v2/studio/deployment/session/cancel:
+    post:
+      description: 'Cancels an in-progress Claude Code session for a deployment. Safe to call even if no session is active — returns cancelled: false in that case.'
+      summary: Cancel an active Claude session for a deployment
+      tags:
+        - studio
+      operationId: cancel-session
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                deployment_id:
+                  type: string
+                  format: uuid
+                  description: Deployment ID (UUID). Required if name not provided.
+                fid:
+                  type: integer
+                  minimum: 0
+                  description: Farcaster ID of the user; if not provided, namespace must be provided
+                  example: 3
+                  title: Fid
+                  format: int32
+                name:
+                  type: string
+                  description: Kubernetes deployment name. Required if deployment_id not provided.
+                namespace:
+                  type: string
+                  description: Optional Kubernetes namespace. If not provided, will query for the active namespace for the given FID.
+                conversation_id:
+                  type: string
+                  format: uuid
+                  description: The conversation ID of the session to cancel
+              required:
+                - conversation_id
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  cancelled:
+                    type: boolean
+                    description: Whether an active session was found and cancelled
+                required:
+                  - cancelled
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+      security:
+        - ApiKeyAuth: []
+      externalDocs:
+        url: https://docs.neynar.com/reference/cancel-session
   /v2/studio/deployment/by-name-and-fid:
     get:
       description: "Fetches info about a miniapp generator deployment by its deployment_id or name and creator's Farcaster ID. Requires API key authentication. Note: Studio CU is tracked based on LLM token usage, not per API call."
