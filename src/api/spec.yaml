@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.152.0
+  version: 3.153.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -8210,6 +8210,9 @@ paths:
                   expired:
                     type: boolean
                     description: Whether the credit drop has expired (>24h old and unclaimed)
+                  eligible_for_next_drop:
+                    type: boolean
+                    description: Whether the user has sent at least one message in the past 24h, making them eligible for the next credit drop
                 required:
                   - created_at
                   - raw_score
@@ -8217,6 +8220,7 @@ paths:
                   - reward_amount
                   - claimed
                   - expired
+                  - eligible_for_next_drop
         '402':
           description: '402'
           content:
