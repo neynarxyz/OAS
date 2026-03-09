@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.154.0
+  version: 3.155.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -11986,6 +11986,13 @@ paths:
       tags:
         - studio
       parameters:
+        - name: fid
+          in: query
+          description: Farcaster ID of the requesting user
+          required: true
+          schema:
+            type: integer
+            minimum: 0
         - name: subdomain
           in: query
           description: The desired subdomain (without .neynar.app suffix). Must be 3-63 characters, lowercase alphanumeric and hyphens only.
@@ -12058,6 +12065,14 @@ paths:
       summary: Assign a custom subdomain to a deployed miniapp
       tags:
         - studio
+      parameters:
+        - name: fid
+          in: query
+          description: Farcaster ID of the requesting user
+          required: true
+          schema:
+            type: integer
+            minimum: 0
       operationId: assign-custom-domain
       requestBody:
         content:
