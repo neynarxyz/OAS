@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.153.0
+  version: 3.154.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -11979,6 +11979,211 @@ paths:
         - ApiKeyAuth: []
       externalDocs:
         url: https://docs.neynar.com/reference/vercel-deployment-logs
+  /v2/studio/vercel/domain/check:
+    get:
+      description: 'Checks whether a custom *.neynar.app subdomain is available for assignment. Validates format, checks reserved names, and verifies no other active deployment is using it. Note: Studio CU is tracked based on LLM token usage, not per API call.'
+      summary: Check if a custom subdomain is available
+      tags:
+        - studio
+      parameters:
+        - name: subdomain
+          in: query
+          description: The desired subdomain (without .neynar.app suffix). Must be 3-63 characters, lowercase alphanumeric and hyphens only.
+          required: true
+          schema:
+            type: string
+            minLength: 3
+            maxLength: 63
+            pattern: ^[a-z0-9]([a-z0-9-]*[a-z0-9])?$
+      operationId: check-domain-availability
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  available:
+                    type: boolean
+                    description: Whether the subdomain is available
+                  domain:
+                    type: string
+                    description: The full domain (e.g., myapp.neynar.app)
+                  reason:
+                    type: string
+                    description: Reason why the subdomain is unavailable (e.g., "reserved", "taken")
+                required:
+                  - available
+                  - domain
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    enum:
+                      - false
+                  error:
+                    type: string
+                required:
+                  - success
+                  - error
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    enum:
+                      - false
+                  error:
+                    type: string
+                required:
+                  - success
+                  - error
+      security:
+        - ApiKeyAuth: []
+      externalDocs:
+        url: https://docs.neynar.com/reference/check-domain-availability
+  /v2/studio/vercel/domain:
+    put:
+      description: "Assigns a custom *.neynar.app subdomain to the user's deployed miniapp. The new domain is added to the Vercel project alongside the existing auto-assigned domain. The productionDomain in the database is updated to the custom domain. Requires API key authentication. Note: Studio CU is tracked based on LLM token usage, not per API call."
+      summary: Assign a custom subdomain to a deployed miniapp
+      tags:
+        - studio
+      operationId: assign-custom-domain
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                deployment_id:
+                  type: string
+                  format: uuid
+                  description: Deployment ID (UUID) of the miniapp
+                subdomain:
+                  type: string
+                  minLength: 3
+                  maxLength: 63
+                  pattern: ^[a-z0-9]([a-z0-9-]*[a-z0-9])?$
+                  description: The desired subdomain (without .neynar.app suffix). Must be 3-63 characters, lowercase alphanumeric and hyphens only.
+              required:
+                - deployment_id
+                - subdomain
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    enum:
+                      - true
+                  domain:
+                    type: string
+                    description: The full assigned domain (e.g., myapp.neynar.app)
+                  previous_domain:
+                    type: string
+                    description: The previous production domain, if any
+                required:
+                  - success
+                  - domain
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    enum:
+                      - false
+                  error:
+                    type: string
+                required:
+                  - success
+                  - error
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    enum:
+                      - false
+                  error:
+                    type: string
+                required:
+                  - success
+                  - error
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    enum:
+                      - false
+                  error:
+                    type: string
+                required:
+                  - success
+                  - error
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    enum:
+                      - false
+                  error:
+                    type: string
+                required:
+                  - success
+                  - error
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    enum:
+                      - false
+                  error:
+                    type: string
+                required:
+                  - success
+                  - error
+      security:
+        - ApiKeyAuth: []
+      externalDocs:
+        url: https://docs.neynar.com/reference/assign-custom-domain
 components:
   schemas:
     ZodError:
