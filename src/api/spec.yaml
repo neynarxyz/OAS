@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.155.0
+  version: 3.156.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -11993,6 +11993,7 @@ paths:
           schema:
             type: integer
             minimum: 0
+            nullable: true
         - name: subdomain
           in: query
           description: The desired subdomain (without .neynar.app suffix). Must be 3-63 characters, lowercase alphanumeric and hyphens only.
@@ -12073,6 +12074,7 @@ paths:
           schema:
             type: integer
             minimum: 0
+            nullable: true
       operationId: assign-custom-domain
       requestBody:
         content:
