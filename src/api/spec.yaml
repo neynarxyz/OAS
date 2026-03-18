@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.156.0
+  version: 3.157.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -11443,6 +11443,105 @@ paths:
         - ApiKeyAuth: []
       externalDocs:
         url: https://docs.neynar.com/reference/get-dev-status
+  /v2/studio/deployment/export-zip:
+    get:
+      description: 'Downloads the generated miniapp source code as a binary ZIP archive (Content-Type: application/zip). Requires a paid Studio subscription (GROWTH, STUDIO_PLUS, STUDIO_MAX, or INTERNAL). The deployment must be running. The 200 response body is a raw binary stream, not JSON.'
+      summary: Export deployment source code as ZIP
+      tags:
+        - studio
+      parameters:
+        - name: deployment_id
+          in: query
+          description: Deployment ID (UUID). Required if name not provided.
+          schema:
+            type: string
+            format: uuid
+        - name: fid
+          in: query
+          description: Farcaster ID of the user; if not provided, namespace must be provided
+          schema:
+            type: integer
+            minimum: 0
+            nullable: true
+            example: 3
+            title: Fid
+            format: int32
+        - name: name
+          in: query
+          description: Kubernetes deployment name. Required if deployment_id not provided.
+          schema:
+            type: string
+        - name: namespace
+          in: query
+          description: Optional Kubernetes namespace. If not provided, will query for the active namespace for the given FID.
+          schema:
+            type: string
+      operationId: export-zip
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '402':
+          description: '402'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  code:
+                    type: string
+                required:
+                  - message
+                  - code
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+      security:
+        - ApiKeyAuth: []
+      externalDocs:
+        url: https://docs.neynar.com/reference/export-zip
   /v2/studio/deployment/build:
     post:
       description: 'Runs Next.js build process for the generated app. If build fails, automatically calls a build-fixer agent to resolve errors. Streams build output and agent responses via Server-Sent Events. Requires API key authentication. Note: Studio CU is tracked based on LLM token usage, not per API call.'
