@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.157.0
+  version: 3.158.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -10757,7 +10757,7 @@ paths:
         url: https://docs.neynar.com/reference/list-conversations
   /v2/studio/deployment/conversations/messages:
     get:
-      description: 'Retrieves all messages in a specific conversation. Requires API key authentication. Note: Studio CU is tracked based on LLM token usage, not per API call.'
+      description: 'Retrieves messages in a specific conversation with cursor-based pagination (newest first). Requires API key authentication. Note: Studio CU is tracked based on LLM token usage, not per API call.'
       summary: Get messages in a conversation
       tags:
         - studio
@@ -10802,6 +10802,20 @@ paths:
             default: false
             type: boolean
             nullable: true
+        - name: limit
+          in: query
+          description: Maximum number of messages to return per page. Defaults to 50, max 100.
+          schema:
+            default: 50
+            type: integer
+            minimum: 1
+            maximum: 100
+          x-is-limit-param: true
+        - name: cursor
+          in: query
+          description: Pagination cursor for fetching older messages. Omit to start from most recent.
+          schema:
+            type: string
       operationId: get-conversation-messages
       responses:
         '200':
@@ -10851,8 +10865,11 @@ paths:
                         - message
                         - origin
                     description: List of messages
+                  next:
+                    $ref: '#/components/schemas/NextCursor'
                 required:
                   - messages
+                  - next
         '400':
           description: Bad Request
           content:
