@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.158.0
+  version: 3.159.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -4137,6 +4137,55 @@ paths:
                 $ref: '#/components/schemas/ErrorRes'
       externalDocs:
         url: https://docs.neynar.com/reference/fetch-relevant-fungible-owners
+  /v2/farcaster/fungible/owner/relevant/bulk:
+    get:
+      description: Fetch relevant owners for multiple on chain assets in a single request, up to 10 contract addresses at a time.
+      summary: Bulk relevant owners
+      tags:
+        - Onchain
+      parameters:
+        - name: contract_addresses
+          in: query
+          description: Comma separated list of contract addresses, up to 10 at a time
+          required: true
+          schema:
+            type: string
+            example: 0x0db510e79909666d6dec7f5e49370838c16d950f,0x4ed4e862860bed51a9570b96d89af5e1b0efefed
+            x-comma-separated: true
+        - name: network
+          in: query
+          description: Network of the fungible assets.
+          required: true
+          schema:
+            type: string
+            enum:
+              - ethereum
+              - optimism
+              - base
+              - arbitrum
+              - solana
+        - name: viewer_fid
+          in: query
+          description: If you provide a viewer_fid, the response will include token holders from the user's network, respecting their mutes and blocks and including viewer_context.
+          schema:
+            type: integer
+            minimum: 1
+      operationId: fetch-bulk-relevant-fungible-owners
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkRelevantFungibleOwnersResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      externalDocs:
+        url: https://docs.neynar.com/reference/fetch-bulk-relevant-fungible-owners
   /v2/farcaster/fungible/send/:
     post:
       description: Send fungibles in bulk to several farcaster users. A funded wallet is to required use this API. React out to us on the Neynar channel on farcaster to get your wallet address.
@@ -15508,6 +15557,23 @@ components:
         - top_relevant_fungible_owners_hydrated
         - all_relevant_fungible_owners_dehydrated
       title: RelevantFungibleOwnersResponse
+    BulkRelevantFungibleOwnersResponse:
+      type: object
+      additionalProperties:
+        type: object
+        properties:
+          top_relevant_fungible_owners_hydrated:
+            type: array
+            items:
+              $ref: '#/components/schemas/User'
+          all_relevant_fungible_owners_dehydrated:
+            type: array
+            items:
+              $ref: '#/components/schemas/UserDehydrated'
+        required:
+          - top_relevant_fungible_owners_hydrated
+          - all_relevant_fungible_owners_dehydrated
+      title: BulkRelevantFungibleOwnersResponse
     TransactionSendFungiblesRecipient:
       type: object
       properties:
