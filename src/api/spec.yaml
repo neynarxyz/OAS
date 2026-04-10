@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.160.0
+  version: 3.161.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -9724,6 +9724,9 @@ paths:
                   generated_app_serving:
                     type: boolean
                     description: Whether the generated app is currently serving
+                  has_database:
+                    type: boolean
+                    description: Whether the deployment has a Neon database configured
                   production_app_status:
                     type: object
                     properties:
@@ -9891,6 +9894,9 @@ paths:
                     generated_app_serving:
                       type: boolean
                       description: Whether the generated app is currently serving
+                    has_database:
+                      type: boolean
+                      description: Whether the deployment has a Neon database configured
                     production_app_status:
                       type: object
                       properties:
@@ -10352,6 +10358,9 @@ paths:
                   generated_app_serving:
                     type: boolean
                     description: Whether the generated app is currently serving
+                  has_database:
+                    type: boolean
+                    description: Whether the deployment has a Neon database configured
                   production_app_status:
                     type: object
                     properties:
