@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.163.0
+  version: 3.164.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -8256,30 +8256,20 @@ paths:
                   claimed:
                     type: boolean
                     description: Whether the credit drop has been claimed
-                  credits_used:
-                    type: number
-                    description: Portion of this drop already consumed against STUDIO CU usage (incremented by the CU sync). Forfeited at allowance_expires_at if unused.
-                  credits_remaining:
-                    type: number
-                    description: reward_amount - credits_used, clamped at 0. Spendable only until allowance_expires_at.
-                    nullable: true
-                  allowance_expires_at:
-                    type: string
-                    format: date-time
-                    description: 'Timestamp at which the drop stops contributing to the effective CU limit. Stamped by the credit-drop job at insert time (default: created_at + 24h).'
                   expired:
                     type: boolean
-                    description: Whether the credit drop's allowance window has closed (NOW() >= allowance_expires_at). Once true, the drop no longer contributes to the effective CU limit; any unused portion is forfeited.
+                    description: Whether the credit drop has expired (>24h old and unclaimed)
+                  eligible_for_next_drop:
+                    type: boolean
+                    description: Whether the user has sent at least one message in the past 24h, making them eligible for the next credit drop
                 required:
                   - created_at
                   - raw_score
                   - percentile_score
                   - reward_amount
                   - claimed
-                  - credits_used
-                  - credits_remaining
-                  - allowance_expires_at
                   - expired
+                  - eligible_for_next_drop
         '402':
           description: '402'
           content:
