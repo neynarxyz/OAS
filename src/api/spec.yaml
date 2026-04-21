@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.165.0
+  version: 3.166.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -3718,7 +3718,7 @@ paths:
         url: https://docs.neynar.com/reference/fetch-notification-tokens
   /v2/farcaster/frame/notifications/:
     post:
-      description: Send notifications to interactors of a mini app
+      description: Send notifications to interactors of a mini app. By default every broadcast is delivered synchronously and returns 200 with aggregate counts. When the `ASYNC_NOTIFICATIONS_ENABLED` server flag is on, broadcasts with more than 100 notification tokens are queued and return 202 with a campaign_id instead; poll the campaign stats endpoint for progress. Small broadcasts always stay synchronous.
       summary: Send notifications
       tags:
         - Frame
@@ -3736,6 +3736,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SendFrameNotificationsResponse'
+        '202':
+          description: '202'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueuedFrameNotificationsResponse'
         '400':
           description: Bad Request
           content:
@@ -3744,6 +3750,18 @@ paths:
                 oneOf:
                   - $ref: '#/components/schemas/ZodError'
                   - $ref: '#/components/schemas/ErrorRes'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        '422':
+          description: '422'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
         '500':
           description: Server Error
           content:
@@ -15405,6 +15423,36 @@ components:
         - failure_count
         - not_attempted_count
       title: SendFrameNotificationsResponse
+    QueuedFrameNotificationsResponse:
+      type: object
+      properties:
+        campaign_id:
+          type: string
+          format: uuid
+          description: The unique identifier for the notification campaign.
+        status:
+          type: string
+          enum:
+            - queued
+            - running
+            - completed
+            - failed
+            - canceled
+          description: Always "queued" for a successful async enqueue.
+      required:
+        - campaign_id
+        - status
+      title: QueuedFrameNotificationsResponse
+    NotificationCampaignStatus:
+      type: string
+      enum:
+        - queued
+        - running
+        - completed
+        - failed
+        - canceled
+      description: Lifecycle status of the campaign. Absent on campaigns created before async delivery was introduced.
+      title: NotificationCampaignStatus
     NotificationCampaignStats:
       type: object
       properties:
@@ -15495,6 +15543,17 @@ components:
         created_at:
           type: string
           format: date-time
+        status:
+          $ref: '#/components/schemas/NotificationCampaignStatus'
+        queued_at:
+          type: string
+          format: date-time
+          description: When the campaign was enqueued for async delivery.
+        completed_at:
+          type: string
+          format: date-time
+          nullable: true
+          description: When the campaign reached a terminal state (completed/failed/canceled). Null while still queued or running.
         stats:
           $ref: '#/components/schemas/NotificationCampaignStats'
       required:
