@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.166.0
+  version: 3.167.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -9589,6 +9589,9 @@ paths:
                             - system
                             - user
                           description: Whether this is a system-managed or user-defined variable
+                        preview:
+                          type: string
+                          description: Masked preview of the secret value (e.g. "sk_l…t1b3")
                       required:
                         - key
                         - id
