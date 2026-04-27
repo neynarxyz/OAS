@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.167.0
+  version: 3.168.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -9755,6 +9755,14 @@ paths:
                   generated_app_serving:
                     type: boolean
                     description: Whether the generated app is currently serving
+                  dev_server_state:
+                    type: string
+                    enum:
+                      - stopped
+                      - starting
+                      - running
+                      - crashed
+                    description: 'Dev server process state: stopped, starting, running, or crashed'
                   has_database:
                     type: boolean
                     description: Whether the deployment has a Neon database configured
@@ -9925,6 +9933,14 @@ paths:
                     generated_app_serving:
                       type: boolean
                       description: Whether the generated app is currently serving
+                    dev_server_state:
+                      type: string
+                      enum:
+                        - stopped
+                        - starting
+                        - running
+                        - crashed
+                      description: 'Dev server process state: stopped, starting, running, or crashed'
                     has_database:
                       type: boolean
                       description: Whether the deployment has a Neon database configured
@@ -10394,6 +10410,14 @@ paths:
                   generated_app_serving:
                     type: boolean
                     description: Whether the generated app is currently serving
+                  dev_server_state:
+                    type: string
+                    enum:
+                      - stopped
+                      - starting
+                      - running
+                      - crashed
+                    description: 'Dev server process state: stopped, starting, running, or crashed'
                   has_database:
                     type: boolean
                     description: Whether the deployment has a Neon database configured
