@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.169.0
+  version: 3.170.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -92,6 +92,7 @@ tags:
 paths:
   /portal/organization/billing:
     get:
+      description: Retrieves billing and subscription details for the current organization, including plan status, product category, billing email, and effective plan.
       summary: Get billing information for the current organization
       tags:
         - portal
@@ -241,6 +242,7 @@ paths:
         url: https://docs.neynar.com/reference/billing
   /portal/subscription/upgrade/preview:
     get:
+      description: Calculates the billing impact of changing to a new subscription plan, including available credit, charge amount, and whether the billing date or usage carryover changes.
       summary: Get upgrade preview with credit calculation
       tags:
         - portal
@@ -446,6 +448,7 @@ paths:
         url: https://docs.neynar.com/reference/upgrade-preview
   /portal/subscription/upgrade:
     post:
+      description: Applies a subscription plan change for the current organization and returns the applied credit, charge amount, and whether the change takes effect immediately.
       summary: Process subscription upgrade with credit
       tags:
         - portal
