@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Neynar API
-  version: 3.168.0
+  version: 3.169.0
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   contact:
     name: Neynar
@@ -110,40 +110,40 @@ paths:
                   organization_name:
                     type: string
                   stripe_customer_id:
-                    type: string
                     nullable: true
+                    type: string
                   organization_status:
-                    type: string
                     nullable: true
+                    type: string
                   stripe_subscription_id:
-                    type: string
                     nullable: true
+                    type: string
                   subscription_status:
-                    type: string
                     nullable: true
+                    type: string
                   product_name:
-                    type: string
                     nullable: true
+                    type: string
                   stripe_product_id:
-                    type: string
                     nullable: true
+                    type: string
                   plan_tier:
-                    type: string
                     nullable: true
+                    type: string
                   product_category:
-                    type: string
                     nullable: true
+                    type: string
                   subscription_start:
+                    nullable: true
                     type: string
                     format: date-time
-                    nullable: true
                   subscription_end:
+                    nullable: true
                     type: string
                     format: date-time
-                    nullable: true
                   billing_email:
-                    type: string
                     nullable: true
+                    type: string
                   has_active_subscription:
                     type: boolean
                   is_trialing:
@@ -371,7 +371,7 @@ paths:
                   - code
                   - message
         '402':
-          description: '402'
+          description: Payment Required
           content:
             application/json:
               schema:
@@ -540,7 +540,7 @@ paths:
                   - code
                   - message
         '402':
-          description: '402'
+          description: Payment Required
           content:
             application/json:
               schema:
@@ -710,6 +710,7 @@ paths:
               - frame_removed
               - notifications_enabled
               - notifications_disabled
+            title: AppHostEventType
       operationId: app-host-get-event
       responses:
         '200':
@@ -776,7 +777,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorRes'
         '502':
-          description: '502'
+          description: Bad Gateway
           content:
             application/json:
               schema:
@@ -902,11 +903,11 @@ paths:
           description: Number of results to fetch
           schema:
             default: 20
+            example: 20
+            format: int32
             type: integer
             minimum: 1
             maximum: 100
-            example: 20
-            format: int32
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -1032,26 +1033,26 @@ paths:
           in: query
           description: Providing this will return the users that this user has blocked
           schema:
+            example: 194
             type: integer
             minimum: 1
-            example: 194
         - name: blocked_fid
           in: query
           description: Providing this will return the users that have blocked this user
           schema:
+            example: 194
             type: integer
             minimum: 1
-            example: 194
         - name: limit
           in: query
           description: Number of results to fetch
           schema:
             default: 20
+            example: 20
+            format: int32
             type: integer
             minimum: 1
             maximum: 100
-            example: 20
-            format: int32
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -1184,17 +1185,17 @@ paths:
           description: Number of casts to consider in a summary up to a point of target cast
           schema:
             default: 20
+            example: 50
             type: integer
             minimum: 1
             maximum: 50
-            example: 50
           x-is-limit-param: true
         - name: prompt
           in: query
           description: Additional prompt used to generate a summary
           schema:
-            type: string
             example: be unreasonably dramatic
+            type: string
       operationId: lookup-cast-conversation-summary
       responses:
         '200':
@@ -1247,14 +1248,12 @@ paths:
             type: integer
             minimum: 0
             maximum: 5
-            nullable: true
         - name: include_chronological_parent_casts
           in: query
           description: Include all parent casts in chronological order
           schema:
             default: false
             type: boolean
-            nullable: true
         - name: viewer_fid
           in: query
           description: Providing this will return a conversation that respects this user's mutes and blocks and includes `viewer_context`.
@@ -1265,12 +1264,12 @@ paths:
           in: query
           description: Sort type for the ordering of descendants. Default is `chron`
           schema:
+            example: chron
             type: string
             enum:
               - chron
               - desc_chron
               - algorithmic
-            example: chron
         - name: fold
           in: query
           description: Show conversation above or below the fold. Lower quality responses are hidden below the fold. Not passing in a value shows the full conversation without any folding.
@@ -1284,11 +1283,11 @@ paths:
           description: Number of results to fetch
           schema:
             default: 20
+            example: 30
+            format: int32
             type: integer
             minimum: 1
             maximum: 50
-            example: 30
-            format: int32
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -1400,12 +1399,12 @@ paths:
             - `semantic` - Searches for the meaning of the query string
             - `hybrid` - Combines both literal and semantic results
           schema:
+            example: literal
             type: string
             enum:
               - literal
               - semantic
               - hybrid
-            example: literal
         - name: sort_type
           in: query
           description: |-
@@ -1414,12 +1413,12 @@ paths:
             - `chron` - All casts sorted by time in ascending order
             - `algorithmic` - Casts sorted by engagement and time
           schema:
+            example: desc_chron
             type: string
             enum:
               - desc_chron
               - chron
               - algorithmic
-            example: desc_chron
         - name: author_fid
           in: query
           description: Fid of the user whose casts you want to search
@@ -1447,11 +1446,11 @@ paths:
           description: Number of results to fetch
           schema:
             default: 25
-            type: integer
-            minimum: 1
-            maximum: 100
             example: 25
             format: int32
+            minimum: 1
+            maximum: 100
+            type: integer
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -1541,11 +1540,11 @@ paths:
           description: Number of results to fetch
           schema:
             default: 25
+            example: 30
+            format: int32
             type: integer
             minimum: 1
             maximum: 100
-            example: 30
-            format: int32
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -1785,10 +1784,10 @@ paths:
           description: Number of results to fetch
           schema:
             default: 20
-            type: integer
+            example: 30
             minimum: 1
             maximum: 200
-            example: 30
+            type: integer
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -1831,6 +1830,8 @@ paths:
           description: Number of results to fetch
           schema:
             default: 20
+            format: int32
+            example: 30
             type: integer
             minimum: 1
             maximum: 100
@@ -1873,8 +1874,8 @@ paths:
           in: query
           description: Channel ID for the channel being queried
           schema:
-            type: string
             example: neynar
+            type: string
         - name: invited_fid
           in: query
           description: FID of the user being invited
@@ -1886,6 +1887,8 @@ paths:
           description: Number of results to fetch
           schema:
             default: 20
+            format: int32
+            example: 30
             type: integer
             minimum: 1
             maximum: 100
@@ -2037,10 +2040,10 @@ paths:
           description: Number of results to fetch
           schema:
             default: 20
-            type: integer
+            example: 30
             minimum: 1
             maximum: 200
-            example: 30
+            type: integer
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -2082,12 +2085,12 @@ paths:
           in: query
           description: Type of identifier being used to query the channels. Defaults to ID.
           schema:
+            example: id
             type: string
             enum:
               - id
               - parent_url
             title: ChannelType
-            example: id
         - name: viewer_fid
           in: query
           description: FID of the user viewing the channels.
@@ -2161,7 +2164,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorRes'
         '502':
-          description: '502'
+          description: Bad Gateway
           content:
             application/json:
               schema:
@@ -2218,7 +2221,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorRes'
         '502':
-          description: '502'
+          description: Bad Gateway
           content:
             application/json:
               schema:
@@ -2294,6 +2297,8 @@ paths:
           description: Number of followers to fetch
           schema:
             default: 25
+            format: int32
+            example: 30
             type: integer
             minimum: 1
             maximum: 1000
@@ -2333,10 +2338,10 @@ paths:
           description: Number of results to fetch
           schema:
             default: 20
+            format: int32
             type: integer
             minimum: 1
             maximum: 100
-            format: int32
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -2385,10 +2390,10 @@ paths:
           description: Number of results to fetch
           schema:
             default: 10
+            format: int32
             type: integer
             minimum: 1
             maximum: 25
-            format: int32
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -2435,12 +2440,11 @@ paths:
           in: query
           description: Type of identifier being used to query the channel. Defaults to ID.
           schema:
+            example: id
             type: string
             enum:
               - id
               - parent_url
-            title: ChannelType
-            example: id
         - name: viewer_fid
           in: query
           description: FID of the user viewing the channel.
@@ -2489,19 +2493,18 @@ paths:
           description: Include recasts in the response, true by default
           schema:
             default: true
-            type: boolean
-            nullable: true
             example: true
+            type: boolean
         - name: limit
           in: query
           description: Number of results to fetch
           schema:
             default: 25
-            type: integer
+            example: 30
             minimum: 1
             maximum: 100
-            example: 30
             format: int32
+            type: integer
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -2543,9 +2546,9 @@ paths:
           in: query
           description: Providing this will return a feed that respects this user's mutes and blocks and includes `viewer_context`.
           schema:
+            example: 3
             type: integer
             minimum: 1
-            example: 3
         - name: provider
           in: query
           description: The provider of the For You feed.
@@ -2559,11 +2562,11 @@ paths:
           description: Number of results to fetch
           schema:
             default: 25
+            example: 30
+            format: int32
             type: integer
             minimum: 1
             maximum: 50
-            example: 30
-            format: int32
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -2610,7 +2613,6 @@ paths:
           schema:
             default: true
             type: boolean
-            nullable: true
         - name: viewer_fid
           in: query
           description: Providing this will return a feed that respects this user's mutes and blocks and includes `viewer_context`.
@@ -2623,32 +2625,30 @@ paths:
           schema:
             default: false
             type: boolean
-            nullable: true
         - name: members_only
           in: query
           description: Used when filter_type=channel_id. Only include casts from members of the channel. True by default.
           schema:
             default: true
-            type: boolean
-            nullable: true
             example: true
             deprecated: true
+            type: boolean
         - name: fids
           in: query
           description: Comma separated list of FIDs to filter the feed by, up to 10 at a time
           schema:
-            type: string
             x-comma-separated: true
             x-accept-as: integer
+            type: string
         - name: limit
           in: query
           description: Number of results to fetch
           schema:
             default: 25
+            format: int32
             type: integer
             minimum: 1
             maximum: 100
-            format: int32
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -2660,9 +2660,8 @@ paths:
           description: If true, only casts that have been liked by the moderator (if one exists) will be returned.
           schema:
             default: false
-            type: boolean
-            nullable: true
             deprecated: true
+            type: boolean
       operationId: fetch-feed-by-channel-ids
       responses:
         '200':
@@ -2701,7 +2700,6 @@ paths:
           schema:
             default: true
             type: boolean
-            nullable: true
         - name: viewer_fid
           in: query
           description: Providing this will return a feed that respects this user's mutes and blocks and includes `viewer_context`.
@@ -2714,16 +2712,15 @@ paths:
           schema:
             default: false
             type: boolean
-            nullable: true
         - name: limit
           in: query
           description: Number of results to fetch
           schema:
             default: 25
+            format: int32
             type: integer
             minimum: 1
             maximum: 100
-            format: int32
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -2767,24 +2764,23 @@ paths:
           schema:
             default: true
             type: boolean
-            nullable: true
         - name: viewer_fid
           in: query
           description: Providing this will return a feed that respects this user's mutes and blocks and includes `viewer_context`.
           schema:
+            example: 3
             type: integer
             minimum: 1
-            example: 3
         - name: limit
           in: query
           description: Number of results to fetch.
           schema:
             default: 25
+            example: 30
+            format: int32
             type: integer
             minimum: 1
             maximum: 100
-            example: 30
-            format: int32
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -2826,11 +2822,11 @@ paths:
           description: Number of results to fetch
           schema:
             default: 10
+            format: int32
+            example: 10
             type: integer
             minimum: 1
             maximum: 10
-            format: int32
-            example: 10
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -2848,6 +2844,7 @@ paths:
           description: Time window for trending casts (7d window for channel feeds only)
           schema:
             default: 24h
+            example: 24h
             type: string
             enum:
               - 1h
@@ -2855,28 +2852,27 @@ paths:
               - 12h
               - 24h
               - 7d
-            example: 24h
         - name: channel_id
           in: query
           description: Channel ID to filter trending casts. Less active channels might have no casts in the time window selected. Provide either `channel_id` or `parent_url`, not both.
           schema:
-            type: string
             example: neynar
+            type: string
         - name: parent_url
           in: query
           description: Parent URL to filter trending casts. Less active channels might have no casts in the time window selected. Provide either `channel_id` or `parent_url`, not both.
           schema:
-            type: string
             example: chain://eip155:1/erc721:0xd4498134211baad5846ce70ce04e7c4da78931cc
+            type: string
         - name: provider
           in: query
           description: The provider of the trending casts feed.
           schema:
+            example: neynar
             default: neynar
             type: string
             enum:
               - neynar
-            example: neynar
       operationId: fetch-trending-feed
       responses:
         '200':
@@ -2961,22 +2957,22 @@ paths:
           description: Filter to fetch only replies or recasts
           schema:
             default: all
+            example: replies
             type: string
             enum:
               - replies
               - recasts
               - all
-            example: replies
         - name: limit
           in: query
           description: Number of results to fetch
           schema:
             default: 25
+            format: int32
+            example: 30
             type: integer
             minimum: 1
             maximum: 50
-            format: int32
-            example: 30
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -3025,26 +3021,26 @@ paths:
           in: query
           description: Optionally filter to casts created via a specific app FID, e.g. 9152 for Warpcast
           schema:
+            example: 9152
             type: integer
             minimum: 1
-            example: 9152
         - name: viewer_fid
           in: query
           description: FID of the user viewing the feed
           schema:
+            example: 3
             type: integer
             minimum: 1
-            example: 3
         - name: limit
           in: query
           description: Number of results to fetch
           schema:
             default: 25
+            example: 30
+            format: int32
             type: integer
             minimum: 1
             maximum: 150
-            example: 30
-            format: int32
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -3056,9 +3052,8 @@ paths:
           description: Include reply casts by the author in the response, true by default
           schema:
             default: true
-            type: boolean
-            nullable: true
             example: true
+            type: boolean
         - name: parent_url
           in: query
           description: Parent URL to filter the feed; mutually exclusive with channel_id
@@ -3104,16 +3099,17 @@ paths:
           description: Defaults to following (requires FID or address). If set to filter (requires filter_type)
           schema:
             default: following
+            example: filter
+            title: FeedType
             type: string
             enum:
               - following
               - filter
-            title: FeedType
-            example: filter
         - name: filter_type
           in: query
           description: Used when feed_type=filter. Options include fids (requires fids), parent_url (requires parent_url), channel_id (requires channel_id), embed_url (requires embed_url), embed_types (requires embed_types), or global_trending.
           schema:
+            example: fids
             type: string
             enum:
               - fids
@@ -3123,7 +3119,6 @@ paths:
               - embed_types
               - global_trending
             title: FilterType
-            example: fids
         - name: fid
           in: query
           description: (Optional) FID of user whose feed you want to create. By default, the API expects this field, except if you pass a filter_type
@@ -3134,37 +3129,36 @@ paths:
           in: query
           description: Used when filter_type=FIDs . Create a feed based on a list of FIDs. Max array size is 100. Requires feed_type and filter_type.
           schema:
-            type: string
             example: 3,2,194
             x-comma-separated: true
             x-accept-as: integer
+            type: string
         - name: parent_url
           in: query
           description: Used when filter_type=parent_url can be used to fetch content under any parent url e.g. FIP-2 channels on Warpcast. Requires feed_type and filter_type.
           schema:
-            type: string
             example: chain://eip155:1/erc721:0xd4498134211baad5846ce70ce04e7c4da78931cc
+            type: string
         - name: channel_id
           in: query
           description: Used when filter_type=channel_id can be used to fetch casts under a channel. Requires feed_type and filter_type.
           schema:
-            type: string
             example: neynar
+            type: string
         - name: members_only
           in: query
           description: Used when filter_type=channel_id. Only include casts from members of the channel. True by default.
           schema:
             default: true
-            type: boolean
-            nullable: true
             example: true
             deprecated: true
+            type: boolean
         - name: embed_url
           in: query
           description: Used when filter_type=embed_url. Casts with embedded URLs prefixed by this embed_url param will be returned. We normalize your given URL prefix and prepend 'https://' if no protocol is included. Requires feed_type and filter_type.
           schema:
-            type: string
             example: https://example.com
+            type: string
         - name: embed_types
           in: query
           description: Used when filter_type=embed_types can be used to fetch all casts with matching content types. Requires feed_type and filter_type.
@@ -3199,17 +3193,16 @@ paths:
           schema:
             default: true
             type: boolean
-            nullable: true
         - name: limit
           in: query
           description: Number of results to fetch
           schema:
             default: 25
+            example: 30
+            format: int32
             type: integer
             minimum: 1
             maximum: 100
-            example: 30
-            format: int32
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -3220,9 +3213,9 @@ paths:
           in: query
           description: Providing this will return a feed that respects this user's mutes and blocks and includes `viewer_context`.
           schema:
+            example: 3
             type: integer
             minimum: 1
-            example: 3
       operationId: fetch-feed
       responses:
         '200':
@@ -3402,21 +3395,21 @@ paths:
           in: query
           description: Sort type for fetch followers. Default is `desc_chron`
           schema:
+            example: desc_chron
             type: string
             enum:
               - desc_chron
               - algorithmic
-            example: desc_chron
         - name: limit
           in: query
           description: Number of results to fetch
           schema:
             default: 20
+            example: 30
+            format: int32
             type: integer
             minimum: 1
             maximum: 100
-            example: 30
-            format: int32
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -3459,22 +3452,20 @@ paths:
           required: true
           schema:
             type: integer
-            nullable: true
         - name: viewer_fid
           in: query
           description: Providing this will return a list of users that respects this user's mutes and blocks and includes `viewer_context`.
           schema:
             type: integer
-            nullable: true
         - name: limit
           in: query
           description: Number of results to fetch
           schema:
             default: 25
+            format: int32
             type: integer
             minimum: 1
             maximum: 100
-            format: int32
           x-is-limit-param: true
       operationId: fetch-follow-suggestions
       responses:
@@ -3517,27 +3508,27 @@ paths:
           in: query
           description: Providing this will return a list of users that respects this user's mutes and blocks and includes `viewer_context`.
           schema:
+            example: 3
             type: integer
             minimum: 1
-            example: 3
         - name: sort_type
           in: query
           description: Optional parameter to sort the users based on different criteria.
           schema:
+            example: desc_chron
             type: string
             enum:
               - desc_chron
               - algorithmic
-            example: desc_chron
         - name: limit
           in: query
           description: Number of results to fetch
           schema:
             default: 25
+            format: int32
             type: integer
             minimum: 1
             maximum: 100
-            format: int32
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -3578,11 +3569,11 @@ paths:
           description: Number of results to fetch
           schema:
             default: 100
+            format: int32
+            example: 100
             type: integer
             minimum: 1
             maximum: 100
-            format: int32
-            example: 100
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -3594,6 +3585,8 @@ paths:
           description: Time window used to calculate the change in trending score for each mini app, used to sort mini app results
           schema:
             default: 7d
+            title: MiniAppTimeWindow
+            example: 7d
             type: string
             enum:
               - 1h
@@ -3601,12 +3594,13 @@ paths:
               - 12h
               - 24h
               - 7d
-            title: MiniAppTimeWindow
-            example: 7d
         - name: categories
           in: query
           description: 'Comma separated list of categories to include in the results. Includes all if left blank. Example: categories=games,social OR categories=games&categories=social'
           schema:
+            example:
+              - games
+              - social
             type: array
             items:
               type: string
@@ -3625,13 +3619,15 @@ paths:
                 - entertainment
                 - art-creativity
               title: FrameCategory
-            example:
-              - games
-              - social
         - name: networks
           in: query
           description: List of blockchain networks by which to filter results.  Mini apps included in the results will specify at least one of the supplied networks or specify none. The list can be provided as comma-separated string or array.
           schema:
+            title: MiniappNetworksSchema
+            example:
+              - ethereum
+              - base
+              - solana
             type: array
             items:
               type: string
@@ -3654,11 +3650,6 @@ paths:
                 - solana
               description: Networks supported by mini apps
               example: base
-            title: MiniappNetworksSchema
-            example:
-              - ethereum
-              - base
-              - solana
       operationId: fetch-frame-catalog
       responses:
         '200':
@@ -3681,20 +3672,20 @@ paths:
           description: Number of results to fetch
           schema:
             default: 20
+            format: int32
+            example: 20
             type: integer
             minimum: 1
             maximum: 100
-            format: int32
-            example: 20
           x-is-limit-param: true
         - name: fids
           in: query
           description: Comma separated list of FIDs, up to 100 at a time. If you pass in FIDs, you will get back the notification tokens for those FIDs. If you don't pass in FIDs, you will get back all the notification tokens for the mini app.
           schema:
-            type: string
             example: 194, 191, 6131
             x-comma-separated: true
             x-accept-as: integer
+            type: string
         - name: cursor
           in: query
           description: Pagination cursor
@@ -3757,7 +3748,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorRes'
         '422':
-          description: '422'
+          description: Unprocessable Content
           content:
             application/json:
               schema:
@@ -3929,6 +3920,7 @@ paths:
           description: Time window used to limit statistics used to calculate mini app relevance
           schema:
             default: 7d
+            example: 7d
             type: string
             enum:
               - 1h
@@ -3940,6 +3932,11 @@ paths:
           in: query
           description: List of blockchain networks by which to filter results.  Mini apps included in the results will specify at least one of the supplied networks or specify none. The list can be provided as comma-separated string or array.
           schema:
+            title: MiniappNetworksSchema
+            example:
+              - ethereum
+              - base
+              - solana
             type: array
             items:
               type: string
@@ -3962,11 +3959,6 @@ paths:
                 - solana
               description: Networks supported by mini apps
               example: base
-            title: MiniappNetworksSchema
-            example:
-              - ethereum
-              - base
-              - solana
       operationId: fetch-relevant-frames
       responses:
         '200':
@@ -3994,8 +3986,8 @@ paths:
                               type: string
                               description: Launch URL of the mini app
                             title:
-                              type: string
                               description: Button title of a mini app
+                              type: string
                             manifest:
                               $ref: '#/components/schemas/FarcasterManifest'
                             author:
@@ -4048,12 +4040,12 @@ paths:
           in: query
           description: Number of results to fetch
           schema:
+            format: int32
+            example: 20
             default: 20
             type: integer
             minimum: 1
             maximum: 100
-            format: int32
-            example: 20
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -4064,6 +4056,11 @@ paths:
           in: query
           description: List of blockchain networks by which to filter results.  Mini apps included in the results will specify at least one of the supplied networks or specify none. The list can be provided as comma-separated string or array.
           schema:
+            title: MiniappNetworksSchema
+            example:
+              - ethereum
+              - base
+              - solana
             type: array
             items:
               type: string
@@ -4086,11 +4083,6 @@ paths:
                 - solana
               description: Networks supported by mini apps
               example: base
-            title: MiniappNetworksSchema
-            example:
-              - ethereum
-              - base
-              - solana
       operationId: search-frames
       responses:
         '200':
@@ -4133,6 +4125,7 @@ paths:
               - base
               - arbitrum
               - solana
+            title: FungibleOwnerRelevantNetwork
         - name: viewer_fid
           in: query
           description: If you provide a viewer_fid, the response will include token holders from the user's network, respecting their mutes and blocks and including viewer_context; if not provided, the response will show top token holders across the network—both sets can be combined to generate a longer list if desired.
@@ -4277,7 +4270,6 @@ paths:
           description: Minimum USD amount to filter trades
           schema:
             type: number
-            nullable: true
       operationId: fetch-fungible-trades
       responses:
         '200':
@@ -4441,13 +4433,13 @@ paths:
                               type: integer
                               description: The number of decimals the token uses
                             total_supply:
-                              type: string
                               nullable: true
                               description: The total supply of the token
-                            logo:
                               type: string
+                            logo:
                               nullable: true
                               description: The logo URL of the token
+                              type: string
                             price:
                               type: object
                               properties:
@@ -4503,7 +4495,6 @@ paths:
           description: Optional FID of the viewer to personalize cast count filtering
           schema:
             type: number
-            nullable: true
       operationId: fetch-fungibles
       responses:
         '200':
@@ -4651,11 +4642,11 @@ paths:
           description: Number of results to fetch
           schema:
             default: 20
+            format: int32
+            example: 20
             type: integer
             minimum: 1
             maximum: 100
-            format: int32
-            example: 20
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -4790,8 +4781,6 @@ paths:
                     - base
                     - optimism
                     - base-sepolia
-                  description: Network to mint on.
-                  example: base
                 name:
                   type: string
                   minLength: 1
@@ -4808,52 +4797,51 @@ paths:
                   type: string
                 max_supply:
                   default: 0
+                  description: Max supply (0 = unlimited)
                   type: integer
                   minimum: 0
                   maximum: 281474976710655
-                  description: Max supply (0 = unlimited)
                 royalty_bps:
                   default: 0
+                  description: Royalty in basis points (500 = 5%, max 2500 = 25%)
                   type: integer
                   minimum: 0
                   maximum: 2500
-                  description: Royalty in basis points (500 = 5%, max 2500 = 25%)
                 royalty_recipient:
+                  description: Defaults to creator wallet
                   type: string
                   pattern: ^0x[a-fA-F0-9]{40}$
                   example: '0x5a927ac639636e534b678e81768ca19e2c6280b7'
-                  description: Defaults to creator wallet
-                  title: EthAddress
                 mint_config:
                   type: object
                   properties:
                     price_per_token:
                       default: '0'
+                      description: Price per token in wei (0 = free mint)
                       type: string
                       pattern: ^\d{1,57}$
-                      description: Price per token in wei (0 = free mint)
                     max_per_wallet:
                       default: 0
+                      description: Max tokens per wallet (0 = unlimited)
                       type: integer
                       minimum: 0
                       maximum: 281474976710655
-                      description: Max tokens per wallet (0 = unlimited)
                     max_per_tx:
                       default: 0
-                      type: integer
-                      minimum: 0
-                      maximum: 281474976710655
                       description: Max tokens per transaction (0 = unlimited)
+                      type: integer
+                      minimum: 0
+                      maximum: 281474976710655
                     start_timestamp:
-                      type: integer
-                      minimum: 0
-                      maximum: 281474976710655
                       description: Unix timestamp (defaults to current time)
-                    end_timestamp:
                       type: integer
                       minimum: 0
                       maximum: 281474976710655
+                    end_timestamp:
                       description: Unix timestamp (defaults to no end date)
+                      type: integer
+                      minimum: 0
+                      maximum: 281474976710655
               required:
                 - network
                 - name
@@ -4884,8 +4872,6 @@ paths:
                           - base
                           - optimism
                           - base-sepolia
-                        description: Network to mint on.
-                        example: base
                       address:
                         $ref: '#/components/schemas/EthAddress'
                       name:
@@ -4951,36 +4937,36 @@ paths:
                   minLength: 1
                   description: Text prompt describing the image to generate
                 source_image_urls:
+                  description: Optional array of source image URLs to edit or use as reference (max 5)
+                  maxItems: 5
                   type: array
                   items:
                     type: string
                     format: uri
-                  maxItems: 5
-                  description: Optional array of source image URLs to edit or use as reference (max 5)
                 width:
                   default: 1024
+                  description: 'Output image width in pixels (default: 1024)'
                   type: integer
                   minimum: 1
                   maximum: 4096
-                  description: 'Output image width in pixels (default: 1024)'
                 height:
                   default: 1024
+                  description: 'Output image height in pixels (default: 1024)'
                   type: integer
                   minimum: 1
                   maximum: 4096
-                  description: 'Output image height in pixels (default: 1024)'
                 format:
                   default: png
+                  description: 'Output image format (default: png)'
                   type: string
                   enum:
                     - png
                     - jpeg
                     - webp
-                  description: 'Output image format (default: png)'
                 high_fidelity:
                   default: false
-                  type: boolean
                   description: 'Use the high-fidelity model (slower but more detailed). Default: false.'
+                  type: boolean
               required:
                 - prompt
         required: true
@@ -5044,8 +5030,6 @@ paths:
                     - base
                     - optimism
                     - base-sepolia
-                  description: Network to mint on.
-                  example: base
                 contract_address:
                   type: string
                   pattern: ^0x[a-fA-F0-9]{40}$
@@ -5053,6 +5037,8 @@ paths:
                   description: Ethereum address
                   title: EthAddress
                 tokens:
+                  minItems: 1
+                  maxItems: 200
                   type: array
                   items:
                     type: object
@@ -5106,8 +5092,6 @@ paths:
                     required:
                       - token_id
                       - metadata
-                  minItems: 1
-                  maxItems: 200
               required:
                 - network
                 - contract_address
@@ -5201,9 +5185,11 @@ paths:
                   description: Ethereum address
                   title: EthAddress
                 recipients:
+                  minItems: 1
+                  maxItems: 200
                   type: array
                   items:
-                    oneOf:
+                    anyOf:
                       - type: object
                         properties:
                           address:
@@ -5212,7 +5198,8 @@ paths:
                             example: '0x5a927ac639636e534b678e81768ca19e2c6280b7'
                             description: Ethereum address
                             title: EthAddress
-                          fid: {}
+                          fid:
+                            not: {}
                           quantity:
                             default: 1
                             type: integer
@@ -5223,7 +5210,8 @@ paths:
                           - address
                       - type: object
                         properties:
-                          address: {}
+                          address:
+                            not: {}
                           fid:
                             type: integer
                             minimum: 0
@@ -5240,8 +5228,6 @@ paths:
                         required:
                           - fid
                     description: NFT mint recipient. Exactly one of "address" or "fid" must be set.
-                  minItems: 1
-                  maxItems: 200
                   description: List of recipients to mint to (1-200 recipients allowed).
                 async:
                   type: boolean
@@ -5278,6 +5264,7 @@ paths:
                                 fid:
                                   $ref: '#/components/schemas/Fid'
                                 tokens:
+                                  description: Minted token IDs parsed from Transfer events (sync mode only).
                                   type: array
                                   items:
                                     type: object
@@ -5286,7 +5273,6 @@ paths:
                                         type: string
                                     required:
                                       - token_id
-                                  description: Minted token IDs parsed from Transfer events (sync mode only).
                               required:
                                 - address
                                 - quantity
@@ -5294,6 +5280,8 @@ paths:
                             transaction_hash:
                               $ref: '#/components/schemas/PrefixedHexString'
                             receipt:
+                              description: Transaction receipt (if async is false).
+                              nullable: true
                               type: object
                               properties:
                                 status:
@@ -5306,8 +5294,6 @@ paths:
                                 - status
                                 - gas_used
                                 - block_number
-                              nullable: true
-                              description: Transaction receipt (if async is false).
                           required:
                             - recipient
                             - transaction_hash
@@ -5352,7 +5338,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorRes'
         '402':
-          description: '402'
+          description: Payment Required
           content:
             application/json:
               schema:
@@ -5458,11 +5444,11 @@ paths:
           description: Number of results to fetch
           schema:
             default: 15
+            format: int32
+            example: 15
             type: integer
             minimum: 1
             maximum: 25
-            format: int32
-            example: 15
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -5513,11 +5499,11 @@ paths:
           description: Number of results to fetch
           schema:
             default: 15
+            format: int32
+            example: 15
             type: integer
             minimum: 1
             maximum: 25
-            format: int32
-            example: 15
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -5610,17 +5596,16 @@ paths:
                 - mentions
                 - replies
                 - quotes
-              title: NotificationType
         - name: limit
           in: query
           description: Number of results to fetch
           schema:
             default: 15
+            example: 15
+            format: int32
             type: integer
             minimum: 1
             maximum: 25
-            example: 15
-            format: int32
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -5745,9 +5730,9 @@ paths:
           in: query
           required: true
           schema:
+            example: '0x71d5225f77e0164388b1d4c120825f3a2c1f131c'
             type: string
             pattern: ^(0x)?[a-fA-F0-9]{40}$
-            example: '0x71d5225f77e0164388b1d4c120825f3a2c1f131c'
         - name: types
           in: query
           description: "Customize which reaction types the request should search for. This is a comma-separated string that can include the following values: 'likes' and 'recasts'. By default api returns both. To select multiple types, use a comma-separated list of these values."
@@ -5772,11 +5757,11 @@ paths:
           description: Number of results to fetch
           schema:
             default: 25
+            format: int32
+            example: 30
             type: integer
             minimum: 1
             maximum: 100
-            format: int32
-            example: 30
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -5837,11 +5822,11 @@ paths:
           description: Number of results to fetch
           schema:
             default: 25
+            format: int32
+            example: 30
             type: integer
             minimum: 1
             maximum: 100
-            format: int32
-            example: 30
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -6219,11 +6204,11 @@ paths:
           description: Number of topics to fetch.
           schema:
             default: 10
+            example: 10
+            format: int32
             type: integer
             minimum: 1
             maximum: 25
-            example: 10
-            format: int32
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -6271,10 +6256,10 @@ paths:
           description: Number of results to fetch
           schema:
             default: 3
-            type: integer
+            example: 5
             minimum: 1
             maximum: 100
-            example: 5
+            type: integer
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -6449,7 +6434,6 @@ paths:
           required: true
           schema:
             type: number
-            nullable: true
             example: 37.77
         - name: longitude
           in: query
@@ -6457,25 +6441,24 @@ paths:
           required: true
           schema:
             type: number
-            nullable: true
             example: -122.41
         - name: viewer_fid
           in: query
           description: FID of the user viewing the feed. Providing this will return a list of users that respects this user's mutes and blocks and includes `viewer_context`.
           schema:
+            example: 3
             type: integer
             minimum: 1
-            example: 3
         - name: limit
           in: query
           description: Number of results to fetch
           schema:
             default: 25
-            type: integer
-            minimum: 1
-            maximum: 100
             example: 25
             format: int32
+            maximum: 100
+            type: integer
+            minimum: 1
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -6596,11 +6579,11 @@ paths:
           description: Number of users to fetch
           schema:
             default: 5
+            example: 10
+            format: int32
             type: integer
             minimum: 1
             maximum: 10
-            example: 10
-            format: int32
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -6643,9 +6626,9 @@ paths:
         - name: viewer_fid
           in: query
           schema:
+            example: 3
             type: integer
             minimum: 1
-            example: 3
       operationId: fetch-bulk-users
       responses:
         '200':
@@ -6741,10 +6724,10 @@ paths:
           description: Number of results to fetch
           schema:
             default: 25
+            format: int32
             type: integer
             minimum: 1
             maximum: 100
-            format: int32
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -6781,10 +6764,10 @@ paths:
           description: Number of results to fetch
           schema:
             default: 20
+            example: 30
             type: integer
             minimum: 1
             maximum: 100
-            example: 30
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -6870,7 +6853,8 @@ paths:
           schema:
             type: integer
             minimum: 0
-            nullable: true
+            example: 3
+            format: int32
       operationId: fetch-verifications
       responses:
         '200':
@@ -7060,10 +7044,10 @@ paths:
           description: Comma separated list of two FIDs
           required: true
           schema:
-            type: string
             x-accept-as: integer
             x-comma-separated: true
             example: 194, 191
+            type: string
         - name: type
           in: query
           description: Comma seperated list of Interaction type to fetch
@@ -7126,6 +7110,7 @@ paths:
             type: string
             enum:
               - fabric_stp
+            title: SubscriptionProvider
       operationId: fetch-subscriptions-for-fid
       responses:
         '200':
@@ -7219,6 +7204,8 @@ paths:
             enum:
               - fabric_stp
               - paragraph
+            example: fabric_stp
+            title: SubscriptionProviders
       operationId: fetch-subscribers-for-fid
       responses:
         '200':
@@ -7570,13 +7557,12 @@ paths:
             title: Network
         - name: address
           in: query
-          description: Ethereum address
+          description: Token contract address
           required: true
           schema:
             type: string
             pattern: ^0x[a-fA-F0-9]{40}$
             example: '0x5a927ac639636e534b678e81768ca19e2c6280b7'
-            title: EthAddress
       operationId: get-token-metadata
       responses:
         '200':
@@ -7592,7 +7578,10 @@ paths:
                       network:
                         $ref: '#/components/schemas/Network'
                       address:
-                        $ref: '#/components/schemas/EthAddress'
+                        type: string
+                        pattern: ^0x[a-fA-F0-9]{40}$
+                        example: '0x5a927ac639636e534b678e81768ca19e2c6280b7'
+                        description: Token contract address
                       name:
                         type: string
                         description: Token name
@@ -7606,78 +7595,78 @@ paths:
                         description: Token decimals
                         example: 6
                       total_supply:
-                        type: string
                         nullable: true
                         description: Total token supply
                         example: '1000000000000'
-                      image_url:
                         type: string
+                      image_url:
                         nullable: true
                         description: Token logo URL
                         example: https://example.com/token.png
-                      price_usd:
                         type: string
+                      price_usd:
                         nullable: true
                         description: Token price in USD
                         example: '1.00'
-                      market_cap:
                         type: string
+                      market_cap:
                         nullable: true
                         description: Market capitalization in USD
                         example: '25000000000'
-                      fdv:
                         type: string
+                      fdv:
                         nullable: true
                         description: Fully diluted valuation in USD
                         example: '25000000000'
-                      liquidity:
                         type: string
+                      liquidity:
                         nullable: true
                         description: Total liquidity in USD
                         example: '500000000'
-                      volume_6h:
                         type: string
+                      volume_6h:
                         nullable: true
                         description: 6-hour trading volume in USD
                         example: '50000000'
-                      volume_24h:
                         type: string
+                      volume_24h:
                         nullable: true
                         description: 24-hour trading volume in USD
                         example: '150000000'
+                        type: string
                       price_change_6h_pct:
-                        type: number
                         nullable: true
                         description: 6-hour price change percentage
                         example: 0.5
-                      price_change_24h_pct:
                         type: number
+                      price_change_24h_pct:
                         nullable: true
                         description: 24-hour price change percentage
                         example: -1.2
+                        type: number
                       holder_count:
-                        type: integer
                         nullable: true
                         description: Number of token holders
                         example: 1500000
+                        type: integer
                       description:
-                        type: string
                         nullable: true
                         description: Token description
                         example: USDC is a fully collateralized US dollar stablecoin
+                        type: string
                       price_updated_at:
-                        type: integer
                         nullable: true
                         description: Timestamp when price data was last updated (milliseconds)
                         example: 1707177600000
+                        type: integer
                       price_source:
+                        nullable: true
+                        description: Source of price data
+                        example: onchain
                         type: string
                         enum:
                           - onchain
                           - coingecko
-                        nullable: true
-                        description: Source of price data
-                        example: onchain
                     required:
                       - network
                       - address
@@ -7755,12 +7744,16 @@ paths:
                   tokens:
                     type: array
                     items:
+                      nullable: true
                       type: object
                       properties:
                         network:
                           $ref: '#/components/schemas/Network'
                         address:
-                          $ref: '#/components/schemas/EthAddress'
+                          type: string
+                          pattern: ^0x[a-fA-F0-9]{40}$
+                          example: '0x5a927ac639636e534b678e81768ca19e2c6280b7'
+                          description: Token contract address
                         name:
                           type: string
                           description: Token name
@@ -7774,78 +7767,78 @@ paths:
                           description: Token decimals
                           example: 6
                         total_supply:
-                          type: string
                           nullable: true
                           description: Total token supply
                           example: '1000000000000'
-                        image_url:
                           type: string
+                        image_url:
                           nullable: true
                           description: Token logo URL
                           example: https://example.com/token.png
-                        price_usd:
                           type: string
+                        price_usd:
                           nullable: true
                           description: Token price in USD
                           example: '1.00'
-                        market_cap:
                           type: string
+                        market_cap:
                           nullable: true
                           description: Market capitalization in USD
                           example: '25000000000'
-                        fdv:
                           type: string
+                        fdv:
                           nullable: true
                           description: Fully diluted valuation in USD
                           example: '25000000000'
-                        liquidity:
                           type: string
+                        liquidity:
                           nullable: true
                           description: Total liquidity in USD
                           example: '500000000'
-                        volume_6h:
                           type: string
+                        volume_6h:
                           nullable: true
                           description: 6-hour trading volume in USD
                           example: '50000000'
-                        volume_24h:
                           type: string
+                        volume_24h:
                           nullable: true
                           description: 24-hour trading volume in USD
                           example: '150000000'
+                          type: string
                         price_change_6h_pct:
-                          type: number
                           nullable: true
                           description: 6-hour price change percentage
                           example: 0.5
-                        price_change_24h_pct:
                           type: number
+                        price_change_24h_pct:
                           nullable: true
                           description: 24-hour price change percentage
                           example: -1.2
+                          type: number
                         holder_count:
-                          type: integer
                           nullable: true
                           description: Number of token holders
                           example: 1500000
+                          type: integer
                         description:
-                          type: string
                           nullable: true
                           description: Token description
                           example: USDC is a fully collateralized US dollar stablecoin
+                          type: string
                         price_updated_at:
-                          type: integer
                           nullable: true
                           description: Timestamp when price data was last updated (milliseconds)
                           example: 1707177600000
+                          type: integer
                         price_source:
+                          nullable: true
+                          description: Source of price data
+                          example: onchain
                           type: string
                           enum:
                             - onchain
                             - coingecko
-                          nullable: true
-                          description: Source of price data
-                          example: onchain
                       required:
                         - network
                         - address
@@ -7866,7 +7859,6 @@ paths:
                         - description
                         - price_updated_at
                         - price_source
-                      nullable: true
                 required:
                   - tokens
         '400':
@@ -7900,23 +7892,22 @@ paths:
             type: string
         - name: address
           in: query
-          description: Ethereum address
+          description: Wallet address
           required: true
           schema:
             type: string
             pattern: ^0x[a-fA-F0-9]{40}$
             example: '0x5a927ac639636e534b678e81768ca19e2c6280b7'
-            title: EthAddress
         - name: limit
           in: query
           description: Number of results to return (max 100)
           schema:
             default: 50
+            example: 50
+            format: int32
             type: integer
             minimum: 1
             maximum: 100
-            example: 50
-            format: int32
           x-is-limit-param: true
         - name: cursor
           in: query
@@ -7940,7 +7931,10 @@ paths:
                         network:
                           $ref: '#/components/schemas/Network'
                         address:
-                          $ref: '#/components/schemas/EthAddress'
+                          type: string
+                          pattern: ^0x[a-fA-F0-9]{40}$
+                          example: '0x5a927ac639636e534b678e81768ca19e2c6280b7'
+                          description: Token contract address
                         name:
                           type: string
                           description: Token name
@@ -7958,20 +7952,20 @@ paths:
                           description: Raw token balance
                           example: '1000000000'
                         balance_usd:
-                          type: string
                           nullable: true
                           description: Balance value in USD
                           example: '1000.50'
-                        price_usd:
                           type: string
+                        price_usd:
                           nullable: true
                           description: Token price in USD
                           example: '1.00'
-                        image_url:
                           type: string
+                        image_url:
                           nullable: true
                           description: Token logo URL
                           example: https://example.com/token.png
+                          type: string
                       required:
                         - network
                         - address
@@ -7986,9 +7980,9 @@ paths:
                     type: object
                     properties:
                       cursor:
-                        type: string
                         nullable: true
                         description: Pagination cursor for next page, null if no more results
+                        type: string
                     required:
                       - cursor
                 required:
@@ -8036,6 +8030,7 @@ paths:
                       enum:
                         - 1
                     accepts:
+                      minItems: 1
                       type: array
                       items:
                         type: object
@@ -8071,17 +8066,15 @@ paths:
                           mimeType:
                             type: string
                           outputSchema:
-                            type: object
-                            additionalProperties:
-                              nullable: true
                             nullable: true
+                            type: object
+                            additionalProperties: {}
                           maxTimeoutSeconds:
                             type: number
                           extra:
-                            type: object
-                            additionalProperties:
-                              nullable: true
                             nullable: true
+                            type: object
+                            additionalProperties: {}
                         required:
                           - scheme
                           - network
@@ -8091,7 +8084,6 @@ paths:
                           - resource
                           - description
                           - maxTimeoutSeconds
-                      minItems: 1
                   required:
                     - x402Version
                     - accepts
@@ -8241,7 +8233,8 @@ paths:
           schema:
             type: integer
             minimum: 0
-            nullable: true
+            example: 3
+            format: int32
       operationId: get-credit-drop
       responses:
         '200':
@@ -8256,21 +8249,21 @@ paths:
                     format: date-time
                     description: When the credit drop was generated
                   raw_score:
-                    type: number
-                    minimum: 0
-                    maximum: 1
+                    nullable: true
                     description: Raw quality score from 0 to 1
-                    nullable: true
-                  percentile_score:
                     type: number
                     minimum: 0
                     maximum: 1
+                  percentile_score:
+                    nullable: true
                     description: Percentile rank within 7-day global distribution
-                    nullable: true
-                  reward_amount:
                     type: number
-                    description: Credit reward amount
+                    minimum: 0
+                    maximum: 1
+                  reward_amount:
                     nullable: true
+                    description: Credit reward amount
+                    type: number
                   claimed:
                     type: boolean
                     description: Whether the credit drop has been claimed
@@ -8278,9 +8271,9 @@ paths:
                     type: number
                     description: Portion of this drop already consumed against STUDIO CU usage (incremented by the CU sync). Forfeited at allowance_expires_at if unused.
                   credits_remaining:
-                    type: number
-                    description: reward_amount - credits_used, clamped at 0. Spendable only until allowance_expires_at.
                     nullable: true
+                    description: reward_amount - credits_used, clamped at 0. Spendable only until allowance_expires_at.
+                    type: number
                   allowance_expires_at:
                     type: string
                     format: date-time
@@ -8299,7 +8292,7 @@ paths:
                   - allowance_expires_at
                   - expired
         '402':
-          description: '402'
+          description: Payment Required
           content:
             application/json:
               schema:
@@ -8344,6 +8337,8 @@ paths:
                   type: integer
                   minimum: 0
                   description: Farcaster ID of the user
+                  example: 3
+                  format: int32
               required:
                 - fid
         required: true
@@ -8370,7 +8365,7 @@ paths:
                   - reward_amount
                   - new_extra_credits
         '402':
-          description: '402'
+          description: Payment Required
           content:
             application/json:
               schema:
@@ -8406,7 +8401,7 @@ paths:
                 required:
                   - message
         '410':
-          description: '410'
+          description: Gone
           content:
             application/json:
               schema:
@@ -8440,9 +8435,7 @@ paths:
           schema:
             type: integer
             minimum: 0
-            nullable: true
             example: 3
-            title: Fid
             format: int32
       operationId: list-tables
       responses:
@@ -8471,9 +8464,9 @@ paths:
                             - VIEW
                           description: Table type
                         rowCountEstimate:
-                          type: number
-                          description: Estimated row count from statistics
                           nullable: true
+                          description: Estimated row count from statistics
+                          type: number
                       required:
                         - name
                         - schema
@@ -8563,9 +8556,7 @@ paths:
           schema:
             type: integer
             minimum: 0
-            nullable: true
             example: 3
-            title: Fid
             format: int32
       operationId: get-table-schema
       responses:
@@ -8594,9 +8585,9 @@ paths:
                           type: boolean
                           description: Whether the column allows NULL values
                         defaultValue:
-                          type: string
-                          description: Default value expression
                           nullable: true
+                          description: Default value expression
+                          type: string
                         isPrimaryKey:
                           type: boolean
                           description: Whether the column is part of primary key
@@ -8744,39 +8735,38 @@ paths:
                   format: uuid
                   description: Deployment ID (UUID)
                 fid:
+                  description: Farcaster ID of the user. Required for non-admin users.
                   type: integer
                   minimum: 0
-                  description: Farcaster ID of the user. Required for non-admin users.
                   example: 3
-                  title: Fid
                   format: int32
                 table:
                   type: string
                   minLength: 1
                   description: Table name to query
                 columns:
+                  description: Columns to select (defaults to all)
                   type: array
                   items:
                     type: string
-                  description: Columns to select (defaults to all)
                 limit:
+                  description: 'Maximum rows to return (default: 100, max: 1000)'
                   type: number
                   minimum: 1
                   maximum: 1000
-                  description: 'Maximum rows to return (default: 100, max: 1000)'
                 offset:
+                  description: Number of rows to skip
                   type: number
                   minimum: 0
-                  description: Number of rows to skip
                 orderBy:
-                  type: string
                   description: Column to sort by
+                  type: string
                 orderDirection:
+                  description: Sort direction
                   type: string
                   enum:
                     - asc
                     - desc
-                  description: Sort direction
               required:
                 - deployment_id
                 - table
@@ -8808,8 +8798,7 @@ paths:
                     type: array
                     items:
                       type: object
-                      additionalProperties:
-                        nullable: true
+                      additionalProperties: {}
                     description: Query result rows
                   totalCount:
                     type: number
@@ -8904,11 +8893,10 @@ paths:
                   format: uuid
                   description: Deployment ID (UUID)
                 fid:
+                  description: Farcaster ID (optional for admins)
                   type: integer
                   minimum: 0
-                  description: Farcaster ID (optional for admins)
                   example: 3
-                  title: Fid
                   format: int32
                 sql:
                   type: string
@@ -8946,8 +8934,7 @@ paths:
                     type: array
                     items:
                       type: object
-                      additionalProperties:
-                        nullable: true
+                      additionalProperties: {}
                     description: Query result rows
                   rowCount:
                     type: number
@@ -9040,20 +9027,18 @@ paths:
                   format: uuid
                   description: Deployment ID (UUID)
                 fid:
+                  description: Farcaster ID of the user. Required for non-admin users.
                   type: integer
                   minimum: 0
-                  description: Farcaster ID of the user. Required for non-admin users.
                   example: 3
-                  title: Fid
                   format: int32
                 rows:
+                  minItems: 1
+                  maxItems: 100
                   type: array
                   items:
                     type: object
-                    additionalProperties:
-                      nullable: true
-                  minItems: 1
-                  maxItems: 100
+                    additionalProperties: {}
                   description: Rows to insert (max 100)
               required:
                 - deployment_id
@@ -9074,8 +9059,7 @@ paths:
                     type: array
                     items:
                       type: object
-                      additionalProperties:
-                        nullable: true
+                      additionalProperties: {}
                     description: Inserted rows with generated values
                 required:
                   - insertedCount
@@ -9159,27 +9143,24 @@ paths:
                   format: uuid
                   description: Deployment ID (UUID)
                 fid:
+                  description: Farcaster ID of the user. Required for non-admin users.
                   type: integer
                   minimum: 0
-                  description: Farcaster ID of the user. Required for non-admin users.
                   example: 3
-                  title: Fid
                   format: int32
                 set:
                   type: object
-                  additionalProperties:
-                    nullable: true
+                  additionalProperties: {}
                   description: Column values to update
                 where:
                   type: object
-                  additionalProperties:
-                    nullable: true
+                  additionalProperties: {}
                   description: WHERE conditions (equality only, required)
                 limit:
+                  description: 'Maximum rows to update (default: 1000)'
                   type: number
                   minimum: 1
                   maximum: 1000
-                  description: 'Maximum rows to update (default: 1000)'
               required:
                 - deployment_id
                 - set
@@ -9277,22 +9258,20 @@ paths:
                   format: uuid
                   description: Deployment ID (UUID)
                 fid:
+                  description: Farcaster ID of the user. Required for non-admin users.
                   type: integer
                   minimum: 0
-                  description: Farcaster ID of the user. Required for non-admin users.
                   example: 3
-                  title: Fid
                   format: int32
                 where:
                   type: object
-                  additionalProperties:
-                    nullable: true
+                  additionalProperties: {}
                   description: WHERE conditions (equality only, required)
                 limit:
+                  description: 'Maximum rows to delete (default: 1000)'
                   type: number
                   minimum: 1
                   maximum: 1000
-                  description: 'Maximum rows to delete (default: 1000)'
               required:
                 - deployment_id
                 - where
@@ -9387,9 +9366,11 @@ paths:
                   type: integer
                   minimum: 0
                   description: Farcaster ID of the user
+                  example: 3
+                  format: int32
                 connection_string:
-                  type: string
                   description: Optional BYO PostgreSQL connection string. If omitted, a Neon database is auto-provisioned.
+                  type: string
               required:
                 - deployment_id
                 - fid
@@ -9486,6 +9467,7 @@ paths:
                   format: uuid
                   description: Deployment ID to add secrets to
                 secrets:
+                  minItems: 1
                   type: array
                   items:
                     type: object
@@ -9499,7 +9481,6 @@ paths:
                     required:
                       - key
                       - value
-                  minItems: 1
                   description: Secrets to create
               required:
                 - deployment_id
@@ -9590,8 +9571,8 @@ paths:
                             - user
                           description: Whether this is a system-managed or user-defined variable
                         preview:
-                          type: string
                           description: Masked preview of the secret value (e.g. "sk_l…t1b3")
+                          type: string
                       required:
                         - key
                         - id
@@ -9632,10 +9613,10 @@ paths:
                   format: uuid
                   description: Deployment ID to delete secrets from
                 ids:
+                  minItems: 1
                   type: array
                   items:
                     type: string
-                  minItems: 1
                   description: Secret IDs to delete
               required:
                 - deployment_id
@@ -9694,14 +9675,16 @@ paths:
                   type: integer
                   minimum: 0
                   description: Farcaster ID of the user
+                  example: 3
+                  format: int32
                 env:
+                  description: Environment variables for the deployment
                   type: object
                   additionalProperties:
                     type: string
-                  description: Environment variables for the deployment
                 display_name:
-                  type: string
                   description: Display name for the deployment
+                  type: string
               required:
                 - fid
         required: true
@@ -9717,25 +9700,25 @@ paths:
                     type: string
                     description: Deployment ID
                   display_name:
-                    type: string
                     description: Display name for the project
+                    type: string
                   url:
+                    description: Public URL for the deployment
                     type: string
                     format: uri
-                    description: Public URL for the deployment
                   github_url:
-                    type: string
                     description: GitHub repository SSH URL
+                    type: string
                   deleted_at:
-                    type: string
-                    format: date-time
+                    nullable: true
                     description: Deletion timestamp
-                    nullable: true
-                  updated_at:
                     type: string
                     format: date-time
-                    description: Last update timestamp
+                  updated_at:
                     nullable: true
+                    description: Last update timestamp
+                    type: string
+                    format: date-time
                   created_at:
                     type: string
                     format: date-time
@@ -9756,17 +9739,18 @@ paths:
                     type: boolean
                     description: Whether the generated app is currently serving
                   dev_server_state:
+                    description: 'Dev server process state: stopped, starting, running, or crashed'
                     type: string
                     enum:
                       - stopped
                       - starting
                       - running
                       - crashed
-                    description: 'Dev server process state: stopped, starting, running, or crashed'
                   has_database:
-                    type: boolean
                     description: Whether the deployment has a Neon database configured
+                    type: boolean
                   production_app_status:
+                    description: Production app deployment status from Vercel
                     type: object
                     properties:
                       project_id:
@@ -9782,14 +9766,13 @@ paths:
                         type: number
                         description: Deployment creation timestamp (Unix ms)
                       target:
-                        type: string
                         description: Deployment target (e.g., production, preview)
+                        type: string
                     required:
                       - project_id
                       - deployment_url
                       - deployment_state
                       - created_at
-                    description: Production app deployment status from Vercel
                 required:
                   - id
                   - deleted_at
@@ -9838,9 +9821,7 @@ paths:
           schema:
             type: integer
             minimum: 0
-            nullable: true
             example: 3
-            title: Fid
             format: int32
         - name: limit
           in: query
@@ -9858,7 +9839,6 @@ paths:
             default: 0
             type: integer
             minimum: 0
-            nullable: true
         - name: query
           in: query
           description: Search string to filter deployments by name, display name, or FID.
@@ -9879,7 +9859,6 @@ paths:
           schema:
             default: false
             type: boolean
-            nullable: true
       operationId: list-deployments
       responses:
         '200':
@@ -9895,25 +9874,25 @@ paths:
                       type: string
                       description: Deployment ID
                     display_name:
-                      type: string
                       description: Display name for the project
+                      type: string
                     url:
+                      description: Public URL for the deployment
                       type: string
                       format: uri
-                      description: Public URL for the deployment
                     github_url:
-                      type: string
                       description: GitHub repository SSH URL
+                      type: string
                     deleted_at:
-                      type: string
-                      format: date-time
+                      nullable: true
                       description: Deletion timestamp
-                      nullable: true
-                    updated_at:
                       type: string
                       format: date-time
-                      description: Last update timestamp
+                    updated_at:
                       nullable: true
+                      description: Last update timestamp
+                      type: string
+                      format: date-time
                     created_at:
                       type: string
                       format: date-time
@@ -9934,17 +9913,18 @@ paths:
                       type: boolean
                       description: Whether the generated app is currently serving
                     dev_server_state:
+                      description: 'Dev server process state: stopped, starting, running, or crashed'
                       type: string
                       enum:
                         - stopped
                         - starting
                         - running
                         - crashed
-                      description: 'Dev server process state: stopped, starting, running, or crashed'
                     has_database:
-                      type: boolean
                       description: Whether the deployment has a Neon database configured
+                      type: boolean
                     production_app_status:
+                      description: Production app deployment status from Vercel
                       type: object
                       properties:
                         project_id:
@@ -9960,14 +9940,13 @@ paths:
                           type: number
                           description: Deployment creation timestamp (Unix ms)
                         target:
-                          type: string
                           description: Deployment target (e.g., production, preview)
+                          type: string
                       required:
                         - project_id
                         - deployment_url
                         - deployment_state
                         - created_at
-                      description: Production app deployment status from Vercel
                   required:
                     - id
                     - deleted_at
@@ -10028,19 +10007,21 @@ paths:
               type: object
               properties:
                 deployment_id:
+                  description: Deployment ID (UUID). If provided, deletes this specific deployment.
                   type: string
                   format: uuid
-                  description: Deployment ID (UUID). If provided, deletes this specific deployment.
                 fid:
                   type: integer
                   minimum: 0
                   description: Farcaster ID of the user
+                  example: 3
+                  format: int32
                 name:
-                  type: string
                   description: Kubernetes deployment name. If not provided and deployment_id not provided, all deployments for the FID will be deleted
-                namespace:
                   type: string
+                namespace:
                   description: Optional Kubernetes namespace. If not provided, will query for the active namespace for the given FID.
+                  type: string
               required:
                 - fid
         required: true
@@ -10109,32 +10090,31 @@ paths:
               type: object
               properties:
                 deployment_id:
+                  description: Deployment ID (UUID). Required if name not provided.
                   type: string
                   format: uuid
-                  description: Deployment ID (UUID). Required if name not provided.
                 fid:
+                  description: Farcaster ID of the user; if not provided, namespace must be provided
                   type: integer
                   minimum: 0
-                  description: Farcaster ID of the user; if not provided, namespace must be provided
                   example: 3
-                  title: Fid
                   format: int32
                 name:
-                  type: string
                   description: Kubernetes deployment name. Required if deployment_id not provided.
-                namespace:
                   type: string
+                namespace:
                   description: Optional Kubernetes namespace. If not provided, will query for the active namespace for the given FID.
+                  type: string
                 prompt:
                   type: string
                   description: Prompt string to send to the deployment
                 conversation_id:
+                  description: Optional conversation ID to continue an existing chat. If not provided, a new conversation will be created.
                   type: string
                   format: uuid
-                  description: Optional conversation ID to continue an existing chat. If not provided, a new conversation will be created.
                 session_id:
-                  type: string
                   description: Optional Claude SDK session ID to resume an existing Claude Code session. Enables session-based conversation continuity.
+                  type: string
                 system_prompt_variant:
                   type: string
                   enum:
@@ -10143,6 +10123,7 @@ paths:
                     - stable
                   description: System prompt variant to use. Defaults to stable if not provided.
                 images:
+                  description: Optional images for multimodal messages. Each image is base64-encoded.
                   type: array
                   items:
                     type: object
@@ -10161,7 +10142,6 @@ paths:
                     required:
                       - mediaType
                       - data
-                  description: Optional images for multimodal messages. Each image is base64-encoded.
               required:
                 - prompt
         required: true
@@ -10214,7 +10194,7 @@ paths:
                 required:
                   - error
         '413':
-          description: '413'
+          description: Content Too Large
           content:
             application/json:
               schema:
@@ -10253,22 +10233,21 @@ paths:
               type: object
               properties:
                 deployment_id:
+                  description: Deployment ID (UUID). Required if name not provided.
                   type: string
                   format: uuid
-                  description: Deployment ID (UUID). Required if name not provided.
                 fid:
+                  description: Farcaster ID of the user; if not provided, namespace must be provided
                   type: integer
                   minimum: 0
-                  description: Farcaster ID of the user; if not provided, namespace must be provided
                   example: 3
-                  title: Fid
                   format: int32
                 name:
-                  type: string
                   description: Kubernetes deployment name. Required if deployment_id not provided.
-                namespace:
                   type: string
+                namespace:
                   description: Optional Kubernetes namespace. If not provided, will query for the active namespace for the given FID.
+                  type: string
                 conversation_id:
                   type: string
                   format: uuid
@@ -10345,9 +10324,7 @@ paths:
           schema:
             type: integer
             minimum: 0
-            nullable: true
             example: 3
-            title: Fid
             format: int32
         - name: name
           in: query
@@ -10372,25 +10349,25 @@ paths:
                     type: string
                     description: Deployment ID
                   display_name:
-                    type: string
                     description: Display name for the project
+                    type: string
                   url:
+                    description: Public URL for the deployment
                     type: string
                     format: uri
-                    description: Public URL for the deployment
                   github_url:
-                    type: string
                     description: GitHub repository SSH URL
+                    type: string
                   deleted_at:
-                    type: string
-                    format: date-time
+                    nullable: true
                     description: Deletion timestamp
-                    nullable: true
-                  updated_at:
                     type: string
                     format: date-time
-                    description: Last update timestamp
+                  updated_at:
                     nullable: true
+                    description: Last update timestamp
+                    type: string
+                    format: date-time
                   created_at:
                     type: string
                     format: date-time
@@ -10411,17 +10388,18 @@ paths:
                     type: boolean
                     description: Whether the generated app is currently serving
                   dev_server_state:
+                    description: 'Dev server process state: stopped, starting, running, or crashed'
                     type: string
                     enum:
                       - stopped
                       - starting
                       - running
                       - crashed
-                    description: 'Dev server process state: stopped, starting, running, or crashed'
                   has_database:
-                    type: boolean
                     description: Whether the deployment has a Neon database configured
+                    type: boolean
                   production_app_status:
+                    description: Production app deployment status from Vercel
                     type: object
                     properties:
                       project_id:
@@ -10437,14 +10415,13 @@ paths:
                         type: number
                         description: Deployment creation timestamp (Unix ms)
                       target:
-                        type: string
                         description: Deployment target (e.g., production, preview)
+                        type: string
                     required:
                       - project_id
                       - deployment_url
                       - deployment_state
                       - created_at
-                    description: Production app deployment status from Vercel
                 required:
                   - id
                   - deleted_at
@@ -10506,22 +10483,21 @@ paths:
               type: object
               properties:
                 deployment_id:
+                  description: Deployment ID (UUID). Required if name not provided.
                   type: string
                   format: uuid
-                  description: Deployment ID (UUID). Required if name not provided.
                 fid:
+                  description: Farcaster ID of the user; if not provided, namespace must be provided
                   type: integer
                   minimum: 0
-                  description: Farcaster ID of the user; if not provided, namespace must be provided
                   example: 3
-                  title: Fid
                   format: int32
                 name:
-                  type: string
                   description: Kubernetes deployment name. Required if deployment_id not provided.
-                namespace:
                   type: string
+                namespace:
                   description: Optional Kubernetes namespace. If not provided, will query for the active namespace for the given FID.
+                  type: string
                 account_association:
                   type: object
                   properties:
@@ -10698,11 +10674,11 @@ paths:
                     type: string
                     description: Status message
                   filename:
-                    type: string
                     description: Uploaded filename
-                  url:
                     type: string
+                  url:
                     description: URL path to access the image
+                    type: string
                 required:
                   - success
                   - message
@@ -10757,22 +10733,21 @@ paths:
               type: object
               properties:
                 deployment_id:
+                  description: Deployment ID (UUID). Required if name not provided.
                   type: string
                   format: uuid
-                  description: Deployment ID (UUID). Required if name not provided.
                 fid:
+                  description: Farcaster ID of the user; if not provided, namespace must be provided
                   type: integer
                   minimum: 0
-                  description: Farcaster ID of the user; if not provided, namespace must be provided
                   example: 3
-                  title: Fid
                   format: int32
                 name:
-                  type: string
                   description: Kubernetes deployment name. Required if deployment_id not provided.
-                namespace:
                   type: string
+                namespace:
                   description: Optional Kubernetes namespace. If not provided, will query for the active namespace for the given FID.
+                  type: string
                 url:
                   type: string
                   format: uri
@@ -10795,11 +10770,11 @@ paths:
                     type: string
                     description: Status message
                   filename:
-                    type: string
                     description: Uploaded filename
-                  url:
                     type: string
+                  url:
                     description: URL path to access the image
+                    type: string
                 required:
                   - success
                   - message
@@ -10859,9 +10834,7 @@ paths:
           schema:
             type: integer
             minimum: 0
-            nullable: true
             example: 3
-            title: Fid
             format: int32
         - name: name
           in: query
@@ -10874,7 +10847,6 @@ paths:
           schema:
             default: false
             type: boolean
-            nullable: true
       operationId: list-conversations
       responses:
         '200':
@@ -10909,13 +10881,13 @@ paths:
                           type: boolean
                           description: Whether the conversation is an admin conversation
                         title:
-                          type: string
+                          nullable: true
                           description: AI-generated title summarizing the conversation topic
-                          nullable: true
-                        last_message_preview:
                           type: string
-                          description: Preview of the last user message (truncated to ~80 chars)
+                        last_message_preview:
                           nullable: true
+                          description: Preview of the last user message (truncated to ~80 chars)
+                          type: string
                       required:
                         - id
                         - created_at
@@ -10994,9 +10966,7 @@ paths:
           schema:
             type: integer
             minimum: 0
-            nullable: true
             example: 3
-            title: Fid
             format: int32
         - name: name
           in: query
@@ -11021,7 +10991,6 @@ paths:
           schema:
             default: false
             type: boolean
-            nullable: true
         - name: limit
           in: query
           description: Maximum number of messages to return per page. Defaults to 50, max 100.
@@ -11073,11 +11042,11 @@ paths:
                             - admin
                           description: Message origin
                         type:
-                          type: string
                           description: Message type
-                        subtype:
                           type: string
+                        subtype:
                           description: Message subtype
+                          type: string
                       required:
                         - id
                         - created_at
@@ -11157,9 +11126,7 @@ paths:
           schema:
             type: integer
             minimum: 0
-            nullable: true
             example: 3
-            title: Fid
             format: int32
         - name: name
           in: query
@@ -11273,9 +11240,7 @@ paths:
           schema:
             type: integer
             minimum: 0
-            nullable: true
             example: 3
-            title: Fid
             format: int32
         - name: name
           in: query
@@ -11373,22 +11338,21 @@ paths:
               type: object
               properties:
                 deployment_id:
+                  description: Deployment ID (UUID). Required if name not provided.
                   type: string
                   format: uuid
-                  description: Deployment ID (UUID). Required if name not provided.
                 fid:
+                  description: Farcaster ID of the user; if not provided, namespace must be provided
                   type: integer
                   minimum: 0
-                  description: Farcaster ID of the user; if not provided, namespace must be provided
                   example: 3
-                  title: Fid
                   format: int32
                 name:
-                  type: string
                   description: Kubernetes deployment name. Required if deployment_id not provided.
-                namespace:
                   type: string
+                namespace:
                   description: Optional Kubernetes namespace. If not provided, will query for the active namespace for the given FID.
+                  type: string
         required: true
       responses:
         '200':
@@ -11440,7 +11404,7 @@ paths:
                 required:
                   - error
         '408':
-          description: '408'
+          description: Request Timeout
           content:
             application/json:
               schema:
@@ -11479,22 +11443,21 @@ paths:
               type: object
               properties:
                 deployment_id:
+                  description: Deployment ID (UUID). Required if name not provided.
                   type: string
                   format: uuid
-                  description: Deployment ID (UUID). Required if name not provided.
                 fid:
+                  description: Farcaster ID of the user; if not provided, namespace must be provided
                   type: integer
                   minimum: 0
-                  description: Farcaster ID of the user; if not provided, namespace must be provided
                   example: 3
-                  title: Fid
                   format: int32
                 name:
-                  type: string
                   description: Kubernetes deployment name. Required if deployment_id not provided.
-                namespace:
                   type: string
+                namespace:
                   description: Optional Kubernetes namespace. If not provided, will query for the active namespace for the given FID.
+                  type: string
         required: true
       responses:
         '200':
@@ -11590,8 +11553,6 @@ paths:
           content:
             application/json:
               schema:
-                discriminator:
-                  propertyName: schema_version
                 oneOf:
                   - type: object
                     properties:
@@ -11615,24 +11576,23 @@ paths:
                       current_phase:
                         type: number
                       started_at:
-                        type: string
                         nullable: true
+                        type: string
                       last_updated_at:
-                        type: string
                         nullable: true
+                        type: string
                       completed_at:
-                        type: string
                         nullable: true
+                        type: string
                       phases:
                         type: object
                         additionalProperties:
                           type: object
                           properties: {}
-                          additionalProperties: true
+                          additionalProperties: {}
                       metadata:
                         type: object
-                        additionalProperties:
-                          nullable: true
+                        additionalProperties: {}
                     required:
                       - schema_version
                       - ready_to_publish
@@ -11642,7 +11602,8 @@ paths:
                       - completed_at
                       - phases
                       - metadata
-                    additionalProperties: true
+                    additionalProperties: {}
+                type: object
         '400':
           description: Bad Request
           content:
@@ -11699,9 +11660,7 @@ paths:
           schema:
             type: integer
             minimum: 0
-            nullable: true
             example: 3
-            title: Fid
             format: int32
         - name: name
           in: query
@@ -11729,7 +11688,7 @@ paths:
                 required:
                   - error
         '402':
-          description: '402'
+          description: Payment Required
           content:
             application/json:
               schema:
@@ -11793,22 +11752,22 @@ paths:
               type: object
               properties:
                 deployment_id:
+                  description: Deployment ID
                   type: string
                   format: uuid
-                  description: Deployment ID
                 name:
-                  type: string
                   description: Kubernetes deployment name
-                namespace:
                   type: string
+                namespace:
                   description: Kubernetes namespace
+                  type: string
                 build_type:
                   default: vercel
+                  description: Build tool to use. "vercel" runs vercel build for production deployment. "npm" runs npm run build for dev server recovery.
                   type: string
                   enum:
                     - npm
                     - vercel
-                  description: Build tool to use. "vercel" runs vercel build for production deployment. "npm" runs npm run build for dev server recovery.
         required: true
       responses:
         '200':
@@ -11875,15 +11834,15 @@ paths:
               type: object
               properties:
                 deployment_id:
+                  description: Deployment ID
                   type: string
                   format: uuid
-                  description: Deployment ID
                 name:
-                  type: string
                   description: Kubernetes deployment name
-                namespace:
                   type: string
+                namespace:
                   description: Kubernetes namespace
+                  type: string
         required: true
       responses:
         '200':
@@ -11950,27 +11909,26 @@ paths:
               type: object
               properties:
                 deployment_id:
+                  description: Deployment ID (UUID). Required if name not provided.
                   type: string
                   format: uuid
-                  description: Deployment ID (UUID). Required if name not provided.
                 fid:
+                  description: Farcaster ID of the user; if not provided, namespace must be provided
                   type: integer
                   minimum: 0
-                  description: Farcaster ID of the user; if not provided, namespace must be provided
                   example: 3
-                  title: Fid
                   format: int32
                 name:
-                  type: string
                   description: Deployment name (used for both GitHub repo and Vercel project). Required if deployment_id not provided.
-                namespace:
                   type: string
+                namespace:
                   description: Kubernetes namespace name
+                  type: string
                 env:
+                  description: Environment variables for the Vercel deployment
                   type: object
                   additionalProperties:
                     type: string
-                  description: Environment variables for the Vercel deployment
         required: true
       responses:
         '200':
@@ -11984,14 +11942,14 @@ paths:
                     type: boolean
                     description: Whether the deployment succeeded
                   deployment_url:
-                    type: string
                     description: URL of the deployed Vercel app
+                    type: string
                   project_id:
-                    type: string
                     description: Vercel project ID
-                  production_url:
                     type: string
+                  production_url:
                     description: Production URL under neynar.app domain
+                    type: string
                 required:
                   - success
         '400':
@@ -12081,7 +12039,6 @@ paths:
           schema:
             type: integer
             minimum: 0
-            nullable: true
         - name: namespace
           in: query
           description: K8s Namespace name
@@ -12105,20 +12062,20 @@ paths:
                     type: boolean
                     description: Whether the request succeeded
                   project_id:
-                    type: string
                     description: Vercel project ID
+                    type: string
                   deployment_url:
-                    type: string
                     description: URL of the deployed Vercel app
+                    type: string
                   deployment_state:
-                    type: string
                     description: Current state of the deployment
-                  created_at:
-                    type: number
-                    description: Timestamp when deployment was created
-                  target:
                     type: string
+                  created_at:
+                    description: Timestamp when deployment was created
+                    type: number
+                  target:
                     description: Deployment target environment
+                    type: string
                 required:
                   - success
         '400':
@@ -12192,7 +12149,6 @@ paths:
           schema:
             type: integer
             minimum: 0
-            nullable: true
         - name: namespace
           in: query
           description: K8s Namespace name
@@ -12231,8 +12187,8 @@ paths:
                           type: string
                           description: Event type (stdout, stderr, etc.)
                         text:
-                          type: string
                           description: Log text content
+                          type: string
                         created:
                           type: number
                           description: Timestamp of the log event
@@ -12329,7 +12285,8 @@ paths:
           schema:
             type: integer
             minimum: 0
-            nullable: true
+            example: 3
+            format: int32
         - name: subdomain
           in: query
           description: The desired subdomain (without .neynar.app suffix). Must be 3-63 characters, lowercase alphanumeric and hyphens only.
@@ -12355,8 +12312,8 @@ paths:
                     type: string
                     description: The full domain (e.g., myapp.neynar.app)
                   reason:
-                    type: string
                     description: Reason why the subdomain is unavailable (e.g., "reserved", "taken")
+                    type: string
                 required:
                   - available
                   - domain
@@ -12410,7 +12367,8 @@ paths:
           schema:
             type: integer
             minimum: 0
-            nullable: true
+            example: 3
+            format: int32
       operationId: assign-custom-domain
       requestBody:
         content:
@@ -12448,8 +12406,8 @@ paths:
                     type: string
                     description: The full assigned domain (e.g., myapp.neynar.app)
                   previous_domain:
-                    type: string
                     description: The previous production domain, if any
+                    type: string
                 required:
                   - success
                   - domain
@@ -12586,8 +12544,8 @@ components:
         property:
           type: string
         status:
-          type: integer
           format: int32
+          type: integer
       required:
         - message
       title: ErrorRes
@@ -12691,10 +12649,6 @@ components:
         - public_key
         - status
       title: Signer
-    Timestamp:
-      type: string
-      format: date-time
-      title: Timestamp
     FarcasterActionReqBody:
       type: object
       properties:
@@ -12716,9 +12670,9 @@ components:
               description: The type of action being performed.
               example: create.user
             payload:
+              description: The payload of the action being performed.
               type: object
               properties: {}
-              description: The payload of the action being performed.
           required:
             - type
       required:
@@ -12798,7 +12752,7 @@ components:
       type: object
       properties:
         signed_message:
-          oneOf:
+          anyOf:
             - type: string
             - $ref: '#/components/schemas/EncodedJsonFarcasterSignature'
           description: JFS-signed message containing the event payload. The message must be properly signed and contain valid event information.  Can be provided as a single string or json object.
@@ -12810,20 +12764,6 @@ components:
         - signed_message
         - app_domain
       title: SignedMessageBody
-    AppHostEventType:
-      type: string
-      enum:
-        - frame_added
-        - frame_removed
-        - notifications_enabled
-        - notifications_disabled
-      title: AppHostEventType
-      description: |-
-        Types of events that can occur between a user and an app host:
-        - frame_added: User adds a mini app to their account
-        - frame_removed: User removes a mini app from their account
-        - notifications_enabled: User enables notifications for a mini app
-        - notifications_disabled: User disables notifications for a mini app
     SignerUuidBody:
       type: object
       properties:
@@ -12835,7 +12775,18 @@ components:
         fid:
           $ref: '#/components/schemas/Fid'
         event:
-          $ref: '#/components/schemas/AppHostEventType'
+          type: string
+          enum:
+            - frame_added
+            - frame_removed
+            - notifications_enabled
+            - notifications_disabled
+          description: |-
+            Types of events that can occur between a user and an app host:
+            - frame_added: User adds a mini app to their account
+            - frame_removed: User removes a mini app from their account
+            - notifications_enabled: User enables notifications for a mini app
+            - notifications_disabled: User disables notifications for a mini app
       required:
         - signer_uuid
         - app_domain
@@ -12843,7 +12794,7 @@ components:
         - event
       title: SignerUuidBody
     AppHostPostEventReqBody:
-      oneOf:
+      anyOf:
         - $ref: '#/components/schemas/SignedMessageBody'
         - $ref: '#/components/schemas/SignerUuidBody'
       title: AppHostPostEventReqBody
@@ -12866,15 +12817,15 @@ components:
         fid:
           $ref: '#/components/schemas/Fid'
         signature:
-          type: string
           description: Signature generated by the fid of the sponsor and the signature generated from signKeyRequest for the app.
+          type: string
         sponsored_by_neynar:
-          type: boolean
           description: |-
             Neynar will sponsor the signer if set to true.
             **Note: ** If sponsor.fid and sponsor.signature are provided along with sponsored_by_neynar set to true,
             the sponsor.fid and sponsor.signature will be ignored.
             Neynar will sponsor the signer on behalf of the user. The developer will get charged in credits.
+          type: boolean
       title: SignedKeyRequestSponsor
     RegisterAuthAddressDeveloperManagedSignedKeyReqBody:
       type: object
@@ -12892,10 +12843,10 @@ components:
           description: Signature generated by the custody address of the app. Signed data includes app_fid, deadline, 32 bytes padded auth address. [Refer guide for more details.](https://docs.neynar.com/docs/auth-address-signature-generation)
           example: '0x16161933625ac90b7201625bfea0d816de0449ea1802d97a38c53eef3c9c0c424fefbc5c6fb5eabe3d4f161a36d18cda585cff7e77c677c5d34a9c87e68ede011c'
         redirect_url:
-          type: string
           description: |-
             Url to redirect to after the signer is approved.
             **Note** : This should only be used when requesting a signer from a native mobile application.
+          type: string
         sponsor:
           $ref: '#/components/schemas/SignedKeyRequestSponsor'
       required:
@@ -13041,7 +12992,8 @@ components:
         custody_address:
           $ref: '#/components/schemas/EthAddress'
         registered_at:
-          $ref: '#/components/schemas/Timestamp'
+          type: string
+          format: date-time
         pro:
           type: object
           properties:
@@ -13052,16 +13004,18 @@ components:
                 - unsubscribed
               description: The subscription status of the user
             subscribed_at:
-              $ref: '#/components/schemas/Timestamp'
+              type: string
+              format: date-time
             expires_at:
-              $ref: '#/components/schemas/Timestamp'
+              type: string
+              format: date-time
           required:
             - status
             - subscribed_at
             - expires_at
         pfp_url:
-          type: string
           description: The URL of the user's profile picture
+          type: string
         profile:
           type: object
           properties:
@@ -13075,23 +13029,23 @@ components:
                   items:
                     $ref: '#/components/schemas/UserDehydrated'
                 mentioned_profiles_ranges:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/TextRange'
                   description: |-
                     Positions within the text (inclusive start, exclusive end) where each mention occurs.
                     Each index within this list corresponds to the same-numbered index in the mentioned_profiles list.
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/TextRange'
                 mentioned_channels:
                   type: array
                   items:
                     $ref: '#/components/schemas/ChannelDehydrated'
                 mentioned_channels_ranges:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/TextRange'
                   description: |-
                     Positions within the text (inclusive start, exclusive end) where each mention occurs.
                     Each index within this list corresponds to the same-numbered index in the mentioned_channels list.
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/TextRange'
               required:
                 - text
             location:
@@ -13100,9 +13054,9 @@ components:
               type: object
               properties:
                 url:
+                  description: The URL of the user's banner image
                   type: string
                   format: uri
-                  description: The URL of the user's banner image
           required:
             - bio
         follower_count:
@@ -13187,9 +13141,9 @@ components:
         viewer_context:
           $ref: '#/components/schemas/UserViewerContext'
         score:
-          type: number
           format: double
           description: Score that represents the probability that the account is not spam.
+          type: number
       required:
         - object
         - fid
@@ -13214,7 +13168,8 @@ components:
         banned:
           $ref: '#/components/schemas/User'
         banned_at:
-          $ref: '#/components/schemas/Timestamp'
+          type: string
+          format: date-time
       required:
         - object
         - banned_at
@@ -13223,8 +13178,8 @@ components:
       type: object
       properties:
         cursor:
-          type: string
           nullable: true
+          type: string
       required:
         - cursor
       description: Returns next cursor
@@ -13259,8 +13214,8 @@ components:
           type: boolean
           example: true
         message:
-          type: string
           nullable: true
+          type: string
       required:
         - success
       title: BanResponse
@@ -13276,7 +13231,8 @@ components:
         blocker:
           $ref: '#/components/schemas/User'
         blocked_at:
-          $ref: '#/components/schemas/Timestamp'
+          type: string
+          format: date-time
       required:
         - object
         - blocked_at
@@ -13339,6 +13295,19 @@ components:
       required:
         - summary
       title: ConversationSummary
+    CastId:
+      type: object
+      properties:
+        fid:
+          $ref: '#/components/schemas/Fid'
+        hash:
+          type: string
+      required:
+        - fid
+        - hash
+      title: CastId
+      description: '[DEPRECATED: Use "cast" key instead]'
+      deprecated: true
     CastDehydrated:
       type: object
       properties:
@@ -13362,17 +13331,7 @@ components:
       type: object
       properties:
         cast_id:
-          type: object
-          properties:
-            fid:
-              $ref: '#/components/schemas/Fid'
-            hash:
-              type: string
-          required:
-            - fid
-            - hash
-          description: '[DEPRECATED: Use "cast" key instead]'
-          deprecated: true
+          $ref: '#/components/schemas/CastId'
         cast:
           $ref: '#/components/schemas/CastDehydrated'
       required:
@@ -13416,56 +13375,56 @@ components:
           enum:
             - rich
         version:
-          type: string
           nullable: true
+          type: string
         title:
-          type: string
-          nullable: true
           description: A text title, describing the resource.
+          nullable: true
+          type: string
         author_name:
-          type: string
-          nullable: true
           description: The name of the author/owner of the resource.
+          nullable: true
+          type: string
         author_url:
-          type: string
-          nullable: true
           description: A URL for the author/owner of the resource.
+          nullable: true
+          type: string
         provider_name:
-          type: string
-          nullable: true
           description: The name of the resource provider.
+          nullable: true
+          type: string
         provider_url:
-          type: string
-          nullable: true
           description: The url of the resource provider.
+          nullable: true
+          type: string
         cache_age:
-          type: string
-          nullable: true
           description: The suggested cache lifetime for this resource, in seconds. Consumers may choose to use this value or not.
+          nullable: true
+          type: string
         thumbnail_url:
-          type: string
-          nullable: true
           description: A URL to a thumbnail image representing the resource. The thumbnail must respect any maxwidth and maxheight parameters. If this parameter is present, thumbnail_width and thumbnail_height must also be present.
-        thumbnail_width:
-          type: number
           nullable: true
-          description: The width of the optional thumbnail. If this parameter is present, thumbnail_url and thumbnail_height must also be present.
-        thumbnail_height:
-          type: number
-          nullable: true
-          description: The height of the optional thumbnail. If this parameter is present, thumbnail_url and thumbnail_width must also be present.
-        html:
           type: string
+        thumbnail_width:
+          description: The width of the optional thumbnail. If this parameter is present, thumbnail_url and thumbnail_height must also be present.
+          nullable: true
+          type: number
+        thumbnail_height:
+          description: The height of the optional thumbnail. If this parameter is present, thumbnail_url and thumbnail_width must also be present.
+          nullable: true
+          type: number
+        html:
           nullable: true
           description: The HTML required to display the resource. The HTML should have no padding or margins. Consumers may wish to load the HTML in an off-domain iframe to avoid XSS vulnerabilities. The markup should be valid XHTML 1.0 Basic.
+          type: string
         width:
-          type: number
           nullable: true
           description: The width in pixels required to display the HTML.
-        height:
           type: number
+        height:
           nullable: true
           description: The height in pixels required to display the HTML.
+          type: number
       required:
         - type
         - version
@@ -13482,56 +13441,56 @@ components:
           enum:
             - video
         version:
-          type: string
           nullable: true
+          type: string
         title:
-          type: string
-          nullable: true
           description: A text title, describing the resource.
+          nullable: true
+          type: string
         author_name:
-          type: string
-          nullable: true
           description: The name of the author/owner of the resource.
+          nullable: true
+          type: string
         author_url:
-          type: string
-          nullable: true
           description: A URL for the author/owner of the resource.
+          nullable: true
+          type: string
         provider_name:
-          type: string
-          nullable: true
           description: The name of the resource provider.
+          nullable: true
+          type: string
         provider_url:
-          type: string
-          nullable: true
           description: The url of the resource provider.
+          nullable: true
+          type: string
         cache_age:
-          type: string
-          nullable: true
           description: The suggested cache lifetime for this resource, in seconds. Consumers may choose to use this value or not.
+          nullable: true
+          type: string
         thumbnail_url:
-          type: string
-          nullable: true
           description: A URL to a thumbnail image representing the resource. The thumbnail must respect any maxwidth and maxheight parameters. If this parameter is present, thumbnail_width and thumbnail_height must also be present.
-        thumbnail_width:
-          type: number
           nullable: true
-          description: The width of the optional thumbnail. If this parameter is present, thumbnail_url and thumbnail_height must also be present.
-        thumbnail_height:
-          type: number
-          nullable: true
-          description: The height of the optional thumbnail. If this parameter is present, thumbnail_url and thumbnail_width must also be present.
-        html:
           type: string
+        thumbnail_width:
+          description: The width of the optional thumbnail. If this parameter is present, thumbnail_url and thumbnail_height must also be present.
+          nullable: true
+          type: number
+        thumbnail_height:
+          description: The height of the optional thumbnail. If this parameter is present, thumbnail_url and thumbnail_width must also be present.
+          nullable: true
+          type: number
+        html:
           nullable: true
           description: The HTML required to embed a video player. The HTML should have no padding or margins. Consumers may wish to load the HTML in an off-domain iframe to avoid XSS vulnerabilities.
+          type: string
         width:
-          type: number
           nullable: true
           description: The width in pixels required to display the HTML.
-        height:
           type: number
+        height:
           nullable: true
           description: The height in pixels required to display the HTML.
+          type: number
       required:
         - type
         - version
@@ -13548,56 +13507,56 @@ components:
           enum:
             - photo
         version:
-          type: string
           nullable: true
+          type: string
         title:
-          type: string
-          nullable: true
           description: A text title, describing the resource.
+          nullable: true
+          type: string
         author_name:
-          type: string
-          nullable: true
           description: The name of the author/owner of the resource.
+          nullable: true
+          type: string
         author_url:
-          type: string
-          nullable: true
           description: A URL for the author/owner of the resource.
+          nullable: true
+          type: string
         provider_name:
-          type: string
-          nullable: true
           description: The name of the resource provider.
+          nullable: true
+          type: string
         provider_url:
-          type: string
-          nullable: true
           description: The url of the resource provider.
+          nullable: true
+          type: string
         cache_age:
-          type: string
-          nullable: true
           description: The suggested cache lifetime for this resource, in seconds. Consumers may choose to use this value or not.
+          nullable: true
+          type: string
         thumbnail_url:
-          type: string
-          nullable: true
           description: A URL to a thumbnail image representing the resource. The thumbnail must respect any maxwidth and maxheight parameters. If this parameter is present, thumbnail_width and thumbnail_height must also be present.
-        thumbnail_width:
-          type: number
           nullable: true
-          description: The width of the optional thumbnail. If this parameter is present, thumbnail_url and thumbnail_height must also be present.
-        thumbnail_height:
-          type: number
-          nullable: true
-          description: The height of the optional thumbnail. If this parameter is present, thumbnail_url and thumbnail_width must also be present.
-        url:
           type: string
+        thumbnail_width:
+          description: The width of the optional thumbnail. If this parameter is present, thumbnail_url and thumbnail_height must also be present.
+          nullable: true
+          type: number
+        thumbnail_height:
+          description: The height of the optional thumbnail. If this parameter is present, thumbnail_url and thumbnail_width must also be present.
+          nullable: true
+          type: number
+        url:
           nullable: true
           description: The source URL of the image. Consumers should be able to insert this URL into an <img> element. Only HTTP and HTTPS URLs are valid.
+          type: string
         width:
-          type: number
           nullable: true
           description: The width in pixels of the image specified in the url parameter.
-        height:
           type: number
+        height:
           nullable: true
           description: The height in pixels of the image specified in the url parameter.
+          type: number
       required:
         - type
         - version
@@ -13614,44 +13573,44 @@ components:
           enum:
             - link
         version:
-          type: string
           nullable: true
+          type: string
         title:
-          type: string
-          nullable: true
           description: A text title, describing the resource.
+          nullable: true
+          type: string
         author_name:
-          type: string
-          nullable: true
           description: The name of the author/owner of the resource.
+          nullable: true
+          type: string
         author_url:
-          type: string
-          nullable: true
           description: A URL for the author/owner of the resource.
+          nullable: true
+          type: string
         provider_name:
-          type: string
-          nullable: true
           description: The name of the resource provider.
+          nullable: true
+          type: string
         provider_url:
-          type: string
-          nullable: true
           description: The url of the resource provider.
+          nullable: true
+          type: string
         cache_age:
-          type: string
-          nullable: true
           description: The suggested cache lifetime for this resource, in seconds. Consumers may choose to use this value or not.
-        thumbnail_url:
+          nullable: true
           type: string
-          nullable: true
+        thumbnail_url:
           description: A URL to a thumbnail image representing the resource. The thumbnail must respect any maxwidth and maxheight parameters. If this parameter is present, thumbnail_width and thumbnail_height must also be present.
+          nullable: true
+          type: string
         thumbnail_width:
-          type: number
-          nullable: true
           description: The width of the optional thumbnail. If this parameter is present, thumbnail_url and thumbnail_height must also be present.
-        thumbnail_height:
-          type: number
           nullable: true
+          type: number
+        thumbnail_height:
           description: The height of the optional thumbnail. If this parameter is present, thumbnail_url and thumbnail_width must also be present.
+          nullable: true
+          type: number
       required:
         - type
         - version
@@ -13775,6 +13734,7 @@ components:
             - $ref: '#/components/schemas/OembedVideoData'
             - $ref: '#/components/schemas/OembedPhotoData'
             - $ref: '#/components/schemas/OembedLinkData'
+          type: object
       title: HtmlMetadata
     FrameButtonActionType:
       type: string
@@ -13790,19 +13750,19 @@ components:
       type: object
       properties:
         title:
-          type: string
           description: Title of the button
+          type: string
         index:
           type: integer
           description: Index of the button
         action_type:
           $ref: '#/components/schemas/FrameButtonActionType'
         target:
-          type: string
           description: Target of the button
-        post_url:
           type: string
+        post_url:
           description: Used specifically for the tx action type to post a successful transaction hash
+          type: string
       required:
         - index
         - action_type
@@ -13824,8 +13784,8 @@ components:
           items:
             $ref: '#/components/schemas/FrameActionButton'
         post_url:
-          type: string
           description: Post URL to take an action on this mini app
+          type: string
         title:
           type: string
         image_aspect_ratio:
@@ -13834,14 +13794,14 @@ components:
           type: object
           properties:
             text:
-              type: string
               description: Input text for the mini app
+              type: string
         state:
           type: object
           properties:
             serialized:
-              type: string
               description: State for the mini app in a serialized format
+              type: string
       required:
         - version
         - image
@@ -13859,9 +13819,9 @@ components:
             version:
               type: string
               enum:
+                - '1'
                 - 0.0.0
                 - 0.0.1
-                - '1'
                 - next
             name:
               type: string
@@ -13880,45 +13840,45 @@ components:
             webhook_url:
               type: string
             subtitle:
-              type: string
               description: Short subtitle for the configuration
-            description:
               type: string
+            description:
               description: Detailed description of the configuration
+              type: string
             screenshot_urls:
+              description: URLs of screenshots showcasing the configuration
               type: array
               items:
                 type: string
                 format: uri
-              description: URLs of screenshots showcasing the configuration
             primary_category:
-              type: string
               description: Primary category the configuration belongs to
+              type: string
             tags:
+              description: Tags associated with the configuration
               type: array
               items:
                 type: string
-              description: Tags associated with the configuration
             hero_image_url:
-              type: string
-              format: uri
               description: URL of the hero image displayed for the configuration
-            tagline:
-              type: string
-              description: Short tagline for the configuration
-            og_title:
-              type: string
-              description: Title used for Open Graph previews
-            og_description:
-              type: string
-              description: Description used for Open Graph previews
-            og_image_url:
               type: string
               format: uri
+            tagline:
+              description: Short tagline for the configuration
+              type: string
+            og_title:
+              description: Title used for Open Graph previews
+              type: string
+            og_description:
+              description: Description used for Open Graph previews
+              type: string
+            og_image_url:
               description: Image URL used for Open Graph previews
+              type: string
+              format: uri
             noindex:
-              type: boolean
               description: Whether search engines should not index this configuration
+              type: boolean
           required:
             - version
             - name
@@ -13930,9 +13890,9 @@ components:
             version:
               type: string
               enum:
+                - '1'
                 - 0.0.0
                 - 0.0.1
-                - '1'
                 - next
             name:
               type: string
@@ -13951,45 +13911,45 @@ components:
             webhook_url:
               type: string
             subtitle:
-              type: string
               description: Short subtitle for the configuration
-            description:
               type: string
+            description:
               description: Detailed description of the configuration
+              type: string
             screenshot_urls:
+              description: URLs of screenshots showcasing the configuration
               type: array
               items:
                 type: string
                 format: uri
-              description: URLs of screenshots showcasing the configuration
             primary_category:
-              type: string
               description: Primary category the configuration belongs to
+              type: string
             tags:
+              description: Tags associated with the configuration
               type: array
               items:
                 type: string
-              description: Tags associated with the configuration
             hero_image_url:
-              type: string
-              format: uri
               description: URL of the hero image displayed for the configuration
-            tagline:
-              type: string
-              description: Short tagline for the configuration
-            og_title:
-              type: string
-              description: Title used for Open Graph previews
-            og_description:
-              type: string
-              description: Description used for Open Graph previews
-            og_image_url:
               type: string
               format: uri
+            tagline:
+              description: Short tagline for the configuration
+              type: string
+            og_title:
+              description: Title used for Open Graph previews
+              type: string
+            og_description:
+              description: Description used for Open Graph previews
+              type: string
+            og_image_url:
               description: Image URL used for Open Graph previews
+              type: string
+              format: uri
             noindex:
-              type: boolean
               description: Whether search engines should not index this configuration
+              type: boolean
           required:
             - version
             - name
@@ -14011,8 +13971,8 @@ components:
           type: string
           description: Launch URL of the mini app
         title:
-          type: string
           description: Button title of a mini app
+          type: string
         manifest:
           $ref: '#/components/schemas/FarcasterManifest'
         author:
@@ -14031,7 +13991,7 @@ components:
       title: FrameV2
       description: Mini app v2 object
     Frame:
-      oneOf:
+      anyOf:
         - $ref: '#/components/schemas/FrameV1'
         - $ref: '#/components/schemas/FrameV2'
       title: Frame
@@ -14049,11 +14009,11 @@ components:
         _status:
           type: string
         content_type:
+          nullable: true
           type: string
-          nullable: true
         content_length:
-          type: integer
           nullable: true
+          type: integer
         image:
           type: object
           properties:
@@ -14095,7 +14055,7 @@ components:
         - url
       title: EmbedUrl
     EmbedDeep:
-      oneOf:
+      anyOf:
         - $ref: '#/components/schemas/EmbedCastDeep'
         - $ref: '#/components/schemas/EmbedUrl'
       title: EmbedDeep
@@ -14105,14 +14065,14 @@ components:
         hash:
           type: string
         parent_hash:
-          type: string
           nullable: true
+          type: string
         parent_url:
-          type: string
           nullable: true
+          type: string
         root_parent_url:
-          type: string
           nullable: true
+          type: string
         parent_author:
           type: object
           properties:
@@ -14131,7 +14091,8 @@ components:
         text:
           type: string
         timestamp:
-          $ref: '#/components/schemas/Timestamp'
+          type: string
+          format: date-time
         embeds:
           type: array
           items:
@@ -14156,24 +14117,14 @@ components:
       type: object
       properties:
         cast_id:
-          type: object
-          properties:
-            fid:
-              $ref: '#/components/schemas/Fid'
-            hash:
-              type: string
-          required:
-            - fid
-            - hash
-          description: '[DEPRECATED: Use "cast" key instead]'
-          deprecated: true
+          $ref: '#/components/schemas/CastId'
         cast:
           $ref: '#/components/schemas/CastEmbedded'
       required:
         - cast
       title: EmbedCast
     Embed:
-      oneOf:
+      anyOf:
         - $ref: '#/components/schemas/EmbedCast'
         - $ref: '#/components/schemas/EmbedUrl'
       title: Embed
@@ -14258,10 +14209,11 @@ components:
           enum:
             - channel
         created_at:
-          $ref: '#/components/schemas/Timestamp'
+          type: string
+          format: date-time
         follower_count:
-          type: number
           description: Number of followers the channel has.
+          type: number
         external_link:
           type: object
           properties:
@@ -14282,17 +14234,17 @@ components:
           items:
             $ref: '#/components/schemas/Fid'
         member_count:
-          type: integer
           format: int32
+          type: integer
         moderator:
           description: Use `lead` instead.
           deprecated: true
           allOf:
             - $ref: '#/components/schemas/User'
         pinned_cast_hash:
+          example: '0x71d5225f77e0164388b1d4c120825f3a2c1f131c'
           type: string
           pattern: ^(0x)?[a-fA-F0-9]{40}$
-          example: '0x71d5225f77e0164388b1d4c120825f3a2c1f131c'
         hosts:
           type: array
           items:
@@ -14305,10 +14257,10 @@ components:
           items:
             $ref: '#/components/schemas/UserDehydrated'
         description_mentioned_profiles_ranges:
+          description: Positions within the text (inclusive start, exclusive end) where each mention occurs.
           type: array
           items:
             $ref: '#/components/schemas/TextRange'
-          description: Positions within the text (inclusive start, exclusive end) where each mention occurs.
       required:
         - id
         - url
@@ -14316,15 +14268,16 @@ components:
         - created_at
       title: Channel
     ChannelOrChannelDehydrated:
+      oneOf:
+        - $ref: '#/components/schemas/Channel'
+        - $ref: '#/components/schemas/ChannelDehydrated'
+      title: ChannelOrChannelDehydrated
+      type: object
       discriminator:
         propertyName: object
         mapping:
           channel: '#/components/schemas/Channel'
           channel_dehydrated: '#/components/schemas/ChannelDehydrated'
-      oneOf:
-        - $ref: '#/components/schemas/Channel'
-        - $ref: '#/components/schemas/ChannelDehydrated'
-      title: ChannelOrChannelDehydrated
     CastViewerContext:
       type: object
       properties:
@@ -14349,14 +14302,14 @@ components:
         hash:
           type: string
         parent_hash:
-          type: string
           nullable: true
+          type: string
         parent_url:
-          type: string
           nullable: true
+          type: string
         root_parent_url:
-          type: string
           nullable: true
+          type: string
         parent_author:
           type: object
           properties:
@@ -14375,7 +14328,8 @@ components:
         text:
           type: string
         timestamp:
-          $ref: '#/components/schemas/Timestamp'
+          type: string
+          format: date-time
         embeds:
           type: array
           items:
@@ -14387,8 +14341,8 @@ components:
         replies:
           $ref: '#/components/schemas/CastReplies'
         thread_hash:
-          type: string
           nullable: true
+          type: string
         mentioned_profiles:
           type: array
           items:
@@ -14457,14 +14411,14 @@ components:
         hash:
           type: string
         parent_hash:
-          type: string
           nullable: true
+          type: string
         parent_url:
-          type: string
           nullable: true
+          type: string
         root_parent_url:
-          type: string
           nullable: true
+          type: string
         parent_author:
           type: object
           properties:
@@ -14483,7 +14437,8 @@ components:
         text:
           type: string
         timestamp:
-          $ref: '#/components/schemas/Timestamp'
+          type: string
+          format: date-time
         embeds:
           type: array
           items:
@@ -14495,8 +14450,8 @@ components:
         replies:
           $ref: '#/components/schemas/CastReplies'
         thread_hash:
-          type: string
           nullable: true
+          type: string
         mentioned_profiles:
           type: array
           items:
@@ -14563,14 +14518,14 @@ components:
         hash:
           type: string
         parent_hash:
-          type: string
           nullable: true
+          type: string
         parent_url:
-          type: string
           nullable: true
+          type: string
         root_parent_url:
-          type: string
           nullable: true
+          type: string
         parent_author:
           type: object
           properties:
@@ -14589,7 +14544,8 @@ components:
         text:
           type: string
         timestamp:
-          $ref: '#/components/schemas/Timestamp'
+          type: string
+          format: date-time
         embeds:
           type: array
           items:
@@ -14601,8 +14557,8 @@ components:
         replies:
           $ref: '#/components/schemas/CastReplies'
         thread_hash:
-          type: string
           nullable: true
+          type: string
         mentioned_profiles:
           type: array
           items:
@@ -14745,7 +14701,7 @@ components:
         - fid
       title: PostCastReqBodyEmbedsCastIdProperties
     PostCastReqBodyEmbeds:
-      oneOf:
+      anyOf:
         - type: object
           properties:
             cast_id:
@@ -14785,16 +14741,16 @@ components:
         text:
           type: string
         embeds:
+          maxItems: 2
           type: array
           items:
             $ref: '#/components/schemas/PostCastReqBodyEmbeds'
-          maxItems: 2
         parent:
           $ref: '#/components/schemas/CastParent'
         channel_id:
-          type: string
           description: Channel ID of the channel where the cast is to be posted. e.g. neynar, farcaster, warpcast
           example: neynar
+          type: string
         idem:
           $ref: '#/components/schemas/Idem'
         parent_author_fid:
@@ -14811,9 +14767,9 @@ components:
           type: object
           properties:
             hash:
+              example: '0x71d5225f77e0164388b1d4c120825f3a2c1f131c'
               type: string
               pattern: ^(0x)?[a-fA-F0-9]{40}$
-              example: '0x71d5225f77e0164388b1d4c120825f3a2c1f131c'
             author:
               type: object
               properties:
@@ -14837,9 +14793,9 @@ components:
         signer_uuid:
           $ref: '#/components/schemas/SignerUUID'
         target_hash:
+          example: '0x71d5225f77e0164388b1d4c120825f3a2c1f131c'
           type: string
           pattern: ^(0x)?[a-fA-F0-9]{40}$
-          example: '0x71d5225f77e0164388b1d4c120825f3a2c1f131c'
       required:
         - signer_uuid
         - target_hash
@@ -14884,10 +14840,22 @@ components:
           oneOf:
             - $ref: '#/components/schemas/UserDehydrated'
             - $ref: '#/components/schemas/User'
+          type: object
+          discriminator:
+            propertyName: object
+            mapping:
+              user_dehydrated: '#/components/schemas/UserDehydrated'
+              user: '#/components/schemas/User'
         channel:
           oneOf:
             - $ref: '#/components/schemas/Channel'
             - $ref: '#/components/schemas/ChannelDehydrated'
+          type: object
+          discriminator:
+            propertyName: object
+            mapping:
+              channel: '#/components/schemas/Channel'
+              channel_dehydrated: '#/components/schemas/ChannelDehydrated'
       required:
         - object
         - role
@@ -15177,7 +15145,8 @@ components:
         user:
           $ref: '#/components/schemas/User'
         timestamp:
-          $ref: '#/components/schemas/Timestamp'
+          type: string
+          format: date-time
       required:
         - object
         - user
@@ -15209,8 +15178,8 @@ components:
           type: string
           description: Launch URL of the mini app
         title:
-          type: string
           description: Button title of a mini app
+          type: string
         manifest:
           $ref: '#/components/schemas/FarcasterManifest'
         author:
@@ -15251,14 +15220,15 @@ components:
           type: integer
           minimum: 0
           description: FID associated with the domain
+          example: 3
+          format: int32
         manifest:
           $ref: '#/components/schemas/FarcasterManifest'
         home_url_metadata:
-          type: object
-          additionalProperties:
-            nullable: true
-          nullable: true
           description: Home URL metadata if available
+          nullable: true
+          type: object
+          additionalProperties: {}
         created_at:
           type: string
           format: date-time
@@ -15274,13 +15244,13 @@ components:
           type: boolean
           description: Whether the domain was refreshed/updated during this request
         validation_errors:
+          description: Validation errors from processing, if any
           type: array
           items:
             type: string
-          description: Validation errors from processing, if any
         error_message:
-          type: string
           description: High-level error message if processing failed
+          type: string
       required:
         - domain
         - fid
@@ -15331,35 +15301,35 @@ components:
       type: object
       properties:
         target_fids:
-          type: array
-          items:
-            type: integer
-            minimum: 1
-          maxItems: 100
           description: An array of target FIDs to whom the notifications should be sent. Each FID must be a positive integer. Pass an empty array to send notifications to all FIDs with notifications enabled for the mini app.
           example:
             - 1
             - 2
             - 3
+          maxItems: 100
+          type: array
+          items:
+            type: integer
+            minimum: 1
         filters:
           type: object
           properties:
             exclude_fids:
+              description: Only send notifications to users who are not in the given FIDs.
               type: array
               items:
                 $ref: '#/components/schemas/Fid'
-              description: Only send notifications to users who are not in the given FIDs.
             following_fid:
+              example: 3
+              format: int32
               type: integer
               minimum: 0
               description: Only send notifications to users who follow the given FID.
-              example: 3
-              format: int32
             minimum_user_score:
+              description: Only send notifications to users with a score greater than or equal to this value.
               type: number
               minimum: 0
               maximum: 1
-              description: Only send notifications to users with a score greater than or equal to this value.
             near_location:
               type: object
               properties:
@@ -15383,6 +15353,16 @@ components:
                 - latitude
                 - longitude
               description: Only send notifications to users near a given location.
+          example:
+            exclude_fids:
+              - 2
+              - 8988
+            following_fid: 3
+            minimum_user_score: 0.5
+            near_location:
+              latitude: 37.774929
+              longitude: -122.419418
+              radius: 1000
           description: Filters to apply to the target_fids set. All filters are additive, so only users matching all filters will be notified.
         notification:
           type: object
@@ -15406,10 +15386,10 @@ components:
               description: The target URL to open when the user clicks the notification. Must be a valid URL.
               example: https://example.com/notifications
             uuid:
-              type: string
-              format: uuid
               description: An optional UUID for the notification, used as an idempotency key.
               example: 123e4567-e89b-12d3-a456-426614174000
+              type: string
+              format: uuid
           required:
             - title
             - body
@@ -15427,49 +15407,26 @@ components:
         success_count:
           type: integer
           description: The number of notifications successfully delivered.
-          nullable: true
           format: int32
         failure_count:
           type: integer
           description: The number of notifications that failed to deliver.
-          nullable: true
           format: int32
         not_attempted_count:
           type: integer
           description: The number of notifications not attempted (e.g., disabled tokens, invalid tokens).
-          nullable: true
           format: int32
         retryable_fids:
+          description: List of FIDs that failed due to retryable errors (rate_limited, failed, http_error). Can be used to retry sending notifications to these users.
           type: array
           items:
             $ref: '#/components/schemas/Fid'
-          description: List of FIDs that failed due to retryable errors (rate_limited, failed, http_error). Can be used to retry sending notifications to these users.
       required:
         - campaign_id
         - success_count
         - failure_count
         - not_attempted_count
       title: SendFrameNotificationsResponse
-    QueuedFrameNotificationsResponse:
-      type: object
-      properties:
-        campaign_id:
-          type: string
-          format: uuid
-          description: The unique identifier for the notification campaign.
-        status:
-          type: string
-          enum:
-            - queued
-            - running
-            - completed
-            - failed
-            - canceled
-          description: Always "queued" for a successful async enqueue.
-      required:
-        - campaign_id
-        - status
-      title: QueuedFrameNotificationsResponse
     NotificationCampaignStatus:
       type: string
       enum:
@@ -15478,15 +15435,27 @@ components:
         - completed
         - failed
         - canceled
-      description: Lifecycle status of the campaign. Absent on campaigns created before async delivery was introduced.
+      description: Always "queued" for a successful async enqueue.
       title: NotificationCampaignStatus
+    QueuedFrameNotificationsResponse:
+      type: object
+      properties:
+        campaign_id:
+          type: string
+          format: uuid
+          description: The unique identifier for the notification campaign.
+        status:
+          $ref: '#/components/schemas/NotificationCampaignStatus'
+      required:
+        - campaign_id
+        - status
+      title: QueuedFrameNotificationsResponse
     NotificationCampaignStats:
       type: object
       properties:
         intended_recipient_notification_token_count:
           type: integer
           description: The total number of notification tokens for intended recipients.
-          nullable: true
           format: int32
         intended_recipient_app_fids:
           type: array
@@ -15497,7 +15466,6 @@ components:
         successful_sends:
           type: integer
           description: The number of notifications successfully sent.
-          nullable: true
           format: int32
         successful_sends_by_app_fid:
           type: object
@@ -15508,7 +15476,6 @@ components:
         total_opens:
           type: integer
           description: The total number of times notifications from this campaign have been opened.
-          nullable: true
           format: int32
         total_opens_by_app_fid:
           type: object
@@ -15519,7 +15486,6 @@ components:
         unique_opens:
           type: integer
           description: The number of unique recipients who opened a notification from this campaign.
-          nullable: true
           format: int32
         unique_opens_by_app_fid:
           type: object
@@ -15531,17 +15497,17 @@ components:
           type: object
           properties:
             delivery_errors:
-              type: object
-              additionalProperties:
-                type: integer
-                format: int32
               description: A record mapping delivery error types to their occurrence counts.
-            http_errors:
               type: object
               additionalProperties:
                 type: integer
                 format: int32
+            http_errors:
               description: A record mapping HTTP status codes to their occurrence counts.
+              type: object
+              additionalProperties:
+                type: integer
+                format: int32
           description: Detailed breakdown of errors encountered during notification delivery.
       required:
         - intended_recipient_notification_token_count
@@ -15571,16 +15537,23 @@ components:
           type: string
           format: date-time
         status:
-          $ref: '#/components/schemas/NotificationCampaignStatus'
+          description: Lifecycle status of the campaign. Absent on campaigns created before async delivery was introduced.
+          type: string
+          enum:
+            - queued
+            - running
+            - completed
+            - failed
+            - canceled
         queued_at:
-          type: string
-          format: date-time
           description: When the campaign was enqueued for async delivery.
-        completed_at:
           type: string
           format: date-time
-          nullable: true
+        completed_at:
           description: When the campaign reached a terminal state (completed/failed/canceled). Null while still queued or running.
+          nullable: true
+          type: string
+          format: date-time
         stats:
           $ref: '#/components/schemas/NotificationCampaignStats'
       required:
@@ -15634,43 +15607,43 @@ components:
           description: Description of the line item in transaction
           example: Payment for goods
         image:
-          type: string
           description: Optional image URL for the line item in transaction
           example: https://i.imgur.com/ovGo3sz.png
+          type: string
       required:
         - name
         - description
       title: TransactionFrameLineItem
     TransactionFrameAction:
+      description: Action button for primary CTA on the transaction mini app
       type: object
       properties:
         text:
-          type: string
           description: Custom text for action button
           example: Pay
-        text_color:
           type: string
+        text_color:
           description: Custom text color for action button
           example: '#FFFFFF'
-        button_color:
           type: string
+        button_color:
           description: Custom button color for action button
           example: '#000000'
+          type: string
       title: TransactionFrameAction
-      description: Action button for primary CTA on the transaction mini app
     TransactionFrameConfig:
       type: object
       properties:
         allowlist_fids:
+          description: Optional list of FIDs that are allowed to use this transaction mini app
           type: array
           items:
             $ref: '#/components/schemas/Fid'
-          description: Optional list of FIDs that are allowed to use this transaction mini app
         line_items:
+          minItems: 1
           type: array
           items:
             $ref: '#/components/schemas/TransactionFrameLineItem'
-          minItems: 1
           description: List of items included in the transaction
         action:
           $ref: '#/components/schemas/TransactionFrameAction'
@@ -15739,13 +15712,14 @@ components:
         - transaction
       title: TransactionFramePay
     TransactionFrame:
+      oneOf:
+        - $ref: '#/components/schemas/TransactionFramePay'
+      title: TransactionFrame
+      type: object
       discriminator:
         propertyName: type
         mapping:
           pay: '#/components/schemas/TransactionFramePay'
-      oneOf:
-        - $ref: '#/components/schemas/TransactionFramePay'
-      title: TransactionFrame
     TransactionFrameResponse:
       type: object
       properties:
@@ -15809,16 +15783,16 @@ components:
             - optimism
             - base-sepolia
         fungible_contract_address:
-          description: Contract address of the fungible token to send. If not provided, the default is the native token of the network.
           type: string
           pattern: ^0x[a-fA-F0-9]{40}$
           example: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913'
+          description: Contract address of the fungible token to send. If not provided, the default is the native token of the network.
         recipients:
+          minItems: 1
+          maxItems: 200
           type: array
           items:
             $ref: '#/components/schemas/TransactionSendFungiblesRecipient'
-          minItems: 1
-          maxItems: 200
       required:
         - network
         - recipients
@@ -15836,8 +15810,8 @@ components:
             - sent
             - failed
         reason:
-          type: string
           description: Reason for failure (if status is failed)
+          type: string
       required:
         - fid
         - amount
@@ -15903,13 +15877,13 @@ components:
           type: integer
           description: The number of decimals the token uses
         total_supply:
-          type: string
           nullable: true
           description: The total supply of the token
-        logo:
           type: string
+        logo:
           nullable: true
           description: The logo URL of the token
+          type: string
       required:
         - object
         - network
@@ -15933,8 +15907,8 @@ components:
           type: object
           properties:
             in_usd:
-              type: number
               nullable: true
+              type: number
             in_token:
               type: string
           required:
@@ -16010,7 +15984,8 @@ components:
         muted:
           $ref: '#/components/schemas/User'
         muted_at:
-          $ref: '#/components/schemas/Timestamp'
+          type: string
+          format: date-time
       required:
         - object
         - muted
@@ -16062,12 +16037,13 @@ components:
         type: object
         properties:
           recipient:
-            oneOf:
+            anyOf:
               - type: object
                 properties:
                   address:
                     $ref: '#/components/schemas/EthAddress'
-                  fid: {}
+                  fid:
+                    not: {}
                   quantity:
                     default: 1
                     type: integer
@@ -16078,7 +16054,8 @@ components:
                   - address
               - type: object
                 properties:
-                  address: {}
+                  address:
+                    not: {}
                   fid:
                     $ref: '#/components/schemas/Fid'
                   quantity:
@@ -16095,8 +16072,7 @@ components:
             example: mintTo
           args:
             type: array
-            items:
-              nullable: true
+            items: {}
           to:
             $ref: '#/components/schemas/EthAddress'
           data:
@@ -16117,7 +16093,6 @@ components:
             description: Calldata for the mint transaction.
             example: '0xabcdef'
           abi:
-            nullable: true
             description: ABI for the mint function.
         required:
           - recipient
@@ -16180,9 +16155,9 @@ components:
           items:
             $ref: '#/components/schemas/ReactionWithUserInfo'
         count:
-          type: integer
           description: The number of notifications of this(follows, likes, recast) type bundled in a single notification.
           format: int32
+          type: integer
       required:
         - object
         - most_recent_timestamp
@@ -16207,6 +16182,7 @@ components:
         - next
       title: NotificationsResponse
     NotificationType:
+      description: The type of notification to mark as seen. If not provided, all notifications will be marked as seen.
       type: string
       enum:
         - follows
@@ -16216,13 +16192,12 @@ components:
         - replies
         - quotes
       title: NotificationType
-      description: The type of notification to mark as seen. If not provided, all notifications will be marked as seen.
     MarkNotificationsAsSeenReqBody:
       type: object
       properties:
         signer_uuid:
-          type: string
           description: The UUID of a signer with at least one write permission.  Required unless a valid Authorization Bearer token is provided in the header.
+          type: string
         type:
           $ref: '#/components/schemas/NotificationType'
       title: MarkNotificationsAsSeenReqBody
@@ -16345,10 +16320,10 @@ components:
           type: integer
           description: unix timestamp in seconds that controls how long the signed key request is valid for. (24 hours from now is recommended)
         redirect_url:
-          type: string
           description: |-
             Url to redirect to after the signer is approved.
             **Note** : This should only be used when requesting a signer from a native mobile application.
+          type: string
         sponsor:
           $ref: '#/components/schemas/SignedKeyRequestSponsor'
       required:
@@ -16400,10 +16375,10 @@ components:
           type: integer
           description: unix timestamp in seconds that controls how long the signed key request is valid for. (24 hours from now is recommended)
         redirect_url:
-          type: string
           description: |-
             Url to redirect to after the signer is approved.
             **Note** : This should only be used when requesting a signer from a native mobile application.
+          type: string
         sponsor:
           $ref: '#/components/schemas/SignedKeyRequestSponsor'
       required:
@@ -16486,17 +16461,18 @@ components:
         fid:
           type: integer
           minimum: 1
+          description: The unique identifier of a farcaster user or app (unsigned integer)
           example: 1
+          format: int32
         units:
-          type: integer
-          minimum: 1
           description: |-
             Number of storage units to buy.
             A storage unit lets you store 5000 casts, 2500 reactions and 2500 links.
           example: 1
+          type: integer
+          minimum: 1
         idem:
-          type: string
-          description: "An Idempotency key is a unique identifier for the request.\n**Note:** \n1) This is used to prevent duplicate requests. Use the same idem key on retry attempts.\n2) This should be a unique identifier for each request.\n3) Recommended format is a 16-character string generated by the developer at the time of making this request."
+          $ref: '#/components/schemas/Idem'
       required:
         - fid
       title: BuyStorageReqBody
@@ -16515,6 +16491,30 @@ components:
         - message
       description: Details for the conflict error response
       title: ConflictErrorRes
+    TopLevelTopic:
+      type: string
+      enum:
+        - arts_culture
+        - business_entrepreneurs
+        - celebrity_pop_culture
+        - diaries_daily_life
+        - family
+        - fashion_style
+        - film_tv_video
+        - fitness_health
+        - food_dining
+        - gaming
+        - learning_educational
+        - music
+        - news_social_concern
+        - other_hobbies
+        - relationships
+        - science_technology
+        - sports
+        - travel_adventure
+        - youth_student_life
+      title: TopLevelTopic
+      description: The top-level category the topic belongs to
     TrendingTopic:
       type: object
       properties:
@@ -16525,37 +16525,16 @@ components:
           type: string
           description: A URL-friendly unique identifier for the topic
         top_level_topic:
-          type: string
-          enum:
-            - arts_culture
-            - business_entrepreneurs
-            - celebrity_pop_culture
-            - diaries_daily_life
-            - family
-            - fashion_style
-            - film_tv_video
-            - fitness_health
-            - food_dining
-            - gaming
-            - learning_educational
-            - music
-            - news_social_concern
-            - other_hobbies
-            - relationships
-            - science_technology
-            - sports
-            - travel_adventure
-            - youth_student_life
-          description: The top-level category the topic belongs to
+          $ref: '#/components/schemas/TopLevelTopic'
         summary:
-          type: string
-          description: Short summary of the topic if available
           nullable: true
+          description: Short summary of the topic if available
+          type: string
         authors:
+          maxItems: 5
           type: array
           items:
             $ref: '#/components/schemas/UserDehydrated'
-          maxItems: 5
           description: Up to five recent Farcaster users who posted about the topic
       required:
         - name
@@ -16639,22 +16618,22 @@ components:
             properties:
               allow_failure:
                 default: false
-                type: boolean
                 description: Set it to true if you want to ignore the failure of this call. If set to false, the registration will fail if this call fails.
+                type: boolean
               data:
                 type: string
                 pattern: ^0x[a-fA-F0-9]+$
                 description: Call data payload (hex-encoded)
               target:
-                description: Must be on the allowed contract allowlist. Contact support for more details.
                 type: string
                 pattern: ^0x[a-fA-F0-9]{40}$
                 example: '0x5a927ac639636e534b678e81768ca19e2c6280b7'
+                description: Must be on the allowed contract allowlist. Contact support for more details.
               value:
                 default: 0
+                description: Value in wei to send with the transaction. This is not the amount of ETH that will be sent, but rather the value of the transaction.
                 type: integer
                 minimum: 0
-                description: Value in wei to send with the transaction. This is not the amount of ETH that will be sent, but rather the value of the transaction.
             required:
               - data
               - target
@@ -16677,9 +16656,9 @@ components:
             - custody_address
             - recovery_address
         storage_units:
+          example: 2
           type: integer
           minimum: 0
-          example: 2
         signers:
           type: array
           items:
@@ -16766,23 +16745,33 @@ components:
               $ref: '#/components/schemas/User'
     VerificationType:
       default: 0
-      type: integer
-      enum:
-        - 0
-        - 1
       title: VerificationType
       description: Type of verification. 0 = EOA, 1 = contract
+      type: integer
       format: int32
+      anyOf:
+        - type: number
+          enum:
+            - 0
+        - type: number
+          enum:
+            - 1
     VerificationChainId:
       default: 0
-      type: integer
-      enum:
-        - 0
-        - 1
-        - 10
       title: VerificationChainId
       description: Chain ID for farcaster verifications. 0 for EOA verifications, 1 or 10 for contract verifications
+      type: integer
       format: int32
+      anyOf:
+        - type: number
+          enum:
+            - 0
+        - type: number
+          enum:
+            - 1
+        - type: number
+          enum:
+            - 10
     AddVerificationReqBody:
       type: object
       properties:
@@ -16865,11 +16854,11 @@ components:
         signer_uuid:
           $ref: '#/components/schemas/SignerUUID'
         target_fids:
+          maxItems: 100
           type: array
           items:
             type: integer
             minimum: 1
-          maxItems: 100
           example:
             - 194
             - 3
@@ -16925,11 +16914,11 @@ components:
               type: string
               description: The token symbol e.g. "ETH"
             address:
-              type: string
               description: The contract address of the token (omitted for native token)
+              type: string
             decimals:
-              type: integer
               description: The number of decimals the token uses
+              type: integer
           required:
             - object
             - name
@@ -17005,20 +16994,20 @@ components:
       type: object
       properties:
         id:
-          type: integer
           example: 1
+          type: integer
         price:
           type: object
           properties:
             period_duration_seconds:
-              type: integer
               example: 2592000
+              type: integer
             tokens_per_period:
-              type: string
               example: '3000000000000000'
-            initial_mint_price:
               type: string
+            initial_mint_price:
               example: '0'
+              type: string
       title: SubscriptionTier
     Subscription:
       type: object
@@ -17085,9 +17074,9 @@ components:
               type: string
               example: ETH
             address:
-              type: string
               nullable: true
               example: null
+              type: string
             decimals:
               type: integer
               example: 18
@@ -17192,9 +17181,9 @@ components:
               type: string
               example: ETH
             address:
-              type: string
               nullable: true
               example: null
+              type: string
             decimals:
               type: integer
               example: 18
@@ -17333,9 +17322,10 @@ components:
           type: string
           description: Requires pro subscription.
         primary_eth_address:
-          description: Must be one of the verified addresses.
           type: string
           pattern: ^0x[a-fA-F0-9]{40}$
+          example: '0x5a927ac639636e534b678e81768ca19e2c6280b7'
+          description: Must be one of the verified addresses.
         primary_sol_address:
           type: string
           pattern: ^[1-9A-HJ-NP-Za-km-z]{32,44}$
@@ -17499,14 +17489,14 @@ components:
       type: object
       properties:
         exclude_author_fids:
-          type: array
-          items:
-            type: integer
           description: |-
             Exclude casts that matches these authors.
             **Note:**
             This is applied as an AND operation against rest of the filters.
             Rest of the filters are bundled as an OR operation.
+          type: array
+          items:
+            type: integer
         author_fids:
           type: array
           items:
@@ -17532,28 +17522,28 @@ components:
           items:
             type: integer
         text:
-          type: string
           description: "Regex pattern to match the text key of the cast.\n**Note:** \n1) Regex must be parsed by Go's RE2 engine (Test your expression here: https://www.lddgo.net/en/string/golangregex)\n2) Use backslashes to escape special characters.\nFor example: (?i)\\\\$degen should be written as (?i)\\\\\\\\$degen"
           example: (?i)\$degen
-        embeds:
           type: string
+        embeds:
           description: "Regex pattern to match the embeded_url (key embeds) of the cast.\n**Note:** \n1) Regex must be parsed by Go's RE2 engine (Test your expression here: https://www.lddgo.net/en/string/golangregex)\n2) Use backslashes to escape special characters.\nFor example: \\\\b(farcaster|neynar)\\\\b should be written as \\\\\\\\b(farcaster|neynar)\\\\\\\\b"
           example: "\b(farcaster|neynar)\b"
+          type: string
         minimum_author_score:
           default: 0
           type: number
           minimum: 0
           maximum: 1
         embedded_cast_author_fids:
+          description: Filter for casts that contain embedded casts authored by these FIDs
           type: array
           items:
             type: number
-          description: Filter for casts that contain embedded casts authored by these FIDs
         embedded_cast_hashes:
+          description: Filter for casts that quote/embed these specific cast hashes
           type: array
           items:
             type: string
-          description: Filter for casts that quote/embed these specific cast hashes
       title: WebhookSubscriptionFiltersCast
     WebhookSubscriptionFiltersFollow:
       type: object
@@ -17581,9 +17571,9 @@ components:
         target_cast_hashes:
           type: array
           items:
+            example: '0x71d5225f77e0164388b1d4c120825f3a2c1f131c'
             type: string
             pattern: ^(0x)?[a-fA-F0-9]{40}$
-            example: '0x71d5225f77e0164388b1d4c120825f3a2c1f131c'
       title: WebhookSubscriptionFiltersReaction
     WebhookSubscriptionFiltersTrade:
       type: object
@@ -17792,47 +17782,46 @@ components:
           type: string
           description: Name of the token
         metadata[media]:
-          nullable: true
           description: "Media file associated with the token. \nSupported formats are image/jpeg, image/gif and image/png"
           format: binary
           type: string
         metadata[description]:
-          type: string
           description: Description of the token
+          type: string
         metadata[nsfw]:
+          description: Indicates if the token is NSFW (Not Safe For Work).
           type: string
           enum:
             - 'true'
             - 'false'
-          description: Indicates if the token is NSFW (Not Safe For Work).
         metadata[website_link]:
-          type: string
           description: Website link related to the token
+          type: string
         metadata[twitter]:
-          type: string
           description: Twitter profile link
+          type: string
         metadata[discord]:
-          type: string
           description: Discord server link
-        metadata[telegram]:
           type: string
+        metadata[telegram]:
           description: Telegram link
+          type: string
         network:
           default: base
+          description: Network/Chain name
           type: string
           enum:
             - base
-          description: Network/Chain name
         factory:
           default: wow
-          type: string
-          enum:
-            - wow
-            - clanker
           description: |-
             Factory name
             - wow -> [wow.xyz](https://wow.xyz)
             - clanker -> [clanker.world](https://www.clanker.world)
+          type: string
+          enum:
+            - wow
+            - clanker
       required:
         - owner
         - symbol
@@ -17848,23 +17837,23 @@ components:
               type: object
               properties:
                 object:
-                  type: string
                   example: fungible
+                  type: string
                 name:
-                  type: string
                   description: Name of the token
+                  type: string
                 symbol:
-                  type: string
                   description: Symbol of the token
+                  type: string
                 media:
-                  type: string
                   description: URI of the token media
-                address:
                   type: string
+                address:
                   description: Contract address of the token
+                  type: string
                 decimals:
-                  type: integer
                   description: Decimal precision of the token
+                  type: integer
       title: DeployFungibleResponse
     SubscriptionCheckResponse:
       type: object
