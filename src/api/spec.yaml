@@ -6,7 +6,7 @@ info:
     url: https://neynar.com/
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   title: Neynar API
-  version: 3.171.0
+  version: 3.172.0
 servers:
   - url: https://api.neynar.com
 security:
@@ -17578,6 +17578,7 @@ components:
           type: string
         deleted_at:
           format: date-time
+          nullable: true
           type: string
         description:
           type: string
@@ -17701,6 +17702,7 @@ components:
         created_at:
           type: string
         deleted_at:
+          nullable: true
           type: string
         expires_at:
           type: string
