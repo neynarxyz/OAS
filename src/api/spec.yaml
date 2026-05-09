@@ -6,7 +6,7 @@ info:
     url: https://neynar.com/
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   title: Neynar API
-  version: 3.172.0
+  version: 3.173.0
 servers:
   - url: https://api.neynar.com
 security:
@@ -8568,12 +8568,13 @@ paths:
                       nullable: true
                       type: string
                     dev_server_state:
-                      description: 'Dev server process state: stopped, starting, running, or crashed'
+                      description: 'Dev server process state: stopped, starting, running, crashed, or hung'
                       enum:
                         - stopped
                         - starting
                         - running
                         - crashed
+                        - hung
                       type: string
                     display_name:
                       description: Display name for the project
@@ -8730,12 +8731,13 @@ paths:
                     nullable: true
                     type: string
                   dev_server_state:
-                    description: 'Dev server process state: stopped, starting, running, or crashed'
+                    description: 'Dev server process state: stopped, starting, running, crashed, or hung'
                     enum:
                       - stopped
                       - starting
                       - running
                       - crashed
+                      - hung
                     type: string
                   display_name:
                     description: Display name for the project
@@ -9148,12 +9150,13 @@ paths:
                     nullable: true
                     type: string
                   dev_server_state:
-                    description: 'Dev server process state: stopped, starting, running, or crashed'
+                    description: 'Dev server process state: stopped, starting, running, crashed, or hung'
                     enum:
                       - stopped
                       - starting
                       - running
                       - crashed
+                      - hung
                     type: string
                   display_name:
                     description: Display name for the project
