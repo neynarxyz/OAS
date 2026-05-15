@@ -6,7 +6,7 @@ info:
     url: https://neynar.com/
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   title: Neynar API
-  version: 3.173.0
+  version: 3.174.0
 servers:
   - url: https://api.neynar.com
 security:
@@ -11899,6 +11899,107 @@ paths:
       security:
         - ApiKeyAuth: []
       summary: Upload image from URL to deployment
+      tags:
+        - studio
+  /v2/studio/usage/report:
+    post:
+      description: Called by miniapp-generator instances to report Claude SDK usage. Idempotent — duplicate submissions (same idempotency_key) are accepted but not double-counted.
+      externalDocs:
+        url: https://docs.neynar.com/reference/report-studio-usage
+      operationId: report-studio-usage
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                compute_units:
+                  description: Compute units to add (must be positive)
+                  exclusiveMinimum: true
+                  minimum: 0
+                  type: integer
+                deployment_id:
+                  type: string
+                developer_uuid:
+                  format: uuid
+                  type: string
+                idempotency_key:
+                  description: UUID from the Claude SDK result message
+                  format: uuid
+                  type: string
+                session_id:
+                  description: Claude session ID for audit trail
+                  type: string
+              required:
+                - idempotency_key
+                - developer_uuid
+                - deployment_id
+                - compute_units
+              type: object
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  accepted:
+                    enum:
+                      - true
+                    type: boolean
+                  duplicate:
+                    type: boolean
+                required:
+                  - accepted
+                  - duplicate
+                type: object
+          description: Success
+        '400':
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+                type: object
+          description: Bad Request
+        '401':
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+                type: object
+          description: Unauthorized
+        '404':
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+                type: object
+          description: Resource not found
+        '500':
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+                type: object
+          description: Server Error
+      security:
+        - ApiKeyAuth: []
+      summary: Report studio compute unit usage
       tags:
         - studio
   /v2/studio/vercel/:
