@@ -6,7 +6,7 @@ info:
     url: https://neynar.com/
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   title: Neynar API
-  version: 3.174.0
+  version: 3.175.0
 servers:
   - url: https://api.neynar.com
 security:
@@ -17405,6 +17405,21 @@ components:
                   type: string
               required:
                 - text
+              type: object
+            live_at:
+              properties:
+                is_live:
+                  type: boolean
+                updated_at:
+                  format: date-time
+                  type: string
+                url:
+                  description: The URL of the user's current live activity
+                  type: string
+              required:
+                - url
+                - updated_at
+                - is_live
               type: object
             location:
               $ref: '#/components/schemas/Location'
