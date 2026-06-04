@@ -6,7 +6,7 @@ info:
     url: https://neynar.com/
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   title: Neynar API
-  version: 3.175.0
+  version: 3.176.0
 servers:
   - url: https://api.neynar.com
 security:
@@ -8081,9 +8081,13 @@ paths:
                       minItems: 1
                       type: array
                     x402Version:
-                      enum:
-                        - 1
-                      type: number
+                      anyOf:
+                        - enum:
+                            - 1
+                          type: number
+                        - enum:
+                            - 2
+                          type: number
                   required:
                     - x402Version
                     - accepts
@@ -8140,9 +8144,13 @@ paths:
                       - exact
                     type: string
                   x402Version:
-                    enum:
-                      - 1
-                    type: number
+                    anyOf:
+                      - enum:
+                          - 1
+                        type: number
+                      - enum:
+                          - 2
+                        type: number
                 required:
                   - x402Version
                   - scheme
@@ -8175,6 +8183,98 @@ paths:
                 $ref: '#/components/schemas/ErrorRes'
           description: Server Error
       summary: Create x402 signature
+      tags:
+        - Onchain
+  /v2/signature/x402/siwx:
+    post:
+      description: Create a Sign-In-With-X payload for a wallet-backed x402 resource.
+      externalDocs:
+        url: https://docs.neynar.com/reference/create-x402-siwx
+      operationId: create-x402-siwx
+      parameters:
+        - $ref: '#/components/parameters/WalletIdHeader'
+        - in: header
+          name: x-api-key
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                chainId:
+                  anyOf:
+                    - enum:
+                        - 8453
+                      type: number
+                    - enum:
+                        - 84532
+                      type: number
+                  default: 8453
+                resource:
+                  format: uri
+                  type: string
+              required:
+                - resource
+              type: object
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  address:
+                    $ref: '#/components/schemas/EthAddress'
+                  chainId:
+                    anyOf:
+                      - enum:
+                          - 8453
+                        type: number
+                      - enum:
+                          - 84532
+                        type: number
+                  message:
+                    type: string
+                  signature:
+                    pattern: ^0x[a-fA-F0-9]{130}$
+                    type: string
+                  timestamp:
+                    type: number
+                required:
+                  - address
+                  - message
+                  - signature
+                  - timestamp
+                  - chainId
+                type: object
+          description: Success
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+          description: Bad Request
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+          description: Forbidden
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+          description: Server Error
+      summary: Create x402 Sign-In-With-X payload
       tags:
         - Onchain
   /v2/stp/subscription_check/:
