@@ -6,7 +6,7 @@ info:
     url: https://neynar.com/
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   title: Neynar API
-  version: 3.176.0
+  version: 3.177.0
 servers:
   - url: https://api.neynar.com
 security:
@@ -4109,12 +4109,12 @@ paths:
         url: https://docs.neynar.com/reference/fetch-relevant-fungible-owners
       operationId: fetch-relevant-fungible-owners
       parameters:
-        - description: Contract address of the fungible asset (Ethereum or Solana)
+        - description: Contract address of the fungible asset
           in: query
           name: contract_address
           required: true
           schema:
-            example: 0x0db510e79909666d6dec7f5e49370838c16d950f (eth) --OR-- EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v (solana)
+            example: '0x0db510e79909666d6dec7f5e49370838c16d950f'
             type: string
         - description: Network of the fungible asset.
           in: query
@@ -4126,7 +4126,6 @@ paths:
               - optimism
               - base
               - arbitrum
-              - solana
             title: FungibleOwnerRelevantNetwork
             type: string
         - description: If you provide a viewer_fid, the response will include token holders from the user's network, respecting their mutes and blocks and including viewer_context; if not provided, the response will show top token holders across the network—both sets can be combined to generate a longer list if desired.
@@ -4176,7 +4175,6 @@ paths:
               - optimism
               - base
               - arbitrum
-              - solana
             type: string
         - description: If you provide a viewer_fid, the response will include token holders from the user's network, respecting their mutes and blocks and including viewer_context.
           in: query
