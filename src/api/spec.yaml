@@ -6,7 +6,7 @@ info:
     url: https://neynar.com/
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   title: Neynar API
-  version: 3.177.0
+  version: 3.178.0
 servers:
   - url: https://api.neynar.com
 security:
@@ -6378,13 +6378,13 @@ paths:
           required: true
           schema:
             items:
-              description: A blockchain network e.g. "ethereum", "optimism", "base", "arbitrum"
+              description: A blockchain network supported for user balance queries e.g. "ethereum", "optimism", "base", "arbitrum"
               enum:
                 - ethereum
                 - optimism
                 - base
                 - arbitrum
-              title: Network
+              title: UserBalanceSupportedNetwork
               type: string
             type: array
       responses:
@@ -7544,7 +7544,7 @@ paths:
         url: https://docs.neynar.com/reference/get-wallet-balances
       operationId: get-wallet-balances
       parameters:
-        - description: Comma-separated list of networks to query. Each value must be a valid network (ethereum, optimism, base, arbitrum).
+        - description: Comma-separated list of networks to query. Each value must be a valid network (ethereum, optimism, base, arbitrum, robinhood).
           in: query
           name: networks
           required: true
@@ -7671,7 +7671,7 @@ paths:
         url: https://docs.neynar.com/reference/get-token-metadata
       operationId: get-token-metadata
       parameters:
-        - description: A blockchain network e.g. "ethereum", "optimism", "base", "arbitrum"
+        - description: A blockchain network e.g. "ethereum", "optimism", "base", "arbitrum", "robinhood"
           in: query
           name: network
           required: true
@@ -7681,6 +7681,7 @@ paths:
               - optimism
               - base
               - arbitrum
+              - robinhood
             title: Network
             type: string
         - description: Token contract address
@@ -7844,7 +7845,7 @@ paths:
         url: https://docs.neynar.com/reference/batch-get-token-metadata
       operationId: batch-get-token-metadata
       parameters:
-        - description: Comma-separated list of blockchain networks. Each value must be a valid network (ethereum, optimism, base, arbitrum).
+        - description: Comma-separated list of blockchain networks. Each value must be a valid network (ethereum, optimism, base, arbitrum, robinhood).
           in: query
           name: networks
           required: true
@@ -15101,12 +15102,13 @@ components:
       title: MuteResponse
       type: object
     Network:
-      description: A blockchain network e.g. "ethereum", "optimism", "base", "arbitrum"
+      description: A blockchain network e.g. "ethereum", "optimism", "base", "arbitrum", "robinhood"
       enum:
         - ethereum
         - optimism
         - base
         - arbitrum
+        - robinhood
       title: Network
       type: string
     NextCursor:
