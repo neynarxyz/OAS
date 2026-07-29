@@ -6,7 +6,7 @@ info:
     url: https://neynar.com/
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   title: Neynar API
-  version: 3.178.0
+  version: 3.179.0
 servers:
   - url: https://api.neynar.com
 security:
@@ -4520,7 +4520,8 @@ paths:
         - Onchain
   /v2/farcaster/login/authorize/:
     get:
-      description: Fetch authorization url (Fetched authorized url useful for SIWN login operation)
+      deprecated: true
+      description: 'Fetch authorization url (Fetched authorized url useful for SIWN login operation) DEPRECATED: Sign In With Neynar is being retired. Use Neynar-managed signers instead: https://docs.neynar.com/docs/integrate-managed-signers'
       externalDocs:
         url: https://docs.neynar.com/reference/fetch-authorization-url
       operationId: fetch-authorization-url
@@ -4558,6 +4559,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorRes'
           description: Unauthorized
+        '410':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+          description: Gone
       summary: Fetch authorization url
       tags:
         - Signer
