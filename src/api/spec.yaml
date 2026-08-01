@@ -6,7 +6,7 @@ info:
     url: https://neynar.com/
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   title: Neynar API
-  version: 3.179.0
+  version: 3.180.0
 servers:
   - url: https://api.neynar.com
 security:
@@ -4241,12 +4241,18 @@ paths:
         url: https://docs.neynar.com/reference/fetch-fungible-trades
       operationId: fetch-fungible-trades
       parameters:
-        - in: query
+        - description: A blockchain network e.g. "ethereum", "optimism", "base", "arbitrum", "robinhood"
+          in: query
           name: network
           required: true
           schema:
             enum:
+              - ethereum
+              - optimism
               - base
+              - arbitrum
+              - robinhood
+            title: Network
             type: string
         - description: Contract address
           in: query
@@ -4375,12 +4381,18 @@ paths:
         url: https://docs.neynar.com/reference/fetch-trending-fungibles
       operationId: fetch-trending-fungibles
       parameters:
-        - in: query
+        - description: A blockchain network e.g. "ethereum", "optimism", "base", "arbitrum", "robinhood"
+          in: query
           name: network
           required: true
           schema:
             enum:
+              - ethereum
+              - optimism
               - base
+              - arbitrum
+              - robinhood
+            title: Network
             type: string
         - description: Time window for trending calculations e.g. "1h", "6h", "12h", "24h", "7d"
           in: query
