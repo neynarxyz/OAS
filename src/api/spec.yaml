@@ -6,7 +6,7 @@ info:
     url: https://neynar.com/
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   title: Neynar API
-  version: 3.180.0
+  version: 3.181.0
 servers:
   - url: https://api.neynar.com
 security:
@@ -8806,7 +8806,7 @@ paths:
       tags:
         - studio
     post:
-      description: 'Creates and deploys an instance of the miniapp generator for a user. Requires authentication via API key in the request header. Note: Studio CU is tracked based on LLM token usage, not per API call.'
+      description: 'Creates and deploys an instance of the miniapp generator for a user. Requires authentication via API key in the request header. Note: app creation is disabled as Neynar Studio is being discontinued; this endpoint now returns 403. Note: Studio CU is tracked based on LLM token usage, not per API call.'
       externalDocs:
         url: https://docs.neynar.com/reference/create-deployment
       operationId: create-deployment
@@ -8940,6 +8940,17 @@ paths:
                   - error
                 type: object
           description: Bad Request
+        '403':
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+                type: object
+          description: Forbidden
         '500':
           content:
             application/json:
@@ -10832,7 +10843,7 @@ paths:
         - studio
   /v2/studio/deployment/export-zip:
     get:
-      description: 'Downloads the generated miniapp source code as a binary ZIP archive (Content-Type: application/zip). Requires a paid Studio subscription (GROWTH, STUDIO_PLUS, STUDIO_MAX, or INTERNAL). The deployment must be running. The 200 response body is a raw binary stream, not JSON.'
+      description: "Downloads the generated miniapp source code as a binary ZIP archive (Content-Type: application/zip). Requires a paid Studio subscription (GROWTH, STUDIO_PLUS, STUDIO_MAX, or INTERNAL). If the deployment is running, the ZIP reflects the live working tree; otherwise it is served from the deployment's GitHub backup (last published state). The 200 response body is a raw binary stream, not JSON."
       externalDocs:
         url: https://docs.neynar.com/reference/export-zip
       operationId: export-zip
