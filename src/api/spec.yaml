@@ -6,7 +6,7 @@ info:
     url: https://neynar.com/
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   title: Neynar API
-  version: 3.181.0
+  version: 3.182.0
 servers:
   - url: https://api.neynar.com
 security:
@@ -2761,70 +2761,6 @@ paths:
                 $ref: '#/components/schemas/ErrorRes'
           description: Bad Request
       summary: Following
-      tags:
-        - Feed
-  /v2/farcaster/feed/for_you/:
-    get:
-      description: Fetch a personalized For You feed for a user
-      externalDocs:
-        url: https://docs.neynar.com/reference/fetch-feed-for-you
-      operationId: fetch-feed-for-you
-      parameters:
-        - $ref: '#/components/parameters/NeynarExperimentalHeader'
-        - description: FID of user whose feed you want to create
-          in: query
-          name: fid
-          required: true
-          schema:
-            minimum: 1
-            type: integer
-        - description: Providing this will return a feed that respects this user's mutes and blocks and includes `viewer_context`.
-          in: query
-          name: viewer_fid
-          schema:
-            example: 3
-            minimum: 1
-            type: integer
-        - description: The provider of the For You feed.
-          in: query
-          name: provider
-          schema:
-            default: neynar
-            enum:
-              - neynar
-            type: string
-        - description: Number of results to fetch
-          in: query
-          name: limit
-          schema:
-            default: 25
-            example: 30
-            format: int32
-            maximum: 50
-            minimum: 1
-            type: integer
-          x-is-limit-param: true
-        - description: Pagination cursor.
-          in: query
-          name: cursor
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/FeedResponse'
-          description: Success
-        '400':
-          content:
-            application/json:
-              schema:
-                oneOf:
-                  - $ref: '#/components/schemas/ZodError'
-                  - $ref: '#/components/schemas/ErrorRes'
-          description: Bad Request
-      summary: For you
       tags:
         - Feed
   /v2/farcaster/feed/parent_urls/:
