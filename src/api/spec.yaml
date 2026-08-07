@@ -6,7 +6,7 @@ info:
     url: https://neynar.com/
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   title: Neynar API
-  version: 3.182.0
+  version: 3.183.0
 servers:
   - url: https://api.neynar.com
 security:
@@ -2489,7 +2489,7 @@ paths:
             example: filter
             title: FeedType
             type: string
-        - description: Used when feed_type=filter. Options include fids (requires fids), parent_url (requires parent_url), channel_id (requires channel_id), embed_url (requires embed_url), embed_types (requires embed_types), or global_trending.
+        - description: Used when feed_type=filter. Options include fids (requires fids), parent_url (requires parent_url), channel_id (requires channel_id), embed_url (requires embed_url), or embed_types (requires embed_types).
           in: query
           name: filter_type
           schema:
@@ -2499,7 +2499,6 @@ paths:
               - channel_id
               - embed_url
               - embed_types
-              - global_trending
             example: fids
             title: FilterType
             type: string
@@ -2892,100 +2891,6 @@ paths:
                 $ref: '#/components/schemas/ErrorRes'
           description: Server Error
       summary: By topic
-      tags:
-        - Feed
-  /v2/farcaster/feed/trending/:
-    get:
-      description: Fetch trending casts or on the global feed or channels feeds. 7d time window available for channel feeds only.
-      externalDocs:
-        url: https://docs.neynar.com/reference/fetch-trending-feed
-      operationId: fetch-trending-feed
-      parameters:
-        - $ref: '#/components/parameters/NeynarExperimentalHeader'
-        - description: Number of results to fetch
-          in: query
-          name: limit
-          schema:
-            default: 10
-            example: 10
-            format: int32
-            maximum: 10
-            minimum: 1
-            type: integer
-          x-is-limit-param: true
-        - description: Pagination cursor
-          in: query
-          name: cursor
-          schema:
-            type: string
-        - description: Providing this will return a feed that respects this user's mutes and blocks and includes `viewer_context`.
-          in: query
-          name: viewer_fid
-          schema:
-            minimum: 1
-            type: integer
-        - description: Time window for trending casts (7d window for channel feeds only)
-          in: query
-          name: time_window
-          schema:
-            default: 24h
-            enum:
-              - 1h
-              - 6h
-              - 12h
-              - 24h
-              - 7d
-            example: 24h
-            type: string
-        - description: Channel ID to filter trending casts. Less active channels might have no casts in the time window selected. Provide either `channel_id` or `parent_url`, not both.
-          in: query
-          name: channel_id
-          schema:
-            example: neynar
-            type: string
-        - description: Parent URL to filter trending casts. Less active channels might have no casts in the time window selected. Provide either `channel_id` or `parent_url`, not both.
-          in: query
-          name: parent_url
-          schema:
-            example: chain://eip155:1/erc721:0xd4498134211baad5846ce70ce04e7c4da78931cc
-            type: string
-        - description: The provider of the trending casts feed.
-          in: query
-          name: provider
-          schema:
-            default: neynar
-            enum:
-              - neynar
-            example: neynar
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/FeedResponse'
-          description: Success
-        '400':
-          content:
-            application/json:
-              schema:
-                oneOf:
-                  - $ref: '#/components/schemas/ZodError'
-                  - $ref: '#/components/schemas/ErrorRes'
-          description: Bad Request
-        '404':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorRes'
-          description: Resource not found
-        '500':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorRes'
-          description: Server Error
-      summary: Trending feeds
       tags:
         - Feed
   /v2/farcaster/feed/user/casts/:
