@@ -6,7 +6,7 @@ info:
     url: https://neynar.com/
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   title: Neynar API
-  version: 3.183.0
+  version: 3.184.0
 servers:
   - url: https://api.neynar.com
 security:
@@ -1662,14 +1662,12 @@ paths:
             Choices are:
             - `desc_chron` - All casts sorted by time in a descending order (default)
             - `chron` - All casts sorted by time in ascending order
-            - `algorithmic` - Casts sorted by engagement and time
           in: query
           name: sort_type
           schema:
             enum:
               - desc_chron
               - chron
-              - algorithmic
             example: desc_chron
             type: string
         - description: Fid of the user whose casts you want to search
