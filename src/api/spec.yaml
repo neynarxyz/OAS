@@ -2322,7 +2322,8 @@ paths:
         - Channel
   /v2/farcaster/channel/search/:
     get:
-      description: Returns a list of channels based on ID or name
+      deprecated: true
+      description: 'Returns a list of channels based on ID or name DEPRECATED: this endpoint is non-functional and returns an empty response; it will be removed in a future release. Use /v2/farcaster/channel/bulk to look up channels by ID.'
       externalDocs:
         url: https://docs.neynar.com/reference/search-channels
       operationId: search-channels
