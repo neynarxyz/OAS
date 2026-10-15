@@ -1,12 +1,12 @@
 openapi: 3.0.4
 info:
   contact:
-    email: team@neynar.com
+    email: support@ns.com
     name: Neynar
     url: https://neynar.com/
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   title: Neynar API
-  version: 3.185.0
+  version: 3.186.0
 servers:
   - url: https://api.neynar.com
 security:
