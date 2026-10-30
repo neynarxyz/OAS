@@ -5,6 +5,9 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+
 jobs:
   update-sdk:
     if: false # Workflow disabled
@@ -17,18 +20,21 @@ jobs:
         
       - name: Generate Neynar CI Bot token
         id: generate-token
-        uses: actions/create-github-app-token@v2
+        uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2.2.2
         with:
           app-id: ${{ secrets.NEYNAR_CI_BOT_APP_ID }}
           private-key: ${{ secrets.NEYNAR_CI_BOT_PRIVATE_KEY }}
           owner: 'neynarxyz'
           repositories: 'go-sdk'
+          permission-contents: write
 
       - name: Checkout OAS repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@a37ce9120846195fa4ece8f58b268e6043cb2f26 # v3.7.0
+        with:
+          persist-credentials: false
 
       - name: Checkout go-sdk repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@a37ce9120846195fa4ece8f58b268e6043cb2f26 # v3.7.0
         with:
           repository: "neynarxyz/go-sdk.git"
           ref: "main"
@@ -38,7 +44,7 @@ jobs:
           persist-credentials: true
 
       - name: Setup Go
-        uses: actions/setup-go@v4
+        uses: actions/setup-go@7b8cf10d4e4a01d4992d18a89f4d7dc5a3e6d6f4 # v4.3.0
         with:
           go-version: '1.24'
           check-latest: true
