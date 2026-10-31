@@ -19,6 +19,8 @@ permissions:
 jobs:
   update-sdk:
     runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.generate.outputs.changed }}
     steps:
       - name: Dump GitHub context # Makes it much easier to retrospectively debug all sorts of workflow issues. Does NOT expose secrets.
         env:
@@ -53,7 +55,9 @@ jobs:
 
           cd nodejs-sdk
 
-          # Update OAS submodule
+          # Update OAS submodule over public HTTPS (no SSH key in this job)
+          git config submodule.oas.url https://github.com/neynarxyz/OAS.git
+          git submodule sync oas
           git submodule update --remote oas
 
           # Set Git config using OAS commit author
@@ -93,8 +97,48 @@ jobs:
 
         shell: bash
 
-      - name: Generate Neynar CI Bot token
+      - name: Export generated commit as a patch
         if: steps.generate.outputs.changed == 'true'
+        working-directory: nodejs-sdk
+        run: git format-patch -1 --binary --stdout HEAD > "$RUNNER_TEMP/sdk.patch"
+
+      - name: Upload generated commit
+        if: steps.generate.outputs.changed == 'true'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: nodejs-sdk-patch
+          path: ${{ runner.temp }}/sdk.patch
+          retention-days: 1
+
+  # Push from a fresh checkout so nothing generation or `yarn install` changed
+  # (git config, remotes, helpers) is present when the token exists.
+  push-sdk:
+    needs: update-sdk
+    if: needs.update-sdk.outputs.changed == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout nodejs-sdk repository
+        uses: actions/checkout@a37ce9120846195fa4ece8f58b268e6043cb2f26 # v3.7.0
+        with:
+          repository: "neynarxyz/nodejs-sdk.git"
+          ref: "main"
+          path: "nodejs-sdk"
+          persist-credentials: false
+
+      - name: Download generated commit
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: nodejs-sdk-patch
+          path: ${{ runner.temp }}/patch
+
+      - name: Apply generated commit
+        working-directory: nodejs-sdk
+        run: |
+          git config user.name "Neynar CI Bot"
+          git config user.email "ci-bot@neynar.com"
+          git -c core.hooksPath=/dev/null am --keep-cr "$RUNNER_TEMP/patch/sdk.patch"
+
+      - name: Generate Neynar CI Bot token
         id: generate-token
         uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2.2.2
         with:
@@ -105,7 +149,6 @@ jobs:
           permission-contents: write
 
       - name: Push to nodejs-sdk main
-        if: steps.generate.outputs.changed == 'true'
         working-directory: nodejs-sdk
         env:
           BOT_TOKEN: ${{ steps.generate-token.outputs.token }}
