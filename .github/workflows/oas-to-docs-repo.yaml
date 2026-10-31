@@ -8,11 +8,15 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+
 jobs:
   update-docs:
     runs-on: ubuntu-latest
     # Run regardless of NodeJS SDK workflow outcome (success or failure)
-    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event.workflow_run.conclusion != 'failure' }}
+    # Only for runs of this repo's own workflow, never a fork's
+    if: ${{ github.event.workflow_run.head_repository.full_name == github.repository && (github.event.workflow_run.conclusion == 'success' || github.event.workflow_run.conclusion != 'failure') }}
     steps:
       - name: Dump GitHub context # Makes it much easier to retrospectively debug all sorts of workflow issues. Does NOT expose secrets.
         env:
@@ -21,20 +25,22 @@ jobs:
         
       - name: Generate Neynar CI Bot token
         id: generate-token
-        uses: actions/create-github-app-token@v2
+        uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2.2.2
         with:
           app-id: ${{ secrets.NEYNAR_CI_BOT_APP_ID }}
           private-key: ${{ secrets.NEYNAR_CI_BOT_PRIVATE_KEY }}
           owner: 'neynarxyz'
           repositories: 'docs'
+          permission-contents: write
 
       - name: Checkout OAS repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@a37ce9120846195fa4ece8f58b268e6043cb2f26 # v3.7.0
         with:
           ref: ${{ github.event.workflow_run.head_sha }}
+          persist-credentials: false
 
       - name: Checkout docs repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@a37ce9120846195fa4ece8f58b268e6043cb2f26 # v3.7.0
         with:
           repository: "neynarxyz/docs.git"
           ref: "main"
@@ -48,7 +54,7 @@ jobs:
           cp src/api/spec.yaml docs/openapi/api/openapi.yaml
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@3235b876344d2a9aa001b8d1453c930bba69e610 # v3.9.1
         with:
           node-version: '18'
 
