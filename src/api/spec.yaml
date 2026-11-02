@@ -6,7 +6,7 @@ info:
     url: https://neynar.com/
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   title: Neynar API
-  version: 3.186.0
+  version: 3.187.0
 servers:
   - url: https://api.neynar.com
 security:
@@ -4774,98 +4774,6 @@ paths:
                 $ref: '#/components/schemas/ErrorRes'
           description: Server Error
       summary: Deploy ERC-721 collection
-      tags:
-        - Onchain
-  /v2/farcaster/nft/image/:
-    post:
-      description: Generate a new image or edit existing images using AI. Returns a publicly accessible URL to the generated image.
-      externalDocs:
-        url: https://docs.neynar.com/reference/generate-image
-      operationId: generate-image
-      parameters:
-        - $ref: '#/components/parameters/WalletIdHeader'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              properties:
-                format:
-                  default: png
-                  description: 'Output image format (default: png)'
-                  enum:
-                    - png
-                    - jpeg
-                    - webp
-                  type: string
-                height:
-                  default: 1024
-                  description: 'Output image height in pixels (default: 1024)'
-                  maximum: 4096
-                  minimum: 1
-                  type: integer
-                high_fidelity:
-                  default: false
-                  description: 'Use the high-fidelity model (slower but more detailed). Default: false.'
-                  type: boolean
-                prompt:
-                  description: Text prompt describing the image to generate
-                  minLength: 1
-                  type: string
-                source_image_urls:
-                  description: Optional array of source image URLs to edit or use as reference (max 5)
-                  items:
-                    format: uri
-                    type: string
-                  maxItems: 5
-                  type: array
-                width:
-                  default: 1024
-                  description: 'Output image width in pixels (default: 1024)'
-                  maximum: 4096
-                  minimum: 1
-                  type: integer
-              required:
-                - prompt
-              type: object
-        required: true
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                properties:
-                  image_url:
-                    format: uri
-                    type: string
-                required:
-                  - image_url
-                type: object
-          description: Success
-        '400':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorRes'
-          description: Bad Request
-        '403':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorRes'
-          description: Forbidden
-        '404':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorRes'
-          description: Resource not found
-        '500':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorRes'
-          description: Server Error
-      summary: Generate an NFT image
       tags:
         - Onchain
   /v2/farcaster/nft/metadata/token:
