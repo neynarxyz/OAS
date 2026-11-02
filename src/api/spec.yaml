@@ -6,7 +6,7 @@ info:
     url: https://neynar.com/
   description: The Neynar API allows you to interact with the Farcaster protocol among other things. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
   title: Neynar API
-  version: 3.187.0
+  version: 3.188.0
 servers:
   - url: https://api.neynar.com
 security:
@@ -11348,7 +11348,8 @@ components:
                 type: string
               value:
                 default: 0
-                description: Value in wei to send with the transaction. This is not the amount of ETH that will be sent, but rather the value of the transaction.
+                description: Value in wei to send with the transaction. Must be 0; pre-registration calls cannot send ETH.
+                maximum: 0
                 minimum: 0
                 type: integer
             required:
